@@ -20,8 +20,10 @@ NEXT_PUBLIC_SITE_NAME=Celeste Abode
 # Database (if needed in future)
 # DATABASE_URL=your-database-url
 
-# Analytics (if needed)
-# NEXT_PUBLIC_GA_ID=your-google-analytics-id
+# Google Analytics (GA4)
+# Get your Measurement ID from: https://analytics.google.com/
+# Format: G-XXXXXXXXXX
+# NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
 ```
 
 ## Setup Instructions
@@ -47,6 +49,15 @@ NEXT_PUBLIC_SITE_NAME=Celeste Abode
 ### 4. Website Configuration
 - **NEXT_PUBLIC_SITE_URL**: Your website URL
 - **NEXT_PUBLIC_SITE_NAME**: Your website name
+
+### 5. Google Analytics Setup
+1. Go to [Google Analytics](https://analytics.google.com/)
+2. Create a new GA4 property (if you don't have one)
+3. Go to Admin → Data Streams → Web
+4. Copy your **Measurement ID** (format: `G-XXXXXXXXXX`)
+5. Add it to `.env.local` as `NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX`
+6. Restart your development server
+7. **Note**: Google Analytics component is already installed in the codebase - just needs the ID to activate
 
 ## Important Notes
 

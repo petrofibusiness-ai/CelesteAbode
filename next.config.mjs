@@ -12,7 +12,7 @@ const nextConfig = {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    qualities: [75, 85, 90, 95],
+    qualities: [70, 75, 80, 85],
     minimumCacheTTL: 31536000, // 1 year cache
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
@@ -25,9 +25,23 @@ const nextConfig = {
       },
     ],
   },
+  // Optimize for mobile and desktop performance
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn'],
+    } : false,
+  },
   // Optimize bundle size
   experimental: {
-    optimizePackageImports: ['framer-motion', 'lucide-react', '@radix-ui/react-accordion', '@radix-ui/react-dialog'],
+    optimizePackageImports: [
+      'framer-motion', 
+      'lucide-react', 
+      '@radix-ui/react-accordion', 
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-dropdown-menu',
+      '@radix-ui/react-popover',
+      '@radix-ui/react-select',
+    ],
   },
   // Experimental features for better performance
   // Note: optimizeCss requires 'critters' package - disabled to avoid build errors

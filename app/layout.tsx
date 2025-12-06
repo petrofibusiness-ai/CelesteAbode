@@ -364,13 +364,12 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://elfsightcdn.com" />
         <link rel="dns-prefetch" href="https://api.fontshare.com" />
         
-        {/* Preload critical resources */}
+        {/* Preload critical resources for LCP - Mobile & Desktop */}
         <link rel="preload" href="/propertyhero.avif" as="image" type="image/avif" fetchPriority="high" />
-        <link rel="preload" href="/hero.avif" as="image" type="image/avif" />
         
-        {/* Preload critical fonts */}
-        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" as="style" />
-        <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" as="style" />
+        {/* Preload critical fonts - defer to prevent render blocking */}
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" as="style" onLoad="this.onload=null;this.rel='stylesheet'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" /></noscript>
         
         {/* Additional SEO Meta Tags */}
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
@@ -401,9 +400,10 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#000000" />
       </head>
       <body className={`${inter.variable} ${poppins.variable} antialiased`}>
+        {children}
+        {/* Defer analytics to improve initial load performance */}
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
         <FacebookPixel pixelId={process.env.NEXT_PUBLIC_FB_PIXEL_ID} />
-        {children}
         <Analytics />
       </body>
     </html>

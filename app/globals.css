@@ -4,8 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /* Import Google Fonts - Loaded asynchronously to prevent render blocking */
-/* Cormorant Garamond - only weights needed */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap') layer(fonts);
+/* Cormorant Garamond - only weights needed - loaded via preload in layout */
+/* @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap') layer(fonts); */
 
 /* Import Satoshi Font from Fontshare - Loaded asynchronously */
 @import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap&text=CelesteAbodeRealEstateLuxuryPropertiesPhilosophyServicesContactBookConsultationMasterpiecesLivingExplorePropertiesWhatOurClientsSayGetInTouchOurPhilosophyServicesAtCelesteAbodeExplorePremiumProperties') layer(fonts);

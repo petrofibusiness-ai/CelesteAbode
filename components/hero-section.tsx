@@ -11,14 +11,33 @@ export function HeroSection() {
   useEffect(() => {
     // Load video after LCP to improve initial load performance
     // Only load on desktop and after user interaction or delay
+    if (typeof window === 'undefined') return;
+    
     const isDesktop = window.innerWidth >= 768;
     if (!isDesktop) return; // Don't load video on mobile
     
-    const timer = setTimeout(() => {
-      setShouldLoadVideo(true);
-    }, 2000); // Wait 2 seconds after page load to prioritize LCP
+    // Wait for page to be interactive before loading video
+    const loadVideo = () => {
+      // Use requestIdleCallback if available, otherwise setTimeout
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+          setShouldLoadVideo(true);
+        }, { timeout: 3000 });
+      } else {
+        const timer = setTimeout(() => {
+          setShouldLoadVideo(true);
+        }, 3000); // Wait 3 seconds after page load to prioritize LCP
+        return () => clearTimeout(timer);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    // Wait for page to be interactive
+    if (document.readyState === 'complete') {
+      loadVideo();
+    } else {
+      window.addEventListener('load', loadVideo, { once: true });
+      return () => window.removeEventListener('load', loadVideo);
+    }
   }, []);
 
   useEffect(() => {
@@ -38,7 +57,7 @@ export function HeroSection() {
         >
           {/* Full Container Video/Image */}
           <div className="relative h-[580px] lg:h-[620px]">
-            {/* Image for Mobile */}
+            {/* Image for Mobile - Optimized for LCP */}
             <Image
               src="/propertyhero.avif"
               alt="Luxury real estate background"
@@ -47,8 +66,10 @@ export function HeroSection() {
               loading="eager"
               className="absolute inset-0 w-full h-full object-cover object-center md:hidden"
               sizes="(max-width: 768px) 100vw, 0vw"
-              quality={85}
+              quality={70}
               fetchPriority="high"
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
             />
             
             {/* Fallback image for Desktop (LCP optimization) - shown until video loads */}
@@ -62,7 +83,7 @@ export function HeroSection() {
                 shouldLoadVideo ? 'opacity-0' : 'opacity-100'
               }`}
               sizes="(min-width: 768px) 100vw, 0vw"
-              quality={85}
+              quality={75}
               fetchPriority="high"
             />
             

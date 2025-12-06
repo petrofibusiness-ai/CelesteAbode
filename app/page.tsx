@@ -6,7 +6,11 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 
 // Lazy load components that use framer-motion to reduce initial bundle
-const BrandIntro = dynamic(() => import("@/components/brand-intro").then(mod => ({ default: mod.BrandIntro })), { ssr: true })
+// Load after initial render to prioritize LCP
+const BrandIntro = dynamic(() => import("@/components/brand-intro").then(mod => ({ default: mod.BrandIntro })), { 
+  ssr: true, // Keep SSR for SEO, but lazy load JS
+  loading: () => <div className="min-h-[400px]" />
+})
 const StickyValuePillars = dynamic(() => import("@/components/sticky-value-pillars").then(mod => ({ default: mod.StickyValuePillars })), { ssr: false })
 const ConversionBridge = dynamic(() => import("@/components/conversion-bridge").then(mod => ({ default: mod.ConversionBridge })), { ssr: false })
 const CelesteConsultingFramework = dynamic(() => import("@/components/celeste-consulting-framework").then(mod => ({ default: mod.CelesteConsultingFramework })), { ssr: false })

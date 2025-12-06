@@ -58,6 +58,8 @@ export function Header() {
                 width={95}
                 height={95}
                 priority
+                fetchPriority="high"
+                loading="eager"
               />
             </Link>
 
@@ -97,6 +99,8 @@ export function Header() {
                 width={95}
                 height={95}
                 priority
+                fetchPriority="high"
+                loading="eager"
               />
             </Link>
 

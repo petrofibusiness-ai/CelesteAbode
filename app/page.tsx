@@ -65,15 +65,10 @@ export default function HomePage() {
 
   return (
     <>
-      <OrganizationSchema />
-      <WebSiteSchema />
-      <LocalBusinessSchema />
-      <HomepageServiceSchema />
-      <HomepageServicesListSchema />
-      <AggregateRatingSchema />
       <div className="min-h-screen bg-background">
         <Header />
         <main>
+          {/* Hero section - LCP element - highest priority */}
           <HeroSection />
 
           {/* Aesthetic Line Separator */}
@@ -148,6 +143,13 @@ export default function HomePage() {
         </main>
         <Footer />
       </div>
+      {/* Structured data - load after page content */}
+      <OrganizationSchema />
+      <WebSiteSchema />
+      <LocalBusinessSchema />
+      <HomepageServiceSchema />
+      <HomepageServicesListSchema />
+      <AggregateRatingSchema />
     </>
   )
 }

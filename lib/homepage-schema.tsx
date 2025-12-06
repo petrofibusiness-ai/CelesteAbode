@@ -45,6 +45,7 @@ export function HomepageServiceSchema() {
     <Script
       id="homepage-service-schema"
       type="application/ld+json"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
@@ -119,6 +120,7 @@ export function HomepageServicesListSchema() {
     <Script
       id="homepage-services-list-schema"
       type="application/ld+json"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
@@ -143,6 +145,7 @@ export function AggregateRatingSchema() {
     <Script
       id="aggregate-rating-schema"
       type="application/ld+json"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );

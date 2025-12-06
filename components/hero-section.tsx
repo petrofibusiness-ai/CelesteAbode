@@ -53,23 +53,23 @@ export function HeroSection() {
     <section className="relative min-h-screen flex items-center justify-center bg-background pt-24">
       <div className="max-w-7xl mx-auto px-6 w-full">
         <div
-          className="bg-white rounded-3xl shadow-2xl overflow-hidden relative animate-fade-in-up"
+          className="bg-white rounded-3xl shadow-2xl overflow-hidden relative"
         >
           {/* Full Container Video/Image */}
           <div className="relative h-[580px] lg:h-[620px]">
-            {/* Image for Mobile - Optimized for LCP */}
+            {/* Image for Mobile - Optimized for LCP - Highest Priority */}
             <Image
               src="/propertyhero.avif"
               alt="Luxury real estate background"
               fill
               priority
               loading="eager"
+              decoding="async"
               className="absolute inset-0 w-full h-full object-cover object-center md:hidden"
-              sizes="(max-width: 768px) 100vw, 0vw"
+              sizes="100vw"
               quality={70}
               fetchPriority="high"
-              placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+              unoptimized={false}
             />
             
             {/* Fallback image for Desktop (LCP optimization) - shown until video loads */}
@@ -79,12 +79,14 @@ export function HeroSection() {
               fill
               priority
               loading="eager"
+              decoding="async"
               className={`hidden md:block absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ${
                 shouldLoadVideo ? 'opacity-0' : 'opacity-100'
               }`}
-              sizes="(min-width: 768px) 100vw, 0vw"
-              quality={75}
+              sizes="100vw"
+              quality={70}
               fetchPriority="high"
+              unoptimized={false}
             />
             
             {/* Video for Desktop - Lazy loaded after LCP to improve performance */}

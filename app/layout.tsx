@@ -364,11 +364,18 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://elfsightcdn.com" />
         <link rel="dns-prefetch" href="https://api.fontshare.com" />
         
-        {/* Preload critical resources for LCP - Mobile & Desktop */}
+        {/* Preload critical LCP image - highest priority - earliest possible */}
         <link rel="preload" href="/propertyhero.avif" as="image" type="image/avif" fetchPriority="high" />
+        <link rel="preload" href="/logoceleste.avif" as="image" type="image/avif" />
         
-        {/* Preload critical fonts - defer to prevent render blocking */}
-        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" as="style" onLoad="this.onload=null;this.rel='stylesheet'" />
+        {/* Preload critical fonts - async load to prevent render blocking */}
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" as="style" />
+        <link 
+          rel="stylesheet" 
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" 
+          media="print"
+          {...({ onload: "this.media='all'; this.onload=null;" } as any)}
+        />
         <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" /></noscript>
         
         {/* Additional SEO Meta Tags */}
@@ -401,7 +408,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${poppins.variable} antialiased`}>
         {children}
-        {/* Defer analytics to improve initial load performance */}
+        {/* Defer analytics to improve initial load performance - load after page is interactive */}
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
         <FacebookPixel pixelId={process.env.NEXT_PUBLIC_FB_PIXEL_ID} />
         <Analytics />

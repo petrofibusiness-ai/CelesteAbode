@@ -56,6 +56,7 @@ export function OrganizationSchema() {
     <Script
       id="organization-schema"
       type="application/ld+json"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
@@ -78,6 +79,7 @@ export function BreadcrumbSchema({ items }: { items: Array<{ name: string; url: 
     <Script
       id="breadcrumb-schema"
       type="application/ld+json"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
@@ -170,6 +172,7 @@ export function PropertySchema({
     <Script
       id="property-schema"
       type="application/ld+json"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
@@ -198,6 +201,7 @@ export function FAQPageSchema({
     <Script
       id="faq-schema"
       type="application/ld+json"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
@@ -276,6 +280,7 @@ export function LocalBusinessSchema() {
     <Script
       id="local-business-schema"
       type="application/ld+json"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );
@@ -302,6 +307,7 @@ export function WebSiteSchema() {
     <Script
       id="website-schema"
       type="application/ld+json"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   );

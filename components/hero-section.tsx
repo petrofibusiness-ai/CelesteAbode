@@ -9,10 +9,14 @@ export function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Load video after initial page load to improve LCP
+    // Load video after LCP to improve initial load performance
+    // Only load on desktop and after user interaction or delay
+    const isDesktop = window.innerWidth >= 768;
+    if (!isDesktop) return; // Don't load video on mobile
+    
     const timer = setTimeout(() => {
       setShouldLoadVideo(true);
-    }, 600); // Wait 0.6 seconds after page load for faster video appearance
+    }, 2000); // Wait 2 seconds after page load to prioritize LCP
 
     return () => clearTimeout(timer);
   }, []);
@@ -62,7 +66,7 @@ export function HeroSection() {
               fetchPriority="high"
             />
             
-            {/* Video for Desktop - Lazy loaded after initial render */}
+            {/* Video for Desktop - Lazy loaded after LCP to improve performance */}
             {shouldLoadVideo && (
               <video
                 ref={videoRef}
@@ -70,7 +74,7 @@ export function HeroSection() {
                 loop
                 muted
                 playsInline
-                preload="auto"
+                preload="none"
                 className="hidden md:block absolute inset-0 w-full h-full object-cover object-center md:object-cover md:object-bottom opacity-0 transition-opacity duration-500"
                 onLoadedData={(e) => {
                   const target = e.target as HTMLVideoElement;

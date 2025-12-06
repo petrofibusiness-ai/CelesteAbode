@@ -2,15 +2,17 @@
 
 import dynamic from "next/dynamic"
 import { HeroSection } from "@/components/hero-section"
-import { BrandIntro } from "@/components/brand-intro"
-import { StickyValuePillars } from "@/components/sticky-value-pillars"
-import { ConversionBridge } from "@/components/conversion-bridge"
-import { CelesteConsultingFramework } from "@/components/celeste-consulting-framework"
-import { ValuePropositions } from "@/components/value-propositions"
-import { BrandCarousel } from "@/components/brand-carousel"
-import { VaultTeaser } from "@/components/vault-teaser"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+
+// Lazy load components that use framer-motion to reduce initial bundle
+const BrandIntro = dynamic(() => import("@/components/brand-intro").then(mod => ({ default: mod.BrandIntro })), { ssr: true })
+const StickyValuePillars = dynamic(() => import("@/components/sticky-value-pillars").then(mod => ({ default: mod.StickyValuePillars })), { ssr: false })
+const ConversionBridge = dynamic(() => import("@/components/conversion-bridge").then(mod => ({ default: mod.ConversionBridge })), { ssr: false })
+const CelesteConsultingFramework = dynamic(() => import("@/components/celeste-consulting-framework").then(mod => ({ default: mod.CelesteConsultingFramework })), { ssr: false })
+const ValuePropositions = dynamic(() => import("@/components/value-propositions").then(mod => ({ default: mod.ValuePropositions })), { ssr: false })
+const BrandCarousel = dynamic(() => import("@/components/brand-carousel").then(mod => ({ default: mod.BrandCarousel })), { ssr: false })
+const VaultTeaser = dynamic(() => import("@/components/vault-teaser").then(mod => ({ default: mod.VaultTeaser })), { ssr: false })
 import { IntentPayload } from "@/lib/analytics"
 import { OrganizationSchema, WebSiteSchema, LocalBusinessSchema } from "@/lib/structured-data"
 import { HomepageServiceSchema, HomepageServicesListSchema, AggregateRatingSchema } from "@/lib/homepage-schema"
@@ -23,19 +25,18 @@ const SegmentedEntry = dynamic(
 
 const TechnologySection = dynamic(
   () => import("@/components/technology-section").then(mod => ({ default: mod.TechnologySection })),
-  { ssr: true }
+  { ssr: false }
 )
 
 const WhoWeServe = dynamic(
   () => import("@/components/who-we-serve").then(mod => ({ default: mod.WhoWeServe })),
-  { ssr: true }
+  { ssr: false }
 )
 
 const WhereWeWork = dynamic(
   () => import("@/components/where-we-work").then(mod => ({ default: mod.WhereWeWork })),
   { ssr: false, loading: () => <div className="min-h-[600px]" /> }
 )
-
 
 const TestimonialsSection = dynamic(
   () => import("@/components/testimonials-section").then(mod => ({ default: mod.TestimonialsSection })),
@@ -44,7 +45,7 @@ const TestimonialsSection = dynamic(
 
 const CTASection = dynamic(
   () => import("@/components/cta-section").then(mod => ({ default: mod.CTASection })),
-  { ssr: true }
+  { ssr: false }
 )
 
 export default function HomePage() {

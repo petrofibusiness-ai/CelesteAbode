@@ -10,6 +10,8 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-sans",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 const poppins = Poppins({
@@ -18,6 +20,7 @@ const poppins = Poppins({
   display: "swap",
   variable: "--font-poppins",
   preload: true,
+  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {
@@ -27,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s | Celeste Abode",
   },
   description:
-    "Luxury real estate consulting in Noida, Gurugram, and Delhi NCR. Data-driven property investment advisory with RERA compliance. Expert guidance for luxury apartments and high-value investments.",
+    "Premium real estate consulting in Noida, Gurugram & Delhi NCR. Data-driven property investment advisory with RERA compliance. Expert guidance for luxury apartments & villas.",
   keywords: [
     // Primary Keywords
     "luxury real estate consulting NCR",
@@ -314,7 +317,7 @@ export const metadata: Metadata = {
     siteName: "Celeste Abode",
     title: "Luxury Real Estate NCR | Investment Advisory | Celeste Abode",
     description:
-      "Luxury real estate consulting in Noida, Gurugram, and Delhi NCR. Data-driven property investment advisory with RERA compliance. Expert guidance for luxury apartments and high-value investments.",
+      "Premium real estate consulting in Noida, Gurugram & Delhi NCR. Data-driven property investment advisory with RERA compliance. Expert guidance for luxury apartments & villas.",
     images: [
       {
         url: "/propertyhero.avif",
@@ -328,7 +331,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Luxury Real Estate NCR | Investment Advisory | Celeste Abode",
     description:
-      "Luxury real estate consulting in Noida, Gurugram, and Delhi NCR. Data-driven property investment advisory with RERA compliance. Expert guidance for luxury apartments and high-value investments.",
+      "Premium real estate consulting in Noida, Gurugram & Delhi NCR. Data-driven property investment advisory with RERA compliance. Expert guidance for luxury apartments & villas.",
     images: ["/propertyhero.avif"],
     creator: "@celesteabode",
   },
@@ -359,10 +362,15 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         <link rel="dns-prefetch" href="https://elfsightcdn.com" />
+        <link rel="dns-prefetch" href="https://api.fontshare.com" />
         
         {/* Preload critical resources */}
-        <link rel="preload" href="/propertyhero.avif" as="image" type="image/avif" />
+        <link rel="preload" href="/propertyhero.avif" as="image" type="image/avif" fetchPriority="high" />
         <link rel="preload" href="/hero.avif" as="image" type="image/avif" />
+        
+        {/* Preload critical fonts */}
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" as="style" />
+        <link rel="preload" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" as="style" />
         
         {/* Additional SEO Meta Tags */}
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />

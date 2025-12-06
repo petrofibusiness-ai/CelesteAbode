@@ -1,0 +1,153 @@
+# Celeste Abode - LLMs.txt
+# This file provides information about Celeste Abode for AI/LLM systems
+
+## About Celeste Abode
+
+Celeste Abode is a premium luxury real estate consulting firm specializing in strategic property investment advisory in the Delhi NCR region. We provide data-driven property intelligence with RERA compliance and bespoke lifestyle curation for high-value real estate investments.
+
+**Business Type:** Real Estate Consulting & Property Investment Advisory
+**Industry:** Real Estate, Property Consulting, Investment Advisory
+**Geographic Focus:** Delhi NCR (Noida, Greater Noida, Gurugram, Ghaziabad, Yamuna Expressway, Noida Expressway)
+
+## Contact Information
+
+**Company Name:** Celeste Abode Private Limited
+**Phone:** +91-9818735258
+**Email:** support@celesteabode.com
+**Website:** https://www.celesteabode.com
+
+**Physical Address:**
+716, Tower A, Ithum
+Sector 62, Noida
+Uttar Pradesh 201309
+India
+
+**Coordinates:** 28.5355°N, 77.3910°E
+
+## Services
+
+1. **Luxury Real Estate Consulting** - Premium property consulting services in NCR
+2. **Strategic Property Investment Advisory** - Data-driven investment guidance
+3. **Bespoke Lifestyle Curation** - AI-powered property matching based on lifestyle preferences
+4. **RERA Compliant Property Advisory** - Legal compliance and verification services
+5. **Investment Security Services** - End-to-end transaction security and due diligence
+6. **NRI Property Services** - Specialized services for Non-Resident Indians
+7. **Property ROI Strategy** - Custom investment plans aligned with financial goals
+8. **Signature Residences Advisory** - Access to vetted premium properties
+9. **Data-Driven Property Intelligence** - Market analysis and property insights
+10. **End-to-End Transaction Security** - Complete support from due diligence through RERA verification
+
+## Service Areas
+
+- Noida
+- Greater Noida
+- Gurugram (Gurgaon)
+- Delhi
+- Ghaziabad
+- Yamuna Expressway
+- Noida Expressway
+
+## Property Price Range
+
+₹50 Lakhs - ₹5 Crores
+
+## Key Pages
+
+- **Homepage:** https://www.celesteabode.com/
+- **Philosophy:** https://www.celesteabode.com/philosophy
+- **Services:** https://www.celesteabode.com/services
+- **Projects:** https://www.celesteabode.com/projects
+- **Contact:** https://www.celesteabode.com/contact
+- **Vault (Knowledge Base):** https://www.celesteabode.com/vault
+- **Advisory Session:** https://www.celesteabode.com/advisory-session
+- **Privacy Policy:** https://www.celesteabode.com/privacy-policy
+- **Terms of Service:** https://www.celesteabode.com/terms
+
+## Featured Projects
+
+Celeste Abode represents 13+ premium real estate projects including:
+
+1. Arihant Abode - Greater Noida West
+2. Spring Elmas
+3. Eternia Residences
+4. RG Pleiaddes
+5. Irish Platinum
+6. Elite X
+7. ACE Hanei
+8. The Brook and Rivulet
+9. Renox Thrive
+10. Civitech Strings
+11. Forest Walk Villa
+12. VVIP
+13. Panchsheel Greens II
+
+## Property Types
+
+- Luxury Apartments
+- Premium Villas
+- Ready-to-Move Properties
+- Pre-Launch Properties
+- Under-Construction Properties
+- Residential Plots
+- Commercial Properties
+
+## Target Audience
+
+- High-net-worth individuals seeking luxury properties
+- Property investors looking for ROI-focused opportunities
+- NRIs (Non-Resident Indians) investing in Indian real estate
+- First-time homebuyers seeking expert guidance
+- Families looking for lifestyle-focused residences
+- Business professionals relocating to NCR
+
+## Core Values
+
+- **Trust** - Evidence-driven consulting prioritizing client goals
+- **Transparency** - Clear, honest communication without sales pressure
+- **Transformation** - Strategic property solutions that transform lives
+
+## Social Media
+
+- Facebook: https://www.facebook.com/celesteabode
+- LinkedIn: https://www.linkedin.com/company/celesteabode
+- Twitter: https://twitter.com/celesteabode
+- Instagram: https://www.instagram.com/celesteabode
+
+## Business Hours
+
+Monday - Saturday: 9:00 AM - 7:00 PM
+Sunday: By appointment only
+
+## Languages Supported
+
+English, Hindi
+
+## Key Differentiators
+
+- AI-powered property intelligence and profiling
+- Data-driven ROI strategy
+- RERA compliance and legal verification
+- End-to-end transaction security
+- Bespoke lifestyle curation
+- Exclusive access to premium properties
+- NRI-specific services with remote management
+- Advanced digital dashboards and transparency
+
+## Important Keywords
+
+luxury real estate consulting NCR, strategic property investment advisory, data-driven real estate consulting, RERA compliant property advisory, property investment consultant NCR, real estate consultant Noida, property advisor Gurugram, luxury property consultant Delhi NCR, Yamuna Expressway property investment, Greater Noida real estate advisor, NRI property services NCR, bespoke lifestyle curation, investment security NCR, property ROI strategy, signature residences NCR, high-value property investment, AI-powered property intelligence, luxury apartment consultant, villa investment advisory, ready to move property NCR, pre-launch property investment, end-to-end transaction security, legal property verification NCR, Jewar Airport property investment, premium property advisory India, real estate market intelligence
+
+## Technology Stack
+
+- Next.js 15.5.7
+- React 19.2.1
+- TypeScript
+- Tailwind CSS
+- Vercel Analytics
+- Google Analytics (when configured)
+- Facebook Pixel (when configured)
+
+## Last Updated
+
+2025-01-27
+

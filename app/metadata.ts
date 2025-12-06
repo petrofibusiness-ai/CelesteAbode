@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const homepageMetadata: Metadata = {
   title: "Luxury Real Estate Consulting NCR | Strategic Property Investment Advisory | Celeste Abode",
-  description: "Premium real estate consulting in Noida, Gurugram, and Delhi NCR. Data-driven property investment advisory with RERA compliance. Expert guidance for luxury apartments, villas, and high-value investments in Yamuna Expressway, Greater Noida, and NCR region.",
+  description: "Premium real estate consulting in Noida, Gurugram & Delhi NCR. Data-driven property investment advisory with RERA compliance. Expert guidance for luxury apartments.",
   keywords: [
     // Primary Keywords
     "luxury real estate consulting NCR",

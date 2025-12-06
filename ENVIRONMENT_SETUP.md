@@ -24,6 +24,11 @@ NEXT_PUBLIC_SITE_NAME=Celeste Abode
 # Get your Measurement ID from: https://analytics.google.com/
 # Format: G-XXXXXXXXXX
 # NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+
+# Facebook Pixel
+# Get your Pixel ID from: https://business.facebook.com/events_manager2
+# Format: 1234567890123456 (numeric)
+# NEXT_PUBLIC_FB_PIXEL_ID=1234567890123456
 ```
 
 ## Setup Instructions
@@ -58,6 +63,15 @@ NEXT_PUBLIC_SITE_NAME=Celeste Abode
 5. Add it to `.env.local` as `NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX`
 6. Restart your development server
 7. **Note**: Google Analytics component is already installed in the codebase - just needs the ID to activate
+
+### 6. Facebook Pixel Setup
+1. Go to [Facebook Business Manager](https://business.facebook.com/)
+2. Navigate to Events Manager → Data Sources → Pixels
+3. Create a new Pixel (if you don't have one)
+4. Copy your **Pixel ID** (numeric, e.g., `1234567890123456`)
+5. Add it to `.env.local` as `NEXT_PUBLIC_FB_PIXEL_ID=1234567890123456`
+6. Restart your development server
+7. **Note**: Facebook Pixel component is now installed - just needs the ID to activate
 
 ## Important Notes
 

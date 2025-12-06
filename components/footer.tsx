@@ -42,11 +42,14 @@ export function Footer() {
                   support@celesteabode.com
                 </span>
               </div>
-              <div className="flex items-center gap-3 group cursor-pointer">
-                <MapPin className="w-6 h-6 text-white group-hover:text-[#CBB27A] transition-colors" />
-                <span className="text-sm text-white group-hover:text-[#CBB27A] transition-colors">
-                  Celeste Abode, 716, Tower A, Ithum, Sector 62, Noida.
-                </span>
+              <div className="flex items-start gap-3 group cursor-pointer">
+                <MapPin className="w-6 h-6 text-white group-hover:text-[#CBB27A] transition-colors mt-0.5 flex-shrink-0" />
+                <address className="text-sm text-white group-hover:text-[#CBB27A] transition-colors not-italic">
+                  716, Tower A, Ithum<br />
+                  Sector 62, Noida<br />
+                  Uttar Pradesh 201309<br />
+                  India
+                </address>
               </div>
             </div>
           </div>

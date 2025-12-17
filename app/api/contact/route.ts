@@ -50,15 +50,27 @@ async function handleSegmentedEntryForm(body: any, clientIP: string) {
       );
     }
 
+    // Validate and sanitize intent
+    const sanitizedIntent = sanitizeInput(String(intent));
+    const validIntents = ['live', 'invest', 'signature'] as const;
+    type ValidIntent = typeof validIntents[number];
+    
+    if (!validIntents.includes(sanitizedIntent as ValidIntent)) {
+      return NextResponse.json(
+        { error: 'Invalid intent value' },
+        { status: 400 }
+      );
+    }
+
     // Send email with segmented entry data
     const emailResult = await sendFormSubmissionEmail({
       formType: 'segmented-entry',
-      intent: sanitizeInput(String(intent)),
+      intent: sanitizedIntent as ValidIntent,
       firstName: sanitizedFirstName,
       lastName: sanitizedLastName,
       email: sanitizedEmail.toLowerCase(),
       phone: sanitizedPhone,
-      message: `New ${intent} inquiry from ${firstName} ${lastName}`,
+      message: `New ${sanitizedIntent} inquiry from ${sanitizedFirstName} ${sanitizedLastName}`,
       formData: formData,
       emailContent: emailContent
     });

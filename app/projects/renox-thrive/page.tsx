@@ -111,7 +111,7 @@ export default function PropertyPage() {
         name={property.projectName}
         description={projectMeta.description}
         image={property.images[0]}
-        price={property.pricing?.startingPrice || projectMeta.price}
+        price={projectMeta.price}
         address={property.location}
         developer={property.developer}
         reraId={property.reraId}

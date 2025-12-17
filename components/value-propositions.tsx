@@ -58,16 +58,7 @@ export function ValuePropositions() {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <div
-                className="text-8xl md:text-[10rem] lg:text-[14rem] font-semibold mb-4 md:mb-6 bg-clip-text text-transparent tabular-nums"
-                style={{
-                  backgroundImage: `url('/modern-luxury-apartment-building-architectural-pho.avif')`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  WebkitBackgroundClip: "text",
-                  backgroundClip: "text",
-                }}
-              >
+              <div className="text-8xl md:text-[10rem] lg:text-[14rem] font-semibold mb-4 md:mb-6 bg-clip-text text-transparent tabular-nums experience-number-bg">
                 10
               </div>
               <p className="h3 text-foreground uppercase tracking-wide">

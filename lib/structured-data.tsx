@@ -7,11 +7,29 @@ export function OrganizationSchema() {
     "@type": "RealEstateAgent",
     "@id": "https://www.celesteabode.com/#organization",
     name: "Celeste Abode",
+    legalName: "Celeste Abode Private Limited",
+    alternateName: ["Celeste Abode", "Celeste Abode Real Estate"],
     url: "https://www.celesteabode.com",
     logo: "https://www.celesteabode.com/logoceleste.avif",
     image: "https://www.celesteabode.com/logoceleste.avif",
+    slogan: "The Convergence of Data Intelligence and Luxury Living",
     description:
-      "Premium luxury real estate consulting in NCR. Strategic property investment advisory with data-driven intelligence, RERA compliance, and bespoke lifestyle curation. Expert guidance for high-value investments in Noida, Gurugram, Yamuna Expressway, Greater Noida, and Delhi NCR.",
+      "Celeste Abode - Premium luxury real estate advisory in NCR. Real estate investment advisory services, property portfolio advisory, and high-value property investment advisory. Expert real estate consultants in Noida, Greater Noida, and Delhi NCR.",
+    foundingDate: "2024",
+    numberOfEmployees: {
+      "@type": "QuantitativeValue",
+      value: "10-50"
+    },
+    knowsAbout: [
+      "Luxury Real Estate",
+      "Property Investment Advisory",
+      "Data-Driven Property Intelligence",
+      "RERA Compliance",
+      "Real Estate Market Analysis",
+      "Property ROI Strategy",
+      "NRI Property Services",
+      "Delhi NCR Real Estate"
+    ],
     address: {
       "@type": "PostalAddress",
       streetAddress: "716, Tower A, Ithum",
@@ -39,6 +57,16 @@ export function OrganizationSchema() {
     },
     priceRange: "₹50 Lakhs - ₹5 Crores",
     serviceType: [
+      "Luxury Real Estate Advisory",
+      "Real Estate Investment Advisory Services",
+      "Property Portfolio Advisory Services",
+      "Real Estate Transaction Consulting",
+      "End-to-End Property Advisory",
+      "Personalized Real Estate Advisory",
+      "Strategic Property Investment Planning",
+      "Residential Real Estate Advisory",
+      "NRI Real Estate Advisory",
+      "High-Value Property Investment Advisory",
       "Luxury Real Estate Consulting",
       "Strategic Property Investment Advisory",
       "Data-Driven Property Intelligence",
@@ -218,7 +246,7 @@ export function LocalBusinessSchema() {
     url: "https://www.celesteabode.com",
     telephone: "+91-9818735258",
     priceRange: "₹50 Lakhs - ₹5 Crores",
-    description: "Premium luxury real estate consulting in NCR. Strategic property investment advisory with data-driven intelligence, RERA compliance, and bespoke lifestyle curation for high-value investments in Noida, Gurugram, Yamuna Expressway, and Greater Noida.",
+    description: "Celeste Abode - Premium luxury real estate advisory in NCR. Real estate investment advisory services, property portfolio advisory, and high-value property investment advisory. Expert real estate consultants in Noida, Greater Noida, Gurugram, Yamuna Expressway, and Delhi NCR.",
     address: {
       "@type": "PostalAddress",
       streetAddress: "716, Tower A, Ithum",
@@ -265,6 +293,16 @@ export function LocalBusinessSchema() {
       },
     ],
     serviceType: [
+      "Luxury Real Estate Advisory",
+      "Real Estate Investment Advisory Services",
+      "Property Portfolio Advisory Services",
+      "Real Estate Transaction Consulting",
+      "End-to-End Property Advisory",
+      "Personalized Real Estate Advisory",
+      "Strategic Property Investment Planning",
+      "Residential Real Estate Advisory",
+      "NRI Real Estate Advisory",
+      "High-Value Property Investment Advisory",
       "Luxury Real Estate Consulting",
       "Strategic Property Investment Advisory",
       "Data-Driven Property Intelligence",
@@ -292,7 +330,16 @@ export function WebSiteSchema() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Celeste Abode",
+    alternateName: "Celeste Abode Real Estate Consulting",
     url: "https://www.celesteabode.com",
+    publisher: {
+      "@type": "Organization",
+      name: "Celeste Abode",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.celesteabode.com/logoceleste.avif"
+      }
+    },
     potentialAction: {
       "@type": "SearchAction",
       target: {
@@ -306,6 +353,42 @@ export function WebSiteSchema() {
   return (
     <Script
       id="website-schema"
+      type="application/ld+json"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+// Brand Schema for enhanced LLM recognition
+export function BrandSchema() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Brand",
+    name: "Celeste Abode",
+    alternateName: ["Celeste Abode Real Estate", "Celeste Abode Private Limited"],
+    slogan: "The Convergence of Data Intelligence and Luxury Living",
+    description: "Celeste Abode - Premium luxury real estate advisory brand specializing in real estate investment advisory services, property portfolio advisory, high-value property investment advisory, and personalized real estate advisory in Delhi NCR.",
+    logo: "https://www.celesteabode.com/logoceleste.avif",
+    url: "https://www.celesteabode.com",
+    sameAs: [
+      "https://www.facebook.com/celesteabode",
+      "https://www.linkedin.com/company/celesteabode",
+      "https://twitter.com/celesteabode",
+      "https://www.instagram.com/celesteabode"
+    ],
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.8",
+      reviewCount: "2500",
+      bestRating: "5",
+      worstRating: "1"
+    }
+  };
+
+  return (
+    <Script
+      id="brand-schema"
       type="application/ld+json"
       strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}

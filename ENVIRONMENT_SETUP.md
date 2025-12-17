@@ -29,6 +29,11 @@ NEXT_PUBLIC_SITE_NAME=Celeste Abode
 # Get your Pixel ID from: https://business.facebook.com/events_manager2
 # Format: 1234567890123456 (numeric)
 # NEXT_PUBLIC_FB_PIXEL_ID=1234567890123456
+
+# Cloudinary (for brochure downloads)
+# Get your Cloudinary URL from: https://cloudinary.com/console
+# Format: cloudinary://[API_KEY]:[API_SECRET]@[CLOUD_NAME]
+# CLOUDINARY_URL=cloudinary://965995714388361:MwVZ9SDXNJfh43RTzbbPVYCKWJc@da57wy2df
 ```
 
 ## Setup Instructions
@@ -72,6 +77,15 @@ NEXT_PUBLIC_SITE_NAME=Celeste Abode
 5. Add it to `.env.local` as `NEXT_PUBLIC_FB_PIXEL_ID=1234567890123456`
 6. Restart your development server
 7. **Note**: Facebook Pixel component is now installed - just needs the ID to activate
+
+### 7. Cloudinary Setup (for Brochure Downloads)
+1. Go to [Cloudinary Dashboard](https://cloudinary.com/console)
+2. Copy your **Cloudinary URL** from the dashboard
+3. Format: `cloudinary://[API_KEY]:[API_SECRET]@[CLOUD_NAME]`
+4. Add it to `.env.local` as `CLOUDINARY_URL=cloudinary://...`
+5. **Important**: Upload your brochure PDF to Cloudinary and note the public_id
+6. Update the public_id in `app/api/brochure-download/route.ts` (search for 'forest-walk-villa-brochure')
+7. Restart your development server
 
 ## Important Notes
 

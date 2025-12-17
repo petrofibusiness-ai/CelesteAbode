@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, Phone, MapPin, Instagram } from "lucide-react";
+import { ObfuscatedEmail } from "@/components/obfuscated-email";
 
 export function Footer() {
   return (
@@ -20,6 +21,8 @@ export function Footer() {
                 alt="Celeste Abode Logo"
                 width={210}
                 height={160}
+                sizes="210px"
+                quality={85}
                 className=""
                 priority
               />
@@ -36,12 +39,12 @@ export function Footer() {
                   +91 9818735258
                 </span>
               </div>
-              <div className="flex items-center gap-3 group cursor-pointer">
-                <Mail className="w-5 h-5 text-white group-hover:text-[#CBB27A] transition-colors" />
-                <span className="text-sm text-white group-hover:text-[#CBB27A] transition-colors">
-                  support@celesteabode.com
-                </span>
-              </div>
+              <ObfuscatedEmail
+                variant="link"
+                className="flex items-center gap-3 text-sm text-white group-hover:text-[#CBB27A] transition-colors group cursor-pointer"
+                iconClassName="w-5 h-5 text-white group-hover:text-[#CBB27A] transition-colors"
+                showIcon={true}
+              />
               <div className="flex items-start gap-3 group cursor-pointer">
                 <MapPin className="w-6 h-6 text-white group-hover:text-[#CBB27A] transition-colors mt-0.5 flex-shrink-0" />
                 <address className="text-sm text-white group-hover:text-[#CBB27A] transition-colors not-italic">

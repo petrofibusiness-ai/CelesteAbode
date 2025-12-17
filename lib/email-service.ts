@@ -1,11 +1,12 @@
-import nodemailer, { Transporter } from 'nodemailer';
+import * as nodemailer from 'nodemailer';
+import type { Transporter } from 'nodemailer';
 import type { FormSubmissionData } from './email-client';
 
 // Server-side email service (DO NOT import in client components)
 // Use email-client.ts for client-side functions
 
 export interface EmailSubmissionParams {
-  formType: 'contact' | 'segmented-entry' | 'viewing' | 'advisory-session' | 'consultation';
+  formType: 'contact' | 'segmented-entry' | 'viewing' | 'advisory-session' | 'consultation' | 'chatbot';
   firstName: string;
   lastName: string;
   email: string;
@@ -25,6 +26,23 @@ export interface EmailSubmissionParams {
   propertyType?: string;
   timeline?: string;
   location?: string;
+  // Chatbot-specific metadata (all optional)
+  chatbotUserIntent?: string;
+  chatbotPropertyType?: string;
+  chatbotPreferredLocation?: string;
+  chatbotBudgetRange?: string;
+  chatbotBhkPreference?: string;
+  chatbotCommercialUse?: string;
+  chatbotTimeline?: string;
+  chatbotLeadScore?: string;
+  chatbotWantsVirtualTour?: boolean;
+  chatbotWantsShortlist?: boolean;
+  chatbotWantsBestProjects?: boolean;
+  chatbotWantsExpertCall?: boolean;
+  chatbotContactPreference?: string;
+  chatbotClientEmail?: string;
+  chatbotSource?: string;
+  chatbotTimestamp?: string;
 }
 
 export interface EmailResult {
@@ -247,6 +265,144 @@ function createContactEmailTemplate(params: EmailSubmissionParams): string {
           <p style="color: #666; margin: 0; font-size: 14px;">
             This form was submitted through the Celeste Abode website.<br>
             Please respond to the client within 24 hours.
+          </p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+}
+
+/**
+ * Create email template for chatbot lead
+ */
+function createChatbotEmailTemplate(params: EmailSubmissionParams): string {
+  const safe = (value?: string) => sanitizeInput(value || 'Not specified');
+
+  return `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="font-family: Arial, sans-serif; max-width: 640px; margin: 0 auto; padding: 20px; background-color: #f4f5f7;">
+      <div style="background-color: #ffffff; padding: 28px; border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); border: 1px solid #eee;">
+        <div style="text-align: center; margin-bottom: 26px; border-bottom: 2px solid #CBB27A; padding-bottom: 18px;">
+          <h1 style="color: #2B3035; margin: 0; font-size: 24px; letter-spacing: 0.03em;">New Chatbot Lead</h1>
+          <p style="color: #777; margin: 10px 0 0 0; font-size: 13px;">Celeste Abode – Website Chatbot</p>
+        </div>
+
+        <div style="background-color: #f8f9fb; padding: 18px 20px; border-radius: 8px; margin-bottom: 18px;">
+          <h2 style="color: #2B3035; margin: 0 0 12px 0; font-size: 17px;">Contact Information</h2>
+          <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+            <tr>
+              <td style="padding: 6px 0; color: #555; font-weight: 600; width: 32%;">Name</td>
+              <td style="padding: 6px 0; color: #333;">${safe(`${params.firstName} ${params.lastName}`)}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #555; font-weight: 600;">Phone</td>
+              <td style="padding: 6px 0; color: #333;"><a href="tel:${params.phone}" style="color:#0b7285; text-decoration:none;">${sanitizeInput(params.phone)}</a></td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #555; font-weight: 600;">Email (client)</td>
+              <td style="padding: 6px 0; color: #333;">${
+                params.chatbotClientEmail
+                  ? `<a href="mailto:${params.chatbotClientEmail}" style="color:#0b7285; text-decoration:none;">${sanitizeInput(params.chatbotClientEmail)}</a>`
+                  : '<span style="color:#999;">Not provided</span>'
+              }</td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="background-color: #f8f9fb; padding: 18px 20px; border-radius: 8px; margin-bottom: 18px;">
+          <h2 style="color: #2B3035; margin: 0 0 12px 0; font-size: 17px;">Lead Summary</h2>
+          <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+            <tr>
+              <td style="padding: 6px 0; color: #555; font-weight: 600; width: 32%;">Intent</td>
+              <td style="padding: 6px 0; color: #333;">${safe(params.chatbotUserIntent)}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #555; font-weight: 600;">Property Type</td>
+              <td style="padding: 6px 0; color: #333;">${safe(params.chatbotPropertyType)}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #555; font-weight: 600;">Preferred Location</td>
+              <td style="padding: 6px 0; color: #333;">${safe(params.chatbotPreferredLocation)}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #555; font-weight: 600;">Budget Range</td>
+              <td style="padding: 6px 0; color: #333;">${safe(params.chatbotBudgetRange)}</td>
+            </tr>
+            ${
+              params.chatbotBhkPreference
+                ? `<tr>
+                    <td style="padding: 6px 0; color: #555; font-weight: 600;">BHK Preference</td>
+                    <td style="padding: 6px 0; color: #333;">${safe(params.chatbotBhkPreference)}</td>
+                  </tr>`
+                : ''
+            }
+            ${
+              params.chatbotCommercialUse
+                ? `<tr>
+                    <td style="padding: 6px 0; color: #555; font-weight: 600;">Commercial Use</td>
+                    <td style="padding: 6px 0; color: #333;">${safe(params.chatbotCommercialUse)}</td>
+                  </tr>`
+                : ''
+            }
+            <tr>
+              <td style="padding: 6px 0; color: #555; font-weight: 600;">Timeline</td>
+              <td style="padding: 6px 0; color: #333;">${safe(params.chatbotTimeline)}</td>
+            </tr>
+            ${
+              params.chatbotLeadScore
+                ? `<tr>
+                    <td style="padding: 6px 0; color: #555; font-weight: 600;">Lead Score</td>
+                    <td style="padding: 6px 0; color: #333;"><span style="padding:2px 8px; border-radius:999px; background-color:#f1f3f5; font-size:12px;">${safe(params.chatbotLeadScore)}</span></td>
+                  </tr>`
+                : ''
+            }
+          </table>
+        </div>
+
+        <div style="background-color: #f8f9fb; padding: 18px 20px; border-radius: 8px; margin-bottom: 18px;">
+          <h2 style="color: #2B3035; margin: 0 0 12px 0; font-size: 17px;">Preferences & Requests</h2>
+          <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+            <tr>
+              <td style="padding: 6px 0; color: #555; font-weight: 600; width: 40%;">Virtual Tour</td>
+              <td style="padding: 6px 0; color: #333;">${params.chatbotWantsVirtualTour ? 'Yes' : 'No'}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #555; font-weight: 600;">Shortlisted Options with Guidance</td>
+              <td style="padding: 6px 0; color: #333;">${params.chatbotWantsShortlist ? 'Yes' : 'No'}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #555; font-weight: 600;">Best Projects in Area</td>
+              <td style="padding: 6px 0; color: #333;">${params.chatbotWantsBestProjects ? 'Yes' : 'No'}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #555; font-weight: 600;">Expert Call Requested</td>
+              <td style="padding: 6px 0; color: #333;">${params.chatbotWantsExpertCall ? 'Yes' : 'No'}</td>
+            </tr>
+            <tr>
+              <td style="padding: 6px 0; color: #555; font-weight: 600;">Preferred Follow-up</td>
+              <td style="padding: 6px 0; color: #333;">${safe(params.chatbotContactPreference)}</td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="background-color: #f8f9fb; padding: 16px 20px; border-radius: 8px; margin-bottom: 4px;">
+          <h3 style="color: #2B3035; margin: 0 0 10px 0; font-size: 15px;">Meta</h3>
+          <p style="color: #555; margin: 0; font-size: 13px; line-height: 1.5;">
+            <strong>Source:</strong> ${safe(params.chatbotSource || 'Website Chatbot')}<br>
+            <strong>Received at:</strong> ${safe(params.chatbotTimestamp)}
+          </p>
+        </div>
+
+        <div style="text-align: center; margin-top: 22px; padding-top: 16px; border-top: 1px solid #e1e3e8;">
+          <p style="color: #777; margin: 0; font-size: 12px;">
+            This lead was generated via the Celeste Abode interactive chatbot.<br>
+            Please respond to the client at the earliest for best experience.
           </p>
         </div>
       </div>
@@ -598,16 +754,18 @@ function createConfirmationEmailTemplate(
  */
 export async function sendFormSubmissionEmail(params: EmailSubmissionParams): Promise<EmailResult> {
   try {
+    const isChatbot = params.formType === 'chatbot';
+
     // Validate required fields
-    if (!params.firstName || !params.lastName || !params.email || !params.phone) {
+    if (!params.firstName || !params.lastName || !params.phone || (!params.email && !isChatbot)) {
       return {
         success: false,
         error: 'Missing required fields: firstName, lastName, email, phone',
       };
     }
 
-    // Validate email format
-    if (!validateEmail(params.email)) {
+    // Validate email format (for non-chatbot flows, where client email is required)
+    if (!isChatbot && !validateEmail(params.email)) {
       return {
         success: false,
         error: 'Invalid email format',
@@ -663,6 +821,10 @@ export async function sendFormSubmissionEmail(params: EmailSubmissionParams): Pr
         emailContent = createAdvisoryEmailTemplate(params, 'consultation');
         subject = `New Consultation Request - ${fullName}`;
         break;
+      case 'chatbot':
+        emailContent = createChatbotEmailTemplate(params);
+        subject = `New Chatbot Lead - ${fullName}`;
+        break;
       default:
         return {
           success: false,
@@ -671,10 +833,17 @@ export async function sendFormSubmissionEmail(params: EmailSubmissionParams): Pr
     }
 
     // Send email to admin
+    const replyToAddress =
+      isChatbot && params.chatbotClientEmail && validateEmail(params.chatbotClientEmail)
+        ? params.chatbotClientEmail
+        : params.email && validateEmail(params.email)
+        ? params.email
+        : emailUser;
+
     const adminResult = await sendEmailWithRetry({
       from: `"Celeste Abode" <${emailUser}>`,
       to: adminEmail,
-      replyTo: params.email,
+      replyTo: replyToAddress,
       subject: subject,
       html: emailContent,
     });

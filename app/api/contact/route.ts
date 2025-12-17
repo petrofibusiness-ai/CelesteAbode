@@ -1,8 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendFormSubmissionEmail } from '@/lib/email-service';
+import { sanitizeInput, isValidEmail, isValidPhone, isValidName, getClientIP, checkRateLimit } from '@/lib/security';
 
-async function handleSegmentedEntryForm(body: any) {
+async function handleSegmentedEntryForm(body: any, clientIP: string) {
   try {
+    // Rate limiting
+    const rateLimit = checkRateLimit(`contact:${clientIP}`, 10, 60000);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please wait a moment before trying again.' },
+        { status: 429 }
+      );
+    }
+
     const { intent, firstName, lastName, email, phone, formData, emailContent } = body;
     
     // Validate required fields
@@ -13,18 +23,27 @@ async function handleSegmentedEntryForm(body: any) {
       );
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    // Sanitize and validate inputs
+    const sanitizedFirstName = sanitizeInput(String(firstName));
+    const sanitizedLastName = sanitizeInput(String(lastName));
+    const sanitizedEmail = sanitizeInput(String(email));
+    const sanitizedPhone = sanitizeInput(String(phone));
+
+    if (!isValidName(sanitizedFirstName) || !isValidName(sanitizedLastName)) {
+      return NextResponse.json(
+        { error: 'Invalid name format' },
+        { status: 400 }
+      );
+    }
+
+    if (!isValidEmail(sanitizedEmail)) {
       return NextResponse.json(
         { error: 'Invalid email format' },
         { status: 400 }
       );
     }
 
-    // Validate phone format
-    const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
-    if (!phoneRegex.test(phone)) {
+    if (!isValidPhone(sanitizedPhone)) {
       return NextResponse.json(
         { error: 'Invalid phone format' },
         { status: 400 }
@@ -34,11 +53,11 @@ async function handleSegmentedEntryForm(body: any) {
     // Send email with segmented entry data
     const emailResult = await sendFormSubmissionEmail({
       formType: 'segmented-entry',
-      intent: intent,
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      email: email.trim().toLowerCase(),
-      phone: phone.trim(),
+      intent: sanitizeInput(String(intent)),
+      firstName: sanitizedFirstName,
+      lastName: sanitizedLastName,
+      email: sanitizedEmail.toLowerCase(),
+      phone: sanitizedPhone,
       message: `New ${intent} inquiry from ${firstName} ${lastName}`,
       formData: formData,
       emailContent: emailContent
@@ -58,11 +77,26 @@ async function handleSegmentedEntryForm(body: any) {
         message: 'Segmented entry form submitted successfully',
         messageId: emailResult.messageId 
       },
-      { status: 200 }
+      { 
+        status: 200,
+        headers: {
+          'X-RateLimit-Limit': '10',
+          'X-RateLimit-Remaining': String(rateLimit.remaining),
+          'X-RateLimit-Reset': String(rateLimit.resetTime),
+        }
+      }
     );
 
   } catch (error) {
-    console.error('Segmented entry form submission error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    
+    console.error('Segmented entry form submission error:', {
+      message: errorMessage,
+      stack: errorStack,
+      timestamp: new Date().toISOString(),
+      clientIP,
+    });
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -72,11 +106,30 @@ async function handleSegmentedEntryForm(body: any) {
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    // Rate limiting
+    const clientIP = getClientIP(request);
+    const rateLimit = checkRateLimit(`contact:${clientIP}`, 10, 60000);
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please wait a moment before trying again.' },
+        { status: 429 }
+      );
+    }
+
+    // Parse request body
+    let body;
+    try {
+      body = await request.json();
+    } catch (error) {
+      return NextResponse.json(
+        { error: 'Invalid JSON in request body' },
+        { status: 400 }
+      );
+    }
     
     // Handle different form types
     if (body.formType === 'segmented-entry') {
-      return handleSegmentedEntryForm(body);
+      return handleSegmentedEntryForm(body, clientIP);
     }
     
     // Original contact form validation
@@ -89,20 +142,37 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    // Sanitize and validate inputs
+    const sanitizedFirstName = sanitizeInput(String(firstName));
+    const sanitizedLastName = sanitizeInput(String(lastName));
+    const sanitizedEmail = sanitizeInput(String(email));
+    const sanitizedPhone = sanitizeInput(String(phone));
+    const sanitizedMessage = sanitizeInput(String(message));
+
+    if (!isValidName(sanitizedFirstName) || !isValidName(sanitizedLastName)) {
+      return NextResponse.json(
+        { error: 'Invalid name format' },
+        { status: 400 }
+      );
+    }
+
+    if (!isValidEmail(sanitizedEmail)) {
       return NextResponse.json(
         { error: 'Invalid email format' },
         { status: 400 }
       );
     }
 
-    // Validate phone format (basic validation)
-    const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
-    if (!phoneRegex.test(phone)) {
+    if (!isValidPhone(sanitizedPhone)) {
       return NextResponse.json(
         { error: 'Invalid phone format' },
+        { status: 400 }
+      );
+    }
+
+    if (sanitizedMessage.length < 10 || sanitizedMessage.length > 5000) {
+      return NextResponse.json(
+        { error: 'Message must be between 10 and 5000 characters' },
         { status: 400 }
       );
     }
@@ -110,11 +180,11 @@ export async function POST(request: NextRequest) {
     // Send email
     const emailResult = await sendFormSubmissionEmail({
       formType: 'contact',
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      email: email.trim().toLowerCase(),
-      phone: phone.trim(),
-      message: message.trim()
+      firstName: sanitizedFirstName,
+      lastName: sanitizedLastName,
+      email: sanitizedEmail.toLowerCase(),
+      phone: sanitizedPhone,
+      message: sanitizedMessage
     });
 
     if (!emailResult.success) {
@@ -135,9 +205,28 @@ export async function POST(request: NextRequest) {
     );
 
   } catch (error) {
-    console.error('Contact form submission error:', error);
+    // Enhanced error logging
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorStack = error instanceof Error ? error.stack : undefined;
+    
+    console.error('Contact form submission error:', {
+      message: errorMessage,
+      stack: errorStack,
+      timestamp: new Date().toISOString(),
+      clientIP: getClientIP(request),
+    });
+
+    // In production, send to error monitoring service
+    if (process.env.NODE_ENV === 'production') {
+      // TODO: Send to error monitoring service (e.g., Sentry, LogRocket)
+    }
+
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { 
+        error: process.env.NODE_ENV === 'production' 
+          ? 'Internal server error. Please try again later.' 
+          : errorMessage 
+      },
       { status: 500 }
     );
   }

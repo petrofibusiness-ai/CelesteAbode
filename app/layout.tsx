@@ -5,6 +5,18 @@ import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { FacebookPixel } from "@/components/facebook-pixel";
 import "./globals.css";
+import { Chatbot } from "@/components/chatbot";
+import { validateEnv } from "@/lib/env-validation";
+
+// Validate environment variables in production
+if (process.env.NODE_ENV === 'production') {
+  try {
+    validateEnv();
+  } catch (error) {
+    console.error('Environment validation failed:', error);
+    // In production, this should fail the build or startup
+  }
+}
 
 const inter = Inter({
   subsets: ["latin"],
@@ -26,11 +38,11 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.celesteabode.com"),
   title: {
-    default: "Luxury Real Estate NCR | Investment Advisory | Celeste Abode",
+    default: "Luxury Real Estate Advisory NCR | Premium Real Estate Consultants | Celeste Abode",
     template: "%s | Celeste Abode",
   },
   description:
-    "Premium real estate consulting in Noida, Gurugram & Delhi NCR. Data-driven property investment advisory with RERA compliance. Expert guidance for luxury apartments & villas.",
+    "Celeste Abode - Premium real estate consultants in NCR. Luxury real estate advisory, real estate investment advisory services, and high-value property investment advisory. Expert real estate consulting in Noida, Greater Noida, and Delhi NCR.",
   keywords: [
     // Primary Keywords
     "luxury real estate consulting NCR",
@@ -501,6 +513,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         <link rel="dns-prefetch" href="https://elfsightcdn.com" />
+        <link rel="preconnect" href="https://elfsightcdn.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://api.fontshare.com" />
         
         {/* Preload critical LCP image - highest priority - earliest possible */}
@@ -513,12 +526,33 @@ export default function RootLayout({
           rel="stylesheet" 
           href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" 
           media="print"
-          {...({ onload: "this.media='all'; this.onload=null;" } as any)}
+          id="cormorant-font-stylesheet"
+          suppressHydrationWarning
+        />
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                if (typeof window === 'undefined') return;
+                var link = document.getElementById('cormorant-font-stylesheet');
+                if (link) {
+                  // Use requestAnimationFrame to ensure DOM is ready
+                  requestAnimationFrame(function() {
+                    link.media = 'all';
+                  });
+                }
+              })();
+            `,
+          }}
         />
         <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" /></noscript>
         
         {/* Additional SEO Meta Tags */}
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="language" content="en" />
         <meta name="revisit-after" content="7 days" />
         <meta name="author" content="Celeste Abode" />
@@ -547,6 +581,7 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${poppins.variable} antialiased`}>
         {children}
+        <Chatbot />
         {/* Defer analytics to improve initial load performance - load after page is interactive */}
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
         <FacebookPixel pixelId={process.env.NEXT_PUBLIC_FB_PIXEL_ID} />

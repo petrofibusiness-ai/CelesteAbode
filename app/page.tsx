@@ -18,7 +18,7 @@ const ValuePropositions = dynamic(() => import("@/components/value-propositions"
 const BrandCarousel = dynamic(() => import("@/components/brand-carousel").then(mod => ({ default: mod.BrandCarousel })), { ssr: false })
 const VaultTeaser = dynamic(() => import("@/components/vault-teaser").then(mod => ({ default: mod.VaultTeaser })), { ssr: false })
 import { IntentPayload } from "@/lib/analytics"
-import { OrganizationSchema, WebSiteSchema, LocalBusinessSchema } from "@/lib/structured-data"
+import { OrganizationSchema, WebSiteSchema, LocalBusinessSchema, BrandSchema } from "@/lib/structured-data"
 import { HomepageServiceSchema, HomepageServicesListSchema, AggregateRatingSchema } from "@/lib/homepage-schema"
 
 // Lazy load below-the-fold components to reduce initial JS bundle
@@ -147,6 +147,7 @@ export default function HomePage() {
       <OrganizationSchema />
       <WebSiteSchema />
       <LocalBusinessSchema />
+      <BrandSchema />
       <HomepageServiceSchema />
       <HomepageServicesListSchema />
       <AggregateRatingSchema />

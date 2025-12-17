@@ -5,6 +5,14 @@ export const metadata: Metadata = {
   description:
     "Discover Celeste Abode's philosophy: Trust, Transparency, and Transformation. Evidence-driven real estate consulting that prioritizes your goals over sales pressure. Learn about our non-negotiables and standards.",
   keywords: [
+    // Trust & Positioning Keywords (About / Philosophy Page)
+    "trusted real estate advisors NCR",
+    "independent real estate advisory India",
+    "client first real estate consulting",
+    "transparent property advisory services",
+    "research based real estate advisory",
+    
+    // Additional Philosophy Keywords
     "real estate philosophy",
     "property consulting ethics",
     "transparent real estate",

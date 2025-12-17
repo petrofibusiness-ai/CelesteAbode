@@ -24,10 +24,10 @@ export function HeroSection() {
           setShouldLoadVideo(true);
         }, { timeout: 3000 });
       } else {
-        const timer = setTimeout(() => {
-          setShouldLoadVideo(true);
+    const timer = setTimeout(() => {
+      setShouldLoadVideo(true);
         }, 3000); // Wait 3 seconds after page load to prioritize LCP
-        return () => clearTimeout(timer);
+    return () => clearTimeout(timer);
       }
     };
 
@@ -66,8 +66,8 @@ export function HeroSection() {
               loading="eager"
               decoding="async"
               className="absolute inset-0 w-full h-full object-cover object-center md:hidden"
-              sizes="100vw"
-              quality={70}
+              sizes="(max-width: 768px) 100vw, 0vw"
+              quality={75}
               fetchPriority="high"
               unoptimized={false}
             />
@@ -83,8 +83,8 @@ export function HeroSection() {
               className={`hidden md:block absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ${
                 shouldLoadVideo ? 'opacity-0' : 'opacity-100'
               }`}
-              sizes="100vw"
-              quality={70}
+              sizes="(min-width: 768px) 100vw, 0vw"
+              quality={75}
               fetchPriority="high"
               unoptimized={false}
             />
@@ -121,14 +121,7 @@ export function HeroSection() {
               <div className="absolute left-0 top-0 bottom-0 w-full md:w-2/3 lg:w-1/2 bg-gradient-to-r from-black/70 via-black/40 to-transparent pointer-events-none" />
               
               <div className="relative text-left md:text-left text-[#FAFAF8] max-w-4xl px-4 pb-6 pr-4 md:px-6 md:ml-8 md:pb-0 md:pr-0 z-10">
-                <h1
-                  className="text-2xl md:text-4xl lg:text-5xl font-medium mb-4 md:mb-5 leading-tight text-[#FAFAF8]"
-                  style={{
-                    fontFamily: '"Cormorant Garamond", serif',
-                    textShadow: "0 2px 4px rgba(0,0,0,0.5)",
-                    letterSpacing: "-0.01em",
-                  }}
-                >
+                <h1 className="text-2xl md:text-4xl lg:text-5xl font-medium mb-4 md:mb-5 leading-tight text-[#FAFAF8] hero-title-typography">
                   <div className="block text-[#FAFAF8]">
                     From Masterpieces of Time To
                   </div>
@@ -137,13 +130,7 @@ export function HeroSection() {
                   </div>
                 </h1>
 
-                <p 
-                  className="text-sm md:text-lg text-white mb-5 md:mb-7 max-w-2xl font-medium"
-                  style={{
-                    fontFamily: '"Poppins", sans-serif',
-                    textShadow: "0 1px 3px rgba(0,0,0,0.4)",
-                  }}
-                >
+                <p className="text-sm md:text-lg text-white mb-5 md:mb-7 max-w-2xl font-medium hero-subtitle-typography">
                   Redefining luxury real estate consulting in the NCR. Strategic Advisory for your next high-value investment.
                 </p>
 

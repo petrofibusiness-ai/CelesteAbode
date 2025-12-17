@@ -148,13 +148,7 @@ export function WhereWeWork() {
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0 bg-gradient-to-br from-metal/5 to-transparent" />
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(212,175,55,0.1) 1px, transparent 0)`,
-            backgroundSize: "20px 20px",
-          }}
-        />
+        <div className="absolute inset-0 where-we-work-dot-pattern" />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -237,6 +231,7 @@ export function WhereWeWork() {
                         >
                           {corridor.id === "ghaziabad" ? (
                             <iframe
+                              title="Interactive Google Map showing Ghaziabad, Uttar Pradesh - Real estate service area for Celeste Abode"
                               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d179625.26986506698!2d77.38808362351043!3d28.69528372332065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cf1bb41c50fdf%3A0xe6f06fd26a7798ba!2sGhaziabad%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1760197051602!5m2!1sen!2sin"
                               width="100%"
                               height="100%"
@@ -245,9 +240,11 @@ export function WhereWeWork() {
                               loading="lazy"
                               referrerPolicy="no-referrer-when-downgrade"
                               className="rounded-2xl"
+                              aria-label="Interactive map of Ghaziabad, Uttar Pradesh showing real estate service areas"
                             />
                           ) : corridor.id === "noida" ? (
                             <iframe
+                              title="Interactive Google Map showing Noida, Uttar Pradesh - Real estate service area for Celeste Abode"
                               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158512.35529116966!2d77.38112687190133!3d28.514976803822055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce5a43173357b%3A0x37ffce30c87cc03f!2sNoida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1760198016984!5m2!1sen!2sin"
                               width="100%"
                               height="100%"
@@ -256,9 +253,11 @@ export function WhereWeWork() {
                               loading="lazy"
                               referrerPolicy="no-referrer-when-downgrade"
                               className="rounded-2xl"
+                              aria-label="Interactive map of Noida, Uttar Pradesh showing real estate service areas"
                             />
                           ) : corridor.id === "yamuna" ? (
                           <iframe
+                            title="Interactive Google Map showing Yamuna Expressway, Uttar Pradesh - Real estate service area for Celeste Abode"
                             src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d10838.475467598384!2d77.54267151363487!3d28.316795685402074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1762181487653!5m2!1sen!2sin"
                             width="100%"
                             height="100%"
@@ -267,9 +266,11 @@ export function WhereWeWork() {
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"
                             className="rounded-2xl"
+                            aria-label="Interactive map of Yamuna Expressway, Uttar Pradesh showing real estate service areas"
                           />
                         ) : corridor.id === "greater-noida" ? (
                             <iframe
+                              title="Interactive Google Map showing Greater Noida, Uttar Pradesh - Real estate service area for Celeste Abode"
                               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224693.92988635143!2d77.41092315830856!3d28.36360629023615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cea64b8f89aef%3A0xec0ccabb5317962e!2sGreater%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1760198147624!5m2!1sen!2sin"
                               width="100%"
                               height="100%"
@@ -278,6 +279,7 @@ export function WhereWeWork() {
                               loading="lazy"
                               referrerPolicy="no-referrer-when-downgrade"
                               className="rounded-2xl"
+                              aria-label="Interactive map of Greater Noida, Uttar Pradesh showing real estate service areas"
                             />
                           ) : null}
                         </motion.div>
@@ -319,7 +321,7 @@ export function WhereWeWork() {
 
                         {/* CTA Button */}
                         <motion.button
-                          className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-black text-white md:bg-[#2b3035] rounded-full font-medium active:bg-black md:hover:bg-black transition-all duration-200 shadow-lg active:shadow-xl md:hover:shadow-xl"
+                          className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-[#000000] text-white rounded-full font-medium active:bg-[#1a1a1a] md:hover:bg-[#1a1a1a] transition-all duration-200 shadow-lg active:shadow-xl md:hover:shadow-xl"
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={
@@ -380,6 +382,7 @@ export function WhereWeWork() {
               >
                 {activeCorridor === "ghaziabad" ? (
                   <iframe
+                    title="Interactive Google Map showing Ghaziabad, Uttar Pradesh - Real estate service area for Celeste Abode"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d179625.26986506698!2d77.38808362351043!3d28.69528372332065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cf1bb41c50fdf%3A0xe6f06fd26a7798ba!2sGhaziabad%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1760197051602!5m2!1sen!2sin"
                     width="100%"
                     height="100%"
@@ -388,9 +391,11 @@ export function WhereWeWork() {
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     className="rounded-3xl"
+                    aria-label="Interactive map of Ghaziabad, Uttar Pradesh showing real estate service areas"
                   />
                 ) : activeCorridor === "noida" ? (
                   <iframe
+                    title="Interactive Google Map showing Noida, Uttar Pradesh - Real estate service area for Celeste Abode"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158512.35529116966!2d77.38112687190133!3d28.514976803822055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce5a43173357b%3A0x37ffce30c87cc03f!2sNoida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1760198016984!5m2!1sen!2sin"
                     width="100%"
                     height="100%"
@@ -399,9 +404,11 @@ export function WhereWeWork() {
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     className="rounded-3xl"
+                    aria-label="Interactive map of Noida, Uttar Pradesh showing real estate service areas"
                   />
                 ) : activeCorridor === "yamuna" ? (
                 <iframe
+                  title="Interactive Google Map showing Yamuna Expressway, Uttar Pradesh - Real estate service area for Celeste Abode"
                   src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d10838.475467598384!2d77.54267151363487!3d28.316795685402074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1762181487653!5m2!1sen!2sin"
                   width="100%"
                   height="100%"
@@ -410,9 +417,11 @@ export function WhereWeWork() {
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   className="rounded-3xl"
+                  aria-label="Interactive map of Yamuna Expressway, Uttar Pradesh showing real estate service areas"
                 />
               ) : activeCorridor === "greater-noida" ? (
                   <iframe
+                    title="Interactive Google Map showing Greater Noida, Uttar Pradesh - Real estate service area for Celeste Abode"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224693.92988635143!2d77.41092315830856!3d28.36360629023615!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cea64b8f89aef%3A0xec0ccabb5317962e!2sGreater%20Noida%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1760198147624!5m2!1sen!2sin"
                     width="100%"
                     height="100%"
@@ -421,6 +430,7 @@ export function WhereWeWork() {
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     className="rounded-3xl"
+                    aria-label="Interactive map of Greater Noida, Uttar Pradesh showing real estate service areas"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
@@ -494,7 +504,7 @@ export function WhereWeWork() {
 
                       {/* CTA */}
                       <motion.button
-                        className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white md:bg-[#2b3035] rounded-full font-medium active:bg-black md:hover:bg-black transition-all duration-200 shadow-lg active:shadow-xl md:hover:shadow-xl"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-[#000000] text-white rounded-full font-medium active:bg-[#1a1a1a] md:hover:bg-[#1a1a1a] transition-all duration-200 shadow-lg active:shadow-xl md:hover:shadow-xl"
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={

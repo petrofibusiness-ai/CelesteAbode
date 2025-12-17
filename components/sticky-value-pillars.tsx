@@ -71,15 +71,13 @@ export function StickyValuePillars() {
   }, []);
 
   return (
-    <Section className="bg-background" style={{ paddingTop: '112px', paddingBottom: '80px' }}>
+    <Section className="bg-background pt-28 pb-20">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Heading */}
         <div className="mb-16 md:mb-20 text-center">
-          <h2 
-            className="heading-bold text-3xl md:text-4xl lg:text-5xl mb-4"
-          >
-            <span style={{ color: '#0B1020' }}>Our </span>
-            <span style={{ color: '#CBB27A' }}>Signature Methodology</span>
+          <h2 className="heading-bold text-3xl md:text-4xl lg:text-5xl mb-4">
+            <span className="text-[#0B1020]">Our </span>
+            <span className="text-[#CBB27A]">Signature Methodology</span>
           </h2>
         </div>
 
@@ -98,7 +96,8 @@ export function StickyValuePillars() {
                 alt={pillars[0].imageAlt}
                 fill
                 className="object-cover"
-                sizes="100vw"
+                sizes="(max-width: 1024px) 100vw, 0vw"
+                quality={80}
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
@@ -121,18 +120,11 @@ export function StickyValuePillars() {
                   className="max-w-2xl"
                 >
                   <div className="mb-4 relative inline-block">
-                    <span 
-                      className="h3 text-6xl md:text-7xl font-bold leading-none text-white px-4 py-2 rounded-lg"
-                      style={{ 
-                        backgroundColor: '#000000',
-                        border: '2px solid #CBB27A',
-                        display: 'inline-block'
-                      }}
-                    >
+                    <span className="h3 text-6xl md:text-7xl font-bold leading-none text-white px-4 py-2 rounded-lg pillar-number-badge">
                       {pillar.number}
                     </span>
                   </div>
-                  <h3 className="heading-bold text-2xl md:text-3xl mb-6 leading-tight" style={{ color: '#0B1020', fontWeight: 600 }}>
+                  <h3 className="heading-bold text-2xl md:text-3xl mb-6 leading-tight pillar-headline">
                     {pillar.headline}
                   </h3>
                   <p className="body-text text-lg md:text-xl text-muted-foreground leading-relaxed">
@@ -163,6 +155,7 @@ export function StickyValuePillars() {
                     fill
                     className="object-cover"
                     sizes="(max-width: 1024px) 0vw, 50vw"
+                    quality={80}
                     priority={index === 0}
                   />
                   {/* Subtle overlay for better text contrast if needed */}

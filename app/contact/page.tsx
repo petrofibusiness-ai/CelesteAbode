@@ -18,6 +18,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { BreadcrumbSchema, LocalBusinessSchema } from "@/lib/structured-data";
+import { ObfuscatedEmail } from "@/components/obfuscated-email";
 
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -324,8 +325,11 @@ export default function ContactPage() {
                               Email
                             </h3>
                             <p className="text-primary font-semibold mb-1 text-sm">
-                              {process.env.NEXT_PUBLIC_APP_EMAIL ||
-                                "support@celesteabode.com"}
+                              <ObfuscatedEmail
+                                variant="text"
+                                showIcon={false}
+                                className=""
+                              />
                             </p>
                             <p className="text-xs text-muted-foreground">
                               We respond within 2 hours

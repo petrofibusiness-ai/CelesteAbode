@@ -205,6 +205,13 @@
     font-weight: 400;
     line-height: 1.6;
     font-size: 16px;
+    /* Improve text rendering on mobile */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Prevent text size adjustment on iOS */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
   
   /* Heading Typography */
@@ -534,4 +541,258 @@ body::after {
   background: #0f1112; /* Footer black */
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Mobile & Tablet Usability Improvements */
+@layer base {
+  /* Ensure minimum touch target sizes (WCAG 2.5.5 - Target Size) */
+  button,
+  a[role="button"],
+  input[type="button"],
+  input[type="submit"],
+  [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Improve touch targets on mobile */
+  @media (max-width: 768px) {
+    button,
+    a[role="button"],
+    input[type="button"],
+    input[type="submit"],
+    [role="button"] {
+      min-height: 48px;
+      min-width: 48px;
+      padding: 12px 16px;
+    }
+
+    /* Increase spacing between interactive elements */
+    button + button,
+    a + a,
+    button + a,
+    a + button {
+      margin-left: 8px;
+    }
+
+    /* Improve text readability on mobile */
+    body {
+      font-size: 16px; /* Prevent iOS zoom on input focus */
+    }
+
+    /* Better focus indicators for mobile */
+    *:focus-visible {
+      outline: 2px solid var(--sand);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    /* Improve link spacing on mobile */
+    nav a,
+    nav button {
+      padding: 12px 16px;
+      margin: 4px 0;
+    }
+  }
+
+  /* Tablet optimizations */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    button,
+    a[role="button"],
+    [role="button"] {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+
+  /* Improve tap highlight on mobile */
+  @media (hover: none) and (pointer: coarse) {
+    button,
+    a,
+    [role="button"] {
+      -webkit-tap-highlight-color: rgba(203, 178, 122, 0.2);
+      tap-highlight-color: rgba(203, 178, 122, 0.2);
+    }
+  }
+
+  /* Prevent text selection on buttons (better UX) */
+  button,
+  [role="button"] {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  /* Improve form input usability on mobile */
+  @media (max-width: 768px) {
+    input,
+    textarea,
+    select {
+      font-size: 16px; /* Prevents iOS zoom on focus */
+      padding: 12px 16px;
+      min-height: 48px;
+    }
+  }
+
+  /* Better scroll behavior on mobile */
+  @media (max-width: 768px) {
+    html {
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    body {
+      overflow-x: hidden;
+      position: relative;
+    }
+  }
+}
+
+/* Chatbot Responsive Enhancements */
+.safe-area-inset-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+/* Touch manipulation for better mobile interaction */
+.touch-manipulation {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(203, 178, 122, 0.2);
+}
+
+/* Chatbot container responsive adjustments */
+@media (max-width: 640px) {
+  /* Ensure chatbot doesn't overflow on very small screens */
+  .chatbot-container {
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100vh - 2rem);
+  }
+}
+
+/* Improve scrolling on mobile for chatbot messages */
+@media (max-width: 768px) {
+  .chatbot-messages {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+}
+
+/* Inline Style Replacements - Moved to CSS classes for better performance */
+
+/* Sticky Value Pillars - Pillar Number Badge */
+.pillar-number-badge {
+  background-color: #000000;
+  border: 2px solid #CBB27A;
+  display: inline-block;
+}
+
+/* Sticky Value Pillars - Headline */
+.pillar-headline {
+  color: #0B1020;
+  font-weight: 600;
+}
+
+/* Properties Section - Status Badge */
+.property-status-badge {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #F4E4BC;
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(244, 228, 188, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Properties Section - Text Gradient (Property Name & Builder) */
+.property-text-gradient {
+  background: linear-gradient(135deg, #FFF8E7 0%, #F4E4BC 50%, #E6D3A3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Value Propositions - Experience Number Background */
+.experience-number-bg {
+  background-image: url('/modern-luxury-apartment-building-architectural-pho.avif');
+  background-size: cover;
+  background-position: center;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Hero Section - Typography Styles */
+.hero-title-typography {
+  font-family: "Cormorant Garamond", serif;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  letter-spacing: -0.01em;
+}
+
+.hero-subtitle-typography {
+  font-family: "Poppins", sans-serif;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* Properties Section - MapPin Icon Color */
+.property-mappin-color {
+  color: #F4E4BC;
+}
+
+/* Chatbot - Typing Indicator Animation Delays */
+.chatbot-typing-dot-1 {
+  animation-delay: 0ms;
+}
+
+.chatbot-typing-dot-2 {
+  animation-delay: 150ms;
+}
+
+.chatbot-typing-dot-3 {
+  animation-delay: 300ms;
+}
+
+/* Brand Intro - Background Pattern */
+.brand-intro-bg-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h100v100H0z' fill='none'/%3E%3Cpath d='M0 50h100M50 0v100M0 0l100 100M0 100l100-100' stroke='%23000' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Brand Intro - Typography Styles */
+.brand-intro-eyebrow {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  color: #CBB27A;
+  letter-spacing: 0.15em;
+}
+
+.brand-intro-headline {
+  font-family: "Poppins", sans-serif;
+  font-weight: 900;
+  color: #0B1020;
+  font-size: clamp(1.875rem, 3.75vw, 2.75rem);
+  flex: 1 1 auto;
+  margin: 0;
+}
+
+.brand-intro-body {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  color: #0B1020;
+  max-width: 650px;
+  flex: 1 1 auto;
+}
+
+/* Where We Work - Dot Pattern Background */
+.where-we-work-dot-pattern {
+  background-image: radial-gradient(circle at 1px 1px, rgba(212, 175, 55, 0.1) 1px, transparent 0);
+  background-size: 20px 20px;
+}
+
+/* Conversion Bridge - Typography */
+.conversion-bridge-title {
+  font-family: "Cormorant Garamond", serif;
+}
+
+/* Hide scrollbar for thumbnail carousel */
+.thumbnail-scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.thumbnail-scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

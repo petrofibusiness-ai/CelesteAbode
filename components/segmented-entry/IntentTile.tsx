@@ -28,13 +28,14 @@ export function IntentTile({
   ...props
 }: IntentTileProps) {
   return (
-    <motion.button
+    <motion.div
       className={cn(
         "group relative w-full h-[320px] p-8 rounded-3xl overflow-hidden",
         "bg-white shadow-lg hover:shadow-2xl",
-        "focus:outline-none focus:ring-2 focus:ring-metal/30 focus:ring-offset-2",
+        "focus-within:outline-none focus-within:ring-2 focus-within:ring-metal/30 focus-within:ring-offset-2",
         "transition-all duration-200",
         "text-left flex flex-col",
+        "cursor-pointer",
         className
       )}
       onClick={onClick}
@@ -42,6 +43,13 @@ export function IntentTile({
       whileTap={{ scale: 0.98 }}
       transition={{ duration: 0.15, ease: [0.2, 0.8, 0.2, 1] }}
       role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick();
+        }
+      }}
       aria-describedby={ariaDescribedBy}
       {...props}
     >
@@ -70,14 +78,9 @@ export function IntentTile({
 
         {/* CTA Button - Reduced margin for tighter spacing */}
         <div className="flex justify-start mt-2">
-          <motion.button
-            className="inline-flex items-center px-4 py-2 bg-primary text-white rounded-full text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={(e) => {
-              e.stopPropagation();
-              onClick();
-            }}
+          <div
+            className="inline-flex items-center px-4 py-2 bg-[#000000] text-white rounded-full text-sm font-medium shadow-sm hover:shadow-md hover:bg-[#1a1a1a] transition-all duration-200 pointer-events-none"
+            aria-hidden="true"
           >
             {cta}
             <svg
@@ -93,7 +96,7 @@ export function IntentTile({
                 d="M9 5l7 7-7 7"
               />
             </svg>
-          </motion.button>
+          </div>
         </div>
       </div>
 
@@ -105,6 +108,6 @@ export function IntentTile({
         {title}: {subtitle}. Considerations:{" "}
         {considerationChips?.join(", ") || "N/A"}.
       </div>
-    </motion.button>
+    </motion.div>
   );
 }

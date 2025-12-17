@@ -19,10 +19,23 @@ import type { Metadata } from "next";
 import { BreadcrumbSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Real Estate Services - Luxury Property Consulting & Investment Advisory | Celeste Abode",
+  title: "Real Estate Investment Advisory Services | Property Portfolio Advisory | Celeste Abode",
   description:
-    "Comprehensive real estate services: Luxury residences, investment advisory, NRI services, end-to-end consulting, virtual tours, and location intelligence across Delhi NCR. Expert property consultation.",
+    "Celeste Abode offers comprehensive real estate investment advisory services, property portfolio advisory, real estate transaction consulting, end-to-end property advisory, and personalized real estate advisory across Delhi NCR.",
   keywords: [
+    // Service-Based Keywords (Services Page Focus)
+    "real estate investment advisory services",
+    "property portfolio advisory services",
+    "real estate transaction consulting",
+    "end to end property advisory",
+    "personalized real estate advisory",
+    "strategic property investment planning",
+    "residential real estate advisory NCR",
+    "property investment advisory services",
+    "virtual property tours NCR",
+    "personalized property strategy",
+    
+    // Additional Service Keywords
     "real estate services",
     "property consulting services",
     "luxury property advisory",
@@ -35,9 +48,9 @@ export const metadata: Metadata = {
     "property portfolio management",
   ],
   openGraph: {
-    title: "Real Estate Services - Luxury Property Consulting & Investment Advisory | Celeste Abode",
+    title: "Real Estate Investment Advisory Services | Property Portfolio Advisory | Celeste Abode",
     description:
-      "Comprehensive real estate services across Delhi NCR including luxury residences, investment advisory, and NRI services.",
+      "Celeste Abode offers comprehensive real estate investment advisory services, property portfolio advisory, real estate transaction consulting, and end-to-end property advisory across Delhi NCR.",
     url: "https://www.celesteabode.com/services",
     siteName: "Celeste Abode",
     images: [
@@ -53,9 +66,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Real Estate Services - Luxury Property Consulting & Investment Advisory",
+    title: "Real Estate Investment Advisory Services | Property Portfolio Advisory",
     description:
-      "Comprehensive real estate services across Delhi NCR including luxury residences, investment advisory, and NRI services.",
+      "Comprehensive real estate investment advisory services, property portfolio advisory, and real estate transaction consulting across Delhi NCR.",
     images: ["/premium-apartment-interior-living-room.avif"],
   },
   alternates: {

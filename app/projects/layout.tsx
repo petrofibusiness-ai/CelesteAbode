@@ -1,10 +1,19 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Luxury Projects & Properties in Noida, Greater Noida, Delhi NCR | Celeste Abode",
+  title: "Luxury Residential Projects NCR | Premium Real Estate Projects Noida | Celeste Abode",
   description:
-    "Explore 13+ premium real estate projects in Noida, Greater Noida, Yamuna Expressway, and Ghaziabad. Luxury apartments, investment properties, and ready-to-move homes. Browse by category: Buying to Live, Investment Opportunities, Luxury Residences.",
+    "Explore curated luxury residential projects in NCR, premium real estate projects in Noida, high-end residential projects in Delhi NCR, luxury apartments in Greater Noida, and premium homes near Yamuna Expressway. Celeste Abode presents handpicked luxury real estate projects.",
   keywords: [
+    // Project & Inventory Discovery Keywords (Projects Page Focus)
+    "luxury residential projects NCR",
+    "premium real estate projects Noida",
+    "high end residential projects Delhi NCR",
+    "luxury apartments Greater Noida",
+    "premium homes near Yamuna Expressway",
+    "curated luxury real estate projects NCR",
+    
+    // Additional Project Keywords
     "luxury projects Noida",
     "properties Greater Noida",
     "real estate projects Delhi NCR",
@@ -17,9 +26,9 @@ export const metadata: Metadata = {
     "premium apartments Noida",
   ],
   openGraph: {
-    title: "Luxury Projects & Properties in Noida, Greater Noida, Delhi NCR | Celeste Abode",
+    title: "Luxury Residential Projects NCR | Premium Real Estate Projects Noida | Celeste Abode",
     description:
-      "Explore 13+ premium real estate projects including luxury apartments and investment properties in Delhi NCR.",
+      "Explore curated luxury residential projects in NCR, premium real estate projects in Noida, high-end residential projects in Delhi NCR, and luxury apartments in Greater Noida.",
     url: "https://www.celesteabode.com/projects",
     siteName: "Celeste Abode",
     images: [
@@ -35,9 +44,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Luxury Projects & Properties in Noida, Greater Noida, Delhi NCR",
+    title: "Luxury Residential Projects NCR | Premium Real Estate Projects Noida",
     description:
-      "Explore 13+ premium real estate projects including luxury apartments and investment properties.",
+      "Explore curated luxury residential projects in NCR, premium real estate projects in Noida, and high-end residential projects in Delhi NCR.",
     images: ["/hero-.avif"],
   },
   alternates: {

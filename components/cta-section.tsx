@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Phone, Mail, Shield, CheckCircle, Users, CheckCircle2 } from "lucide-react";
+import { ObfuscatedEmail } from "@/components/obfuscated-email";
 
 export function CTASection() {
   const [formData, setFormData] = useState({
@@ -129,19 +130,16 @@ export function CTASection() {
                   </div>
                   <span className="font-medium">+91 9818735258</span>
             </a>
-            <a
-              href={`mailto:${
-                process.env.NEXT_PUBLIC_APP_EMAIL || "support@celesteabode.com"
-              }`}
-                  className="flex items-center gap-3 text-ink hover:text-[#CBB27A] transition-colors group"
-            >
-                  <div className="w-10 h-10 rounded-full bg-[#CBB27A]/10 flex items-center justify-center group-hover:bg-[#CBB27A]/20 transition-colors">
-                    <Mail className="w-5 h-5 text-[#CBB27A]" />
-                  </div>
-                  <span className="font-medium">
-                {process.env.NEXT_PUBLIC_APP_EMAIL || "support@celesteabode.com"}
-              </span>
-            </a>
+            <div className="flex items-center gap-3 text-ink hover:text-[#CBB27A] transition-colors group">
+              <div className="w-10 h-10 rounded-full bg-[#CBB27A]/10 flex items-center justify-center group-hover:bg-[#CBB27A]/20 transition-colors">
+                <Mail className="w-5 h-5 text-[#CBB27A]" />
+              </div>
+              <ObfuscatedEmail
+                variant="link"
+                className="font-medium"
+                showIcon={false}
+              />
+            </div>
           </div>
         </motion.div>
 

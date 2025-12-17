@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ContactPopup } from "@/components/contact-popup";
+import { ReadMore } from "@/components/read-more";
 import {
   MapPin,
   Building2,
@@ -402,17 +403,23 @@ export default function PropertyPage() {
                   <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-[#CBB27A]/3 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
                   
                   <div className="relative z-10">
-                    <p
+                    <ReadMore
+                      maxLines={4}
                       className="text-base md:text-lg leading-relaxed text-gray-800 text-center max-w-4xl mx-auto"
-                      style={{ 
-                        fontFamily: "Poppins, sans-serif",
-                        fontWeight: 400,
-                        letterSpacing: "-0.01em",
-                        lineHeight: "1.8"
-                      }}
+                      readMoreText="Read More"
+                      readLessText="Read Less"
                     >
-                      Positioned in the prestigious <span className="font-semibold text-[#CBB27A]">Sector 12, Greater Noida West</span>, Spring Elmas stands as Spring Group's flagship residential masterpiece, delivering <span className="font-semibold">luxury living with exceptional connectivity</span>—just minutes from Central Noida, Metro stations, and NH-24. Featuring <span className="font-semibold">3 BHK and 4 BHK configurations with smart-home technology</span>, each residence embraces modern design while the <span className="font-semibold">2.3-acre central green, premium clubhouse, and SBI approval</span> ensure a lifestyle that's both sophisticated and secure for discerning families.
-                    </p>
+                      <p
+                        style={{ 
+                          fontFamily: "Poppins, sans-serif",
+                          fontWeight: 400,
+                          letterSpacing: "-0.01em",
+                          lineHeight: "1.8"
+                        }}
+                      >
+                        Positioned in the prestigious <span className="font-semibold text-[#CBB27A]">Sector 12, Greater Noida West</span>, Spring Elmas stands as Spring Group's flagship residential masterpiece, delivering <span className="font-semibold">luxury living with exceptional connectivity</span>—just minutes from Central Noida, Metro stations, and NH-24. Featuring <span className="font-semibold">3 BHK and 4 BHK configurations with smart-home technology</span>, each residence embraces modern design while the <span className="font-semibold">2.3-acre central green, premium clubhouse, and SBI approval</span> ensure a lifestyle that's both sophisticated and secure for discerning families.
+                      </p>
+                    </ReadMore>
                   </div>
                 </div>
               </section>

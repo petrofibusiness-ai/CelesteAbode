@@ -154,61 +154,22 @@ export function PropertiesSection() {
 
                       {/* Status Badge */}
                       <div className="absolute top-4 left-4">
-                        <span
-                          className="px-3 py-1 rounded-full text-xs font-semibold shadow-lg backdrop-blur-sm"
-                          style={{
-                            background: "rgba(0, 0, 0, 0.4)",
-                            border: "1px solid #F4E4BC",
-                            color: "#FFFFFF",
-                            boxShadow:
-                              "0 4px 12px rgba(244, 228, 188, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
-                          }}
-                        >
+                        <span className="px-3 py-1 rounded-full text-xs font-semibold shadow-lg backdrop-blur-sm property-status-badge">
                           {property.status}
                         </span>
                       </div>
 
                       {/* Text Overlay - Bottom Left */}
                       <div className="absolute bottom-4 left-4 right-4">
-                        <h3
-                          className="text-xl md:text-2xl font-semibold mb-2 drop-shadow-lg"
-                          style={{
-                            background:
-                              "linear-gradient(135deg, #FFF8E7 0%, #F4E4BC 50%, #E6D3A3 100%)",
-                            WebkitBackgroundClip: "text",
-                            WebkitTextFillColor: "transparent",
-                            backgroundClip: "text",
-                          }}
-                        >
+                        <h3 className="text-xl md:text-2xl font-semibold mb-2 drop-shadow-lg property-text-gradient">
                           {property.name}
                         </h3>
-                        <p
-                          className="text-sm md:text-base opacity-95 mb-2 drop-shadow-lg"
-                          style={{
-                            background:
-                              "linear-gradient(135deg, #FFF8E7 0%, #F4E4BC 50%, #E6D3A3 100%)",
-                            WebkitBackgroundClip: "text",
-                            WebkitTextFillColor: "transparent",
-                            backgroundClip: "text",
-                          }}
-                        >
+                        <p className="text-sm md:text-base opacity-95 mb-2 drop-shadow-lg property-text-gradient">
                           {property.builder}
                         </p>
                         <div className="flex items-center gap-2 text-xs md:text-sm opacity-90">
-                          <MapPin
-                            className="w-4 h-4"
-                            style={{ color: "#F4E4BC" }}
-                          />
-                          <span
-                            className="drop-shadow-lg"
-                            style={{
-                              background:
-                                "linear-gradient(135deg, #FFF8E7 0%, #F4E4BC 50%, #E6D3A3 100%)",
-                              WebkitBackgroundClip: "text",
-                              WebkitTextFillColor: "transparent",
-                              backgroundClip: "text",
-                            }}
-                          >
+                          <MapPin className="w-4 h-4 property-mappin-color" />
+                          <span className="drop-shadow-lg property-text-gradient">
                             {property.address}
                           </span>
                         </div>

@@ -5,7 +5,7 @@ import { PillButton } from "@/components/ui/pill-button";
 
 export function ConversionBridge() {
   return (
-    <section className="w-full py-16 md:py-20" style={{ backgroundColor: '#0B1020' }}>
+    <section className="w-full py-16 md:py-20 bg-[#0B1020]">
       <div className="max-w-5xl mx-auto px-6 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -14,7 +14,7 @@ export function ConversionBridge() {
           transition={{ duration: 0.6 }}
           className="space-y-8"
         >
-          <h2 className="heading-bold text-3xl md:text-4xl lg:text-5xl text-white" style={{ fontFamily: '"Cormorant Garamond", serif' }}>
+          <h2 className="heading-bold text-3xl md:text-4xl lg:text-5xl text-white conversion-bridge-title">
             Stop Searching. Start Strategizing.
           </h2>
 

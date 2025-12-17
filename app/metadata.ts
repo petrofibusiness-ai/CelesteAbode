@@ -1,15 +1,42 @@
 import type { Metadata } from "next";
 
 export const homepageMetadata: Metadata = {
-  title: "Luxury Real Estate Consulting NCR | Strategic Property Investment Advisory | Celeste Abode",
-  description: "Premium real estate consulting in Noida, Gurugram & Delhi NCR. Data-driven property investment advisory with RERA compliance. Expert guidance for luxury apartments.",
+  title: "Luxury Real Estate Advisory NCR | Premium Real Estate Consultants | Celeste Abode",
+  description: "Celeste Abode - Premium real estate consultants in NCR. Luxury real estate advisory, investment advisory services, and high-value property investment advisory. Expert real estate consulting in Noida, Greater Noida, and Delhi NCR.",
   keywords: [
+    // Primary Brand & Core Keywords (Homepage Focus)
+    "luxury real estate advisory NCR",
+    "premium real estate consultants NCR",
+    "real estate investment advisory India",
+    "luxury property consultants Noida",
+    "high value property investment advisory",
+    "bespoke real estate advisory services",
+    "data driven real estate consulting",
+    "luxury real estate NCR",
+    "real estate consulting Noida",
+    "investment advisory real estate",
+    "premium property advisory NCR",
+    "high-value property investments",
+    
     // Primary Keywords
     "luxury real estate consulting NCR",
     "strategic property investment advisory",
     "data-driven real estate consulting",
     "RERA compliant property advisory",
     "property investment consultant NCR",
+    
+    // Location-Based Keywords (Local SEO Focus)
+    "real estate consultants in Noida",
+    "luxury property consultants Delhi NCR",
+    "property investment advisory NCR",
+    "premium real estate advisory Greater Noida",
+    "Yamuna Expressway property consultants",
+    "NCR luxury real estate experts",
+    "Delhi NCR property investment advisors",
+    "property investment Delhi NCR",
+    "luxury homes in Greater Noida",
+    "properties on Yamuna Expressway",
+    "NCR real estate experts",
     
     // Location-based Keywords
     "real estate consultant Noida",
@@ -22,6 +49,18 @@ export const homepageMetadata: Metadata = {
     "Delhi NCR real estate consulting",
     "Ghaziabad property advisor",
     
+    // Service-Based Keywords (Services Page Focus)
+    "real estate investment advisory services",
+    "property portfolio advisory services",
+    "real estate transaction consulting",
+    "end to end property advisory",
+    "personalized real estate advisory",
+    "strategic property investment planning",
+    "residential real estate advisory NCR",
+    "property investment advisory services",
+    "virtual property tours NCR",
+    "personalized property strategy",
+    
     // Service-based Keywords
     "bespoke lifestyle curation",
     "investment security NCR",
@@ -33,6 +72,15 @@ export const homepageMetadata: Metadata = {
     "villa investment advisory",
     "ready to move property NCR",
     "pre-launch property investment",
+    
+    // NRI & Investor-Focused Keywords (High-Intent)
+    "NRI real estate advisory India",
+    "property investment for NRIs in NCR",
+    "NRI property consultants Noida",
+    "luxury property investment India for NRIs",
+    "trusted real estate advisor for NRIs",
+    "India real estate investment advisory for overseas buyers",
+    "NRI real estate services India",
     
     // NRI & Specialized Services
     "NRI property services NCR",
@@ -104,7 +152,12 @@ export const homepageMetadata: Metadata = {
     "flats near Metro Greater Noida",
     "villas for sale for families in Greater Noida",
     
-    // Trust & Brand Reliability / Professionalism
+    // Trust & Positioning Keywords (About / Philosophy Page)
+    "trusted real estate advisors NCR",
+    "independent real estate advisory India",
+    "client first real estate consulting",
+    "transparent property advisory services",
+    "research based real estate advisory",
     "trusted real estate consultant",
     "transparent property advisory",
     "reliable real estate advisory",
@@ -124,6 +177,17 @@ export const homepageMetadata: Metadata = {
     "licensed real estate experts",
     "certified real estate experts",
     "verified builder associates",
+    
+    // Long-Tail Conversion Keywords (Low Volume, High Quality)
+    "best luxury property consultant in Noida",
+    "premium real estate advisory for investors",
+    "personalized property investment advisory NCR",
+    "luxury home buying advisory Delhi NCR",
+    "how to invest in luxury real estate NCR",
+    "best real estate consultant Noida",
+    "top property advisory firms in NCR",
+    "luxury property portfolio management",
+    "data-driven real estate advice",
     
     // Brand Visibility & Market Positioning
     "premium real estate advisor NCR",
@@ -187,8 +251,8 @@ export const homepageMetadata: Metadata = {
     "NRI real estate solutions",
   ],
   openGraph: {
-    title: "Luxury Real Estate Consulting NCR | Strategic Property Investment Advisory | Celeste Abode",
-    description: "Premium real estate consulting in Noida, Gurugram, and Delhi NCR. Data-driven property investment advisory with RERA compliance and strategic intelligence.",
+    title: "Luxury Real Estate Advisory NCR | Premium Real Estate Consultants | Celeste Abode",
+    description: "Celeste Abode - Premium real estate consultants in NCR. Luxury real estate advisory, investment advisory services, and high-value property investment advisory. Expert real estate consulting in Noida, Greater Noida, and Delhi NCR.",
     url: "https://www.celesteabode.com",
     siteName: "Celeste Abode",
     locale: "en_IN",
@@ -204,8 +268,8 @@ export const homepageMetadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Luxury Real Estate Consulting NCR | Celeste Abode",
-    description: "Premium real estate consulting in Noida, Gurugram, and Delhi NCR. Strategic property investment advisory with data-driven intelligence.",
+    title: "Luxury Real Estate Advisory NCR | Premium Real Estate Consultants | Celeste Abode",
+    description: "Celeste Abode - Premium real estate consultants in NCR. Luxury real estate advisory, investment advisory services, and high-value property investment advisory.",
     images: ["https://www.celesteabode.com/propertyhero.avif"],
     creator: "@celesteabode",
   },

@@ -81,10 +81,7 @@ export function BrandEssay() {
 
         {/* Right Column - Media (Sticky on Desktop) */}
         <div className="hidden lg:block lg:col-span-5">
-          <div
-            className="lg:sticky lg:top-32 flex justify-center"
-            style={{ height: "fit-content" }}
-          >
+          <div className="lg:sticky lg:top-32 flex justify-center h-fit">
             <motion.div
               className="relative overflow-hidden rounded-xl md:rounded-2xl shadow-xl md:shadow-2xl"
               initial={{ opacity: 0, scale: 0.9 }}

@@ -53,7 +53,7 @@ const services: ServiceCard[] = [
 
 export function CelesteConsultingFramework() {
   return (
-    <Section className="bg-background" style={{ paddingTop: '96px', paddingBottom: '80px' }}>
+    <Section className="bg-background pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Heading */}
         <motion.div
@@ -64,8 +64,8 @@ export function CelesteConsultingFramework() {
           className="text-center mb-16 md:mb-20"
         >
           <h2 className="heading-bold text-3xl md:text-4xl lg:text-5xl mb-4">
-            <div style={{ color: '#0B1020' }}>The Celeste Consulting Framework:</div>
-            <div style={{ color: '#CBB27A' }}>Your Six Pillars of Value</div>
+            <div className="text-[#0B1020]">The Celeste Consulting Framework:</div>
+            <div className="text-[#CBB27A]">Your Six Pillars of Value</div>
           </h2>
         </motion.div>
 

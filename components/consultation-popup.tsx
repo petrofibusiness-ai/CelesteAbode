@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ObfuscatedEmail } from "@/components/obfuscated-email";
 
 interface ConsultationPopupProps {
   isOpen: boolean;
@@ -126,8 +127,11 @@ export function ConsultationPopup({ isOpen, onClose }: ConsultationPopupProps) {
                     <div className="hidden sm:block w-px h-4 bg-gray-300"></div>
                     <div className="flex items-center gap-2">
                       <Mail className="w-3 h-3 sm:w-4 sm:h-4" />
-                      <span className="hidden sm:inline">support@celesteabode.com</span>
-                      <span className="sm:hidden">support@celesteabode.com</span>
+                      <ObfuscatedEmail
+                        variant="text"
+                        showIcon={false}
+                        className="text-xs sm:text-sm"
+                      />
                     </div>
                   </div>
                 </motion.div>

@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Production: Enable strict checks (disable only if absolutely necessary)
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: process.env.NODE_ENV !== 'production',
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: process.env.NODE_ENV !== 'production',
   },
   compress: true,
   poweredByHeader: false,
@@ -31,6 +32,8 @@ const nextConfig = {
       exclude: ['error', 'warn'],
     } : false,
   },
+  // Modern JavaScript target to reduce polyfills
+  swcMinify: true,
   // Optimize bundle size
   experimental: {
     optimizePackageImports: [
@@ -42,6 +45,27 @@ const nextConfig = {
       '@radix-ui/react-popover',
       '@radix-ui/react-select',
     ],
+  },
+  // Production optimizations
+  productionBrowserSourceMaps: false, // Disable source maps in production for security
+  reactStrictMode: true, // Enable React strict mode
+  // Headers configuration (additional to middleware)
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on'
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block'
+          },
+        ],
+      },
+    ];
   },
   // Experimental features for better performance
   // Note: optimizeCss requires 'critters' package - disabled to avoid build errors

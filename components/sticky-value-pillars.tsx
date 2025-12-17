@@ -96,8 +96,8 @@ export function StickyValuePillars() {
                 alt={pillars[0].imageAlt}
                 fill
                 className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 0vw"
-                quality={80}
+                sizes="(max-width: 1024px) 324px, 0vw"
+                quality={75}
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
@@ -154,8 +154,8 @@ export function StickyValuePillars() {
                     alt={pillar.imageAlt}
                     fill
                     className="object-cover"
-                    sizes="(max-width: 1024px) 0vw, 50vw"
-                    quality={80}
+                    sizes="(max-width: 1024px) 0vw, 324px"
+                    quality={75}
                     priority={index === 0}
                   />
                   {/* Subtle overlay for better text contrast if needed */}

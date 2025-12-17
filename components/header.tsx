@@ -61,7 +61,7 @@ export function Header() {
                 width={95}
                 height={95}
                 sizes="95px"
-                quality={85}
+                quality={70}
                 priority
                 fetchPriority="high"
                 loading="eager"
@@ -107,7 +107,7 @@ export function Header() {
                 width={95}
                 height={95}
                 sizes="95px"
-                quality={85}
+                quality={70}
                 priority
                 fetchPriority="high"
                 loading="eager"
@@ -165,6 +165,8 @@ export function Header() {
                   alt="Celeste Abode Logo"
                   width={40}
                   height={40}
+                  sizes="40px"
+                  quality={70}
                   className="rounded-lg"
                 />
                 <h2 className="text-lg font-semibold text-white" style={{ fontFamily: "Poppins, sans-serif" }}>

@@ -20,8 +20,9 @@ export function Footer() {
                 src="/logoceleste.avif"
                 alt="Celeste Abode Logo"
                 width={210}
-                height={160}
-                sizes="210px"
+                height={193}
+                sizes="(max-width: 640px) 150px, 210px"
+                quality={70}
                 quality={85}
                 className=""
                 priority

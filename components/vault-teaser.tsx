@@ -24,8 +24,8 @@ export function VaultTeaser() {
               fill
               className="object-cover"
               priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-              quality={80}
+              sizes="(max-width: 768px) 376px, (max-width: 1200px) 400px, 500px"
+              quality={75}
             />
             {/* Subtle overlay for depth */}
             <div className="absolute inset-0 bg-gradient-to-br from-[#0B1020]/20 via-transparent to-transparent"></div>

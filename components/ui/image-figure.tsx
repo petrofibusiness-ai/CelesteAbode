@@ -50,6 +50,7 @@ export function ImageFigure({
           alt={alt}
           width={width}
           height={height}
+          quality={75}
           className={cn(
             "w-full h-auto object-cover transition-all duration-500 group-hover:scale-105",
             isLoading ? "opacity-0" : "opacity-100",

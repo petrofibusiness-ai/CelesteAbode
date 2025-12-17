@@ -67,7 +67,7 @@ export function HeroSection() {
               decoding="sync"
               className="absolute inset-0 w-full h-full object-cover object-center md:hidden"
               sizes="(max-width: 768px) 100vw, 0vw"
-              quality={85}
+              quality={75}
               fetchPriority="high"
               unoptimized={false}
             />

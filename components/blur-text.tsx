@@ -48,7 +48,7 @@ const BlurText = ({
 }: BlurTextProps) => {
   const elements = animateBy === 'words' ? text.split(' ') : text.split('');
   const [inView, setInView] = useState(false);
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLParagraphElement | HTMLHeadingElement | HTMLDivElement>(null);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -94,7 +94,7 @@ const BlurText = ({
 
   const Component = as;
   return (
-    <Component ref={ref} className={`blur-text ${className} flex flex-wrap`} style={style}>
+    <Component ref={ref as any} className={`blur-text ${className} flex flex-wrap`} style={style}>
       {elements.map((segment, index) => {
         const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
 

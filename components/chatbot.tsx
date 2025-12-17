@@ -46,13 +46,61 @@
    const messagesEndRef = useRef<HTMLDivElement>(null);
    const inputRef = useRef<HTMLInputElement>(null);
 
-   const scrollToBottom = () => {
-     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-   };
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
-   useEffect(() => {
-     scrollToBottom();
-   }, [messages]);
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // Handle input focus to scroll into view when keyboard opens
+  useEffect(() => {
+    if (!inputRef.current || typeof window === 'undefined') return;
+    if (currentStep !== 8 && currentStep !== 9 && currentStep !== 11) return;
+
+    const input = inputRef.current;
+    const chatbotContainer = input.closest('.chatbot-container') as HTMLElement;
+
+    const scrollInputIntoView = () => {
+      // Multiple attempts to ensure it works across different devices
+      setTimeout(() => {
+        input.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      }, 100);
+      
+      setTimeout(() => {
+        if (chatbotContainer) {
+          chatbotContainer.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+        }
+      }, 300);
+      
+      setTimeout(() => {
+        input.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+      }, 500);
+    };
+
+    // Use visual viewport API if available
+    if (window.visualViewport) {
+      const handleResize = () => {
+        scrollInputIntoView();
+      };
+      
+      window.visualViewport.addEventListener('resize', handleResize);
+      input.addEventListener('focus', scrollInputIntoView);
+      
+      return () => {
+        window.visualViewport?.removeEventListener('resize', handleResize);
+        input.removeEventListener('focus', scrollInputIntoView);
+      };
+    } else {
+      // Fallback for browsers without visual viewport API
+      input.addEventListener('focus', scrollInputIntoView);
+      
+      return () => {
+        input.removeEventListener('focus', scrollInputIntoView);
+      };
+    }
+  }, [currentStep]);
 
    // Entry triggers: click (handled in UI), scroll, idle on projects pages
    useEffect(() => {
@@ -577,7 +625,7 @@
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-4 right-3 left-3 sm:inset-auto sm:bottom-6 sm:right-6 z-[9999] w-auto sm:w-[90vw] md:w-96 max-w-full sm:max-w-[calc(100vw-3rem)] md:max-w-[28rem] h-[70vh] sm:h-[600px] max-h-[600px] sm:max-h-[600px] bg-white rounded-xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200"
+            className="chatbot-container fixed bottom-4 right-3 left-3 sm:inset-auto sm:bottom-6 sm:right-6 z-[9999] w-auto sm:w-[90vw] md:w-96 max-w-full sm:max-w-[calc(100vw-3rem)] md:max-w-[28rem] h-[70vh] sm:h-[600px] max-h-[calc(100vh-2rem)] sm:max-h-[600px] bg-white rounded-xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-[#000000]"
           >
             <div className="bg-[#0f1112] text-white p-3 sm:p-4 flex items-center justify-between border-b border-[#CBB27A]/20 flex-shrink-0">
               <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
@@ -679,9 +727,10 @@
              {(currentStep === 8 || currentStep === 9 || currentStep === 11) && (
                <form
                  onSubmit={handleInputSubmit}
-                 className="p-3 sm:p-4 border-t border-gray-200 bg-white flex-shrink-0 safe-area-inset-bottom"
+                 className="px-3 pt-3 pb-4 sm:px-4 sm:pt-4 sm:pb-4 border-t border-gray-200 bg-white flex-shrink-0"
+                 style={{ paddingBottom: 'max(16px, calc(12px + env(safe-area-inset-bottom)))' }}
                >
-                 <div className="flex gap-2 sm:gap-2">
+                 <div className="flex gap-2 sm:gap-2 items-center">
                    <Input
                      ref={inputRef}
                      value={inputValue}
@@ -693,7 +742,8 @@
                          ? "Enter your phone number"
                          : "Enter your email address"
                      }
-                     className="flex-1 text-sm sm:text-base min-h-[44px] sm:min-h-[40px]"
+                     className="flex-1 text-sm sm:text-base h-[44px] sm:h-[40px] leading-[1.5] py-0"
+                     style={{ lineHeight: '1.5', paddingTop: '0.625rem', paddingBottom: '0.625rem' }}
                      disabled={isSubmitting}
                      autoComplete={
                        currentStep === 8
@@ -713,7 +763,7 @@
                    <Button
                      type="submit"
                      disabled={!inputValue.trim() || isSubmitting}
-                     className="bg-[#0f1112] hover:bg-[#1a1c1e] active:bg-[#1a1c1e] text-[#CBB27A] border border-[#CBB27A]/30 flex-shrink-0 min-w-[44px] sm:min-w-[48px] min-h-[44px] sm:min-h-[40px] touch-manipulation"
+                     className="bg-[#0f1112] hover:bg-[#1a1c1e] active:bg-[#1a1c1e] text-[#CBB27A] border border-[#CBB27A]/30 flex-shrink-0 min-w-[44px] sm:min-w-[48px] h-[44px] sm:h-[40px] touch-manipulation"
                    >
                      <Send className="w-4 h-4 sm:w-4 sm:h-4" />
                    </Button>

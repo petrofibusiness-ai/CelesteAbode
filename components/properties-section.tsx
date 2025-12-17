@@ -207,7 +207,7 @@ export function PropertiesSection() {
         <div className="text-center">
           <div className="flex flex-wrap justify-center gap-4 px-8 md:px-0">
             <Button
-              size="md"
+              size="default"
               className="bg-primary hover:bg-primary/90 text-white px-6 py-3 text-base rounded-full w-full sm:w-auto"
               onClick={() => handleNavigation("/projects")}
             >
@@ -215,7 +215,7 @@ export function PropertiesSection() {
             </Button>
             <Button
               variant="outline"
-              size="md"
+              size="default"
               className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-3 text-base rounded-full w-full sm:w-auto"
               onClick={() => handleContact(properties[0])}
             >

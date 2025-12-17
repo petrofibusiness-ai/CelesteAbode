@@ -22,6 +22,7 @@ const tileData = {
     description:
       "Properties aligned with your lifestyle, commute, and community needs. Curated options that match your aspirations.",
     cta: "Discover Your Dream Home",
+    considerationChips: [],
     icon: <Home className="w-8 h-8" />,
   },
   invest: {
@@ -30,6 +31,7 @@ const tileData = {
     description:
       "Exclusive pre-launch opportunities and vetted under-construction projects with expert insights for maximized returns and liquidity.",
     cta: "Explore Investment Opportunities",
+    considerationChips: [],
     icon: <TrendingUp className="w-8 h-8" />,
   },
   signature: {
@@ -38,6 +40,7 @@ const tileData = {
     description:
       "Exclusive listings with unparalleled brand equity and guaranteed possession timelines. Residences that define prestige.",
     cta: "Unlock Elite Residences",
+    considerationChips: [],
     icon: <Crown className="w-8 h-8" />,
   },
 };

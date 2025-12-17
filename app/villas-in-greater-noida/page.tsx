@@ -166,7 +166,7 @@ export default function VillasInGreaterNoidaPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
                 The Charm of Living in Greater Noida
               </h2>
-              <div className="max-w-3xl mx-auto space-y-4 text-lg text-muted-foreground leading-relaxed">
+              <div className="max-w-3xl mx-auto space-y-4 text-lg text-muted-foreground leading-relaxed text-center">
                 <p>
                   Greater Noida has evolved from a promising extension of NCR to a modern city in its own right. With green boulevards, wide roads, and premium gated communities, it's one of India's most thoughtfully planned urban destinations.
                 </p>

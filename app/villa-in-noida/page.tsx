@@ -164,7 +164,7 @@ export default function VillaInNoidaPage() {
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
                 The Essence of a Noida Villa
               </h2>
-              <div className="max-w-3xl mx-auto space-y-4 text-lg text-muted-foreground leading-relaxed">
+              <div className="max-w-3xl mx-auto space-y-4 text-lg text-muted-foreground leading-relaxed text-center">
                 <p>
                   Every villa in Noida we curate tells a story — of space, sunlight, and subtle grandeur. Whether you're drawn to the lush green avenues of Sector 150, the tranquil neighbourhoods of Noida Extension, or the premium elegance near the Noida Expressway, each location offers a unique blend of comfort and connectivity.
                 </p>

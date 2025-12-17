@@ -505,7 +505,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Preconnect to external domains */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -579,7 +579,7 @@ export default function RootLayout({
         <meta name="msapplication-TileImage" content="/logoceleste.ico" />
         <meta name="msapplication-TileColor" content="#000000" />
       </head>
-      <body className={`${inter.variable} ${poppins.variable} antialiased`}>
+      <body className={`${inter.variable} ${poppins.variable} antialiased`} suppressHydrationWarning>
         {children}
         <Chatbot />
         {/* Defer analytics to improve initial load performance - load after page is interactive */}

@@ -651,7 +651,8 @@
                          transition={{ delay: 0.3 + index * 0.05 }}
                          onClick={() => handleOptionClick(option)}
                          disabled={isSubmitting}
-                         className="w-full text-left bg-[#0f1112] hover:bg-[#1a1c1e] active:bg-[#1a1c1e] text-white hover:text-[#CBB27A] active:text-[#CBB27A] rounded-lg px-3 py-2.5 sm:py-2 text-xs sm:text-xs transition-all duration-200 shadow-sm border border-[#CBB27A]/20 hover:border-[#CBB27A]/50 active:border-[#CBB27A]/50 flex items-center justify-between group touch-manipulation min-h-[44px] sm:min-h-[40px]"
+                         className="w-full text-left bg-[#0f1112] hover:bg-[#1a1c1e] active:bg-[#1a1c1e] text-white hover:text-[#CBB27A] active:text-[#CBB27A] rounded-lg px-3 py-2.5 sm:py-2 text-xs sm:text-xs transition-all duration-200 shadow-sm border border-[#CBB27A]/20 hover:border-[#CBB27A]/50 active:border-[#CBB27A]/50 flex items-center justify-between group touch-manipulation min-h-[44px] sm:min-h-[40px] ml-0"
+                         style={{ marginLeft: 0 }}
                        >
                          <span className="text-xs sm:text-xs break-words flex-1 pr-2">{option}</span>
                          <ChevronRight className="w-3.5 h-3.5 sm:w-3 sm:h-3 opacity-0 sm:group-hover:opacity-100 transition-opacity text-[#CBB27A] flex-shrink-0" />

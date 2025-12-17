@@ -239,11 +239,11 @@ export function Header() {
             </nav>
 
             {/* Menu Footer */}
-            <div className="px-6 py-4 border-t border-white/10 space-y-3">
+            <div className="px-6 py-4 border-t border-white/10 space-y-4">
               <a
                 href="tel:+919818735258"
-                className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group"
-                style={{ fontFamily: "Poppins, sans-serif" }}
+                className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group m-0"
+                style={{ fontFamily: "Poppins, sans-serif", marginLeft: 0, marginRight: 0 }}
               >
                 <div className="w-10 h-10 bg-[#CBB27A]/20 rounded-full flex items-center justify-center border border-[#CBB27A]/30 group-hover:bg-[#CBB27A]/30 transition-colors flex-shrink-0">
                   <Phone className="w-5 h-5 text-[#CBB27A]" />
@@ -252,8 +252,8 @@ export function Header() {
               </a>
               <a
                 href="mailto:support@celesteabode.com"
-                className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group"
-                style={{ fontFamily: "Poppins, sans-serif" }}
+                className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group m-0"
+                style={{ fontFamily: "Poppins, sans-serif", marginLeft: 0, marginRight: 0 }}
               >
                 <div className="w-10 h-10 bg-[#CBB27A]/20 rounded-full flex items-center justify-center border border-[#CBB27A]/30 group-hover:bg-[#CBB27A]/30 transition-colors flex-shrink-0">
                   <Mail className="w-5 h-5 text-[#CBB27A]" />

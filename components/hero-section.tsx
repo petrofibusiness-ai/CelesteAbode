@@ -138,18 +138,18 @@ export function HeroSection() {
                   <PillButton
                     variant="primary"
                     size="sm"
-                    className="text-xs px-4 py-2 md:text-sm md:px-6 md:py-3 bg-white text-[#2B3035] hover:bg-white/90 rounded-full w-[160px] sm:w-[180px] md:w-[200px] text-center"
+                    className="text-xs px-4 py-2 md:text-sm md:px-6 md:py-3 bg-white text-[#2B3035] hover:bg-white/90 rounded-full w-[160px] sm:w-[180px] md:w-[200px] text-center m-0"
                     asChild
                   >
-                    <a href="/projects">Explore Projects</a>
+                    <a href="/projects" className="m-0">Explore Projects</a>
                   </PillButton>
                   <PillButton
                     variant="outline"
                     size="sm"
-                    className="text-xs px-4 py-2 md:text-sm md:px-6 md:py-3 border border-white text-white hover:bg-white/20 rounded-full w-[160px] sm:w-[180px] md:w-[200px] text-center"
+                    className="text-xs px-4 py-2 md:text-sm md:px-6 md:py-3 border border-white text-white hover:bg-white/20 rounded-full w-[160px] sm:w-[180px] md:w-[200px] text-center m-0"
                     asChild
                   >
-                    <a href="/contact">Book Consultation</a>
+                    <a href="/contact" className="m-0">Book Consultation</a>
                   </PillButton>
                 </div>
               </div>

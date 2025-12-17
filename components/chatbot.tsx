@@ -111,19 +111,26 @@
        return;
      }
 
-     // Scroll trigger (~45% scroll depth)
-     const handleScroll = () => {
-       const scrollTop = window.scrollY || document.documentElement.scrollTop;
-       const docHeight =
-         document.documentElement.scrollHeight - document.documentElement.clientHeight;
-       const ratio = docHeight > 0 ? scrollTop / docHeight : 0;
+      // Scroll trigger (~45% scroll depth) - Batched to avoid forced reflows
+      let ticking = false;
+      const handleScroll = () => {
+        if (!ticking) {
+          requestAnimationFrame(() => {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const docHeight =
+              document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const ratio = docHeight > 0 ? scrollTop / docHeight : 0;
 
-       if (ratio >= 0.45 && !isOpen) {
-         setIsOpen(true);
-         sessionStorage.setItem(sessionKey, "1");
-         window.removeEventListener("scroll", handleScroll);
-       }
-     };
+            if (ratio >= 0.45 && !isOpen) {
+              setIsOpen(true);
+              sessionStorage.setItem(sessionKey, "1");
+              window.removeEventListener("scroll", handleScroll);
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      };
 
      window.addEventListener("scroll", handleScroll, { passive: true });
 

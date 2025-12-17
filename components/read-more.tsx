@@ -37,24 +37,33 @@ export function ReadMore({
         };
 
         // Temporarily remove line clamp to measure full height
-        contentRef.current.style.display = "block";
-        contentRef.current.style.webkitLineClamp = "none";
-        contentRef.current.style.webkitBoxOrient = "unset";
-        contentRef.current.style.maxHeight = "none";
-        
-        const fullHeight = contentRef.current.scrollHeight;
-        const lineHeight = parseFloat(
-          window.getComputedStyle(contentRef.current).lineHeight
-        ) || 24;
-        const maxHeight = lineHeight * maxLines;
-        
-        // Restore original styles
-        contentRef.current.style.display = originalStyle.display;
-        contentRef.current.style.webkitLineClamp = originalStyle.webkitLineClamp;
-        contentRef.current.style.webkitBoxOrient = originalStyle.webkitBoxOrient;
-        contentRef.current.style.maxHeight = originalStyle.maxHeight;
-        
-        setNeedsTruncation(fullHeight > maxHeight);
+        // Batch DOM reads/writes to avoid forced reflows
+        requestAnimationFrame(() => {
+          if (!contentRef.current) return;
+          
+          contentRef.current.style.display = "block";
+          contentRef.current.style.webkitLineClamp = "none";
+          contentRef.current.style.webkitBoxOrient = "unset";
+          contentRef.current.style.maxHeight = "none";
+          
+          requestAnimationFrame(() => {
+            if (!contentRef.current) return;
+            
+            const fullHeight = contentRef.current.scrollHeight;
+            const lineHeight = parseFloat(
+              window.getComputedStyle(contentRef.current).lineHeight
+            ) || 24;
+            const maxHeight = lineHeight * maxLines;
+            
+            // Restore original styles
+            contentRef.current.style.display = originalStyle.display;
+            contentRef.current.style.webkitLineClamp = originalStyle.webkitLineClamp;
+            contentRef.current.style.webkitBoxOrient = originalStyle.webkitBoxOrient;
+            contentRef.current.style.maxHeight = originalStyle.maxHeight;
+            
+            setNeedsTruncation(fullHeight > maxHeight);
+          });
+        });
       }
     };
 

@@ -65,9 +65,12 @@ export function MultiStepForm({ isOpen, onClose, intent }: MultiStepFormProps) {
   // Handle mobile keyboard scrolling
   const handleInputFocus = () => {
     if (activeInputRef.current) {
-      activeInputRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
+      // Use requestAnimationFrame to avoid forced reflows
+      requestAnimationFrame(() => {
+        activeInputRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
       });
     }
   };

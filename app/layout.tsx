@@ -507,7 +507,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Preconnect to external domains */}
+        {/* Preconnect to external domains - Critical for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
@@ -515,6 +515,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://elfsightcdn.com" />
         <link rel="preconnect" href="https://elfsightcdn.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://api.fontshare.com" />
+        {/* Preconnect to Next.js image optimization for faster LCP */}
+        <link rel="preconnect" href="https://www.celesteabode.com" />
         
         {/* Preload critical LCP image - highest priority - earliest possible */}
         <link rel="preload" href="/propertyhero.avif" as="image" type="image/avif" fetchPriority="high" />

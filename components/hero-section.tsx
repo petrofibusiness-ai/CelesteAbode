@@ -64,10 +64,10 @@ export function HeroSection() {
               fill
               priority
               loading="eager"
-              decoding="async"
+              decoding="sync"
               className="absolute inset-0 w-full h-full object-cover object-center md:hidden"
               sizes="(max-width: 768px) 100vw, 0vw"
-              quality={75}
+              quality={85}
               fetchPriority="high"
               unoptimized={false}
             />

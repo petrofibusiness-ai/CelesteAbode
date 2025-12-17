@@ -5,7 +5,7 @@ import { supabaseAdmin } from "@/lib/supabase";
 // GET - Get single property
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     if (!(await isAuthenticated())) {
@@ -19,10 +19,11 @@ export async function GET(
       );
     }
 
+    const { id } = await params;
     const { data, error } = await supabaseAdmin
       .from("properties")
       .select("*")
-      .eq("id", params.id)
+      .eq("id", id)
       .single();
 
     if (error) {
@@ -45,7 +46,7 @@ export async function GET(
 // PATCH - Update property
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     if (!(await isAuthenticated())) {
@@ -59,6 +60,7 @@ export async function PATCH(
       );
     }
 
+    const { id } = await params;
     const body = await request.json();
 
     const { data, error } = await supabaseAdmin
@@ -67,7 +69,7 @@ export async function PATCH(
         ...body,
         updated_at: new Date().toISOString(),
       })
-      .eq("id", params.id)
+      .eq("id", id)
       .select()
       .single();
 
@@ -92,7 +94,7 @@ export async function PATCH(
 // DELETE - Delete property
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     if (!(await isAuthenticated())) {
@@ -106,10 +108,11 @@ export async function DELETE(
       );
     }
 
+    const { id } = await params;
     const { error } = await supabaseAdmin
       .from("properties")
       .delete()
-      .eq("id", params.id);
+      .eq("id", id);
 
     if (error) {
       console.error("Supabase error:", error);

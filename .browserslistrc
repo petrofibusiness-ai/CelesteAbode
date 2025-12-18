@@ -6,13 +6,20 @@
 # - Object.hasOwn (Chrome 93+, Firefox 92+, Safari 15.4+)
 # - String.prototype.trimStart/trimEnd (Chrome 66+, Firefox 61+, Safari 12+)
 
-# Target last 2 versions of major browsers
+# Target modern browsers with specific version requirements
+Chrome >= 92
+Firefox >= 90
+Safari >= 15.4
+Edge >= 92
+
+# Also include last 2 versions as fallback
 last 2 Chrome versions
 last 2 Firefox versions
 last 2 Safari versions
 last 2 Edge versions
 
-# Don't include dead browsers
+# Don't include dead browsers or old versions
 not dead
 not IE 11
+not op_mini all
 

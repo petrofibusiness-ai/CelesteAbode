@@ -34,6 +34,8 @@ const nextConfig = {
   },
   // Modern JavaScript target - configured via .browserslistrc
   // SWC minification is enabled by default in Next.js 15
+  // Target modern browsers to avoid unnecessary polyfills
+  // Next.js respects browserslist configuration automatically
   // Optimize bundle size
   experimental: {
     optimizePackageImports: [

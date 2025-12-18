@@ -74,7 +74,7 @@ export function TestimonialsSection() {
 
       // Function to check if widget content is loaded
       const checkWidgetLoaded = () => {
-        const widgetElement = document.querySelector('.elfsight-app-4185bb5e-82e5-45bf-92fc-b41420393094');
+        const widgetElement = document.querySelector('.elfsight-app-4185bb5e-82e5-45bf-92fc-b41420393094') as HTMLElement | null;
         if (widgetElement) {
           // Check if widget has actual content (not just empty container)
           const hasContent = widgetElement.children.length > 0 || 

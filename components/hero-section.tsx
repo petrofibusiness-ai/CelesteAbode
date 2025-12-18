@@ -55,39 +55,46 @@ export function HeroSection() {
         <div
           className="bg-white rounded-3xl shadow-2xl overflow-hidden relative"
         >
-          {/* Full Container Video/Image */}
-          <div className="relative h-[580px] lg:h-[620px]">
+          {/* Full Container Video/Image - Explicit dimensions to prevent layout shift */}
+          <div className="relative h-[580px] lg:h-[620px]" style={{ minHeight: '580px' }}>
             {/* Image for Mobile - Optimized for LCP - Highest Priority */}
-            <Image
-              src="/propertyhero.avif"
-              alt="Luxury real estate background"
-              fill
-              priority
-              loading="eager"
-              decoding="sync"
-              className="absolute inset-0 w-full h-full object-cover object-center md:hidden"
-              sizes="(max-width: 768px) 100vw, 0vw"
-              quality={75}
-              fetchPriority="high"
-              unoptimized={false}
-            />
+            {/* Using explicit dimensions and immediate render to reduce element render delay */}
+            <div className="absolute inset-0 w-full h-full md:hidden">
+              <Image
+                src="/propertyhero.avif"
+                alt="Luxury real estate background"
+                fill
+                priority
+                loading="eager"
+                decoding="sync"
+                className="w-full h-full object-cover object-center"
+                sizes="(max-width: 768px) 100vw, 0vw"
+                quality={75}
+                fetchPriority="high"
+                unoptimized={false}
+                style={{ position: 'absolute', inset: 0 }}
+              />
+            </div>
             
             {/* Fallback image for Desktop (LCP optimization) - shown until video loads */}
-            <Image
-              src="/propertyhero.avif"
-              alt="Luxury real estate background"
-              fill
-              priority
-              loading="eager"
-              decoding="async"
-              className={`hidden md:block absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-500 ${
-                shouldLoadVideo ? 'opacity-0' : 'opacity-100'
-              }`}
-              sizes="(min-width: 768px) 100vw, 0vw"
-              quality={75}
-              fetchPriority="high"
-              unoptimized={false}
-            />
+            <div className="hidden md:block absolute inset-0 w-full h-full">
+              <Image
+                src="/propertyhero.avif"
+                alt="Luxury real estate background"
+                fill
+                priority
+                loading="eager"
+                decoding="sync"
+                className={`w-full h-full object-cover object-center transition-opacity duration-500 ${
+                  shouldLoadVideo ? 'opacity-0' : 'opacity-100'
+                }`}
+                sizes="(min-width: 768px) 100vw, 0vw"
+                quality={75}
+                fetchPriority="high"
+                unoptimized={false}
+                style={{ position: 'absolute', inset: 0 }}
+              />
+            </div>
             
             {/* Video for Desktop - Lazy loaded after LCP to improve performance */}
             {shouldLoadVideo && (

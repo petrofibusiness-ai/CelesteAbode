@@ -32,8 +32,8 @@ const nextConfig = {
       exclude: ['error', 'warn'],
     } : false,
   },
-  // Modern JavaScript target to reduce polyfills
-  swcMinify: true,
+  // Modern JavaScript target - configured via .browserslistrc
+  // SWC minification is enabled by default in Next.js 15
   // Optimize bundle size
   experimental: {
     optimizePackageImports: [

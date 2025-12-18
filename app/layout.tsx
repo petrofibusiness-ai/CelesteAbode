@@ -515,6 +515,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://elfsightcdn.com" />
         <link rel="preconnect" href="https://elfsightcdn.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://api.fontshare.com" />
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
         {/* Preconnect to Next.js image optimization for faster LCP */}
         <link rel="preconnect" href="https://www.celesteabode.com" />
         
@@ -524,6 +525,12 @@ export default function RootLayout({
         
         {/* Preload critical fonts - async load to prevent render blocking */}
         <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" as="style" />
+        {/* Preload Satoshi font CSS to reduce critical request chain */}
+        <link 
+          rel="preload" 
+          href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap&text=CelesteAbodeRealEstateLuxuryPropertiesPhilosophyServicesContactBookConsultationMasterpiecesLivingExplorePropertiesWhatOurClientsSayGetInTouchOurPhilosophyServicesAtCelesteAbodeExplorePremiumProperties" 
+          as="style" 
+        />
         <link 
           rel="stylesheet" 
           href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" 

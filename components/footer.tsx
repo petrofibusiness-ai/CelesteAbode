@@ -23,7 +23,6 @@ export function Footer() {
                 height={193}
                 sizes="(max-width: 640px) 150px, 210px"
                 quality={70}
-                quality={85}
                 className=""
                 priority
               />

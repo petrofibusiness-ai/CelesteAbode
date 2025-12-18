@@ -7,7 +7,11 @@ import { Menu, X, Phone, Mail } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
-export function Header() {
+interface HeaderProps {
+  alwaysBlack?: boolean; // Force black/glassmorphic style always
+}
+
+export function Header({ alwaysBlack = false }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -17,8 +21,23 @@ export function Header() {
     pathname.startsWith("/projects/") && pathname !== "/projects";
   const isContactPage = pathname === "/contact";
   const isSEOPage = pathname === "/villa-in-noida" || pathname === "/villas-in-greater-noida";
+  // Admin routes (including login) should always show black header
+  const isAdminRoute = pathname?.startsWith("/admin");
+  const isStaticPage = isAdminRoute || alwaysBlack;
 
   useEffect(() => {
+    // Don't add scroll listener for static pages that should always show black header
+    if (isStaticPage) {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      checkMobile();
+      window.addEventListener("resize", checkMobile);
+      return () => {
+        window.removeEventListener("resize", checkMobile);
+      };
+    }
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
@@ -35,10 +54,10 @@ export function Header() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", checkMobile);
     };
-  }, []);
+  }, [isStaticPage]);
 
-  // Mobile: always show black strip, Desktop: contact page, property pages, and SEO pages always, other pages only on scroll
-  const shouldShowGlassmorphism = isMobile || isPropertyPage || isContactPage || isSEOPage || isScrolled;
+  // Mobile: always show black strip, Desktop: contact page, property pages, SEO pages, and static pages always, other pages only on scroll
+  const shouldShowGlassmorphism = isMobile || isPropertyPage || isContactPage || isSEOPage || isStaticPage || isScrolled;
 
   return (
     <>

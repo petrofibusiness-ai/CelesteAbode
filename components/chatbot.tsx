@@ -34,10 +34,13 @@
    email?: string;
  }
 
- export function Chatbot() {
-   const pathname = usePathname();
+export function Chatbot() {
+  const pathname = usePathname();
+  
+  // Hide chatbot on admin pages - check before hooks
+  const isAdminRoute = pathname?.startsWith("/admin");
 
-   const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
    const [messages, setMessages] = useState<ChatMessage[]>([]);
    const [currentStep, setCurrentStep] = useState(0);
    const [data, setData] = useState<ChatbotData>({});
@@ -609,6 +612,11 @@
      setData({});
      setInputValue("");
    };
+
+  // Hide chatbot on admin pages
+  if (isAdminRoute) {
+    return null;
+  }
 
   return (
     <>

@@ -7,8 +7,8 @@ import { Loader2 } from "lucide-react";
 export default function Loading() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Header - Always visible */}
-      <Header />
+      {/* Header - Always visible with black style */}
+      <Header alwaysBlack />
       
       {/* Main content area with loading state */}
       <main className="pt-20 sm:pt-24 pb-12 sm:pb-16">

@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthenticated } from "@/lib/auth";
-import { uploadVideoToCloudinary } from "@/lib/cloudinary-upload";
+import { uploadVideoToR2 } from "@/lib/r2-upload";
+
+// Increase timeout for large video uploads (up to 5 minutes)
+export const maxDuration = 300;
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,9 +13,17 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const file = formData.get("file") as File;
-    const folder = (formData.get("folder") as string) || "celeste-abode/properties/videos";
+    const propertySlug = formData.get("propertySlug") as string;
+
+    console.log("Video upload request received:", {
+      fileName: file?.name,
+      fileSize: file?.size,
+      fileType: file?.type,
+      propertySlug: propertySlug,
+    });
 
     if (!file) {
+      console.error("No file provided in video upload request");
       return NextResponse.json(
         { error: "No file provided" },
         { status: 400 }
@@ -21,26 +32,58 @@ export async function POST(request: NextRequest) {
 
     // Validate video type
     if (!file.type.startsWith("video/")) {
+      console.error(`Invalid file type for video upload: ${file.type}`);
       return NextResponse.json(
-        { error: "File must be a video" },
+        { error: `File must be a video. Received type: ${file.type}` },
         { status: 400 }
       );
     }
 
-    const result = await uploadVideoToCloudinary(file, folder);
+    // Validate file size (50 MB limit)
+    const maxSize = 50 * 1024 * 1024; // 50 MB in bytes
+    if (file.size > maxSize) {
+      console.error(`Video file too large: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+      return NextResponse.json(
+        { error: `Video file is too large. Maximum size is 50 MB. Your file is ${(file.size / 1024 / 1024).toFixed(2)} MB.` },
+        { status: 400 }
+      );
+    }
+
+    // Validate property slug
+    if (!propertySlug || propertySlug.trim() === "") {
+      console.error("Property slug missing in video upload request");
+      return NextResponse.json(
+        { error: "Property slug is required" },
+        { status: 400 }
+      );
+    }
+
+    console.log(`Starting video upload to R2 for property: ${propertySlug}`);
+
+    // Upload to R2
+    const result = await uploadVideoToR2(file, propertySlug);
 
     if (!result.success) {
+      console.error("Video upload to R2 failed:", result.error);
       return NextResponse.json(
         { error: result.error || "Upload failed" },
         { status: 500 }
       );
     }
 
-    return NextResponse.json({ url: result.url, publicId: result.publicId });
+    console.log("Video upload successful:", {
+      url: result.url,
+      key: result.key,
+    });
+
+    return NextResponse.json({
+      url: result.url,
+      key: result.key,
+    });
   } catch (error) {
     console.error("Video upload error:", error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: error instanceof Error ? error.message : "Internal server error" },
       { status: 500 }
     );
   }

@@ -114,7 +114,7 @@ export function PropertySchema({
   name: string;
   description: string;
   image: string;
-  price: string;
+  price?: string;
   priceCurrency?: string;
   address: string;
   developer: string;
@@ -124,6 +124,19 @@ export function PropertySchema({
   status: string;
   url: string;
 }) {
+  // Prepare offers object - only include price if it exists
+  const offers: any = {
+    "@type": "Offer",
+    availability: status === "Ready to Move" ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
+    url: url,
+  };
+
+  // Only add price if it exists and is not empty
+  if (price && price.trim() !== "") {
+    offers.price = price.replace(/[^\d.]/g, "");
+    offers.priceCurrency = priceCurrency;
+  }
+
   const schema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -134,13 +147,7 @@ export function PropertySchema({
       "@type": "Brand",
       name: developer,
     },
-    offers: {
-      "@type": "Offer",
-      price: price.replace(/[^\d.]/g, ""),
-      priceCurrency: priceCurrency,
-      availability: status === "Ready to Move" ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
-      url: url,
-    },
+    offers: offers,
     additionalProperty: [
       {
         "@type": "PropertyValue",

@@ -1,15 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendFormSubmissionEmail } from '@/lib/email-service';
-import { v2 as cloudinary } from 'cloudinary';
-
-// Configure Cloudinary from environment variable
-if (process.env.CLOUDINARY_URL) {
-  cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_URL.match(/@(.+)$/)?.[1] || '',
-    api_key: process.env.CLOUDINARY_URL.match(/cloudinary:\/\/([^:]+):/)?.[1] || '',
-    api_secret: process.env.CLOUDINARY_URL.match(/:([^@]+)@/)?.[1] || '',
-  });
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -62,47 +52,19 @@ export async function POST(request: NextRequest) {
       // Still allow download even if email fails
     }
 
-    // Handle Cloudinary brochure download URL
-    // Property-specific brochure public_ids (update these with actual Cloudinary public_ids)
-    const brochurePublicIds: Record<string, string> = {
-      'FOREST WALK VILLA': 'forest-walk-villa-brochure', // Update with actual public_id from Cloudinary
-      // Add more properties as needed:
-      // 'PROPERTY NAME': 'property-brochure-public-id',
-    };
-
+    // Use the R2 public URL directly (already provided in brochureUrl)
+    // The brochureUrl should be the public R2 URL from Cloudflare R2
     let downloadUrl = '';
     
-    // If a direct URL is provided, use it
     if (brochureUrl && brochureUrl.startsWith('http')) {
+      // Use the provided R2 public URL directly
       downloadUrl = brochureUrl;
-    } 
-    // If using Cloudinary connection string or environment variable
-    else if (process.env.CLOUDINARY_URL || brochureUrl) {
-      const publicId = brochurePublicIds[propertyName] || 'forest-walk-villa-brochure';
-      
-      try {
-        // Generate secure download URL using Cloudinary SDK
-        // Format: https://res.cloudinary.com/[cloud_name]/raw/upload/[public_id].pdf
-        const cloudName = process.env.CLOUDINARY_URL?.match(/@(.+)$/)?.[1] || 
-                         brochureUrl?.match(/@(.+)$/)?.[1] || 
-                         'da57wy2df';
-        
-        // Construct the download URL
-        downloadUrl = `https://res.cloudinary.com/${cloudName}/raw/upload/${publicId}.pdf`;
-        
-        // Optional: Use Cloudinary SDK to generate signed URL (more secure)
-        // Uncomment if you want signed URLs with expiration:
-        // downloadUrl = cloudinary.utils.private_download_url(publicId, {
-        //   resource_type: 'raw',
-        //   format: 'pdf',
-        //   expires_at: Math.floor(Date.now() / 1000) + 3600 // 1 hour expiry
-        // });
-      } catch (error) {
-        console.error('Error generating Cloudinary URL:', error);
-        // Fallback to basic URL construction
-        const cloudName = process.env.CLOUDINARY_URL?.match(/@(.+)$/)?.[1] || 'da57wy2df';
-        downloadUrl = `https://res.cloudinary.com/${cloudName}/raw/upload/forest-walk-villa-brochure.pdf`;
-      }
+    } else {
+      // If no URL provided, return error
+      return NextResponse.json(
+        { error: 'Brochure URL not available' },
+        { status: 400 }
+      );
     }
 
     return NextResponse.json(

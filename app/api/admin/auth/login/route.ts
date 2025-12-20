@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { validateCredentials, getAdminUser } from '@/lib/auth';
-import { cookies } from 'next/headers';
+import { authenticateUser } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,26 +12,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate credentials
-    if (!validateCredentials(username, password)) {
+    // Use username as email (Supabase Auth uses email)
+    const email = username.includes('@') ? username : `${username}@admin.celesteabode.com`;
+    
+    // Authenticate with Supabase
+    const result = await authenticateUser(email, password);
+
+    if (!result.success) {
       return NextResponse.json(
-        { error: 'Invalid credentials' },
+        { error: result.error || 'Invalid credentials' },
         { status: 401 }
       );
     }
 
-    // Set simple session cookie
-    const cookieStore = await cookies();
-    cookieStore.set('admin-session', 'authenticated', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24, // 24 hours
-      path: '/',
+    return NextResponse.json({ 
+      success: true, 
+      user: result.user 
     });
-
-    const user = getAdminUser();
-    return NextResponse.json({ success: true, user });
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(
@@ -41,4 +37,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

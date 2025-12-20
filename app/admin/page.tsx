@@ -1,12 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Building2, Plus, FileText, Eye } from "lucide-react";
+import { Building2, Plus, FileText, Eye, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function AdminDashboard() {
   const [user, setUser] = useState({ name: "Admin" });
+  const [stats, setStats] = useState({
+    totalProperties: 0,
+    publishedProperties: 0,
+    draftProperties: 0,
+  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/admin/auth/session")
@@ -17,13 +23,27 @@ export default function AdminDashboard() {
         }
       })
       .catch(() => {});
+
+    // Fetch statistics
+    fetchStats();
   }, []);
 
-  // TODO: Fetch stats from database
-  const stats = {
-    totalProperties: 0,
-    publishedProperties: 0,
-    draftProperties: 0,
+  const fetchStats = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch("/api/admin/stats");
+      if (!response.ok) throw new Error("Failed to fetch statistics");
+      const data = await response.json();
+      setStats({
+        totalProperties: data.totalProperties || 0,
+        publishedProperties: data.publishedProperties || 0,
+        draftProperties: data.draftProperties || 0,
+      });
+    } catch (error) {
+      console.error("Error fetching stats:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -47,7 +67,7 @@ export default function AdminDashboard() {
                 Total Properties
               </p>
               <p className="text-2xl sm:text-3xl font-bold text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>
-                {stats.totalProperties}
+                {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : stats.totalProperties}
               </p>
             </div>
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#CBB27A]/10 rounded-lg flex items-center justify-center">
@@ -63,7 +83,7 @@ export default function AdminDashboard() {
                 Published
               </p>
               <p className="text-2xl sm:text-3xl font-bold text-green-600" style={{ fontFamily: "Poppins, sans-serif" }}>
-                {stats.publishedProperties}
+                {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : stats.publishedProperties}
               </p>
             </div>
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-50 rounded-lg flex items-center justify-center">
@@ -79,7 +99,7 @@ export default function AdminDashboard() {
                 Drafts
               </p>
               <p className="text-2xl sm:text-3xl font-bold text-yellow-600" style={{ fontFamily: "Poppins, sans-serif" }}>
-                {stats.draftProperties}
+                {loading ? <Loader2 className="w-6 h-6 animate-spin" /> : stats.draftProperties}
               </p>
             </div>
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-yellow-50 rounded-lg flex items-center justify-center">

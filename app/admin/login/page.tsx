@@ -79,7 +79,7 @@ export default function AdminLoginPage() {
 
               <div className="space-y-2">
                 <Label htmlFor="username" className="text-sm sm:text-base text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
-                  Username
+                  Login ID
                 </Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
@@ -131,4 +131,3 @@ export default function AdminLoginPage() {
     </div>
   );
 }
-

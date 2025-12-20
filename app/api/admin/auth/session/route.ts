@@ -1,20 +1,17 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { getAdminUser } from '@/lib/auth';
+import { getCurrentUser } from '@/lib/auth';
 
 export async function GET() {
   try {
-    const cookieStore = await cookies();
-    const session = cookieStore.get('admin-session')?.value;
+    const user = await getCurrentUser();
 
-    if (!session || session !== 'authenticated') {
+    if (!user) {
       return NextResponse.json(
         { error: 'Not authenticated' },
         { status: 401 }
       );
     }
 
-    const user = getAdminUser();
     return NextResponse.json({ user });
   } catch (error) {
     console.error('Session error:', error);
@@ -24,4 +21,3 @@ export async function GET() {
     );
   }
 }
-

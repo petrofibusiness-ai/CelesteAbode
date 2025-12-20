@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthenticated } from "@/lib/auth";
-import { uploadPDFToCloudflare } from "@/lib/cloudflare-upload";
+import { uploadBrochureToR2 } from "@/lib/r2-upload";
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const file = formData.get("file") as File;
-    const projectSlug = formData.get("projectSlug") as string;
+    const propertySlug = formData.get("propertySlug") as string || formData.get("projectSlug") as string;
 
     if (!file) {
       return NextResponse.json(
@@ -26,14 +26,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!projectSlug) {
+    // Validate file size (10 MB limit)
+    const maxSize = 10 * 1024 * 1024; // 10 MB in bytes
+    if (file.size > maxSize) {
       return NextResponse.json(
-        { error: "Project slug is required" },
+        { error: `PDF file size must be less than 10 MB. Current size: ${(file.size / 1024 / 1024).toFixed(2)} MB` },
         { status: 400 }
       );
     }
 
-    const result = await uploadPDFToCloudflare(file, projectSlug);
+    if (!propertySlug || propertySlug.trim() === "") {
+      return NextResponse.json(
+        { error: "Property slug is required" },
+        { status: 400 }
+      );
+    }
+
+    // Upload to R2
+    const result = await uploadBrochureToR2(file, propertySlug);
 
     if (!result.success) {
       return NextResponse.json(
@@ -42,7 +52,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ url: result.url });
+    return NextResponse.json({ 
+      url: result.url, 
+      key: result.key
+    });
   } catch (error) {
     console.error("PDF upload error:", error);
     return NextResponse.json(

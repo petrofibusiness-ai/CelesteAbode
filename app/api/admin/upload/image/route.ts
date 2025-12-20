@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { isAuthenticated } from "@/lib/auth";
-import { uploadImageToCloudinary } from "@/lib/cloudinary-upload";
+import { uploadImageToR2, uploadHeroImageToR2 } from "@/lib/r2-upload";
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,7 +10,8 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const file = formData.get("file") as File;
-    const folder = (formData.get("folder") as string) || "celeste-abode/properties";
+    const propertySlug = formData.get("propertySlug") as string;
+    const isHero = formData.get("isHero") === "true";
 
     if (!file) {
       return NextResponse.json(
@@ -27,7 +28,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const result = await uploadImageToCloudinary(file, folder);
+    // Validate property slug
+    if (!propertySlug || propertySlug.trim() === "") {
+      return NextResponse.json(
+        { error: "Property slug is required" },
+        { status: 400 }
+      );
+    }
+
+    // Upload to R2
+    const result = isHero
+      ? await uploadHeroImageToR2(file, propertySlug)
+      : await uploadImageToR2(file, propertySlug);
 
     if (!result.success) {
       return NextResponse.json(
@@ -36,7 +48,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({ url: result.url, publicId: result.publicId });
+    return NextResponse.json({ url: result.url, key: result.key });
   } catch (error) {
     console.error("Image upload error:", error);
     return NextResponse.json(

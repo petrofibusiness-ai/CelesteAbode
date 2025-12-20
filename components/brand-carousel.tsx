@@ -29,6 +29,9 @@ export function BrandCarousel() {
             Trusted <span className="text-[#CBB27A]">partners</span>, better
             outcomes
           </h2>
+          <p className="text-sm md:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Working with RERA-registered developers across Delhi NCR.
+          </p>
         </motion.div>
 
         {/* Carousel Container */}

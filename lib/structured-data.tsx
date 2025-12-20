@@ -4,7 +4,7 @@ import Script from "next/script";
 export function OrganizationSchema() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "RealEstateAgent",
+    "@type": "Organization",
     "@id": "https://www.celesteabode.com/#organization",
     name: "Celeste Abode",
     legalName: "Celeste Abode Private Limited",
@@ -14,14 +14,14 @@ export function OrganizationSchema() {
     image: "https://www.celesteabode.com/logoceleste.avif",
     slogan: "The Convergence of Data Intelligence and Luxury Living",
     description:
-      "Celeste Abode - Premium luxury real estate advisory in NCR. Real estate investment advisory services, property portfolio advisory, and high-value property investment advisory. Expert real estate consultants in Noida, Greater Noida, and Delhi NCR.",
+      "Independent real estate advisory providing compliant, data-backed property guidance across Delhi NCR. We help buyers, investors, and NRIs make informed property decisions in Noida, Greater Noida, and Yamuna Expressway through RERA compliance, market intelligence, and transparent advisory services.",
     foundingDate: "2024",
     numberOfEmployees: {
       "@type": "QuantitativeValue",
       value: "10-50"
     },
     knowsAbout: [
-      "Luxury Real Estate",
+      "Real Estate Advisory",
       "Property Investment Advisory",
       "Data-Driven Property Intelligence",
       "RERA Compliance",
@@ -51,33 +51,16 @@ export function OrganizationSchema() {
       "https://twitter.com/celesteabode",
       "https://www.instagram.com/celesteabode",
     ],
-    areaServed: {
-      "@type": "City",
-      name: ["Noida", "Greater Noida", "Gurugram", "Delhi", "Ghaziabad", "Yamuna Expressway", "Noida Expressway"],
-    },
-    priceRange: "₹50 Lakhs - ₹5 Crores",
-    serviceType: [
-      "Luxury Real Estate Advisory",
-      "Real Estate Investment Advisory Services",
-      "Property Portfolio Advisory Services",
-      "Real Estate Transaction Consulting",
-      "End-to-End Property Advisory",
-      "Personalized Real Estate Advisory",
-      "Strategic Property Investment Planning",
-      "Residential Real Estate Advisory",
-      "NRI Real Estate Advisory",
-      "High-Value Property Investment Advisory",
-      "Luxury Real Estate Consulting",
-      "Strategic Property Investment Advisory",
-      "Data-Driven Property Intelligence",
-      "RERA Compliant Property Advisory",
-      "Bespoke Lifestyle Curation",
-      "Investment Security Services",
-      "NRI Property Services",
-      "End-to-End Transaction Security",
-      "Property ROI Strategy",
-      "Signature Residences Advisory",
+    areaServed: [
+      { "@type": "City", "name": "Noida" },
+      { "@type": "City", "name": "Greater Noida" },
+      { "@type": "City", "name": "Gurugram" },
+      { "@type": "City", "name": "Delhi" },
+      { "@type": "City", "name": "Ghaziabad" },
+      { "@type": "AdministrativeArea", "name": "Yamuna Expressway" },
+      { "@type": "AdministrativeArea", "name": "Noida Expressway" }
     ],
+    priceRange: "₹50 Lakhs - ₹5 Crores",
   };
 
   return (
@@ -324,7 +307,7 @@ export function LocalBusinessSchema() {
   );
 }
 
-// WebSite Schema with SearchAction
+// WebSite Schema
 export function WebSiteSchema() {
   const schema = {
     "@context": "https://schema.org",
@@ -339,14 +322,6 @@ export function WebSiteSchema() {
         "@type": "ImageObject",
         url: "https://www.celesteabode.com/logoceleste.avif"
       }
-    },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: "https://www.celesteabode.com/projects?search={search_term_string}",
-      },
-      "query-input": "required name=search_term_string",
     },
   };
 

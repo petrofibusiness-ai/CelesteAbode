@@ -16,37 +16,37 @@ export function WhoWeServe() {
     {
       id: "home-buyers",
       title: "Home Buyers & End-Users",
-      description: "Find verified flats and ready-to-move-in apartments.",
+      description: "Consulting support for home buyers evaluating RERA-compliant residential properties in Noida, Greater Noida, and Yamuna Expressway, with focus on legal clarity and long-term suitability.",
       icon: <User className="w-7 h-7" />,
     },
     {
       id: "investors",
       title: "Real Estate Investors",
-      description: "Optimize portfolio performance using analytics.",
+      description: "Data-driven property investment advisory in Delhi NCR, supported by ROI assessment, location intelligence, and market insights for informed investment decisions.",
       icon: <TrendingUp className="w-7 h-7" />,
     },
     {
       id: "nris",
       title: "NRIs & Global Indians",
-      description: "Trusted end-to-end advisory from abroad.",
+      description: "Structured real estate consulting for NRIs seeking transparent, compliant property investments in NCR, with end-to-end guidance and remote decision support.",
       icon: <Globe className="w-7 h-7" />,
     },
     {
       id: "corporates",
       title: "Corporates & Institutions",
-      description: "Leverage real estate intelligence for expansion.",
+      description: "Strategic real estate consulting for corporates and institutions exploring commercial and investment opportunities across NCR.",
       icon: <Briefcase className="w-7 h-7" />,
     },
     {
       id: "developers",
       title: "Developers & Builders",
-      description: "Boost sales through data-led positioning.",
+      description: "Market-led consulting for developers focused on project positioning, buyer intelligence, and sales strategy within NCR real estate markets.",
       icon: <Building2 className="w-7 h-7" />,
     },
     {
       id: "professionals",
       title: "Professionals & Entrepreneurs",
-      description: "Discover spaces aligned with lifestyle and ambition.",
+      description: "Consulting-led property guidance for professionals seeking premium residential properties in Delhi NCR, aligned with lifestyle and long-term value.",
       icon: <Laptop className="w-7 h-7" />,
     },
   ];
@@ -65,10 +65,9 @@ export function WhoWeServe() {
           <h2 className="heading-bold text-primary mb-6">
             Who <span className="text-[#CBB27A]">We Serve</span>
           </h2>
-          <p className="text-xl text-muted max-w-4xl mx-auto leading-relaxed">
-            Comprehensive real estate solutions for every type of buyer, investor,
-            and stakeholder in India's dynamic property market.
-          </p>
+          <h3 className="text-xl md:text-2xl text-muted-foreground mb-4 font-medium">
+            Real Estate Consulting Built for Diverse Needs Across Delhi NCR
+          </h3>
         </motion.div>
 
         {/* Divider Line */}

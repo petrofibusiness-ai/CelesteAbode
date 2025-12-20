@@ -188,7 +188,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                   quality={70}
                   className="rounded-lg"
                 />
-                <h2 className="text-lg font-semibold text-white" style={{ fontFamily: "Poppins, sans-serif" }}>
+                <h2 className="text-lg font-semibold text-white font-poppins">
                   Celeste Abode
                 </h2>
               </div>
@@ -205,55 +205,49 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
             <nav className="flex-1 overflow-y-auto py-4">
               <Link
                 href="/"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Home page"
-                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 HOME
               </Link>
               <Link
                 href="/philosophy"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Philosophy page"
-                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 PHILOSOPHY
               </Link>
               <Link
                 href="/services"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Services page"
-                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 SERVICES
               </Link>
               <Link
                 href="/vault"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Vault page"
-                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 VAULT
               </Link>
               <Link
                 href="/projects"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Projects page"
-                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 PROJECTS
               </Link>
               <Link
                 href="/contact"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Contact page"
-                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 CONTACT
               </Link>
@@ -263,8 +257,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
             <div className="px-6 py-4 border-t border-white/10 space-y-4">
               <a
                 href="tel:+919818735258"
-                className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group m-0"
-                style={{ fontFamily: "Poppins, sans-serif", marginLeft: 0, marginRight: 0 }}
+                className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group m-0 font-poppins"
               >
                 <div className="w-10 h-10 bg-[#CBB27A]/20 rounded-full flex items-center justify-center border border-[#CBB27A]/30 group-hover:bg-[#CBB27A]/30 transition-colors flex-shrink-0">
                   <Phone className="w-5 h-5 text-[#CBB27A]" />
@@ -273,8 +266,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
               </a>
               <a
                 href="mailto:support@celesteabode.com"
-                className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group m-0"
-                style={{ fontFamily: "Poppins, sans-serif", marginLeft: 0, marginRight: 0 }}
+                className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group m-0 font-poppins"
               >
                 <div className="w-10 h-10 bg-[#CBB27A]/20 rounded-full flex items-center justify-center border border-[#CBB27A]/30 group-hover:bg-[#CBB27A]/30 transition-colors flex-shrink-0">
                   <Mail className="w-5 h-5 text-[#CBB27A]" />

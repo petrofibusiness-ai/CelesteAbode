@@ -50,29 +50,29 @@ export function HeroSection() {
   }, [shouldLoadVideo]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-background pt-24">
-      <div className="max-w-7xl mx-auto px-6 w-full">
+    <section className="relative min-h-[70vh] md:min-h-screen flex items-center justify-center bg-background pt-20 md:pt-24">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 w-full">
         <div
-          className="bg-white rounded-3xl shadow-2xl overflow-hidden relative"
+          className="bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden relative"
         >
           {/* Full Container Video/Image - Explicit dimensions to prevent layout shift */}
-          <div className="relative h-[580px] lg:h-[620px]" style={{ minHeight: '580px' }}>
+          <div className="relative h-[400px] sm:h-[500px] md:h-[580px] lg:h-[620px] min-h-[400px]">
             {/* Image for Mobile - Optimized for LCP - Highest Priority */}
             {/* Using explicit dimensions and immediate render to reduce element render delay */}
             <div className="absolute inset-0 w-full h-full md:hidden">
               <Image
                 src="/propertyhero.avif"
-                alt="Luxury real estate background"
+                alt="Best real estate consultant guiding property decisions in Delhi NCR - Noida, Greater Noida, and Yamuna Expressway"
                 fill
                 priority
                 loading="eager"
                 decoding="sync"
-                className="w-full h-full object-cover object-center"
-                sizes="(max-width: 768px) 100vw, 0vw"
-                quality={75}
+                className="w-full h-full object-cover object-center absolute inset-0"
+                sizes="100vw"
+                quality={60}
                 fetchPriority="high"
                 unoptimized={false}
-                style={{ position: 'absolute', inset: 0 }}
+                style={{ contentVisibility: 'auto' }}
               />
             </div>
             
@@ -80,19 +80,18 @@ export function HeroSection() {
             <div className="hidden md:block absolute inset-0 w-full h-full">
               <Image
                 src="/propertyhero.avif"
-                alt="Luxury real estate background"
+                alt="Best real estate consultant guiding property decisions in Delhi NCR - Noida, Greater Noida, and Yamuna Expressway"
                 fill
                 priority
                 loading="eager"
                 decoding="sync"
-                className={`w-full h-full object-cover object-center transition-opacity duration-500 ${
+                className={`w-full h-full object-cover object-center absolute inset-0 transition-opacity duration-500 ${
                   shouldLoadVideo ? 'opacity-0' : 'opacity-100'
                 }`}
                 sizes="(min-width: 768px) 100vw, 0vw"
                 quality={75}
                 fetchPriority="high"
                 unoptimized={false}
-                style={{ position: 'absolute', inset: 0 }}
               />
             </div>
             
@@ -127,18 +126,20 @@ export function HeroSection() {
               {/* Gradient overlay behind text block only - dark on left, transparent on right */}
               <div className="absolute left-0 top-0 bottom-0 w-full md:w-2/3 lg:w-1/2 bg-gradient-to-r from-black/70 via-black/40 to-transparent pointer-events-none" />
               
-              <div className="relative text-left md:text-left text-[#FAFAF8] max-w-4xl px-4 pb-6 pr-4 md:px-6 md:ml-8 md:pb-0 md:pr-0 z-10">
-                <h1 className="text-2xl md:text-4xl lg:text-5xl font-medium mb-4 md:mb-5 leading-tight text-[#FAFAF8] hero-title-typography">
-                  <div className="block text-[#FAFAF8]">
-                    From Masterpieces of Time To
-                  </div>
-                  <div className="block text-[#FAFAF8] mt-1 md:mt-2">
-                    Masterpieces of Living
-                  </div>
+              <div className="relative text-left md:text-left text-[#FAFAF8] max-w-4xl px-4 pb-4 md:pb-6 pr-4 md:px-6 md:ml-8 md:pb-0 md:pr-0 z-10">
+                {/* Vision Line - Branding Tagline (Not H1) */}
+                <div className="text-xs md:text-sm lg:text-base mb-2 md:mb-3 lg:mb-4 font-medium tracking-wide uppercase text-[#CBB27A]">
+                  From Masterpieces of Time To Masterpieces of Living
+                </div>
+
+                {/* H1 - SEO-Optimized Main Headline */}
+                <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-4 lg:mb-5 leading-tight text-[#FAFAF8] hero-title-typography">
+                  Best Real Estate Consultant for Properties in Delhi NCR
                 </h1>
 
-                <p className="text-sm md:text-lg text-white mb-5 md:mb-7 max-w-2xl font-medium hero-subtitle-typography">
-                  Redefining luxury real estate consulting in the NCR. Strategic Advisory for your next high-value investment.
+                {/* Hero Subcopy */}
+                <p className="text-xs md:text-sm text-white mb-4 md:mb-5 lg:mb-7 max-w-2xl font-medium hero-subtitle-typography">
+                  Guiding confident property decisions across Noida, Greater Noida, and the Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-2 md:gap-3">

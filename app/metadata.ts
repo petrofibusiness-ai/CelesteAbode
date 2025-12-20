@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const homepageMetadata: Metadata = {
-  title: "Luxury Real Estate Advisory NCR | Premium Real Estate Consultants | Celeste Abode",
-  description: "Celeste Abode - Premium real estate consultants in NCR. Luxury real estate advisory, investment advisory services, and high-value property investment advisory. Expert real estate consulting in Noida, Greater Noida, and Delhi NCR.",
+  title: "Trusted Real Estate Consultant for Properties in Delhi NCR | Celeste Abode",
+  description: "Guiding confident property decisions across Noida, Greater Noida, and Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.",
   keywords: [
     // Primary Brand & Core Keywords (Homepage Focus)
     "luxury real estate advisory NCR",
@@ -100,40 +100,22 @@ export const homepageMetadata: Metadata = {
     "luxury real estate in Delhi NCR",
     "premium apartments in Delhi NCR",
     "investment property Delhi NCR",
-    "buy flat Delhi NCR",
     "real estate consultant Delhi NCR",
-    "affordable flats in Noida NCR",
-    "budget flats Delhi NCR",
-    "high-end luxury flats Delhi NCR",
-    "luxury 4 BHK apartment Delhi NCR",
     "real estate for NRIs Delhi NCR",
     "best residential projects in Noida & Greater Noida",
     
     // Location-Based Keywords - Noida
-    "flats for sale in Noida",
-    "2 BHK flat Noida",
-    "3 BHK flat Noida",
-    "4 BHK flat Noida",
     "apartments in Noida",
-    "ready-to-move flats Noida",
     "new projects Noida",
     "luxury apartments Noida",
     "Noida real estate investment",
     "properties near Noida metro",
     "properties near Noida City Centre",
     "properties near Noida Expressway",
-    "gated community flats in Noida",
-    "buy 3 BHK flat in Noida",
-    "ready to move flats for working professionals Noida",
     "apartments for families in Noida",
-    "flats near Noida – Greater Noida border",
     
     // Location-Based Keywords - Greater Noida
-    "flats for sale in Greater Noida",
     "apartments in Greater Noida",
-    "2 BHK flats Greater Noida",
-    "3 BHK flats Greater Noida",
-    "4 BHK flats Greater Noida",
     "villas in Greater Noida",
     "luxury residences Greater Noida",
     "new projects Greater Noida",
@@ -142,14 +124,8 @@ export const homepageMetadata: Metadata = {
     "properties near Techzone",
     "properties near Yamuna Expressway",
     "properties near Knowledge Park",
-    "gated community flats Greater Noida",
-    "flats near metro Greater Noida",
-    "get 2 BHK apartment in Greater Noida",
     "premium villa Greater Noida for sale",
-    "ready to move flats Greater Noida West",
     "investment property near Yamuna Expressway",
-    "flats near Aqua Line",
-    "flats near Metro Greater Noida",
     "villas for sale for families in Greater Noida",
     
     // Trust & Positioning Keywords (About / Philosophy Page)
@@ -251,8 +227,8 @@ export const homepageMetadata: Metadata = {
     "NRI real estate solutions",
   ],
   openGraph: {
-    title: "Luxury Real Estate Advisory NCR | Premium Real Estate Consultants | Celeste Abode",
-    description: "Celeste Abode - Premium real estate consultants in NCR. Luxury real estate advisory, investment advisory services, and high-value property investment advisory. Expert real estate consulting in Noida, Greater Noida, and Delhi NCR.",
+    title: "Trusted Real Estate Consultant for Properties in Delhi NCR | Celeste Abode",
+    description: "Guiding confident property decisions across Noida, Greater Noida, and Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.",
     url: "https://www.celesteabode.com",
     siteName: "Celeste Abode",
     locale: "en_IN",
@@ -268,8 +244,8 @@ export const homepageMetadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Luxury Real Estate Advisory NCR | Premium Real Estate Consultants | Celeste Abode",
-    description: "Celeste Abode - Premium real estate consultants in NCR. Luxury real estate advisory, investment advisory services, and high-value property investment advisory.",
+    title: "Trusted Real Estate Consultant for Properties in Delhi NCR | Celeste Abode",
+    description: "Guiding confident property decisions across Noida, Greater Noida, and Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.",
     images: ["https://www.celesteabode.com/propertyhero.avif"],
     creator: "@celesteabode",
   },

@@ -20,7 +20,7 @@ export function VaultTeaser() {
           >
             <Image
               src="/vault.webp"
-              alt="Celeste Abode Vault - Real Estate Knowledge Base"
+              alt="Celeste Abode Vault - Real estate knowledge base with RERA rules, legal terminology, and property FAQs for Delhi NCR"
               fill
               className="object-cover"
               priority
@@ -41,39 +41,30 @@ export function VaultTeaser() {
           >
             {/* Icon */}
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#CBB27A]/10 mb-4">
-              <Lock className="w-8 h-8 text-[#CBB27A]" />
+              <BookOpen className="w-8 h-8 text-[#CBB27A]" />
             </div>
 
             {/* Heading - H2 */}
             <h2 className="heading-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight">
-              <span className="block sm:inline">Your Next Step: </span>
-              <span className="block sm:inline">Access <span className="text-[#CBB27A]">Strategic Certainty</span>.</span>
+              The Celeste Abode <span className="text-[#CBB27A]">Vault</span>
             </h2>
 
             {/* Subheading - H3 */}
             <h3 className="text-xl md:text-2xl text-ink font-medium mt-4">
-              Exclusive Blueprint for Smart Property Investment.
+              Clear Answers for Confident Property Decisions
             </h3>
 
             {/* Description */}
-            <p className="text-sm md:text-base text-ink leading-relaxed max-w-xl mt-6">
-              Access Your Private Strategy Guide. This is your definitive resource for property success, transforming confusing market talk and tricky legal details into simple, clear answers. We provide the essential knowledge to make every choice a <strong className="text-ink">confident, smart investment decision</strong> in the NCR market.
-            </p>
-
-            {/* Features List */}
-            <div className="space-y-3 pt-4">
-              <div className="flex items-start gap-3">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#CBB27A] mt-2 flex-shrink-0"></div>
-                <p className="text-base text-ink">
-                  High-ROI Investor FAQs
-                </p>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#CBB27A] mt-2 flex-shrink-0"></div>
-                <p className="text-base text-ink">
-                  The Master Glossary
-                </p>
-              </div>
+            <div className="text-sm md:text-base text-ink leading-relaxed max-w-xl mt-6 space-y-4">
+              <p>
+                Buying property in Delhi NCR involves complex terms, legal processes, and regulatory details that often confuse buyers and investors.
+              </p>
+              <p>
+                The Celeste Abode Vault is our knowledge centre, built to simplify real estate decisions, covering RERA rules, legal terminology, FAQs, location insights, and common buyer questions in clear, practical language.
+              </p>
+              <p>
+                Whether you're evaluating a property or preparing to invest, the Vault helps you understand the process before you commit.
+              </p>
             </div>
 
             {/* CTA Button */}

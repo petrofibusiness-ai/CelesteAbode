@@ -163,9 +163,8 @@ export function WhereWeWork() {
           <h2 className="heading-bold text-primary mb-6">
             Where We <span className="text-[#CBB27A]">Work</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            India's Growth Corridors - Strategic locations where we unlock
-            premium real estate opportunities
+          <p className="text-sm md:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Our real estate consulting services are actively focused across Noida, Greater Noida, and the Yamuna Expressway, with selective guidance in emerging NCR corridors such as Ghaziabad and NH24.
           </p>
         </motion.div>
 

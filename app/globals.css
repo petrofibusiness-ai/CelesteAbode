@@ -410,6 +410,131 @@
   box-shadow: 0 20px 40px rgba(22, 78, 99, 0.15);
 }
 
+/* Animation utility classes to replace inline styles - Performance optimization */
+/* Initial states for animations */
+.animate-initial {
+  opacity: 0;
+}
+
+.animate-initial-translate-y-20 {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.animate-initial-translate-y-30 {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.animate-initial-translate-y-50 {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+.animate-initial-translate-x-50 {
+  opacity: 0;
+  transform: translateX(-50px);
+}
+
+.animate-initial-translate-x-50-right {
+  opacity: 0;
+  transform: translateX(50px);
+}
+
+.animate-initial-blur {
+  opacity: 0;
+  filter: blur(10px);
+}
+
+.animate-initial-blur-translate-y-30 {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(30px);
+}
+
+.animate-initial-blur-translate-y-50 {
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(50px);
+}
+
+.animate-initial-scale {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.animate-initial-scale-translate-y {
+  opacity: 0;
+  transform: scale(0.95) translateY(20px);
+}
+
+/* Final states for animations */
+.animate-final {
+  opacity: 1;
+}
+
+.animate-final-translate-y-0 {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-final-translate-x-0 {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.animate-final-blur-0 {
+  opacity: 1;
+  filter: blur(0px);
+}
+
+.animate-final-scale-1 {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Color utilities to replace inline styles */
+.text-gold-accent {
+  color: #A68B5B;
+}
+
+.font-poppins {
+  font-family: Poppins, sans-serif;
+}
+
+/* Position utilities to replace inline styles */
+.absolute-full {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Transparent color utility */
+.text-transparent {
+  color: transparent;
+}
+
+/* Will-change optimization for animations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-filter {
+  will-change: filter;
+}
+
+.will-change-all {
+  will-change: transform, filter, opacity;
+}
+
 .premium-card {
   @apply bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-lg transition-all duration-300;
 }

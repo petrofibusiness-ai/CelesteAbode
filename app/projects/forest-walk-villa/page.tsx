@@ -262,8 +262,8 @@ export default function PropertyPage() {
           quality={95}
           sizes="100vw"
         />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/20"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/15"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
 
           {/* Content Overlay - Bottom Left */}
           <div className="absolute inset-0 flex items-end justify-start">
@@ -382,7 +382,7 @@ export default function PropertyPage() {
                   
                   <div className="relative z-10">
                     <p
-                      className="text-base md:text-lg leading-relaxed text-gray-800 text-center max-w-4xl mx-auto"
+                      className="text-base md:text-lg leading-relaxed text-gray-800 text-justify max-w-4xl mx-auto"
                       style={{ 
                         fontFamily: "Poppins, sans-serif",
                         fontWeight: 400,
@@ -398,7 +398,7 @@ export default function PropertyPage() {
             </section>
 
             {/* CTA Buttons - After About Section */}
-            <div className="max-w-7xl mx-auto px-4 md:px-12 py-8 md:py-12 mb-16 md:mb-24">
+            <div className="max-w-7xl mx-auto px-4 md:px-12 mb-16 md:mb-24">
               <div className="text-center mb-8">
                 <p
                   className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-2xl mx-auto"

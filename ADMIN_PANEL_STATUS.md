@@ -139,3 +139,4 @@ CREATE INDEX idx_properties_published ON properties(is_published);
 - All API routes are protected with authentication checks
 - The property form supports all required fields including SEO
 
+

@@ -126,17 +126,17 @@ export function HomepageServicesListSchema() {
   );
 }
 
-// AggregateRating Schema (if you have reviews)
+// AggregateRating Schema
 export function AggregateRatingSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "AggregateRating",
     itemReviewed: {
-      "@type": "RealEstateAgent",
+      "@type": "Organization",
       name: "Celeste Abode",
     },
-    ratingValue: "4.8",
-    reviewCount: "2500",
+    ratingValue: "4.9",
+    reviewCount: "71",
     bestRating: "5",
     worstRating: "1",
   };

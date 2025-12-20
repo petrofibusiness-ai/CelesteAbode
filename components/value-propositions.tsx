@@ -9,16 +9,21 @@ export function ValuePropositions() {
     <section className="py-16 md:py-20 bg-background">
       <div className="max-w-screen-xl mx-auto px-6">
         {/* Section Heading */}
-        <motion.h2
-          className="heading-bold text-primary mb-12 text-center"
+        <motion.div
+          className="text-center mb-12"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
+          <h2 className="heading-bold text-primary mb-6">
           The Mark of Expertise : Our{" "}
           <span className="text-[#CBB27A]">Impact & Results</span>
-        </motion.h2>
+          </h2>
+          <p className="text-sm md:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            A decade of trusted consulting in Delhi NCR, backed by measurable results and thousands of satisfied clients who made confident property decisions with our guidance.
+          </p>
+        </motion.div>
 
         {/* Statistics Grid - 2-1-2 Layout */}
         <div className="bg-muted/30 rounded-2xl md:rounded-3xl p-8 md:p-12 lg:p-16">

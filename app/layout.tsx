@@ -38,11 +38,11 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.celesteabode.com"),
   title: {
-    default: "Luxury Real Estate Advisory NCR | Premium Real Estate Consultants | Celeste Abode",
+    default: "Trusted Real Estate Consultant for Properties in Delhi NCR | Celeste Abode",
     template: "%s | Celeste Abode",
   },
   description:
-    "Celeste Abode - Premium real estate consultants in NCR. Luxury real estate advisory, real estate investment advisory services, and high-value property investment advisory. Expert real estate consulting in Noida, Greater Noida, and Delhi NCR.",
+    "Guiding confident property decisions across Noida, Greater Noida, and Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.",
   keywords: [
     // Primary Keywords
     "luxury real estate consulting NCR",
@@ -519,17 +519,18 @@ export default function RootLayout({
         {/* Preconnect to Next.js image optimization for faster LCP */}
         <link rel="preconnect" href="https://www.celesteabode.com" />
         
-        {/* Preload critical LCP image - highest priority - earliest possible */}
-        <link rel="preload" href="/propertyhero.avif" as="image" type="image/avif" fetchPriority="high" />
+        {/* Preload critical LCP image - highest priority - earliest possible - Mobile optimized */}
+        <link rel="preload" href="/propertyhero.avif" as="image" type="image/avif" fetchPriority="high" imagesrcset="(max-width: 768px) 100vw, 50vw" />
         <link rel="preload" href="/logoceleste.avif" as="image" type="image/avif" />
         
-        {/* Preload critical fonts - async load to prevent render blocking */}
-        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" as="style" />
-        {/* Preload Satoshi font CSS to reduce critical request chain */}
+        {/* Preload critical fonts - async load to prevent render blocking - Mobile optimized */}
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" as="style" media="(min-width: 768px)" />
+        {/* Preload Satoshi font CSS - Defer on mobile for faster LCP */}
         <link 
           rel="preload" 
           href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap&text=CelesteAbodeRealEstateLuxuryPropertiesPhilosophyServicesContactBookConsultationMasterpiecesLivingExplorePropertiesWhatOurClientsSayGetInTouchOurPhilosophyServicesAtCelesteAbodeExplorePremiumProperties" 
-          as="style" 
+          as="style"
+          media="(min-width: 768px)"
         />
         <link 
           rel="stylesheet" 

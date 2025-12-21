@@ -55,7 +55,7 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
     ...(property.videos || []).map((video, idx) => ({ 
       type: 'video' as const, 
       src: video.src, 
-      thumbnail: video.thumbnail || property.heroImage,
+      thumbnail: property.heroImage, // Always use hero image for video thumbnails
       title: video.title,
       index: (property.images?.length || 0) + idx 
     })),

@@ -278,7 +278,7 @@ export default function PropertyPage() {
               {property.projectName}
             </h1>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 mb-3">
                 <MapPin className="w-5 h-5 md:w-6 md:h-6 text-[#CBB27A]" />
               <p
                   className="text-base md:text-lg lg:text-xl font-semibold text-[#CBB27A]"
@@ -288,6 +288,19 @@ export default function PropertyPage() {
                   }}
               >
                 {property.location}
+              </p>
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <Building2 className="w-5 h-5 md:w-6 md:h-6 text-[#CBB27A]" />
+              <p
+                  className="text-base md:text-lg lg:text-xl font-semibold text-[#CBB27A]"
+                  style={{
+                    fontFamily: "Poppins, sans-serif",
+                    textShadow: "0 2px 10px rgba(0,0,0,0.5)",
+                  }}
+              >
+                {property.developer}
               </p>
               </div>
             </div>

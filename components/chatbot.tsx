@@ -60,7 +60,7 @@ export function Chatbot() {
   // Handle input focus to scroll into view when keyboard opens
   useEffect(() => {
     if (!inputRef.current || typeof window === 'undefined') return;
-    if (currentStep !== 8 && currentStep !== 9 && currentStep !== 11) return;
+    if (currentStep !== 1 && currentStep !== 9 && currentStep !== 11) return;
 
     const input = inputRef.current;
     const chatbotContainer = input.closest('.chatbot-container') as HTMLElement;
@@ -163,8 +163,8 @@ export function Chatbot() {
     if (isOpen && currentStep === 0 && messages.length === 0) {
       setTimeout(() => {
         addBotMessage(
-          "👋 Hi! I’m your Celeste Abode property advisor. I can help you find the right project for you in under 60 seconds.",
-          ["✅ Yes, let’s go", "👀 Just browsing"]
+          "Hi there! I'm Amaira, your friendly property advisor at Celeste Abode. I'm here to help you find the perfect property. Would you like me to guide you?",
+          ["Yes, please help me", "I'm just exploring"]
         );
       }, 300);
     }
@@ -215,9 +215,56 @@ export function Chatbot() {
    };
 
    const isValidPhone = (value: string) => {
-     const cleaned = value.trim();
-     const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
-     return phoneRegex.test(cleaned);
+     // Extract only digits
+     const digits = value.trim().replace(/\D/g, '');
+     
+     // Basic format check - must be 10+ digits
+     if (digits.length < 10) {
+       return false;
+     }
+     
+     // Check for all zeros (0000000000, etc.)
+     if (/^0+$/.test(digits)) {
+       return false;
+     }
+     
+     // Check for repeated numbers (1111111111, 2222222222, etc.)
+     // Check if all digits are the same
+     if (/^(\d)\1{9,}$/.test(digits)) {
+       return false;
+     }
+     
+     // Check for sequential numbers (1234567890, 0123456789, etc.)
+     const isSequential = (str: string) => {
+       for (let i = 0; i < str.length - 1; i++) {
+         const current = parseInt(str[i]);
+         const next = parseInt(str[i + 1]);
+         // Check if next digit is current + 1 (handles wrap-around like 9->0)
+         if (next !== (current + 1) % 10) {
+           return false;
+         }
+       }
+       return str.length >= 10;
+     };
+     
+     // Check for reverse sequential (9876543210, 987654321, etc.)
+     const isReverseSequential = (str: string) => {
+       for (let i = 0; i < str.length - 1; i++) {
+         const current = parseInt(str[i]);
+         const next = parseInt(str[i + 1]);
+         // Check if next digit is current - 1 (handles wrap-around like 0->9)
+         if (next !== (current - 1 + 10) % 10) {
+           return false;
+         }
+       }
+       return str.length >= 10;
+     };
+     
+     if (isSequential(digits) || isReverseSequential(digits)) {
+       return false;
+     }
+     
+     return true;
    };
 
    const handleResponse = (response: string) => {
@@ -231,7 +278,8 @@ export function Chatbot() {
          const normalized = response.toLowerCase();
          if (
            normalized.includes("yes") ||
-           normalized.includes("go") ||
+           normalized.includes("help") ||
+           normalized.includes("please") ||
            normalized.includes("okay") ||
            normalized.includes("ok") ||
            normalized.includes("start")
@@ -239,20 +287,15 @@ export function Chatbot() {
            nextStep = 1;
            setTimeout(() => {
              addBotMessage(
-               "Great! First, what are you looking for today? (This helps me show only relevant options.)",
-               [
-                 "🏠 Buy a property",
-                 "🏢 Rent a property",
-                 "💼 Invest in real estate",
-                 "🤝 Talk to an expert",
-               ]
+               "That's wonderful! I'd love to get to know you better. What should I call you?",
+               []
              );
            }, 400);
          } else {
            setTimeout(() => {
              addBotMessage(
-               "No problem at all. You can keep browsing — I’ll be here if you need help finding the right property.",
-               ["✅ Yes, let’s go"]
+               "No worries at all! Feel free to explore at your own pace. I'm here whenever you're ready - just let me know if you'd like my help finding the perfect property.",
+               ["Yes, please help me"]
              );
            }, 400);
            shouldAdvance = false;
@@ -260,8 +303,26 @@ export function Chatbot() {
          break;
        }
 
-       // 1: Intent
+       // 1: Name collection
        case 1: {
+         setData((prev) => ({ ...prev, userName: response }));
+         nextStep = 2;
+         setTimeout(() => {
+           addBotMessage(
+             `Nice to meet you, ${response}! Now, what are you looking for today? This helps me show you only the most relevant options.`,
+             [
+               "🏠 Buy a property",
+               "🏢 Rent a property",
+               "💼 Invest in real estate",
+               "🤝 Talk to an expert",
+             ]
+           );
+         }, 400);
+         break;
+       }
+
+       // 2: Intent
+       case 2: {
          const intent = response.includes("Buy")
            ? "Buy a property"
            : response.includes("Rent")
@@ -276,18 +337,19 @@ export function Chatbot() {
 
          if (intent === "Talk to an expert") {
            // Skip property questions → go straight to contact capture
-           nextStep = 8;
+           nextStep = 9;
            setTimeout(() => {
              addBotMessage(
-               "Perfect. I’ll connect you with an expert. What should we call you?",
+               `Perfect, ${data.userName || "there"}! I'll connect you with an expert right away. Please share your mobile number so our expert can reach you.`,
                []
              );
            }, 400);
          } else {
-           nextStep = 2;
+           nextStep = 3;
+           const userName = data.userName || "";
            setTimeout(() => {
              addBotMessage(
-               "Nice. What type of property interests you? (This keeps recommendations precise.)",
+               `${userName ? userName + ", " : ""}what type of property interests you? This helps me keep my recommendations precise for you.`,
                [
                  "Apartment / Flat",
                  "Villa / Independent House",
@@ -300,13 +362,14 @@ export function Chatbot() {
          break;
        }
 
-       // 2: Property type
-       case 2: {
+       // 3: Property type (previously case 2, now shifted)
+       case 3: {
          setData((prev) => ({ ...prev, propertyType: response }));
-         nextStep = 3;
+         nextStep = 4;
+         const userName = data.userName || "";
          setTimeout(() => {
            addBotMessage(
-             "Got it. Any preferred location? This helps us match projects that fit your lifestyle. 📍",
+             `Got it, ${userName}! Any preferred location? This helps us match projects that fit your lifestyle perfectly. 📍`,
              [
                "Noida",
                "Greater Noida",
@@ -320,18 +383,19 @@ export function Chatbot() {
          break;
        }
 
-       // 3: Location preference
-       case 3: {
+       // 4: Location preference
+       case 4: {
          setData((prev) => ({ ...prev, preferredLocation: response }));
-         nextStep = 4;
+         nextStep = 5;
+         const userName = data.userName || "";
          setTimeout(() => {
            addBotMessage(
-             "Understood. What budget range should I keep in mind? (So you only see realistic options.)",
+             `Understood, ${userName}! What budget range should I keep in mind? This way, you'll only see realistic options that work for you.`,
              [
-               "Under ₹50L",
-               "₹50L – ₹1 Cr",
-               "₹1 Cr – ₹2 Cr",
-               "₹2 Cr+",
+               "Under 1Cr",
+               "1-2 cr",
+               "2-5 cr",
+               "5 cr +",
                "Not decided yet",
              ]
            );
@@ -339,32 +403,33 @@ export function Chatbot() {
          break;
        }
 
-       // 4: Budget
-       case 4: {
+       // 5: Budget
+       case 5: {
          setData((prev) => ({ ...prev, budgetRange: response }));
-         nextStep = 5;
+         nextStep = 6;
 
          const propertyType = data.propertyType || "";
+         const userName = data.userName || "";
          if (propertyType.includes("Commercial")) {
            setTimeout(() => {
              addBotMessage(
-               "Almost there. What will the commercial space be used for?",
+               `Almost there, ${userName}! What will the commercial space be used for?`,
                ["Office", "Retail", "Warehouse", "Mixed-use"]
              );
            }, 400);
          } else if (propertyType.includes("Plot")) {
            // For plots, skip BHK / usage
-           nextStep = 6;
+           nextStep = 7;
            setTimeout(() => {
              addBotMessage(
-               "When are you planning to move or invest? This helps us prioritise the right options for you.",
+               `${userName}, when are you planning to move or invest? This helps us prioritize the right options for you.`,
                ["Immediately", "Within 1–3 months", "3–6 months", "Just exploring"]
              );
            }, 400);
          } else {
            setTimeout(() => {
              addBotMessage(
-               "Nice. For residential options, how many bedrooms are you looking for?",
+               `Nice, ${userName}! For residential options, how many bedrooms are you looking for?`,
                ["1 BHK", "2 BHK", "3 BHK", "4+ BHK", "Flexible"]
              );
            }, 400);
@@ -372,8 +437,8 @@ export function Chatbot() {
          break;
        }
 
-       // 5: Property details (BHK or commercial use)
-       case 5: {
+       // 6: Property details (BHK or commercial use) (previously case 5)
+       case 6: {
          const propertyType = data.propertyType || "";
 
          if (propertyType.includes("Commercial")) {
@@ -382,18 +447,19 @@ export function Chatbot() {
            setData((prev) => ({ ...prev, bhkPreference: response }));
          }
 
-         nextStep = 6;
+         nextStep = 7;
+         const userName = data.userName || "";
          setTimeout(() => {
            addBotMessage(
-             "Great. When are you planning to move or invest? (This helps us understand urgency.)",
+             `Great, ${userName}! When are you planning to move or invest? This helps us understand your timeline better.`,
              ["Immediately", "Within 1–3 months", "3–6 months", "Just exploring"]
            );
          }, 400);
          break;
        }
 
-      // 6: Timeline / lead score
-       case 6: {
+      // 7: Timeline / lead score
+       case 7: {
          let leadScore: "HOT" | "WARM" | "COLD" = "COLD";
          if (response.includes("Immediately")) leadScore = "HOT";
          else if (response.includes("1–3")) leadScore = "WARM";
@@ -404,10 +470,11 @@ export function Chatbot() {
            leadScore,
          }));
 
-        nextStep = 7;
+        nextStep = 8;
+        const userName = data.userName || "";
         setTimeout(() => {
           addBotMessage(
-            "Got it. To make this truly useful, what would you like help with right now?",
+            `Got it, ${userName}! To make this truly useful for you, what would you like help with right now?`,
             [
               "📸 Virtual tour",
               "📝 Shortlisted options with guidance",
@@ -419,8 +486,8 @@ export function Chatbot() {
          break;
        }
 
-      // 7: Value-add (single choice, but we store flags)
-       case 7: {
+      // 8: Value-add (single choice, but we store flags)
+       case 8: {
          setData((prev) => ({
            ...prev,
            wantsVirtualTour: response.includes("Virtual"),
@@ -430,35 +497,24 @@ export function Chatbot() {
            wantsExpertCall: response.includes("expert"),
          }));
 
-         nextStep = 8;
-         setTimeout(() => {
-           addBotMessage(
-             "Almost there ✨ By the way, what should I call you?",
-             []
-           );
-         }, 400);
-         break;
-       }
-
-      // 8: Name
-       case 8: {
-         setData((prev) => ({ ...prev, userName: response }));
          nextStep = 9;
+         const userName = data.userName || "";
          setTimeout(() => {
            addBotMessage(
-            "Thanks. Please share your mobile number so our expert can reach you with 2–3 best-matched options.",
+             `Almost there, ${userName} ✨ Please share your mobile number so our expert can reach you with 2–3 best-matched options.`,
              []
            );
          }, 400);
          break;
        }
 
-       // 9: Phone
+       // 9: Phone (previously case 9)
        case 9: {
          if (!isValidPhone(response)) {
+           const userName = data.userName || "";
            setTimeout(() => {
              addBotMessage(
-               "That doesn’t look like a valid phone number. Please enter a 10-digit mobile number so our expert can reach you. 😊",
+               `${userName ? userName + ", " : ""}that doesn't look like a valid phone number. Please enter a valid 10-digit mobile number. 😊`,
                []
              );
            }, 300);
@@ -468,9 +524,10 @@ export function Chatbot() {
 
         setData((prev) => ({ ...prev, phoneNumber: response.trim() }));
         nextStep = 10;
+        const userName = data.userName || "";
         setTimeout(() => {
           addBotMessage(
-            "Last step! How would you like to receive property details and shortlists?",
+            `Last step, ${userName}! How would you like to receive property details and shortlists?`,
             ["WhatsApp & Call", "Email"]
           );
         }, 400);
@@ -508,9 +565,10 @@ export function Chatbot() {
 
         if (pref === "Email") {
            nextStep = 11;
+           const userName = data.userName || "";
            setTimeout(() => {
              addBotMessage(
-               "Great. Please share your email so we can send you curated options and comparisons.",
+               `Great, ${userName}! Please share your email so we can send you curated options and comparisons.`,
                []
              );
            }, 400);
@@ -648,7 +706,7 @@ export function Chatbot() {
                   <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 text-[#CBB27A]" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="font-semibold text-[#CBB27A] text-sm sm:text-base truncate">Celeste Abode</h3>
+                  <h3 className="font-semibold text-[#CBB27A] text-sm sm:text-base truncate font-poppins">Property Advisor</h3>
                 </div>
               </div>
               <button
@@ -681,7 +739,7 @@ export function Chatbot() {
                      }`}
                    >
                      <p
-                       className={`text-xs sm:text-sm leading-relaxed break-words ${
+                       className={`text-xs sm:text-sm leading-relaxed break-words font-poppins ${
                          message.type === "user" ? "text-white" : "text-gray-800"
                        }`}
                      >
@@ -717,7 +775,7 @@ export function Chatbot() {
                          className="w-full text-left bg-[#0f1112] hover:bg-[#1a1c1e] active:bg-[#1a1c1e] text-white hover:text-[#CBB27A] active:text-[#CBB27A] rounded-lg px-3 py-2.5 sm:py-2 text-xs sm:text-xs transition-all duration-200 shadow-sm border border-[#CBB27A]/20 hover:border-[#CBB27A]/50 active:border-[#CBB27A]/50 flex items-center justify-between group touch-manipulation min-h-[44px] sm:min-h-[40px] ml-0"
                          style={{ marginLeft: 0 }}
                        >
-                         <span className="text-xs sm:text-xs break-words flex-1 pr-2">{option}</span>
+                         <span className="text-xs sm:text-xs break-words flex-1 pr-2 font-poppins">{option}</span>
                          <ChevronRight className="w-3.5 h-3.5 sm:w-3 sm:h-3 opacity-0 sm:group-hover:opacity-100 transition-opacity text-[#CBB27A] flex-shrink-0" />
                        </motion.button>
                      ))}
@@ -739,7 +797,7 @@ export function Chatbot() {
                <div ref={messagesEndRef} />
              </div>
 
-             {(currentStep === 8 || currentStep === 9 || currentStep === 11) && (
+             {(currentStep === 1 || currentStep === 9 || currentStep === 11) && (
                <form
                  onSubmit={handleInputSubmit}
                  className="px-3 pt-3 pb-4 sm:px-4 sm:pt-4 sm:pb-4 border-t border-gray-200 bg-white flex-shrink-0"
@@ -751,13 +809,13 @@ export function Chatbot() {
                      value={inputValue}
                      onChange={(e) => setInputValue(e.target.value)}
                      placeholder={
-                       currentStep === 8
+                       currentStep === 1
                          ? "Enter your name"
                          : currentStep === 9
                          ? "Enter your phone number"
                          : "Enter your email address"
                      }
-                     className="flex-1 text-sm sm:text-base h-[44px] sm:h-[40px] leading-[1.5] py-0"
+                     className="flex-1 text-sm sm:text-base h-[44px] sm:h-[40px] leading-[1.5] py-0 font-poppins"
                      style={{ lineHeight: '1.5', paddingTop: '0.625rem', paddingBottom: '0.625rem' }}
                      disabled={isSubmitting}
                      autoComplete={

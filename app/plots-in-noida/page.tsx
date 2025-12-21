@@ -22,7 +22,10 @@ import {
   Award,
   Zap,
   ArrowRight,
-  Star
+  Star,
+  TreePine,
+  Plane,
+  Landmark
 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
 
@@ -47,7 +50,7 @@ const itemVariants = {
   },
 };
 
-export default function VillaInNoidaPage() {
+export default function PlotsInNoidaPage() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -83,7 +86,7 @@ export default function VillaInNoidaPage() {
           lastName: formData.lastName,
           email: formData.email,
           phone: formData.phone,
-          message: formData.message || `Interested in Villa in Noida`,
+          message: formData.message || `Interested in Plots in Noida`,
         }),
       });
 
@@ -117,11 +120,11 @@ export default function VillaInNoidaPage() {
               transition={{ duration: 0.8 }}
             >
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-primary leading-tight">
-                Villa in Noida – Where Luxury{" "}
-                <span className="text-[#CBB27A]">Finds Its True Home</span>
+                Plots in Noida – The Foundation of{" "}
+                <span className="text-[#CBB27A]">Your Future</span>
               </h1>
               <p className="text-xl md:text-2xl text-muted-foreground font-light italic mb-4">
-                From Spaces You Live In to Spaces You Belong To
+                Because Every Legacy Begins with Land
               </p>
               <motion.div
                 initial={{ width: 0 }}
@@ -148,30 +151,12 @@ export default function VillaInNoidaPage() {
           >
             {/* Introduction */}
             <motion.div variants={itemVariants} className="text-center space-y-6">
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                In the heart of India's most connected city, Noida, a new definition of luxury living is taking shape - elegant villas designed not just to house your lifestyle, but to elevate it.
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto text-center">
+                In a city that's constantly evolving, owning land in Noida is more than a financial decision - it's an emotional investment in tomorrow.
               </p>
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                At <span className="text-[#CBB27A] font-semibold">Celeste Abode</span>, we believe a home should be more than architecture - it should be an emotion. A sanctuary where design meets desire, and sophistication meets serenity.
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto text-center">
+                At <span className="text-[#CBB27A] font-semibold">Celeste Abode</span>, we help you discover premium plots in Noida that combine location, legality, and long-term value. Whether you're planning to build your forever home or expand your investment portfolio, Noida's planned infrastructure, connectivity, and growth potential make it the perfect place to begin.
               </p>
-            </motion.div>
-
-            {/* The Essence Section */}
-            <motion.div variants={itemVariants} className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#CBB27A]/10 mb-6">
-                <Sparkles className="w-8 h-8 text-[#CBB27A]" />
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
-                The Essence of a Noida Villa
-              </h2>
-              <div className="max-w-3xl mx-auto space-y-4 text-lg text-muted-foreground leading-relaxed text-center">
-                <p>
-                  Every villa in Noida we curate tells a story - of space, sunlight, and subtle grandeur. Whether you're drawn to the lush green avenues of Sector 150, the tranquil neighbourhoods of Noida Extension, or the premium elegance near the Noida Expressway, each location offers a unique blend of comfort and connectivity.
-                </p>
-                <p>
-                  Our villas are thoughtfully designed with expansive living areas, landscaped gardens, private terraces, and the kind of quiet luxury that makes every day feel extraordinary.
-                </p>
-              </div>
             </motion.div>
 
             {/* Why Choose Section */}
@@ -181,33 +166,38 @@ export default function VillaInNoidaPage() {
                   <Award className="w-8 h-8 text-[#CBB27A]" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                  Why Choose a Villa in Noida?
+                  Why Choose a Plot in Noida?
                 </h2>
                 <p className="text-lg text-muted-foreground italic">
-                  Because luxury isn't about location - it's about lifestyle.
+                  Because freedom means building your dreams, brick by brick.
                 </p>
               </div>
               <div className="grid md:grid-cols-2 gap-6">
                 {[
                   {
                     icon: <Home className="w-6 h-6" />,
-                    title: "Space to Breathe",
-                    description: "Independent villas offer the freedom of open layouts, personal gardens, and privacy unmatched by apartments.",
+                    title: "Design Your Own Home",
+                    description: "Shape every corner exactly the way you've imagined - from garden to terrace.",
                   },
                   {
                     icon: <MapPin className="w-6 h-6" />,
-                    title: "Strategic Connectivity",
-                    description: "Noida connects seamlessly to Delhi, Gurugram, and Greater Noida via expressways, metro, and upcoming airport routes.",
+                    title: "Unmatched Connectivity",
+                    description: "Quick access to Delhi, Greater Noida, and Gurugram via the Noida Expressway and metro network.",
                   },
                   {
                     icon: <TrendingUp className="w-6 h-6" />,
-                    title: "Investment Value",
-                    description: "Noida's real estate market continues to thrive, making villas a high-appreciation, low-risk asset.",
+                    title: "High Appreciation",
+                    description: "Noida's real estate market continues to see strong capital growth and rising demand for plotted developments.",
                   },
                   {
-                    icon: <Heart className="w-6 h-6" />,
-                    title: "Quality of Life",
-                    description: "With international schools, hospitals, shopping districts, and golf courses nearby - every comfort is within reach.",
+                    icon: <TreePine className="w-6 h-6" />,
+                    title: "Planned and Green City",
+                    description: "Wide roads, green belts, and regulated development ensure long-term value.",
+                  },
+                  {
+                    icon: <Zap className="w-6 h-6" />,
+                    title: "Smart Infrastructure",
+                    description: "From IT parks to international schools, everything you need is minutes away.",
                   },
                 ].map((item, index) => (
                   <motion.div
@@ -236,28 +226,33 @@ export default function VillaInNoidaPage() {
                 <Building2 className="w-8 h-8 text-[#CBB27A]" />
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
-                Celeste Abode – Crafting Lifestyle-Aligned Homes
+                Celeste Abode – Where Land Meets Vision
               </h2>
               <div className="max-w-3xl mx-auto space-y-6">
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  At Celeste Abode, we go beyond transactions - we understand aspirations. Our consultants blend lifestyle mapping, legal diligence, and investment foresight to help you find a villa that reflects who you are.
+                  At Celeste Abode, we believe buying land isn't about square footage - it's about creating the space for your future story. Our expert consultants help you find legally verified, strategically located plots that align with your goals - whether for living or investment.
                 </p>
-                <div className="grid md:grid-cols-3 gap-6 mt-8">
+                <div className="grid md:grid-cols-2 gap-6 mt-8">
                   {[
                     {
-                      icon: <Zap className="w-6 h-6" />,
-                      title: "AI-Driven Matching",
-                      description: "To pair you with properties that fit your vision and values.",
-                    },
-                    {
                       icon: <Shield className="w-6 h-6" />,
-                      title: "RERA-Verified Listings",
-                      description: "For complete legal peace of mind.",
+                      title: "RERA-approved plots",
+                      description: "And authority-verified plots for complete peace of mind.",
                     },
                     {
                       icon: <TrendingUp className="w-6 h-6" />,
-                      title: "ROI Transparency",
-                      description: "So you know where your investment truly stands.",
+                      title: "Transparent pricing",
+                      description: "And ROI insights based on real market data.",
+                    },
+                    {
+                      icon: <Heart className="w-6 h-6" />,
+                      title: "Personalized consultation",
+                      description: "To match your budget, purpose, and lifestyle.",
+                    },
+                    {
+                      icon: <Zap className="w-6 h-6" />,
+                      title: "Developer guidance",
+                      description: "If you wish to build your home with trusted partners.",
                     },
                   ].map((item, index) => (
                     <motion.div
@@ -277,41 +272,46 @@ export default function VillaInNoidaPage() {
                   ))}
                 </div>
                 <p className="text-lg text-muted-foreground leading-relaxed italic mt-8">
-                  Because we don't just sell homes - we help you build legacies.
+                  Because land isn't just property - it's potential waiting to be realized.
                 </p>
               </div>
             </motion.div>
 
-            {/* Popular Locations Section */}
+            {/* Top Localities Section */}
             <motion.div variants={itemVariants} className="bg-gradient-to-br from-primary/5 to-[#CBB27A]/5 rounded-3xl p-8 md:p-12 border border-[#CBB27A]/20">
               <div className="text-center mb-10">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#CBB27A]/10 mb-6">
                   <MapPin className="w-8 h-8 text-[#CBB27A]" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
-                  Popular Villa Locations in Noida
+                  Top Localities for Plots in Noida
                 </h2>
               </div>
               <div className="grid md:grid-cols-2 gap-6">
                 {[
                   {
                     title: "Sector 150",
-                    description: "Green luxury, golf-course views, and premium gated communities.",
+                    description: "Greenest sector of Noida with premium residential land.",
                     icon: <Star className="w-5 h-5" />,
                   },
                   {
-                    title: "Noida Expressway",
-                    description: "High-rise convenience meets villa serenity.",
+                    title: "Sector 162–165",
+                    description: "High-growth corridor near Noida Expressway.",
                     icon: <Star className="w-5 h-5" />,
                   },
                   {
-                    title: "Noida Extension",
-                    description: "Expanding residential hub with modern infrastructure.",
+                    title: "Sector 117 & 118",
+                    description: "Ideal for family homes and gated developments.",
+                    icon: <Star className="w-5 h-5" />,
+                  },
+                  {
+                    title: "Yamuna Expressway & Sector 22D",
+                    description: "Future-ready zones near Jewar Airport - perfect for investors.",
                     icon: <Star className="w-5 h-5" />,
                   },
                   {
                     title: "Sector 44 & 47",
-                    description: "Established villa zones with timeless charm.",
+                    description: "Established luxury zones with limited, high-value plots.",
                     icon: <Star className="w-5 h-5" />,
                   },
                 ].map((location, index) => (
@@ -333,40 +333,37 @@ export default function VillaInNoidaPage() {
                   </motion.div>
                 ))}
               </div>
-              <p className="text-center text-muted-foreground mt-8 max-w-2xl mx-auto">
-                Whether you seek a 3 BHK contemporary villa, a 4 BHK premium residence, or a custom-built estate, Noida offers options that balance beauty, space, and investment potential.
-              </p>
             </motion.div>
 
-            {/* Who Should Consider Section */}
+            {/* Who Should Invest Section */}
             <motion.div variants={itemVariants} className="text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#CBB27A]/10 mb-6">
                 <Users className="w-8 h-8 text-[#CBB27A]" />
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-10">
-                Who Should Consider a Villa in Noida?
+                Who Should Invest in Plots in Noida?
               </h2>
               <div className="grid md:grid-cols-2 gap-6">
                 {[
                   {
-                    title: "Families Seeking Space & Security",
-                    description: "Private gardens, gated communities, and abundant amenities.",
-                    icon: <Heart className="w-6 h-6" />,
+                    title: "Home Builders",
+                    description: "Create a home that reflects your taste, from layout to lifestyle.",
+                    icon: <Home className="w-6 h-6" />,
                   },
                   {
-                    title: "Professionals & Entrepreneurs",
-                    description: "Proximity to business hubs with a peaceful lifestyle.",
-                    icon: <Zap className="w-6 h-6" />,
+                    title: "Investors",
+                    description: "Secure appreciating land assets in NCR's most organized city.",
+                    icon: <TrendingUp className="w-6 h-6" />,
                   },
                   {
-                    title: "NRIs & Investors",
-                    description: "High-yield, asset-secure real estate with excellent resale value.",
+                    title: "NRIs",
+                    description: "Safeguard capital in tangible, high-return Indian real estate.",
                     icon: <Globe className="w-6 h-6" />,
                   },
                   {
-                    title: "Luxury Seekers",
-                    description: "For those who believe home is not just where you live - it's how you live.",
-                    icon: <Award className="w-6 h-6" />,
+                    title: "Developers",
+                    description: "Build boutique villa projects or mixed-use properties in emerging sectors.",
+                    icon: <Building2 className="w-6 h-6" />,
                   },
                 ].map((item, index) => (
                   <motion.div
@@ -391,16 +388,19 @@ export default function VillaInNoidaPage() {
               </div>
             </motion.div>
 
-            {/* Experience Section */}
+            {/* Advantage Section */}
             <motion.div variants={itemVariants} className="text-center bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-border">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#CBB27A]/10 mb-6">
                 <Sparkles className="w-8 h-8 text-[#CBB27A]" />
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
-                The Celeste Abode Experience
+                The Celeste Abode Advantage
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                Buying a villa with Celeste Abode isn't a transaction - it's a journey. From your first conversation to the final handshake, our experts walk with you every step of the way. We combine empathy with expertise, technology with trust - ensuring your next address is more than a location; it's a legacy.
+                Buying a plot can be complex - but with Celeste Abode, it's transparent, guided, and rewarding. We simplify every step, ensuring your purchase is secure, compliant, and future-ready. From identifying the right sector to verifying documents and closing the deal, our experts stand beside you with integrity and insight.
+              </p>
+              <p className="text-lg text-muted-foreground leading-relaxed italic mt-6">
+                Because the land you choose today becomes the life you build tomorrow.
               </p>
             </motion.div>
 
@@ -411,30 +411,30 @@ export default function VillaInNoidaPage() {
                   <MessageCircle className="w-8 h-8 text-[#CBB27A]" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-primary mb-2">
-                  Frequently Asked Questions
+                  Frequently Asked Questions (FAQs)
                 </h2>
               </div>
               <div className="space-y-6 max-w-3xl mx-auto">
                 {[
                   {
-                    q: "What is the starting price of villas in Noida?",
-                    a: "Depending on the sector and project, villas start from ₹1.5 Cr and go upwards of ₹10 Cr for ultra-luxury residences.",
+                    q: "What is the price range of plots in Noida?",
+                    a: "Residential plots start around ₹60 lakh and go up to ₹8 crore and above, depending on sector, size, and proximity to expressways.",
                   },
                   {
-                    q: "Are the villas RERA-approved?",
-                    a: "Yes, every property we recommend at Celeste Abode is verified and compliant with RERA regulations.",
+                    q: "Are the plots RERA-approved?",
+                    a: "Yes. All plots curated by Celeste Abode are RERA-registered and approved by the Noida Authority.",
                   },
                   {
-                    q: "Can I customize the interiors or architecture?",
-                    a: "Many premium villa projects offer customization options for interiors, landscaping, and smart-home automation.",
+                    q: "Which sectors are best for buying plots in Noida?",
+                    a: "Sectors 150, 162, 117, and the Yamuna Expressway belt are currently in high demand.",
                   },
                   {
-                    q: "Is Noida a good area for real-estate investment?",
-                    a: "Absolutely. With excellent infrastructure, corporate presence, and the upcoming Jewar Airport, Noida is among India's fastest-growing real-estate markets.",
+                    q: "Can I get loan assistance for buying a plot?",
+                    a: "Yes. Several leading banks and NBFCs offer plot purchase loans, and Celeste Abode assists you through the process.",
                   },
                   {
-                    q: "Does Celeste Abode offer end-to-end support?",
-                    a: "Yes - from property selection to legal checks, negotiations, and handover, we ensure a smooth and transparent process.",
+                    q: "Is buying a plot in Noida a safe investment?",
+                    a: "Absolutely. Noida's regulatory framework, planned infrastructure, and upcoming projects make it one of NCR's most secure land markets.",
                   },
                 ].map((faq, index) => (
                   <motion.div
@@ -457,13 +457,13 @@ export default function VillaInNoidaPage() {
             {/* CTA Section */}
             <motion.div variants={itemVariants} className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                Start Your Villa Journey in Noida Today
+                Start Your Land Ownership Journey Today
               </h2>
               <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
-                If you've ever dreamed of owning a space that mirrors your success and serenity - Celeste Abode is your destination. Explore Noida's most prestigious villas and discover homes that redefine elegance, comfort, and value.
+                Dreaming of your own address in one of NCR's most promising cities? Let Celeste Abode guide you to the perfect plot in Noida - where your vision takes root and your legacy begins.
               </p>
               <p className="text-muted-foreground italic text-lg text-center max-w-2xl mx-auto">
-                Because luxury isn't just about where you live - it's about how beautifully you live there.
+                Because every great dream begins with a foundation - and yours begins here, in Noida.
               </p>
             </motion.div>
           </motion.div>
@@ -495,10 +495,10 @@ export default function VillaInNoidaPage() {
               </motion.div>
               <h2 className="text-3xl md:text-4xl font-bold text-primary leading-tight">
                 Ready to Explore{" "}
-                <span className="text-[#CBB27A]">Noida Villas?</span>
+                <span className="text-[#CBB27A]">Plots in Noida?</span>
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Connect with our expert advisors for personalized guidance and exclusive villa insights. We're here to help you find the perfect villa that matches your lifestyle and investment goals.
+                Connect with our expert advisors for personalized guidance and exclusive plot insights. We're here to help you find the perfect plot that matches your lifestyle and investment goals.
               </p>
 
               {/* Contact Information */}
@@ -550,7 +550,7 @@ export default function VillaInNoidaPage() {
                   </h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
                     Our team will contact you within{" "}
-                    <span className="font-semibold text-[#CBB27A]">12-24 hours</span> to discuss your villa requirements.
+                    <span className="font-semibold text-[#CBB27A]">12-24 hours</span> to discuss your plot requirements.
                   </p>
                 </motion.div>
               ) : (
@@ -646,7 +646,7 @@ export default function VillaInNoidaPage() {
                       onChange={handleChange}
                       rows={3}
                       className="w-full px-3 py-2.5 rounded-lg border border-border bg-background text-primary placeholder-muted focus:outline-none focus:ring-2 focus:ring-[#CBB27A] focus:border-transparent transition-all resize-none text-sm"
-                      placeholder="Tell us about your villa requirements..."
+                      placeholder="Tell us about your plot requirements..."
                     />
                   </div>
 

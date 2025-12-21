@@ -108,7 +108,7 @@ export default function AdminSidebar() {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="md:hidden fixed top-4 left-4 z-[60] p-2 bg-white rounded-lg shadow-md border border-gray-200"
+        className="md:hidden fixed top-4 left-4 z-[60] p-3 bg-white rounded-xl shadow-lg border border-gray-200/50 hover:bg-gray-50 transition-all duration-200"
         aria-label="Toggle menu"
       >
         {isMobileMenuOpen ? (
@@ -119,7 +119,7 @@ export default function AdminSidebar() {
       </button>
 
       {/* Desktop Sidebar */}
-      <aside className="hidden md:flex fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 shadow-sm z-50">
+      <aside className="hidden md:flex fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200/50 shadow-lg z-50">
         {sidebarContent}
       </aside>
 
@@ -141,7 +141,7 @@ export default function AdminSidebar() {
               animate={{ x: 0 }}
               exit={{ x: -256 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 shadow-xl z-[60] md:hidden"
+              className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200/50 shadow-2xl z-[60] md:hidden"
             >
               {sidebarContent}
             </motion.aside>

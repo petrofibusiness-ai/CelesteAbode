@@ -576,31 +576,41 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 space-y-4 sm:space-y-6">
-        {/* Basic Information */}
-        <div>
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: "Poppins, sans-serif" }}>
-            Basic Information
-          </h2>
+      {/* Basic Information Section */}
+      <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6 sm:p-8 space-y-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#CBB27A]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#CBB27A] to-[#B8A068] rounded-xl flex items-center justify-center shadow-lg">
+              <FileText className="w-5 h-5 text-white" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Basic Information
+            </h2>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             <div>
-              <Label htmlFor="slug" className="text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <Label htmlFor="slug" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
                 URL Slug *
               </Label>
               <Input
                 id="slug"
                 value={formData.slug}
                 onChange={(e) => handleChange("slug", e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"))}
-                placeholder="forest-walk-villa"
-                className={errors.slug ? "border-red-500" : ""}
+                placeholder="e.g., forest-walk-villa"
+                className={`h-11 border-2 placeholder:text-gray-400 ${errors.slug ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20"} rounded-xl transition-all`}
                 required
+                style={{ fontFamily: "Poppins, sans-serif" }}
               />
-              {errors.slug && <p className="text-red-500 text-sm mt-1">{errors.slug}</p>}
-              <p className="text-xs text-gray-500 mt-1">Used in URL: /projects/{formData.slug || "..."}</p>
+              {errors.slug && <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                {errors.slug}
+              </p>}
+              <p className="text-xs text-gray-500 mt-2">Used in URL: /projects/{formData.slug || "..."}</p>
             </div>
 
             <div>
-              <Label htmlFor="projectName" className="text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <Label htmlFor="projectName" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Project Name *
               </Label>
               <Input
@@ -608,29 +618,37 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                 value={formData.projectName}
                 onChange={(e) => handleChange("projectName", e.target.value)}
                 placeholder="FOREST WALK VILLA"
-                className={errors.projectName ? "border-red-500" : ""}
+                className={`h-11 border-2 ${errors.projectName ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20"} rounded-xl transition-all`}
                 required
+                style={{ fontFamily: "Poppins, sans-serif" }}
               />
-              {errors.projectName && <p className="text-red-500 text-sm mt-1">{errors.projectName}</p>}
+              {errors.projectName && <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                {errors.projectName}
+              </p>}
             </div>
 
             <div>
-              <Label htmlFor="developer" className="text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <Label htmlFor="developer" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Developer *
               </Label>
               <Input
                 id="developer"
                 value={formData.developer}
                 onChange={(e) => handleChange("developer", e.target.value)}
-                placeholder="Madhusudan Group / Yatharth Group"
-                className={errors.developer ? "border-red-500" : ""}
+                placeholder="e.g., Madhusudan Group / Yatharth Group"
+                className={`h-11 border-2 placeholder:text-gray-400 ${errors.developer ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20"} rounded-xl transition-all`}
                 required
+                style={{ fontFamily: "Poppins, sans-serif" }}
               />
-              {errors.developer && <p className="text-red-500 text-sm mt-1">{errors.developer}</p>}
+              {errors.developer && <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                {errors.developer}
+              </p>}
             </div>
 
             <div>
-              <Label htmlFor="location" className="text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <Label htmlFor="location" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Location *
               </Label>
               <Input
@@ -638,26 +656,32 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                 value={formData.location}
                 onChange={(e) => handleChange("location", e.target.value)}
                 placeholder="NH-24, Dasna, Ghaziabad"
-                className={errors.location ? "border-red-500" : ""}
+                className={`h-11 border-2 ${errors.location ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20"} rounded-xl transition-all`}
                 required
+                style={{ fontFamily: "Poppins, sans-serif" }}
               />
-              {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
+              {errors.location && <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                {errors.location}
+              </p>}
             </div>
 
             <div>
-              <Label htmlFor="reraId" className="text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <Label htmlFor="reraId" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
                 RERA ID
               </Label>
               <Input
                 id="reraId"
                 value={formData.reraId}
                 onChange={(e) => handleChange("reraId", e.target.value)}
-                placeholder="UPRERAPRJ658961/08/2025"
+                placeholder="e.g., UPRERAPRJ658961/08/2025"
+                className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all placeholder:text-gray-400"
+                style={{ fontFamily: "Poppins, sans-serif" }}
               />
             </div>
 
             <div>
-              <Label htmlFor="status" className="text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <Label htmlFor="status" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Status *
               </Label>
               <Input
@@ -665,12 +689,14 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                 value={formData.status}
                 onChange={(e) => handleChange("status", e.target.value)}
                 placeholder="Under Construction"
+                className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all"
                 required
+                style={{ fontFamily: "Poppins, sans-serif" }}
               />
             </div>
 
             <div>
-              <Label htmlFor="possessionDate" className="text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <Label htmlFor="possessionDate" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Possession Date
               </Label>
               <Input
@@ -694,105 +720,140 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                     handleChange("possessionDate", "");
                   }
                 }}
-                className="cursor-pointer"
+                className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all cursor-pointer"
+                style={{ fontFamily: "Poppins, sans-serif" }}
               />
               {formData.possessionDate && formData.possessionDate.match(/^\d{4}-\d{2}-\d{2}$/) && (
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gray-500 mt-2">
                   Selected: {new Date(formData.possessionDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                 </p>
               )}
             </div>
 
             <div>
-              <Label htmlFor="sizes" className="text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <Label htmlFor="sizes" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Sizes *
               </Label>
               <Input
                 id="sizes"
                 value={formData.sizes}
                 onChange={(e) => handleChange("sizes", e.target.value)}
-                placeholder="163 sq. yd - 238 sq. yd (3,070 sq.ft - 4,200 sq.ft)"
+                placeholder="e.g., 163 sq. yd - 238 sq. yd (3,070 sq.ft - 4,200 sq.ft)"
+                className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all placeholder:text-gray-400"
                 required
+                style={{ fontFamily: "Poppins, sans-serif" }}
               />
             </div>
 
             <div>
-              <Label htmlFor="price" className="text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <Label htmlFor="price" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Price Range
               </Label>
               <Input
                 id="price"
                 value={formData.price}
                 onChange={(e) => handleChange("price", e.target.value)}
-                placeholder="₹2.5 Cr - ₹4 Cr"
+                placeholder="e.g., ₹2.5 Cr - ₹4 Cr"
+                className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all placeholder:text-gray-400"
+                style={{ fontFamily: "Poppins, sans-serif" }}
               />
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Description */}
-        <div>
-          <Label htmlFor="description" className="text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
-            Description *
-          </Label>
-          <Textarea
-            id="description"
-            value={formData.description}
-            onChange={(e) => handleChange("description", e.target.value)}
-            placeholder="Enter property description..."
-            rows={6}
-            className={errors.description ? "border-red-500" : ""}
-            required
-          />
-          {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
+      {/* Description Section */}
+      <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6 sm:p-8 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#CBB27A]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#CBB27A] to-[#B8A068] rounded-xl flex items-center justify-center shadow-lg">
+              <FileText className="w-5 h-5 text-white" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Description
+            </h2>
+          </div>
+          <div>
+            <Label htmlFor="description" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Property Description *
+            </Label>
+            <Textarea
+              id="description"
+              value={formData.description}
+              onChange={(e) => handleChange("description", e.target.value)}
+              placeholder="e.g., Enter property description..."
+              rows={6}
+              className={`border-2 placeholder:text-gray-400 ${errors.description ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20"} rounded-xl transition-all resize-none`}
+              required
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            />
+            {errors.description && <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+              {errors.description}
+            </p>}
+          </div>
         </div>
+      </div>
 
-        {/* Unit Types */}
-        <div>
-          <Label className="text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+      {/* Unit Types & Media Section */}
+      <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6 sm:p-8 space-y-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#CBB27A]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div className="relative z-10">
+          {/* Unit Types */}
+          <div className="mt-8">
+          <Label className="text-base sm:text-lg font-bold text-gray-800 mb-6 block" style={{ fontFamily: "Poppins, sans-serif" }}>
             Unit Types
           </Label>
-          <div className="flex gap-2 mb-2">
+          <div className="flex gap-2 mb-3">
             <Input
               value={unitTypeInput}
               onChange={(e) => setUnitTypeInput(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addUnitType())}
               placeholder="e.g., 4 BHK + 5T Villas"
+              className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all"
+              style={{ fontFamily: "Poppins, sans-serif" }}
             />
-            <Button type="button" onClick={addUnitType} variant="outline">
-              <Plus className="w-4 h-4" />
+            <Button 
+              type="button" 
+              onClick={addUnitType} 
+              variant="outline"
+              className="h-11 w-11 border-2 border-gray-300 hover:border-[#CBB27A] hover:bg-[#CBB27A]/10 hover:text-[#CBB27A] rounded-xl transition-all"
+            >
+              <Plus className="w-5 h-5" />
             </Button>
           </div>
           <div className="flex flex-wrap gap-2">
             {formData.unitTypes.map((type, index) => (
               <span
                 key={index}
-                className="inline-flex items-center gap-2 px-3 py-1 bg-gray-100 rounded-lg text-sm"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#CBB27A]/10 to-[#CBB27A]/5 border border-[#CBB27A]/20 rounded-xl text-sm font-medium text-gray-700"
+                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 {type}
                 <button
                   type="button"
                   onClick={() => removeUnitType(index)}
-                  className="text-red-600 hover:text-red-700"
+                  className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-full p-0.5 transition-colors"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </span>
             ))}
           </div>
-        </div>
+          </div>
 
-        {/* Hero Image */}
-        <div>
-          <Label className="text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+          {/* Hero Image */}
+          <div className="mt-8">
+          <Label className="text-base sm:text-lg font-bold text-gray-800 mb-6 block" style={{ fontFamily: "Poppins, sans-serif" }}>
             Hero Image *
           </Label>
           {previewUrls.hero || formData.heroImage ? (
-            <div className="relative w-full h-64 rounded-lg overflow-hidden border border-gray-200">
+            <div className="relative w-full h-64 rounded-xl overflow-hidden border-2 border-gray-200 shadow-md group">
               <img 
                 src={previewUrls.hero || formData.heroImage} 
                 alt="Hero" 
-                className="w-full h-full object-cover" 
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
               />
               <button
                 type="button"
@@ -803,22 +864,25 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                     handleChange("heroImage", "");
                   }
                 }}
-                className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1"
+                className="absolute top-3 right-3 bg-red-500 hover:bg-red-600 text-white rounded-full p-2 shadow-lg hover:scale-110 transition-all duration-200"
               >
                 <X className="w-4 h-4" />
               </button>
               {previewUrls.hero && (
-                <div className="absolute bottom-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded">
+                <div className="absolute bottom-3 left-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs px-3 py-1.5 rounded-full shadow-lg font-medium">
                   Will upload on save
                 </div>
               )}
             </div>
           ) : (
-            <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <ImageIcon className="w-8 h-8 text-gray-400" />
-                <p className="mb-2 text-sm text-gray-500">
-                  <span className="font-semibold">Click to upload</span> or drag and drop
+            <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#CBB27A] hover:bg-[#CBB27A]/5 transition-all duration-200 group relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#CBB27A]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative z-10 flex flex-col items-center justify-center pt-5 pb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-[#CBB27A]/20 to-[#CBB27A]/10 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                  <ImageIcon className="w-6 h-6 text-[#CBB27A]" />
+                </div>
+                <p className="mb-2 text-sm text-gray-700 font-medium">
+                  <span className="font-semibold text-[#CBB27A]">Click to upload</span> or drag and drop
                 </p>
                 <p className="text-xs text-gray-500">PNG, JPG, WEBP (MAX. 10MB)</p>
                 <p className="text-xs text-gray-400 mt-1">File will be uploaded when you save</p>
@@ -835,19 +899,24 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
               />
             </label>
           )}
-          {errors.heroImage && <p className="text-red-500 text-sm mt-1">{errors.heroImage}</p>}
+          {errors.heroImage && <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+            <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+            {errors.heroImage}
+          </p>}
         </div>
 
         {/* Brochure */}
-        <div>
-          <Label className="text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+        <div className="mt-8">
+          <Label className="text-base sm:text-lg font-bold text-gray-800 mb-6 block" style={{ fontFamily: "Poppins, sans-serif" }}>
             Brochure PDF
           </Label>
           {previewUrls.brochure || formData.brochureUrl ? (
-            <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
-              <FileText className="w-5 h-5 text-gray-600" />
+            <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-gray-50 to-gray-50/50 rounded-xl border-2 border-gray-200 shadow-sm hover:shadow-md transition-all">
+              <div className="w-10 h-10 bg-gradient-to-br from-[#CBB27A]/20 to-[#CBB27A]/10 rounded-lg flex items-center justify-center">
+                <FileText className="w-5 h-5 text-[#CBB27A]" />
+              </div>
               {previewUrls.brochure ? (
-                <span className="text-sm text-gray-700 flex-1">
+                <span className="text-sm text-gray-700 flex-1 font-medium" style={{ fontFamily: "Poppins, sans-serif" }}>
                   {tempFiles.brochure?.name} ({(tempFiles.brochure ? (tempFiles.brochure.size / 1024 / 1024).toFixed(2) : "0")} MB)
                 </span>
               ) : (
@@ -855,7 +924,8 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                   href={formData.brochureUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm text-blue-600 hover:underline flex-1"
+                  className="text-sm text-blue-600 hover:text-blue-700 hover:underline flex-1 font-medium"
+                  style={{ fontFamily: "Poppins, sans-serif" }}
                 >
                   View Brochure
                 </a>
@@ -869,17 +939,20 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                     handleChange("brochureUrl", "");
                   }
                 }}
-                className="text-red-600 hover:text-red-700"
+                className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg p-2 transition-all"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
           ) : (
-            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
-              <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                <FileText className="w-8 h-8 text-gray-400" />
-                <p className="mb-2 text-sm text-gray-500">
-                  <span className="font-semibold">Click to upload PDF (max. 10mb)</span>
+            <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#CBB27A] hover:bg-[#CBB27A]/5 transition-all duration-200 group relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#CBB27A]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <div className="relative z-10 flex flex-col items-center justify-center pt-5 pb-6">
+                <div className="w-10 h-10 bg-gradient-to-br from-[#CBB27A]/20 to-[#CBB27A]/10 rounded-lg flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                  <FileText className="w-5 h-5 text-[#CBB27A]" />
+                </div>
+                <p className="mb-2 text-sm text-gray-700 font-medium">
+                  <span className="font-semibold text-[#CBB27A]">Click to upload PDF</span> (max. 10mb)
                 </p>
               </div>
               <input
@@ -894,22 +967,22 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
               />
             </label>
           )}
-        </div>
+          </div>
 
-        {/* Gallery Images */}
-        <div>
-          <Label className="text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+          {/* Gallery Images */}
+          <div className="mt-8">
+          <Label className="text-base sm:text-lg font-bold text-gray-800 mb-6 block" style={{ fontFamily: "Poppins, sans-serif" }}>
             Gallery Images
           </Label>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 mb-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-4">
             {/* Existing uploaded images */}
             {formData.images.map((img, index) => (
-              <div key={`existing-${index}`} className="relative aspect-square rounded-lg overflow-hidden border border-gray-200">
-                <img src={img} alt={`Gallery ${index + 1}`} className="w-full h-full object-cover" />
+              <div key={`existing-${index}`} className="relative aspect-square rounded-xl overflow-hidden border-2 border-gray-200 shadow-sm hover:shadow-md transition-all group">
+                <img src={img} alt={`Gallery ${index + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
                 <button
                   type="button"
                   onClick={() => removeImage(index, false)}
-                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
+                  className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -917,24 +990,24 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
             ))}
             {/* Temporary images (preview) */}
             {previewUrls.images.map((previewUrl, index) => (
-              <div key={`temp-${index}`} className="relative aspect-square rounded-lg overflow-hidden border border-gray-200 border-dashed">
-                <img src={previewUrl} alt={`New ${index + 1}`} className="w-full h-full object-cover" />
+              <div key={`temp-${index}`} className="relative aspect-square rounded-xl overflow-hidden border-2 border-gray-200 border-dashed shadow-sm group">
+                <img src={previewUrl} alt={`New ${index + 1}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
                 <button
                   type="button"
                   onClick={() => removeImage(index, true)}
-                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
+                  className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   <X className="w-4 h-4" />
                 </button>
-                <div className="absolute bottom-1 left-1 bg-blue-500 text-white text-xs px-1 py-0.5 rounded">
+                <div className="absolute bottom-2 left-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs px-2 py-1 rounded-full shadow-lg font-medium">
                   New
                 </div>
               </div>
             ))}
           </div>
-          <label className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
-            <ImageIcon className="w-4 h-4" />
-            <span className="text-sm">Add Image</span>
+          <label className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-gray-300 hover:border-[#CBB27A] rounded-xl cursor-pointer hover:bg-[#CBB27A]/5 transition-all duration-200 font-medium">
+            <ImageIcon className="w-5 h-5 text-[#CBB27A]" />
+            <span className="text-sm text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>Add Image</span>
             <input
               type="file"
               className="hidden"
@@ -946,26 +1019,29 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
               disabled={loading || uploading === "all"}
             />
           </label>
-          <p className="text-xs text-gray-400 mt-1">Images will be uploaded when you save the property</p>
+          <p className="text-xs text-gray-500 mt-2" style={{ fontFamily: "Poppins, sans-serif" }}>Images will be uploaded when you save the property</p>
         </div>
 
         {/* Videos */}
-        <div>
-          <Label className="text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+        <div className="mt-8">
+          <Label className="text-base sm:text-lg font-bold text-gray-800 mb-6 block" style={{ fontFamily: "Poppins, sans-serif" }}>
             Videos
           </Label>
-          <div className="space-y-4 mb-4">
+          <div className="space-y-3 mb-4">
             {/* Existing uploaded videos */}
             {(formData.videos || []).map((video, index) => (
-              <div key={`existing-video-${index}`} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                <Video className="w-5 h-5 text-gray-600" />
+              <div key={`existing-video-${index}`} className="flex items-center gap-4 p-4 bg-gradient-to-r from-gray-50 to-gray-50/50 rounded-xl border-2 border-gray-200 shadow-sm hover:shadow-md transition-all">
+                <div className="w-10 h-10 bg-gradient-to-br from-[#CBB27A]/20 to-[#CBB27A]/10 rounded-lg flex items-center justify-center">
+                  <Video className="w-5 h-5 text-[#CBB27A]" />
+                </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium">{video.title}</p>
+                  <p className="text-sm font-medium text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>{video.title}</p>
                   <a
                     href={video.src}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-blue-600 hover:underline"
+                    className="text-xs text-blue-600 hover:text-blue-700 hover:underline font-medium"
+                    style={{ fontFamily: "Poppins, sans-serif" }}
                   >
                     View Video
                   </a>
@@ -973,7 +1049,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                 <button
                   type="button"
                   onClick={() => removeVideo(index, false)}
-                  className="text-red-600 hover:text-red-700"
+                  className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg p-2 transition-all"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -981,25 +1057,27 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
             ))}
             {/* Temporary videos (preview) */}
             {previewUrls.videos.map((previewUrl, index) => (
-              <div key={`temp-video-${index}`} className="flex items-center gap-4 p-3 bg-blue-50 rounded-lg border border-blue-200 border-dashed">
-                <Video className="w-5 h-5 text-blue-600" />
+              <div key={`temp-video-${index}`} className="flex items-center gap-4 p-4 bg-gradient-to-r from-blue-50 to-blue-50/50 rounded-xl border-2 border-blue-200 border-dashed shadow-sm">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-100 to-blue-50 rounded-lg flex items-center justify-center">
+                  <Video className="w-5 h-5 text-blue-600" />
+                </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium">{tempFiles.videos[index]?.name || `Video ${index + 1}`}</p>
-                  <p className="text-xs text-blue-600">Will upload on save</p>
+                  <p className="text-sm font-medium text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>{tempFiles.videos[index]?.name || `Video ${index + 1}`}</p>
+                  <p className="text-xs text-blue-600 font-medium">Will upload on save</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => removeVideo(index, true)}
-                  className="text-red-600 hover:text-red-700"
+                  className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg p-2 transition-all"
                 >
                   <X className="w-4 h-4" />
                 </button>
               </div>
             ))}
           </div>
-          <label className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
-            <Video className="w-4 h-4" />
-            <span className="text-sm">Add Video</span>
+          <label className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-gray-300 hover:border-[#CBB27A] rounded-xl cursor-pointer hover:bg-[#CBB27A]/5 transition-all duration-200 font-medium">
+            <Video className="w-5 h-5 text-[#CBB27A]" />
+            <span className="text-sm text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>Add Video</span>
             <input
               type="file"
               className="hidden"
@@ -1011,29 +1089,38 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
               disabled={loading || uploading === "all"}
             />
           </label>
-          <p className="text-xs text-gray-500 mt-1">MP4, MOV, WEBM (MAX. 50MB)</p>
-        </div>
+            <p className="text-xs text-gray-500 mt-2" style={{ fontFamily: "Poppins, sans-serif" }}>MP4, MOV, WEBM (MAX. 50MB)</p>
+          </div>
 
-        {/* Amenities */}
-        <div>
+          {/* Amenities */}
+          <div className="mt-8">
+          <Label className="text-base sm:text-lg font-bold text-gray-800 mb-6 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+            Amenities
+          </Label>
           <AmenitiesMultiSelect
             selectedAmenities={formData.amenities || []}
             onSelectionChange={handleAmenitiesChange}
             disabled={loading || uploading === "all"}
           />
-          <p className="text-xs text-gray-500 mt-2">
-            Select amenities from the predefined list. Selected amenities will be displayed with their corresponding icons on the property page.
-          </p>
+          </div>
         </div>
+      </div>
 
-        {/* SEO Section */}
-        <div>
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: "Poppins, sans-serif" }}>
-            SEO Settings (Optional)
-          </h2>
+      {/* SEO Section */}
+      <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6 sm:p-8 space-y-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#CBB27A]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#CBB27A] to-[#B8A068] rounded-xl flex items-center justify-center shadow-lg">
+              <FileText className="w-5 h-5 text-white" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent" style={{ fontFamily: "Poppins, sans-serif" }}>
+              SEO Settings (Optional)
+            </h2>
+          </div>
           <div className="space-y-3 sm:space-y-4">
             <div>
-              <Label htmlFor="seoTitle" className="text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <Label htmlFor="seoTitle" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
                 SEO Title
               </Label>
               <Input
@@ -1041,73 +1128,85 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                 value={formData.seo?.title || ""}
                 onChange={(e) => handleChange("seo", { ...formData.seo, title: e.target.value })}
                 placeholder="Custom SEO title (defaults to project name)"
+                className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all"
+                style={{ fontFamily: "Poppins, sans-serif" }}
               />
             </div>
             <div>
-              <Label htmlFor="seoDescription" className="text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <Label htmlFor="seoDescription" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
                 SEO Description
               </Label>
               <Textarea
                 id="seoDescription"
                 value={formData.seo?.description || ""}
                 onChange={(e) => handleChange("seo", { ...formData.seo, description: e.target.value })}
-                placeholder="Custom SEO description"
+                placeholder="e.g., Custom SEO description"
                 rows={3}
+                className="border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all resize-none placeholder:text-gray-400"
+                style={{ fontFamily: "Poppins, sans-serif" }}
               />
             </div>
             <div>
-              <Label htmlFor="seoKeywords" className="text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <Label htmlFor="seoKeywords" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
                 SEO Keywords (comma-separated)
               </Label>
               <Input
                 id="seoKeywords"
                 value={formData.seo?.keywords || ""}
                 onChange={(e) => handleChange("seo", { ...formData.seo, keywords: e.target.value })}
-                placeholder="luxury villa, noida, residential property"
+                placeholder="e.g., luxury villa, noida, residential property"
+                className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all placeholder:text-gray-400"
+                style={{ fontFamily: "Poppins, sans-serif" }}
               />
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Publish Toggle */}
-        <div className="flex items-center gap-3 p-4 border-2 border-gray-400 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors">
-          <Checkbox
-            id="isPublished"
-            checked={formData.isPublished}
-            onCheckedChange={(checked) => handleChange("isPublished", checked)}
-            className="border-2 border-gray-500 data-[state=checked]:border-[#CBB27A]"
-          />
-          <Label htmlFor="isPublished" className="text-gray-700 font-medium cursor-pointer" style={{ fontFamily: "Poppins, sans-serif" }}>
-            Publish this property (make it visible on the website)
-          </Label>
-        </div>
+      {/* Publish Toggle & Submit */}
+      <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6 sm:p-8 space-y-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#CBB27A]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+        <div className="relative z-10">
+          {/* Publish Toggle */}
+          <div className="flex items-center gap-4 p-5 border-2 border-gray-300 rounded-xl bg-gradient-to-r from-gray-50 to-gray-50/50 hover:border-[#CBB27A] hover:bg-gradient-to-r hover:from-[#CBB27A]/5 hover:to-[#CBB27A]/5 transition-all duration-200">
+            <Checkbox
+              id="isPublished"
+              checked={formData.isPublished}
+              onCheckedChange={(checked) => handleChange("isPublished", checked)}
+              className="border-2 border-gray-400 data-[state=checked]:border-[#CBB27A] data-[state=checked]:bg-[#CBB27A] w-5 h-5"
+            />
+            <Label htmlFor="isPublished" className="text-gray-700 font-semibold cursor-pointer flex-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Publish this property (make it visible on the website)
+            </Label>
+          </div>
 
-        {/* Submit Button */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
-          <Button
-            type="submit"
-            disabled={loading || uploading === "all"}
-            className="w-full sm:w-auto bg-[#CBB27A] hover:bg-[#B8A068] text-white text-sm sm:text-base"
-            style={{ fontFamily: "Poppins, sans-serif" }}
-          >
-            {loading || uploading === "all" ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                {uploading === "all" ? "Uploading files..." : "Saving..."}
-              </>
-            ) : (
-              "Save Property"
-            )}
-          </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => router.push("/admin/properties")}
-            className="w-full sm:w-auto text-sm sm:text-base"
-            style={{ fontFamily: "Poppins, sans-serif" }}
-          >
-            Cancel
-          </Button>
+          {/* Submit Button */}
+          <div className="flex flex-col sm:flex-row gap-4 pt-2">
+            <Button
+              type="submit"
+              disabled={loading || uploading === "all"}
+              className="w-full sm:w-auto bg-gradient-to-r from-[#CBB27A] to-[#B8A068] hover:from-[#B8A068] hover:to-[#A68F5B] text-white text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 h-12 px-8"
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            >
+              {loading || uploading === "all" ? (
+                <>
+                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                  {uploading === "all" ? "Uploading files..." : "Saving..."}
+                </>
+              ) : (
+                "Save Property"
+              )}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => router.push("/admin/properties")}
+              className="w-full sm:w-auto text-base border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50 h-12 px-8 transition-all duration-200"
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            >
+              Cancel
+            </Button>
+          </div>
         </div>
       </div>
     </form>

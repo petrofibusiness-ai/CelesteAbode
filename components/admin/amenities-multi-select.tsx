@@ -86,10 +86,6 @@ export function AmenitiesMultiSelect({
 
   return (
     <div className="space-y-2">
-      <Label className="text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
-        Amenities
-      </Label>
-      
       {/* Selected Amenities Display */}
       {selectedAmenities.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-2 p-3 bg-gray-50 rounded-lg border border-gray-200">

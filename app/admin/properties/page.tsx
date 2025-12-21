@@ -123,16 +123,23 @@ export default function PropertiesPage() {
   }
 
   return (
-    <div className="p-4 sm:p-6 md:p-8">
+    <div className="p-4 sm:p-6 md:p-8 lg:p-10 bg-gradient-to-br from-gray-50 via-white to-gray-50 min-h-screen">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 md:mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 md:mb-10">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2" style={{ fontFamily: "Poppins, sans-serif" }}>
-            Properties
-          </h1>
-          <p className="text-sm sm:text-base text-gray-600" style={{ fontFamily: "Poppins, sans-serif" }}>
-            Manage all your property listings
-          </p>
+          <div className="flex items-center gap-3 mb-3">
+            <div className="w-12 h-12 bg-gradient-to-br from-[#CBB27A] to-[#B8A068] rounded-xl flex items-center justify-center shadow-lg">
+              <Building2 className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Properties
+              </h1>
+              <p className="text-sm sm:text-base text-gray-600 mt-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Manage all your property listings
+              </p>
+            </div>
+          </div>
         </div>
         <Link 
           href="/admin/properties/new" 
@@ -145,11 +152,11 @@ export default function PropertiesPage() {
           }}
         >
           <Button 
-            className="w-full sm:w-auto bg-[#CBB27A] hover:bg-[#B8A068] text-white text-sm sm:text-base disabled:opacity-50" 
+            className="w-full sm:w-auto bg-gradient-to-r from-[#CBB27A] to-[#B8A068] hover:from-[#B8A068] hover:to-[#A68F5B] text-white text-sm sm:text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 h-12 px-6" 
             disabled={deleting !== null}
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            <Plus className="w-4 h-4 mr-2" />
+            <Plus className="w-5 h-5 mr-2" />
             New Property
           </Button>
         </Link>
@@ -163,27 +170,32 @@ export default function PropertiesPage() {
 
       {/* Properties List */}
       {properties.length === 0 ? (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 sm:p-12 text-center">
-          <Building2 className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2" style={{ fontFamily: "Poppins, sans-serif" }}>
-            No properties yet
-          </h3>
-          <p className="text-sm sm:text-base text-gray-600 mb-6" style={{ fontFamily: "Poppins, sans-serif" }}>
-            Get started by creating your first property listing.
-          </p>
-          <Link href="/admin/properties/new">
-            <Button className="bg-[#CBB27A] hover:bg-[#B8A068] text-white text-sm sm:text-base" style={{ fontFamily: "Poppins, sans-serif" }}>
-              <Plus className="w-4 h-4 mr-2" />
-              Create Property
-            </Button>
-          </Link>
+        <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-12 sm:p-16 text-center relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#CBB27A]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+          <div className="relative z-10">
+            <div className="w-20 h-20 bg-gradient-to-br from-[#CBB27A]/20 to-[#CBB27A]/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <Building2 className="w-10 h-10 text-[#CBB27A]" />
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: "Poppins, sans-serif" }}>
+              No properties yet
+            </h3>
+            <p className="text-sm sm:text-base text-gray-600 mb-8" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Get started by creating your first property listing.
+            </p>
+            <Link href="/admin/properties/new">
+              <Button className="bg-gradient-to-r from-[#CBB27A] to-[#B8A068] hover:from-[#B8A068] hover:to-[#A68F5B] text-white text-sm sm:text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 h-12 px-6" style={{ fontFamily: "Poppins, sans-serif" }}>
+                <Plus className="w-5 h-5 mr-2" />
+                Create Property
+              </Button>
+            </Link>
+          </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {properties.map((property) => (
             <div
               key={property.id}
-              className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-200 flex flex-col"
+              className="group bg-white rounded-2xl shadow-md border border-gray-200/50 overflow-hidden hover:shadow-xl transition-all duration-300 flex flex-col relative"
             >
               {/* Hero Image */}
               <div className="relative h-48 sm:h-56 bg-gray-200 overflow-hidden">
@@ -231,11 +243,11 @@ export default function PropertiesPage() {
               </div>
 
               {/* Content */}
-              <div className="p-4 sm:p-5 flex-1 flex flex-col">
-                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1.5 line-clamp-2" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <div className="p-5 sm:p-6 flex-1 flex flex-col">
+                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-[#CBB27A] transition-colors duration-200" style={{ fontFamily: "Poppins, sans-serif" }}>
                   {property.projectName}
                 </h3>
-                <p className="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+                <p className="text-xs sm:text-sm text-gray-600 mb-2 line-clamp-1" style={{ fontFamily: "Poppins, sans-serif" }}>
                   {property.location}
                 </p>
                 {property.developer && (
@@ -245,7 +257,7 @@ export default function PropertiesPage() {
                 )}
 
                 {/* Actions */}
-                <div className="flex items-center gap-2 mt-auto pt-3 border-t border-gray-100">
+                <div className="flex items-center gap-2 mt-auto pt-4 border-t border-gray-100">
                   <Link 
                     href={`/admin/properties/${property.id}/edit`} 
                     className="flex-1"
@@ -259,11 +271,11 @@ export default function PropertiesPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="w-full text-xs sm:text-sm h-9"
+                      className="w-full text-xs sm:text-sm h-10 border-2 border-gray-300 hover:border-[#CBB27A] hover:bg-[#CBB27A]/10 text-gray-700 hover:text-[#CBB27A] transition-all duration-200 [&:hover]:text-[#CBB27A] [&:hover]:bg-[#CBB27A]/10"
                       disabled={deleting !== null}
                       style={{ fontFamily: "Poppins, sans-serif" }}
                     >
-                      <Edit className="w-3.5 h-3.5 mr-1.5" />
+                      <Edit className="w-4 h-4 mr-1.5" />
                       Edit
                     </Button>
                   </Link>
@@ -272,7 +284,7 @@ export default function PropertiesPage() {
                     size="sm"
                     onClick={() => handleTogglePublish(property.id!, property.isPublished)}
                     disabled={updating === property.id || deleting !== null}
-                    className="h-9 w-9 p-0 flex items-center justify-center disabled:opacity-50"
+                    className="h-10 w-10 p-0 flex items-center justify-center border-2 border-gray-300 hover:border-gray-400 hover:bg-gray-50 text-gray-700 transition-all duration-200 disabled:opacity-50"
                     title={property.isPublished ? "Unpublish" : "Publish"}
                     style={{ fontFamily: "Poppins, sans-serif" }}
                   >
@@ -289,7 +301,7 @@ export default function PropertiesPage() {
                     size="sm"
                     onClick={() => handleDeleteClick(property.id!, property.projectName)}
                     disabled={deleting !== null}
-                    className="h-9 w-9 p-0 flex items-center justify-center text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200 disabled:opacity-50"
+                    className="h-10 w-10 p-0 flex items-center justify-center text-red-600 hover:text-red-700 hover:bg-red-50 border-2 border-red-200 hover:border-red-300 transition-all duration-200 disabled:opacity-50"
                     title="Delete property"
                     style={{ fontFamily: "Poppins, sans-serif" }}
                   >

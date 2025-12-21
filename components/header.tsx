@@ -20,7 +20,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
   const isPropertyPage =
     pathname.startsWith("/projects/") && pathname !== "/projects";
   const isContactPage = pathname === "/contact";
-  const isSEOPage = pathname === "/villa-in-noida" || pathname === "/villas-in-greater-noida";
+  const isSEOPage = pathname === "/villa-in-noida" || pathname === "/villas-in-greater-noida" || pathname === "/villa-in-noida-extension" || pathname === "/buy-villa-in-noida" || pathname === "/plots-in-noida" || pathname === "/plots-in-greater-noida";
   // Admin routes (including login) should always show black header
   const isAdminRoute = pathname?.startsWith("/admin");
   const isStaticPage = isAdminRoute || alwaysBlack;

@@ -520,7 +520,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://www.celesteabode.com" />
         
         {/* Preload critical LCP image - highest priority - earliest possible - Mobile optimized */}
-        <link rel="preload" href="/propertyhero.avif" as="image" type="image/avif" fetchPriority="high" imagesrcset="(max-width: 768px) 100vw, 50vw" />
+        <link rel="preload" href="/propertyhero.avif" as="image" type="image/avif" fetchPriority="high" />
         <link rel="preload" href="/logoceleste.avif" as="image" type="image/avif" />
         
         {/* Preload critical fonts - async load to prevent render blocking - Mobile optimized */}

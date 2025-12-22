@@ -19,6 +19,10 @@ const WhereWeWork = dynamic(
   () => import("@/components/where-we-work").then(mod => ({ default: mod.WhereWeWork })),
   { ssr: true, loading: () => <div className="min-h-[600px]" /> } // SSR enabled for local SEO
 )
+const PropertiesSection = dynamic(
+  () => import("@/components/properties-section").then(mod => ({ default: mod.PropertiesSection })),
+  { ssr: true, loading: () => <div className="min-h-[600px]" /> } // SSR enabled, but component fetches data client-side
+)
 const TestimonialsSection = dynamic(
   () => import("@/components/testimonials-section").then(mod => ({ default: mod.TestimonialsSection })),
   { ssr: true, loading: () => <div className="min-h-[300px] md:min-h-[400px]" /> } // SSR enabled for social proof
@@ -73,6 +77,14 @@ export default function HomePage() {
 
           {/* Trust Elements: Partner Logos */}
           <BrandCarousel />
+
+          {/* Aesthetic Line Separator */}
+          <div className="w-full flex justify-center py-8">
+            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
+          </div>
+
+          {/* Featured Luxury Projects */}
+          <PropertiesSection />
 
           {/* Aesthetic Line Separator */}
           <div className="w-full flex justify-center py-8">

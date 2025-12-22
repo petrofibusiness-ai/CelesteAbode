@@ -324,9 +324,19 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
                   <p className="text-xs sm:text-sm font-semibold text-[#CBB27A] uppercase tracking-wider mb-0.5 sm:mb-1 leading-tight">
                     Configuration
                   </p>
-                  <p className="text-sm sm:text-base md:text-lg font-bold text-white leading-tight">
-                    {property.unitTypes && property.unitTypes.length > 0 ? property.unitTypes[0] : "N/A"}
-                  </p>
+                  {property.unitTypes && property.unitTypes.length > 0 ? (
+                    <div className="flex flex-col gap-0.5">
+                      {property.unitTypes.map((type, index) => (
+                        <p key={index} className="text-sm sm:text-base md:text-lg font-bold text-white leading-tight">
+                          {type}
+                        </p>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm sm:text-base md:text-lg font-bold text-white leading-tight">
+                      N/A
+                    </p>
+                  )}
                 </div>
               </div>
 

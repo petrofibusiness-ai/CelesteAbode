@@ -1,16 +1,25 @@
 // Supabase Authentication for admin panel
 import { createClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
+import { getSupabaseAdminClient } from './supabase-server';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
 export interface AdminUser {
   id: string;
   email: string;
   name?: string;
 }
+
+// Token validation cache (5 minute TTL)
+interface CachedUser {
+  user: AdminUser;
+  expiresAt: number;
+}
+
+const userCache = new Map<string, CachedUser>();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
 /**
  * Get Supabase client for server-side operations
@@ -20,21 +29,6 @@ function getSupabaseClient() {
     throw new Error('Supabase environment variables are not set');
   }
   return createClient(supabaseUrl, supabaseAnonKey);
-}
-
-/**
- * Get Supabase client with service role (for admin operations)
- */
-function getSupabaseAdminClient() {
-  if (!supabaseUrl || !supabaseServiceKey) {
-    throw new Error('Supabase service role key is not set');
-  }
-  return createClient(supabaseUrl, supabaseServiceKey, {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  });
 }
 
 /**
@@ -93,6 +87,7 @@ export async function authenticateUser(email: string, password: string): Promise
 
 /**
  * Get current authenticated user from Supabase session
+ * Uses caching to minimize database calls
  */
 export async function getCurrentUser(): Promise<AdminUser | null> {
   try {
@@ -103,21 +98,47 @@ export async function getCurrentUser(): Promise<AdminUser | null> {
       return null;
     }
 
-    // Use service role client to verify the token
+    // Check cache first
+    const cached = userCache.get(accessToken);
+    if (cached && cached.expiresAt > Date.now()) {
+      return cached.user;
+    }
+
+    // Use service role client to verify the token (only for auth verification)
     const supabaseAdmin = getSupabaseAdminClient();
     
     // Verify the user using the access token
     const { data: { user }, error } = await supabaseAdmin.auth.getUser(accessToken);
 
     if (error || !user) {
+      // Remove from cache if invalid
+      userCache.delete(accessToken);
       return null;
     }
 
-    return {
+    const adminUser: AdminUser = {
       id: user.id,
       email: user.email || '',
       name: user.user_metadata?.name || 'Admin',
     };
+
+    // Cache the result
+    userCache.set(accessToken, {
+      user: adminUser,
+      expiresAt: Date.now() + CACHE_TTL,
+    });
+
+    // Clean up expired entries periodically
+    if (userCache.size > 1000) {
+      const now = Date.now();
+      for (const [key, value] of userCache.entries()) {
+        if (value.expiresAt < now) {
+          userCache.delete(key);
+        }
+      }
+    }
+
+    return adminUser;
   } catch (error) {
     console.error('Get user error:', error);
     return null;
@@ -150,7 +171,7 @@ export async function signOut(): Promise<void> {
 
 /**
  * Create admin user in Supabase (use this once to create the admin user)
- * This should be run server-side with service role key
+ * This should be run server-side with service role key (background job)
  */
 export async function createAdminUser(email: string, password: string): Promise<{ success: boolean; error?: string }> {
   try {

@@ -1,50 +1,118 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isAuthenticated } from "@/lib/auth";
-import { supabaseAdmin } from "@/lib/supabase";
+import { getCurrentUser } from "@/lib/auth";
+import { getSupabaseAdminClient } from "@/lib/supabase-server";
+import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 
-// GET - Get dashboard statistics
-export async function GET() {
+// Query timeout: 10 seconds
+const QUERY_TIMEOUT = 10000;
+
+// GET - Get dashboard statistics (using SQL-native operations)
+export async function GET(request: NextRequest) {
   try {
-    if (!(await isAuthenticated())) {
+    // Authentication check
+    const user = await getCurrentUser();
+    if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    if (!supabaseAdmin) {
+    // Rate limiting
+    const rateLimitId = getRateLimitIdentifier(request, user.id);
+    const rateLimit = checkRateLimit(rateLimitId, RATE_LIMITS.ADMIN_READ);
+    if (!rateLimit.success) {
       return NextResponse.json(
-        { error: "Supabase not configured" },
-        { status: 500 }
+        { error: rateLimit.error },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': new Date(rateLimit.resetTime).toISOString(),
+          },
+        }
       );
     }
 
-    // Fetch all properties
-    const { data: allProperties, error: allError } = await supabaseAdmin
-      .from("properties")
-      .select("is_published");
+    // Get Supabase admin client to bypass RLS and get accurate counts
+    // Admin needs to see all properties regardless of RLS policies
+    const supabase = getSupabaseAdminClient();
 
-    if (allError) {
-      console.error("Supabase error:", allError);
+    // Use SQL-native COUNT operations instead of fetching all rows
+    // This is much more efficient and reduces database cost
+    
+    // Count total properties (all rows, regardless of is_published)
+    const totalPromise = supabase
+      .from("properties")
+      .select("*", { count: 'exact', head: true });
+
+    // Count published properties (is_published = true)
+    const publishedPromise = supabase
+      .from("properties")
+      .select("*", { count: 'exact', head: true })
+      .eq("is_published", true);
+
+    // Count draft properties (is_published = false OR is_published IS NULL)
+    // Using .or() to handle both false and NULL values
+    const draftPromise = supabase
+      .from("properties")
+      .select("*", { count: 'exact', head: true })
+      .or("is_published.eq.false,is_published.is.null");
+
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Query timeout')), QUERY_TIMEOUT);
+    });
+
+    // Execute all queries in parallel with timeout
+    const [totalResult, publishedResult, draftResult] = await Promise.race([
+      Promise.all([totalPromise, publishedPromise, draftPromise]),
+      timeoutPromise,
+    ]) as any[];
+
+    if (totalResult.error || publishedResult.error || draftResult.error) {
+      console.error("Supabase error:", totalResult.error || publishedResult.error || draftResult.error);
+      console.error("Total error:", totalResult.error);
+      console.error("Published error:", publishedResult.error);
+      console.error("Draft error:", draftResult.error);
       return NextResponse.json(
         { error: "Failed to fetch statistics" },
         { status: 500 }
       );
     }
 
-    // Calculate statistics
-    const totalProperties = allProperties?.length || 0;
-    const publishedProperties = allProperties?.filter((p) => p.is_published === true).length || 0;
-    const draftProperties = allProperties?.filter((p) => p.is_published === false).length || 0;
+    const totalProperties = totalResult.count || 0;
+    const publishedProperties = publishedResult.count || 0;
+    const draftProperties = draftResult.count || 0;
+
+    // Debug logging
+    console.log("Stats calculation:", {
+      total: totalProperties,
+      published: publishedProperties,
+      draft: draftProperties,
+      sum: publishedProperties + draftProperties,
+      difference: totalProperties - (publishedProperties + draftProperties)
+    });
 
     return NextResponse.json({
       totalProperties,
       publishedProperties,
       draftProperties,
+    }, {
+      headers: {
+        'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+        'X-RateLimit-Reset': new Date(rateLimit.resetTime).toISOString(),
+      },
     });
   } catch (error) {
     console.error("Error fetching statistics:", error);
+    
+    if (error instanceof Error && error.message === 'Query timeout') {
+      return NextResponse.json(
+        { error: "Request timeout. Please try again." },
+        { status: 504 }
+      );
+    }
+
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
     );
   }
 }
-

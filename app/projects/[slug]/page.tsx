@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { supabaseAdmin } from "@/lib/supabase";
+import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { supabaseToProperty } from "@/lib/supabase-property-mapper";
 import DynamicPropertyPage from "@/components/dynamic-property-page";
 
@@ -12,18 +12,13 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   
-  if (!supabaseAdmin) {
-    return {
-      title: "Property Not Found",
-    };
-  }
-
   try {
-    const { data } = await supabaseAdmin
+    const supabase = getSupabaseAdminClient();
+    const { data } = await supabase
       .from("properties")
       .select("*")
       .eq("slug", slug.toLowerCase().trim())
-      .eq("is_published", true)
+      .eq("is_published", true) // Only published properties
       .single();
 
     if (!data) {
@@ -93,16 +88,13 @@ export const revalidate = 60;
 
 // Generate static params for ISR (Incremental Static Regeneration)
 export async function generateStaticParams() {
-  if (!supabaseAdmin) {
-    return [];
-  }
-
   try {
-    // Fetch all published property slugs
-    const { data } = await supabaseAdmin
+    const supabase = getSupabaseAdminClient();
+    // Fetch only published property slugs
+    const { data } = await supabase
       .from("properties")
       .select("slug")
-      .eq("is_published", true);
+      .eq("is_published", true); // Only published properties
 
     if (!data) {
       return [];
@@ -120,21 +112,31 @@ export async function generateStaticParams() {
 // Main page component
 export default async function PropertyPage({ params }: PageProps) {
   const { slug } = await params;
-
-  if (!supabaseAdmin) {
-    notFound();
-  }
+  const normalizedSlug = slug.toLowerCase().trim();
 
   try {
+    const supabase = getSupabaseAdminClient();
+    
     // Fetch property from Supabase - only published properties
-    const { data, error } = await supabaseAdmin
+    const { data, error } = await supabase
       .from("properties")
       .select("*")
-      .eq("slug", slug.toLowerCase().trim())
-      .eq("is_published", true)
+      .eq("slug", normalizedSlug)
+      .eq("is_published", true) // Only published properties are accessible
       .single();
 
-    if (error || !data) {
+    if (error) {
+      // PGRST116 means "no rows found" - this is expected for unpublished properties
+      // Only log unexpected errors
+      if (error.code !== 'PGRST116') {
+        console.error(`Error fetching property with slug "${normalizedSlug}":`, error);
+        console.error("Error details:", JSON.stringify(error, null, 2));
+      }
+      notFound();
+    }
+
+    if (!data) {
+      // Property not found or unpublished - this is expected, don't log as error
       notFound();
     }
 
@@ -143,7 +145,11 @@ export default async function PropertyPage({ params }: PageProps) {
 
     return <DynamicPropertyPage property={property} />;
   } catch (error) {
-    console.error("Error fetching property:", error);
+    console.error(`Error fetching property with slug "${normalizedSlug}":`, error);
+    if (error instanceof Error) {
+      console.error("Error message:", error.message);
+      console.error("Error stack:", error.stack);
+    }
     notFound();
   }
 }

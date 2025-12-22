@@ -1,28 +1,57 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isAuthenticated } from "@/lib/auth";
-import { supabaseAdmin } from "@/lib/supabase";
+import { getCurrentUser } from "@/lib/auth";
+import { getSupabaseServerClient, getSupabaseAdminClient } from "@/lib/supabase-server";
 import { Property } from "@/types/property";
 import { supabaseToProperty, propertyToSupabase } from "@/lib/supabase-property-mapper";
+import { validatePropertyData } from "@/lib/validation";
+import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
+import { logAuditEntry, getRequestMetadata } from "@/lib/audit-log";
 
-// GET - List all properties
-export async function GET() {
+// Query timeout: 30 seconds
+const QUERY_TIMEOUT = 30000;
+
+// GET - List all properties with pagination
+export async function GET(request: NextRequest) {
   try {
-    if (!(await isAuthenticated())) {
+    // Authentication check
+    const user = await getCurrentUser();
+    if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    if (!supabaseAdmin) {
+    // Rate limiting
+    const rateLimitId = getRateLimitIdentifier(request, user.id);
+    const rateLimit = checkRateLimit(rateLimitId, RATE_LIMITS.ADMIN_READ);
+    if (!rateLimit.success) {
       return NextResponse.json(
-        { error: "Supabase not configured" },
-        { status: 500 }
+        { error: rateLimit.error },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': new Date(rateLimit.resetTime).toISOString(),
+          },
+        }
       );
     }
 
-    // Fetch properties from Supabase
-    const { data, error } = await supabaseAdmin
+    // Get pagination parameters
+    const searchParams = request.nextUrl.searchParams;
+    const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
+    const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '20', 10)));
+    const offset = (page - 1) * limit;
+
+    // Get Supabase admin client to bypass RLS and see all properties
+    // Admin needs to see all properties (published and unpublished) regardless of RLS policies
+    const supabase = getSupabaseAdminClient();
+
+    // Fetch ALL properties with pagination - no filter on is_published
+    // Admin should see both published and draft properties
+    const { data, error, count } = await supabase
       .from("properties")
-      .select("*")
-      .order("created_at", { ascending: false });
+      .select("id, slug, project_name, developer, location, status, is_published, hero_image, created_at, updated_at", { count: 'exact' })
+      .order("created_at", { ascending: false })
+      .range(offset, offset + limit - 1);
 
     if (error) {
       console.error("Supabase error:", error);
@@ -35,7 +64,20 @@ export async function GET() {
     // Convert snake_case to camelCase
     const properties = (data || []).map(supabaseToProperty);
 
-    return NextResponse.json({ properties });
+    return NextResponse.json({
+      properties,
+      pagination: {
+        page,
+        limit,
+        total: count || 0,
+        totalPages: Math.ceil((count || 0) / limit),
+      },
+    }, {
+      headers: {
+        'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+        'X-RateLimit-Reset': new Date(rateLimit.resetTime).toISOString(),
+      },
+    });
   } catch (error) {
     console.error("Error fetching properties:", error);
     return NextResponse.json(
@@ -47,32 +89,51 @@ export async function GET() {
 
 // POST - Create new property
 export async function POST(request: NextRequest) {
+  const startTime = Date.now();
+  let propertyId: string | null = null;
+
   try {
-    if (!(await isAuthenticated())) {
+    // Authentication check
+    const user = await getCurrentUser();
+    if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    if (!supabaseAdmin) {
+    // Rate limiting
+    const rateLimitId = getRateLimitIdentifier(request, user.id);
+    const rateLimit = checkRateLimit(rateLimitId, RATE_LIMITS.ADMIN_WRITE);
+    if (!rateLimit.success) {
       return NextResponse.json(
-        { error: "Supabase not configured" },
-        { status: 500 }
+        { error: rateLimit.error },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': new Date(rateLimit.resetTime).toISOString(),
+          },
+        }
       );
     }
 
+    // Parse and validate request body
     const body = await request.json();
 
-    // Step 1: Validate required fields
-    const requiredFields = ['slug', 'projectName', 'developer', 'location', 'status', 'sizes', 'description', 'heroImage'];
-    const missingFields = requiredFields.filter(field => !body[field] || (typeof body[field] === 'string' && body[field].trim() === ''));
-    
-    if (missingFields.length > 0) {
+    // Input validation
+    const validationErrors = validatePropertyData(body);
+    if (validationErrors.length > 0) {
       return NextResponse.json(
-        { error: `Missing required fields: ${missingFields.join(', ')}` },
+        { 
+          error: "Validation failed",
+          details: validationErrors,
+        },
         { status: 400 }
       );
     }
 
-    // Step 2: Validate and sanitize data
+    // Get request metadata for audit log
+    const requestMetadata = getRequestMetadata(request);
+
+    // Prepare property data
     const property: Omit<Property, "id" | "createdAt" | "updatedAt"> = {
       slug: body.slug.trim().toLowerCase(),
       projectName: body.projectName.trim(),
@@ -84,17 +145,17 @@ export async function POST(request: NextRequest) {
       unitTypes: Array.isArray(body.unitTypes) ? body.unitTypes : [],
       sizes: body.sizes.trim(),
       description: body.description.trim(),
-      heroImage: body.heroImage.trim(), // Must be a valid URL
+      heroImage: body.heroImage.trim(),
       brochureUrl: body.brochureUrl?.trim() || undefined,
       images: Array.isArray(body.images) ? body.images.filter((url: string) => url && url.trim()) : [],
       videos: Array.isArray(body.videos) ? body.videos : [],
       amenities: Array.isArray(body.amenities) ? body.amenities.filter((a: string) => a && typeof a === 'string' && a.trim() !== '') : [],
       price: body.price?.trim() || undefined,
       seo: body.seo && typeof body.seo === 'object' ? body.seo : {},
-      isPublished: body.isPublished === true, // Explicitly set boolean
+      isPublished: body.isPublished === true,
     };
 
-    // Step 3: Validate hero image URL
+    // Validate hero image URL
     if (!property.heroImage || !property.heroImage.startsWith('http')) {
       return NextResponse.json(
         { error: "Hero image must be a valid URL" },
@@ -102,16 +163,25 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Step 4: Convert camelCase to snake_case for Supabase
+    // Convert camelCase to snake_case for Supabase
     const supabaseProperty = propertyToSupabase(property);
 
-    // Step 5: Insert into Supabase with transaction-like behavior
-    // (Supabase doesn't support transactions in the same way, but we ensure data integrity)
-    const { data, error } = await supabaseAdmin
+    // Use admin client (service role) for write operations to bypass RLS
+    // Authentication is already verified above, so this is safe
+    const supabase = getSupabaseAdminClient();
+
+    // Insert into Supabase with timeout protection
+    const insertPromise = supabase
       .from("properties")
       .insert([supabaseProperty])
       .select()
       .single();
+
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Query timeout')), QUERY_TIMEOUT);
+    });
+
+    const { data, error } = await Promise.race([insertPromise, timeoutPromise]) as any;
 
     if (error) {
       console.error("Supabase error:", error);
@@ -137,16 +207,45 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Step 6: Convert snake_case back to camelCase
+    propertyId = data.id;
+
+    // Convert snake_case back to camelCase
     const createdProperty = supabaseToProperty(data);
+
+    // Audit log
+    await logAuditEntry({
+      table_name: 'properties',
+      operation: 'CREATE',
+      record_id: data.id,
+      user_id: user.id,
+      user_email: user.email,
+      new_values: supabaseProperty,
+      ...requestMetadata,
+    });
+
+    const duration = Date.now() - startTime;
+    console.log(`Property created: ${property.slug} (${duration}ms)`);
 
     return NextResponse.json({ property: createdProperty }, { status: 201 });
   } catch (error) {
     console.error("Error creating property:", error);
+    
+    // If property was created but audit log failed, still return success
+    // but log the audit failure
+    if (propertyId) {
+      console.error("Property created but audit log failed:", propertyId);
+    }
+
+    if (error instanceof Error && error.message === 'Query timeout') {
+      return NextResponse.json(
+        { error: "Request timeout. Please try again." },
+        { status: 504 }
+      );
+    }
+
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
     );
   }
 }
-

@@ -65,7 +65,7 @@ export function WhoWeServe() {
           <h2 className="heading-bold text-primary mb-6">
             Who <span className="text-[#CBB27A]">We Serve</span>
           </h2>
-          <h3 className="text-xl md:text-2xl text-muted-foreground mb-4 font-medium">
+          <h3 className="text-xl md:text-2xl text-muted-foreground mb-4 font-medium font-poppins">
             Real Estate Consulting Built for Diverse Needs Across Delhi NCR
           </h3>
         </motion.div>
@@ -99,7 +99,7 @@ export function WhoWeServe() {
                 <h3 className="text-lg font-bold text-ink leading-tight">
                   {audience.title}
                 </h3>
-                <p className="text-muted text-sm leading-relaxed">
+                <p className="text-muted text-sm leading-relaxed font-poppins">
                   {audience.description}
                 </p>
               </div>

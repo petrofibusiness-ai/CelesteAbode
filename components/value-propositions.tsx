@@ -20,7 +20,7 @@ export function ValuePropositions() {
           The Mark of Expertise : Our{" "}
           <span className="text-[#CBB27A]">Impact & Results</span>
           </h2>
-          <p className="text-sm md:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-sm md:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed font-poppins">
             A decade of trusted consulting in Delhi NCR, backed by measurable results and thousands of satisfied clients who made confident property decisions with our guidance.
           </p>
         </motion.div>
@@ -41,7 +41,7 @@ export function ValuePropositions() {
                 <div className="text-5xl md:text-6xl lg:text-7xl font-black text-primary mb-3 md:mb-4 tabular-nums">
                   5M+
                 </div>
-                <p className="body-text text-muted-foreground">
+                <p className="body-text text-muted-foreground font-poppins">
                   Sq.Ft of Area Sold
                 </p>
               </div>
@@ -49,7 +49,7 @@ export function ValuePropositions() {
                 <div className="text-5xl md:text-6xl lg:text-7xl font-black text-primary mb-3 md:mb-4 tabular-nums">
                   2500+
                 </div>
-                <p className="body-text text-muted-foreground">
+                <p className="body-text text-muted-foreground font-poppins">
                   Happy Investors
                 </p>
               </div>
@@ -66,7 +66,7 @@ export function ValuePropositions() {
               <div className="text-8xl md:text-[10rem] lg:text-[14rem] font-semibold mb-4 md:mb-6 bg-clip-text text-transparent tabular-nums experience-number-bg">
                 10
               </div>
-              <p className="h3 text-foreground uppercase tracking-wide">
+              <p className="h3 text-foreground uppercase tracking-wide font-poppins">
                 Years of Experience
               </p>
             </motion.div>
@@ -83,7 +83,7 @@ export function ValuePropositions() {
                 <div className="text-5xl md:text-6xl lg:text-7xl font-black text-primary mb-3 md:mb-4 tabular-nums">
                   50+
                 </div>
-                <p className="body-text text-muted-foreground">
+                <p className="body-text text-muted-foreground font-poppins">
                   Skilled Professionals
                 </p>
               </div>
@@ -91,7 +91,7 @@ export function ValuePropositions() {
                 <div className="text-5xl md:text-6xl lg:text-7xl font-black text-primary mb-3 md:mb-4 tabular-nums">
                   25+
                 </div>
-                <p className="body-text text-muted-foreground">
+                <p className="body-text text-muted-foreground font-poppins">
                   Proud Builder Associates
                 </p>
               </div>

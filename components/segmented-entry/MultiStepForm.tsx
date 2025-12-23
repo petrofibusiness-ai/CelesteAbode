@@ -199,7 +199,7 @@ export function MultiStepForm({ isOpen, onClose, intent }: MultiStepFormProps) {
           <h3 className="text-lg font-semibold text-ink mb-2">
               Property Preferences
           </h3>
-            <p className="text-sm text-muted text-center">Help us understand your requirements</p>
+            <p className="text-sm text-muted text-center font-poppins">Help us understand your requirements</p>
         </div>
 
           {/* Budget Range */}
@@ -342,7 +342,7 @@ export function MultiStepForm({ isOpen, onClose, intent }: MultiStepFormProps) {
           <h3 className="text-lg font-semibold text-ink mb-2">
               Investment Preferences
           </h3>
-            <p className="text-sm text-muted text-center">Help us understand your investment goals</p>
+            <p className="text-sm text-muted text-center font-poppins">Help us understand your investment goals</p>
           </div>
 
           {/* Budget Range */}
@@ -485,7 +485,7 @@ export function MultiStepForm({ isOpen, onClose, intent }: MultiStepFormProps) {
             <h3 className="text-lg font-semibold text-ink mb-2">
               Property Preferences
             </h3>
-            <p className="text-sm text-muted text-center">Help us understand your luxury requirements</p>
+            <p className="text-sm text-muted text-center font-poppins">Help us understand your luxury requirements</p>
         </div>
 
           {/* Budget Preference */}
@@ -694,7 +694,7 @@ export function MultiStepForm({ isOpen, onClose, intent }: MultiStepFormProps) {
           <h3 className="text-lg font-semibold text-ink mb-2">
             {personalInfoLabel}
           </h3>
-          <p className="text-sm text-muted text-center">
+          <p className="text-sm text-muted text-center font-poppins">
             We'll get back to you within 24 hours
           </p>
         </div>
@@ -862,7 +862,7 @@ export function MultiStepForm({ isOpen, onClose, intent }: MultiStepFormProps) {
           <DialogTitle className="text-lg font-bold text-ink">
             {stepLabels[intent].title}
           </DialogTitle>
-          <p className="text-sm text-muted">{stepLabels[intent].subtitle}</p>
+          <p className="text-sm text-muted font-poppins">{stepLabels[intent].subtitle}</p>
         </DialogHeader>
 
         {/* Progress Bar */}

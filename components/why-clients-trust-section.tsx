@@ -52,7 +52,7 @@ export function WhyClientsTrustSection() {
           <h2 className="heading-bold text-primary mb-6">
             Why Clients Trust <span className="text-[#CBB27A]">Celeste Abode</span>
           </h2>
-          <p className="text-sm md:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <p className="text-sm md:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed font-poppins">
             Celeste Abode is built for people who want clarity before commitment. We guide property decisions with transparency, regulatory discipline, and on-ground understanding, not pressure or volume.
           </p>
         </motion.div>
@@ -76,7 +76,7 @@ export function WhyClientsTrustSection() {
                   <h3 className="text-lg font-semibold text-primary mb-2">
                     {pillar.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-sm text-muted-foreground leading-relaxed font-poppins">
                     {pillar.description}
                   </p>
                 </div>

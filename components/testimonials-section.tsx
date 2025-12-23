@@ -143,7 +143,7 @@ export function TestimonialsSection() {
           <h2 className="heading-bold text-primary mb-6">
             Client Voices: Our <span className="text-[#CBB27A]">Proven Track Record</span>
           </h2>
-          <p className="lead text-muted-foreground max-w-3xl mx-auto">
+          <p className="lead text-muted-foreground max-w-3xl mx-auto font-poppins">
             Don't just take our word for it. Here's what our satisfied clients
             have to say about their experience with our premium real estate
             projects and services.
@@ -242,7 +242,7 @@ export function TestimonialsSection() {
                       <h3 className="text-xl md:text-2xl font-semibold text-foreground">
                         Loading Reviews
                       </h3>
-                      <p className="text-muted-foreground text-sm md:text-base">
+                      <p className="text-muted-foreground text-sm md:text-base font-poppins">
                         Gathering authentic client testimonials...
                       </p>
                     </motion.div>
@@ -280,7 +280,7 @@ export function TestimonialsSection() {
             {scriptError && (
               <div className="min-h-[400px] flex items-center justify-center">
                 <div className="text-center">
-                  <p className="text-muted-foreground mb-4">
+                  <p className="text-muted-foreground mb-4 font-poppins">
                     Unable to load reviews at this time. Please try refreshing the page.
                   </p>
                   <button

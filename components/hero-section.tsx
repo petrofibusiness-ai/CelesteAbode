@@ -152,7 +152,7 @@ export function HeroSection() {
                 </h1>
 
                 {/* Hero Subcopy */}
-                <p className="text-xs md:text-sm text-white mb-4 md:mb-5 lg:mb-7 max-w-2xl font-medium hero-subtitle-typography">
+                <p className="text-xs md:text-sm text-white mb-4 md:mb-5 lg:mb-7 max-w-2xl font-medium hero-subtitle-typography font-poppins">
                   Guiding confident property decisions across Noida, Greater Noida, and the Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.
                 </p>
 

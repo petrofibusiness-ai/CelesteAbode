@@ -56,13 +56,13 @@ export function VaultTeaser() {
 
             {/* Description */}
             <div className="text-sm md:text-base text-ink leading-relaxed max-w-xl mt-6 space-y-4">
-              <p>
+              <p className="font-poppins">
                 Buying property in Delhi NCR involves complex terms, legal processes, and regulatory details that often confuse buyers and investors.
               </p>
-              <p>
+              <p className="font-poppins">
                 The Celeste Abode Vault is our knowledge centre, built to simplify real estate decisions, covering RERA rules, legal terminology, FAQs, location insights, and common buyer questions in clear, practical language.
               </p>
-              <p>
+              <p className="font-poppins">
                 Whether you're evaluating a property or preparing to invest, the Vault helps you understand the process before you commit.
               </p>
             </div>

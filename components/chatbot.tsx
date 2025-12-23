@@ -218,8 +218,10 @@ export function Chatbot() {
      // Extract only digits
      const digits = value.trim().replace(/\D/g, '');
      
-     // Basic format check - must be 10+ digits
-     if (digits.length < 10) {
+     // Basic format check - must be 10-12 digits
+     // 10 digits: local number (e.g., 9818735258)
+     // 11-12 digits: with country code (e.g., +91 9818735258 = 12 digits, +1 5551234567 = 11 digits)
+     if (digits.length < 10 || digits.length > 12) {
        return false;
      }
      
@@ -514,7 +516,7 @@ export function Chatbot() {
            const userName = data.userName || "";
            setTimeout(() => {
              addBotMessage(
-               `${userName ? userName + ", " : ""}that doesn't look like a valid phone number. Please enter a valid 10-digit mobile number. 😊`,
+               `${userName ? userName + ", " : ""}that doesn't look like a valid phone number. Please enter a valid phone number. 😊`,
                []
              );
            }, 300);
@@ -819,7 +821,7 @@ export function Chatbot() {
                      style={{ lineHeight: '1.5', paddingTop: '0.625rem', paddingBottom: '0.625rem' }}
                      disabled={isSubmitting}
                      autoComplete={
-                       currentStep === 8
+                       currentStep === 1
                          ? "name"
                          : currentStep === 9
                          ? "tel"

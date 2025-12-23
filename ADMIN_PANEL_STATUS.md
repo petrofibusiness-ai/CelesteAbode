@@ -140,3 +140,5 @@ CREATE INDEX idx_properties_published ON properties(is_published);
 - The property form supports all required fields including SEO
 
 
+
+

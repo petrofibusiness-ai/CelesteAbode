@@ -157,10 +157,6 @@ export function Footer() {
             <p className="text-sm text-gray-400">
               © 2024 Celeste Abode Private Limited. All rights reserved.
             </p>
-            <p className="text-sm text-gray-400">
-              Powered by{" "}
-              <span className="text-[#CBB27A] font-medium">ModeAI</span>
-            </p>
           </div>
         </div>
       </div>

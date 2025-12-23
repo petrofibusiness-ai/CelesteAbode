@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 export function HeroSection() {
   const [shouldLoadVideo, setShouldLoadVideo] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -49,11 +50,19 @@ export function HeroSection() {
     }
   }, [shouldLoadVideo]);
 
+  const handleVideoLoaded = () => {
+    setIsVideoReady(true);
+  };
+
   return (
     <section className="relative min-h-[70vh] md:min-h-screen flex items-center justify-center bg-background pt-20 md:pt-24">
       <div className="max-w-7xl mx-auto px-4 md:px-6 w-full">
         <div
           className="bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden relative"
+          style={{ 
+            willChange: 'auto',
+            transform: 'translateZ(0)', // Force GPU acceleration to prevent flickering
+          }}
         >
           {/* Full Container Video/Image - Explicit dimensions to prevent layout shift */}
           <div className="relative h-[400px] sm:h-[500px] md:h-[580px] lg:h-[620px] min-h-[400px]">
@@ -86,34 +95,39 @@ export function HeroSection() {
                 loading="eager"
                 decoding="sync"
                 className={`w-full h-full object-cover object-center absolute inset-0 transition-opacity duration-500 ${
-                  shouldLoadVideo ? 'opacity-0' : 'opacity-100'
+                  isVideoReady ? 'opacity-0' : 'opacity-100'
                 }`}
                 sizes="(min-width: 768px) 100vw, 0vw"
                 quality={75}
                 fetchPriority="high"
                 unoptimized={false}
+                style={{ 
+                  willChange: isVideoReady ? 'opacity' : 'auto',
+                  transform: 'translateZ(0)', // Force GPU acceleration
+                }}
               />
             </div>
             
-            {/* Video for Desktop - Lazy loaded after LCP to improve performance */}
-            {shouldLoadVideo && (
-              <video
-                ref={videoRef}
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="none"
-                className="hidden md:block absolute inset-0 w-full h-full object-cover object-center md:object-cover md:object-bottom opacity-0 transition-opacity duration-500"
-                onLoadedData={(e) => {
-                  const target = e.target as HTMLVideoElement;
-                  target.classList.remove('opacity-0');
-                  target.classList.add('opacity-100');
-                }}
-              >
-                <source src="/HOMEHERO.mp4" type="video/mp4" />
-              </video>
-            )}
+            {/* Video for Desktop - Always rendered but hidden until ready to prevent layout shifts */}
+            <video
+              ref={videoRef}
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="none"
+              className={`hidden md:block absolute inset-0 w-full h-full object-cover object-center md:object-cover md:object-bottom transition-opacity duration-500 ${
+                isVideoReady ? 'opacity-100' : 'opacity-0'
+              }`}
+              style={{ 
+                willChange: 'opacity',
+                transform: 'translateZ(0)', // Force GPU acceleration
+                pointerEvents: isVideoReady ? 'auto' : 'none', // Prevent interaction when hidden
+              }}
+              onLoadedData={handleVideoLoaded}
+            >
+              <source src="/HOMEHERO.mp4" type="video/mp4" />
+            </video>
 
             {/* Dark overlay for better text readability */}
             <div className="absolute inset-0 bg-black/50" />
@@ -134,7 +148,7 @@ export function HeroSection() {
 
                 {/* H1 - SEO-Optimized Main Headline */}
                 <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-4 lg:mb-5 leading-tight text-[#FAFAF8] hero-title-typography">
-                  Best Real Estate Consultant for Properties in Delhi NCR
+                  Best Real Estate Consultant in Delhi NCR for Residential & Investment Properties
                 </h1>
 
                 {/* Hero Subcopy */}

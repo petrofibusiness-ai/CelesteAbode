@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
   const response = NextResponse.next();
 
   // Security Headers - Minimal to avoid breaking Next.js
@@ -18,6 +19,12 @@ export function middleware(request: NextRequest) {
   Object.entries(securityHeaders).forEach(([key, value]) => {
     response.headers.set(key, value);
   });
+
+  // CRITICAL: Block search engines from indexing admin pages
+  if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  }
 
   // HSTS (HTTP Strict Transport Security) - only in production
   if (process.env.NODE_ENV === 'production') {

@@ -109,13 +109,13 @@ export function HeroSection() {
             </div>
             
             {/* Video for Desktop - Always rendered but hidden until ready to prevent layout shifts */}
-            <video
-              ref={videoRef}
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="none"
+              <video
+                ref={videoRef}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="none"
               className={`hidden md:block absolute inset-0 w-full h-full object-cover object-center md:object-cover md:object-bottom transition-opacity duration-500 ${
                 isVideoReady ? 'opacity-100' : 'opacity-0'
               }`}
@@ -125,9 +125,9 @@ export function HeroSection() {
                 pointerEvents: isVideoReady ? 'auto' : 'none', // Prevent interaction when hidden
               }}
               onLoadedData={handleVideoLoaded}
-            >
-              <source src="/HOMEHERO.mp4" type="video/mp4" />
-            </video>
+              >
+                <source src="/HOMEHERO.mp4" type="video/mp4" />
+              </video>
 
             {/* Dark overlay for better text readability */}
             <div className="absolute inset-0 bg-black/50" />

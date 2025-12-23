@@ -16,6 +16,44 @@ export default function AdminLayout({
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
+    // CRITICAL SECURITY: Add noindex meta tags to prevent search engine indexing
+    // Skip on login page (it has its own layout)
+    if (pathname === "/admin/login") {
+      return;
+    }
+
+    // Only run on client side
+    if (typeof document === 'undefined') {
+      return;
+    }
+
+    try {
+      // Check if meta tags already exist
+      let metaRobots = document.querySelector('meta[name="robots"]') as HTMLMetaElement;
+      let metaGooglebot = document.querySelector('meta[name="googlebot"]') as HTMLMetaElement;
+
+      // Create or update robots meta tag
+      if (!metaRobots) {
+        metaRobots = document.createElement('meta');
+        metaRobots.name = 'robots';
+        document.head.appendChild(metaRobots);
+      }
+      metaRobots.content = 'noindex, nofollow, noarchive, nosnippet';
+
+      // Create or update googlebot meta tag
+      if (!metaGooglebot) {
+        metaGooglebot = document.createElement('meta');
+        metaGooglebot.name = 'googlebot';
+        document.head.appendChild(metaGooglebot);
+      }
+      metaGooglebot.content = 'noindex, nofollow';
+    } catch (error) {
+      // Silently fail if there's an error (e.g., SSR)
+      console.warn('Failed to add admin meta tags:', error);
+    }
+  }, [pathname]);
+
+  useEffect(() => {
     // Don't check auth on login page
     if (pathname === "/admin/login") {
       setIsAuthenticated(true);

@@ -55,17 +55,17 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative min-h-[70vh] md:min-h-screen flex items-center justify-center bg-background pt-20 md:pt-24">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 w-full">
+    <section className="relative min-h-screen flex items-center justify-center bg-background pt-24">
+      <div className="max-w-7xl mx-auto px-6 w-full">
         <div
-          className="bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden relative"
+          className="bg-white rounded-3xl shadow-2xl overflow-hidden relative"
           style={{ 
             willChange: 'auto',
             transform: 'translateZ(0)', // Force GPU acceleration to prevent flickering
           }}
         >
           {/* Full Container Video/Image - Explicit dimensions to prevent layout shift */}
-          <div className="relative h-[400px] sm:h-[500px] md:h-[580px] lg:h-[620px] min-h-[400px]">
+          <div className="relative h-[580px] lg:h-[620px]">
             {/* Image for Mobile - Optimized for LCP - Highest Priority */}
             {/* Using explicit dimensions and immediate render to reduce element render delay */}
             <div className="absolute inset-0 w-full h-full md:hidden">
@@ -135,32 +135,32 @@ export function HeroSection() {
             {/* Left side vignette */}
             <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
 
-            {/* Left Aligned Text Overlay - Bottom Right on Mobile */}
-            <div className="absolute inset-0 flex items-end md:items-center justify-end md:justify-start">
+            {/* Left Aligned Text Overlay - Bottom Left */}
+            <div className="absolute inset-0 flex items-end pb-16">
               {/* Gradient overlay behind text block only - dark on left, transparent on right */}
               <div className="absolute left-0 top-0 bottom-0 w-full md:w-2/3 lg:w-1/2 bg-gradient-to-r from-black/70 via-black/40 to-transparent pointer-events-none" />
               
-              <div className="relative text-left md:text-left text-[#FAFAF8] max-w-4xl px-4 pb-4 md:pb-6 pr-4 md:px-6 md:ml-8 md:pb-0 md:pr-0 z-10">
+              <div className="relative text-left text-[#FAFAF8] max-w-3xl px-4 ml-6 md:px-6 md:ml-8">
                 {/* Vision Line - Branding Tagline (Not H1) */}
-                <div className="text-xs md:text-sm lg:text-base mb-2 md:mb-3 lg:mb-4 font-medium tracking-wide uppercase text-[#CBB27A]">
+                <div className="text-xs mb-2 font-medium tracking-wide uppercase text-[#CBB27A]">
                   From Masterpieces of Time To Masterpieces of Living
                 </div>
 
                 {/* H1 - SEO-Optimized Main Headline */}
-                <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-4 lg:mb-5 leading-tight text-[#FAFAF8] hero-title-typography">
+                <h1 className="text-2xl md:text-3xl lg:text-4xl font-medium mb-3 leading-tight text-[#FAFAF8] hero-title-typography">
                   Best Real Estate Consultant in Delhi NCR for Residential & Investment Properties
                 </h1>
 
                 {/* Hero Subcopy */}
-                <p className="text-xs md:text-sm text-white mb-4 md:mb-5 lg:mb-7 max-w-2xl font-medium hero-subtitle-typography font-poppins">
+                <p className="text-xs md:text-sm text-white mb-4 max-w-xl font-medium hero-subtitle-typography font-poppins">
                   Guiding confident property decisions across Noida, Greater Noida, and the Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-2 md:gap-3">
+                <div className="flex flex-col sm:flex-row gap-2">
                   <PillButton
                     variant="primary"
                     size="sm"
-                    className="text-xs px-4 py-2 md:text-sm md:px-6 md:py-3 bg-white text-[#2B3035] hover:bg-white/90 rounded-full w-[160px] sm:w-[180px] md:w-[200px] text-center m-0"
+                    className="text-xs md:text-sm px-4 py-2 bg-white text-[#2B3035] hover:bg-white/90 rounded-full w-[160px] text-center m-0"
                     asChild
                   >
                     <a href="/projects" className="m-0">Explore Projects</a>
@@ -168,7 +168,7 @@ export function HeroSection() {
                   <PillButton
                     variant="outline"
                     size="sm"
-                    className="text-xs px-4 py-2 md:text-sm md:px-6 md:py-3 border border-white text-white hover:bg-white/20 rounded-full w-[160px] sm:w-[180px] md:w-[200px] text-center m-0"
+                    className="text-xs md:text-sm px-4 py-2 border border-white text-white hover:bg-white/20 rounded-full w-[160px] text-center m-0"
                     asChild
                   >
                     <a href="/contact" className="m-0">Book Consultation</a>

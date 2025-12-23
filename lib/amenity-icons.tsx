@@ -103,7 +103,6 @@ import {
   User,
   UserCog,
   UserSearch,
-  UserShield,
   UserCheck2,
 } from "lucide-react";
 

@@ -95,10 +95,14 @@ export interface HealthCheck {
  * Get system health status
  */
 export async function getHealthCheck(): Promise<HealthCheck> {
-  const checks = {
-    database: 'ok' as const,
-    r2: 'ok' as const,
-    auth: 'ok' as const,
+  const checks: {
+    database: 'ok' | 'error';
+    r2: 'ok' | 'error';
+    auth: 'ok' | 'error';
+  } = {
+    database: 'ok',
+    r2: 'ok',
+    auth: 'ok',
   };
 
   // Check database connection

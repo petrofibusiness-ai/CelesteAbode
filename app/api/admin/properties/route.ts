@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Convert snake_case to camelCase
-    const properties = (data || []).map(supabaseToProperty);
+    const properties = (data || []).map((item: any) => supabaseToProperty(item));
 
     return NextResponse.json({
       properties,

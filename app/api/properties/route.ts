@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
     // Convert snake_case to camelCase - DO NOT filter by is_published
     const properties = (data || []).map((prop, index) => {
       try {
-        const mapped = supabaseToProperty(prop);
+        const mapped = supabaseToProperty(prop as any);
         console.log(`Mapped property ${index + 1}: ${mapped.projectName}, isPublished: ${mapped.isPublished}`);
         return mapped;
       } catch (err) {

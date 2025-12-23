@@ -318,9 +318,11 @@ export async function PATCH(
 
     // Calculate changes for audit log
     const changes: Record<string, any> = {};
-    Object.keys(updateData).forEach(key => {
-      if (oldValues && oldValues[key] !== updateData[key]) {
-        changes[key] = { old: oldValues[key], new: updateData[key] };
+    const updateDataRecord = updateData as Record<string, any>;
+    Object.keys(updateDataRecord).forEach(key => {
+      const oldVal = oldValues as Record<string, any> | null;
+      if (oldVal && oldVal[key] !== updateDataRecord[key]) {
+        changes[key] = { old: oldVal[key], new: updateDataRecord[key] };
       }
     });
 

@@ -106,7 +106,7 @@ export async function compressPDF(file: File): Promise<File> {
 
     // Read compressed file
     const compressedBuffer = await readFile(outputPath);
-    const compressedBlob = new Blob([compressedBuffer], { type: "application/pdf" });
+    const compressedBlob = new Blob([new Uint8Array(compressedBuffer)], { type: "application/pdf" });
     const compressedFile = new File([compressedBlob], file.name, {
       type: "application/pdf",
       lastModified: Date.now(),
@@ -180,7 +180,7 @@ export async function compressPDFLossless(file: File): Promise<File> {
 
     // Read compressed file
     const compressedBuffer = await readFile(outputPath);
-    const compressedBlob = new Blob([compressedBuffer], { type: "application/pdf" });
+    const compressedBlob = new Blob([new Uint8Array(compressedBuffer)], { type: "application/pdf" });
     const compressedFile = new File([compressedBlob], file.name, {
       type: "application/pdf",
       lastModified: Date.now(),

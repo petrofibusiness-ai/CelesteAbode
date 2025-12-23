@@ -77,7 +77,7 @@ export async function compressVideo(file: File): Promise<File> {
 
     // Read compressed file
     const compressedBuffer = await readFile(outputPath);
-    const compressedBlob = new Blob([compressedBuffer], { type: file.type });
+    const compressedBlob = new Blob([new Uint8Array(compressedBuffer)], { type: file.type });
     const compressedFile = new File([compressedBlob], file.name, {
       type: file.type,
       lastModified: Date.now(),

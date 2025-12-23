@@ -17,6 +17,7 @@ interface BrochureDownloadDialogProps {
   isOpen: boolean;
   onClose: () => void;
   propertyName: string;
+  propertySlug?: string;
   brochureUrl?: string; // Cloudinary URL
 }
 
@@ -24,6 +25,7 @@ export function BrochureDownloadDialog({
   isOpen,
   onClose,
   propertyName,
+  propertySlug,
   brochureUrl,
 }: BrochureDownloadDialogProps) {
   const [formData, setFormData] = useState({
@@ -64,14 +66,33 @@ export function BrochureDownloadDialog({
         setSubmitStatus("success");
         
         // Trigger download after a brief delay
-        if (result.downloadUrl) {
-          setTimeout(() => {
-            const link = document.createElement("a");
-            link.href = result.downloadUrl;
-            link.download = `${propertyName.replace(/\s+/g, "-")}-Brochure.pdf`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+        if (result.downloadUrl || brochureUrl) {
+          setTimeout(async () => {
+            const downloadUrl = result.downloadUrl || brochureUrl;
+            if (downloadUrl) {
+              try {
+                // Use slug for filename: {slug}_celeste_abode.pdf
+                const filename = propertySlug 
+                  ? `${propertySlug}_celeste_abode.pdf`
+                  : `${propertyName.replace(/\s+/g, "-").toLowerCase()}_celeste_abode.pdf`;
+                
+                // Use proxy endpoint to bypass CORS and force download
+                const proxyUrl = `/api/brochure-download/proxy?url=${encodeURIComponent(downloadUrl)}&filename=${encodeURIComponent(filename)}`;
+                
+                // Create a temporary anchor element to trigger download
+                const link = document.createElement("a");
+                link.href = proxyUrl;
+                link.download = filename;
+                link.style.display = 'none';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              } catch (error) {
+                console.error('Download error:', error);
+                // Fallback: open in new tab if download fails
+                window.open(downloadUrl, '_blank');
+              }
+            }
           }, 500);
         }
 

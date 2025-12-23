@@ -8,7 +8,7 @@ import { Header } from "@/components/header";
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      <Header />
+      <Header alwaysBlack />
       <div className="flex items-center justify-center px-4 sm:px-6 relative py-8 sm:py-12" style={{ minHeight: 'calc(100vh - 80px)', paddingTop: '80px' }}>
       {/* Background decorative elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-[#CBB27A]/5"></div>

@@ -138,7 +138,7 @@ export async function POST(request: NextRequest) {
     }
 
     const firstName = sanitizedName.split(" ")[0] || "";
-    const lastName = sanitizedName.split(" ").slice(1).join(" ") || "";
+    const lastName = sanitizedName.split(" ").slice(1).join(" ") || "N/A"; // Use "N/A" if no last name provided
 
     const ts = new Date();
     const timestamp = ts.toLocaleString("en-IN", {

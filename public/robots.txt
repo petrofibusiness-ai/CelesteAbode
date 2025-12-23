@@ -15,6 +15,10 @@ Allow: /privacy-policy
 Allow: /advisory-session
 Allow: /villa-in-noida
 Allow: /villas-in-greater-noida
+Allow: /villa-in-noida-extension
+Allow: /buy-villa-in-noida
+Allow: /plots-in-noida
+Allow: /plots-in-greater-noida
 
 # Allow property pages
 Allow: /projects/arihant-abode

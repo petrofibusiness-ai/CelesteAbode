@@ -163,9 +163,8 @@ export function WhereWeWork() {
           <h2 className="heading-bold text-primary mb-6">
             Where We <span className="text-[#CBB27A]">Work</span>
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            India's Growth Corridors - Strategic locations where we unlock
-            premium real estate opportunities
+          <p className="text-sm md:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed font-poppins">
+            Our real estate consulting services are actively focused across Noida, Greater Noida, and the Yamuna Expressway, with selective guidance in emerging NCR corridors such as Ghaziabad and NH24.
           </p>
         </motion.div>
 
@@ -295,7 +294,7 @@ export function WhereWeWork() {
                           <h4 className="text-xl font-bold text-ink mb-2">
                             {corridor.title}
                           </h4>
-                          <p className="text-muted-foreground leading-relaxed">
+                          <p className="text-muted-foreground leading-relaxed font-poppins">
                             {corridor.description}
                           </p>
                         </div>
@@ -438,7 +437,7 @@ export function WhereWeWork() {
                       <div className="w-16 h-16 bg-metal/20 rounded-full flex items-center justify-center mb-4 mx-auto">
                         <MapPin className="w-8 h-8 text-metal" />
                       </div>
-                      <p className="text-muted-foreground text-sm">
+                      <p className="text-muted-foreground text-sm font-poppins">
                         Select a location to view the map
                       </p>
                     </div>
@@ -482,7 +481,7 @@ export function WhereWeWork() {
                       </div>
 
                       {/* Description */}
-                      <p className="text-muted-foreground leading-relaxed mb-6">
+                      <p className="text-muted-foreground leading-relaxed mb-6 font-poppins">
                         {activeCorridorData.description}
                       </p>
 

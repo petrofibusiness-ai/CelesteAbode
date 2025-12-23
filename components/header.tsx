@@ -7,7 +7,11 @@ import { Menu, X, Phone, Mail } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
-export function Header() {
+interface HeaderProps {
+  alwaysBlack?: boolean; // Force black/glassmorphic style always
+}
+
+export function Header({ alwaysBlack = false }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -16,9 +20,24 @@ export function Header() {
   const isPropertyPage =
     pathname.startsWith("/projects/") && pathname !== "/projects";
   const isContactPage = pathname === "/contact";
-  const isSEOPage = pathname === "/villa-in-noida" || pathname === "/villas-in-greater-noida";
+  const isSEOPage = pathname === "/villa-in-noida" || pathname === "/villas-in-greater-noida" || pathname === "/villa-in-noida-extension" || pathname === "/buy-villa-in-noida" || pathname === "/plots-in-noida" || pathname === "/plots-in-greater-noida";
+  // Admin routes (including login) should always show black header
+  const isAdminRoute = pathname?.startsWith("/admin");
+  const isStaticPage = isAdminRoute || alwaysBlack;
 
   useEffect(() => {
+    // Don't add scroll listener for static pages that should always show black header
+    if (isStaticPage) {
+      const checkMobile = () => {
+        setIsMobile(window.innerWidth < 768);
+      };
+      checkMobile();
+      window.addEventListener("resize", checkMobile);
+      return () => {
+        window.removeEventListener("resize", checkMobile);
+      };
+    }
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
@@ -35,10 +54,10 @@ export function Header() {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", checkMobile);
     };
-  }, []);
+  }, [isStaticPage]);
 
-  // Mobile: always show black strip, Desktop: contact page, property pages, and SEO pages always, other pages only on scroll
-  const shouldShowGlassmorphism = isMobile || isPropertyPage || isContactPage || isSEOPage || isScrolled;
+  // Mobile: always show black strip, Desktop: contact page, property pages, SEO pages, and static pages always, other pages only on scroll
+  const shouldShowGlassmorphism = isMobile || isPropertyPage || isContactPage || isSEOPage || isStaticPage || isScrolled;
 
   return (
     <>
@@ -169,7 +188,7 @@ export function Header() {
                   quality={70}
                   className="rounded-lg"
                 />
-                <h2 className="text-lg font-semibold text-white" style={{ fontFamily: "Poppins, sans-serif" }}>
+                <h2 className="text-lg font-semibold text-white font-poppins">
                   Celeste Abode
                 </h2>
               </div>
@@ -186,55 +205,49 @@ export function Header() {
             <nav className="flex-1 overflow-y-auto py-4">
               <Link
                 href="/"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Home page"
-                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 HOME
               </Link>
               <Link
                 href="/philosophy"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Philosophy page"
-                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 PHILOSOPHY
               </Link>
               <Link
                 href="/services"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Services page"
-                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 SERVICES
               </Link>
               <Link
                 href="/vault"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Vault page"
-                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 VAULT
               </Link>
               <Link
                 href="/projects"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Projects page"
-                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 PROJECTS
               </Link>
               <Link
                 href="/contact"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Contact page"
-                style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 CONTACT
               </Link>
@@ -244,8 +257,7 @@ export function Header() {
             <div className="px-6 py-4 border-t border-white/10 space-y-4">
               <a
                 href="tel:+919818735258"
-                className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group m-0"
-                style={{ fontFamily: "Poppins, sans-serif", marginLeft: 0, marginRight: 0 }}
+                className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group m-0 font-poppins"
               >
                 <div className="w-10 h-10 bg-[#CBB27A]/20 rounded-full flex items-center justify-center border border-[#CBB27A]/30 group-hover:bg-[#CBB27A]/30 transition-colors flex-shrink-0">
                   <Phone className="w-5 h-5 text-[#CBB27A]" />
@@ -254,8 +266,7 @@ export function Header() {
               </a>
               <a
                 href="mailto:support@celesteabode.com"
-                className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group m-0"
-                style={{ fontFamily: "Poppins, sans-serif", marginLeft: 0, marginRight: 0 }}
+                className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group m-0 font-poppins"
               >
                 <div className="w-10 h-10 bg-[#CBB27A]/20 rounded-full flex items-center justify-center border border-[#CBB27A]/30 group-hover:bg-[#CBB27A]/30 transition-colors flex-shrink-0">
                   <Mail className="w-5 h-5 text-[#CBB27A]" />

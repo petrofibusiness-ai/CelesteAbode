@@ -149,10 +149,10 @@ export default function VillaInNoidaPage() {
             {/* Introduction */}
             <motion.div variants={itemVariants} className="text-center space-y-6">
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                In the heart of India's most connected city, Noida, a new definition of luxury living is taking shape — elegant villas designed not just to house your lifestyle, but to elevate it.
+                In the heart of India's most connected city, Noida, a new definition of luxury living is taking shape - elegant villas designed not just to house your lifestyle, but to elevate it.
               </p>
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                At <span className="text-[#CBB27A] font-semibold">Celeste Abode</span>, we believe a home should be more than architecture — it should be an emotion. A sanctuary where design meets desire, and sophistication meets serenity.
+                At <span className="text-[#CBB27A] font-semibold">Celeste Abode</span>, we believe a home should be more than architecture - it should be an emotion. A sanctuary where design meets desire, and sophistication meets serenity.
               </p>
             </motion.div>
 
@@ -166,7 +166,7 @@ export default function VillaInNoidaPage() {
               </h2>
               <div className="max-w-3xl mx-auto space-y-4 text-lg text-muted-foreground leading-relaxed text-center">
                 <p>
-                  Every villa in Noida we curate tells a story — of space, sunlight, and subtle grandeur. Whether you're drawn to the lush green avenues of Sector 150, the tranquil neighbourhoods of Noida Extension, or the premium elegance near the Noida Expressway, each location offers a unique blend of comfort and connectivity.
+                  Every villa in Noida we curate tells a story - of space, sunlight, and subtle grandeur. Whether you're drawn to the lush green avenues of Sector 150, the tranquil neighbourhoods of Noida Extension, or the premium elegance near the Noida Expressway, each location offers a unique blend of comfort and connectivity.
                 </p>
                 <p>
                   Our villas are thoughtfully designed with expansive living areas, landscaped gardens, private terraces, and the kind of quiet luxury that makes every day feel extraordinary.
@@ -184,7 +184,7 @@ export default function VillaInNoidaPage() {
                   Why Choose a Villa in Noida?
                 </h2>
                 <p className="text-lg text-muted-foreground italic">
-                  Because luxury isn't about location — it's about lifestyle.
+                  Because luxury isn't about location - it's about lifestyle.
                 </p>
               </div>
               <div className="grid md:grid-cols-2 gap-6">
@@ -207,7 +207,7 @@ export default function VillaInNoidaPage() {
                   {
                     icon: <Heart className="w-6 h-6" />,
                     title: "Quality of Life",
-                    description: "With international schools, hospitals, shopping districts, and golf courses nearby — every comfort is within reach.",
+                    description: "With international schools, hospitals, shopping districts, and golf courses nearby - every comfort is within reach.",
                   },
                 ].map((item, index) => (
                   <motion.div
@@ -240,7 +240,7 @@ export default function VillaInNoidaPage() {
               </h2>
               <div className="max-w-3xl mx-auto space-y-6">
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  At Celeste Abode, we go beyond transactions — we understand aspirations. Our consultants blend lifestyle mapping, legal diligence, and investment foresight to help you find a villa that reflects who you are.
+                  At Celeste Abode, we go beyond transactions - we understand aspirations. Our consultants blend lifestyle mapping, legal diligence, and investment foresight to help you find a villa that reflects who you are.
                 </p>
                 <div className="grid md:grid-cols-3 gap-6 mt-8">
                   {[
@@ -277,7 +277,7 @@ export default function VillaInNoidaPage() {
                   ))}
                 </div>
                 <p className="text-lg text-muted-foreground leading-relaxed italic mt-8">
-                  Because we don't just sell homes — we help you build legacies.
+                  Because we don't just sell homes - we help you build legacies.
                 </p>
               </div>
             </motion.div>
@@ -365,7 +365,7 @@ export default function VillaInNoidaPage() {
                   },
                   {
                     title: "Luxury Seekers",
-                    description: "For those who believe home is not just where you live — it's how you live.",
+                    description: "For those who believe home is not just where you live - it's how you live.",
                     icon: <Award className="w-6 h-6" />,
                   },
                 ].map((item, index) => (
@@ -400,7 +400,7 @@ export default function VillaInNoidaPage() {
                 The Celeste Abode Experience
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                Buying a villa with Celeste Abode isn't a transaction — it's a journey. From your first conversation to the final handshake, our experts walk with you every step of the way. We combine empathy with expertise, technology with trust — ensuring your next address is more than a location; it's a legacy.
+                Buying a villa with Celeste Abode isn't a transaction - it's a journey. From your first conversation to the final handshake, our experts walk with you every step of the way. We combine empathy with expertise, technology with trust - ensuring your next address is more than a location; it's a legacy.
               </p>
             </motion.div>
 
@@ -434,7 +434,7 @@ export default function VillaInNoidaPage() {
                   },
                   {
                     q: "Does Celeste Abode offer end-to-end support?",
-                    a: "Yes — from property selection to legal checks, negotiations, and handover, we ensure a smooth and transparent process.",
+                    a: "Yes - from property selection to legal checks, negotiations, and handover, we ensure a smooth and transparent process.",
                   },
                 ].map((faq, index) => (
                   <motion.div
@@ -460,10 +460,10 @@ export default function VillaInNoidaPage() {
                 Start Your Villa Journey in Noida Today
               </h2>
               <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
-                If you've ever dreamed of owning a space that mirrors your success and serenity — Celeste Abode is your destination. Explore Noida's most prestigious villas and discover homes that redefine elegance, comfort, and value.
+                If you've ever dreamed of owning a space that mirrors your success and serenity - Celeste Abode is your destination. Explore Noida's most prestigious villas and discover homes that redefine elegance, comfort, and value.
               </p>
               <p className="text-muted-foreground italic text-lg text-center max-w-2xl mx-auto">
-                Because luxury isn't just about where you live — it's about how beautifully you live there.
+                Because luxury isn't just about where you live - it's about how beautifully you live there.
               </p>
             </motion.div>
           </motion.div>

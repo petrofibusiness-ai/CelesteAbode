@@ -26,14 +26,14 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# admin panel (incomplete - do not commit)
-/app/admin
-/app/api/admin
-/components/admin
-/middleware-admin.ts
-/lib/auth.ts
-/lib/supabase.ts
-/lib/cloudflare-upload.ts
-/lib/cloudinary-upload.ts
-/types/property.ts
-ADMIN_*.md
+# admin panel - now included in repository
+# /app/admin
+# /app/api/admin
+# /components/admin
+# /middleware-admin.ts
+# /lib/auth.ts
+# /lib/supabase.ts
+# /lib/cloudflare-upload.ts
+# /lib/cloudinary-upload.ts
+# /types/property.ts
+# ADMIN_*.md

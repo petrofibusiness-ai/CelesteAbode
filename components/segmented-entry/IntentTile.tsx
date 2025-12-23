@@ -66,14 +66,14 @@ export function IntentTile({
             <div className="p-3 rounded-2xl bg-metal/10 text-metal">{icon}</div>
             <div>
               <h3 className="text-lg font-bold text-ink mb-1">{title}</h3>
-              <p className="text-sm text-muted">{subtitle}</p>
+              <p className="text-sm text-muted font-poppins">{subtitle}</p>
             </div>
           </div>
         </div>
 
         {/* Description - Fixed height for alignment */}
         <div className="h-24 mb-4">
-          <p className="text-muted leading-relaxed text-sm">{description}</p>
+          <p className="text-muted leading-relaxed text-sm font-poppins">{description}</p>
         </div>
 
         {/* CTA Button - Reduced margin for tighter spacing */}

@@ -123,7 +123,7 @@ export default function VillasInGreaterNoidaPage() {
                 <span className="text-[#CBB27A]">Meets Serene Living</span>
               </h1>
               <p className="text-xl md:text-2xl text-muted-foreground font-light italic mb-4">
-                Luxury, Space & Sophistication — All in One Address
+                Luxury, Space & Sophistication - All in One Address
               </p>
               <motion.div
                 initial={{ width: 0 }}
@@ -151,10 +151,10 @@ export default function VillasInGreaterNoidaPage() {
             {/* Introduction */}
             <motion.div variants={itemVariants} className="text-center space-y-6">
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                Welcome to Greater Noida, where life moves at the perfect pace — calm yet connected, elegant yet energetic.
+                Welcome to Greater Noida, where life moves at the perfect pace - calm yet connected, elegant yet energetic.
               </p>
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                At <span className="text-[#CBB27A] font-semibold">Celeste Abode</span>, we bring you hand-picked villas in Greater Noida that blend architectural brilliance with lifestyle perfection. Each villa isn't just a structure — it's a sanctuary designed for those who value privacy, beauty, and timeless comfort.
+                At <span className="text-[#CBB27A] font-semibold">Celeste Abode</span>, we bring you hand-picked villas in Greater Noida that blend architectural brilliance with lifestyle perfection. Each villa isn't just a structure - it's a sanctuary designed for those who value privacy, beauty, and timeless comfort.
               </p>
             </motion.div>
 
@@ -186,7 +186,7 @@ export default function VillasInGreaterNoidaPage() {
                   Why Choose a Villa in Greater Noida?
                 </h2>
                 <p className="text-lg text-muted-foreground italic">
-                  Because true luxury is more than a postcode — it's peace of mind.
+                  Because true luxury is more than a postcode - it's peace of mind.
                 </p>
               </div>
               <div className="grid md:grid-cols-2 gap-6">
@@ -194,7 +194,7 @@ export default function VillasInGreaterNoidaPage() {
                   {
                     icon: <Home className="w-6 h-6" />,
                     title: "Spacious Independence",
-                    description: "Enjoy private lawns, personal terraces, and open skies — freedom apartments can't match.",
+                    description: "Enjoy private lawns, personal terraces, and open skies - freedom apartments can't match.",
                   },
                   {
                     icon: <Plane className="w-6 h-6" />,
@@ -247,7 +247,7 @@ export default function VillasInGreaterNoidaPage() {
               </h2>
               <div className="max-w-3xl mx-auto space-y-6">
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  At Celeste Abode, we understand that a home is more than a purchase — it's a personal statement. Our experts curate only the most exquisite villas in Greater Noida, combining lifestyle alignment with legal and financial assurance.
+                  At Celeste Abode, we understand that a home is more than a purchase - it's a personal statement. Our experts curate only the most exquisite villas in Greater Noida, combining lifestyle alignment with legal and financial assurance.
                 </p>
                 <div className="grid md:grid-cols-2 gap-6 mt-8">
                   {[
@@ -289,7 +289,7 @@ export default function VillasInGreaterNoidaPage() {
                   ))}
                 </div>
                 <p className="text-lg text-muted-foreground leading-relaxed italic mt-8">
-                  Because at Celeste Abode, luxury isn't sold — it's crafted with understanding.
+                  Because at Celeste Abode, luxury isn't sold - it's crafted with understanding.
                 </p>
               </div>
             </motion.div>
@@ -308,7 +308,7 @@ export default function VillasInGreaterNoidaPage() {
                 {[
                   {
                     title: "Jaypee Greens",
-                    description: "Home to some of NCR's most exclusive golf-course villas — perfect for connoisseurs of space and style.",
+                    description: "Home to some of NCR's most exclusive golf-course villas - perfect for connoisseurs of space and style.",
                     icon: <Star className="w-5 h-5" />,
                   },
                   {
@@ -323,7 +323,7 @@ export default function VillasInGreaterNoidaPage() {
                   },
                   {
                     title: "Yamuna Expressway Belt",
-                    description: "Future-ready zone near the new international airport — ideal for investors and global professionals.",
+                    description: "Future-ready zone near the new international airport - ideal for investors and global professionals.",
                     icon: <Star className="w-5 h-5" />,
                   },
                   {
@@ -415,10 +415,10 @@ export default function VillasInGreaterNoidaPage() {
                 The Celeste Abode Experience
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed max-w-3xl mx-auto mb-4">
-                Finding your dream villa with Celeste Abode isn't about browsing listings — it's about discovering belonging. Our team listens, understands, and curates choices that truly resonate with your lifestyle. We combine advanced analytics with human insight, ensuring every recommendation is as genuine as it is exclusive.
+                Finding your dream villa with Celeste Abode isn't about browsing listings - it's about discovering belonging. Our team listens, understands, and curates choices that truly resonate with your lifestyle. We combine advanced analytics with human insight, ensuring every recommendation is as genuine as it is exclusive.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed italic">
-                Because a villa isn't just where you live — it's where your story begins.
+                Because a villa isn't just where you live - it's where your story begins.
               </p>
             </motion.div>
 
@@ -452,7 +452,7 @@ export default function VillasInGreaterNoidaPage() {
                   },
                   {
                     q: "Does Celeste Abode help with site visits and legal checks?",
-                    a: "Yes — we provide complete assistance, from property tours to legal verification and negotiation.",
+                    a: "Yes - we provide complete assistance, from property tours to legal verification and negotiation.",
                   },
                 ].map((faq, index) => (
                   <motion.div
@@ -478,10 +478,10 @@ export default function VillasInGreaterNoidaPage() {
                 Start Your Greater Noida Villa Journey Today
               </h2>
               <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
-                If you've ever envisioned a home that balances nature, elegance, and future growth — Greater Noida is where that dream comes alive. At Celeste Abode, we'll guide you to villas that redefine comfort, security, and sophistication.
+                If you've ever envisioned a home that balances nature, elegance, and future growth - Greater Noida is where that dream comes alive. At Celeste Abode, we'll guide you to villas that redefine comfort, security, and sophistication.
               </p>
               <p className="text-muted-foreground italic text-lg text-center max-w-2xl mx-auto">
-                Because true luxury isn't about owning more — it's about living beautifully, every single day.
+                Because true luxury isn't about owning more - it's about living beautifully, every single day.
               </p>
             </motion.div>
           </motion.div>

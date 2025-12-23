@@ -58,7 +58,7 @@ export function CTASection() {
               Trusted by Thousands of{" "}
               <span className="text-[#CBB27A]">Families</span>
             </h2>
-            <p className="text-muted max-w-xl mx-auto">
+            <p className="text-muted max-w-xl mx-auto font-poppins">
               Our unwavering commitment to excellence and client satisfaction
               has made us the preferred choice for discerning real estate
               investments.
@@ -115,7 +115,7 @@ export function CTASection() {
             <span className="text-[#CBB27A]">masterpiece?</span>
           </h2>
 
-              <p className="text-lg text-muted leading-relaxed">
+              <p className="text-lg text-muted leading-relaxed font-poppins">
                 Connect with our expert advisors for personalized guidance and exclusive property insights. We're here to help you make informed decisions about your next real estate investment.
               </p>
 
@@ -163,7 +163,7 @@ export function CTASection() {
                   <h3 className="text-xl font-bold text-ink mb-3">
                     Thank You!
                   </h3>
-                  <p className="text-sm text-muted leading-relaxed">
+                  <p className="text-sm text-muted leading-relaxed font-poppins">
                     Our team will contact you within{" "}
                     <span className="font-semibold text-[#CBB27A]">12-24 hours</span> to discuss your requirements.
                   </p>

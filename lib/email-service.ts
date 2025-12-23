@@ -757,10 +757,26 @@ export async function sendFormSubmissionEmail(params: EmailSubmissionParams): Pr
     const isChatbot = params.formType === 'chatbot';
 
     // Validate required fields
-    if (!params.firstName || !params.lastName || !params.phone || (!params.email && !isChatbot)) {
+    if (!params.firstName || !params.phone) {
       return {
         success: false,
-        error: 'Missing required fields: firstName, lastName, email, phone',
+        error: `Missing required fields: ${!params.firstName ? 'firstName' : ''}${!params.firstName && !params.phone ? ', ' : ''}${!params.phone ? 'phone' : ''}`,
+      };
+    }
+    
+    // lastName is required for non-chatbot forms, optional for chatbot (can be "N/A")
+    if (!isChatbot && !params.lastName) {
+      return {
+        success: false,
+        error: 'Missing required field: lastName',
+      };
+    }
+    
+    // email is required for non-chatbot forms, optional for chatbot
+    if (!isChatbot && !params.email) {
+      return {
+        success: false,
+        error: 'Missing required field: email',
       };
     }
 

@@ -1,0 +1,115 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getSupabaseAdminClient } from "@/lib/supabase-server";
+import { supabaseToProperty } from "@/lib/supabase-property-mapper";
+import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
+
+// Query timeout: 10 seconds
+const QUERY_TIMEOUT = 10000;
+
+// Valid location categories
+const VALID_CATEGORIES = ["noida", "greater-noida", "yamuna-expressway", "ghaziabad"];
+
+// GET - Get properties by location category (public endpoint, only returns published properties)
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ category: string }> }
+) {
+  try {
+    // Rate limiting for public endpoint
+    const rateLimitId = getRateLimitIdentifier(request);
+    const rateLimit = checkRateLimit(rateLimitId, RATE_LIMITS.PUBLIC);
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        { error: rateLimit.error },
+        { 
+          status: 429,
+          headers: {
+            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+            'X-RateLimit-Reset': new Date(rateLimit.resetTime).toISOString(),
+          },
+        }
+      );
+    }
+
+    // Get Supabase admin client for public pages to bypass RLS and avoid JWT expiration issues
+    const supabase = getSupabaseAdminClient();
+
+    const { category } = await params;
+    const normalizedCategory = category.toLowerCase().trim();
+
+    // Validate category
+    if (!VALID_CATEGORIES.includes(normalizedCategory)) {
+      return NextResponse.json(
+        { error: "Invalid location category" },
+        { status: 400 }
+      );
+    }
+
+    // Get pagination parameters
+    const searchParams = request.nextUrl.searchParams;
+    const limit = Math.min(20, Math.max(1, parseInt(searchParams.get('limit') || '6', 10)));
+    const offset = Math.max(0, parseInt(searchParams.get('offset') || '0', 10));
+
+    // Fetch properties from Supabase with pagination - optimized query (no count to speed up)
+    // Fetch limit + 1 to check if there are more properties without a separate count query
+    const queryPromise = supabase
+      .from("properties")
+      .select("id, slug, project_name, developer, location, location_category, status, hero_image, is_published, created_at, updated_at")
+      .eq("location_category", normalizedCategory)
+      .eq("is_published", true)
+      .order("created_at", { ascending: false })
+      .range(offset, offset + limit); // Fetch limit + 1 to check for more
+
+    const timeoutPromise = new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("Query timeout")), QUERY_TIMEOUT)
+    );
+
+    const { data, error } = await Promise.race([queryPromise, timeoutPromise]);
+
+    if (error) {
+      console.error("Supabase error:", error);
+      return NextResponse.json(
+        { error: "Failed to fetch properties", details: error.message },
+        { status: 500 }
+      );
+    }
+
+    // Check if there are more properties (if we got limit + 1, there are more)
+    const hasMore = (data || []).length > limit;
+    const properties = (data || []).slice(0, limit); // Return only the requested limit
+
+    // Convert snake_case to camelCase
+    const mappedProperties = properties.map((prop: any) => supabaseToProperty(prop as any));
+
+    return NextResponse.json(
+      { 
+        properties: mappedProperties, 
+        category: normalizedCategory,
+        limit,
+        offset,
+        hasMore
+      },
+      {
+        headers: {
+          'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+          'X-RateLimit-Reset': new Date(rateLimit.resetTime).toISOString(),
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300', // Cache for 1 minute
+        },
+      }
+    );
+  } catch (error) {
+    console.error("Error fetching properties by location:", error);
+    if (error instanceof Error && error.message === "Query timeout") {
+      return NextResponse.json(
+        { error: "Request timeout. Please try again." },
+        { status: 504 }
+      );
+    }
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
+

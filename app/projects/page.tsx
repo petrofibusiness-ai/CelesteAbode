@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ContactPopup } from "@/components/contact-popup";
 import { PropertyLeadForm } from "@/components/property-lead-form";
+import { LocationFilterCards } from "@/components/location-filter-cards";
 import {
   MapPin,
   Bed,
@@ -32,6 +34,7 @@ import { BreadcrumbSchema } from "@/lib/structured-data";
 import { projectSlugs } from "@/lib/project-metadata";
 
 export default function ProjectsPage() {
+  const searchParams = useSearchParams();
   const [activeSegment, setActiveSegment] = useState("buying-to-live");
   const [activeLocation, setActiveLocation] = useState("all");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -906,6 +909,16 @@ export default function ProjectsPage() {
         return propertyLocationCategory === activeLocation;
       });
 
+  // Read location from URL query params on mount and when params change
+  useEffect(() => {
+    const locationParam = searchParams.get("location");
+    if (locationParam) {
+      setActiveLocation(locationParam);
+    } else {
+      setActiveLocation("all");
+    }
+  }, [searchParams]);
+
   // Detect mobile screen size
   useEffect(() => {
     const checkMobile = () => {
@@ -1134,42 +1147,10 @@ export default function ProjectsPage() {
           </div>
         </section>
 
-        {/* Location Filter Section */}
-        <section className="py-12 px-4 bg-gradient-to-b from-white to-gray-50">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
-                Filter by <span className="text-primary">Location</span>
-              </h2>
-              <p className="text-base text-muted-foreground max-w-2xl mx-auto">
-                Explore properties in your preferred location across Delhi NCR
-              </p>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-3 md:gap-4">
-              {locations.map((location) => {
-                const isActive = activeLocation === location.id;
-
-                return (
-                  <button
-                    key={location.id}
-                    onClick={() => handleLocationChange(location.id)}
-                    className={`px-6 py-3 rounded-full font-medium text-sm md:text-base transition-all duration-300 transform hover:scale-105 ${
-                      isActive
-                        ? "bg-gradient-to-r from-primary to-primary/90 text-white shadow-lg shadow-primary/30 scale-105"
-                        : "bg-white text-foreground border-2 border-gray-200 hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <MapPin className={`w-4 h-4 ${isActive ? "text-white" : "text-primary"}`} />
-                      <span>{location.title}</span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+        {/* Location Filter Cards Section */}
+        <Suspense fallback={<div className="py-12 md:py-16 bg-gradient-to-b from-white to-gray-50 min-h-[400px]" />}>
+          <LocationFilterCards />
+        </Suspense>
 
         {/* Active Segment Projects */}
         <section id="projects-section" className="py-16 px-4 bg-gradient-to-br from-gray-50 to-white">

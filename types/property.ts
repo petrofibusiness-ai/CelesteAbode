@@ -15,12 +15,15 @@ export interface PropertySEO {
   canonical?: string;
 }
 
+export type LocationCategory = "noida" | "greater-noida" | "yamuna-expressway" | "ghaziabad" | null;
+
 export interface Property {
   id?: string;
   slug: string; // URL-friendly identifier (e.g., "forest-walk-villa")
   projectName: string;
   developer: string;
   location: string;
+  locationCategory?: LocationCategory; // Category for location-based filtering
   reraId?: string;
   status: string; // e.g., "Under Construction", "Ready to Move"
   possessionDate?: string;

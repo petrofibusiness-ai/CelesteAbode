@@ -29,6 +29,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     projectName: property?.projectName || "",
     developer: property?.developer || "",
     location: property?.location || "",
+    locationCategory: property?.locationCategory || null,
     reraId: property?.reraId || "",
     status: property?.status || "Under Construction",
     possessionDate: property?.possessionDate || "",
@@ -664,6 +665,28 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                 <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
                 {errors.location}
               </p>}
+            </div>
+
+            <div>
+              <Label htmlFor="locationCategory" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Location Category
+              </Label>
+              <select
+                id="locationCategory"
+                value={formData.locationCategory || ""}
+                onChange={(e) => handleChange("locationCategory", e.target.value || null)}
+                className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all w-full px-3 bg-white"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                <option value="">Select Location Category</option>
+                <option value="noida">Noida</option>
+                <option value="greater-noida">Greater Noida</option>
+                <option value="yamuna-expressway">Yamuna Expressway</option>
+                <option value="ghaziabad">Ghaziabad</option>
+              </select>
+              <p className="text-xs text-gray-500 mt-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Select the location category for filtering properties on location-specific pages
+              </p>
             </div>
 
             <div>

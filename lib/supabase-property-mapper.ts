@@ -9,6 +9,7 @@ export interface SupabaseProperty {
   project_name: string;
   developer: string;
   location: string;
+  location_category?: "noida" | "greater-noida" | "yamuna-expressway" | "ghaziabad" | null;
   rera_id?: string | null;
   status: string;
   possession_date?: string | null;
@@ -47,6 +48,7 @@ export function supabaseToProperty(supabaseProp: SupabaseProperty): Property {
     projectName: supabaseProp.project_name,
     developer: supabaseProp.developer,
     location: supabaseProp.location,
+    locationCategory: supabaseProp.location_category || undefined,
     reraId: supabaseProp.rera_id || undefined,
     status: supabaseProp.status,
     possessionDate: supabaseProp.possession_date || undefined,
@@ -75,6 +77,7 @@ export function propertyToSupabase(property: Omit<Property, "id" | "createdAt" |
     project_name: property.projectName,
     developer: property.developer,
     location: property.location,
+    location_category: property.locationCategory || null,
     rera_id: property.reraId || null,
     status: property.status,
     possession_date: property.possessionDate || null,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Property, PropertyFormData } from "@/types/property";
 import { Button } from "@/components/ui/button";
@@ -69,6 +69,10 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
   });
 
   const [unitTypeInput, setUnitTypeInput] = useState("");
+
+  // Refs for file inputs to reset them after selection
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
 
   // Clean up preview URLs on unmount
   useEffect(() => {
@@ -158,7 +162,11 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       setPreviewUrls((prev) => ({ ...prev, videos: [...prev.videos, previewUrl] }));
     }
 
-    toast.success(`${type === "hero" ? "Hero image" : type === "brochure" ? "Brochure" : type === "image" ? "Image" : "Video"} selected. It will be uploaded when you save the property.`);
+    // Only show toast for single file selections (hero, brochure)
+    // Multiple files (images, videos) will show their own toast
+    if (type === "hero" || type === "brochure") {
+      toast.success(`${type === "hero" ? "Hero image" : "Brochure"} selected. It will be uploaded when you save the property.`);
+    }
   };
 
   // Remove temporary file
@@ -1005,7 +1013,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                 <button
                   type="button"
                   onClick={() => removeImage(index, false)}
-                  className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -1018,7 +1026,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                 <button
                   type="button"
                   onClick={() => removeImage(index, true)}
-                  className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1.5 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
                 >
                   <X className="w-4 h-4" />
                 </button>
@@ -1030,19 +1038,30 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           </div>
           <label className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-gray-300 hover:border-[#CBB27A] rounded-xl cursor-pointer hover:bg-[#CBB27A]/5 transition-all duration-200 font-medium">
             <ImageIcon className="w-5 h-5 text-[#CBB27A]" />
-            <span className="text-sm text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>Add Image</span>
+            <span className="text-sm text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>Add Images</span>
             <input
+              ref={imageInputRef}
               type="file"
               className="hidden"
               accept="image/*"
+              multiple
               onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) handleFileSelect(file, "image");
+                const files = Array.from(e.target.files || []);
+                if (files.length > 0) {
+                  files.forEach((file) => {
+                    handleFileSelect(file, "image");
+                  });
+                  toast.success(`${files.length} image${files.length > 1 ? 's' : ''} selected. They will be uploaded when you save the property.`);
+                }
+                // Reset input value to allow re-selecting the same file
+                if (e.target) {
+                  e.target.value = "";
+                }
               }}
               disabled={loading || uploading === "all"}
             />
           </label>
-          <p className="text-xs text-gray-500 mt-2" style={{ fontFamily: "Poppins, sans-serif" }}>Images will be uploaded when you save the property</p>
+          <p className="text-xs text-gray-500 mt-2" style={{ fontFamily: "Poppins, sans-serif" }}>You can select multiple images at once. They will be uploaded when you save the property.</p>
         </div>
 
         {/* Videos */}
@@ -1100,19 +1119,30 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           </div>
           <label className="inline-flex items-center gap-2 px-5 py-2.5 border-2 border-gray-300 hover:border-[#CBB27A] rounded-xl cursor-pointer hover:bg-[#CBB27A]/5 transition-all duration-200 font-medium">
             <Video className="w-5 h-5 text-[#CBB27A]" />
-            <span className="text-sm text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>Add Video</span>
+            <span className="text-sm text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>Add Videos</span>
             <input
+              ref={videoInputRef}
               type="file"
               className="hidden"
               accept="video/*"
+              multiple
               onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) handleFileSelect(file, "video");
+                const files = Array.from(e.target.files || []);
+                if (files.length > 0) {
+                  files.forEach((file) => {
+                    handleFileSelect(file, "video");
+                  });
+                  toast.success(`${files.length} video${files.length > 1 ? 's' : ''} selected. They will be uploaded when you save the property.`);
+                }
+                // Reset input value to allow re-selecting the same file
+                if (e.target) {
+                  e.target.value = "";
+                }
               }}
               disabled={loading || uploading === "all"}
             />
           </label>
-            <p className="text-xs text-gray-500 mt-2" style={{ fontFamily: "Poppins, sans-serif" }}>MP4, MOV, WEBM (MAX. 50MB)</p>
+            <p className="text-xs text-gray-500 mt-2" style={{ fontFamily: "Poppins, sans-serif" }}>You can select multiple videos at once. MP4, MOV, WEBM (MAX. 50MB each)</p>
           </div>
 
           {/* Amenities */}

@@ -1,29 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { uploadImageToR2, uploadHeroImageToR2 } from "@/lib/r2-upload";
-import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 
 export async function POST(request: NextRequest) {
   try {
     const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    // Rate limiting for uploads
-    const rateLimitId = getRateLimitIdentifier(request, user.id);
-    const rateLimit = checkRateLimit(rateLimitId, RATE_LIMITS.UPLOAD);
-    if (!rateLimit.success) {
-      return NextResponse.json(
-        { error: rateLimit.error },
-        { 
-          status: 429,
-          headers: {
-            'X-RateLimit-Remaining': rateLimit.remaining.toString(),
-            'X-RateLimit-Reset': new Date(rateLimit.resetTime).toISOString(),
-          },
-        }
-      );
     }
 
     const formData = await request.formData();

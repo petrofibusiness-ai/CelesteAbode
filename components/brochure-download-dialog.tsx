@@ -38,12 +38,85 @@ export function BrochureDownloadDialog({
     "idle" | "success" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+
+  // Phone validation function (same as chatbot)
+  const isValidPhone = (value: string) => {
+    // Extract only digits
+    const digits = value.trim().replace(/\D/g, '');
+    
+    // Basic format check - must be 10-12 digits
+    // 10 digits: local number (e.g., 9818735258)
+    // 11-12 digits: with country code (e.g., +91 9818735258 = 12 digits, +1 5551234567 = 11 digits)
+    if (digits.length < 10 || digits.length > 12) {
+      return false;
+    }
+    
+    // Check for all zeros (0000000000, etc.)
+    if (/^0+$/.test(digits)) {
+      return false;
+    }
+    
+    // Check for repeated numbers (1111111111, 2222222222, etc.)
+    // Check if all digits are the same
+    if (/^(\d)\1{9,}$/.test(digits)) {
+      return false;
+    }
+    
+    // Check for sequential numbers (1234567890, 0123456789, etc.)
+    const isSequential = (str: string) => {
+      for (let i = 0; i < str.length - 1; i++) {
+        const current = parseInt(str[i]);
+        const next = parseInt(str[i + 1]);
+        // Check if next digit is current + 1 (handles wrap-around like 9->0)
+        if (next !== (current + 1) % 10) {
+          return false;
+        }
+      }
+      return str.length >= 10;
+    };
+    
+    // Check for reverse sequential (9876543210, 987654321, etc.)
+    const isReverseSequential = (str: string) => {
+      for (let i = 0; i < str.length - 1; i++) {
+        const current = parseInt(str[i]);
+        const next = parseInt(str[i + 1]);
+        // Check if next digit is current - 1 (handles wrap-around like 0->9)
+        if (next !== (current - 1 + 10) % 10) {
+          return false;
+        }
+      }
+      return str.length >= 10;
+    };
+    
+    if (isSequential(digits) || isReverseSequential(digits)) {
+      return false;
+    }
+    
+    return true;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate phone number before submission
+    if (!isValidPhone(formData.phone)) {
+      const digits = formData.phone.trim().replace(/\D/g, '');
+      if (digits.length < 10) {
+        setPhoneError("Phone number must have at least 10 digits");
+      } else if (digits.length > 12) {
+        setPhoneError("Phone number must not exceed 12 digits");
+      } else {
+        setPhoneError("Please enter a valid phone number");
+      }
+      // Don't submit if phone is invalid
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus("idle");
     setErrorMessage("");
+    setPhoneError("");
 
     try {
       const response = await fetch("/api/brochure-download", {
@@ -120,6 +193,11 @@ export function BrochureDownloadDialog({
       ...prev,
       [e.target.name]: e.target.value,
     }));
+    
+    // Clear phone error when user starts typing (only if error was shown)
+    if (e.target.name === "phone" && phoneError) {
+      setPhoneError("");
+    }
   };
 
   const handleClose = () => {
@@ -127,6 +205,7 @@ export function BrochureDownloadDialog({
       setFormData({ name: "", phone: "", email: "" });
       setSubmitStatus("idle");
       setErrorMessage("");
+      setPhoneError("");
       onClose();
     }
   };
@@ -200,9 +279,16 @@ export function BrochureDownloadDialog({
                   onChange={handleChange}
                   required
                   placeholder="Enter your phone number"
-                  className="h-12 border-2 border-gray-200 focus:border-black focus:ring-black rounded-lg"
+                  className={`h-12 border-2 ${
+                    phoneError
+                      ? "border-red-300 focus:border-red-500 focus:ring-red-500"
+                      : "border-gray-200 focus:border-black focus:ring-black"
+                  } rounded-lg`}
                   disabled={isSubmitting}
                 />
+                {phoneError && (
+                  <p className="text-sm text-red-600 mt-1">{phoneError}</p>
+                )}
               </div>
 
               <div className="space-y-2">

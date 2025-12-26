@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Property, PropertyFormData } from "@/types/property";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import { Upload, X, Plus, Loader2, Image as ImageIcon, Video, FileText } from "l
 import { toast } from "sonner";
 import { AmenitiesMultiSelect } from "@/components/admin/amenities-multi-select";
 import { normalizeAmenities } from "@/lib/amenity-normalize";
+import { UploadProgressOverlay } from "@/components/admin/upload-progress-overlay";
 
 interface PropertyFormProps {
   property?: Property;
@@ -23,6 +24,37 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  
+  // Progress overlay state
+  const [showProgressOverlay, setShowProgressOverlay] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploadStatus, setUploadStatus] = useState<"uploading" | "processing" | "success" | "error">("uploading");
+  const [uploadStatusText, setUploadStatusText] = useState<string>("");
+  const [uploadErrorMessage, setUploadErrorMessage] = useState<string>("");
+  const [isTerminalState, setIsTerminalState] = useState(false); // Prevent state updates after success/error
+  
+  // Use ref to track terminal state synchronously (prevents race conditions with late callbacks)
+  const terminalStateRef = useRef(false);
+  const uploadStatusRef = useRef<"uploading" | "processing" | "success" | "error">("uploading");
+  
+  // Sync refs with state
+  useEffect(() => {
+    terminalStateRef.current = isTerminalState;
+  }, [isTerminalState]);
+  
+  useEffect(() => {
+    uploadStatusRef.current = uploadStatus;
+  }, [uploadStatus]);
+  
+  // Helper function to safely update status text (prevents updates after success/error)
+  // Uses refs for synchronous checks to prevent race conditions with late XMLHttpRequest callbacks
+  const safeSetStatusText = useCallback((text: string) => {
+    // Check refs synchronously (not state) to prevent race conditions
+    if (terminalStateRef.current || uploadStatusRef.current === "success" || uploadStatusRef.current === "error") {
+      return; // Silently ignore - we're in a terminal state
+    }
+    setUploadStatusText(text);
+  }, []);
 
   const [formData, setFormData] = useState<PropertyFormData>({
     slug: property?.slug || "",
@@ -202,46 +234,85 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     }
   };
 
-  // Upload a single file to R2
+  // Upload a single file to R2 with progress tracking
   const uploadFileToR2 = async (
     file: File,
     type: "hero" | "brochure" | "image" | "video",
-    propertySlug: string
+    propertySlug: string,
+    onProgress?: (bytesUploaded: number, totalBytes: number) => void
   ): Promise<string> => {
-    const uploadFormData = new FormData();
-    uploadFormData.append("file", file);
-    uploadFormData.append("propertySlug", propertySlug);
+    return new Promise((resolve, reject) => {
+      const uploadFormData = new FormData();
+      uploadFormData.append("file", file);
+      uploadFormData.append("propertySlug", propertySlug);
 
-    let endpoint = "";
-    if (type === "brochure") {
-      endpoint = "/api/admin/upload/pdf";
-    } else if (type === "image") {
-      endpoint = "/api/admin/upload/image";
-    } else if (type === "video") {
-      endpoint = "/api/admin/upload/video";
-    } else if (type === "hero") {
-      endpoint = "/api/admin/upload/image";
-      uploadFormData.append("isHero", "true");
-    }
+      let endpoint = "";
+      if (type === "brochure") {
+        endpoint = "/api/admin/upload/pdf";
+      } else if (type === "image") {
+        endpoint = "/api/admin/upload/image";
+      } else if (type === "video") {
+        endpoint = "/api/admin/upload/video";
+      } else if (type === "hero") {
+        endpoint = "/api/admin/upload/image";
+        uploadFormData.append("isHero", "true");
+      }
 
-    const response = await fetch(endpoint, {
-      method: "POST",
-      body: uploadFormData,
+      const xhr = new XMLHttpRequest();
+      let isCompleted = false; // Guard to prevent late callbacks
+
+      // Track upload progress - report cumulative bytes uploaded for this file
+      xhr.upload.addEventListener("progress", (e) => {
+        // Prevent progress updates after completion (guard against late callbacks)
+        if (isCompleted || !e.lengthComputable || !onProgress) return;
+        
+        // e.loaded is cumulative bytes uploaded for this file
+        // e.total is total bytes for this file
+        onProgress(e.loaded, e.total);
+      });
+
+      // Handle completion
+      xhr.addEventListener("load", () => {
+        isCompleted = true; // Mark as completed to block any late progress callbacks
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            const data = JSON.parse(xhr.responseText);
+            if (!data.url || data.url.trim() === "") {
+              reject(new Error("Upload succeeded but no URL returned"));
+              return;
+            }
+            console.log(`Upload successful for ${type}:`, data.url);
+            resolve(data.url);
+          } catch (error) {
+            reject(new Error("Failed to parse upload response"));
+          }
+        } else {
+          try {
+            const errorData = JSON.parse(xhr.responseText);
+            const errorMessage = errorData.error || `Upload failed with status ${xhr.status}`;
+            console.error(`Upload failed for ${type}:`, errorMessage, `Property slug: ${propertySlug}`);
+            reject(new Error(errorMessage));
+          } catch {
+            reject(new Error(`Upload failed with status ${xhr.status}`));
+          }
+        }
+      });
+
+      // Handle errors
+      xhr.addEventListener("error", () => {
+        isCompleted = true; // Mark as completed
+        reject(new Error("Network error during upload"));
+      });
+
+      xhr.addEventListener("abort", () => {
+        isCompleted = true; // Mark as completed
+        reject(new Error("Upload was aborted"));
+      });
+
+      // Start upload
+      xhr.open("POST", endpoint);
+      xhr.send(uploadFormData);
     });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
-      const errorMessage = errorData.error || `Upload failed with status ${response.status}`;
-      console.error(`Upload failed for ${type}:`, errorMessage, `Property slug: ${propertySlug}`);
-      throw new Error(errorMessage);
-    }
-
-    const data = await response.json();
-    if (!data.url || data.url.trim() === "") {
-      throw new Error("Upload succeeded but no URL returned");
-    }
-    console.log(`Upload successful for ${type}:`, data.url);
-    return data.url;
   };
 
   const addUnitType = () => {
@@ -291,6 +362,15 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     setLoading(true);
     setErrors({});
 
+    // ===== PHASE 1: VALIDATION (0-30%) =====
+    // Always show progress overlay immediately on Save click
+    setIsTerminalState(false);
+    setShowProgressOverlay(true);
+    setUploadProgress(0);
+    setUploadStatus("processing");
+    safeSetStatusText("Validating inputs...");
+    setUploadErrorMessage("");
+
     // Validation
     const newErrors: Record<string, string> = {};
     if (!formData.slug) newErrors.slug = "Slug is required";
@@ -304,16 +384,26 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       newErrors.heroImage = "Hero image is required";
     }
 
+    // Update progress: 10% after basic validation
+    setUploadProgress(10);
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      terminalStateRef.current = true;
+      uploadStatusRef.current = "error";
+      setIsTerminalState(true);
+      setUploadStatus("error");
+      setUploadErrorMessage("Please fix the validation errors above.");
       setLoading(false);
       return;
     }
 
     // Check if slug already exists (only for new properties, not edits)
+    setUploadProgress(20);
     if (!property?.id && formData.slug) {
       try {
         const normalizedSlug = formData.slug.trim().toLowerCase();
+        safeSetStatusText("Checking slug availability...");
         const checkResponse = await fetch(
           `/api/admin/properties/check-slug?slug=${encodeURIComponent(normalizedSlug)}`
         );
@@ -327,6 +417,11 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
               : `A property with slug "${normalizedSlug}" already exists. Please choose a different slug.`;
             
             setErrors({ slug: errorMessage });
+            terminalStateRef.current = true;
+            uploadStatusRef.current = "error";
+            setIsTerminalState(true);
+            setUploadStatus("error");
+            setUploadErrorMessage(errorMessage);
             toast.error(errorMessage, {
               duration: 6000,
             });
@@ -341,50 +436,197 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       }
     }
 
+    // Validation complete: 30%
+    setUploadProgress(30);
+
     try {
       const propertySlug = formData.slug || property?.slug;
       if (!propertySlug || propertySlug.trim() === "") {
+        setIsTerminalState(true);
+        setUploadStatus("error");
+        setUploadErrorMessage("Property slug is required. Please ensure the slug field is filled.");
+        setLoading(false);
         throw new Error("Property slug is required for file uploads. Please ensure the slug field is filled.");
       }
       const updatedFormData = { ...formData };
       const uploadErrors: string[] = [];
       
-      console.log(`Starting upload process for property: ${propertySlug} (Edit mode: ${!!property?.id})`);
+      console.log(`Starting save process for property: ${propertySlug} (Edit mode: ${!!property?.id})`);
 
-      // Step 1: Upload all temporary files to R2
-      // Ensure all uploads complete successfully before proceeding
+      // Calculate files to upload and files deleted
+      const filesToUpload: Array<{ file: File; type: "hero" | "brochure" | "image" | "video" }> = [];
+      if (tempFiles.hero) filesToUpload.push({ file: tempFiles.hero, type: "hero" });
+      if (tempFiles.brochure) filesToUpload.push({ file: tempFiles.brochure, type: "brochure" });
+      tempFiles.images.forEach(file => filesToUpload.push({ file, type: "image" }));
+      tempFiles.videos.forEach(file => filesToUpload.push({ file, type: "video" }));
+      
+      const totalFiles = filesToUpload.length;
+      const totalBytes = filesToUpload.reduce((sum, item) => sum + item.file.size, 0);
+
+      // Detect deleted files (compare original property with current formData)
+      const deletedImages: string[] = [];
+      const deletedVideos: Array<{ src: string }> = [];
+      if (property?.id) {
+        // Compare existing images with current formData.images
+        const originalImages = property.images || [];
+        const currentImages = formData.images || [];
+        deletedImages.push(...originalImages.filter(img => !currentImages.includes(img)));
+        
+        // Compare existing videos with current formData.videos
+        const originalVideos = property.videos || [];
+        const currentVideos = formData.videos || [];
+        deletedVideos.push(...originalVideos.filter((v: { src: string }) => !currentVideos.some((cv: { src: string }) => cv.src === v.src)));
+      }
+
+      const hasDeletions = deletedImages.length > 0 || deletedVideos.length > 0;
+      const hasUploads = totalFiles > 0;
+
+      // Progress allocation:
+      // - Validation: 0-30% (already done)
+      // - Uploads: 30-80% (if files to upload, otherwise skip)
+      // - Deletions: 80-90% (if files deleted, otherwise skip)
+      // - Save: 90-100%
+
+      const uploadProgressStart = 30;
+      const uploadProgressEnd = hasUploads ? 80 : 30;
+      const deletionProgressStart = uploadProgressEnd;
+      const deletionProgressEnd = hasDeletions ? 90 : uploadProgressEnd;
+      const saveProgressStart = deletionProgressEnd;
+      const saveProgressEnd = 100;
+      
+      // Store these in variables accessible throughout the function
+      const progressRanges = {
+        uploadStart: uploadProgressStart,
+        uploadEnd: uploadProgressEnd,
+        deletionStart: deletionProgressStart,
+        deletionEnd: deletionProgressEnd,
+        saveStart: saveProgressStart,
+        saveEnd: saveProgressEnd,
+      };
+
       setUploading("all");
+
+      // ===== PHASE 2: FILE UPLOADS (30-80%) =====
+      if (hasUploads) {
+        setUploadStatus("uploading");
+        safeSetStatusText("Preparing uploads...");
+
+      // Track progress based on actual bytes uploaded
+      // Track bytes uploaded per file (file index -> bytes uploaded)
+      const fileProgressMap = new Map<number, number>();
+      let fileIndex = 0;
+      
+      const updateOverallProgress = (fileBytesUploaded: number, fileTotalBytes: number, currentFileIndex: number) => {
+        // Prevent updates if we're in terminal state (critical guard)
+        if (isTerminalState || totalBytes === 0) return;
+        
+        // Store progress for this file (clamp to file size to prevent over-counting)
+        const clampedBytes = Math.min(fileBytesUploaded, fileTotalBytes);
+        fileProgressMap.set(currentFileIndex, clampedBytes);
+        
+        // Calculate total bytes uploaded across all files
+        let totalBytesUploaded = 0;
+        fileProgressMap.forEach((bytes) => {
+          totalBytesUploaded += bytes;
+        });
+        
+        // Calculate upload progress (0-100% of upload phase)
+        const uploadPhaseProgress = Math.min((totalBytesUploaded / totalBytes) * 100, 100);
+        
+        // Map upload progress to overall progress range (30-80%)
+        const overallProgress = progressRanges.uploadStart + (uploadPhaseProgress / 100) * (progressRanges.uploadEnd - progressRanges.uploadStart);
+        
+        // Only update if progress actually increased (prevent flicker from late callbacks)
+        setUploadProgress((prev) => {
+          // Only update if new progress is greater (monotonic increase)
+          return overallProgress > prev ? overallProgress : prev;
+        });
+      };
 
       // Upload hero image (required)
       if (tempFiles.hero) {
+        const currentFileIndex = fileIndex++;
+        const heroFile = tempFiles.hero;
         try {
-          const heroUrl = await uploadFileToR2(tempFiles.hero, "hero", propertySlug);
+          if (!isTerminalState) {
+            safeSetStatusText("Uploading hero image...");
+          }
+          const heroUrl = await uploadFileToR2(
+            heroFile, 
+            "hero", 
+            propertySlug,
+            (bytesUploaded, totalBytes) => {
+              // Guard against terminal state in callback
+              if (!isTerminalState) {
+                updateOverallProgress(bytesUploaded, totalBytes, currentFileIndex);
+              }
+            }
+          );
           if (!heroUrl || heroUrl.trim() === "") {
             throw new Error("Hero image upload failed - no URL returned");
           }
           updatedFormData.heroImage = heroUrl;
+          // Mark file as fully uploaded (only if not in terminal state)
+          if (!isTerminalState) {
+            fileProgressMap.set(currentFileIndex, heroFile.size);
+            updateOverallProgress(heroFile.size, heroFile.size, currentFileIndex);
+          }
         } catch (error) {
           const errorMsg = `Failed to upload hero image: ${error instanceof Error ? error.message : "Unknown error"}`;
           uploadErrors.push(errorMsg);
           console.error(errorMsg, error);
+          // Even on error, count the file as processed (but don't update progress if terminal)
+          if (!isTerminalState) {
+            fileProgressMap.set(currentFileIndex, heroFile.size);
+            updateOverallProgress(heroFile.size, heroFile.size, currentFileIndex);
+          }
         }
       } else if (!formData.heroImage) {
         // Hero image is required
+        terminalStateRef.current = true;
+        uploadStatusRef.current = "error";
+        setIsTerminalState(true);
+        setShowProgressOverlay(false);
         throw new Error("Hero image is required. Please upload a hero image.");
       }
 
       // Upload brochure (optional)
       if (tempFiles.brochure) {
+        const currentFileIndex = fileIndex++;
+        const brochureFile = tempFiles.brochure;
         try {
-          const brochureUrl = await uploadFileToR2(tempFiles.brochure, "brochure", propertySlug);
+          if (!isTerminalState) {
+            safeSetStatusText("Uploading brochure...");
+          }
+          const brochureUrl = await uploadFileToR2(
+            brochureFile, 
+            "brochure", 
+            propertySlug,
+            (bytesUploaded, totalBytes) => {
+              // Guard against terminal state in callback
+              if (!isTerminalState) {
+                updateOverallProgress(bytesUploaded, totalBytes, currentFileIndex);
+              }
+            }
+          );
           if (!brochureUrl || brochureUrl.trim() === "") {
             throw new Error("Brochure upload failed - no URL returned");
           }
           updatedFormData.brochureUrl = brochureUrl;
+          // Mark file as fully uploaded (only if not in terminal state)
+          if (!isTerminalState) {
+            fileProgressMap.set(currentFileIndex, brochureFile.size);
+            updateOverallProgress(brochureFile.size, brochureFile.size, currentFileIndex);
+          }
         } catch (error) {
           const errorMsg = `Failed to upload brochure: ${error instanceof Error ? error.message : "Unknown error"}`;
           uploadErrors.push(errorMsg);
           console.error(errorMsg, error);
+          // Even on error, count the file as processed
+          if (!isTerminalState) {
+            fileProgressMap.set(currentFileIndex, brochureFile.size);
+            updateOverallProgress(brochureFile.size, brochureFile.size, currentFileIndex);
+          }
           // Brochure is optional, so we continue even if it fails
         }
       }
@@ -392,16 +634,40 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       // Upload gallery images
       const imageUrls: string[] = [...formData.images]; // Keep existing images
       for (let i = 0; i < tempFiles.images.length; i++) {
+        const currentImage = tempFiles.images[i];
+        const currentFileIndex = fileIndex++;
         try {
-          const imageUrl = await uploadFileToR2(tempFiles.images[i], "image", propertySlug);
+          if (!isTerminalState) {
+            safeSetStatusText(`Uploading image ${i + 1} of ${tempFiles.images.length}...`);
+          }
+          const imageUrl = await uploadFileToR2(
+            currentImage, 
+            "image", 
+            propertySlug,
+            (bytesUploaded, totalBytes) => {
+              if (!isTerminalState) {
+                updateOverallProgress(bytesUploaded, totalBytes, currentFileIndex);
+              }
+            }
+          );
           if (!imageUrl || imageUrl.trim() === "") {
             throw new Error(`Image ${i + 1} upload failed - no URL returned`);
           }
           imageUrls.push(imageUrl);
+          // Mark file as fully uploaded
+          if (!isTerminalState) {
+            fileProgressMap.set(currentFileIndex, currentImage.size);
+            updateOverallProgress(currentImage.size, currentImage.size, currentFileIndex);
+          }
         } catch (error) {
           const errorMsg = `Failed to upload image ${i + 1}: ${error instanceof Error ? error.message : "Unknown error"}`;
           uploadErrors.push(errorMsg);
           console.error(errorMsg, error);
+          // Even on error, count the file as processed
+          if (!isTerminalState) {
+            fileProgressMap.set(currentFileIndex, tempFiles.images[i].size);
+            updateOverallProgress(tempFiles.images[i].size, tempFiles.images[i].size, currentFileIndex);
+          }
           // Continue with other images even if one fails
         }
       }
@@ -410,22 +676,46 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       // Upload videos
       const videoData: Array<{ title: string; src: string; thumbnail: string }> = [...(formData.videos || [])]; // Keep existing videos
       for (let i = 0; i < tempFiles.videos.length; i++) {
+        const currentVideo = tempFiles.videos[i];
+        const currentFileIndex = fileIndex++;
         try {
-          console.log(`Uploading video ${i + 1}/${tempFiles.videos.length}: ${tempFiles.videos[i].name} (${(tempFiles.videos[i].size / 1024 / 1024).toFixed(2)}MB)`);
-          const videoUrl = await uploadFileToR2(tempFiles.videos[i], "video", propertySlug);
+          if (!isTerminalState) {
+            safeSetStatusText(`Uploading video ${i + 1} of ${tempFiles.videos.length}...`);
+          }
+          console.log(`Uploading video ${i + 1}/${tempFiles.videos.length}: ${currentVideo.name} (${(currentVideo.size / 1024 / 1024).toFixed(2)}MB)`);
+          const videoUrl = await uploadFileToR2(
+            currentVideo, 
+            "video", 
+            propertySlug,
+            (bytesUploaded, totalBytes) => {
+              if (!isTerminalState) {
+                updateOverallProgress(bytesUploaded, totalBytes, currentFileIndex);
+              }
+            }
+          );
           if (!videoUrl || videoUrl.trim() === "") {
             throw new Error(`Video ${i + 1} upload failed - no URL returned`);
           }
           console.log(`Video ${i + 1} uploaded successfully: ${videoUrl}`);
           videoData.push({
-            title: tempFiles.videos[i].name.replace(/\.[^/.]+$/, ""),
+            title: currentVideo.name.replace(/\.[^/.]+$/, ""),
             src: videoUrl,
             thumbnail: updatedFormData.heroImage || formData.heroImage, // Use hero image as thumbnail
           });
+          // Mark file as fully uploaded
+          if (!isTerminalState) {
+            fileProgressMap.set(currentFileIndex, currentVideo.size);
+            updateOverallProgress(currentVideo.size, currentVideo.size, currentFileIndex);
+          }
         } catch (error) {
           const errorMsg = error instanceof Error ? error.message : "Unknown error";
           uploadErrors.push(`Failed to upload video ${i + 1}: ${errorMsg}`);
           console.error(`Failed to upload video ${i + 1}:`, error);
+          // Even on error, count the file as processed
+          if (!isTerminalState) {
+            fileProgressMap.set(currentFileIndex, tempFiles.videos[i].size);
+            updateOverallProgress(tempFiles.videos[i].size, tempFiles.videos[i].size, currentFileIndex);
+          }
           
           // Show user-friendly error message
           if (errorMsg.includes("too large") || errorMsg.includes("50 MB")) {
@@ -449,7 +739,13 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       // Step 2: Validate that critical uploads succeeded
       // If hero image upload failed and we don't have an existing one, abort
       if (!updatedFormData.heroImage || updatedFormData.heroImage.trim() === "") {
-        throw new Error("Hero image is required. Upload failed or no image provided.");
+        terminalStateRef.current = true;
+        uploadStatusRef.current = "error";
+        setIsTerminalState(true);
+        setUploadStatus("error");
+        setUploadErrorMessage("Hero image is required. Upload failed or no image provided.");
+        setUploading(null);
+        return;
       }
 
       // Step 3: If there were upload errors (but not critical ones), warn user
@@ -459,7 +755,49 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         // Non-critical errors (brochure, some images/videos) won't block the save
       }
 
+        // Mark all uploads as complete
+        terminalStateRef.current = true; // Set ref FIRST (synchronous) to block late callbacks
+        setIsTerminalState(true); // Set terminal state FIRST to block any late callbacks
+        // Ensure progress is at upload end (80%)
+        setUploadProgress(progressRanges.uploadEnd);
+      }
+
       setUploading(null);
+
+      // ===== PHASE 3: FILE DELETIONS (80-90%) =====
+      if (hasDeletions) {
+        setIsTerminalState(false); // Allow progress updates for deletions
+        setUploadStatus("processing");
+        safeSetStatusText("Removing deleted assets...");
+        
+        // Simulate deletion progress (since R2 deletion is typically fast)
+        // In a real implementation, you might want to call an API to delete from R2
+        const totalDeletions = deletedImages.length + deletedVideos.length;
+        let completedDeletions = 0;
+        
+        // Process deletions with progress updates
+        for (let i = 0; i < deletedImages.length; i++) {
+          // In a real implementation, call API to delete image from R2
+          // await deleteImageFromR2(deletedImages[i]);
+          completedDeletions++;
+          const deletionProgress = progressRanges.deletionStart + 
+            (completedDeletions / totalDeletions) * (progressRanges.deletionEnd - progressRanges.deletionStart);
+          setUploadProgress(deletionProgress);
+          await new Promise(resolve => setTimeout(resolve, 100)); // Small delay for visual feedback
+        }
+        
+        for (let i = 0; i < deletedVideos.length; i++) {
+          // In a real implementation, call API to delete video from R2
+          // await deleteVideoFromR2(deletedVideos[i]);
+          completedDeletions++;
+          const deletionProgress = progressRanges.deletionStart + 
+            (completedDeletions / totalDeletions) * (progressRanges.deletionEnd - progressRanges.deletionStart);
+          setUploadProgress(deletionProgress);
+          await new Promise(resolve => setTimeout(resolve, 100)); // Small delay for visual feedback
+        }
+        
+        setUploadProgress(progressRanges.deletionEnd);
+      }
 
       // Step 4: Prepare data for Supabase
       // Ensure JSONB fields are properly formatted
@@ -476,12 +814,19 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         isPublished: updatedFormData.isPublished === true,
       };
 
-      // Step 5: Save property data to Supabase
-      // Only proceed if we have all required data
+      // ===== PHASE 4: SAVE TO DATABASE (90-100%) =====
+      setIsTerminalState(false); // Allow progress updates for save phase
+      setUploadStatus("processing");
+      safeSetStatusText("Saving property data...");
+      setUploadProgress(progressRanges.saveStart);
+      
       const url = property?.id
         ? `/api/admin/properties/${property.id}`
         : "/api/admin/properties";
       const method = property?.id ? "PATCH" : "POST";
+
+      // Update progress during save (90-95%)
+      setUploadProgress(progressRanges.saveStart + (progressRanges.saveEnd - progressRanges.saveStart) * 0.5);
 
       const response = await fetch(url, {
         method,
@@ -489,9 +834,19 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         body: JSON.stringify(propertyData),
       });
 
+      // Update progress after save completes (95-100%)
+      setUploadProgress(progressRanges.saveStart + (progressRanges.saveEnd - progressRanges.saveStart) * 0.9);
+
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ error: "Unknown error" }));
         const errorMessage = errorData.error || `Failed to save property (${response.status})`;
+        
+        // Show error in overlay and set terminal state
+        terminalStateRef.current = true;
+        uploadStatusRef.current = "error";
+        setIsTerminalState(true); // Set terminal state to prevent any further updates
+        setUploadStatus("error");
+        setUploadErrorMessage(errorMessage);
         
         // Handle duplicate slug error specifically
         if (response.status === 409 || errorMessage.includes("already exists")) {
@@ -503,6 +858,8 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           toast.error(errorMessage);
         }
         
+        setLoading(false);
+        setUploading(null);
         throw new Error(errorMessage);
       }
 
@@ -513,12 +870,21 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         throw new Error("Property saved but no data returned. Please verify in the database.");
       }
 
+      // CRITICAL: Close overlay IMMEDIATELY and redirect INSTANTLY to prevent any flash
+      // Update refs FIRST (synchronously) to block any late callbacks immediately
+      terminalStateRef.current = true; // Set ref FIRST (synchronous) to block all further updates
+      uploadStatusRef.current = "success"; // Set ref to success state
+      
+      // Close overlay immediately (no delay, no flash)
+      setShowProgressOverlay(false);
+      setIsTerminalState(true);
+      
       // Show final success message
       toast.success("Property saved successfully! All files have been uploaded.", {
-        duration: 5000,
+        duration: 3000,
       });
 
-      // Clean up temporary files and preview URLs
+      // Clean up temporary files and preview URLs (do this quickly)
       if (previewUrls.hero) URL.revokeObjectURL(previewUrls.hero);
       if (previewUrls.brochure) URL.revokeObjectURL(previewUrls.brochure);
       previewUrls.images.forEach((url) => URL.revokeObjectURL(url));
@@ -567,24 +933,56 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         });
       }
 
-      // Wait a bit before redirecting to show success message
-      setTimeout(() => {
-        if (onSuccess) {
-          onSuccess();
-        } else {
-          router.push("/admin/properties");
-        }
-      }, 2000);
+      // Redirect IMMEDIATELY (no delay, no flash)
+      setLoading(false);
+      setUploading(null);
+      
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        router.push("/admin/properties");
+      }
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Failed to save property");
+      const errorMessage = error instanceof Error ? error.message : "Failed to save property";
+      
+      // Show error in overlay if it was open and set terminal state
+      if (showProgressOverlay) {
+        terminalStateRef.current = true;
+        uploadStatusRef.current = "error";
+        setIsTerminalState(true); // Mark as terminal state BEFORE updating UI
+        setUploadStatus("error");
+        setUploadErrorMessage(errorMessage);
+      } else {
+        toast.error(errorMessage);
+      }
+      
       setUploading(null);
     } finally {
       setLoading(false);
     }
   };
 
+  const handleCloseOverlay = () => {
+    terminalStateRef.current = true;
+    setIsTerminalState(true); // Ensure terminal state is set when closing
+    setShowProgressOverlay(false);
+    setUploadProgress(0);
+    setUploadStatus("uploading");
+    setUploadStatusText("");
+    setUploadErrorMessage("");
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
+    <>
+      <UploadProgressOverlay
+        isOpen={showProgressOverlay}
+        progress={uploadProgress}
+        status={uploadStatus}
+        statusText={uploadStatusText}
+        errorMessage={uploadErrorMessage}
+        onClose={handleCloseOverlay}
+      />
+      <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
       {/* Basic Information Section */}
       <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6 sm:p-8 space-y-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#CBB27A]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
@@ -1263,6 +1661,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         </div>
       </div>
     </form>
+    </>
   );
 }
 

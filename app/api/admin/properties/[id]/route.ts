@@ -40,8 +40,9 @@ export async function GET(
 
     const { id } = await params;
 
-    // Get Supabase client with user context (respects RLS)
-    const supabase = await getSupabaseServerClient();
+    // Use admin client (service role) to bypass RLS and access all properties (published and draft)
+    // Authentication is already verified above, so this is safe
+    const supabase = getSupabaseAdminClient();
 
     const queryPromise = supabase
       .from("properties")

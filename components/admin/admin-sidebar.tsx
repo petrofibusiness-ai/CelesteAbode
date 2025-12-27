@@ -11,7 +11,8 @@ import {
   Settings,
   FileText,
   Menu,
-  X
+  X,
+  MapPin
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -36,6 +37,8 @@ export default function AdminSidebar() {
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
     { href: "/admin/properties", label: "Properties", icon: Building2 },
     { href: "/admin/properties/new", label: "New Property", icon: Plus },
+    { href: "/admin/locations", label: "Locations", icon: MapPin },
+    { href: "/admin/locations/new", label: "New Location", icon: Plus },
   ];
 
   // Close mobile menu when route changes

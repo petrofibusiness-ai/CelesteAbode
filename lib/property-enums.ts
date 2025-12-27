@@ -19,7 +19,7 @@ export type PropertyType = typeof PROPERTY_TYPES[number];
  */
 export const LOCATION_CATEGORIES = [
   'Noida',
-  'Greater Noida West',
+  'Greater Noida',
   'Yamuna Expressway',
   'Ghaziabad',
   'Lucknow',

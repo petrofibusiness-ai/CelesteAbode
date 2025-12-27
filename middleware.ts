@@ -2,6 +2,39 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+
+  // REWRITE: Convert hyphenated public URL to internal route format
+  // Public: /properties-in-{locationCategory}/{slug}
+  // Internal: /properties-in/{locationCategory}/{slug}
+  const hyphenatedRouteMatch = pathname.match(/^\/properties-in-([^/]+)\/([^/]+)$/);
+  if (hyphenatedRouteMatch) {
+    const [, locationCategory, slug] = hyphenatedRouteMatch;
+    // Rewrite to internal route format
+    const rewriteUrl = new URL(
+      `/properties-in/${locationCategory}/${slug}`,
+      request.url
+    );
+    // Preserve query string
+    rewriteUrl.search = request.nextUrl.search;
+    return NextResponse.rewrite(rewriteUrl);
+  }
+
+  // BLOCK invalid property routes: /properties-in/{slug} (missing location category)
+  // This should only be accessible via rewrite, not directly
+  if (pathname.startsWith('/properties-in/') && pathname !== '/properties-in') {
+    const segments = pathname.split('/').filter(Boolean);
+    // If it's not the internal route format (exactly 3 segments: properties-in, locationCategory, slug)
+    // or if it's the old invalid format (2 segments: properties-in, slug)
+    if (segments.length === 2 && segments[0] === 'properties-in') {
+      // Invalid: /properties-in/{slug} - missing location category
+      return NextResponse.json(
+        { error: 'Not Found' },
+        { status: 404 }
+      );
+    }
+  }
+
   const response = NextResponse.next();
 
   // Security Headers - Minimal to avoid breaking Next.js

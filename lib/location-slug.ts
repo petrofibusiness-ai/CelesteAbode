@@ -4,7 +4,7 @@ import { LOCATION_CATEGORIES, type LocationCategory } from "@/lib/property-enums
 /**
  * Convert a location category to a URL-safe slug
  * Examples:
- * - "Greater Noida West" → "greater-noida-west"
+ * - "Greater Noida" → "greater-noida"
  * - "Yamuna Expressway" → "yamuna-expressway"
  * - "Noida" → "noida"
  * 
@@ -41,7 +41,7 @@ export function locationCategoryToSlug(locationCategory: LocationCategory | stri
 /**
  * Convert a URL slug back to location category enum value
  * Examples:
- * - "greater-noida-west" → "Greater Noida West"
+ * - "greater-noida" → "Greater Noida"
  * - "yamuna-expressway" → "Yamuna Expressway"
  * - "noida" → "Noida"
  */

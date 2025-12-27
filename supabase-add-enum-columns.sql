@@ -24,7 +24,7 @@ BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'location_category_enum') THEN
     CREATE TYPE location_category_enum AS ENUM (
       'Noida',
-      'Greater Noida West',
+      'Greater Noida',
       'Yamuna Expressway',
       'Ghaziabad',
       'Lucknow',

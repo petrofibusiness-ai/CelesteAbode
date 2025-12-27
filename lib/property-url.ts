@@ -16,31 +16,14 @@ export function getPropertyUrl(property: { slug: string; locationCategory?: stri
     return "/properties";
   }
 
-  // Debug: Always log in development to help diagnose issues
-  console.log(`[getPropertyUrl] Property ${slug}:`, {
-    locationCategory,
-    rawValue: property.locationCategory,
-    type: typeof locationCategory,
-    isNull: locationCategory === null,
-    isUndefined: locationCategory === undefined,
-    testSlug: locationCategoryToSlug(locationCategory as any)
-  });
-
   // Convert location category to slug
-  // Handle case where locationCategory might be in different formats
-  const categoryValue = locationCategory || null;
-  const locationCategorySlug = locationCategoryToSlug(categoryValue as any);
+  const locationCategorySlug = locationCategoryToSlug(locationCategory);
   
-  // If no location category slug, use "unknown" (will 404 in new route)
+  // If no location category slug, property cannot have a canonical URL
   // This should not happen if locationCategory is required, but handle gracefully
   if (!locationCategorySlug) {
-    console.error(`[getPropertyUrl] Property ${slug} has no valid locationCategory.`, {
-      locationCategory,
-      categoryValue,
-      slugResult: locationCategoryToSlug(categoryValue as any),
-      propertyKeys: Object.keys(property)
-    });
-    return `/properties-in-unknown/${slug}`;
+    // Return a path that will 404 - this ensures invalid properties don't get wrong URLs
+    return `/properties-in-invalid/${slug}`;
   }
   
   return `/properties-in-${locationCategorySlug}/${slug}`;

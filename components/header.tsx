@@ -21,7 +21,8 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
   const pathname = usePathname();
   const isHomepage = pathname === "/";
   const isPropertyPage =
-    pathname.startsWith("/properties/") && pathname !== "/properties";
+    (pathname.startsWith("/properties-in-") && pathname !== "/properties") ||
+    (pathname.startsWith("/properties/") && pathname !== "/properties");
   const isContactPage = pathname === "/contact";
   const isSEOPage = pathname === "/villa-in-noida" || pathname === "/villas-in-greater-noida" || pathname === "/villa-in-noida-extension" || pathname === "/buy-villa-in-noida" || pathname === "/plots-in-noida" || pathname === "/plots-in-greater-noida";
   // Admin routes (including login) should always show black header

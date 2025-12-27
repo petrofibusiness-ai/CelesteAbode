@@ -70,7 +70,7 @@ export function NoidaPropertiesGrid({ initialProperties, location }: NoidaProper
         {properties.map((property) => (
           <Link
             key={property.id}
-            href={`/properties/${property.slug}`}
+            href={getPropertyUrl(property)}
             className="block"
           >
             <Card className="border-0 bg-card overflow-hidden hover:shadow-2xl transition-all duration-500 group cursor-pointer p-0 transform hover:-translate-y-2 hover:scale-[1.02]">

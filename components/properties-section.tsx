@@ -14,6 +14,7 @@ import { ContactPopup } from "@/components/contact-popup";
 import { useEffect, useRef, useState } from "react";
 import { MapPin, Play, ChevronLeft, ChevronRight } from "lucide-react";
 import { Property } from "@/types/property";
+import { getPropertyUrl } from "@/lib/property-url";
 
 interface PropertyDisplay {
   id: string;
@@ -197,7 +198,7 @@ export function PropertiesSection() {
                       <div
                         className="group cursor-pointer p-4"
                         onClick={() => {
-                          handleNavigation(`/properties/${property.slug}`);
+                          handleNavigation(getPropertyUrl(property));
                         }}
                       >
                         <div className="relative overflow-hidden rounded-2xl shadow-xl group-hover:shadow-2xl transition-all duration-500 group-hover:scale-105 border-2 border-black">

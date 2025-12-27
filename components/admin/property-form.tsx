@@ -23,6 +23,7 @@ import {
   isValidProjectStatus,
   isValidConfiguration
 } from "@/lib/property-enums";
+import { locationCategoryToSlug } from "@/lib/location-slug";
 
 interface PropertyFormProps {
   property?: Property;
@@ -389,8 +390,10 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     if (!formData.location) newErrors.location = "Location is required";
     if (!formData.description) newErrors.description = "Description is required";
     
-    // Validate enum fields
-    if (formData.locationCategory && !isValidLocationCategory(formData.locationCategory)) {
+    // Validate enum fields - locationCategory is required
+    if (!formData.locationCategory) {
+      newErrors.locationCategory = "Location category is required";
+    } else if (!isValidLocationCategory(formData.locationCategory)) {
       newErrors.locationCategory = "Invalid location category selected";
     }
     if (formData.propertyType && !isValidPropertyType(formData.propertyType)) {
@@ -1042,7 +1045,15 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                 <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
                 {errors.slug}
               </p>}
-              <p className="text-xs text-gray-500 mt-2">Used in URL: /properties/{formData.slug || "..."}</p>
+              <p className="text-xs text-gray-500 mt-2">
+                {formData.slug && formData.locationCategory ? (
+                  <>Used in URL: /properties-in-{locationCategoryToSlug(formData.locationCategory as any) || "..."}/{formData.slug}</>
+                ) : formData.slug ? (
+                  <>Used in URL: /properties-in-.../{formData.slug}</>
+                ) : (
+                  <>Used in URL: /properties-in-.../...</>
+                )}
+              </p>
             </div>
 
             <div>
@@ -1104,7 +1115,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
 
             <div>
               <Label htmlFor="locationCategory" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
-                Location Category
+                Location Category *
               </Label>
               <select
                 id="locationCategory"
@@ -1117,8 +1128,9 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                 }}
                 className={`h-11 border-2 ${errors.locationCategory ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20"} rounded-xl transition-all w-full px-3 bg-white`}
                 style={{ fontFamily: "Poppins, sans-serif" }}
+                required
               >
-                <option value="">Select Location Category</option>
+                <option value="">Select Location Category *</option>
                 {LOCATION_CATEGORIES.map((category) => (
                   <option key={category} value={category}>
                     {category}

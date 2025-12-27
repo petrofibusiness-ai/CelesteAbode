@@ -44,13 +44,20 @@ export interface SupabaseProperty {
  * Convert Supabase property (snake_case) to TypeScript Property (camelCase)
  */
 export function supabaseToProperty(supabaseProp: SupabaseProperty): Property {
+  // Ensure location_category is properly handled (could be enum type from database)
+  const locationCategory = supabaseProp.location_category 
+    ? (typeof supabaseProp.location_category === 'string' 
+        ? supabaseProp.location_category 
+        : String(supabaseProp.location_category))
+    : undefined;
+
   return {
     id: supabaseProp.id,
     slug: supabaseProp.slug,
     projectName: supabaseProp.project_name,
     developer: supabaseProp.developer,
     location: supabaseProp.location,
-    locationCategory: supabaseProp.location_category || undefined,
+    locationCategory: locationCategory as any,
     propertyType: supabaseProp.property_type || undefined,
     reraId: supabaseProp.rera_id || undefined,
     projectStatus: supabaseProp.project_status || undefined,

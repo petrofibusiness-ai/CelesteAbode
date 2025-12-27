@@ -237,8 +237,10 @@ export function validatePropertyData(body: any): ValidationError[] {
     errors.push(...validateUrl(body.brochureUrl, 'brochureUrl', false));
   }
 
-  // Enum field validations
-  if (body.locationCategory !== undefined && body.locationCategory !== null) {
+  // Enum field validations - locationCategory is required
+  if (body.locationCategory === undefined || body.locationCategory === null || body.locationCategory === '') {
+    errors.push({ field: 'locationCategory', message: 'locationCategory is required' });
+  } else {
     if (typeof body.locationCategory !== 'string') {
       errors.push({ field: 'locationCategory', message: 'locationCategory must be a string' });
     } else if (!isValidLocationCategory(body.locationCategory)) {

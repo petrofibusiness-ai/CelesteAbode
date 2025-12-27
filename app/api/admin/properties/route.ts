@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
     // Admin should see both published and draft properties
     const { data, error, count } = await supabase
       .from("properties")
-      .select("id, slug, project_name, developer, location, project_status, is_published, hero_image, created_at, updated_at", { count: 'exact' })
+      .select("id, slug, project_name, developer, location, location_category, project_status, is_published, hero_image, created_at, updated_at", { count: 'exact' })
       .order("created_at", { ascending: false })
       .range(offset, offset + limit - 1);
 

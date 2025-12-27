@@ -26,6 +26,7 @@ import {
   Maximize2,
 } from "lucide-react";
 import { AmenityIcon } from "@/lib/amenity-icons";
+import { getPropertyAbsoluteUrl } from "@/lib/property-url";
 
 interface DynamicPropertyPageProps {
   property: Property;
@@ -46,8 +47,12 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
-  const projectUrl = `${siteUrl}/properties/${property.slug}`;
+  // Get site URL for client-side component
+  const siteUrl = typeof window !== 'undefined' 
+    ? window.location.origin 
+    : process.env.NEXT_PUBLIC_SITE_URL || 'https://www.celesteabode.com';
+
+  const projectUrl = getPropertyAbsoluteUrl(property);
 
   // Create unified media array (images and videos)
   const mediaItems = [
@@ -220,7 +225,7 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
         reraId={property.reraId}
         configuration={property.configuration}
         area={property.sizes}
-        status={property.status}
+        status={property.projectStatus || "Not specified"}
         url={projectUrl}
       />
       <div className="min-h-screen bg-white">

@@ -29,6 +29,8 @@ import {
 } from "lucide-react";
 import { BreadcrumbSchema, ItemListSchema, CollectionPageSchema } from "@/lib/structured-data";
 import { projectSlugs } from "@/lib/project-metadata";
+import { getPropertyUrl } from "@/lib/property-url";
+import { locationCategoryToSlug } from "@/lib/location-slug";
 
 export default function ProjectsPage() {
   const searchParams = useSearchParams();
@@ -905,7 +907,32 @@ export default function ProjectsPage() {
 
   const handleViewDetails = (propertyId: number) => {
     const slug = projectSlugs[propertyId] || propertyId.toString();
-    window.location.href = `/properties/${slug}`;
+    // Find the property to get its location
+    const property = allProperties.find(p => p.id === propertyId);
+    if (property) {
+      // Get location category from property location string
+      const locationLower = property.location.toLowerCase();
+      // Map location strings to enum values
+      let locationCategoryEnum: string | null = null;
+      if (locationLower.includes("greater noida") || locationLower.includes("greater-noida")) {
+        locationCategoryEnum = "Greater Noida West";
+      } else if (locationLower.includes("yamuna expressway") || locationLower.includes("yamuna")) {
+        locationCategoryEnum = "Yamuna Expressway";
+      } else if (locationLower.includes("ghaziabad") || locationLower.includes("nh-24") || locationLower.includes("nh24") || locationLower.includes("dasna")) {
+        locationCategoryEnum = "Ghaziabad";
+      } else if (locationLower.includes("noida") && !locationLower.includes("greater")) {
+        locationCategoryEnum = "Noida";
+      } else {
+        // Default fallback
+        locationCategoryEnum = "Greater Noida West";
+      }
+      // Use getPropertyUrl to generate the correct URL
+      const propertyUrl = getPropertyUrl({ slug, locationCategory: locationCategoryEnum });
+      window.location.href = propertyUrl;
+    } else {
+      // Fallback to unknown if property not found
+      window.location.href = `/properties-in-unknown/${slug}`;
+    }
   };
 
   const handleViewMore = () => {

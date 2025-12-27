@@ -231,7 +231,7 @@ export default function PropertiesPage() {
                 {/* URL Link Icon - Only for published properties */}
                 {property.isPublished && property.slug && (
                   <a
-                    href={`/projects/${property.slug}`}
+                    href={`/properties/${property.slug}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="absolute bottom-3 right-3 bg-white/90 hover:bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-all duration-200 group"

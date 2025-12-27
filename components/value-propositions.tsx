@@ -108,11 +108,11 @@ export function ValuePropositions() {
           className="text-center mt-8 md:mt-12"
         >
           <Link
-            href="/projects"
+            href="/properties"
             className="inline-flex items-center gap-2 px-6 py-3 text-base font-medium rounded-full bg-black text-white md:border-2 md:border-black md:bg-transparent md:text-[#000000] active:bg-black active:text-white md:hover:bg-black md:hover:text-white transition-all duration-300 active:scale-105 md:hover:scale-105 active:shadow-lg md:hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-            aria-label="Explore our projects"
+            aria-label="Explore our properties"
           >
-            Explore Our Projects
+            Explore Our Properties
             <ArrowRight className="w-5 h-5" />
           </Link>
         </motion.div>

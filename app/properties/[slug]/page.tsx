@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     const property = supabaseToProperty(data);
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 
       (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://www.celesteabode.com");
-    const projectUrl = `${siteUrl}/projects/${slug}`;
+    const projectUrl = `${siteUrl}/properties/${slug}`;
 
     return {
       title: property.seo?.title || `${property.projectName} | Celeste Abode`,

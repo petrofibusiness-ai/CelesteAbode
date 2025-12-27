@@ -75,72 +75,84 @@ const nextConfig = {
   // experimental: {
   //   optimizeCss: true,
   // },
-  // Redirects from numeric project URLs to slug-based URLs
+  // Redirects from /projects to /properties and numeric project URLs to slug-based URLs
   async redirects() {
     return [
+      // Redirect main projects page to properties page
+      {
+        source: '/projects',
+        destination: '/properties',
+        permanent: true,
+      },
+      // Redirect individual project pages to property pages
+      {
+        source: '/projects/:slug',
+        destination: '/properties/:slug',
+        permanent: true,
+      },
       {
         source: '/projects/1',
-        destination: '/projects/arihant-abode',
+        destination: '/properties/arihant-abode',
         permanent: true,
       },
       {
         source: '/projects/2',
-        destination: '/projects/spring-elmas',
+        destination: '/properties/spring-elmas',
         permanent: true,
       },
       {
         source: '/projects/3',
-        destination: '/projects/eternia-residences',
+        destination: '/properties/eternia-residences',
         permanent: true,
       },
       {
         source: '/projects/4',
-        destination: '/projects/rg-pleiaddes',
+        destination: '/properties/rg-pleiaddes',
         permanent: true,
       },
       {
         source: '/projects/5',
-        destination: '/projects/irish-platinum',
+        destination: '/properties/irish-platinum',
         permanent: true,
       },
       {
         source: '/projects/6',
-        destination: '/projects/elite-x',
+        destination: '/properties/elite-x',
         permanent: true,
       },
       {
         source: '/projects/7',
-        destination: '/projects/ace-hanei',
+        destination: '/properties/ace-hanei',
         permanent: true,
       },
       {
         source: '/projects/8',
-        destination: '/projects/the-brook-and-rivulet',
+        destination: '/properties/the-brook-and-rivulet',
         permanent: true,
       },
       {
         source: '/projects/9',
-        destination: '/projects/renox-thrive',
+        destination: '/properties/renox-thrive',
         permanent: true,
       },
       {
         source: '/projects/10',
-        destination: '/projects/civitech-strings',
+        destination: '/properties/civitech-strings',
         permanent: true,
       },
       {
         source: '/projects/11',
-        destination: '/projects/forest-walk-villa',
+        destination: '/properties/forest-walk-villa',
         permanent: true,
       },
       {
         source: '/projects/12',
-        destination: '/projects/vvip',
+        destination: '/properties/vvip',
         permanent: true,
       },
       {
         source: '/projects/13',
-        destination: '/projects/panchsheel-greens-ii',
+        destination: '/properties/panchsheel-greens-ii',
         permanent: true,
       },
     ];

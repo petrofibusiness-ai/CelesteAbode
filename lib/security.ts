@@ -49,18 +49,41 @@ export function isValidEmail(email: string): boolean {
 
 /**
  * Validate phone number format
+ * For Indian numbers: 10 digits (local) or 11-12 digits (with country code like +91)
  */
 export function isValidPhone(phone: string): boolean {
   if (!phone || typeof phone !== 'string') {
     return false;
   }
 
-  // Allow international format: +91, spaces, dashes, parentheses
-  const phoneRegex = /^[\+]?[0-9\s\-\(\)]{10,}$/;
-  const cleaned = phone.trim().replace(/[\s\-\(\)]/g, '');
+  const trimmed = phone.trim();
   
-  // Must have at least 10 digits
-  return phoneRegex.test(phone) && cleaned.length >= 10 && cleaned.length <= 15;
+  // First, validate that input only contains allowed characters: digits, +, spaces, dashes, parentheses
+  // Reject any letters or other invalid characters
+  const allowedCharsRegex = /^[\+]?[0-9\s\-\(\)]+$/;
+  if (!allowedCharsRegex.test(trimmed)) {
+    return false;
+  }
+  
+  // Extract only digits for validation
+  const digits = trimmed.replace(/\D/g, '');
+  
+  // Must be 10-12 digits (10 for local, 11-12 with country code)
+  if (digits.length < 10 || digits.length > 12) {
+    return false;
+  }
+  
+  // Check for all zeros (0000000000, etc.)
+  if (/^0+$/.test(digits)) {
+    return false;
+  }
+  
+  // Check for repeated numbers (1111111111, 2222222222, etc.)
+  if (/^(\d)\1{9,}$/.test(digits)) {
+    return false;
+  }
+  
+  return true;
 }
 
 /**

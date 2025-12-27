@@ -197,7 +197,7 @@ export function PropertiesSection() {
                       <div
                         className="group cursor-pointer p-4"
                         onClick={() => {
-                          handleNavigation(`/projects/${property.slug}`);
+                          handleNavigation(`/properties/${property.slug}`);
                         }}
                       >
                         <div className="relative overflow-hidden rounded-2xl shadow-xl group-hover:shadow-2xl transition-all duration-500 group-hover:scale-105 border-2 border-black">
@@ -308,9 +308,9 @@ export function PropertiesSection() {
             <Button
               size="default"
               className="bg-primary hover:bg-primary/90 text-white px-6 py-3 text-base rounded-full w-full sm:w-auto"
-              onClick={() => handleNavigation("/projects")}
+              onClick={() => handleNavigation("/properties")}
             >
-              Explore All Projects
+              Explore All Properties
             </Button>
             <Button
               variant="outline"

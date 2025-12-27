@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Phone, Mail } from "lucide-react";
+import { Menu, X, Phone, Mail, ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -15,10 +15,13 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isPropertiesOpen, setIsPropertiesOpen] = useState(false);
+  const [isMobilePropertiesOpen, setIsMobilePropertiesOpen] = useState(false);
+  const propertiesMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const isHomepage = pathname === "/";
   const isPropertyPage =
-    pathname.startsWith("/projects/") && pathname !== "/projects";
+    pathname.startsWith("/properties/") && pathname !== "/properties";
   const isContactPage = pathname === "/contact";
   const isSEOPage = pathname === "/villa-in-noida" || pathname === "/villas-in-greater-noida" || pathname === "/villa-in-noida-extension" || pathname === "/buy-villa-in-noida" || pathname === "/plots-in-noida" || pathname === "/plots-in-greater-noida";
   // Admin routes (including login) should always show black header
@@ -50,14 +53,34 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", checkMobile);
     
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", checkMobile);
-    };
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+        window.removeEventListener("resize", checkMobile);
+      };
   }, [isStaticPage]);
 
-  // Mobile: always show black strip, Desktop: contact page, property pages, SEO pages, and static pages always, other pages only on scroll
-  const shouldShowGlassmorphism = isMobile || isPropertyPage || isContactPage || isSEOPage || isStaticPage || isScrolled;
+  // Always show black header
+  const shouldShowGlassmorphism = true;
+
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        propertiesMenuRef.current &&
+        !propertiesMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsPropertiesOpen(false);
+      }
+    };
+
+    if (isPropertiesOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isPropertiesOpen]);
 
   return (
     <>
@@ -138,9 +161,87 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
               <Link href="/vault" className="nav-link">
                 VAULT
               </Link>
-              <Link href="/projects" className="nav-link">
-                PROJECTS
-              </Link>
+              
+              {/* Properties Dropdown */}
+              <div
+                ref={propertiesMenuRef}
+                className="relative"
+              >
+                <button
+                  type="button"
+                  onClick={() => setIsPropertiesOpen(!isPropertiesOpen)}
+                  className="nav-link cursor-pointer no-underline-animation"
+                  aria-expanded={isPropertiesOpen}
+                  aria-haspopup="true"
+                >
+                  PROPERTIES
+                </button>
+                
+                {/* Dropdown Menu */}
+                <AnimatePresence>
+                  {isPropertiesOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -5 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -5 }}
+                      transition={{ duration: 0.2, ease: "easeOut" }}
+                      className="absolute top-full left-1/2 -translate-x-1/2 w-72 z-[100]"
+                      style={{ 
+                        marginTop: '0px'
+                      }}
+                    >
+                      <div className="bg-[#0f1112] border-l border-r border-b border-l-[#0f1112] border-r-[#0f1112] border-b-white/10 rounded-b-xl shadow-2xl overflow-hidden backdrop-blur-md">
+                        <div className="py-2" style={{ paddingTop: '28px' }}>
+                        <Link
+                          href="/properties-in-noida"
+                          className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
+                          onClick={() => setIsPropertiesOpen(false)}
+                        >
+                          Properties in Noida
+                        </Link>
+                        <Link
+                          href="/properties-in-greater-noida"
+                          className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
+                          onClick={() => setIsPropertiesOpen(false)}
+                        >
+                          Properties in Greater Noida
+                        </Link>
+                        <Link
+                          href="/properties-in-yamuna-expressway"
+                          className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
+                          onClick={() => setIsPropertiesOpen(false)}
+                        >
+                          Properties in Yamuna Expressway
+                        </Link>
+                        <Link
+                          href="/properties-in-ghaziabad"
+                          className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
+                          onClick={() => setIsPropertiesOpen(false)}
+                        >
+                          Properties in Ghaziabad
+                        </Link>
+                        <Link
+                          href="/properties-in-lucknow"
+                          className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
+                          onClick={() => setIsPropertiesOpen(false)}
+                        >
+                          Properties in Lucknow
+                        </Link>
+                        <div className="border-t border-white/10 my-1"></div>
+                        <Link
+                          href="/properties"
+                          className="block px-4 py-3 text-sm font-semibold text-[#CBB27A] hover:bg-[#CBB27A]/10 transition-all duration-200 font-poppins"
+                          onClick={() => setIsPropertiesOpen(false)}
+                        >
+                          View all properties
+                        </Link>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+              
               <Link href="/contact" className="nav-link">
                 CONTACT
               </Link>
@@ -235,14 +336,99 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
               >
                 VAULT
               </Link>
-              <Link
-                href="/projects"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
-                onClick={() => setIsMobileMenuOpen(false)}
-                aria-label="Navigate to Projects page"
-              >
-                PROJECTS
-              </Link>
+              
+              {/* Mobile Properties Dropdown */}
+              <div className="border-l-4 border-transparent">
+                <button
+                  onClick={() => setIsMobilePropertiesOpen(!isMobilePropertiesOpen)}
+                  className="w-full px-6 py-4 min-h-[48px] flex items-center justify-between text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
+                  aria-expanded={isMobilePropertiesOpen}
+                >
+                  <span>PROPERTIES</span>
+                  <motion.div
+                    animate={{ rotate: isMobilePropertiesOpen ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="flex-shrink-0"
+                  >
+                    <ChevronDown className="w-5 h-5" />
+                  </motion.div>
+                </button>
+                <AnimatePresence>
+                  {isMobilePropertiesOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="pl-10 pr-6 pb-2 space-y-1">
+                        <Link
+                          href="/properties-in-noida"
+                          className="block px-4 py-2 text-sm text-white/80 hover:text-[#CBB27A] hover:bg-white/5 rounded-lg transition-all duration-200 font-poppins"
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            setIsMobilePropertiesOpen(false);
+                          }}
+                        >
+                          Properties in Noida
+                        </Link>
+                        <Link
+                          href="/properties-in-greater-noida"
+                          className="block px-4 py-2 text-sm text-white/80 hover:text-[#CBB27A] hover:bg-white/5 rounded-lg transition-all duration-200 font-poppins"
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            setIsMobilePropertiesOpen(false);
+                          }}
+                        >
+                          Properties in Greater Noida
+                        </Link>
+                        <Link
+                          href="/properties-in-yamuna-expressway"
+                          className="block px-4 py-2 text-sm text-white/80 hover:text-[#CBB27A] hover:bg-white/5 rounded-lg transition-all duration-200 font-poppins"
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            setIsMobilePropertiesOpen(false);
+                          }}
+                        >
+                          Properties in Yamuna Expressway
+                        </Link>
+                        <Link
+                          href="/properties-in-ghaziabad"
+                          className="block px-4 py-2 text-sm text-white/80 hover:text-[#CBB27A] hover:bg-white/5 rounded-lg transition-all duration-200 font-poppins"
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            setIsMobilePropertiesOpen(false);
+                          }}
+                        >
+                          Properties in Ghaziabad
+                        </Link>
+                        <Link
+                          href="/properties-in-lucknow"
+                          className="block px-4 py-2 text-sm text-white/80 hover:text-[#CBB27A] hover:bg-white/5 rounded-lg transition-all duration-200 font-poppins"
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            setIsMobilePropertiesOpen(false);
+                          }}
+                        >
+                          Properties in Lucknow
+                        </Link>
+                        <div className="border-t border-white/10 my-2"></div>
+                        <Link
+                          href="/properties"
+                          className="block px-4 py-2 text-sm font-semibold text-[#CBB27A] hover:bg-[#CBB27A]/10 rounded-lg transition-all duration-200 font-poppins"
+                          onClick={() => {
+                            setIsMobileMenuOpen(false);
+                            setIsMobilePropertiesOpen(false);
+                          }}
+                        >
+                          View all properties
+                        </Link>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
               <Link
                 href="/contact"
                 className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"

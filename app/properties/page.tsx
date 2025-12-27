@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useEffect, Suspense } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -10,7 +11,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ContactPopup } from "@/components/contact-popup";
 import { PropertyLeadForm } from "@/components/property-lead-form";
-import { LocationFilterCards } from "@/components/location-filter-cards";
+import { PropertyFilters } from "@/components/property-filters";
+import { GeneralLeadForm } from "@/components/general-lead-form";
 import {
   MapPin,
   Bed,
@@ -20,63 +22,27 @@ import {
   Play,
   Star,
   Building2,
-  Home,
-  TrendingUp,
-  Crown,
-  ArrowRight,
-  ArrowLeft,
   CheckCircle,
   Clock,
   Users,
   Shield,
 } from "lucide-react";
-import { BreadcrumbSchema } from "@/lib/structured-data";
+import { BreadcrumbSchema, ItemListSchema, CollectionPageSchema } from "@/lib/structured-data";
 import { projectSlugs } from "@/lib/project-metadata";
 
 export default function ProjectsPage() {
   const searchParams = useSearchParams();
-  const [activeSegment, setActiveSegment] = useState("buying-to-live");
   const [activeLocation, setActiveLocation] = useState("all");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isGeneralFormOpen, setIsGeneralFormOpen] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<{
     title: string;
     location: string;
   } | null>(null);
-  const [carouselPosition, setCarouselPosition] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [displayedProperties, setDisplayedProperties] = useState(9);
+  const [isSeoExpanded, setIsSeoExpanded] = useState(false);
+  const [isCtaContentExpanded, setIsCtaContentExpanded] = useState(false);
 
-  const segments = [
-    {
-      id: "buying-to-live",
-      title: "Buying to Live",
-      subtitle: "Your Dream Home Awaits",
-      description:
-        "Discover homes designed for modern living with premium amenities and strategic locations.",
-      icon: Home,
-      color: "from-blue-500 to-blue-600",
-      bgColor: "bg-blue-50",
-    },
-    {
-      id: "investment",
-      title: "Investment Opportunities",
-      subtitle: "Smart Investment Choices",
-      description:
-        "High-return properties with excellent growth potential and rental yields.",
-      icon: TrendingUp,
-      color: "from-green-500 to-green-600",
-      bgColor: "bg-green-50",
-    },
-    {
-      id: "luxury",
-      title: "Luxury Residences",
-      subtitle: "Ultimate Luxury Living",
-      description:
-        "Exclusive properties with world-class amenities and unparalleled luxury.",
-      icon: Crown,
-      color: "from-purple-500 to-purple-600",
-      bgColor: "bg-purple-50",
-    },
-  ];
 
   const locations = [
     {
@@ -900,11 +866,15 @@ export default function ProjectsPage() {
     return "greater-noida"; // default
   };
 
-  // Filter properties by segment and location
-  const segmentProperties = propertiesData[activeSegment as keyof typeof propertiesData];
+  // Filter properties by location only (no segment filtering)
+  const allProperties = [
+    ...propertiesData["buying-to-live"],
+    ...propertiesData["investment"],
+    ...propertiesData["luxury"]
+  ];
   const currentProperties = activeLocation === "all"
-    ? segmentProperties
-    : segmentProperties.filter((property: any) => {
+    ? allProperties
+    : allProperties.filter((property: any) => {
         const propertyLocationCategory = property.locationCategory || getLocationCategory(property.location);
         return propertyLocationCategory === activeLocation;
       });
@@ -919,46 +889,10 @@ export default function ProjectsPage() {
     }
   }, [searchParams]);
 
-  // Detect mobile screen size
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  // Reset and clamp carousel position when properties change
-  useEffect(() => {
-    // Desktop: max = length - 3 (so the last position still shows 3 cards)
-    // Mobile: max = length - 1 (to show the last single card)
-    const maxPositionDesktop = Math.max(0, currentProperties.length - 3);
-    const maxPositionMobile = Math.max(0, currentProperties.length - 1);
-    const maxPosition = isMobile ? maxPositionMobile : maxPositionDesktop;
-    setCarouselPosition((prev) => Math.min(prev, maxPosition));
-  }, [activeSegment, activeLocation, currentProperties.length, isMobile]);
-
-  const handleSegmentChange = (segmentId: string) => {
-    setActiveSegment(segmentId);
-    setCarouselPosition(0); // Reset carousel position when segment changes
-  };
 
   const handleLocationChange = (locationId: string) => {
     setActiveLocation(locationId);
-    setCarouselPosition(0); // Reset carousel position when location changes
-  };
-
-  const handleExploreProperties = (segmentId: string, e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent card onClick from firing
-    handleSegmentChange(segmentId);
-      // Scroll to projects section after a short delay to allow segment change
-    setTimeout(() => {
-      const projectsSection = document.getElementById('projects-section');
-        if (projectsSection) {
-          projectsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 100);
+    setDisplayedProperties(9); // Reset to show first 9 properties
   };
 
   const handlePropertyClick = (property: any) => {
@@ -971,52 +905,25 @@ export default function ProjectsPage() {
 
   const handleViewDetails = (propertyId: number) => {
     const slug = projectSlugs[propertyId] || propertyId.toString();
-    window.location.href = `/projects/${slug}`;
+    window.location.href = `/properties/${slug}`;
   };
 
-  const handleCarouselPrev = () => {
-    setCarouselPosition((prev) => Math.max(0, prev - 1));
+  const handleViewMore = () => {
+    setDisplayedProperties((prev) => prev + 9);
   };
 
-  const handleCarouselNext = () => {
-    // Desktop: max = length - 3 (so the last position still shows 3 cards)
-    // Mobile: max = length - 1 (to show the last single card)
-    const maxPositionDesktop = Math.max(0, currentProperties.length - 3);
-    const maxPositionMobile = Math.max(0, currentProperties.length - 1);
-    const maxPosition = isMobile ? maxPositionMobile : maxPositionDesktop;
-    setCarouselPosition((prev) => Math.min(prev + 1, maxPosition));
-  };
-
-  const shouldShowCarousel = currentProperties.length >= 3;
-  // Max position calculation based on screen size
-  // Desktop: max = length - 3 (last position shows cards [length-3, length-2, length-1])
-  // Mobile: max = length - 1 (last position shows the last single card)
-  const maxPositionDesktop = Math.max(0, currentProperties.length - 3);
-  const maxPositionMobile = Math.max(0, currentProperties.length - 1);
-  const maxPosition = isMobile ? maxPositionMobile : maxPositionDesktop;
-  const canGoPrev = carouselPosition > 0;
-  const canGoNext = carouselPosition < maxPosition;
+  const hasMoreProperties = currentProperties.length > displayedProperties;
+  const propertiesToShow = currentProperties.slice(0, displayedProperties);
 
   return (
     <>
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://www.celesteabode.com" },
-          { name: "Projects", url: "https://www.celesteabode.com/projects" },
+          { name: "Properties", url: "https://www.celesteabode.com/properties" },
         ]}
       />
     <div className="min-h-screen bg-background">
-      <style dangerouslySetInnerHTML={{__html: `
-        .carousel-transform {
-          --translate-percent: calc(var(--carousel-position, 0) * 100%);
-          transform: translateX(calc(-1 * var(--translate-percent)));
-        }
-        @media (min-width: 768px) {
-          .carousel-transform {
-            --translate-percent: calc(var(--carousel-position, 0) * 33.333%);
-          }
-        }
-      `}} />
       <main className="pt-0">
         <Header />
         {/* Hero Section */}
@@ -1047,26 +954,24 @@ export default function ProjectsPage() {
                 <div className="absolute inset-0 flex items-end pb-16">
                   <div className="text-left text-[#FAFAF8] max-w-4xl px-4 ml-6 md:px-6 md:ml-8">
                     <h1
-                      className="text-3xl md:text-4xl lg:text-5xl font-medium mb-4 leading-tight text-[#FAFAF8]"
+                      className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-4 leading-tight text-[#FAFAF8]"
                       style={{
                         textShadow: "0 1px 2px rgba(0,0,0,0.35)",
                         letterSpacing: "-0.01em",
                       }}
                     >
                       <div className="block text-[#FAFAF8]">
-                        Your Definitive
+                        Verified Residential & Investment
                       </div>
-                      <div className="block text-[#FAFAF8] mt-2">
+                      <div className="block text-[#FAFAF8] mt-1 md:mt-2">
                         <span className="text-[#CBB27A]">
-                          Property Portfolio
+                          Properties in Delhi NCR
                         </span>
                       </div>
                     </h1>
 
-                    <p className="text-base md:text-lg text-[#CBB27A] mb-6 max-w-2xl">
-                      Every asset—whether for living or investing—is vetted by
-                      our evidence-driven philosophy, ensuring unparalleled
-                      value and peace of mind.
+                    <p className="text-sm sm:text-base md:text-lg text-[#CBB27A] mb-4 md:mb-6 max-w-2xl font-poppins leading-relaxed">
+                      Curated projects across Noida, Greater Noida, Yamuna Expressway, and NCR growth corridors—evaluated for legality, location logic, and long-term suitability.
                     </p>
                   </div>
                 </div>
@@ -1076,168 +981,54 @@ export default function ProjectsPage() {
         </section>
 
         {/* Aesthetic Line Separator */}
-        <div className="w-full flex justify-center py-8">
+        <div className="w-full flex justify-center py-4">
           <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
         </div>
 
-        {/* Segment Navigation */}
-        <section className="py-16 px-4 bg-white">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Choose Your{" "}
-                <span className="text-primary">Property Category</span>
+        {/* Filters Section Heading */}
+        <section className="pt-10 pb-2 bg-background">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center font-poppins">
+              Shortlist Projects Based on Your Priorities
               </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Each category is carefully curated to match your specific
-                requirements and investment goals.
-              </p>
             </div>
-
-            <div className="grid md:grid-cols-3 gap-6 mb-16">
-              {segments.map((segment) => {
-                const Icon = segment.icon;
-                const isActive = activeSegment === segment.id;
-
-                return (
-                  <Card
-                    key={segment.id}
-                    className={`cursor-pointer transition-all duration-500 hover:shadow-2xl group transform hover:-translate-y-2 hover:scale-[1.02] ${
-                      isActive
-                        ? `border-2 border-primary shadow-lg ${segment.bgColor}`
-                        : "border border-gray-200 hover:border-primary/50"
-                    }`}
-                    onClick={() => handleSegmentChange(segment.id)}
-                  >
-                    <CardContent className="p-8 text-center">
-                      <div
-                        className={`w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-3 ${
-                          isActive
-                            ? `bg-gradient-to-r ${segment.color} text-white`
-                            : `bg-gray-100 text-gray-600 group-hover:bg-gradient-to-r group-hover:${segment.color} group-hover:text-white`
-                        }`}
-                      >
-                        <Icon className="w-8 h-8 transition-transform duration-300 group-hover:scale-110" />
-                      </div>
-
-                      <h3 className="text-xl font-bold text-foreground mb-3 transition-colors duration-300 group-hover:text-primary">
-                        {segment.title}
-                      </h3>
-
-                      <p className="text-sm text-muted-foreground mb-4 transition-colors duration-300 group-hover:text-foreground">
-                        {segment.subtitle}
-                      </p>
-
-                      <p className="text-sm text-muted-foreground mb-6 transition-colors duration-300 group-hover:text-foreground">
-                        {segment.description}
-                      </p>
-
-                      <div 
-                        onClick={(e) => handleExploreProperties(segment.id, e)}
-                        className="flex items-center justify-center gap-2 text-primary font-medium transition-all duration-300 cursor-pointer hover:gap-3 hover:scale-105 hover:text-primary/90 px-4 py-2 rounded-lg hover:bg-primary/10 group/button"
-                      >
-                        <span>Explore Projects</span>
-                        <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/button:translate-x-2" />
-                      </div>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
         </section>
 
-        {/* Location Filter Cards Section */}
-        <Suspense fallback={<div className="py-12 md:py-16 bg-gradient-to-b from-white to-gray-50 min-h-[400px]" />}>
-          <LocationFilterCards />
-        </Suspense>
+        {/* Property Filters Section */}
+        <PropertyFilters />
+
+        {/* Aesthetic Line Separator */}
+        <div className="w-full flex justify-center py-4">
+          <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
+                      </div>
 
         {/* Active Segment Projects */}
-        <section id="projects-section" className="py-16 px-4 bg-gradient-to-br from-gray-50 to-white">
+        <section id="projects-section" className="py-16 px-4 bg-background" aria-label="Properties Collection">
           <div className="max-w-7xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                {segments.find((s) => s.id === activeSegment)?.title} Projects
-              </h2>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                {segments.find((s) => s.id === activeSegment)?.description}
-              </p>
-            </div>
 
-            {/* Projects Display */}
-            {shouldShowCarousel ? (
-              /* Carousel with Navigation Arrows */
-              <div className="flex items-center gap-0 md:gap-4">
-                {/* Left Navigation Arrow - Desktop Only */}
-                <button
-                  onClick={handleCarouselPrev}
-                  disabled={!canGoPrev}
-                  className={`hidden md:flex flex-shrink-0 p-3 rounded-full shadow-lg transition-all duration-500 ${
-                    canGoPrev
-                      ? "bg-white/90 hover:bg-white text-primary hover:scale-110 hover:shadow-xl cursor-pointer transform hover:-translate-y-1"
-                      : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  }`}
-                  aria-label="Previous properties"
-                >
-                  <ArrowLeft className="w-6 h-6 transition-transform duration-300" />
-                </button>
-
-                {/* Carousel Container */}
-                <div className="flex-1 relative overflow-hidden py-6">
-                  {/* Mobile Navigation Arrows - Overlay on Cards */}
-                  <div className="md:hidden absolute inset-0 z-10 pointer-events-none">
-                    {/* Left Arrow */}
-                    <button
-                      onClick={handleCarouselPrev}
-                      disabled={!canGoPrev}
-                      className={`absolute left-2 top-1/2 -translate-y-1/2 z-20 pointer-events-auto p-2 rounded-full shadow-lg transition-all duration-300 ${
-                        canGoPrev
-                          ? "bg-white/90 hover:bg-white text-primary hover:scale-110 hover:shadow-xl cursor-pointer"
-                          : "bg-gray-200 text-gray-400 cursor-not-allowed opacity-50"
-                      }`}
-                      aria-label="Previous properties"
-                    >
-                      <ArrowLeft className="w-5 h-5" />
-                    </button>
-
-                    {/* Right Arrow */}
-                    <button
-                      onClick={handleCarouselNext}
-                      disabled={!canGoNext}
-                      className={`absolute right-2 top-1/2 -translate-y-1/2 z-20 pointer-events-auto p-2 rounded-full shadow-lg transition-all duration-300 ${
-                        canGoNext
-                          ? "bg-white/90 hover:bg-white text-primary hover:scale-110 hover:shadow-xl cursor-pointer"
-                          : "bg-gray-200 text-gray-400 cursor-not-allowed opacity-50"
-                      }`}
-                      aria-label="Next properties"
-                    >
-                      <ArrowRight className="w-5 h-5" />
-                    </button>
-                  </div>
-                  <div
-                    className="flex transition-transform duration-500 ease-in-out carousel-transform"
-                    style={{
-                      '--carousel-position': carouselPosition,
-                    } as React.CSSProperties & { '--carousel-position': number }}
-                  >
-                    {currentProperties.map((property, index) => (
-                      <div
-                        key={property.id}
-                        className="flex-shrink-0 w-full md:w-1/3 px-4"
-                      >
+            {/* Properties Gallery Display */}
+            {currentProperties.length > 0 ? (
+              <>
+                <div id="itemlist" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="Properties in Delhi NCR">
+                  {propertiesToShow.map((property) => (
                         <Card
+                      key={property.id}
                           className="border-0 bg-card overflow-hidden hover:shadow-2xl transition-all duration-500 group cursor-pointer p-0 transform hover:-translate-y-2 hover:scale-[1.02]"
                           onClick={() => handleViewDetails(property.id)}
+                          role="listitem"
+                          itemScope
+                          itemType="https://schema.org/Product"
                         >
                           <div className="relative w-full h-80 rounded-xl overflow-hidden">
                             <Image
                               src={property.image}
-                              alt={property.title}
+                              alt={`${property.title} - ${property.location} - ${property.beds} - ${property.status}`}
                               fill
                               className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                               quality={90}
                               loading="lazy"
+                              itemProp="image"
                             />
 
                             {/* Overlay for text */}
@@ -1251,106 +1042,105 @@ export default function ProjectsPage() {
                                   {property.location}
                                 </span>
                               </div>
-                              <h3 className="text-lg font-bold text-white leading-tight">
+                              <h3 className="text-lg font-bold text-white leading-tight" itemProp="name">
                                 {property.title}
                               </h3>
+                              <meta itemProp="description" content={`${property.subtitle} in ${property.location}. ${property.beds} available. ${property.status}.`} />
+                              <meta itemProp="brand" content={property.developer || "Verified Developer"} />
+                              <meta itemProp="offers" itemType="https://schema.org/Offer" content={property.price || "Price on Request"} />
                             </div>
                           </div>
                         </Card>
-                      </div>
                     ))}
-                  </div>
                 </div>
 
-                {/* Right Navigation Arrow - Desktop Only */}
-                <button
-                  onClick={handleCarouselNext}
-                  disabled={!canGoNext}
-                  className={`hidden md:flex flex-shrink-0 p-3 rounded-full shadow-lg transition-all duration-500 ${
-                    canGoNext
-                      ? "bg-white/90 hover:bg-white text-primary hover:scale-110 hover:shadow-xl cursor-pointer transform hover:-translate-y-1"
-                      : "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  }`}
-                  aria-label="Next properties"
-                >
-                  <ArrowRight className="w-6 h-6 transition-transform duration-300" />
-                </button>
+                {/* View More Properties Button */}
+                {hasMoreProperties && (
+                  <div className="flex justify-center mt-12">
+                    <Button
+                      onClick={handleViewMore}
+                      className="px-8 py-4 bg-black text-white rounded-full font-semibold hover:bg-black/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 font-poppins"
+                    >
+                      View More Properties
+                    </Button>
               </div>
+                )}
+              </>
             ) : (
-              /* Grid Layout for 3 or fewer properties - Mobile Single Column, Desktop Grid */
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {currentProperties.map((property) => (
-                  <Card
-                    key={property.id}
-                    className="border-0 bg-card overflow-hidden hover:shadow-2xl transition-all duration-500 group cursor-pointer p-0 transform hover:-translate-y-2 hover:scale-[1.02]"
-                    onClick={() => handleViewDetails(property.id)}
-                  >
-                    <div className="relative w-full h-80 rounded-xl overflow-hidden">
-                      <Image
-                        src={property.image}
-                        alt={property.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 50vw"
-                        quality={90}
-                        loading="lazy"
-                      />
-
-                      {/* Overlay for text */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent transition-opacity duration-500 group-hover:from-black/95 group-hover:via-black/30"></div>
-
-                      {/* Location and Name at bottom */}
-                      <div className="absolute bottom-3 left-3 right-3 transition-transform duration-300 group-hover:translate-y-[-4px]">
-                        <div className="flex items-center gap-2 text-white mb-1">
-                          <MapPin className="w-3 h-3 transition-transform duration-300 group-hover:scale-110" />
-                          <span className="text-xs font-medium text-white">
-                            {property.location}
-                          </span>
-                        </div>
-                        <h3 className="text-lg font-bold text-white leading-tight">
-                          {property.title}
-                        </h3>
-                      </div>
-                    </div>
-                  </Card>
-                ))}
+              <div className="text-center py-16 bg-background rounded-2xl">
+                <Building2 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <p className="text-lg text-gray-600 mb-6 font-poppins">
+                  No properties found matching your filters.
+                </p>
               </div>
             )}
 
+            {/* Aesthetic Line Separator */}
+            <div className="w-full flex justify-center py-4 mt-16">
+              <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
+            </div>
+
+            {/* SEO Content Section - Insight Panel */}
+            <article className="mt-12 sm:mt-16 md:mt-20 mb-12 sm:mb-16 md:mb-20 px-4 sm:px-6 lg:px-8 bg-background">
+              <div className="max-w-[1200px] mx-auto">
+                {/* Heading Section */}
+                <header className="text-center mb-8 md:mb-12 lg:mb-16">
+                  <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                    Beyond Brochures: How to Evaluate Properties in <span className="text-[#CBB27A]">Delhi NCR</span>
+                  </h2>
+                </header>
+
+                {/* Main Content Card - Wide Advisory Panel */}
+                <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden border border-gray-200">
+                  <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
+                    <div className="w-full max-w-none">
+                      <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">
+                        When searching for properties in <strong>Delhi NCR</strong>, you'll encounter countless projects across <strong>Noida</strong>, <strong>Greater Noida</strong>, <strong>Yamuna Expressway</strong>, <strong>Ghaziabad</strong>, and other growth corridors. Each developer claims their project is the best investment opportunity or perfect for end-use living. However, the reality is more nuanced than what brochures suggest. Not every property works for every buyer, and what matters isn't the glossy presentation, but the underlying factors that determine long-term value and suitability.
+                      </p>
+
+                      <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">
+                        The key to making informed property decisions lies in evaluating fundamental factors beyond marketing claims. Developer credibility matters significantly, as a track record of on-time delivery, quality construction, and financial stability reveals more about future performance than any sales pitch. Location maturity cannot be overstated either. Established infrastructure, connectivity, and social amenities that exist today matter far more than future promises that may or may not {!isCtaContentExpanded && (
+                          <button onClick={() => setIsCtaContentExpanded(true)} className="text-[#CBB27A] font-bold hover:underline cursor-pointer" aria-label="Read more about property evaluation">Read More...</button>
+                        )}
+                        {isCtaContentExpanded && (
+                          <>materialize. When evaluating properties across Delhi NCR, it's essential to look beyond surface-level amenities and marketing narratives. The true value of a property investment lies in factors that have proven track records rather than speculative future developments. This approach ensures that buyers and investors make decisions based on tangible evidence rather than optimistic projections.</>
+                        )}
+                      </p>
+
+                      {/* Brand positioning with subtle styling - shown when expanded */}
+                      {isCtaContentExpanded && (
+                        <div className="mt-6 md:mt-10 pt-6 md:pt-8 border-t border-gray-200">
+                          <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">
+                            At <strong className="text-[#CBB27A]">Celeste Abode</strong>, we don't present properties as inventory to be sold. Instead, we curate options that pass rigorous evaluation criteria around developer credibility, location logic, pricing fairness, and long-term suitability. Our advisory-led approach helps buyers and investors in <strong>Delhi NCR</strong> make informed decisions by focusing on evidence over marketing, substance over surface-level amenities, and long-term value over short-term promises. <button onClick={() => setIsCtaContentExpanded(false)} className="text-[#CBB27A] font-bold hover:underline cursor-pointer" aria-label="Read less">Read Less</button>
+                          </p>
+                        </div>
+                      )}
+                      </div>
+                    </div>
+              </div>
+              </div>
+            </article>
+
+            {/* Aesthetic Line Separator */}
+            <div className="w-full flex justify-center py-8">
+              <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
+            </div>
+
             {/* CTA Section */}
-            <div className="text-center mt-16">
-              <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl p-8">
-                <h3 className="text-2xl font-bold text-foreground mb-4">
-                  Need Help Choosing the Right Property?
+            <div className="text-center mt-16 mb-8">
+              <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl border border-gray-200 p-8 md:p-12 lg:p-16 max-w-4xl mx-auto">
+                <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4 font-poppins">
+                  Ready to Make an Informed Property Decision?
                 </h3>
-                <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-                  Our expert advisors are here to help you find the perfect
-                  property that matches your needs and budget.
+                <p className="text-base md:text-lg text-gray-700 mb-8 max-w-2xl mx-auto font-poppins leading-relaxed">
+                  Let our advisory team help you evaluate properties in Delhi NCR based on developer credibility, location maturity, and long-term suitability—not just marketing claims.
                 </p>
-                <div className="flex flex-wrap justify-center gap-4">
                   <Button
-                    size="lg"
-                    className="bg-primary hover:bg-primary/90 text-white px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-xl transform hover:-translate-y-1"
-                    onClick={() =>
-                      handlePropertyClick({
-                        title: "General Inquiry",
-                        location: "All Projects",
-                      })
-                    }
+                    onClick={() => setIsGeneralFormOpen(true)}
+                    className="bg-black hover:bg-black/90 text-white px-10 md:px-12 py-4 md:py-5 rounded-full font-semibold text-base md:text-lg transition-all duration-300 shadow-lg hover:shadow-xl font-poppins"
                   >
-                    <Users className="w-5 h-5 mr-2 transition-transform duration-300 group-hover:scale-110" />
                     Get Expert Consultation
                   </Button>
-                  <Button
-                    variant="outline"
-                    size="lg"
-                    className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 transition-all duration-300 hover:scale-105 hover:shadow-xl transform hover:-translate-y-1"
-                    onClick={() => (window.location.href = "/contact")}
-                  >
-                    <Shield className="w-5 h-5 mr-2 transition-transform duration-300 group-hover:scale-110" />
-                    Contact Us
-                  </Button>
-                </div>
               </div>
             </div>
           </div>
@@ -1366,6 +1156,15 @@ export default function ProjectsPage() {
         }}
         propertyTitle={selectedProperty?.title}
         propertyLocation={selectedProperty?.location}
+      />
+
+      {/* General Lead Form */}
+      <GeneralLeadForm
+        isOpen={isGeneralFormOpen}
+        onClose={() => setIsGeneralFormOpen(false)}
+        title="Get Expert Consultation"
+        subtitle="Fill in your details and our team will get back to you shortly."
+        source="properties-page"
       />
 
       <Footer />

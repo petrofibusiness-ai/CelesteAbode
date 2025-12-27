@@ -76,7 +76,7 @@ export default function NotFound() {
             className="w-full sm:w-auto"
           >
             <Link
-              href="/projects"
+              href="/properties"
               className="inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-8 sm:py-4 bg-[#000000] text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-[#1a1a1a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#000000] text-sm sm:text-base w-full sm:w-auto"
               style={{ fontFamily: 'Poppins, sans-serif' }}
             >

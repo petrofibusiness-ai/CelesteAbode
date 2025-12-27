@@ -77,7 +77,7 @@ export function LocationFilterCards() {
             transition={{ duration: 0.4 }}
           >
             <Link
-              href="/projects"
+              href="/properties"
               className={`group block h-full ${
                 activeLocation === "all" ? "ring-2 ring-[#CBB27A] ring-offset-2" : ""
               }`}

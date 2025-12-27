@@ -21,19 +21,19 @@ Allow: /plots-in-noida
 Allow: /plots-in-greater-noida
 
 # Allow property pages
-Allow: /projects/arihant-abode
-Allow: /projects/spring-elmas
-Allow: /projects/eternia-residences
-Allow: /projects/rg-pleiaddes
-Allow: /projects/irish-platinum
-Allow: /projects/elite-x
-Allow: /projects/ace-hanei
-Allow: /projects/the-brook-and-rivulet
-Allow: /projects/renox-thrive
-Allow: /projects/civitech-strings
-Allow: /projects/forest-walk-villa
-Allow: /projects/vvip
-Allow: /projects/panchsheel-greens-ii
+Allow: /properties/arihant-abode
+Allow: /properties/spring-elmas
+Allow: /properties/eternia-residences
+Allow: /properties/rg-pleiaddes
+Allow: /properties/irish-platinum
+Allow: /properties/elite-x
+Allow: /properties/ace-hanei
+Allow: /properties/the-brook-and-rivulet
+Allow: /properties/renox-thrive
+Allow: /properties/civitech-strings
+Allow: /properties/forest-walk-villa
+Allow: /properties/vvip
+Allow: /properties/panchsheel-greens-ii
 
 # Allow static assets
 Allow: /_next/static/

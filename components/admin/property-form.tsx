@@ -1013,7 +1013,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                 <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
                 {errors.slug}
               </p>}
-              <p className="text-xs text-gray-500 mt-2">Used in URL: /projects/{formData.slug || "..."}</p>
+              <p className="text-xs text-gray-500 mt-2">Used in URL: /properties/{formData.slug || "..."}</p>
             </div>
 
             <div>

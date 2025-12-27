@@ -628,6 +628,11 @@ body::after {
   width: 100%;
 }
 
+/* Remove underline animation for PROPERTIES dropdown */
+.nav-link.no-underline-animation::after {
+  display: none;
+}
+
 /* Mobile Navigation */
 .mobile-nav-link {
   display: block;

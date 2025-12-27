@@ -47,7 +47,7 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
-  const projectUrl = `${siteUrl}/projects/${property.slug}`;
+  const projectUrl = `${siteUrl}/properties/${property.slug}`;
 
   // Create unified media array (images and videos)
   const mediaItems = [
@@ -206,7 +206,7 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
       <BreadcrumbSchema
         items={[
           { name: "Home", url: siteUrl },
-          { name: "Projects", url: `${siteUrl}/projects` },
+          { name: "Properties", url: `${siteUrl}/properties` },
           { name: property.projectName, url: projectUrl },
         ]}
       />

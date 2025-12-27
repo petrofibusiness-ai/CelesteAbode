@@ -122,15 +122,11 @@ export default async function NoidaPropertiesPage() {
 
             <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight font-poppins text-white">
-                Your Dream Home in{" "}
-                <span className="text-[#CBB27A]">Noida</span> Awaits
+                Properties in <span className="text-[#CBB27A]">Noida</span>
               </h1>
               
               <p className="text-base md:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed font-poppins">
-                In Delhi NCR, where every investment counts, Noida stands as the smart choice. 
-                Planned infrastructure, metro connectivity, and premium living—all backed by 
-                <span className="text-[#CBB27A] font-semibold"> RERA-compliant projects</span> and 
-                <span className="text-[#CBB27A] font-semibold"> data-driven insights</span>.
+                Premium residential and investment properties in Noida, Delhi NCR.
               </p>
             </div>
           </section>
@@ -157,7 +153,7 @@ export default async function NoidaPropertiesPage() {
                     No properties available in this location at the moment.
                   </p>
                   <Link
-                    href="/projects"
+                    href="/properties"
                     className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white rounded-full font-medium hover:bg-black/90 transition-colors"
                   >
                     View All Properties

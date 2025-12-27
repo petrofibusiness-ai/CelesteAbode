@@ -75,7 +75,7 @@ export function BrandIntro() {
               <div className="relative pl-5 md:pl-6 border-l border-[#CBB27A]/40">
                 <p className="text-xs md:text-sm lg:text-base leading-[1.7] text-[#4A4F55] font-normal font-poppins">
                   Celeste Abode is a <span className="text-[#2B3035] font-medium">trusted real estate consultant</span> in Delhi NCR, built for people who want clarity before committing to a property.
-                </p>
+              </p>
               </div>
 
               {/* Second paragraph */}
@@ -87,7 +87,7 @@ export function BrandIntro() {
               <div className="relative bg-[#CBB27A]/5 p-5 md:p-6 rounded-md border-l-2 border-[#CBB27A]/30">
                 <p className="text-xs md:text-sm lg:text-base leading-[1.7] text-[#2B3035] font-normal font-poppins">
                   From Noida and Greater Noida to the Yamuna Expressway, every recommendation is guided by one principle: <span className="font-medium text-[#CBB27A]">secure decisions today that hold value tomorrow</span>.
-                </p>
+              </p>
               </div>
             </motion.div>
           </div>

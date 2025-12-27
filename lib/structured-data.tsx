@@ -378,3 +378,105 @@ export function BrandSchema() {
   );
 }
 
+// ItemList Schema for Properties Collection Page
+export function ItemListSchema({
+  items,
+  name,
+  description,
+  url,
+}: {
+  items: Array<{
+    name: string;
+    url: string;
+    image?: string;
+    description?: string;
+  }>;
+  name: string;
+  description: string;
+  url: string;
+}) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: name,
+    description: description,
+    url: url,
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "Product",
+        name: item.name,
+        url: item.url,
+        ...(item.image && {
+          image: item.image.startsWith("http") ? item.image : `https://www.celesteabode.com${item.image}`,
+        }),
+        ...(item.description && { description: item.description }),
+      },
+    })),
+  };
+
+  return (
+    <Script
+      id="itemlist-schema"
+      type="application/ld+json"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+// CollectionPage Schema for Properties Page
+export function CollectionPageSchema({
+  name,
+  description,
+  url,
+  image,
+  mainEntity,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  image: string;
+  mainEntity: string;
+}) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: name,
+    description: description,
+    url: url,
+    image: image.startsWith("http") ? image : `https://www.celesteabode.com${image}`,
+    mainEntity: {
+      "@id": mainEntity,
+    },
+    breadcrumb: {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.celesteabode.com",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Properties",
+          item: "https://www.celesteabode.com/properties",
+        },
+      ],
+    },
+  };
+
+  return (
+    <Script
+      id="collectionpage-schema"
+      type="application/ld+json"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+

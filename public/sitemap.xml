@@ -24,9 +24,9 @@
     <priority>0.8</priority>
   </url>
   
-  <!-- Projects Page -->
+  <!-- Properties Page -->
   <url>
-    <loc>https://www.celesteabode.com/projects</loc>
+    <loc>https://www.celesteabode.com/properties</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -34,91 +34,91 @@
   
   <!-- Individual Property Pages -->
   <url>
-    <loc>https://www.celesteabode.com/projects/arihant-abode</loc>
+    <loc>https://www.celesteabode.com/properties/arihant-abode</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://www.celesteabode.com/projects/spring-elmas</loc>
+    <loc>https://www.celesteabode.com/properties/spring-elmas</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://www.celesteabode.com/projects/eternia-residences</loc>
+    <loc>https://www.celesteabode.com/properties/eternia-residences</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://www.celesteabode.com/projects/rg-pleiaddes</loc>
+    <loc>https://www.celesteabode.com/properties/rg-pleiaddes</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://www.celesteabode.com/projects/irish-platinum</loc>
+    <loc>https://www.celesteabode.com/properties/irish-platinum</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://www.celesteabode.com/projects/elite-x</loc>
+    <loc>https://www.celesteabode.com/properties/elite-x</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://www.celesteabode.com/projects/ace-hanei</loc>
+    <loc>https://www.celesteabode.com/properties/ace-hanei</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://www.celesteabode.com/projects/the-brook-and-rivulet</loc>
+    <loc>https://www.celesteabode.com/properties/the-brook-and-rivulet</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://www.celesteabode.com/projects/renox-thrive</loc>
+    <loc>https://www.celesteabode.com/properties/renox-thrive</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://www.celesteabode.com/projects/civitech-strings</loc>
+    <loc>https://www.celesteabode.com/properties/civitech-strings</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://www.celesteabode.com/projects/forest-walk-villa</loc>
+    <loc>https://www.celesteabode.com/properties/forest-walk-villa</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://www.celesteabode.com/projects/vvip</loc>
+    <loc>https://www.celesteabode.com/properties/vvip</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
-    <loc>https://www.celesteabode.com/projects/panchsheel-greens-ii</loc>
+    <loc>https://www.celesteabode.com/properties/panchsheel-greens-ii</loc>
     <lastmod>2025-01-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

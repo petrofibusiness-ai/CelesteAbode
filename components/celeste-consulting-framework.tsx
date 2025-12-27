@@ -35,7 +35,7 @@ const services: ServiceCard[] = [
     title: "Exclusive Signature Residences",
     description: "Access to vetted, premium properties tailored to your design preferences and legacy goals, including off-market opportunities (₹3 Cr+).",
     icon: Crown,
-    link: "/projects",
+    link: "/properties",
   },
   {
     title: "Global NRI Client Solutions",

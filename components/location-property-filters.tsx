@@ -6,19 +6,25 @@ import { ChevronDown, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface FilterState {
-  location: string[]; // Changed to array for multiple selections
+  locality: string[]; // Changed to array for multiple selections
   propertyType: string;
   projectStatus: string;
   configuration: string[]; // Changed to array for multiple selections
 }
 
-interface PropertyFiltersProps {
+interface LocationPropertyFiltersProps {
+  location: string;
+  localities: Array<{ value: string; label: string }>;
   onFilterChange?: (filters: FilterState) => void;
 }
 
-export function PropertyFilters({ onFilterChange }: PropertyFiltersProps) {
+export function LocationPropertyFilters({ 
+  location, 
+  localities,
+  onFilterChange 
+}: LocationPropertyFiltersProps) {
   const [filters, setFilters] = useState<FilterState>({
-    location: [], // Empty array means all locations
+    locality: [], // Empty array means all localities
     propertyType: "all",
     projectStatus: "all",
     configuration: [], // Empty array means all configurations
@@ -42,14 +48,7 @@ export function PropertyFilters({ onFilterChange }: PropertyFiltersProps) {
   }, [openDropdown]);
 
   const filterOptions = {
-    location: [
-      // Remove "all" option since empty array means all
-      { value: "noida", label: "Noida" },
-      { value: "greater-noida", label: "Greater Noida" },
-      { value: "yamuna-expressway", label: "Yamuna Expressway" },
-      { value: "ghaziabad", label: "Ghaziabad" },
-      { value: "lucknow", label: "Lucknow" },
-    ],
+    locality: localities, // Remove "all" option since empty array means all
     propertyType: [
       { value: "all", label: "All Property Types" },
       { value: "apartments", label: "Apartments / Flats" },
@@ -73,8 +72,8 @@ export function PropertyFilters({ onFilterChange }: PropertyFiltersProps) {
   };
 
   const handleFilterChange = (filterType: keyof FilterState, value: string) => {
-    if (filterType === "location" || filterType === "configuration") {
-      // Handle multiple selection for location and configuration
+    if (filterType === "locality" || filterType === "configuration") {
+      // Handle multiple selection for locality and configuration
       const currentValues = filters[filterType] as string[];
       const newValues = currentValues.includes(value)
         ? currentValues.filter((val) => val !== value)
@@ -93,15 +92,15 @@ export function PropertyFilters({ onFilterChange }: PropertyFiltersProps) {
   };
 
   const getFilterLabel = (filterType: keyof FilterState) => {
-    if (filterType === "location") {
-      if (filters.location.length === 0) {
-        return "All Locations";
+    if (filterType === "locality") {
+      if (filters.locality.length === 0) {
+        return "All Localities";
       }
-      if (filters.location.length === 1) {
-        const selected = filterOptions.location.find((opt) => opt.value === filters.location[0]);
+      if (filters.locality.length === 1) {
+        const selected = localities.find((loc) => loc.value === filters.locality[0]);
         return selected?.label || "Select";
       }
-      return `${filters.location.length} Locations Selected`;
+      return `${filters.locality.length} Localities Selected`;
     }
     if (filterType === "configuration") {
       if (filters.configuration.length === 0) {
@@ -136,241 +135,241 @@ export function PropertyFilters({ onFilterChange }: PropertyFiltersProps) {
           <div className="hidden md:block space-y-6">
             {/* Filters Row */}
             <div className="flex items-end gap-4">
-              {/* Location Filter */}
+              {/* Locality Filter */}
               <div className="flex-1 relative">
-              <label className="block text-sm font-semibold text-gray-700 mb-2 font-poppins">
-                Location
-              </label>
-              <div className="relative">
-                <button
-                  onClick={() =>
-                    setOpenDropdown(
-                      openDropdown === "location" ? null : "location"
-                    )
-                  }
-                  className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-left flex items-center justify-between hover:border-[#CBB27A] transition-all duration-200 font-poppins"
-                >
-                  <span className="text-gray-800">{getFilterLabel("location")}</span>
-                  <motion.div
-                    animate={{
-                      rotate: openDropdown === "location" ? 180 : 0,
-                    }}
-                    transition={{ duration: 0.2 }}
+                <label className="block text-sm font-semibold text-gray-700 mb-2 font-poppins">
+                  Locality
+                </label>
+                <div className="relative">
+                  <button
+                    onClick={() =>
+                      setOpenDropdown(
+                        openDropdown === "locality" ? null : "locality"
+                      )
+                    }
+                    className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-left flex items-center justify-between hover:border-[#CBB27A] transition-all duration-200 font-poppins"
                   >
-                    <ChevronDown className="w-5 h-5 text-gray-500" />
-                  </motion.div>
-                </button>
-                <AnimatePresence>
-                  {openDropdown === "location" && (
+                    <span className="text-gray-800">{getFilterLabel("locality")}</span>
                     <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl overflow-hidden max-h-60 overflow-y-auto"
+                      animate={{
+                        rotate: openDropdown === "locality" ? 180 : 0,
+                      }}
+                      transition={{ duration: 0.2 }}
                     >
-                    {filterOptions.location.map((option) => {
-                      const isSelected = filters.location.includes(option.value);
-                      return (
-                        <button
-                          key={option.value}
-                          onClick={() => handleFilterChange("location", option.value)}
-                          className={`w-full px-4 py-3 text-left hover:bg-[#CBB27A]/10 transition-colors font-poppins flex items-center gap-3 ${
-                            isSelected
-                              ? "bg-[#CBB27A]/20 text-[#CBB27A] font-semibold"
-                              : "text-gray-800"
-                          }`}
-                        >
-                          <div className={`w-4 h-4 border-2 rounded flex items-center justify-center flex-shrink-0 ${
-                            isSelected
-                              ? "border-[#CBB27A] bg-[#CBB27A]"
-                              : "border-gray-300"
-                          }`}>
-                            {isSelected && (
-                              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                              </svg>
-                            )}
-                          </div>
-                          <span>{option.label}</span>
-                        </button>
-                      );
-                    })}
+                      <ChevronDown className="w-5 h-5 text-gray-500" />
                     </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-
-            {/* Property Type Filter */}
-            <div className="flex-1 relative">
-              <label className="block text-sm font-semibold text-gray-700 mb-2 font-poppins">
-                Property Type
-              </label>
-              <div className="relative">
-                <button
-                  onClick={() =>
-                    setOpenDropdown(
-                      openDropdown === "propertyType" ? null : "propertyType"
-                    )
-                  }
-                  className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-left flex items-center justify-between hover:border-[#CBB27A] transition-all duration-200 font-poppins"
-                >
-                  <span className="text-gray-800">{getFilterLabel("propertyType")}</span>
-                  <motion.div
-                    animate={{
-                      rotate: openDropdown === "propertyType" ? 180 : 0,
-                    }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <ChevronDown className="w-5 h-5 text-gray-500" />
-                  </motion.div>
-                </button>
-                <AnimatePresence>
-                  {openDropdown === "propertyType" && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl overflow-hidden"
-                    >
-                    {filterOptions.propertyType.map((option) => (
-                      <button
-                        key={option.value}
-                        onClick={() =>
-                          handleFilterChange("propertyType", option.value)
-                        }
-                        className={`w-full px-4 py-3 text-left hover:bg-[#CBB27A]/10 transition-colors font-poppins ${
-                          filters.propertyType === option.value
-                            ? "bg-[#CBB27A]/20 text-[#CBB27A] font-semibold"
-                            : "text-gray-800"
-                        }`}
+                  </button>
+                  <AnimatePresence>
+                    {openDropdown === "locality" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl overflow-hidden max-h-60 overflow-y-auto"
                       >
-                        {option.label}
-                      </button>
-                    ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                        {filterOptions.locality.map((option) => {
+                          const isSelected = filters.locality.includes(option.value);
+                          return (
+                            <button
+                              key={option.value}
+                              onClick={() => handleFilterChange("locality", option.value)}
+                              className={`w-full px-4 py-3 text-left hover:bg-[#CBB27A]/10 transition-colors font-poppins flex items-center gap-3 ${
+                                isSelected
+                                  ? "bg-[#CBB27A]/20 text-[#CBB27A] font-semibold"
+                                  : "text-gray-800"
+                              }`}
+                            >
+                              <div className={`w-4 h-4 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                                isSelected
+                                  ? "border-[#CBB27A] bg-[#CBB27A]"
+                                  : "border-gray-300"
+                              }`}>
+                                {isSelected && (
+                                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                  </svg>
+                                )}
+                              </div>
+                              <span>{option.label}</span>
+                            </button>
+                          );
+                        })}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
-            </div>
 
-            {/* Project Status Filter */}
-            <div className="flex-1 relative">
-              <label className="block text-sm font-semibold text-gray-700 mb-2 font-poppins">
-                Project Status
-              </label>
-              <div className="relative">
-                <button
-                  onClick={() =>
-                    setOpenDropdown(
-                      openDropdown === "projectStatus" ? null : "projectStatus"
-                    )
-                  }
-                  className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-left flex items-center justify-between hover:border-[#CBB27A] transition-all duration-200 font-poppins"
-                >
-                  <span className="text-gray-800">{getFilterLabel("projectStatus")}</span>
-                  <motion.div
-                    animate={{
-                      rotate: openDropdown === "projectStatus" ? 180 : 0,
-                    }}
-                    transition={{ duration: 0.2 }}
+              {/* Property Type Filter */}
+              <div className="flex-1 relative">
+                <label className="block text-sm font-semibold text-gray-700 mb-2 font-poppins">
+                  Property Type
+                </label>
+                <div className="relative">
+                  <button
+                    onClick={() =>
+                      setOpenDropdown(
+                        openDropdown === "propertyType" ? null : "propertyType"
+                      )
+                    }
+                    className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-left flex items-center justify-between hover:border-[#CBB27A] transition-all duration-200 font-poppins"
                   >
-                    <ChevronDown className="w-5 h-5 text-gray-500" />
-                  </motion.div>
-                </button>
-                <AnimatePresence>
-                  {openDropdown === "projectStatus" && (
+                    <span className="text-gray-800">{getFilterLabel("propertyType")}</span>
                     <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl overflow-hidden"
+                      animate={{
+                        rotate: openDropdown === "propertyType" ? 180 : 0,
+                      }}
+                      transition={{ duration: 0.2 }}
                     >
-                    {filterOptions.projectStatus.map((option) => (
-                      <button
-                        key={option.value}
-                        onClick={() =>
-                          handleFilterChange("projectStatus", option.value)
-                        }
-                        className={`w-full px-4 py-3 text-left hover:bg-[#CBB27A]/10 transition-colors font-poppins ${
-                          filters.projectStatus === option.value
-                            ? "bg-[#CBB27A]/20 text-[#CBB27A] font-semibold"
-                            : "text-gray-800"
-                        }`}
+                      <ChevronDown className="w-5 h-5 text-gray-500" />
+                    </motion.div>
+                  </button>
+                  <AnimatePresence>
+                    {openDropdown === "propertyType" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl overflow-hidden"
                       >
-                        {option.label}
-                      </button>
-                    ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+                        {filterOptions.propertyType.map((option) => (
+                          <button
+                            key={option.value}
+                            onClick={() =>
+                              handleFilterChange("propertyType", option.value)
+                            }
+                            className={`w-full px-4 py-3 text-left hover:bg-[#CBB27A]/10 transition-colors font-poppins ${
+                              filters.propertyType === option.value
+                                ? "bg-[#CBB27A]/20 text-[#CBB27A] font-semibold"
+                                : "text-gray-800"
+                            }`}
+                          >
+                            {option.label}
+                          </button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
-            </div>
 
-            {/* Configuration Filter */}
-            <div className="flex-1 relative">
-              <label className="block text-sm font-semibold text-gray-700 mb-2 font-poppins">
-                Configuration
-              </label>
-              <div className="relative">
-                <button
-                  onClick={() =>
-                    setOpenDropdown(
-                      openDropdown === "configuration" ? null : "configuration"
-                    )
-                  }
-                  className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-left flex items-center justify-between hover:border-[#CBB27A] transition-all duration-200 font-poppins"
-                >
-                  <span className="text-gray-800">{getFilterLabel("configuration")}</span>
-                  <motion.div
-                    animate={{
-                      rotate: openDropdown === "configuration" ? 180 : 0,
-                    }}
-                    transition={{ duration: 0.2 }}
+              {/* Project Status Filter */}
+              <div className="flex-1 relative">
+                <label className="block text-sm font-semibold text-gray-700 mb-2 font-poppins">
+                  Project Status
+                </label>
+                <div className="relative">
+                  <button
+                    onClick={() =>
+                      setOpenDropdown(
+                        openDropdown === "projectStatus" ? null : "projectStatus"
+                      )
+                    }
+                    className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-left flex items-center justify-between hover:border-[#CBB27A] transition-all duration-200 font-poppins"
                   >
-                    <ChevronDown className="w-5 h-5 text-gray-500" />
-                  </motion.div>
-                </button>
-                <AnimatePresence>
-                  {openDropdown === "configuration" && (
+                    <span className="text-gray-800">{getFilterLabel("projectStatus")}</span>
                     <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl overflow-hidden max-h-60 overflow-y-auto"
+                      animate={{
+                        rotate: openDropdown === "projectStatus" ? 180 : 0,
+                      }}
+                      transition={{ duration: 0.2 }}
                     >
-                    {filterOptions.configuration.map((option) => {
-                      const isSelected = filters.configuration.includes(option.value);
-                      return (
-                        <button
-                          key={option.value}
-                          onClick={() => handleFilterChange("configuration", option.value)}
-                          className={`w-full px-4 py-3 text-left hover:bg-[#CBB27A]/10 transition-colors font-poppins flex items-center gap-3 ${
-                            isSelected
-                              ? "bg-[#CBB27A]/20 text-[#CBB27A] font-semibold"
-                              : "text-gray-800"
-                          }`}
-                        >
-                          <div className={`w-4 h-4 border-2 rounded flex items-center justify-center flex-shrink-0 ${
-                            isSelected
-                              ? "border-[#CBB27A] bg-[#CBB27A]"
-                              : "border-gray-300"
-                          }`}>
-                            {isSelected && (
-                              <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                              </svg>
-                            )}
-                          </div>
-                          <span>{option.label}</span>
-                        </button>
-                      );
-                    })}
+                      <ChevronDown className="w-5 h-5 text-gray-500" />
                     </motion.div>
-                  )}
-                </AnimatePresence>
+                  </button>
+                  <AnimatePresence>
+                    {openDropdown === "projectStatus" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl overflow-hidden"
+                      >
+                        {filterOptions.projectStatus.map((option) => (
+                          <button
+                            key={option.value}
+                            onClick={() =>
+                              handleFilterChange("projectStatus", option.value)
+                            }
+                            className={`w-full px-4 py-3 text-left hover:bg-[#CBB27A]/10 transition-colors font-poppins ${
+                              filters.projectStatus === option.value
+                                ? "bg-[#CBB27A]/20 text-[#CBB27A] font-semibold"
+                                : "text-gray-800"
+                            }`}
+                          >
+                            {option.label}
+                          </button>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
               </div>
-            </div>
+
+              {/* Configuration Filter */}
+              <div className="flex-1 relative">
+                <label className="block text-sm font-semibold text-gray-700 mb-2 font-poppins">
+                  Configuration
+                </label>
+                <div className="relative">
+                  <button
+                    onClick={() =>
+                      setOpenDropdown(
+                        openDropdown === "configuration" ? null : "configuration"
+                      )
+                    }
+                    className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-left flex items-center justify-between hover:border-[#CBB27A] transition-all duration-200 font-poppins"
+                  >
+                    <span className="text-gray-800">{getFilterLabel("configuration")}</span>
+                    <motion.div
+                      animate={{
+                        rotate: openDropdown === "configuration" ? 180 : 0,
+                      }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ChevronDown className="w-5 h-5 text-gray-500" />
+                    </motion.div>
+                  </button>
+                  <AnimatePresence>
+                    {openDropdown === "configuration" && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl overflow-hidden max-h-60 overflow-y-auto"
+                      >
+                        {filterOptions.configuration.map((option) => {
+                          const isSelected = filters.configuration.includes(option.value);
+                          return (
+                            <button
+                              key={option.value}
+                              onClick={() => handleFilterChange("configuration", option.value)}
+                              className={`w-full px-4 py-3 text-left hover:bg-[#CBB27A]/10 transition-colors font-poppins flex items-center gap-3 ${
+                                isSelected
+                                  ? "bg-[#CBB27A]/20 text-[#CBB27A] font-semibold"
+                                  : "text-gray-800"
+                              }`}
+                            >
+                              <div className={`w-4 h-4 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                                isSelected
+                                  ? "border-[#CBB27A] bg-[#CBB27A]"
+                                  : "border-gray-300"
+                              }`}>
+                                {isSelected && (
+                                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                  </svg>
+                                )}
+                              </div>
+                              <span>{option.label}</span>
+                            </button>
+                          );
+                        })}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
             </div>
 
             {/* Desktop Search Button - Centered Below Filters */}
@@ -388,43 +387,43 @@ export function PropertyFilters({ onFilterChange }: PropertyFiltersProps) {
           {/* Mobile Layout: 2x2 grid with button in center */}
           <div className="md:hidden space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              {/* Location Filter */}
+              {/* Locality Filter */}
               <div className="relative">
                 <label className="block text-xs font-semibold text-gray-700 mb-2 font-poppins">
-                  Location
+                  Locality
                 </label>
                 <div className="relative">
                   <button
                     onClick={() =>
                       setOpenDropdown(
-                        openDropdown === "location" ? null : "location"
+                        openDropdown === "locality" ? null : "locality"
                       )
                     }
                     className="w-full px-3 py-2.5 bg-gray-50 border-2 border-gray-200 rounded-xl text-left flex items-center justify-between hover:border-[#CBB27A] transition-all duration-200 font-poppins text-sm"
                   >
                     <span className="text-gray-800 truncate">
-                      {getFilterLabel("location")}
+                      {getFilterLabel("locality")}
                     </span>
                     <ChevronDown
                       className={`w-4 h-4 text-gray-500 flex-shrink-0 transition-transform ${
-                        openDropdown === "location" ? "rotate-180" : ""
+                        openDropdown === "locality" ? "rotate-180" : ""
                       }`}
                     />
                   </button>
                   <AnimatePresence>
-                    {openDropdown === "location" && (
+                    {openDropdown === "locality" && (
                       <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl overflow-hidden max-h-60 overflow-y-auto"
                       >
-                        {filterOptions.location.map((option) => {
-                          const isSelected = filters.location.includes(option.value);
+                        {filterOptions.locality.map((option) => {
+                          const isSelected = filters.locality.includes(option.value);
                           return (
                             <button
                               key={option.value}
-                              onClick={() => handleFilterChange("location", option.value)}
+                              onClick={() => handleFilterChange("locality", option.value)}
                               className={`w-full px-3 py-2.5 text-left hover:bg-[#CBB27A]/10 transition-colors font-poppins text-sm flex items-center gap-3 ${
                                 isSelected
                                   ? "bg-[#CBB27A]/20 text-[#CBB27A] font-semibold"

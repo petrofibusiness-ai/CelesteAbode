@@ -12,16 +12,16 @@ export function Footer() {
       {" "}
       {/* EDIT: lighter shade of black to match bottom image */}
       <div className="max-w-screen-xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8 mb-8 md:mb-12">
           {/* Logo Column */}
           <div className="flex justify-center lg:justify-start">
             <div className="mb-6">
               <Image
                 src="/logoceleste.avif"
                 alt="Celeste Abode Logo"
-                width={210}
-                height={193}
-                sizes="(max-width: 640px) 150px, 210px"
+                width={170}
+                height={156}
+                sizes="(max-width: 640px) 130px, 170px"
                 quality={70}
                 className=""
                 priority
@@ -90,6 +90,43 @@ export function Footer() {
                 className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
               >
                 Contact
+              </Link>
+            </div>
+          </div>
+
+          {/* Locations Column */}
+          <div>
+            <h3 className="h4 mb-6 text-[#CBB27A]">Locations</h3>
+            <div className="space-y-3">
+              <Link
+                href="/properties-in-noida"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+              >
+                Properties in Noida
+              </Link>
+              <Link
+                href="/properties-in-greater-noida"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+              >
+                Properties in Greater Noida
+              </Link>
+              <Link
+                href="/properties-in-yamuna-expressway"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+              >
+                Properties in Yamuna Expressway
+              </Link>
+              <Link
+                href="/properties-in-ghaziabad"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+              >
+                Properties in Ghaziabad
+              </Link>
+              <Link
+                href="/properties-in-lucknow"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+              >
+                Properties in Lucknow
               </Link>
             </div>
           </div>

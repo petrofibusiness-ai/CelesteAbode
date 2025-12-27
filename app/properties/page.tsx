@@ -1081,7 +1081,7 @@ export default function ProjectsPage() {
             </div>
 
             {/* SEO Content Section - Insight Panel */}
-            <article className="mt-12 sm:mt-16 md:mt-20 mb-12 sm:mb-16 md:mb-20 px-4 sm:px-6 lg:px-8 bg-background">
+            <article className="mt-12 sm:mt-16 md:mt-12 mb-12 sm:mb-16 md:mb-12 px-4 sm:px-6 lg:px-8 bg-background">
               <div className="max-w-[1200px] mx-auto">
                 {/* Heading Section */}
                 <header className="text-center mb-8 md:mb-12 lg:mb-16">
@@ -1099,11 +1099,11 @@ export default function ProjectsPage() {
                       </p>
 
                       <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">
-                        The key to making informed property decisions lies in evaluating fundamental factors beyond marketing claims. Developer credibility matters significantly, as a track record of on-time delivery, quality construction, and financial stability reveals more about future performance than any sales pitch. Location maturity cannot be overstated either. Established infrastructure, connectivity, and social amenities that exist today matter far more than future promises that may or may not {!isCtaContentExpanded && (
-                          <button onClick={() => setIsCtaContentExpanded(true)} className="text-[#CBB27A] font-bold hover:underline cursor-pointer" aria-label="Read more about property evaluation">Read More...</button>
+                        The key to making informed property decisions lies in evaluating fundamental factors beyond marketing claims. Developer credibility matters significantly, as a track record of on-time delivery, quality construction, and financial stability reveals more about future performance than any sales pitch. Location maturity cannot be overstated either. Established infrastructure, connectivity, and social amenities that exist today matter far more than future promises that may or may not materialize.{!isCtaContentExpanded && (
+                          <> <button onClick={() => setIsCtaContentExpanded(true)} className="text-[#CBB27A] font-bold hover:underline cursor-pointer" aria-label="Read more about property evaluation">Read More...</button></>
                         )}
                         {isCtaContentExpanded && (
-                          <>materialize. When evaluating properties across Delhi NCR, it's essential to look beyond surface-level amenities and marketing narratives. The true value of a property investment lies in factors that have proven track records rather than speculative future developments. This approach ensures that buyers and investors make decisions based on tangible evidence rather than optimistic projections.</>
+                          <> When evaluating properties across Delhi NCR, it's essential to look beyond surface-level amenities and marketing narratives. The true value of a property investment lies in factors that have proven track records rather than speculative future developments. This approach ensures that buyers and investors make decisions based on tangible evidence rather than optimistic projections.</>
                         )}
                       </p>
 

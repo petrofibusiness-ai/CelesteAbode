@@ -1,6 +1,7 @@
 // Utility to map between TypeScript camelCase and Supabase snake_case
 import { Property } from "@/types/property";
 import { normalizeAmenities } from "@/lib/amenity-normalize";
+import type { PropertyType, LocationCategory, ProjectStatus, Configuration } from "@/lib/property-enums";
 
 // Supabase database schema (snake_case)
 export interface SupabaseProperty {
@@ -9,11 +10,12 @@ export interface SupabaseProperty {
   project_name: string;
   developer: string;
   location: string;
-  location_category?: "noida" | "greater-noida" | "yamuna-expressway" | "ghaziabad" | null;
+  location_category?: LocationCategory | null;
+  property_type?: PropertyType | null;
   rera_id?: string | null;
-  status: string;
+  project_status?: ProjectStatus | null;
   possession_date?: string | null;
-  unit_types: string[];
+  configuration?: Configuration[] | null; // Enum array
   sizes: string;
   description: string;
   hero_image: string;
@@ -49,10 +51,11 @@ export function supabaseToProperty(supabaseProp: SupabaseProperty): Property {
     developer: supabaseProp.developer,
     location: supabaseProp.location,
     locationCategory: supabaseProp.location_category || undefined,
+    propertyType: supabaseProp.property_type || undefined,
     reraId: supabaseProp.rera_id || undefined,
-    status: supabaseProp.status,
+    projectStatus: supabaseProp.project_status || undefined,
     possessionDate: supabaseProp.possession_date || undefined,
-    unitTypes: supabaseProp.unit_types || [],
+    configuration: supabaseProp.configuration || [],
     sizes: supabaseProp.sizes,
     description: supabaseProp.description,
     heroImage: supabaseProp.hero_image,
@@ -78,10 +81,11 @@ export function propertyToSupabase(property: Omit<Property, "id" | "createdAt" |
     developer: property.developer,
     location: property.location,
     location_category: property.locationCategory || null,
+    property_type: property.propertyType || null,
     rera_id: property.reraId || null,
-    status: property.status,
+    project_status: property.projectStatus || null,
     possession_date: property.possessionDate || null,
-    unit_types: property.unitTypes || [],
+    configuration: property.configuration || [],
     sizes: property.sizes,
     description: property.description,
     hero_image: property.heroImage,

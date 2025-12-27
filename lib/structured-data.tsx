@@ -106,7 +106,7 @@ export function PropertySchema({
   address,
   developer,
   reraId,
-  unitTypes,
+  configuration,
   area,
   status,
   url,
@@ -119,7 +119,7 @@ export function PropertySchema({
   address: string;
   developer: string;
   reraId?: string;
-  unitTypes: string[];
+  configuration?: string[];
   area: string;
   status: string;
   url: string;
@@ -171,7 +171,7 @@ export function PropertySchema({
       {
         "@type": "PropertyValue",
         name: "Unit Types",
-        value: unitTypes.join(", "),
+        value: configuration && configuration.length > 0 ? configuration.join(", ") : "Not specified",
       },
       {
         "@type": "PropertyValue",

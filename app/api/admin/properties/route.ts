@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
     // Admin should see both published and draft properties
     const { data, error, count } = await supabase
       .from("properties")
-      .select("id, slug, project_name, developer, location, status, is_published, hero_image, created_at, updated_at", { count: 'exact' })
+      .select("id, slug, project_name, developer, location, project_status, is_published, hero_image, created_at, updated_at", { count: 'exact' })
       .order("created_at", { ascending: false })
       .range(offset, offset + limit - 1);
 
@@ -139,10 +139,12 @@ export async function POST(request: NextRequest) {
       projectName: body.projectName.trim(),
       developer: body.developer.trim(),
       location: body.location.trim(),
+      locationCategory: body.locationCategory || null,
+      propertyType: body.propertyType || null,
       reraId: body.reraId?.trim() || undefined,
-      status: body.status.trim(),
+      projectStatus: body.projectStatus || null,
       possessionDate: body.possessionDate?.trim() || undefined,
-      unitTypes: Array.isArray(body.unitTypes) ? body.unitTypes : [],
+      configuration: Array.isArray(body.configuration) ? body.configuration : [],
       sizes: body.sizes.trim(),
       description: body.description.trim(),
       heroImage: body.heroImage.trim(),

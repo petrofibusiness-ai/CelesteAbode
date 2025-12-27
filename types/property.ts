@@ -1,4 +1,5 @@
 // Property types for admin panel
+import type { PropertyType, LocationCategory, ProjectStatus, Configuration } from "@/lib/property-enums";
 
 export interface PropertyMedia {
   type: 'image' | 'video';
@@ -15,19 +16,18 @@ export interface PropertySEO {
   canonical?: string;
 }
 
-export type LocationCategory = "noida" | "greater-noida" | "yamuna-expressway" | "ghaziabad" | null;
-
 export interface Property {
   id?: string;
   slug: string; // URL-friendly identifier (e.g., "forest-walk-villa")
   projectName: string;
   developer: string;
   location: string;
-  locationCategory?: LocationCategory; // Category for location-based filtering
+  locationCategory?: LocationCategory | null; // Category for location-based filtering (enum)
+  propertyType?: PropertyType | null; // Type of property (enum)
   reraId?: string;
-  status: string; // e.g., "Under Construction", "Ready to Move"
+  projectStatus?: ProjectStatus | null; // Current project status (enum)
   possessionDate?: string;
-  unitTypes: string[]; // e.g., ["4 BHK + 5T Villas"]
+  configuration: Configuration[]; // Array of unit configurations (enum array)
   sizes: string; // e.g., "163 sq. yd - 238 sq. yd"
   description: string;
   heroImage: string; // URL to hero image

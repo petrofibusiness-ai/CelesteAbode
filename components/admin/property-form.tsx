@@ -13,6 +13,16 @@ import { toast } from "sonner";
 import { AmenitiesMultiSelect } from "@/components/admin/amenities-multi-select";
 import { normalizeAmenities } from "@/lib/amenity-normalize";
 import { UploadProgressOverlay } from "@/components/admin/upload-progress-overlay";
+import { 
+  PROPERTY_TYPES, 
+  LOCATION_CATEGORIES, 
+  PROJECT_STATUSES, 
+  CONFIGURATIONS,
+  isValidPropertyType,
+  isValidLocationCategory,
+  isValidProjectStatus,
+  isValidConfiguration
+} from "@/lib/property-enums";
 
 interface PropertyFormProps {
   property?: Property;
@@ -62,10 +72,11 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     developer: property?.developer || "",
     location: property?.location || "",
     locationCategory: property?.locationCategory || null,
+    propertyType: property?.propertyType || null,
     reraId: property?.reraId || "",
-    status: property?.status || "Under Construction",
+    projectStatus: property?.projectStatus || null,
     possessionDate: property?.possessionDate || "",
-    unitTypes: property?.unitTypes || [],
+    configuration: property?.configuration || [],
     sizes: property?.sizes || "",
     description: property?.description || "",
     heroImage: property?.heroImage || "",
@@ -100,7 +111,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     videos: [],
   });
 
-  const [unitTypeInput, setUnitTypeInput] = useState("");
 
   // Refs for file inputs to reset them after selection
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -315,18 +325,18 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     });
   };
 
-  const addUnitType = () => {
-    if (unitTypeInput.trim()) {
-      handleChange("unitTypes", [...formData.unitTypes, unitTypeInput.trim()]);
-      setUnitTypeInput("");
+  const handleConfigurationChange = (value: string) => {
+    const configValue = value as typeof CONFIGURATIONS[number];
+    if (!isValidConfiguration(configValue)) return;
+    
+    const currentConfig = formData.configuration || [];
+    if (currentConfig.includes(configValue)) {
+      // Remove if already selected
+      handleChange("configuration", currentConfig.filter(c => c !== configValue));
+    } else {
+      // Add if not selected
+      handleChange("configuration", [...currentConfig, configValue]);
     }
-  };
-
-  const removeUnitType = (index: number) => {
-    handleChange(
-      "unitTypes",
-      formData.unitTypes.filter((_, i) => i !== index)
-    );
   };
 
   const handleAmenitiesChange = (amenities: string[]) => {
@@ -378,6 +388,24 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     if (!formData.developer) newErrors.developer = "Developer is required";
     if (!formData.location) newErrors.location = "Location is required";
     if (!formData.description) newErrors.description = "Description is required";
+    
+    // Validate enum fields
+    if (formData.locationCategory && !isValidLocationCategory(formData.locationCategory)) {
+      newErrors.locationCategory = "Invalid location category selected";
+    }
+    if (formData.propertyType && !isValidPropertyType(formData.propertyType)) {
+      newErrors.propertyType = "Invalid property type selected";
+    }
+    if (formData.projectStatus && !isValidProjectStatus(formData.projectStatus)) {
+      newErrors.projectStatus = "Invalid project status selected";
+    }
+    // Validate configuration array
+    if (formData.configuration && formData.configuration.length > 0) {
+      const invalidConfigs = formData.configuration.filter(c => !isValidConfiguration(c));
+      if (invalidConfigs.length > 0) {
+        newErrors.configuration = "Invalid configuration values selected";
+      }
+    }
     
     // Check if hero image exists (either from temp files or existing URL)
     if (!tempFiles.hero && !formData.heroImage) {
@@ -804,7 +832,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       const propertyData = {
         ...updatedFormData,
         // Ensure arrays are never null/undefined
-        unitTypes: updatedFormData.unitTypes || [],
+        configuration: updatedFormData.configuration || [],
         images: updatedFormData.images || [],
         videos: updatedFormData.videos || [],
         amenities: (updatedFormData.amenities || []).filter((a: string) => a && a.trim() !== ""),
@@ -897,10 +925,12 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           projectName: "",
           developer: "",
           location: "",
+          locationCategory: null,
+          propertyType: null,
           reraId: "",
-          status: "Under Construction",
+          projectStatus: null,
           possessionDate: "",
-          unitTypes: [],
+          configuration: [],
           sizes: "",
           description: "",
           heroImage: "",
@@ -920,7 +950,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           images: [],
           videos: [],
         });
-        setUnitTypeInput("");
       } else {
         // For edits, just clear temporary files
         setTempFiles({
@@ -1080,19 +1109,62 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
               <select
                 id="locationCategory"
                 value={formData.locationCategory || ""}
-                onChange={(e) => handleChange("locationCategory", e.target.value || null)}
-                className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all w-full px-3 bg-white"
+                onChange={(e) => {
+                  const value = e.target.value || null;
+                  if (value === null || isValidLocationCategory(value)) {
+                    handleChange("locationCategory", value);
+                  }
+                }}
+                className={`h-11 border-2 ${errors.locationCategory ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20"} rounded-xl transition-all w-full px-3 bg-white`}
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 <option value="">Select Location Category</option>
-                <option value="noida">Noida</option>
-                <option value="greater-noida">Greater Noida</option>
-                <option value="yamuna-expressway">Yamuna Expressway</option>
-                <option value="ghaziabad">Ghaziabad</option>
+                {LOCATION_CATEGORIES.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
               </select>
+              {errors.locationCategory && (
+                <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                  {errors.locationCategory}
+                </p>
+              )}
               <p className="text-xs text-gray-500 mt-1" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Select the location category for filtering properties on location-specific pages
               </p>
+            </div>
+
+            <div>
+              <Label htmlFor="propertyType" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Property Type
+              </Label>
+              <select
+                id="propertyType"
+                value={formData.propertyType || ""}
+                onChange={(e) => {
+                  const value = e.target.value || null;
+                  if (value === null || isValidPropertyType(value)) {
+                    handleChange("propertyType", value);
+                  }
+                }}
+                className={`h-11 border-2 ${errors.propertyType ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20"} rounded-xl transition-all w-full px-3 bg-white`}
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                <option value="">Select Property Type</option>
+                {PROPERTY_TYPES.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+              {errors.propertyType && (
+                <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                  {errors.propertyType}
+                </p>
+              )}
             </div>
 
             <div>
@@ -1110,18 +1182,34 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
             </div>
 
             <div>
-              <Label htmlFor="status" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
-                Status *
+              <Label htmlFor="projectStatus" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Project Status
               </Label>
-              <Input
-                id="status"
-                value={formData.status}
-                onChange={(e) => handleChange("status", e.target.value)}
-                placeholder="Under Construction"
-                className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all"
-                required
+              <select
+                id="projectStatus"
+                value={formData.projectStatus || ""}
+                onChange={(e) => {
+                  const value = e.target.value || null;
+                  if (value === null || isValidProjectStatus(value)) {
+                    handleChange("projectStatus", value);
+                  }
+                }}
+                className={`h-11 border-2 ${errors.projectStatus ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20"} rounded-xl transition-all w-full px-3 bg-white`}
                 style={{ fontFamily: "Poppins, sans-serif" }}
-              />
+              >
+                <option value="">Select Project Status</option>
+                {PROJECT_STATUSES.map((status) => (
+                  <option key={status} value={status}>
+                    {status}
+                  </option>
+                ))}
+              </select>
+              {errors.projectStatus && (
+                <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                  {errors.projectStatus}
+                </p>
+              )}
             </div>
 
             <div>
@@ -1229,47 +1317,45 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6 sm:p-8 space-y-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#CBB27A]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         <div className="relative z-10">
-          {/* Unit Types */}
+          {/* Configuration (Unit Types) */}
           <div className="mt-8">
           <Label className="text-base sm:text-lg font-bold text-gray-800 mb-6 block" style={{ fontFamily: "Poppins, sans-serif" }}>
-            Unit Types
+            Configuration (Unit Types)
           </Label>
-          <div className="flex gap-2 mb-3">
-            <Input
-              value={unitTypeInput}
-              onChange={(e) => setUnitTypeInput(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), addUnitType())}
-              placeholder="e.g., 4 BHK + 5T Villas"
-              className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all"
-              style={{ fontFamily: "Poppins, sans-serif" }}
-            />
-            <Button 
-              type="button" 
-              onClick={addUnitType} 
-              variant="outline"
-              className="h-11 w-11 border-2 border-gray-300 hover:border-[#CBB27A] hover:bg-[#CBB27A]/10 hover:text-[#CBB27A] rounded-xl transition-all"
-            >
-              <Plus className="w-5 h-5" />
-            </Button>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {formData.unitTypes.map((type, index) => (
-              <span
-                key={index}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#CBB27A]/10 to-[#CBB27A]/5 border border-[#CBB27A]/20 rounded-xl text-sm font-medium text-gray-700"
-                style={{ fontFamily: "Poppins, sans-serif" }}
-              >
-                {type}
-                <button
-                  type="button"
-                  onClick={() => removeUnitType(index)}
-                  className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-full p-0.5 transition-colors"
+          <div className="space-y-3">
+            {CONFIGURATIONS.map((config) => {
+              const isSelected = formData.configuration?.includes(config) || false;
+              return (
+                <label
+                  key={config}
+                  className={`flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer transition-all ${
+                    isSelected
+                      ? "border-[#CBB27A] bg-gradient-to-r from-[#CBB27A]/10 to-[#CBB27A]/5"
+                      : "border-gray-200 hover:border-[#CBB27A]/50 hover:bg-gray-50"
+                  }`}
                 >
-                  <X className="w-4 h-4" />
-                </button>
-              </span>
-            ))}
+                  <input
+                    type="checkbox"
+                    checked={isSelected}
+                    onChange={() => handleConfigurationChange(config)}
+                    className="w-5 h-5 text-[#CBB27A] border-gray-300 rounded focus:ring-[#CBB27A] focus:ring-2"
+                  />
+                  <span className="text-sm font-medium text-gray-700 flex-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+                    {config}
+                  </span>
+                </label>
+              );
+            })}
           </div>
+          {errors.configuration && (
+            <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+              {errors.configuration}
+            </p>
+          )}
+          <p className="text-xs text-gray-500 mt-3" style={{ fontFamily: "Poppins, sans-serif" }}>
+            Select one or more unit configurations. Multiple selections are allowed.
+          </p>
           </div>
 
           {/* Hero Image */}

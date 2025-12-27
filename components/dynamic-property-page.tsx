@@ -218,7 +218,7 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
         address={property.location}
         developer={property.developer}
         reraId={property.reraId}
-        unitTypes={property.unitTypes}
+        configuration={property.configuration}
         area={property.sizes}
         status={property.status}
         url={projectUrl}
@@ -324,9 +324,9 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
                   <p className="text-xs sm:text-sm font-semibold text-[#CBB27A] uppercase tracking-wider mb-0.5 sm:mb-1 leading-tight">
                     Configuration
                   </p>
-                  {property.unitTypes && property.unitTypes.length > 0 ? (
+                  {property.configuration && property.configuration.length > 0 ? (
                     <div className="flex flex-col gap-0.5">
-                      {property.unitTypes.map((type, index) => (
+                      {property.configuration.map((type, index) => (
                         <p key={index} className="text-sm sm:text-base md:text-lg font-bold text-white leading-tight">
                           {type}
                         </p>

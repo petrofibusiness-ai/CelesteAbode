@@ -67,7 +67,7 @@ export default async function NoidaPropertiesPage() {
   // Try to fetch with location_category first - only fetch 6 initially
   let { data: propertiesData, error } = await supabase
     .from("properties")
-    .select("id, slug, project_name, developer, location, location_category, status, hero_image, is_published, created_at, updated_at")
+    .select("id, slug, project_name, developer, location, location_category, project_status, hero_image, is_published, created_at, updated_at")
     .eq("location_category", LOCATION)
     .eq("is_published", true)
     .order("created_at", { ascending: false })
@@ -78,7 +78,7 @@ export default async function NoidaPropertiesPage() {
     console.warn(`No properties found with location_category="${LOCATION}". Trying fallback query...`);
     const fallbackQuery = await supabase
       .from("properties")
-      .select("id, slug, project_name, developer, location, location_category, status, hero_image, is_published, created_at, updated_at")
+      .select("id, slug, project_name, developer, location, location_category, project_project_status, hero_image, is_published, created_at, updated_at")
       .eq("is_published", true)
       .ilike("location", `%${LOCATION_NAME}%`)
       .order("created_at", { ascending: false })

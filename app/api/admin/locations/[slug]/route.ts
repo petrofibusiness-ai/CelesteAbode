@@ -9,7 +9,7 @@ const QUERY_TIMEOUT = 30000;
 // GET - Get single location by slug
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
     const user = await getCurrentUser();
@@ -17,11 +17,12 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { slug } = await params;
     const supabase = getSupabaseAdminClient();
     const { data, error } = await supabase
       .from("locations")
       .select("*")
-      .eq("slug", params.slug)
+      .eq("slug", slug)
       .single();
 
     if (error || !data) {
@@ -45,7 +46,7 @@ export async function GET(
 // PUT - Update location
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
     const user = await getCurrentUser();
@@ -53,6 +54,7 @@ export async function PUT(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { slug } = await params;
     const body = await request.json();
 
     // Prepare update data
@@ -86,7 +88,7 @@ export async function PUT(
     const updatePromise = supabase
       .from("locations")
       .update(supabaseLocation)
-      .eq("slug", params.slug)
+      .eq("slug", slug)
       .select()
       .single();
 
@@ -118,7 +120,7 @@ export async function PUT(
 // DELETE - Delete location
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
     const user = await getCurrentUser();
@@ -126,11 +128,12 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { slug } = await params;
     const supabase = getSupabaseAdminClient();
     const { error } = await supabase
       .from("locations")
       .delete()
-      .eq("slug", params.slug);
+      .eq("slug", slug);
 
     if (error) {
       console.error("Error deleting location:", error);

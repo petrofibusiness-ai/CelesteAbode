@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Card } from "@/components/ui/card";
 import { MapPin, Loader2 } from "lucide-react";
 import { Property } from "@/types/property";
+import { getPropertyUrl } from "@/lib/property-url";
 
 interface NoidaPropertiesGridProps {
   initialProperties: Property[];

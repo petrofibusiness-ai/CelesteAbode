@@ -18,17 +18,18 @@ import { WhyInvestSection } from "@/components/why-invest-section";
 import LocationFAQs from "@/components/location-faqs";
 
 interface PageProps {
-  params: {
-    location: string;
-  };
+  params: Promise<{
+    locationCategory: string;
+  }>;
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locationCategory } = await params;
   const supabase = getSupabaseAdminClient();
   const { data } = await supabase
     .from("locations")
     .select("*")
-    .eq("slug", params.location)
+    .eq("slug", locationCategory)
     .eq("is_published", true)
     .single();
 
@@ -38,24 +39,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const location = supabaseToLocation(data);
+  const locationData = supabaseToLocation(data);
 
   return {
-    title: location.metaTitle,
-    description: location.metaDescription,
-    keywords: location.metaKeywords,
+    title: locationData.metaTitle,
+    description: locationData.metaDescription,
+    keywords: locationData.metaKeywords,
     openGraph: {
-      title: location.ogTitle || location.metaTitle,
-      description: location.ogDescription || location.metaDescription,
-      url: `https://www.celesteabode.com/properties-in-${location.slug}`,
+      title: locationData.ogTitle || locationData.metaTitle,
+      description: locationData.ogDescription || locationData.metaDescription,
+      url: `https://www.celesteabode.com/properties-in-${locationData.slug}`,
       siteName: "Celeste Abode",
-      images: location.ogImage
+      images: locationData.ogImage
         ? [
             {
-              url: location.ogImage,
+              url: locationData.ogImage,
               width: 1200,
               height: 630,
-              alt: location.imageAltTexts?.og || `Properties in ${location.locationName} - Celeste Abode`,
+              alt: locationData.imageAltTexts?.og || `Properties in ${locationData.locationName} - Celeste Abode`,
             },
           ]
         : [],
@@ -64,28 +65,40 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     twitter: {
       card: "summary_large_image",
-      title: location.ogTitle || location.metaTitle,
-      description: location.ogDescription || location.metaDescription,
-      images: location.ogImage ? [location.ogImage] : [],
+      title: locationData.ogTitle || locationData.metaTitle,
+      description: locationData.ogDescription || locationData.metaDescription,
+      images: locationData.ogImage ? [locationData.ogImage] : [],
     },
     alternates: {
-      canonical: `https://www.celesteabode.com/properties-in-${location.slug}`,
+      canonical: `https://www.celesteabode.com/properties-in-${locationData.slug}`,
     },
   };
 }
 
 export default async function LocationPropertiesPage({ params }: PageProps) {
+  const { locationCategory: locationSlug } = await params;
   const supabase = getSupabaseAdminClient();
 
   // Fetch location data
   const { data: locationData, error: locationError } = await supabase
     .from("locations")
     .select("*")
-    .eq("slug", params.location)
+    .eq("slug", locationSlug)
     .eq("is_published", true)
     .single();
 
   if (locationError || !locationData) {
+    console.error(`Location not found or not published: slug="${locationSlug}"`, locationError);
+    // Also check if location exists but is not published
+    const { data: unpublishedLocation } = await supabase
+      .from("locations")
+      .select("slug, is_published")
+      .eq("slug", locationSlug)
+      .single();
+    
+    if (unpublishedLocation) {
+      console.error(`Location exists but is_published=${unpublishedLocation.is_published}`);
+    }
     notFound();
   }
 
@@ -94,7 +107,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
   // Fetch initial 6 properties for this location
   let { data: propertiesData, error } = await supabase
     .from("properties")
-    .select("id, slug, project_name, developer, location, location_category, status, hero_image, is_published, created_at, updated_at")
+    .select("id, slug, project_name, developer, location, location_category, project_status, hero_image, is_published, created_at, updated_at")
     .eq("location_category", location.slug)
     .eq("is_published", true)
     .order("created_at", { ascending: false })
@@ -104,7 +117,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
   if (error || !propertiesData || propertiesData.length === 0) {
     const fallbackQuery = await supabase
       .from("properties")
-      .select("id, slug, project_name, developer, location, location_category, status, hero_image, is_published, created_at, updated_at")
+      .select("id, slug, project_name, developer, location, location_category, project_status, hero_image, is_published, created_at, updated_at")
       .eq("is_published", true)
       .ilike("location", `%${location.locationName}%`)
       .order("created_at", { ascending: false })
@@ -140,7 +153,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
                 sizes="100vw"
                 quality={90}
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/30 to-black/25" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/40" />
             </div>
 
             <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">

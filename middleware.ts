@@ -5,7 +5,7 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // REWRITE: Convert hyphenated public URL to internal route format
-  // Public: /properties-in-{locationCategory}/{slug}
+  // Public: /properties-in-{locationCategory}/{slug} (property page)
   // Internal: /properties-in/{locationCategory}/{slug}
   const hyphenatedRouteMatch = pathname.match(/^\/properties-in-([^/]+)\/([^/]+)$/);
   if (hyphenatedRouteMatch) {
@@ -13,6 +13,22 @@ export function middleware(request: NextRequest) {
     // Rewrite to internal route format
     const rewriteUrl = new URL(
       `/properties-in/${locationCategory}/${slug}`,
+      request.url
+    );
+    // Preserve query string
+    rewriteUrl.search = request.nextUrl.search;
+    return NextResponse.rewrite(rewriteUrl);
+  }
+
+  // REWRITE: Convert hyphenated location-only URL to internal route format
+  // Public: /properties-in-{locationCategory} (location page)
+  // Internal: /properties-in/{locationCategory}
+  const locationOnlyMatch = pathname.match(/^\/properties-in-([^/]+)$/);
+  if (locationOnlyMatch) {
+    const [, locationCategory] = locationOnlyMatch;
+    // Rewrite to internal route format
+    const rewriteUrl = new URL(
+      `/properties-in/${locationCategory}`,
       request.url
     );
     // Preserve query string

@@ -145,6 +145,8 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
       xhr.addEventListener("abort", () => reject(new Error("Upload was aborted")));
 
       xhr.open("POST", "/api/admin/upload/location-image");
+      // Ensure credentials (cookies) are sent with the request
+      xhr.withCredentials = true;
       xhr.send(uploadFormData);
     });
   };
@@ -263,9 +265,12 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
         setUploading("Uploading Celeste Abode image...");
         celesteAbodeImageUrl = await uploadFileToR2(tempFiles.celesteAbode, formData.slug, "celeste-abode");
         handleChange("celesteAbodeImage", celesteAbodeImageUrl);
-      } else if (!formData.celesteAbodeImage) {
-        celesteAbodeImageUrl = heroImageUrl;
-        handleChange("celesteAbodeImage", celesteAbodeImageUrl);
+      } else {
+        // Always use hero image if Celeste Abode image is not explicitly set
+        celesteAbodeImageUrl = formData.celesteAbodeImage || heroImageUrl;
+        if (!formData.celesteAbodeImage) {
+          handleChange("celesteAbodeImage", heroImageUrl);
+        }
       }
 
       setUploading(null);
@@ -567,26 +572,33 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
           <div>
             <Label className="font-poppins">Celeste Abode Image (defaults to hero image if not set)</Label>
             <div className="mt-2 space-y-4">
-              {previewUrls.celesteAbode || formData.celesteAbodeImage ? (
+              {(previewUrls.celesteAbode || formData.celesteAbodeImage || previewUrls.hero || formData.heroImage) ? (
                 <div className="relative w-full h-64 rounded-lg overflow-hidden border-2 border-gray-200">
                   <img
-                    src={previewUrls.celesteAbode || formData.celesteAbodeImage}
+                    src={previewUrls.celesteAbode || formData.celesteAbodeImage || previewUrls.hero || formData.heroImage}
                     alt="Celeste Abode preview"
                     className="w-full h-full object-cover"
                   />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (previewUrls.celesteAbode) URL.revokeObjectURL(previewUrls.celesteAbode);
-                      setTempFiles((prev) => ({ ...prev, celesteAbode: undefined }));
-                      setPreviewUrls((prev) => ({ ...prev, celesteAbode: undefined }));
-                      handleChange("celesteAbodeImage", "");
-                      if (celesteAbodeInputRef.current) celesteAbodeInputRef.current.value = "";
-                    }}
-                    className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
+                  {(previewUrls.celesteAbode || formData.celesteAbodeImage) && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (previewUrls.celesteAbode) URL.revokeObjectURL(previewUrls.celesteAbode);
+                        setTempFiles((prev) => ({ ...prev, celesteAbode: undefined }));
+                        setPreviewUrls((prev) => ({ ...prev, celesteAbode: undefined }));
+                        handleChange("celesteAbodeImage", "");
+                        if (celesteAbodeInputRef.current) celesteAbodeInputRef.current.value = "";
+                      }}
+                      className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                  {!previewUrls.celesteAbode && !formData.celesteAbodeImage && (
+                    <div className="absolute bottom-2 left-2 bg-black/70 text-white px-3 py-1 rounded text-sm font-poppins">
+                      Using hero image
+                    </div>
+                  )}
                 </div>
               ) : null}
               <input

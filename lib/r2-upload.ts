@@ -63,13 +63,13 @@ function getContentType(filename: string, fileType: string): string {
  * Upload file to Cloudflare R2
  * @param file - File to upload
  * @param propertySlug - Property slug for folder organization
- * @param fileType - Type of file: 'hero', 'brochure', 'image', 'video'
+ * @param fileType - Type of file: 'hero', 'brochure', 'image', 'video', 'location-hero', 'location-celeste-abode'
  * @returns Upload result with public URL
  */
 export async function uploadToR2(
   file: File,
   propertySlug: string,
-  fileType: "hero" | "brochure" | "image" | "video"
+  fileType: "hero" | "brochure" | "image" | "video" | "location-hero" | "location-celeste-abode"
 ): Promise<R2UploadResult> {
   try {
     // Validate configuration
@@ -117,6 +117,14 @@ export async function uploadToR2(
         const videoFilename = sanitizeFilename(file.name);
         objectKey = `${sanitizedSlug}/videos/${sanitizedSlug}_${videoFilename}`;
         console.log(`Video upload - Object key: ${objectKey}, File: ${file.name}, Size: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+        break;
+      case "location-hero":
+        // Format: {slug}/{slug}_hero.{ext}
+        objectKey = `${sanitizedSlug}/${sanitizedSlug}_hero.${fileExtension}`;
+        break;
+      case "location-celeste-abode":
+        // Format: {slug}/{slug}_celeste-abode.{ext}
+        objectKey = `${sanitizedSlug}/${sanitizedSlug}_celeste-abode.${fileExtension}`;
         break;
       default:
         const defaultFilename = sanitizeFilename(file.name);
@@ -214,6 +222,26 @@ export async function uploadVideoToR2(
   propertySlug: string
 ): Promise<R2UploadResult> {
   return uploadToR2(file, propertySlug, "video");
+}
+
+/**
+ * Upload location hero image to R2
+ */
+export async function uploadLocationHeroImageToR2(
+  file: File,
+  locationSlug: string
+): Promise<R2UploadResult> {
+  return uploadToR2(file, locationSlug, "location-hero");
+}
+
+/**
+ * Upload location Celeste Abode image to R2
+ */
+export async function uploadLocationCelesteAbodeImageToR2(
+  file: File,
+  locationSlug: string
+): Promise<R2UploadResult> {
+  return uploadToR2(file, locationSlug, "location-celeste-abode");
 }
 
 /**

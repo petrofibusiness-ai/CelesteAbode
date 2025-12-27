@@ -4,14 +4,15 @@ import { supabaseToLocation } from "@/lib/supabase-location-mapper";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { slug: string } }
+  { params }: { params: Promise<{ slug: string }> }
 ) {
   try {
+    const { slug } = await params;
     const supabase = getSupabaseAdminClient();
     const { data, error } = await supabase
       .from("locations")
       .select("*")
-      .eq("slug", params.slug)
+      .eq("slug", slug)
       .eq("is_published", true)
       .single();
 

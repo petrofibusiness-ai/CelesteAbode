@@ -28,115 +28,100 @@ import {
   Shield,
 } from "lucide-react";
 import { BreadcrumbSchema, ItemListSchema, CollectionPageSchema } from "@/lib/structured-data";
-import { projectSlugs } from "@/lib/project-metadata";
 import { getPropertyUrl } from "@/lib/property-url";
-import { locationCategoryToSlug } from "@/lib/location-slug";
+import { Property } from "@/types/property";
+
+interface FilterState {
+  location: string;
+  propertyType: string;
+  projectStatus: string;
+  configuration: string[];
+}
 
 export default function ProjectsPage() {
   const searchParams = useSearchParams();
-  const [activeLocation, setActiveLocation] = useState("all");
+  const [filters, setFilters] = useState<FilterState>({
+    location: "",
+    propertyType: "all",
+    projectStatus: "all",
+    configuration: [],
+  });
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isGeneralFormOpen, setIsGeneralFormOpen] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<{
     title: string;
     location: string;
   } | null>(null);
-  const [displayedProperties, setDisplayedProperties] = useState(9);
   const [isSeoExpanded, setIsSeoExpanded] = useState(false);
   const [isCtaContentExpanded, setIsCtaContentExpanded] = useState(false);
 
+  // Fetch properties from backend API
+  const fetchProperties = async (filterState: FilterState) => {
+    // Don't fetch if location is not selected (mandatory)
+    if (!filterState.location || filterState.location.trim() === "") {
+      setProperties([]);
+      return;
+    }
 
-  // Helper function to get location category from location string
-  const getLocationCategory = (location: string): string => {
-    const loc = location.toLowerCase();
-    if (loc.includes("yamuna expressway") || loc.includes("yamuna")) {
-      return "yamuna-expressway";
-    }
-    if (loc.includes("ghaziabad") || loc.includes("nh-24") || loc.includes("dasna")) {
-      return "ghaziabad";
-    }
-    if (loc.includes("noida") && !loc.includes("greater")) {
-      return "noida";
-    }
-    if (loc.includes("greater noida")) {
-      return "greater-noida";
-    }
-    return "greater-noida"; // default
-  };
-
-  // Filter properties by location only (no segment filtering)
-  const allProperties = [
-    ...propertiesData["buying-to-live"],
-    ...propertiesData["investment"],
-    ...propertiesData["luxury"]
-  ];
-  const currentProperties = activeLocation === "all"
-    ? allProperties
-    : allProperties.filter((property: any) => {
-        const propertyLocationCategory = property.locationCategory || getLocationCategory(property.location);
-        return propertyLocationCategory === activeLocation;
+    setIsLoading(true);
+    try {
+      const params = new URLSearchParams();
+      params.append("location", filterState.location);
+      if (filterState.propertyType && filterState.propertyType !== "all") {
+        params.append("propertyType", filterState.propertyType);
+      }
+      if (filterState.projectStatus && filterState.projectStatus !== "all") {
+        params.append("projectStatus", filterState.projectStatus);
+      }
+      filterState.configuration.forEach((config) => {
+        params.append("configuration", config);
       });
 
-  // Read location from URL query params on mount and when params change
+      const response = await fetch(`/api/properties/search?${params.toString()}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch properties");
+      }
+      const data = await response.json();
+      setProperties(data.properties || []);
+    } catch (error) {
+      console.error("Error fetching properties:", error);
+      setProperties([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Handle filter changes from PropertyFilters component
+  const handleFilterChange = (newFilters: FilterState) => {
+    setFilters(newFilters);
+    fetchProperties(newFilters);
+  };
+
+  // Read location from URL query params on mount
   useEffect(() => {
     const locationParam = searchParams.get("location");
     if (locationParam) {
-      setActiveLocation(locationParam);
-    } else {
-      setActiveLocation("all");
+      const newFilters = { ...filters, location: locationParam };
+      setFilters(newFilters);
+      fetchProperties(newFilters);
     }
   }, [searchParams]);
 
 
-  const handleLocationChange = (locationId: string) => {
-    setActiveLocation(locationId);
-    setDisplayedProperties(9); // Reset to show first 9 properties
-  };
-
-  const handlePropertyClick = (property: any) => {
+  const handlePropertyClick = (property: Property) => {
     setSelectedProperty({
-      title: property.title,
+      title: property.projectName,
       location: property.location,
     });
     setIsPopupOpen(true);
   };
 
-  const handleViewDetails = (propertyId: number) => {
-    const slug = projectSlugs[propertyId] || propertyId.toString();
-    // Find the property to get its location
-    const property = allProperties.find(p => p.id === propertyId);
-    if (property) {
-      // Get location category from property location string
-      const locationLower = property.location.toLowerCase();
-      // Map location strings to enum values
-      let locationCategoryEnum: string | null = null;
-      if (locationLower.includes("greater noida") || locationLower.includes("greater-noida")) {
-        locationCategoryEnum = "Greater Noida West";
-      } else if (locationLower.includes("yamuna expressway") || locationLower.includes("yamuna")) {
-        locationCategoryEnum = "Yamuna Expressway";
-      } else if (locationLower.includes("ghaziabad") || locationLower.includes("nh-24") || locationLower.includes("nh24") || locationLower.includes("dasna")) {
-        locationCategoryEnum = "Ghaziabad";
-      } else if (locationLower.includes("noida") && !locationLower.includes("greater")) {
-        locationCategoryEnum = "Noida";
-      } else {
-        // Default fallback
-        locationCategoryEnum = "Greater Noida West";
-      }
-      // Use getPropertyUrl to generate the correct URL
-      const propertyUrl = getPropertyUrl({ slug, locationCategory: locationCategoryEnum });
-      window.location.href = propertyUrl;
-    } else {
-      // Fallback to unknown if property not found
-      window.location.href = `/properties-in-unknown/${slug}`;
-    }
+  const handleViewDetails = (property: Property) => {
+    const propertyUrl = getPropertyUrl(property);
+    window.location.href = propertyUrl;
   };
-
-  const handleViewMore = () => {
-    setDisplayedProperties((prev) => prev + 9);
-  };
-
-  const hasMoreProperties = currentProperties.length > displayedProperties;
-  const propertiesToShow = currentProperties.slice(0, displayedProperties);
 
   return (
     <>
@@ -218,7 +203,7 @@ export default function ProjectsPage() {
         </section>
 
         {/* Property Filters Section */}
-        <PropertyFilters />
+        <PropertyFilters onFilterChange={handleFilterChange} />
 
         {/* Aesthetic Line Separator */}
         <div className="w-full flex justify-center py-4">
@@ -230,70 +215,70 @@ export default function ProjectsPage() {
           <div className="max-w-7xl mx-auto">
 
             {/* Properties Gallery Display */}
-            {currentProperties.length > 0 ? (
-              <>
-                <div id="itemlist" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="Properties in Delhi NCR">
-                  {propertiesToShow.map((property) => (
-                        <Card
-                      key={property.id}
-                          className="border-0 bg-card overflow-hidden hover:shadow-2xl transition-all duration-500 group cursor-pointer p-0 transform hover:-translate-y-2 hover:scale-[1.02]"
-                          onClick={() => handleViewDetails(property.id)}
-                          role="listitem"
-                          itemScope
-                          itemType="https://schema.org/Product"
-                        >
-                          <div className="relative w-full h-80 rounded-xl overflow-hidden">
-                            <Image
-                              src={property.image}
-                              alt={`${property.title} - ${property.location} - ${property.beds} - ${property.status}`}
-                              fill
-                              className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                              quality={90}
-                              loading="lazy"
-                              itemProp="image"
-                            />
-
-                            {/* Overlay for text */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent transition-opacity duration-500 group-hover:from-black/95 group-hover:via-black/30"></div>
-
-                            {/* Location and Name at bottom */}
-                            <div className="absolute bottom-3 left-3 right-3 transition-transform duration-300 group-hover:translate-y-[-4px]">
-                              <div className="flex items-center gap-2 text-white mb-1">
-                                <MapPin className="w-3 h-3 transition-transform duration-300 group-hover:scale-110" />
-                                <span className="text-xs font-medium text-white">
-                                  {property.location}
-                                </span>
-                              </div>
-                              <h3 className="text-lg font-bold text-white leading-tight" itemProp="name">
-                                {property.title}
-                              </h3>
-                              <meta itemProp="description" content={`${property.subtitle} in ${property.location}. ${property.beds} available. ${property.status}.`} />
-                              <meta itemProp="brand" content={property.developer || "Verified Developer"} />
-                              <meta itemProp="offers" itemType="https://schema.org/Offer" content={property.price || "Price on Request"} />
-                            </div>
-                          </div>
-                        </Card>
-                    ))}
-                </div>
-
-                {/* View More Properties Button */}
-                {hasMoreProperties && (
-                  <div className="flex justify-center mt-12">
-                    <Button
-                      onClick={handleViewMore}
-                      className="px-8 py-4 bg-black text-white rounded-full font-semibold hover:bg-black/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 font-poppins"
-                    >
-                      View More Properties
-                    </Button>
+            {isLoading ? (
+              <div className="text-center py-16 bg-background rounded-2xl">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#CBB27A] mx-auto mb-4"></div>
+                <p className="text-lg text-gray-600 font-poppins">Loading properties...</p>
               </div>
-                )}
-              </>
+            ) : properties.length > 0 ? (
+              <div id="itemlist" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="Properties">
+                {properties.map((property) => (
+                  <Card
+                    key={property.id}
+                    className="border-0 bg-card overflow-hidden hover:shadow-2xl transition-all duration-500 group cursor-pointer p-0 transform hover:-translate-y-2 hover:scale-[1.02]"
+                    onClick={() => handleViewDetails(property)}
+                    role="listitem"
+                    itemScope
+                    itemType="https://schema.org/Product"
+                  >
+                    <div className="relative w-full h-80 rounded-xl overflow-hidden">
+                      <Image
+                        src={property.heroImage}
+                        alt={`${property.projectName} - ${property.location}`}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        quality={90}
+                        loading="lazy"
+                        itemProp="image"
+                      />
+
+                      {/* Overlay for text */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent transition-opacity duration-500 group-hover:from-black/95 group-hover:via-black/30"></div>
+
+                      {/* Location and Name at bottom */}
+                      <div className="absolute bottom-3 left-3 right-3 transition-transform duration-300 group-hover:translate-y-[-4px]">
+                        <div className="flex items-center gap-2 text-white mb-1">
+                          <MapPin className="w-3 h-3 transition-transform duration-300 group-hover:scale-110" />
+                          <span className="text-xs font-medium text-white">
+                            {property.location}
+                          </span>
+                        </div>
+                        <h3 className="text-lg font-bold text-white leading-tight" itemProp="name">
+                          {property.projectName}
+                        </h3>
+                        <meta itemProp="description" content={property.description || `${property.projectName} in ${property.location}`} />
+                        <meta itemProp="brand" content={property.developer || "Verified Developer"} />
+                      </div>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            ) : filters.location ? (
+              <div className="text-center py-16 bg-background rounded-2xl">
+                <Building2 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <p className="text-lg text-gray-600 mb-2 font-poppins">
+                  No properties found matching your filters.
+                </p>
+                <p className="text-sm text-gray-500 font-poppins">
+                  Try adjusting your search criteria.
+                </p>
+              </div>
             ) : (
               <div className="text-center py-16 bg-background rounded-2xl">
                 <Building2 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <p className="text-lg text-gray-600 mb-6 font-poppins">
-                  No properties found matching your filters.
+                <p className="text-lg text-gray-600 mb-2 font-poppins">
+                  Please select a location to view properties.
                 </p>
               </div>
             )}

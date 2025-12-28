@@ -4,13 +4,18 @@ import Script from "next/script";
 export function OrganizationSchema() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "Organization",
+    "@type": ["Organization", "RealEstateAgent"],
     "@id": "https://www.celesteabode.com/#organization",
     name: "Celeste Abode",
     legalName: "Celeste Abode Private Limited",
-    alternateName: ["Celeste Abode", "Celeste Abode Real Estate"],
+    alternateName: ["Celeste Abode", "Celeste Abode Real Estate", "Celeste Abode Private Limited"],
     url: "https://www.celesteabode.com",
-    logo: "https://www.celesteabode.com/logoceleste.avif",
+    logo: {
+      "@type": "ImageObject",
+      url: "https://www.celesteabode.com/logoceleste.avif",
+      width: 170,
+      height: 156
+    },
     image: "https://www.celesteabode.com/logoceleste.avif",
     slogan: "The Convergence of Data Intelligence and Luxury Living",
     description:
@@ -28,7 +33,12 @@ export function OrganizationSchema() {
       "Real Estate Market Analysis",
       "Property ROI Strategy",
       "NRI Property Services",
-      "Delhi NCR Real Estate"
+      "Delhi NCR Real Estate",
+      "Luxury Real Estate Consulting",
+      "Property Portfolio Advisory",
+      "High-Value Property Investment",
+      "Bespoke Lifestyle Curation",
+      "End-to-End Transaction Security"
     ],
     address: {
       "@type": "PostalAddress",
@@ -322,14 +332,27 @@ export function WebSiteSchema() {
     name: "Celeste Abode",
     alternateName: "Celeste Abode Real Estate Consulting",
     url: "https://www.celesteabode.com",
+    description: "Trusted real estate advisory providing compliant, data-backed property guidance across Delhi NCR. Expert property consultants in Noida, Greater Noida, Gurugram, and Yamuna Expressway.",
+    inLanguage: "en-IN",
     publisher: {
       "@type": "Organization",
       name: "Celeste Abode",
+      "@id": "https://www.celesteabode.com/#organization",
       logo: {
         "@type": "ImageObject",
-        url: "https://www.celesteabode.com/logoceleste.avif"
+        url: "https://www.celesteabode.com/logoceleste.avif",
+        width: 170,
+        height: 156
       }
     },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "https://www.celesteabode.com/properties?search={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
   };
 
   return (
@@ -448,8 +471,14 @@ export function CollectionPageSchema({
     description: description,
     url: url,
     image: image.startsWith("http") ? image : `https://www.celesteabode.com${image}`,
+    inLanguage: "en-IN",
     mainEntity: {
       "@id": mainEntity,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Celeste Abode",
+      "@id": "https://www.celesteabode.com/#organization",
     },
     breadcrumb: {
       "@type": "BreadcrumbList",
@@ -473,6 +502,107 @@ export function CollectionPageSchema({
   return (
     <Script
       id="collectionpage-schema"
+      type="application/ld+json"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+// Service Schema for AI understanding
+export function ServiceSchema({
+  name,
+  description,
+  serviceType,
+  areaServed,
+  provider,
+}: {
+  name: string;
+  description: string;
+  serviceType: string;
+  areaServed: string[];
+  provider?: {
+    name: string;
+    url: string;
+  };
+}) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: name,
+    description: description,
+    serviceType: serviceType,
+    areaServed: areaServed.map((area) => ({
+      "@type": "City",
+      name: area,
+    })),
+    ...(provider && {
+      provider: {
+        "@type": "Organization",
+        name: provider.name,
+        url: provider.url,
+      },
+    }),
+  };
+
+  return (
+    <Script
+      id="service-schema"
+      type="application/ld+json"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+// Article Schema for blog/content pages (if needed in future)
+export function ArticleSchema({
+  headline,
+  description,
+  image,
+  author,
+  datePublished,
+  dateModified,
+  url,
+}: {
+  headline: string;
+  description: string;
+  image?: string;
+  author: string;
+  datePublished: string;
+  dateModified?: string;
+  url: string;
+}) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: headline,
+    description: description,
+    ...(image && {
+      image: image.startsWith("http") ? image : `https://www.celesteabode.com${image}`,
+    }),
+    author: {
+      "@type": "Organization",
+      name: author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Celeste Abode",
+      "@id": "https://www.celesteabode.com/#organization",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://www.celesteabode.com/logoceleste.avif",
+      },
+    },
+    datePublished: datePublished,
+    ...(dateModified && { dateModified: dateModified }),
+    url: url,
+    inLanguage: "en-IN",
+  };
+
+  return (
+    <Script
+      id="article-schema"
       type="application/ld+json"
       strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}

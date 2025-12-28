@@ -151,6 +151,16 @@ export async function generateMetadata({
           ]
         : [],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: property.seo?.title || property.projectName,
+      description: property.seo?.description || property.description || `${property.projectName} in ${property.location} - Luxury Property by Celeste Abode`,
+      images: property.heroImage ? [property.heroImage] : [],
+      creator: "@celesteabode",
+    },
+    authors: [{ name: "Celeste Abode" }],
+    creator: "Celeste Abode",
+    publisher: "Celeste Abode",
   };
 }
 

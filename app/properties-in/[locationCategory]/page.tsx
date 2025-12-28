@@ -45,6 +45,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: locationData.metaTitle,
     description: locationData.metaDescription,
     keywords: locationData.metaKeywords,
+    authors: [{ name: "Celeste Abode" }],
+    creator: "Celeste Abode",
+    publisher: "Celeste Abode",
+    category: "Real Estate",
     openGraph: {
       title: locationData.ogTitle || locationData.metaTitle,
       description: locationData.ogDescription || locationData.metaDescription,
@@ -68,9 +72,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: locationData.ogTitle || locationData.metaTitle,
       description: locationData.ogDescription || locationData.metaDescription,
       images: locationData.ogImage ? [locationData.ogImage] : [],
+      creator: "@celesteabode",
     },
     alternates: {
       canonical: `https://www.celesteabode.com/properties-in-${locationData.slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
   };
 }

@@ -881,6 +881,21 @@ export function Chatbot() {
                  </div>
                </form>
              )}
+
+             {/* Powered by Vitespace */}
+             <div className="px-3 py-2 sm:px-4 sm:py-2 border-t border-gray-200 bg-white flex-shrink-0">
+               <p className="text-xs text-gray-400 text-center">
+                 Powered by{" "}
+                 <Link
+                   href="https://www.vitespace.com"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className="text-[#CBB27A] hover:text-[#CBB27A]/80 transition-colors"
+                 >
+                   Vitespace
+                 </Link>
+               </p>
+             </div>
            </motion.div>
          )}
        </AnimatePresence>

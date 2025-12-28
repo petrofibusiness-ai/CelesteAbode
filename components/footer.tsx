@@ -194,6 +194,17 @@ export function Footer() {
             <p className="text-sm text-gray-400">
               © 2024 Celeste Abode Private Limited. All rights reserved.
             </p>
+            <p className="text-xs text-white">
+              Powered by{" "}
+              <Link
+                href="https://www.vitespace.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#CBB27A] hover:text-[#CBB27A]/80 transition-colors"
+              >
+                Vitespace
+              </Link>
+            </p>
           </div>
         </div>
       </div>

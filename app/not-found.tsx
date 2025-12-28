@@ -9,24 +9,24 @@ export default function NotFound() {
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
       <Header alwaysBlack />
-      <div className="flex items-center justify-center px-4 sm:px-6 relative py-8 sm:py-12" style={{ minHeight: 'calc(100vh - 80px)', paddingTop: '80px' }}>
+      <div className="flex items-center justify-center px-4 sm:px-6 relative py-8 sm:py-12 md:py-16" style={{ minHeight: 'calc(100vh - 100px)', paddingTop: '100px' }}>
       {/* Background decorative elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-[#CBB27A]/5"></div>
-      <div className="absolute top-10 left-4 sm:top-20 sm:left-10 w-48 h-48 sm:w-72 sm:h-72 bg-[#CBB27A]/5 rounded-full blur-3xl"></div>
+      <div className="absolute top-24 left-4 sm:top-32 sm:left-10 md:top-40 w-48 h-48 sm:w-72 sm:h-72 bg-[#CBB27A]/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-10 right-4 sm:bottom-20 sm:right-10 w-64 h-64 sm:w-96 sm:h-96 bg-primary/5 rounded-full blur-3xl"></div>
 
-      <div className="max-w-2xl w-full text-center space-y-6 sm:space-y-8 relative z-10 flex flex-col items-center justify-center">
+      <div className="max-w-xl md:max-w-2xl w-full text-center space-y-4 sm:space-y-6 md:space-y-8 relative z-10 flex flex-col items-center justify-center">
         {/* Animated 404 */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, type: "spring" }}
-          className="space-y-3 sm:space-y-4"
+          className="space-y-2 sm:space-y-3 md:space-y-4"
         >
-          <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#CBB27A]/10 mb-4 sm:mb-6">
-            <Sparkles className="w-8 h-8 sm:w-10 sm:h-10 text-[#CBB27A]" />
+          <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full bg-[#CBB27A]/10 mb-3 sm:mb-4 md:mb-6">
+            <Sparkles className="w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 text-[#CBB27A]" />
           </div>
-          <h1 className="text-6xl sm:text-8xl md:text-9xl font-bold text-primary" style={{ fontFamily: 'Poppins, sans-serif' }}>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-primary" style={{ fontFamily: 'Poppins, sans-serif' }}>
             404
           </h1>
           <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent mx-auto"></div>
@@ -39,10 +39,10 @@ export default function NotFound() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="space-y-3 sm:space-y-4 px-4"
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary" style={{ fontFamily: 'Poppins, sans-serif' }}>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-primary" style={{ fontFamily: 'Poppins, sans-serif' }}>
             Page Not Found
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-md mx-auto leading-relaxed" style={{ fontFamily: 'Poppins, sans-serif' }}>
+          <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-md mx-auto leading-relaxed" style={{ fontFamily: 'Poppins, sans-serif' }}>
             The page you're looking for doesn't exist or has been moved to a new location.
           </p>
         </motion.div>

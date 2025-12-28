@@ -216,9 +216,9 @@ export default function ProjectsPage() {
 
             {/* Properties Gallery Display */}
             {isLoading ? (
-              <div className="text-center py-16 bg-background rounded-2xl">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#CBB27A] mx-auto mb-4"></div>
-                <p className="text-lg text-gray-600 font-poppins">Loading properties...</p>
+              <div className="flex flex-col items-center justify-center pt-8 pb-16 bg-background rounded-2xl min-h-[400px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#CBB27A] mb-4"></div>
+                <p className="text-lg text-gray-600 font-poppins text-center">Loading properties...</p>
               </div>
             ) : properties.length > 0 ? (
               <div id="itemlist" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="Properties">
@@ -265,12 +265,12 @@ export default function ProjectsPage() {
                 ))}
               </div>
             ) : filters.location ? (
-              <div className="text-center py-16 bg-background rounded-2xl">
-                <Building2 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <p className="text-lg text-gray-600 mb-2 font-poppins">
+              <div className="flex flex-col items-center justify-center pt-8 pb-16 bg-background rounded-2xl min-h-[400px]">
+                <Building2 className="w-16 h-16 text-gray-400 mb-4" />
+                <p className="text-lg text-gray-600 mb-2 font-poppins text-center">
                   No properties found matching your filters.
                 </p>
-                <p className="text-sm text-gray-500 font-poppins">
+                <p className="text-sm text-gray-500 font-poppins text-center">
                   Try adjusting your search criteria.
                 </p>
               </div>

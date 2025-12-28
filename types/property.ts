@@ -21,8 +21,10 @@ export interface Property {
   slug: string; // URL-friendly identifier (e.g., "forest-walk-villa")
   projectName: string;
   developer: string;
-  location: string;
-  locationCategory?: LocationCategory | null; // Category for location-based filtering (enum)
+  location: string; // Denormalized text field
+  locationCategory?: LocationCategory | null; // Deprecated - use locationId instead
+  locationId?: string | null; // FK to locations_v2
+  localityId?: string | null; // FK to localities
   propertyType?: PropertyType | null; // Type of property (enum)
   reraId?: string;
   projectStatus?: ProjectStatus | null; // Current project status (enum)

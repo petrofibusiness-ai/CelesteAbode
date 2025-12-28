@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
 
     // Query to check if slug exists
     let query = supabaseAdmin
-      .from("properties")
+      .from("properties_v2")
       .select("id, slug, project_name")
       .eq("slug", normalizedSlug);
 

@@ -10,7 +10,7 @@ export async function GET(
     const { slug } = await params;
     const supabase = getSupabaseAdminClient();
     const { data, error } = await supabase
-      .from("locations")
+      .from("locations_v2")
       .select("*")
       .eq("slug", slug)
       .eq("is_published", true)

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { supabaseToProperty } from "@/lib/supabase-property-mapper";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
+import { addLocationSlugToProperties } from "@/lib/property-location-helper";
 
 // Query timeout: 10 seconds
 const QUERY_TIMEOUT = 10000;
@@ -32,8 +33,8 @@ export async function GET(request: NextRequest) {
     // Fetch ALL properties - NO filter on is_published
     // This explicitly fetches both published and unpublished properties
     const queryPromise = supabase
-      .from("properties")
-      .select("id, slug, project_name, developer, location, project_status, hero_image, is_published, created_at, updated_at")
+      .from("properties_v2")
+      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, hero_image, is_published, created_at, updated_at")
       // NO .eq("is_published", true) filter - we want ALL properties
       .order("created_at", { ascending: false }); // Newest first
 
@@ -81,11 +82,14 @@ export async function GET(request: NextRequest) {
       }
     }).filter((prop): prop is NonNullable<typeof prop> => prop !== null);
     
-    console.log(`Converted ${properties.length} properties for response`);
-    console.log(`Properties being returned:`, properties.map(p => ({ name: p.projectName, isPublished: p.isPublished })));
+    // Add locationSlug to all properties
+    const propertiesWithLocation = await addLocationSlugToProperties(properties, supabase);
+    
+    console.log(`Converted ${propertiesWithLocation.length} properties for response`);
+    console.log(`Properties being returned:`, propertiesWithLocation.map(p => ({ name: p.projectName, isPublished: p.isPublished })));
 
     return NextResponse.json(
-      { properties },
+      { properties: propertiesWithLocation },
       {
         headers: {
           'X-RateLimit-Remaining': rateLimit.remaining.toString(),

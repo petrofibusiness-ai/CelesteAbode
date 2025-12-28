@@ -45,7 +45,7 @@ export async function GET(
     const supabase = getSupabaseAdminClient();
 
     const queryPromise = supabase
-      .from("properties")
+      .from("properties_v2")
       .select("*")
       .eq("id", id)
       .single();
@@ -65,6 +65,19 @@ export async function GET(
 
     // Convert snake_case to camelCase
     const property = supabaseToProperty(data);
+
+    // Fetch location slug if location_id exists
+    if (data.location_id) {
+      const { data: locationData } = await supabase
+        .from("locations_v2")
+        .select("slug")
+        .eq("id", data.location_id)
+        .single();
+      
+      if (locationData?.slug) {
+        (property as any).locationSlug = locationData.slug;
+      }
+    }
 
     return NextResponse.json({ property });
   } catch (error) {
@@ -134,7 +147,7 @@ export async function PATCH(
       };
 
       const queryPromise = supabase
-        .from("properties")
+        .from("properties_v2")
         .update(updateData)
         .eq("id", id)
         .select()
@@ -158,7 +171,7 @@ export async function PATCH(
 
       // Audit log
       await logAuditEntry({
-        table_name: 'properties',
+        table_name: 'properties_v2',
         operation: 'UPDATE',
         record_id: id,
         user_id: user.id,
@@ -175,7 +188,7 @@ export async function PATCH(
     // Full update - implement asset synchronization
     // Step 1: Fetch existing property record
     const fetchPromise = supabase
-      .from("properties")
+      .from("properties_v2")
       .select("*")
       .eq("id", id)
       .single();
@@ -295,7 +308,7 @@ export async function PATCH(
     };
 
     const updatePromise = supabase
-      .from("properties")
+      .from("properties_v2")
       .update(updateData)
       .eq("id", id)
       .select()
@@ -329,7 +342,7 @@ export async function PATCH(
 
     // Audit log
     await logAuditEntry({
-      table_name: 'properties',
+      table_name: 'properties_v2',
       operation: 'UPDATE',
       record_id: id,
       user_id: user.id,
@@ -406,7 +419,7 @@ export async function DELETE(
 
     // Step 1: Fetch the property record to get the slug
     const fetchPromise = supabase
-      .from("properties")
+      .from("properties_v2")
       .select("slug, *")
       .eq("id", id)
       .single();
@@ -449,7 +462,7 @@ export async function DELETE(
 
     // Step 4: Delete the property record from the database
     const deletePromise = supabase
-      .from("properties")
+      .from("properties_v2")
       .delete()
       .eq("id", id);
 
@@ -469,7 +482,7 @@ export async function DELETE(
 
     // Audit log
     await logAuditEntry({
-      table_name: 'properties',
+      table_name: 'properties_v2',
       operation: 'DELETE',
       record_id: id,
       user_id: user.id,

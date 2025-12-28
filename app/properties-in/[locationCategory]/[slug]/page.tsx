@@ -3,7 +3,6 @@ import { Metadata } from "next";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { supabaseToProperty } from "@/lib/supabase-property-mapper";
 import DynamicPropertyPage from "@/components/dynamic-property-page";
-import { locationCategoryToSlug, slugToLocationCategory } from "@/lib/location-slug";
 
 interface PageProps {
   params: Promise<{
@@ -13,12 +12,11 @@ interface PageProps {
 }
 
 /**
- * Resolve property strictly at its canonical URL
- * Canonical format (public-facing):
- * /properties-in-{location-category-slug}/{property-slug}
- * 
- * Internal route format (after middleware rewrite):
- * /properties-in/{location-category-slug}/{property-slug}
+ * Resolve property using database location_id as source of truth
+ * 1. Fetch property by slug from properties_v2
+ * 2. Get location_id from property
+ * 3. Fetch location slug from locations_v2 using location_id
+ * 4. Validate URL locationCategory matches database location slug
  */
 async function resolveCanonicalProperty(
   locationCategorySlug?: string,
@@ -27,60 +25,81 @@ async function resolveCanonicalProperty(
   property: ReturnType<typeof supabaseToProperty>;
   canonicalUrl: string;
 } | null> {
-  if (!locationCategorySlug || !slug) {
-    return null;
-  }
+  console.log("[resolveCanonicalProperty] Starting with params:", { locationCategorySlug, slug });
 
-  const normalizedSlug = slug.toLowerCase().trim();
-  const normalizedLocationSlug = locationCategorySlug.toLowerCase().trim();
-
-  // Validate incoming location slug maps to a valid enum
-  const validLocationCategory = slugToLocationCategory(normalizedLocationSlug);
-  if (!validLocationCategory) {
+  if (!slug) {
+    console.log("[resolveCanonicalProperty] No slug provided");
     return null;
   }
 
   const supabase = getSupabaseAdminClient();
 
-  // Fetch property by slug (DB is source of truth)
-  const { data, error } = await supabase
-    .from("properties")
+  // Step 1: Fetch property by slug from properties_v2 (DB is source of truth)
+  console.log("[resolveCanonicalProperty] Fetching property with slug:", slug);
+  const { data: propertyData, error: propertyError } = await supabase
+    .from("properties_v2")
     .select("*")
-    .eq("slug", normalizedSlug)
+    .eq("slug", slug)
     .eq("is_published", true)
     .single();
 
-  if (error || !data) {
+  if (propertyError) {
+    console.error("[resolveCanonicalProperty] Error fetching property:", propertyError);
     return null;
   }
 
-  const property = supabaseToProperty(data);
-
-  // Property must have a location category
-  if (!property.locationCategory) {
+  if (!propertyData) {
+    console.log("[resolveCanonicalProperty] Property not found for slug:", slug);
     return null;
   }
 
-  // Derive canonical location slug from DB enum
-  const canonicalLocationSlug = locationCategoryToSlug(
-    property.locationCategory
-  );
+  console.log("[resolveCanonicalProperty] Property found:", { id: propertyData.id, slug: propertyData.slug, location_id: propertyData.location_id });
 
-  if (!canonicalLocationSlug) {
+  const property = supabaseToProperty(propertyData);
+
+  // Step 2: Property must have a location_id
+  if (!property.locationId) {
+    console.log("[resolveCanonicalProperty] Property has no location_id:", propertyData.id);
     return null;
   }
 
-  const normalizedCanonicalSlug = canonicalLocationSlug
-    .toLowerCase()
-    .trim();
+  console.log("[resolveCanonicalProperty] Property location_id:", property.locationId);
 
-  // STRICT match — URL must equal canonical
-  if (normalizedLocationSlug !== normalizedCanonicalSlug) {
+  // Step 3: Fetch location slug from locations_v2 using location_id (database is source of truth)
+  console.log("[resolveCanonicalProperty] Fetching location with location_id:", property.locationId);
+  const { data: locationData, error: locationError } = await supabase
+    .from("locations_v2")
+    .select("slug")
+    .eq("id", property.locationId)
+    .single();
+
+  if (locationError) {
+    console.error("[resolveCanonicalProperty] Error fetching location:", locationError);
     return null;
   }
 
-  // Canonical URL uses hyphenated format (public-facing)
-  const canonicalUrl = `/properties-in-${canonicalLocationSlug}/${normalizedSlug}`;
+  if (!locationData || !locationData.slug) {
+    console.log("[resolveCanonicalProperty] Location not found or has no slug for location_id:", property.locationId);
+    return null;
+  }
+
+  // Step 4: Use location slug from database (source of truth) - use as-is, no normalization
+  const databaseLocationSlug = locationData.slug;
+  console.log("[resolveCanonicalProperty] Database location slug:", databaseLocationSlug);
+
+  // Step 5: Validate URL locationCategory parameter matches database location slug (exact match, no normalization)
+  if (locationCategorySlug) {
+    console.log("[resolveCanonicalProperty] Comparing URL locationCategory:", locationCategorySlug, "with database slug:", databaseLocationSlug);
+    if (locationCategorySlug !== databaseLocationSlug) {
+      console.log("[resolveCanonicalProperty] URL locationCategory doesn't match database location slug - returning 404");
+      return null; // URL location doesn't match database location - return 404
+    }
+    console.log("[resolveCanonicalProperty] Location slugs match!");
+  }
+
+  // Canonical URL uses database location slug (source of truth) - use as-is
+  const canonicalUrl = `/properties-in-${databaseLocationSlug}/${slug}`;
+  console.log("[resolveCanonicalProperty] Canonical URL:", canonicalUrl);
 
   return { property, canonicalUrl };
 }
@@ -177,19 +196,32 @@ export async function generateStaticParams() {
   const supabase = getSupabaseAdminClient();
 
   const { data, error } = await supabase
-    .from("properties")
-    .select("slug, location_category")
+    .from("properties_v2")
+    .select("slug, location_id")
     .eq("is_published", true);
 
   if (error || !data) {
     return [];
   }
 
+  // Fetch all unique location IDs
+  const locationIds = [...new Set(data.map(p => p.location_id).filter(Boolean))];
+  
+  // Fetch locations to get slugs
+  const { data: locationsData } = await supabase
+    .from("locations_v2")
+    .select("id, slug")
+    .in("id", locationIds);
+
+  // Create a map of location_id -> slug
+  const locationSlugMap = new Map(
+    (locationsData || []).map(loc => [loc.id, loc.slug])
+  );
+
   const params = data
     .map((p) => {
-      const locationSlug = locationCategoryToSlug(
-        p.location_category
-      );
+      if (!p.location_id) return null;
+      const locationSlug = locationSlugMap.get(p.location_id);
       if (!locationSlug) {
         return null;
       }
@@ -216,8 +248,11 @@ export default async function PropertyPage({
   const resolvedParams = await params;
   const { locationCategory, slug } = resolvedParams;
 
+  console.log("[PropertyPage] Received params:", { locationCategory, slug });
+
   // Validate params (Next.js should provide these via middleware rewrite)
   if (!locationCategory || !slug || locationCategory.trim() === "") {
+    console.log("[PropertyPage] Invalid params - calling notFound()");
     notFound();
   }
 
@@ -227,9 +262,11 @@ export default async function PropertyPage({
   );
 
   if (!result) {
+    console.log("[PropertyPage] resolveCanonicalProperty returned null - calling notFound()");
     notFound();
   }
 
+  console.log("[PropertyPage] Successfully resolved property, rendering page");
   return <DynamicPropertyPage property={result.property} />;
 }
 

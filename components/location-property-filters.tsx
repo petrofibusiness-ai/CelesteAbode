@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Search } from "lucide-react";
+import { ChevronDown, Search, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface FilterState {
@@ -31,6 +31,7 @@ export function LocationPropertyFilters({
   });
 
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const filterRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown when clicking outside
@@ -46,6 +47,18 @@ export function LocationPropertyFilters({
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }
   }, [openDropdown]);
+
+  // Listen for loading state from properties grid
+  useEffect(() => {
+    const handleLoadingChange = (event: CustomEvent<boolean>) => {
+      setIsLoading(event.detail);
+    };
+
+    window.addEventListener('location-properties-loading', handleLoadingChange as EventListener);
+    return () => {
+      window.removeEventListener('location-properties-loading', handleLoadingChange as EventListener);
+    };
+  }, []);
 
   const filterOptions = {
     locality: localities, // Remove "all" option since empty array means all
@@ -119,6 +132,9 @@ export function LocationPropertyFilters({
 
   const handleSearch = () => {
     onFilterChange?.(filters);
+    // Dispatch custom event for properties grid to listen to
+    const event = new CustomEvent('location-filter-change', { detail: filters });
+    window.dispatchEvent(event);
   };
 
   return (
@@ -376,10 +392,20 @@ export function LocationPropertyFilters({
             <div className="flex justify-center">
               <Button
                 onClick={handleSearch}
-                className="px-16 py-3 bg-black text-white rounded-xl font-semibold hover:bg-black/90 transition-all duration-300 shadow-lg hover:shadow-xl font-poppins flex items-center justify-center gap-2 h-[50px] min-w-[200px] text-xl"
+                disabled={isLoading}
+                className="px-16 py-3 bg-black text-white rounded-xl font-semibold hover:bg-black/90 transition-all duration-300 shadow-lg hover:shadow-xl font-poppins flex items-center justify-center gap-2 h-[50px] min-w-[200px] text-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-black"
               >
-                <Search className="w-5 h-5" />
-                Search
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Searching...</span>
+                  </>
+                ) : (
+                  <>
+                    <Search className="w-5 h-5" />
+                    <span>Search</span>
+                  </>
+                )}
               </Button>
             </div>
           </div>
@@ -624,10 +650,20 @@ export function LocationPropertyFilters({
             <div className="flex justify-center pt-2">
               <Button
                 onClick={handleSearch}
-                className="px-8 py-3 bg-black text-white rounded-full font-semibold hover:bg-black/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 font-poppins flex items-center gap-2"
+                disabled={isLoading}
+                className="px-8 py-3 bg-black text-white rounded-full font-semibold hover:bg-black/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 font-poppins flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
-                <Search className="w-5 h-5" />
-                Search
+                {isLoading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Searching...</span>
+                  </>
+                ) : (
+                  <>
+                    <Search className="w-5 h-5" />
+                    <span>Search</span>
+                  </>
+                )}
               </Button>
             </div>
           </div>

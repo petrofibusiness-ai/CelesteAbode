@@ -56,7 +56,7 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
     celesteAbode?: string;
   }>({});
 
-  const [newLocality, setNewLocality] = useState({ value: "", label: "" });
+  const [newLocality, setNewLocality] = useState({ slug: "", name: "" });
   const [newMetaKeyword, setNewMetaKeyword] = useState("");
 
   const heroInputRef = useRef<HTMLInputElement>(null);
@@ -152,22 +152,25 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
   };
 
   const addLocality = () => {
-    if (!newLocality.value.trim() || !newLocality.label.trim()) {
-      toast.error("Please enter both value and label for the locality");
+    if (!newLocality.slug.trim() || !newLocality.name.trim()) {
+      toast.error("Please enter both slug and name for the locality");
       return;
     }
     
-    // Check for duplicates
-    if (formData.localities.some(loc => loc.value === newLocality.value.trim().toLowerCase())) {
-      toast.error("A locality with this value already exists");
+    // Normalize slug (lowercase, replace spaces with hyphens)
+    const normalizedSlug = newLocality.slug.trim().toLowerCase().replace(/\s+/g, "-");
+    
+    // Check for duplicates by slug
+    if (formData.localities.some(loc => loc.value === normalizedSlug)) {
+      toast.error("A locality with this slug already exists");
       return;
     }
 
     handleChange("localities", [
       ...formData.localities,
-      { value: newLocality.value.trim().toLowerCase(), label: newLocality.label.trim() }
+      { value: normalizedSlug, label: newLocality.name.trim() }
     ]);
-    setNewLocality({ value: "", label: "" });
+    setNewLocality({ slug: "", name: "" });
     toast.success("Locality added");
   };
 
@@ -459,22 +462,22 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
           <div className="p-4 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="locality-value" className="font-poppins">Locality Value *</Label>
+                <Label htmlFor="locality-slug" className="font-poppins">Locality Slug *</Label>
                 <Input
-                  id="locality-value"
-                  value={newLocality.value}
-                  onChange={(e) => setNewLocality({ ...newLocality, value: e.target.value })}
+                  id="locality-slug"
+                  value={newLocality.slug}
+                  onChange={(e) => setNewLocality({ ...newLocality, slug: e.target.value })}
                   placeholder="e.g., sector-62"
                   className="mt-1 font-poppins !border-black focus:!border-black focus:ring-black placeholder:text-gray-400"
                 />
-                <p className="text-xs text-gray-500 mt-1 font-poppins">URL-friendly identifier (lowercase, hyphens)</p>
+                <p className="text-xs text-gray-500 mt-1 font-poppins">URL-friendly identifier (will be normalized to lowercase with hyphens)</p>
               </div>
               <div>
-                <Label htmlFor="locality-label" className="font-poppins">Locality Label *</Label>
+                <Label htmlFor="locality-name" className="font-poppins">Locality Name *</Label>
                 <Input
-                  id="locality-label"
-                  value={newLocality.label}
-                  onChange={(e) => setNewLocality({ ...newLocality, label: e.target.value })}
+                  id="locality-name"
+                  value={newLocality.name}
+                  onChange={(e) => setNewLocality({ ...newLocality, name: e.target.value })}
                   placeholder="e.g., Sector 62"
                   className="mt-1 font-poppins !border-black focus:!border-black focus:ring-black placeholder:text-gray-400"
                 />
@@ -488,7 +491,7 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
                 variant="outline"
                 size="sm"
                 className="font-poppins border-black hover:bg-black hover:text-white"
-                disabled={!newLocality.value.trim() || !newLocality.label.trim()}
+                disabled={!newLocality.slug.trim() || !newLocality.name.trim()}
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Locality
@@ -505,7 +508,7 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
               <div key={index} className="flex items-center gap-3 p-3 border border-gray-200 rounded-lg bg-white">
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-gray-900 font-poppins">{locality.label}</p>
-                  <p className="text-xs text-gray-500 font-poppins">{locality.value}</p>
+                  <p className="text-xs text-gray-500 font-poppins">Slug: {locality.value}</p>
                 </div>
                 <Button
                   type="button"

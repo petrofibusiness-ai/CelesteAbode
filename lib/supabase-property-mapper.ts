@@ -3,14 +3,15 @@ import { Property } from "@/types/property";
 import { normalizeAmenities } from "@/lib/amenity-normalize";
 import type { PropertyType, LocationCategory, ProjectStatus, Configuration } from "@/lib/property-enums";
 
-// Supabase database schema (snake_case)
+// Supabase database schema (snake_case) - matches properties_v2 table
 export interface SupabaseProperty {
   id?: string;
   slug: string;
   project_name: string;
   developer: string;
   location: string;
-  location_category?: LocationCategory | null;
+  location_id?: string | null; // FK to locations_v2
+  locality_id?: string | null; // FK to localities
   property_type?: PropertyType | null;
   rera_id?: string | null;
   project_status?: ProjectStatus | null;
@@ -42,22 +43,19 @@ export interface SupabaseProperty {
 
 /**
  * Convert Supabase property (snake_case) to TypeScript Property (camelCase)
+ * Note: locationCategory is kept for backward compatibility but is deprecated.
+ * Use locationId and derive locationCategory from locations_v2 if needed.
  */
 export function supabaseToProperty(supabaseProp: SupabaseProperty): Property {
-  // Ensure location_category is properly handled (could be enum type from database)
-  const locationCategory = supabaseProp.location_category 
-    ? (typeof supabaseProp.location_category === 'string' 
-        ? supabaseProp.location_category 
-        : String(supabaseProp.location_category))
-    : undefined;
-
   return {
     id: supabaseProp.id,
     slug: supabaseProp.slug,
     projectName: supabaseProp.project_name,
     developer: supabaseProp.developer,
     location: supabaseProp.location,
-    locationCategory: locationCategory as any,
+    locationCategory: undefined, // Deprecated - use locationId instead
+    locationId: supabaseProp.location_id || undefined,
+    localityId: supabaseProp.locality_id || undefined,
     propertyType: supabaseProp.property_type || undefined,
     reraId: supabaseProp.rera_id || undefined,
     projectStatus: supabaseProp.project_status || undefined,
@@ -80,6 +78,7 @@ export function supabaseToProperty(supabaseProp: SupabaseProperty): Property {
 
 /**
  * Convert TypeScript Property (camelCase) to Supabase property (snake_case)
+ * Note: locationCategory is ignored - use locationId instead
  */
 export function propertyToSupabase(property: Omit<Property, "id" | "createdAt" | "updatedAt">): Omit<SupabaseProperty, "id" | "created_at" | "updated_at"> {
   return {
@@ -87,7 +86,8 @@ export function propertyToSupabase(property: Omit<Property, "id" | "createdAt" |
     project_name: property.projectName,
     developer: property.developer,
     location: property.location,
-    location_category: property.locationCategory || null,
+    location_id: (property as any).locationId || null,
+    locality_id: (property as any).localityId || null,
     property_type: property.propertyType || null,
     rera_id: property.reraId || null,
     project_status: property.projectStatus || null,

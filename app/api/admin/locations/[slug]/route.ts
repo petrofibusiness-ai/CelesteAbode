@@ -20,7 +20,7 @@ export async function GET(
     const { slug } = await params;
     const supabase = getSupabaseAdminClient();
     const { data, error } = await supabase
-      .from("locations")
+      .from("locations_v2")
       .select("*")
       .eq("slug", slug)
       .single();
@@ -32,7 +32,26 @@ export async function GET(
       );
     }
 
+    // Fetch localities from localities table
+    const { data: localitiesData, error: localitiesError } = await supabase
+      .from("localities")
+      .select("id, slug, name")
+      .eq("location_id", data.id)
+      .order("name", { ascending: true });
+
+    if (localitiesError) {
+      console.error("Error fetching localities:", localitiesError);
+      // Continue even if localities fetch fails
+    }
+
     const location = supabaseToLocation(data);
+    
+    // Map localities from database to Locality format (value=slug, label=name)
+    location.localities = (localitiesData || []).map((loc) => ({
+      value: loc.slug,
+      label: loc.name,
+    }));
+
     return NextResponse.json(location);
   } catch (error) {
     console.error("Error in GET /api/admin/locations/[slug]:", error);
@@ -57,7 +76,25 @@ export async function PUT(
     const { slug } = await params;
     const body = await request.json();
 
-    // Prepare update data
+    const supabase = getSupabaseAdminClient();
+
+    // First, get the location ID
+    const { data: existingLocation, error: fetchError } = await supabase
+      .from("locations_v2")
+      .select("id")
+      .eq("slug", slug)
+      .single();
+
+    if (fetchError || !existingLocation) {
+      return NextResponse.json(
+        { error: "Location not found" },
+        { status: 404 }
+      );
+    }
+
+    const locationId = existingLocation.id;
+
+    // Prepare update data (excluding localities - handled separately)
     const updateData: Partial<Location> = {};
     
     if (body.locationName !== undefined) updateData.locationName = body.locationName.trim();
@@ -66,7 +103,7 @@ export async function PUT(
     if (body.heroSubtext !== undefined) updateData.heroSubtext = body.heroSubtext.trim();
     if (body.exploreSectionHeading !== undefined) updateData.exploreSectionHeading = body.exploreSectionHeading.trim();
     if (body.exploreSectionDescription !== undefined) updateData.exploreSectionDescription = body.exploreSectionDescription.trim();
-    if (body.localities !== undefined) updateData.localities = Array.isArray(body.localities) ? body.localities : [];
+    // localities handled separately below
     if (body.whyInvestContent !== undefined) updateData.whyInvestContent = Array.isArray(body.whyInvestContent) ? body.whyInvestContent : [];
     if (body.celesteAbodeImage !== undefined) updateData.celesteAbodeImage = body.celesteAbodeImage.trim();
     if (body.faqs !== undefined) updateData.faqs = Array.isArray(body.faqs) ? body.faqs : [];
@@ -83,10 +120,9 @@ export async function PUT(
 
     const supabaseLocation = locationToSupabase(updateData);
 
-    const supabase = getSupabaseAdminClient();
-
+    // STEP 1: Update location in locations_v2
     const updatePromise = supabase
-      .from("locations")
+      .from("locations_v2")
       .update(supabaseLocation)
       .eq("slug", slug)
       .select()
@@ -106,7 +142,102 @@ export async function PUT(
       );
     }
 
-    const updatedLocation = supabaseToLocation(data);
+    // STEP 2: Handle localities update (if provided)
+    if (body.localities !== undefined) {
+      const localitiesToSync = Array.isArray(body.localities) ? body.localities : [];
+
+      // Validate localities data structure
+      for (let i = 0; i < localitiesToSync.length; i++) {
+        const locality = localitiesToSync[i];
+        if (!locality.value || !locality.label) {
+          return NextResponse.json(
+            { error: `Locality ${i + 1} is missing slug (value) or name (label)` },
+            { status: 400 }
+          );
+        }
+        if (typeof locality.value !== 'string' || typeof locality.label !== 'string') {
+          return NextResponse.json(
+            { error: `Locality ${i + 1} has invalid slug or name type` },
+            { status: 400 }
+          );
+        }
+      }
+
+      // Get existing localities
+      const { data: existingLocalities } = await supabase
+        .from("localities")
+        .select("id, slug")
+        .eq("location_id", locationId);
+
+      const existingSlugs = new Set((existingLocalities || []).map(l => l.slug));
+      const newSlugs = new Set(localitiesToSync.map((l: { value: string }) => l.value.trim().toLowerCase()));
+
+      // Delete localities that are no longer in the list
+      const slugsToDelete = Array.from(existingSlugs).filter(slug => !newSlugs.has(slug));
+      if (slugsToDelete.length > 0) {
+        const { error: deleteError } = await supabase
+          .from("localities")
+          .delete()
+          .eq("location_id", locationId)
+          .in("slug", slugsToDelete);
+
+        if (deleteError) {
+          console.error("Error deleting localities:", deleteError);
+          // Continue - don't fail the entire update
+        }
+      }
+
+      // Insert or update localities
+      const localitiesToInsert = localitiesToSync.map((locality: { value: string; label: string }) => ({
+        location_id: locationId,
+        slug: locality.value.trim().toLowerCase(),
+        name: locality.label.trim(),
+        is_published: true,
+      }));
+
+      // Use upsert to handle both inserts and updates
+      // Note: This will fail if slug uniqueness constraint is violated for the same location
+      const { error: localitiesError } = await supabase
+        .from("localities")
+        .upsert(localitiesToInsert, {
+          onConflict: "location_id,slug",
+          ignoreDuplicates: false,
+        });
+
+      if (localitiesError) {
+        console.error("Error syncing localities:", localitiesError);
+        
+        if (localitiesError.code === '23505') { // Unique violation
+          return NextResponse.json(
+            { error: "Failed to update localities: A locality with this slug already exists for this location" },
+            { status: 409 }
+          );
+        }
+
+        // Don't fail the entire update if localities sync fails
+        console.warn("Location updated but localities sync had errors:", localitiesError.message);
+      }
+    }
+
+    // Fetch updated location with localities
+    const { data: updatedLocationData } = await supabase
+      .from("locations_v2")
+      .select("*")
+      .eq("slug", slug)
+      .single();
+
+    const { data: localitiesData } = await supabase
+      .from("localities")
+      .select("id, slug, name")
+      .eq("location_id", locationId)
+      .order("name", { ascending: true });
+
+    const updatedLocation = supabaseToLocation(updatedLocationData);
+    updatedLocation.localities = (localitiesData || []).map((loc) => ({
+      value: loc.slug,
+      label: loc.name,
+    }));
+
     return NextResponse.json(updatedLocation);
   } catch (error) {
     console.error("Error in PUT /api/admin/locations/[slug]:", error);
@@ -117,7 +248,7 @@ export async function PUT(
   }
 }
 
-// DELETE - Delete location
+// DELETE - Delete location and associated localities
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
@@ -130,20 +261,120 @@ export async function DELETE(
 
     const { slug } = await params;
     const supabase = getSupabaseAdminClient();
-    const { error } = await supabase
-      .from("locations")
+
+    // Step 1: Fetch the location to get its ID
+    const { data: locationData, error: fetchError } = await supabase
+      .from("locations_v2")
+      .select("id")
+      .eq("slug", slug)
+      .single();
+
+    if (fetchError || !locationData) {
+      console.error("Error fetching location:", fetchError);
+      return NextResponse.json(
+        { error: "Location not found" },
+        { status: 404 }
+      );
+    }
+
+    const locationId = locationData.id;
+
+    // Step 2: Check if any properties are using this location
+    const { data: propertiesUsingLocation, error: checkError } = await supabase
+      .from("properties_v2")
+      .select("id, project_name, is_published")
+      .eq("location_id", locationId)
+      .limit(5);
+
+    if (checkError) {
+      console.error("Error checking properties:", checkError);
+    }
+
+    if (propertiesUsingLocation && propertiesUsingLocation.length > 0) {
+      const remainingCount = propertiesUsingLocation.length === 5 ? "5 or more" : propertiesUsingLocation.length.toString();
+      const publishedCount = propertiesUsingLocation.filter(p => p.is_published).length;
+      const unpublishedCount = propertiesUsingLocation.length - publishedCount;
+      
+      let errorMessage = `Cannot delete this location. It is currently being used by ${remainingCount} ${propertiesUsingLocation.length === 1 ? 'property' : 'properties'}`;
+      
+      if (publishedCount > 0 && unpublishedCount > 0) {
+        errorMessage += ` (${publishedCount} published, ${unpublishedCount} unpublished)`;
+      } else if (publishedCount > 0) {
+        errorMessage += ` (${publishedCount} published)`;
+      } else if (unpublishedCount > 0) {
+        errorMessage += ` (${unpublishedCount} unpublished)`;
+      }
+      
+      errorMessage += ". Please remove or reassign the properties first.";
+      
+      return NextResponse.json(
+        { 
+          error: errorMessage,
+          properties: propertiesUsingLocation.map(p => ({ 
+            id: p.id, 
+            name: p.project_name,
+            isPublished: p.is_published 
+          }))
+        },
+        { status: 400 }
+      );
+    }
+
+    // Step 3: Delete all localities associated with this location
+    const { error: localitiesDeleteError, count: deletedLocalitiesCount } = await supabase
+      .from("localities")
+      .delete()
+      .eq("location_id", locationId)
+      .select("*", { count: "exact", head: true });
+
+    if (localitiesDeleteError) {
+      console.error("Error deleting localities:", localitiesDeleteError);
+      
+      // Check if it's a foreign key constraint violation
+      if (localitiesDeleteError.code === '23503' && localitiesDeleteError.message?.includes('properties_v2')) {
+        return NextResponse.json(
+          { 
+            error: "Cannot delete this location. Some localities are still being used by properties. Please remove or reassign those properties first."
+          },
+          { status: 400 }
+        );
+      }
+      
+      // Continue with location deletion even if localities deletion fails
+      // (some localities might not exist, which is fine)
+    } else {
+      console.log(`Deleted ${deletedLocalitiesCount || 0} localities for location ${slug}`);
+    }
+
+    // Step 4: Delete the location itself
+    const { error: locationDeleteError } = await supabase
+      .from("locations_v2")
       .delete()
       .eq("slug", slug);
 
-    if (error) {
-      console.error("Error deleting location:", error);
+    if (locationDeleteError) {
+      console.error("Error deleting location:", locationDeleteError);
+      
+      // Check if it's a foreign key constraint violation
+      if (locationDeleteError.code === '23503' && locationDeleteError.message?.includes('properties_v2')) {
+        return NextResponse.json(
+          { 
+            error: "Cannot delete this location. It is still being used by one or more properties. Please remove or reassign those properties first."
+          },
+          { status: 400 }
+        );
+      }
+      
       return NextResponse.json(
         { error: "Failed to delete location" },
         { status: 500 }
       );
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ 
+      success: true,
+      deletedLocalities: deletedLocalitiesCount || 0
+    });
   } catch (error) {
     console.error("Error in DELETE /api/admin/locations/[slug]:", error);
     return NextResponse.json(

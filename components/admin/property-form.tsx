@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Property, PropertyFormData } from "@/types/property";
 import { Button } from "@/components/ui/button";
@@ -15,15 +15,12 @@ import { normalizeAmenities } from "@/lib/amenity-normalize";
 import { UploadProgressOverlay } from "@/components/admin/upload-progress-overlay";
 import { 
   PROPERTY_TYPES, 
-  LOCATION_CATEGORIES, 
   PROJECT_STATUSES, 
   CONFIGURATIONS,
   isValidPropertyType,
-  isValidLocationCategory,
   isValidProjectStatus,
   isValidConfiguration
 } from "@/lib/property-enums";
-import { locationCategoryToSlug } from "@/lib/location-slug";
 
 interface PropertyFormProps {
   property?: Property;
@@ -67,12 +64,22 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     setUploadStatusText(text);
   }, []);
 
+  // Location and locality state
+  const [locations, setLocations] = useState<Array<{ id: string; location_name: string; slug: string }>>([]);
+  const [localities, setLocalities] = useState<Array<{ id: string; name: string; slug: string }>>([]);
+  const [loadingLocalities, setLoadingLocalities] = useState(false);
+  const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
+    (property as any)?.locationId || null
+  );
+  const [selectedLocalityId, setSelectedLocalityId] = useState<string | null>(
+    (property as any)?.localityId || null
+  );
+
   const [formData, setFormData] = useState<PropertyFormData>({
     slug: property?.slug || "",
     projectName: property?.projectName || "",
     developer: property?.developer || "",
     location: property?.location || "",
-    locationCategory: property?.locationCategory || null,
     propertyType: property?.propertyType || null,
     reraId: property?.reraId || "",
     projectStatus: property?.projectStatus || null,
@@ -116,6 +123,60 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
   // Refs for file inputs to reset them after selection
   const imageInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
+
+  // Fetch locations on mount
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const response = await fetch("/api/admin/locations/list");
+        if (response.ok) {
+          const data = await response.json();
+          setLocations(data || []);
+        }
+      } catch (error) {
+        console.error("Error fetching locations:", error);
+      }
+    };
+    fetchLocations();
+  }, []);
+
+  // Fetch localities when location is selected
+  useEffect(() => {
+    const fetchLocalities = async () => {
+      if (!selectedLocationId) {
+        setLocalities([]);
+        setSelectedLocalityId(null);
+        return;
+      }
+
+      setLoadingLocalities(true);
+      try {
+        const response = await fetch(`/api/admin/localities/by-location/${selectedLocationId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setLocalities(data || []);
+          // Reset locality selection if current selection doesn't belong to new location
+          if (selectedLocalityId) {
+            const localityExists = data.some((loc: { id: string }) => loc.id === selectedLocalityId);
+            if (!localityExists) {
+              setSelectedLocalityId(null);
+            }
+          }
+        } else {
+          setLocalities([]);
+          setSelectedLocalityId(null);
+        }
+      } catch (error) {
+        console.error("Error fetching localities:", error);
+        setLocalities([]);
+        setSelectedLocalityId(null);
+      } finally {
+        setLoadingLocalities(false);
+      }
+    };
+
+    fetchLocalities();
+  }, [selectedLocationId]);
 
   // Clean up preview URLs on unmount
   useEffect(() => {
@@ -344,6 +405,14 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     // Normalize amenities to ensure consistency
     const normalized = normalizeAmenities(amenities);
     handleChange("amenities", normalized);
+    // Clear error when amenities are selected
+    if (errors.amenities && normalized.length > 0) {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors.amenities;
+        return newErrors;
+      });
+    }
   };
 
   const removeImage = (index: number, isTemp: boolean = false) => {
@@ -390,11 +459,19 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     if (!formData.location) newErrors.location = "Location is required";
     if (!formData.description) newErrors.description = "Description is required";
     
-    // Validate enum fields - locationCategory is required
-    if (!formData.locationCategory) {
-      newErrors.locationCategory = "Location category is required";
-    } else if (!isValidLocationCategory(formData.locationCategory)) {
-      newErrors.locationCategory = "Invalid location category selected";
+    // Validate location selection - locationId is required
+    if (!selectedLocationId) {
+      newErrors.locationId = "Location is required";
+    }
+
+    // Validate locality belongs to selected location (if locality is selected)
+    if (selectedLocalityId && selectedLocationId.trim() !== "") {
+      const localityBelongsToLocation = localities.some(
+        (loc) => loc.id === selectedLocalityId
+      );
+      if (!localityBelongsToLocation) {
+        newErrors.localityId = "Selected locality does not belong to the selected location";
+      }
     }
     if (formData.propertyType && !isValidPropertyType(formData.propertyType)) {
       newErrors.propertyType = "Invalid property type selected";
@@ -408,6 +485,11 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       if (invalidConfigs.length > 0) {
         newErrors.configuration = "Invalid configuration values selected";
       }
+    }
+    
+    // Validate amenities - at least one is required
+    if (!formData.amenities || formData.amenities.length === 0) {
+      newErrors.amenities = "At least one amenity is required";
     }
     
     // Check if hero image exists (either from temp files or existing URL)
@@ -834,6 +916,9 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       // Ensure JSONB fields are properly formatted
       const propertyData = {
         ...updatedFormData,
+        // Add location_id and locality_id (required by new schema)
+        locationId: selectedLocationId || null,
+        localityId: selectedLocalityId || null,
         // Ensure arrays are never null/undefined
         configuration: updatedFormData.configuration || [],
         images: updatedFormData.images || [],
@@ -928,7 +1013,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           projectName: "",
           developer: "",
           location: "",
-          locationCategory: null,
           propertyType: null,
           reraId: "",
           projectStatus: null,
@@ -945,6 +1029,9 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           seo: {},
           isPublished: false,
         });
+        setSelectedLocationId(null);
+        setSelectedLocalityId(null);
+        setLocalities([]);
         setTempFiles({
           images: [],
           videos: [],
@@ -1004,6 +1091,62 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     setUploadErrorMessage("");
   };
 
+  // Validate form to determine if save button should be enabled
+  const isFormValid = useMemo(() => {
+    // Check all required fields
+    if (!formData.slug || formData.slug.trim() === "") return false;
+    if (!formData.projectName || formData.projectName.trim() === "") return false;
+    if (!formData.developer || formData.developer.trim() === "") return false;
+    if (!formData.location || formData.location.trim() === "") return false;
+    if (!formData.sizes || formData.sizes.trim() === "") return false;
+    if (!formData.description || formData.description.trim() === "") return false;
+    
+    // Check locationId is selected
+    if (!selectedLocationId) return false;
+    
+    // Check hero image exists (either temp file or existing URL)
+    if (!tempFiles.hero && !formData.heroImage) return false;
+    
+    // Check amenities - at least one is required
+    if (!formData.amenities || formData.amenities.length === 0) return false;
+    
+    // Validate optional fields if they are set
+    if (formData.propertyType && !isValidPropertyType(formData.propertyType)) return false;
+    if (formData.projectStatus && !isValidProjectStatus(formData.projectStatus)) return false;
+    
+    // Validate configuration array if it has items
+    if (formData.configuration && formData.configuration.length > 0) {
+      const invalidConfigs = formData.configuration.filter(c => !isValidConfiguration(c));
+      if (invalidConfigs.length > 0) return false;
+    }
+    
+    // Validate locality belongs to selected location (if locality is selected)
+    if (selectedLocalityId && selectedLocationId.trim() !== "") {
+      const localityBelongsToLocation = localities.some(
+        (loc) => loc.id === selectedLocalityId
+      );
+      if (!localityBelongsToLocation) return false;
+    }
+    
+    return true;
+  }, [
+    formData.slug,
+    formData.projectName,
+    formData.developer,
+    formData.location,
+    formData.sizes,
+    formData.description,
+    formData.heroImage,
+    formData.amenities,
+    formData.propertyType,
+    formData.projectStatus,
+    formData.configuration,
+    selectedLocationId,
+    selectedLocalityId,
+    localities,
+    tempFiles.hero,
+  ]);
+
   return (
     <>
       <UploadProgressOverlay
@@ -1046,8 +1189,13 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                 {errors.slug}
               </p>}
               <p className="text-xs text-gray-500 mt-2">
-                {formData.slug && formData.locationCategory ? (
-                  <>Used in URL: /properties-in-{locationCategoryToSlug(formData.locationCategory as any) || "..."}/{formData.slug}</>
+                {formData.slug && selectedLocationId ? (
+                  (() => {
+                    const selectedLocation = locations.find(loc => loc.id === selectedLocationId);
+                    return selectedLocation 
+                      ? <>Used in URL: /properties-in-{selectedLocation.slug}/{formData.slug}</>
+                      : <>Used in URL: /properties-in-.../{formData.slug}</>;
+                  })()
                 ) : formData.slug ? (
                   <>Used in URL: /properties-in-.../{formData.slug}</>
                 ) : (
@@ -1114,37 +1262,95 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
             </div>
 
             <div>
-              <Label htmlFor="locationCategory" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
-                Location Category *
+              <Label htmlFor="locationId" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Location *
               </Label>
               <select
-                id="locationCategory"
-                value={formData.locationCategory || ""}
+                id="locationId"
+                value={selectedLocationId || ""}
                 onChange={(e) => {
                   const value = e.target.value || null;
-                  if (value === null || isValidLocationCategory(value)) {
-                    handleChange("locationCategory", value);
+                  setSelectedLocationId(value);
+                  // Clear locality when location changes
+                  setSelectedLocalityId(null);
+                  // Clear error
+                  if (errors.locationId) {
+                    setErrors((prev) => {
+                      const newErrors = { ...prev };
+                      delete newErrors.locationId;
+                      return newErrors;
+                    });
                   }
                 }}
-                className={`h-11 border-2 ${errors.locationCategory ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20"} rounded-xl transition-all w-full px-3 bg-white`}
+                className={`h-11 border-2 ${errors.locationId ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20"} rounded-xl transition-all w-full px-3 bg-white`}
                 style={{ fontFamily: "Poppins, sans-serif" }}
                 required
+                disabled={loading}
               >
-                <option value="">Select Location Category *</option>
-                {LOCATION_CATEGORIES.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                <option value="">Select Location *</option>
+                {locations.map((location) => (
+                  <option key={location.id} value={location.id}>
+                    {location.location_name}
                   </option>
                 ))}
               </select>
-              {errors.locationCategory && (
+              {errors.locationId && (
                 <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
                   <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-                  {errors.locationCategory}
+                  {errors.locationId}
                 </p>
               )}
               <p className="text-xs text-gray-500 mt-1" style={{ fontFamily: "Poppins, sans-serif" }}>
-                Select the location category for filtering properties on location-specific pages
+                Select the location for this property
+              </p>
+            </div>
+
+            <div>
+              <Label htmlFor="localityId" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Locality
+              </Label>
+              <select
+                id="localityId"
+                value={selectedLocalityId || ""}
+                onChange={(e) => {
+                  const value = e.target.value || null;
+                  setSelectedLocalityId(value);
+                  // Clear error
+                  if (errors.localityId) {
+                    setErrors((prev) => {
+                      const newErrors = { ...prev };
+                      delete newErrors.localityId;
+                      return newErrors;
+                    });
+                  }
+                }}
+                className={`h-11 border-2 ${errors.localityId ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20"} rounded-xl transition-all w-full px-3 bg-white`}
+                style={{ fontFamily: "Poppins, sans-serif" }}
+                disabled={!selectedLocationId || loadingLocalities || loading}
+              >
+                <option value="">
+                  {!selectedLocationId 
+                    ? "Select a location first" 
+                    : loadingLocalities 
+                    ? "Loading localities..." 
+                    : "Select Locality (Optional)"}
+                </option>
+                {localities.map((locality) => (
+                  <option key={locality.id} value={locality.id}>
+                    {locality.name}
+                  </option>
+                ))}
+              </select>
+              {errors.localityId && (
+                <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                  {errors.localityId}
+                </p>
+              )}
+              <p className="text-xs text-gray-500 mt-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {selectedLocationId 
+                  ? "Optionally select a specific locality within the selected location"
+                  : "Select a location first to choose a locality"}
               </p>
             </div>
 
@@ -1644,13 +1850,22 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           {/* Amenities */}
           <div className="mt-8">
           <Label className="text-base sm:text-lg font-bold text-gray-800 mb-6 block" style={{ fontFamily: "Poppins, sans-serif" }}>
-            Amenities
+            Amenities *
           </Label>
           <AmenitiesMultiSelect
             selectedAmenities={formData.amenities || []}
             onSelectionChange={handleAmenitiesChange}
             disabled={loading || uploading === "all"}
           />
+          {errors.amenities && (
+            <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+              <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+              {errors.amenities}
+            </p>
+          )}
+          <p className="text-xs text-gray-500 mt-2" style={{ fontFamily: "Poppins, sans-serif" }}>
+            Select at least one amenity. This field is required.
+          </p>
           </div>
         </div>
       </div>
@@ -1733,9 +1948,10 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           <div className="flex flex-col sm:flex-row gap-4 pt-2">
             <Button
               type="submit"
-              disabled={loading || uploading === "all"}
+              disabled={loading || uploading === "all" || !isFormValid}
               className="w-full sm:w-auto bg-gradient-to-r from-[#CBB27A] to-[#B8A068] hover:from-[#B8A068] hover:to-[#A68F5B] text-white text-base font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 h-12 px-8"
               style={{ fontFamily: "Poppins, sans-serif" }}
+              title={!isFormValid ? "Please fill in all required fields" : ""}
             >
               {loading || uploading === "all" ? (
                 <>

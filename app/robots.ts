@@ -8,7 +8,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         // Default rule for all crawlers
         userAgent: '*',
-        allow: '/',
+        allow: [
+          '/',
+          '/properties-in-*',  // Explicitly allow all location and property pages
+        ],
         disallow: [
           '/admin/',      // Admin panel - private
           '/api/',        // API routes - not for indexing
@@ -18,7 +21,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         // Google-specific rules (more permissive for better indexing)
         userAgent: 'Googlebot',
-        allow: '/',
+        allow: [
+          '/',
+          '/properties-in-*',  // Explicitly allow all location and property pages
+        ],
         disallow: [
           '/admin/',
           '/api/',
@@ -27,7 +33,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         // Bing-specific rules
         userAgent: 'Bingbot',
-        allow: '/',
+        allow: [
+          '/',
+          '/properties-in-*',  // Explicitly allow all location and property pages
+        ],
         disallow: [
           '/admin/',
           '/api/',
@@ -36,7 +45,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         // Yandex (Russian search engine)
         userAgent: 'Yandex',
-        allow: '/',
+        allow: [
+          '/',
+          '/properties-in-*',  // Explicitly allow all location and property pages
+        ],
         disallow: [
           '/admin/',
           '/api/',
@@ -45,7 +57,10 @@ export default function robots(): MetadataRoute.Robots {
       {
         // Baidu (Chinese search engine)
         userAgent: 'Baiduspider',
-        allow: '/',
+        allow: [
+          '/',
+          '/properties-in-*',  // Explicitly allow all location and property pages
+        ],
         disallow: [
           '/admin/',
           '/api/',

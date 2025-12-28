@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, Suspense } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import Link from "next/link";
+import { useState, useEffect, Suspense, useCallback } from "react";
+import { ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -48,6 +49,7 @@ export default function ProjectsPage() {
   });
   const [properties, setProperties] = useState<Property[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isGeneralFormOpen, setIsGeneralFormOpen] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<{
@@ -58,7 +60,7 @@ export default function ProjectsPage() {
   const [isCtaContentExpanded, setIsCtaContentExpanded] = useState(false);
 
   // Fetch properties from backend API
-  const fetchProperties = async (filterState: FilterState) => {
+  const fetchProperties = useCallback(async (filterState: FilterState) => {
     // Don't fetch if location is not selected (mandatory)
     if (!filterState.location || filterState.location.trim() === "") {
       setProperties([]);
@@ -66,6 +68,12 @@ export default function ProjectsPage() {
     }
 
     setIsLoading(true);
+    // Clear properties immediately when starting a new search
+    setProperties([]);
+    setIsInitialLoad(false);
+    // Notify filters component that loading has started
+    window.dispatchEvent(new CustomEvent('properties-page-loading', { detail: true }));
+    
     try {
       const params = new URLSearchParams();
       params.append("location", filterState.location);
@@ -90,8 +98,10 @@ export default function ProjectsPage() {
       setProperties([]);
     } finally {
       setIsLoading(false);
+      // Notify filters component that loading has finished
+      window.dispatchEvent(new CustomEvent('properties-page-loading', { detail: false }));
     }
-  };
+  }, []);
 
   // Handle filter changes from PropertyFilters component
   const handleFilterChange = (newFilters: FilterState) => {
@@ -99,14 +109,29 @@ export default function ProjectsPage() {
     fetchProperties(newFilters);
   };
 
+  // Listen for filter changes from PropertyFilters component (via custom event)
+  useEffect(() => {
+    const handleFilterChange = (event: CustomEvent<FilterState>) => {
+      const newFilters = event.detail;
+      setFilters(newFilters);
+      fetchProperties(newFilters);
+    };
+
+    window.addEventListener('properties-filter-change', handleFilterChange as EventListener);
+    return () => {
+      window.removeEventListener('properties-filter-change', handleFilterChange as EventListener);
+    };
+  }, [fetchProperties]);
+
   // Read location from URL query params on mount
   useEffect(() => {
     const locationParam = searchParams.get("location");
-    if (locationParam) {
+    if (locationParam && locationParam !== filters.location) {
       const newFilters = { ...filters, location: locationParam };
       setFilters(newFilters);
       fetchProperties(newFilters);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
 
@@ -217,8 +242,8 @@ export default function ProjectsPage() {
             {/* Properties Gallery Display */}
             {isLoading ? (
               <div className="flex flex-col items-center justify-center pt-8 pb-16 bg-background rounded-2xl min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#CBB27A] mb-4"></div>
-                <p className="text-lg text-gray-600 font-poppins text-center">Loading properties...</p>
+                <Loader2 className="w-12 h-12 text-[#CBB27A] animate-spin mb-4" />
+                <p className="text-lg text-gray-600 font-poppins text-center">Searching properties...</p>
               </div>
             ) : properties.length > 0 ? (
               <div id="itemlist" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="Properties">
@@ -264,15 +289,18 @@ export default function ProjectsPage() {
                   </Card>
                 ))}
               </div>
-            ) : filters.location ? (
+            ) : !isInitialLoad && filters.location ? (
               <div className="flex flex-col items-center justify-center pt-8 pb-16 bg-background rounded-2xl min-h-[400px]">
                 <Building2 className="w-16 h-16 text-gray-400 mb-4" />
-                <p className="text-lg text-gray-600 mb-2 font-poppins text-center">
-                  No properties found matching your filters.
+                <p className="text-lg text-gray-600 mb-6 font-poppins text-center">
+                  No properties found matching your search criteria.
                 </p>
-                <p className="text-sm text-gray-500 font-poppins text-center">
-                  Try adjusting your search criteria.
-                </p>
+                <Link
+                  href="/properties"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white rounded-full font-medium hover:bg-black/90 transition-colors font-poppins"
+                >
+                  View All Properties
+                </Link>
               </div>
             ) : (
               <div className="text-center py-16 bg-background rounded-2xl">

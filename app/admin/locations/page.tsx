@@ -58,9 +58,23 @@ export default function LocationsPage() {
         method: "DELETE",
       });
 
-      if (!response.ok) throw new Error("Failed to delete location");
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: "Failed to delete location" }));
+        throw new Error(errorData.error || "Failed to delete location");
+      }
 
-      toast.success("Location deleted successfully");
+      const result = await response.json();
+      const deletedLocalitiesCount = result.deletedLocalities || 0;
+      
+      if (deletedLocalitiesCount > 0) {
+        toast.success(
+          `Location deleted successfully. ${deletedLocalitiesCount} ${deletedLocalitiesCount === 1 ? 'locality' : 'localities'} also deleted.`,
+          { duration: 4000 }
+        );
+      } else {
+        toast.success("Location deleted successfully");
+      }
+      
       setDeleteDialogOpen(false);
       setLocationToDelete(null);
       fetchLocations();
@@ -254,7 +268,11 @@ export default function LocationsPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Location</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{locationToDelete?.name}"? This action cannot be undone.
+              Are you sure you want to delete "{locationToDelete?.name}"? 
+              <br /><br />
+              <strong>This will also delete all localities associated with this location.</strong>
+              <br /><br />
+              This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

@@ -9,6 +9,7 @@ import { Location } from "@/types/location";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { supabaseToProperty } from "@/lib/supabase-property-mapper";
 import { supabaseToLocation } from "@/lib/supabase-location-mapper";
+import { fetchLocalitiesByLocationId } from "@/lib/fetch-localities";
 import { CheckCircle2, Phone, Mail, Building2 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
 import { NoidaPropertiesGrid } from "@/components/noida-properties-grid";
@@ -27,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locationCategory } = await params;
   const supabase = getSupabaseAdminClient();
   const { data } = await supabase
-    .from("locations")
+    .from("locations_v2")
     .select("*")
     .eq("slug", locationCategory)
     .eq("is_published", true)
@@ -96,7 +97,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
 
   // Fetch location data
   const { data: locationData, error: locationError } = await supabase
-    .from("locations")
+    .from("locations_v2")
     .select("*")
     .eq("slug", locationSlug)
     .eq("is_published", true)
@@ -106,7 +107,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
     console.error(`Location not found or not published: slug="${locationSlug}"`, locationError);
     // Also check if location exists but is not published
     const { data: unpublishedLocation } = await supabase
-      .from("locations")
+      .from("locations_v2")
       .select("slug, is_published")
       .eq("slug", locationSlug)
       .single();
@@ -119,29 +120,21 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
 
   const location = supabaseToLocation(locationData);
 
-  // Fetch initial 6 properties for this location
-  let { data: propertiesData, error } = await supabase
-    .from("properties")
-    .select("id, slug, project_name, developer, location, location_category, project_status, hero_image, is_published, created_at, updated_at")
-    .eq("location_category", location.slug)
+  // Fetch localities for this location from the localities table
+  const localities = await fetchLocalitiesByLocationId(location.id);
+
+  // Fetch initial 6 properties for this location using location_id
+  // Production logic: Only fetch properties that belong to this location_id
+  const { data: propertiesData, error } = await supabase
+    .from("properties_v2")
+    .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, hero_image, is_published, created_at, updated_at")
+    .eq("location_id", location.id) // MANDATORY: Only properties for this location
     .eq("is_published", true)
     .order("created_at", { ascending: false })
     .limit(6);
 
-  // Fallback: try without location_category filter
-  if (error || !propertiesData || propertiesData.length === 0) {
-    const fallbackQuery = await supabase
-      .from("properties")
-      .select("id, slug, project_name, developer, location, location_category, project_status, hero_image, is_published, created_at, updated_at")
-      .eq("is_published", true)
-      .ilike("location", `%${location.locationName}%`)
-      .order("created_at", { ascending: false })
-      .limit(6);
-
-    if (!fallbackQuery.error && fallbackQuery.data) {
-      propertiesData = fallbackQuery.data;
-      error = null;
-    }
+  if (error) {
+    console.error("Error fetching properties for location:", error);
   }
 
   const properties: Property[] = propertiesData
@@ -196,7 +189,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
             <div className="max-w-7xl mx-auto px-6">
               <div className="text-center mb-12">
                 <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
-                  {location.exploreSectionHeading.includes("Curated Collection") ? (
+                  {location.exploreSectionHeading && location.exploreSectionHeading.includes("Curated Collection") ? (
                     location.exploreSectionHeading.split("Curated Collection").map((part, i, arr) => (
                       <span key={i}>
                         {part}
@@ -204,7 +197,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
                       </span>
                     ))
                   ) : (
-                    location.exploreSectionHeading
+                    location.exploreSectionHeading || "Explore Properties"
                   )}
                 </h2>
                 <p className="text-lg text-gray-600 max-w-2xl mx-auto font-poppins">
@@ -215,11 +208,14 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
               {/* Property Filters Section */}
               <LocationPropertyFilters
                 location={location.slug}
-                localities={location.localities}
+                localities={localities}
               />
 
               {properties.length > 0 ? (
-                <NoidaPropertiesGrid initialProperties={properties} location={location.slug} />
+                <NoidaPropertiesGrid 
+                  initialProperties={properties} 
+                  location={location.slug}
+                />
               ) : (
                 <div className="flex flex-col items-center justify-center py-16 bg-gray-50 rounded-2xl">
                   <Building2 className="w-16 h-16 text-gray-400 mb-4" />

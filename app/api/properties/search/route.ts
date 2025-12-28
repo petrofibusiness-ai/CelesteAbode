@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { supabaseToProperty } from "@/lib/supabase-property-mapper";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
+import { addLocationSlugToProperties } from "@/lib/property-location-helper";
 import { slugToLocationCategory } from "@/lib/location-slug";
 import { PROPERTY_TYPES, PROJECT_STATUSES, CONFIGURATIONS, isValidPropertyType, isValidProjectStatus, isValidConfiguration } from "@/lib/property-enums";
 
@@ -65,10 +66,11 @@ export async function GET(request: NextRequest) {
     // Get query parameters
     const searchParams = request.nextUrl.searchParams;
     const locationSlug = searchParams.get("location");
+    const localityFilters = searchParams.getAll("locality"); // Support multiple locality filters
     const propertyTypeFilter = searchParams.get("propertyType");
     const projectStatusFilter = searchParams.get("projectStatus");
     const configurationFilters = searchParams.getAll("configuration");
-    const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '50', 10)));
+    const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '6', 10)));
     const offset = Math.max(0, parseInt(searchParams.get('offset') || '0', 10));
 
     // VALIDATION: Location is MANDATORY
@@ -88,12 +90,67 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    // First, get the location ID from locations_v2 by slug
+    const { data: locationData } = await supabase
+      .from("locations_v2")
+      .select("id")
+      .eq("slug", locationSlug.toLowerCase().trim())
+      .eq("is_published", true)
+      .single();
+
+    if (!locationData) {
+      return NextResponse.json(
+        { error: "Location not found" },
+        { status: 404 }
+      );
+    }
+
     // Build query - start with base filters
+    // Filter order: location_id (mandatory) → locality_id (optional) → other filters
     let query = supabase
-      .from("properties")
-      .select("id, slug, project_name, developer, location, location_category, property_type, project_status, configuration, hero_image, is_published, created_at, updated_at")
-      .eq("location_category", locationCategory) // MANDATORY: Location filter
+      .from("properties_v2")
+      .select("id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, configuration, hero_image, is_published, created_at, updated_at")
+      .eq("location_id", locationData.id) // MANDATORY: Location filter using location_id
       .eq("is_published", true); // Only published properties
+
+    // Apply locality filter if provided (optional, but must belong to the location)
+    if (localityFilters.length > 0) {
+      // Fetch locality IDs from localities table using slugs
+      const { data: localitiesData } = await supabase
+        .from("localities")
+        .select("id")
+        .eq("location_id", locationData.id) // Ensure localities belong to this location
+        .in("slug", localityFilters.map(s => s.toLowerCase().trim()));
+
+      if (localitiesData && localitiesData.length > 0) {
+        const localityIds = localitiesData.map(loc => loc.id);
+        query = query.in("locality_id", localityIds);
+      } else {
+        // If no valid localities found, return empty results
+        return NextResponse.json(
+          { 
+            properties: [],
+            filters: {
+              location: locationSlug,
+              locality: localityFilters,
+              propertyType: propertyTypeFilter || "all",
+              projectStatus: projectStatusFilter || "all",
+              configuration: configurationFilters,
+            },
+            limit,
+            offset,
+            total: 0,
+          },
+          {
+            headers: {
+              'X-RateLimit-Remaining': rateLimit.remaining.toString(),
+              'X-RateLimit-Reset': new Date(rateLimit.resetTime).toISOString(),
+              'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+            },
+          }
+        );
+      }
+    }
 
     // Apply property type filter if provided
     if (propertyTypeFilter && propertyTypeFilter !== "all") {
@@ -124,9 +181,10 @@ export async function GET(request: NextRequest) {
     // Note: Configuration filtering will be done after fetching due to array overlap complexity
 
     // Order and paginate
+    // Fetch limit + 1 to check if there are more properties without a separate count query
     query = query
       .order("created_at", { ascending: false })
-      .range(offset, offset + limit - 1);
+      .range(offset, offset + limit); // Fetch limit + 1
 
     const timeoutPromise = new Promise<never>((_, reject) =>
       setTimeout(() => reject(new Error("Query timeout")), QUERY_TIMEOUT)
@@ -158,21 +216,30 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    // Check if there are more properties (if we got limit + 1, there are more)
+    const hasMore = filteredData.length > limit;
+    const propertiesToReturn = filteredData.slice(0, limit); // Return only the requested limit
+
     // Convert snake_case to camelCase
-    const mappedProperties = filteredData.map((prop: any) => supabaseToProperty(prop as any));
+    const mappedProperties = propertiesToReturn.map((prop: any) => supabaseToProperty(prop as any));
+
+    // Add locationSlug to all properties
+    const propertiesWithLocation = await addLocationSlugToProperties(mappedProperties, supabase);
 
     return NextResponse.json(
       { 
-        properties: mappedProperties,
+        properties: propertiesWithLocation,
         filters: {
-          location: locationCategory,
+          location: locationSlug,
+          locality: localityFilters,
           propertyType: propertyTypeFilter || "all",
           projectStatus: projectStatusFilter || "all",
           configuration: configurationFilters,
         },
         limit,
         offset,
-        total: mappedProperties.length,
+        total: propertiesWithLocation.length,
+        hasMore
       },
       {
         headers: {

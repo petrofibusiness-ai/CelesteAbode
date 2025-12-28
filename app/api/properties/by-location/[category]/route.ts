@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { supabaseToProperty } from "@/lib/supabase-property-mapper";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
+import { addLocationSlugToProperties } from "@/lib/property-location-helper";
 
 // Query timeout: 10 seconds
 const QUERY_TIMEOUT = 10000;
@@ -50,12 +51,27 @@ export async function GET(
     const limit = Math.min(20, Math.max(1, parseInt(searchParams.get('limit') || '6', 10)));
     const offset = Math.max(0, parseInt(searchParams.get('offset') || '0', 10));
 
+    // First, get the location ID from locations_v2 by slug
+    const { data: locationData } = await supabase
+      .from("locations_v2")
+      .select("id")
+      .eq("slug", normalizedCategory)
+      .eq("is_published", true)
+      .single();
+
+    if (!locationData) {
+      return NextResponse.json(
+        { error: "Location not found" },
+        { status: 404 }
+      );
+    }
+
     // Fetch properties from Supabase with pagination - optimized query (no count to speed up)
     // Fetch limit + 1 to check if there are more properties without a separate count query
     const queryPromise = supabase
-      .from("properties")
-      .select("id, slug, project_name, developer, location, location_category, project_status, hero_image, is_published, created_at, updated_at")
-      .eq("location_category", normalizedCategory)
+      .from("properties_v2")
+      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, hero_image, is_published, created_at, updated_at")
+      .eq("location_id", locationData.id) // Filter by location_id instead of location_category
       .eq("is_published", true)
       .order("created_at", { ascending: false })
       .range(offset, offset + limit); // Fetch limit + 1 to check for more
@@ -81,9 +97,12 @@ export async function GET(
     // Convert snake_case to camelCase
     const mappedProperties = properties.map((prop: any) => supabaseToProperty(prop as any));
 
+    // Add locationSlug to all properties (though they should all have the same location)
+    const propertiesWithLocation = await addLocationSlugToProperties(mappedProperties, supabase);
+
     return NextResponse.json(
       { 
-        properties: mappedProperties, 
+        properties: propertiesWithLocation, 
         category: normalizedCategory,
         limit,
         offset,

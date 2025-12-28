@@ -1,6 +1,6 @@
 import { Location } from "@/types/location";
 
-// Supabase uses snake_case, TypeScript uses camelCase
+// Supabase uses snake_case, TypeScript uses camelCase - matches locations_v2 table
 export interface SupabaseLocation {
   id: string;
   slug: string;
@@ -10,7 +10,7 @@ export interface SupabaseLocation {
   hero_subtext: string;
   explore_section_heading?: string;
   explore_section_description?: string;
-  localities: Array<{ value: string; label: string }>;
+  // Note: localities field removed - now in separate localities table
   why_invest_content: string[];
   celeste_abode_image?: string;
   faqs: Array<{ id: string; question: string; answer: string }>;
@@ -42,7 +42,7 @@ export function supabaseToLocation(supabaseLocation: SupabaseLocation): Location
     heroSubtext: supabaseLocation.hero_subtext,
     exploreSectionHeading: supabaseLocation.explore_section_heading,
     exploreSectionDescription: supabaseLocation.explore_section_description,
-    localities: supabaseLocation.localities || [],
+    localities: [], // Deprecated - localities now in separate table, fetch separately if needed
     whyInvestContent: supabaseLocation.why_invest_content || [],
     celesteAbodeImage: supabaseLocation.celeste_abode_image,
     faqs: supabaseLocation.faqs || [],
@@ -71,7 +71,7 @@ export function locationToSupabase(location: Partial<Location>): Partial<Supabas
   if (location.heroSubtext !== undefined) result.hero_subtext = location.heroSubtext;
   if (location.exploreSectionHeading !== undefined) result.explore_section_heading = location.exploreSectionHeading;
   if (location.exploreSectionDescription !== undefined) result.explore_section_description = location.exploreSectionDescription;
-  if (location.localities !== undefined) result.localities = location.localities;
+  // Note: localities field removed - now in separate localities table
   if (location.whyInvestContent !== undefined) result.why_invest_content = location.whyInvestContent;
   if (location.celesteAbodeImage !== undefined) result.celeste_abode_image = location.celesteAbodeImage;
   if (location.faqs !== undefined) result.faqs = location.faqs;

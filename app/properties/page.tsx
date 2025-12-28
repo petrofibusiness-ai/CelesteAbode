@@ -303,9 +303,9 @@ export default function ProjectsPage() {
                 </Link>
               </div>
             ) : (
-              <div className="text-center py-16 bg-background rounded-2xl">
-                <Building2 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <p className="text-lg text-gray-600 mb-2 font-poppins">
+              <div className="flex flex-col items-center justify-center pt-8 pb-16 bg-background rounded-2xl min-h-[400px]">
+                <Building2 className="w-16 h-16 text-gray-400 mb-4" />
+                <p className="text-lg text-gray-600 mb-2 font-poppins text-center">
                   Please select a location to view properties.
                 </p>
               </div>

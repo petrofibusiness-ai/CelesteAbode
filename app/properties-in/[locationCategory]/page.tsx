@@ -242,7 +242,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
                 <div className="grid md:grid-cols-2 gap-8 items-center">
                   <div className="order-2 md:order-1">
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-normal text-[#CBB27A] mb-4 font-poppins tracking-tight">
-                      CelesteAbode
+                      Celeste Abode
                     </h2>
                     <h3 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4 font-poppins">
                       Your Trusted Real Estate Partner in <span className="text-[#CBB27A]">Delhi NCR</span>

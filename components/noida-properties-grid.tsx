@@ -25,6 +25,7 @@ const PROPERTIES_PER_PAGE = 6;
 export function NoidaPropertiesGrid({ initialProperties, location }: NoidaPropertiesGridProps) {
   const [properties, setProperties] = useState<Property[]>(initialProperties);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(initialProperties.length === PROPERTIES_PER_PAGE);
   const [currentOffset, setCurrentOffset] = useState(initialProperties.length);
   const [activeFilters, setActiveFilters] = useState<FilterState>({
@@ -36,9 +37,11 @@ export function NoidaPropertiesGrid({ initialProperties, location }: NoidaProper
 
   // Fetch properties with filters using search API
   const fetchFilteredProperties = useCallback(async (filters: FilterState, offset: number) => {
-    // For new searches (offset === 0), loading state and property clearing is handled in handleFilterChange
-    // For pagination (offset > 0), set loading state here
+    // For new searches (offset === 0), use isLoading to show full loading state
+    // For pagination (offset > 0), use isLoadingMore to show bottom loading indicator
     if (offset > 0) {
+      setIsLoadingMore(true);
+    } else {
       setIsLoading(true);
     }
     try {
@@ -89,11 +92,18 @@ export function NoidaPropertiesGrid({ initialProperties, location }: NoidaProper
       }
       setHasMore(false);
     } finally {
-      setIsLoading(false);
-      // Notify filters component that loading has finished
-      window.dispatchEvent(new CustomEvent('location-properties-loading', { detail: false }));
+      if (offset > 0) {
+        setIsLoadingMore(false);
+      } else {
+        setIsLoading(false);
+        // Notify filters component that loading has finished
+        window.dispatchEvent(new CustomEvent('location-properties-loading', { detail: false }));
+      }
     }
   }, [location]);
+
+  // Track if this is the initial load (no filters applied) or a search result
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
 
   // Listen for filter changes from LocationPropertyFilters component
   useEffect(() => {
@@ -101,10 +111,10 @@ export function NoidaPropertiesGrid({ initialProperties, location }: NoidaProper
       const newFilters = event.detail;
       setActiveFilters(newFilters);
       setCurrentOffset(0);
+      setIsInitialLoad(false);
       // Set loading state immediately and clear properties before fetching
       setIsLoading(true);
       setProperties([]);
-      setIsInitialLoad(false);
       // Notify filters component that loading has started
       window.dispatchEvent(new CustomEvent('location-properties-loading', { detail: true }));
       // Then fetch properties
@@ -118,7 +128,7 @@ export function NoidaPropertiesGrid({ initialProperties, location }: NoidaProper
   }, [location, fetchFilteredProperties]);
 
   const loadMoreProperties = async () => {
-    if (isLoading || !hasMore) return;
+    if (isLoading || isLoadingMore || !hasMore) return;
     await fetchFilteredProperties(activeFilters, currentOffset);
   };
 
@@ -130,19 +140,6 @@ export function NoidaPropertiesGrid({ initialProperties, location }: NoidaProper
       setHasMore(false);
     }
   }, [initialProperties.length]);
-
-  // Track if this is the initial load (no filters applied) or a search result
-  const [isInitialLoad, setIsInitialLoad] = useState(true);
-  
-  useEffect(() => {
-    const handleFilterChange = () => {
-      setIsInitialLoad(false);
-    };
-    window.addEventListener('location-filter-change', handleFilterChange as EventListener);
-    return () => {
-      window.removeEventListener('location-filter-change', handleFilterChange as EventListener);
-    };
-  }, []);
 
   // Show no properties found message (only if not initial load and no properties)
   if (!isInitialLoad && !isLoading && properties.length === 0) {
@@ -213,15 +210,25 @@ export function NoidaPropertiesGrid({ initialProperties, location }: NoidaProper
       )}
 
       {/* View More Button */}
-      {hasMore && !isLoading && (
+      {hasMore && !isLoading && !isLoadingMore && (
         <div className="flex justify-center mt-12">
           <button
             onClick={loadMoreProperties}
-            disabled={isLoading}
+            disabled={isLoadingMore}
             className="px-8 py-4 bg-black text-white rounded-full font-semibold hover:bg-black/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 font-poppins flex items-center gap-2"
           >
             <span>View More Properties</span>
           </button>
+        </div>
+      )}
+
+      {/* Loading More Indicator */}
+      {isLoadingMore && (
+        <div className="flex justify-center mt-8">
+          <div className="flex items-center gap-3">
+            <Loader2 className="w-5 h-5 text-[#CBB27A] animate-spin" />
+            <p className="text-gray-600 font-poppins">Loading more properties...</p>
+          </div>
         </div>
       )}
     </>

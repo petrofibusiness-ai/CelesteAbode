@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect, Suspense, useCallback } from "react";
+import { useState, useEffect, Suspense, useCallback, useRef } from "react";
 import { ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Header } from "@/components/header";
@@ -33,7 +33,7 @@ import { getPropertyUrl } from "@/lib/property-url";
 import { Property } from "@/types/property";
 
 interface FilterState {
-  location: string;
+  location: string[]; // Changed to array for multiple selections
   propertyType: string;
   projectStatus: string;
   configuration: string[];
@@ -42,14 +42,17 @@ interface FilterState {
 export default function ProjectsPage() {
   const searchParams = useSearchParams();
   const [filters, setFilters] = useState<FilterState>({
-    location: "",
+    location: [], // Empty array means all locations
     propertyType: "all",
     projectStatus: "all",
     configuration: [],
   });
   const [properties, setProperties] = useState<Property[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
+  const [currentOffset, setCurrentOffset] = useState(0);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isGeneralFormOpen, setIsGeneralFormOpen] = useState(false);
   const [selectedProperty, setSelectedProperty] = useState<{
@@ -58,63 +61,213 @@ export default function ProjectsPage() {
   } | null>(null);
   const [isSeoExpanded, setIsSeoExpanded] = useState(false);
   const [isCtaContentExpanded, setIsCtaContentExpanded] = useState(false);
+  const [fetchError, setFetchError] = useState<string | null>(null);
+  const abortControllerRef = useRef<AbortController | null>(null);
 
-  // Fetch properties from backend API
-  const fetchProperties = useCallback(async (filterState: FilterState) => {
-    // Don't fetch if location is not selected (mandatory)
-    if (!filterState.location || filterState.location.trim() === "") {
-      setProperties([]);
-      return;
+  const PROPERTIES_PER_PAGE = 6;
+
+  // Fetch properties from backend API with pagination support
+  const fetchProperties = useCallback(async (filterState: FilterState, offset: number = 0, isLoadMore: boolean = false) => {
+    // Cancel any ongoing request (only for new searches, not pagination)
+    if (!isLoadMore && abortControllerRef.current) {
+      abortControllerRef.current.abort();
     }
 
-    setIsLoading(true);
-    // Clear properties immediately when starting a new search
-    setProperties([]);
-    setIsInitialLoad(false);
-    // Notify filters component that loading has started
-    window.dispatchEvent(new CustomEvent('properties-page-loading', { detail: true }));
+    // Create new AbortController for this request
+    const abortController = new AbortController();
+    abortControllerRef.current = abortController;
+
+    // Set loading state based on whether it's pagination or new search
+    if (isLoadMore) {
+      setIsLoadingMore(true);
+    } else {
+      setIsLoading(true);
+      setFetchError(null);
+      // Clear properties immediately when starting a new search
+      setProperties([]);
+      setIsInitialLoad(false);
+      setCurrentOffset(0);
+      // Notify filters component that loading has started
+      window.dispatchEvent(new CustomEvent('properties-page-loading', { detail: true }));
+    }
     
     try {
-      const params = new URLSearchParams();
-      params.append("location", filterState.location);
-      if (filterState.propertyType && filterState.propertyType !== "all") {
-        params.append("propertyType", filterState.propertyType);
-      }
-      if (filterState.projectStatus && filterState.projectStatus !== "all") {
-        params.append("projectStatus", filterState.projectStatus);
-      }
-      filterState.configuration.forEach((config) => {
-        params.append("configuration", config);
-      });
+      // If no locations selected (empty array), fetch all properties
+      if (filterState.location.length === 0) {
+        const params = new URLSearchParams();
+        params.append("limit", PROPERTIES_PER_PAGE.toString());
+        params.append("offset", offset.toString());
+        if (filterState.propertyType && filterState.propertyType !== "all") {
+          params.append("propertyType", filterState.propertyType);
+        }
+        if (filterState.projectStatus && filterState.projectStatus !== "all") {
+          params.append("projectStatus", filterState.projectStatus);
+        }
+        filterState.configuration.forEach((config) => {
+          params.append("configuration", config);
+        });
 
-      const response = await fetch(`/api/properties/search?${params.toString()}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch properties");
+        // Use the all-properties endpoint with abort signal
+        const response = await fetch(`/api/properties/all?${params.toString()}`, {
+          signal: abortController.signal,
+        });
+        
+        if (abortController.signal.aborted) {
+          return; // Request was cancelled, don't update state
+        }
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({ error: "Failed to fetch properties" }));
+          throw new Error(errorData.error || "Failed to fetch properties");
+        }
+        const data = await response.json();
+        const fetchedProperties = data.properties || [];
+        
+        if (isLoadMore) {
+          // Append for pagination
+          setProperties((prev) => [...prev, ...fetchedProperties]);
+        } else {
+          // Replace for new search
+          setProperties(fetchedProperties);
+        }
+        
+        setCurrentOffset(offset + fetchedProperties.length);
+        setHasMore(data.hasMore === true && fetchedProperties.length === PROPERTIES_PER_PAGE);
+      } else {
+        // Fetch properties for all selected locations in parallel
+        const fetchPromises = filterState.location.map(async (locationSlug) => {
+          const params = new URLSearchParams();
+          params.append("location", locationSlug);
+          params.append("limit", PROPERTIES_PER_PAGE.toString());
+          params.append("offset", offset.toString());
+          if (filterState.propertyType && filterState.propertyType !== "all") {
+            params.append("propertyType", filterState.propertyType);
+          }
+          if (filterState.projectStatus && filterState.projectStatus !== "all") {
+            params.append("projectStatus", filterState.projectStatus);
+          }
+          filterState.configuration.forEach((config) => {
+            params.append("configuration", config);
+          });
+
+          try {
+            const response = await fetch(`/api/properties/search?${params.toString()}`, {
+              signal: abortController.signal,
+            });
+            
+            if (abortController.signal.aborted) {
+              return null; // Request was cancelled
+            }
+
+            if (!response.ok) {
+              console.error(`Failed to fetch properties for ${locationSlug}:`, response.statusText);
+              return null; // Return null for failed requests, continue with others
+            }
+            const data = await response.json();
+            return {
+              properties: data.properties || [],
+              hasMore: data.hasMore === true
+            };
+          } catch (error) {
+            if (error instanceof Error && error.name === 'AbortError') {
+              return null; // Request was cancelled
+            }
+            console.error(`Error fetching properties for ${locationSlug}:`, error);
+            return null; // Return null for errors, continue with other locations
+          }
+        });
+
+        // Wait for all location fetches to complete (in parallel)
+        const results = await Promise.all(fetchPromises);
+        
+        if (abortController.signal.aborted) {
+          return; // Request was cancelled, don't update state
+        }
+
+        // Combine all results and remove duplicates based on property ID
+        const allProperties = results
+          .filter((result): result is { properties: Property[]; hasMore: boolean } => result !== null)
+          .flatMap(result => result.properties);
+        
+        // Check if any location has more properties
+        const anyHasMore = results.some(result => result !== null && result.hasMore);
+        
+        // Remove duplicates based on property ID (more efficient using Map)
+        // Filter out properties without IDs and handle duplicates
+        const uniquePropertiesMap = new Map<string, Property>();
+        allProperties.forEach((property) => {
+          if (property.id) {
+            if (!uniquePropertiesMap.has(property.id)) {
+              uniquePropertiesMap.set(property.id, property);
+            }
+          }
+        });
+        
+        const uniqueProperties = Array.from(uniquePropertiesMap.values());
+        
+        if (isLoadMore) {
+          // Append for pagination
+          setProperties((prev) => {
+            const combined = [...prev, ...uniqueProperties];
+            // Remove duplicates again in case of overlap
+            const finalMap = new Map<string, Property>();
+            combined.forEach((property) => {
+              if (property.id && !finalMap.has(property.id)) {
+                finalMap.set(property.id, property);
+              }
+            });
+            return Array.from(finalMap.values());
+          });
+        } else {
+          // Replace for new search
+          setProperties(uniqueProperties);
+        }
+        
+        setCurrentOffset(offset + uniqueProperties.length);
+        setHasMore(anyHasMore && uniqueProperties.length >= PROPERTIES_PER_PAGE);
       }
-      const data = await response.json();
-      setProperties(data.properties || []);
     } catch (error) {
+      if (error instanceof Error && error.name === 'AbortError') {
+        // Request was cancelled, don't update state or show error
+        return;
+      }
       console.error("Error fetching properties:", error);
-      setProperties([]);
+      if (!isLoadMore) {
+        setFetchError(error instanceof Error ? error.message : "Failed to fetch properties. Please try again.");
+        setProperties([]);
+      }
     } finally {
-      setIsLoading(false);
-      // Notify filters component that loading has finished
-      window.dispatchEvent(new CustomEvent('properties-page-loading', { detail: false }));
+      // Only update loading state if this request wasn't cancelled
+      if (!abortController.signal.aborted) {
+        if (isLoadMore) {
+          setIsLoadingMore(false);
+        } else {
+          setIsLoading(false);
+          // Notify filters component that loading has finished
+          window.dispatchEvent(new CustomEvent('properties-page-loading', { detail: false }));
+        }
+      }
     }
   }, []);
 
-  // Handle filter changes from PropertyFilters component
+  // Handle search from PropertyFilters component (only when search button is clicked)
   const handleFilterChange = (newFilters: FilterState) => {
     setFilters(newFilters);
-    fetchProperties(newFilters);
+    fetchProperties(newFilters, 0, false);
   };
 
-  // Listen for filter changes from PropertyFilters component (via custom event)
+  // Load more properties (pagination)
+  const loadMoreProperties = useCallback(async () => {
+    if (isLoadingMore || !hasMore) return;
+    await fetchProperties(filters, currentOffset, true);
+  }, [filters, currentOffset, hasMore, isLoadingMore, fetchProperties]);
+
+  // Listen for search button click from PropertyFilters component (via custom event)
   useEffect(() => {
     const handleFilterChange = (event: CustomEvent<FilterState>) => {
       const newFilters = event.detail;
       setFilters(newFilters);
-      fetchProperties(newFilters);
+      fetchProperties(newFilters, 0, false);
     };
 
     window.addEventListener('properties-filter-change', handleFilterChange as EventListener);
@@ -123,13 +276,31 @@ export default function ProjectsPage() {
     };
   }, [fetchProperties]);
 
-  // Read location from URL query params on mount
+  // Cleanup: Abort any ongoing requests when component unmounts
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+  }, []);
+
+  // Load all properties on initial page load OR read location from URL query params
   useEffect(() => {
     const locationParam = searchParams.get("location");
-    if (locationParam && locationParam !== filters.location) {
-      const newFilters = { ...filters, location: locationParam };
-      setFilters(newFilters);
-      fetchProperties(newFilters);
+    
+    if (locationParam && locationParam.trim() !== "") {
+      // URL has location param - use that
+      const locationArray = locationParam.split(",").filter(loc => loc.trim() !== "");
+      if (locationArray.length > 0) {
+        const newFilters = { ...filters, location: locationArray };
+        setFilters(newFilters);
+        fetchProperties(newFilters, 0, false);
+        setIsInitialLoad(false);
+      }
+    } else if (isInitialLoad) {
+      // No URL param and initial load - fetch all properties
+      fetchProperties(filters, 0, false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
@@ -228,7 +399,7 @@ export default function ProjectsPage() {
         </section>
 
         {/* Property Filters Section */}
-        <PropertyFilters onFilterChange={handleFilterChange} />
+        <PropertyFilters />
 
         {/* Aesthetic Line Separator */}
         <div className="w-full flex justify-center py-4">
@@ -244,52 +415,100 @@ export default function ProjectsPage() {
               <div className="flex flex-col items-center justify-center pt-8 pb-16 bg-background rounded-2xl min-h-[400px]">
                 <Loader2 className="w-12 h-12 text-[#CBB27A] animate-spin mb-4" />
                 <p className="text-lg text-gray-600 font-poppins text-center">Searching properties...</p>
+                  </div>
+            ) : fetchError ? (
+              <div className="flex flex-col items-center justify-center pt-8 pb-16 bg-background rounded-2xl min-h-[400px]">
+                <Building2 className="w-16 h-16 text-red-400 mb-4" />
+                <p className="text-lg text-red-600 mb-2 font-poppins text-center">
+                  {fetchError}
+                </p>
+                <Button
+                  onClick={() => {
+                    setFetchError(null);
+                    fetchProperties(filters, 0, false);
+                  }}
+                  className="mt-4 px-6 py-3 bg-black text-white rounded-full font-semibold hover:bg-black/90 transition-all"
+                >
+                  Try Again
+                </Button>
               </div>
             ) : properties.length > 0 ? (
-              <div id="itemlist" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="Properties">
-                {properties.map((property) => (
-                  <Card
-                    key={property.id}
-                    className="border-0 bg-card overflow-hidden hover:shadow-2xl transition-all duration-500 group cursor-pointer p-0 transform hover:-translate-y-2 hover:scale-[1.02]"
-                    onClick={() => handleViewDetails(property)}
-                    role="listitem"
-                    itemScope
-                    itemType="https://schema.org/Product"
-                  >
-                    <div className="relative w-full h-80 rounded-xl overflow-hidden">
-                      <Image
-                        src={property.heroImage}
-                        alt={`${property.projectName} - ${property.location}`}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        quality={90}
-                        loading="lazy"
-                        itemProp="image"
-                      />
+              <>
+                <div id="itemlist" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="Properties">
+                  {properties.map((property) => (
+                    <Card
+                      key={property.id}
+                      className="border-0 bg-card overflow-hidden hover:shadow-2xl transition-all duration-500 group cursor-pointer p-0 transform hover:-translate-y-2 hover:scale-[1.02]"
+                      onClick={() => handleViewDetails(property)}
+                      role="listitem"
+                      itemScope
+                      itemType="https://schema.org/Product"
+                    >
+                      <div className="relative w-full h-80 rounded-xl overflow-hidden">
+                        <Image
+                          src={property.heroImage}
+                          alt={`${property.projectName} - ${property.location}`}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          quality={90}
+                          loading="lazy"
+                          itemProp="image"
+                        />
 
-                      {/* Overlay for text */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent transition-opacity duration-500 group-hover:from-black/95 group-hover:via-black/30"></div>
+                        {/* Overlay for text */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent transition-opacity duration-500 group-hover:from-black/95 group-hover:via-black/30"></div>
 
-                      {/* Location and Name at bottom */}
-                      <div className="absolute bottom-3 left-3 right-3 transition-transform duration-300 group-hover:translate-y-[-4px]">
-                        <div className="flex items-center gap-2 text-white mb-1">
-                          <MapPin className="w-3 h-3 transition-transform duration-300 group-hover:scale-110" />
-                          <span className="text-xs font-medium text-white">
-                            {property.location}
-                          </span>
+                        {/* Location and Name at bottom */}
+                        <div className="absolute bottom-3 left-3 right-3 transition-transform duration-300 group-hover:translate-y-[-4px]">
+                          <div className="flex items-center gap-2 text-white mb-1">
+                            <MapPin className="w-3 h-3 transition-transform duration-300 group-hover:scale-110" />
+                            <span className="text-xs font-medium text-white">
+                              {property.location}
+                            </span>
+                          </div>
+                          <h3 className="text-lg font-bold text-white leading-tight" itemProp="name">
+                            {property.projectName}
+                          </h3>
+                          <meta itemProp="description" content={property.description || `${property.projectName} in ${property.location}`} />
+                          <meta itemProp="brand" content={property.developer || "Verified Developer"} />
                         </div>
-                        <h3 className="text-lg font-bold text-white leading-tight" itemProp="name">
-                          {property.projectName}
-                        </h3>
-                        <meta itemProp="description" content={property.description || `${property.projectName} in ${property.location}`} />
-                        <meta itemProp="brand" content={property.developer || "Verified Developer"} />
                       </div>
+                    </Card>
+                  ))}
+                </div>
+
+                {/* View More Properties Button - Pagination */}
+                {hasMore && !isLoading && !isLoadingMore && (
+                  <div className="flex justify-center mt-12">
+                    <Button
+                      onClick={loadMoreProperties}
+                      disabled={isLoadingMore}
+                      className="px-8 py-4 bg-black text-white rounded-full font-semibold hover:bg-black/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 font-poppins flex items-center gap-2"
+                    >
+                      {isLoadingMore ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          <span>Loading...</span>
+                        </>
+                      ) : (
+                        <span>View More Properties</span>
+                      )}
+                    </Button>
+                  </div>
+                )}
+
+                {/* Loading More Indicator */}
+                {isLoadingMore && (
+                  <div className="flex justify-center mt-8">
+                    <div className="flex items-center gap-3">
+                      <Loader2 className="w-5 h-5 text-[#CBB27A] animate-spin" />
+                      <p className="text-gray-600 font-poppins">Loading more properties...</p>
                     </div>
-                  </Card>
-                ))}
-              </div>
-            ) : !isInitialLoad && filters.location ? (
+                  </div>
+                )}
+              </>
+            ) : !isInitialLoad && filters.location.length > 0 ? (
               <div className="flex flex-col items-center justify-center pt-8 pb-16 bg-background rounded-2xl min-h-[400px]">
                 <Building2 className="w-16 h-16 text-gray-400 mb-4" />
                 <p className="text-lg text-gray-600 mb-6 font-poppins text-center">

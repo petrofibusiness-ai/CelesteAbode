@@ -146,3 +146,4 @@ CREATE INDEX idx_properties_published ON properties(is_published);
 
 
 
+

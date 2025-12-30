@@ -138,7 +138,15 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
   }
 
   const properties: Property[] = propertiesData
-    ? propertiesData.map((prop: any) => supabaseToProperty(prop as any))
+    ? propertiesData.map((prop: any) => {
+        const property = supabaseToProperty(prop as any);
+        // Add locationSlug to property for URL generation
+        // All properties belong to the same location, so we can use location.slug
+        return {
+          ...property,
+          locationSlug: location.slug,
+        } as Property & { locationSlug: string };
+      })
     : [];
 
   const heroAltText = location.imageAltTexts?.hero || `Properties in ${location.locationName} - Celeste Abode`;

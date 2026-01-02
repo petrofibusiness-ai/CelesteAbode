@@ -48,8 +48,8 @@ export async function GET(request: NextRequest) {
     // Fetch ALL properties with pagination - no filter on is_published
     // Admin should see both published and draft properties
     const { data, error, count } = await supabase
-      .from("properties")
-      .select("id, slug, project_name, developer, location, status, is_published, hero_image, created_at, updated_at", { count: 'exact' })
+      .from("properties_v2")
+      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, is_published, hero_image, created_at, updated_at", { count: 'exact' })
       .order("created_at", { ascending: false })
       .range(offset, offset + limit - 1);
 
@@ -61,8 +61,31 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Convert snake_case to camelCase
-    const properties = (data || []).map((item: any) => supabaseToProperty(item));
+    // Fetch all unique location IDs
+    const locationIds = [...new Set((data || []).map((p: any) => p.location_id).filter(Boolean))];
+    
+    // Fetch location slugs for all properties
+    const locationSlugMap = new Map<string, string>();
+    if (locationIds.length > 0) {
+      const { data: locationsData } = await supabase
+        .from("locations_v2")
+        .select("id, slug")
+        .in("id", locationIds);
+      
+      (locationsData || []).forEach((loc: any) => {
+        locationSlugMap.set(loc.id, loc.slug);
+      });
+    }
+
+    // Convert snake_case to camelCase and add location slug
+    const properties = (data || []).map((item: any) => {
+      const property = supabaseToProperty(item);
+      // Add locationSlug to property for URL generation
+      if (item.location_id && locationSlugMap.has(item.location_id)) {
+        (property as any).locationSlug = locationSlugMap.get(item.location_id);
+      }
+      return property;
+    });
 
     return NextResponse.json({
       properties,
@@ -139,10 +162,13 @@ export async function POST(request: NextRequest) {
       projectName: body.projectName.trim(),
       developer: body.developer.trim(),
       location: body.location.trim(),
+      locationId: body.locationId || null, // FK to locations_v2 (required)
+      localityId: body.localityId || null, // FK to localities (optional)
+      propertyType: body.propertyType || null,
       reraId: body.reraId?.trim() || undefined,
-      status: body.status.trim(),
+      projectStatus: body.projectStatus || null,
       possessionDate: body.possessionDate?.trim() || undefined,
-      unitTypes: Array.isArray(body.unitTypes) ? body.unitTypes : [],
+      configuration: Array.isArray(body.configuration) ? body.configuration : [],
       sizes: body.sizes.trim(),
       description: body.description.trim(),
       heroImage: body.heroImage.trim(),
@@ -172,7 +198,7 @@ export async function POST(request: NextRequest) {
 
     // Insert into Supabase with timeout protection
     const insertPromise = supabase
-      .from("properties")
+      .from("properties_v2")
       .insert([supabaseProperty])
       .select()
       .single();
@@ -214,7 +240,7 @@ export async function POST(request: NextRequest) {
 
     // Audit log
     await logAuditEntry({
-      table_name: 'properties',
+      table_name: 'properties_v2',
       operation: 'CREATE',
       record_id: data.id,
       user_id: user.id,
@@ -224,7 +250,7 @@ export async function POST(request: NextRequest) {
     });
 
     const duration = Date.now() - startTime;
-    console.log(`Property created: ${property.slug} (${duration}ms)`);
+    // Property created successfully in ${duration}ms
 
     return NextResponse.json({ property: createdProperty }, { status: 201 });
   } catch (error) {

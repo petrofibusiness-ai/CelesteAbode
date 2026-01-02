@@ -27,6 +27,7 @@ import {
   Plane
 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
+import Link from "next/link";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -247,7 +248,7 @@ export default function VillaInNoidaExtensionPage() {
               </h2>
               <div className="max-w-3xl mx-auto space-y-6">
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  At Celeste Abode, we don't just help you buy property - we help you find where your life fits best. Every villa we recommend is selected through a blend of research, technology, and empathy - ensuring you make a choice that feels right today and tomorrow.
+                  At Celeste Abode, we don't just help you buy property - we help you find where your life fits best. Every villa we recommend is selected through a blend of research, technology, and empathy - ensuring you make a choice that feels right today and tomorrow. Discover our <Link href="/services" className="text-[#CBB27A] hover:underline font-semibold">property advisory services</Link> and <Link href="/philosophy" className="text-[#CBB27A] hover:underline font-semibold">client-first approach</Link>.
                 </p>
                 <div className="grid md:grid-cols-3 gap-6 mt-8">
                   {[
@@ -463,13 +464,43 @@ export default function VillaInNoidaExtensionPage() {
               </div>
             </motion.div>
 
+            {/* Internal Links Section */}
+            <motion.div variants={itemVariants} className="bg-gradient-to-br from-primary/5 to-[#CBB27A]/5 rounded-3xl p-8 md:p-12 border border-[#CBB27A]/20">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4">
+                  Explore More
+                </h3>
+                <p className="text-muted-foreground mb-6">
+                  Discover our comprehensive property services and curated collections
+                </p>
+              </div>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <Link href="/properties-in-noida" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
+                  <MapPin className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Noida Properties</p>
+                </Link>
+                <Link href="/properties" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
+                  <Building2 className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">All Properties</p>
+                </Link>
+                <Link href="/services" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
+                  <Zap className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Our Services</p>
+                </Link>
+                <Link href="/contact" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
+                  <MessageCircle className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Contact Us</p>
+                </Link>
+              </div>
+            </motion.div>
+
             {/* CTA Section */}
             <motion.div variants={itemVariants} className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
                 Start Your Villa Journey in Noida Extension Today
               </h2>
               <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
-                If you're ready to embrace a home that reflects freedom, comfort, and growth - Celeste Abode is here to guide you. Explore the most sought-after villas in Noida Extension and discover where your next chapter begins.
+                If you're ready to embrace a home that reflects freedom, comfort, and growth - Celeste Abode is here to guide you. Explore the most sought-after villas in Noida Extension and discover where your next chapter begins. <Link href="/properties-in-noida" className="text-[#CBB27A] hover:underline font-semibold">View Noida Extension properties</Link> or <Link href="/contact" className="text-[#CBB27A] hover:underline font-semibold">contact our experts</Link>.
               </p>
               <p className="text-muted-foreground italic text-lg text-center max-w-2xl mx-auto">
                 Because every home has a story - and yours deserves to begin in Noida Extension.

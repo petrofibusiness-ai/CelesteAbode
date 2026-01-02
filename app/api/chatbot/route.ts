@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { sendFormSubmissionEmail } from "@/lib/email-service";
 import { sanitizeInput, isValidEmail, isValidPhone, isValidName, getClientIP, checkRateLimit } from "@/lib/security";
+import { storeLead, updateLeadEmailStatus } from "@/lib/lead-service";
 
 // Simple in-memory rate limiting per IP for chatbot submissions
 const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
@@ -170,6 +171,45 @@ export async function POST(request: NextRequest) {
 
     const clientEmail = typeof email === "string" ? email.trim() : "";
 
+    // Get page URL from referer header if available
+    const referer = request.headers.get('referer') || undefined;
+    const pageUrl = referer ? new URL(referer).pathname : undefined;
+
+    // Store lead in database first
+    const leadResult = await storeLead({
+      firstName,
+      lastName,
+      email: clientEmail ? sanitizeInput(clientEmail).toLowerCase() : undefined,
+      phone: sanitizedPhone,
+      formType: 'chatbot',
+      formSource: 'website-chatbot',
+      pageUrl,
+      formData: {
+        userIntent,
+        propertyType,
+        preferredLocation,
+        budgetRange,
+        bhkPreference,
+        commercialUse,
+        timeline,
+        leadScore,
+        wantsVirtualTour: !!wantsVirtualTour,
+        wantsPriceComparison: !!wantsPriceComparison,
+        wantsBestProjects: !!wantsBestProjects,
+        wantsExpertCall: !!wantsExpertCall,
+        contactPreference,
+        timestamp,
+      },
+      leadScore: leadScore || undefined,
+      clientIP: clientIP,
+    });
+
+    // Log if lead storage failed (but continue with email)
+    if (!leadResult.success) {
+      console.error('Failed to store lead in database:', leadResult.error);
+    }
+
+    // Send email (even if DB storage fails, still try to send email)
     const emailResult = await sendFormSubmissionEmail({
       formType: "chatbot",
       firstName,
@@ -194,6 +234,15 @@ export async function POST(request: NextRequest) {
       chatbotSource: "Website Chatbot",
       chatbotTimestamp: timestamp,
     });
+
+    // Update lead email status if lead was stored
+    if (leadResult.success && leadResult.leadId) {
+      await updateLeadEmailStatus(
+        leadResult.leadId,
+        emailResult.success,
+        emailResult.error
+      );
+    }
 
     if (!emailResult.success) {
       console.error("Failed to send chatbot email:", emailResult.error);

@@ -11,12 +11,10 @@ const SegmentedEntry = dynamic(
 
 export function HomePageClient() {
   const handleIntentSubmit = (payload: IntentPayload) => {
-    console.log('Intent submitted:', payload)
     // TODO: Send to backend/CRM
   }
 
   const handleWhatsAppClick = (payload: IntentPayload) => {
-    console.log('WhatsApp clicked:', payload)
     // TODO: Open WhatsApp with pre-filled message
   }
 

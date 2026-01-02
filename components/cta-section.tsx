@@ -13,29 +13,61 @@ export function CTASection() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+    // Clear error when user starts typing
+    if (error) setError("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError("");
     
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    setIsSubmitted(true);
-    setIsSubmitting(false);
-    
-    // Reset form after showing success message
-    setTimeout(() => {
-      setFormData({ name: "", phone: "", message: "" });
-      setIsSubmitted(false);
-    }, 5000);
+    try {
+      // Split name into first and last name
+      const nameParts = formData.name.trim().split(" ");
+      const firstName = nameParts[0] || formData.name;
+      const lastName = nameParts.slice(1).join(" ") || "N/A";
+
+      // Call the contact API endpoint which stores lead in database
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
+          phone: formData.phone.trim(),
+          message: formData.message.trim() || "Homepage footer CTA inquiry",
+          formSource: "homepage-footer-cta", // Identify the source
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: "Failed to submit form" }));
+        throw new Error(errorData.error || "Failed to submit form");
+      }
+
+      setIsSubmitted(true);
+      setIsSubmitting(false);
+      
+      // Reset form after showing success message
+      setTimeout(() => {
+        setFormData({ name: "", phone: "", message: "" });
+        setIsSubmitted(false);
+      }, 5000);
+    } catch (err) {
+      console.error("Form submission error:", err);
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -170,6 +202,11 @@ export function CTASection() {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {error && (
+                    <div className="p-3 rounded-lg bg-red-50 border border-red-200">
+                      <p className="text-sm text-red-600 font-poppins">{error}</p>
+                    </div>
+                  )}
                   <div>
                     <label
                       htmlFor="name"

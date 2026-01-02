@@ -16,19 +16,19 @@ export interface IntentPayload {
 
 // Analytics event stubs
 export const analytics = {
-  se_intent_tile_clicked: (intent: UserIntent) => {
-    console.log(`Analytics: Intent tile clicked - ${intent}`);
+  se_intent_tile_clicked: (_intent: UserIntent) => {
+    // TODO: Integrate with analytics service
   },
   
-  se_drawer_opened: (intent: UserIntent) => {
-    console.log(`Analytics: Drawer opened - ${intent}`);
+  se_drawer_opened: (_intent: UserIntent) => {
+    // TODO: Integrate with analytics service
   },
   
-  se_value_uplift_viewed: (intent: UserIntent) => {
-    console.log(`Analytics: Value uplift viewed - ${intent}`);
+  se_value_uplift_viewed: (_intent: UserIntent) => {
+    // TODO: Integrate with analytics service
   },
   
-  se_submit_preferences: (intent: UserIntent, payload: IntentPayload) => {
-    console.log(`Analytics: Submit preferences - ${intent}`, payload);
+  se_submit_preferences: (_intent: UserIntent, _payload: IntentPayload) => {
+    // TODO: Integrate with analytics service
   }
 };

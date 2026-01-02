@@ -2,9 +2,12 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
 
 export function BrandCarousel() {
   // Developer logos from Carousel folder
+  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
+  
   const developers = [
     { name: "CRC Building", image: "/Carousel/crc-building.avif" },
     { name: "Max Estates", image: "/Carousel/max-estates.avif" },
@@ -12,7 +15,11 @@ export function BrandCarousel() {
     { name: "Fusion", image: "/Carousel/fusion.avif" },
     { name: "Abode", image: "/Carousel/abode.avif" },
     { name: "Country Group", image: "/Carousel/country-group.avif" },
-  ];
+  ].filter(dev => !imageErrors.has(dev.image));
+
+  const handleImageError = (imageSrc: string) => {
+    setImageErrors(prev => new Set(prev).add(imageSrc));
+  };
 
   return (
     <section className="py-12 md:py-16 bg-background">
@@ -61,6 +68,7 @@ export function BrandCarousel() {
                     fill
                     className="object-contain border border-black rounded-lg"
                     sizes="(max-width: 768px) 96px, 128px"
+                    onError={() => handleImageError(developer.image)}
                   />
                 </div>
               </div>
@@ -79,6 +87,7 @@ export function BrandCarousel() {
                     fill
                     className="object-contain border border-black rounded-lg"
                     sizes="(max-width: 768px) 96px, 128px"
+                    onError={() => handleImageError(developer.image)}
                   />
                 </div>
               </div>

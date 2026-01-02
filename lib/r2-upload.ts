@@ -63,13 +63,13 @@ function getContentType(filename: string, fileType: string): string {
  * Upload file to Cloudflare R2
  * @param file - File to upload
  * @param propertySlug - Property slug for folder organization
- * @param fileType - Type of file: 'hero', 'brochure', 'image', 'video'
+ * @param fileType - Type of file: 'hero', 'brochure', 'image', 'video', 'location-hero', 'location-celeste-abode'
  * @returns Upload result with public URL
  */
 export async function uploadToR2(
   file: File,
   propertySlug: string,
-  fileType: "hero" | "brochure" | "image" | "video"
+  fileType: "hero" | "brochure" | "image" | "video" | "location-hero" | "location-celeste-abode"
 ): Promise<R2UploadResult> {
   try {
     // Validate configuration
@@ -116,7 +116,14 @@ export async function uploadToR2(
         // Format: {slug}/videos/{slug}_{originalFilename}
         const videoFilename = sanitizeFilename(file.name);
         objectKey = `${sanitizedSlug}/videos/${sanitizedSlug}_${videoFilename}`;
-        console.log(`Video upload - Object key: ${objectKey}, File: ${file.name}, Size: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+        break;
+      case "location-hero":
+        // Format: {slug}/{slug}_hero.{ext}
+        objectKey = `${sanitizedSlug}/${sanitizedSlug}_hero.${fileExtension}`;
+        break;
+      case "location-celeste-abode":
+        // Format: {slug}/{slug}_celeste-abode.{ext}
+        objectKey = `${sanitizedSlug}/${sanitizedSlug}_celeste-abode.${fileExtension}`;
         break;
       default:
         const defaultFilename = sanitizeFilename(file.name);
@@ -124,17 +131,13 @@ export async function uploadToR2(
     }
 
     // Convert File to Buffer
-    console.log(`Converting file to buffer: ${file.name}, Type: ${fileType}`);
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
-    console.log(`Buffer created: ${(buffer.length / 1024 / 1024).toFixed(2)}MB`);
 
     // Get content type
     const contentType = getContentType(file.name, file.type);
-    console.log(`Content type: ${contentType}`);
 
     // Upload to R2
-    console.log(`Uploading to R2: Bucket=${R2_BUCKET_NAME}, Key=${objectKey}`);
     const command = new PutObjectCommand({
       Bucket: R2_BUCKET_NAME,
       Key: objectKey,
@@ -143,7 +146,6 @@ export async function uploadToR2(
     });
 
     await r2Client.send(command);
-    console.log(`R2 upload successful for ${fileType}: ${objectKey}`);
 
     // Construct public URL
     // Format: https://pub-xxxxx.r2.dev/[object-key] (public R2 URL)
@@ -214,6 +216,26 @@ export async function uploadVideoToR2(
   propertySlug: string
 ): Promise<R2UploadResult> {
   return uploadToR2(file, propertySlug, "video");
+}
+
+/**
+ * Upload location hero image to R2
+ */
+export async function uploadLocationHeroImageToR2(
+  file: File,
+  locationSlug: string
+): Promise<R2UploadResult> {
+  return uploadToR2(file, locationSlug, "location-hero");
+}
+
+/**
+ * Upload location Celeste Abode image to R2
+ */
+export async function uploadLocationCelesteAbodeImageToR2(
+  file: File,
+  locationSlug: string
+): Promise<R2UploadResult> {
+  return uploadToR2(file, locationSlug, "location-celeste-abode");
 }
 
 /**
@@ -296,7 +318,6 @@ export async function deleteR2ObjectByKey(key: string): Promise<{
     }
 
     const normalizedKey = key.trim();
-    console.log(`Deleting R2 object with key: ${normalizedKey}`);
 
     // Delete the object
     const deleteCommand = new DeleteObjectCommand({
@@ -305,7 +326,6 @@ export async function deleteR2ObjectByKey(key: string): Promise<{
     });
 
     await r2Client.send(deleteCommand);
-    console.log(`Successfully deleted R2 object: ${normalizedKey}`);
 
     return {
       success: true,
@@ -372,7 +392,6 @@ export async function deleteR2ObjectsByPrefix(prefix: string): Promise<{
       const objects = listResponse.Contents || [];
 
       if (objects.length === 0) {
-        console.log(`No objects found with prefix: ${normalizedPrefix}`);
         break;
       }
 
@@ -388,7 +407,6 @@ export async function deleteR2ObjectsByPrefix(prefix: string): Promise<{
 
           await r2Client.send(deleteCommand);
           deletedCount++;
-          console.log(`Deleted R2 object: ${object.Key}`);
         } catch (deleteError) {
           console.error(`Failed to delete object ${object.Key}:`, deleteError);
           // Continue deleting other objects even if one fails
@@ -398,8 +416,6 @@ export async function deleteR2ObjectsByPrefix(prefix: string): Promise<{
       // Check if there are more objects to list
       continuationToken = listResponse.NextContinuationToken;
     } while (continuationToken);
-
-    console.log(`Successfully deleted ${deletedCount} objects with prefix: ${normalizedPrefix}`);
     
     return {
       success: true,

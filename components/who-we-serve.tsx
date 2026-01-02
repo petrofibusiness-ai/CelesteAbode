@@ -76,8 +76,8 @@ export function WhoWeServe() {
         {/* Audience Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {audiences.map((audience, index) => {
-            // First row (0-2) links to projects, second row (3-5) links to services
-            const linkUrl = index < 3 ? "/projects" : "/services";
+            // First row (0-2) links to properties, second row (3-5) links to services
+            const linkUrl = index < 3 ? "/properties" : "/services";
             
             return (
             <motion.div

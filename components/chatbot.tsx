@@ -1,7 +1,7 @@
  "use client";
 
  import { useState, useEffect, useRef } from "react";
- import { X, Send, MessageCircle, ChevronRight, ExternalLink } from "lucide-react";
+ import { X, Send, MessageCircle, ChevronRight, ExternalLink, Phone } from "lucide-react";
  import { Button } from "@/components/ui/button";
  import { Input } from "@/components/ui/input";
  import { motion, AnimatePresence } from "framer-motion";
@@ -46,6 +46,7 @@ export function Chatbot() {
    const [data, setData] = useState<ChatbotData>({});
    const [isSubmitting, setIsSubmitting] = useState(false);
    const [inputValue, setInputValue] = useState("");
+   const [phoneError, setPhoneError] = useState(false);
    const messagesEndRef = useRef<HTMLDivElement>(null);
    const inputRef = useRef<HTMLInputElement>(null);
 
@@ -56,6 +57,13 @@ export function Chatbot() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Clear phone error when step changes away from phone input
+  useEffect(() => {
+    if (currentStep !== 9) {
+      setPhoneError(false);
+    }
+  }, [currentStep]);
 
   // Handle input focus to scroll into view when keyboard opens
   useEffect(() => {
@@ -197,7 +205,7 @@ export function Chatbot() {
      // Quick actions at the very end
      if (option.startsWith("🔍 View Properties")) {
        if (typeof window !== "undefined") {
-         window.location.href = "/projects";
+         window.location.href = "/properties";
        }
        return;
      }
@@ -510,20 +518,23 @@ export function Chatbot() {
          break;
        }
 
-       // 9: Phone (previously case 9)
-       case 9: {
-         if (!isValidPhone(response)) {
-           const userName = data.userName || "";
-           setTimeout(() => {
-             addBotMessage(
-               `${userName ? userName + ", " : ""}that doesn't look like a valid phone number. Please enter a valid phone number. 😊`,
-               []
-             );
-           }, 300);
-           shouldAdvance = false;
-           break;
-         }
+      // 9: Phone (previously case 9)
+      case 9: {
+        if (!isValidPhone(response)) {
+          setPhoneError(true);
+          const userName = data.userName || "";
+          setTimeout(() => {
+            addBotMessage(
+              `${userName ? userName + ", " : ""}that doesn't look like a valid phone number. Please enter a valid phone number. 😊`,
+              []
+            );
+          }, 300);
+          shouldAdvance = false;
+          break; // Don't advance, keep input value
+        }
 
+        // Valid phone number - clear error and proceed
+        setPhoneError(false);
         setData((prev) => ({ ...prev, phoneNumber: response.trim() }));
         nextStep = 10;
         const userName = data.userName || "";
@@ -660,8 +671,22 @@ export function Chatbot() {
    const handleInputSubmit = (e: React.FormEvent) => {
      e.preventDefault();
      if (inputValue.trim() && !isSubmitting) {
-       addUserMessage(inputValue.trim());
-       handleResponse(inputValue.trim());
+       const trimmedValue = inputValue.trim();
+       addUserMessage(trimmedValue);
+       
+       // For phone step, validate before clearing input
+       if (currentStep === 9) {
+         if (!isValidPhone(trimmedValue)) {
+           setPhoneError(true);
+           handleResponse(trimmedValue);
+           // Don't clear input - keep it so user can fix it
+           return;
+         } else {
+           setPhoneError(false);
+         }
+       }
+       
+       handleResponse(trimmedValue);
        setInputValue("");
      }
    };
@@ -671,6 +696,7 @@ export function Chatbot() {
      setCurrentStep(0);
      setData({});
      setInputValue("");
+     setPhoneError(false);
    };
 
   // Hide chatbot on admin pages
@@ -680,6 +706,18 @@ export function Chatbot() {
 
   return (
     <>
+      {/* Call Button - Above Chatbot */}
+      <motion.a
+        href="tel:+919818735258"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0, opacity: 0 }}
+        className="fixed bottom-[72px] right-4 sm:bottom-[88px] sm:right-6 z-[9999] bg-green-600 hover:bg-green-700 text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center group w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
+        aria-label="Call us"
+      >
+        <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
+      </motion.a>
+
       {!isOpen && (
         <motion.button
           initial={{ scale: 0, opacity: 0 }}
@@ -750,10 +788,10 @@ export function Chatbot() {
                      {message.type === "bot" &&
                        message.content.includes("explore our curated") && (
                          <Link
-                           href="/projects"
+                           href="/properties"
                            className="mt-2 sm:mt-3 inline-flex items-center gap-1.5 sm:gap-2 bg-[#0f1112] hover:bg-[#1a1c1e] active:bg-[#1a1c1e] text-[#CBB27A] px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors border border-[#CBB27A]/30 touch-manipulation min-h-[44px]"
                          >
-                           Explore Projects
+                           Explore Properties
                            <ExternalLink className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                          </Link>
                        )}
@@ -809,15 +847,25 @@ export function Chatbot() {
                    <Input
                      ref={inputRef}
                      value={inputValue}
-                     onChange={(e) => setInputValue(e.target.value)}
+                     onChange={(e) => {
+                       setInputValue(e.target.value);
+                       // Clear error when user starts typing
+                       if (currentStep === 9 && phoneError) {
+                         setPhoneError(false);
+                       }
+                     }}
                      placeholder={
                        currentStep === 1
                          ? "Enter your name"
                          : currentStep === 9
-                         ? "Enter your phone number"
+                         ? "Enter your phone number (10 digits)"
                          : "Enter your email address"
                      }
-                     className="flex-1 text-sm sm:text-base h-[44px] sm:h-[40px] leading-[1.5] py-0 font-poppins"
+                     className={`flex-1 text-sm sm:text-base h-[44px] sm:h-[40px] leading-[1.5] py-0 font-poppins ${
+                       phoneError && currentStep === 9
+                         ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+                         : ""
+                     }`}
                      style={{ lineHeight: '1.5', paddingTop: '0.625rem', paddingBottom: '0.625rem' }}
                      disabled={isSubmitting}
                      autoComplete={
@@ -845,6 +893,21 @@ export function Chatbot() {
                  </div>
                </form>
              )}
+
+             {/* Powered by Vitespace */}
+             <div className="px-3 py-2 sm:px-4 sm:py-2 border-t border-gray-200 bg-white flex-shrink-0">
+               <p className="text-xs text-gray-400 text-center">
+                 Powered by{" "}
+                 <Link
+                   href="https://www.vitespace.com"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className="text-[#CBB27A] hover:text-[#CBB27A]/80 transition-colors"
+                 >
+                   Vitespace
+                 </Link>
+               </p>
+             </div>
            </motion.div>
          )}
        </AnimatePresence>

@@ -1,5 +1,13 @@
 // Strict input validation schemas for API endpoints
 // Prevents data corruption, payload abuse, and DoS vectors
+import {
+  PROPERTY_TYPES,
+  PROJECT_STATUSES,
+  CONFIGURATIONS,
+  isValidPropertyType,
+  isValidProjectStatus,
+  isValidConfiguration,
+} from "@/lib/property-enums";
 
 export interface ValidationError {
   field: string;
@@ -207,7 +215,6 @@ export function validatePropertyData(body: any): ValidationError[] {
   errors.push(...validateString(body.projectName, 'projectName', true, 500));
   errors.push(...validateString(body.developer, 'developer', true, 500));
   errors.push(...validateString(body.location, 'location', true, 500));
-  errors.push(...validateString(body.status, 'status', true, 100));
   errors.push(...validateString(body.sizes, 'sizes', true, 200));
   errors.push(...validateString(body.description, 'description', true, 50000));
 
@@ -228,18 +235,68 @@ export function validatePropertyData(body: any): ValidationError[] {
     errors.push(...validateUrl(body.brochureUrl, 'brochureUrl', false));
   }
 
-  // Array fields with validation
-  if (body.unitTypes !== undefined) {
+  // Location ID validation (required) - FK to locations_v2
+  if (body.locationId === undefined || body.locationId === null || body.locationId === '') {
+    errors.push({ field: 'locationId', message: 'locationId is required' });
+  } else {
+    if (typeof body.locationId !== 'string') {
+      errors.push({ field: 'locationId', message: 'locationId must be a string (UUID)' });
+    } else {
+      // Validate UUID format
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      if (!uuidRegex.test(body.locationId)) {
+        errors.push({ field: 'locationId', message: 'locationId must be a valid UUID' });
+      }
+    }
+  }
+
+  // Locality ID validation (optional) - FK to localities
+  if (body.localityId !== undefined && body.localityId !== null && body.localityId !== '') {
+    if (typeof body.localityId !== 'string') {
+      errors.push({ field: 'localityId', message: 'localityId must be a string (UUID)' });
+    } else {
+      // Validate UUID format
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      if (!uuidRegex.test(body.localityId)) {
+        errors.push({ field: 'localityId', message: 'localityId must be a valid UUID' });
+      }
+    }
+  }
+
+  if (body.propertyType !== undefined && body.propertyType !== null) {
+    if (typeof body.propertyType !== 'string') {
+      errors.push({ field: 'propertyType', message: 'propertyType must be a string' });
+    } else if (!isValidPropertyType(body.propertyType)) {
+      errors.push({ 
+        field: 'propertyType', 
+        message: `propertyType must be one of: ${PROPERTY_TYPES.join(', ')}` 
+      });
+    }
+  }
+
+  if (body.projectStatus !== undefined && body.projectStatus !== null) {
+    if (typeof body.projectStatus !== 'string') {
+      errors.push({ field: 'projectStatus', message: 'projectStatus must be a string' });
+    } else if (!isValidProjectStatus(body.projectStatus)) {
+      errors.push({ 
+        field: 'projectStatus', 
+        message: `projectStatus must be one of: ${PROJECT_STATUSES.join(', ')}` 
+      });
+    }
+  }
+
+  // Configuration array (enum array) validation
+  if (body.configuration !== undefined) {
     errors.push(...validateArray(
-      body.unitTypes,
-      'unitTypes',
+      body.configuration,
+      'configuration',
       50,
       (item, index) => {
         if (typeof item !== 'string') {
-          return `unitTypes[${index}] must be a string`;
+          return `configuration[${index}] must be a string`;
         }
-        if (item.length > 200) {
-          return `unitTypes[${index}] cannot exceed 200 characters`;
+        if (!isValidConfiguration(item)) {
+          return `configuration[${index}] must be one of: ${CONFIGURATIONS.join(', ')}`;
         }
         return null;
       }
@@ -303,24 +360,34 @@ export function validatePropertyData(body: any): ValidationError[] {
     ));
   }
 
-  if (body.amenities !== undefined) {
-    errors.push(...validateArray(
-      body.amenities,
-      'amenities',
-      MAX_ARRAY_SIZE,
-      (item, index) => {
-        if (typeof item !== 'string') {
-          return `amenities[${index}] must be a string`;
-        }
-        if (item.trim() === '') {
-          return `amenities[${index}] cannot be empty`;
-        }
-        if (item.length > 200) {
-          return `amenities[${index}] cannot exceed 200 characters`;
-        }
-        return null;
+  // Amenities validation - required, at least one item
+  if (body.amenities === undefined || body.amenities === null) {
+    errors.push({ field: 'amenities', message: 'amenities is required' });
+  } else {
+    if (!Array.isArray(body.amenities)) {
+      errors.push({ field: 'amenities', message: 'amenities must be an array' });
+    } else {
+      if (body.amenities.length === 0) {
+        errors.push({ field: 'amenities', message: 'At least one amenity is required' });
       }
-    ));
+      errors.push(...validateArray(
+        body.amenities,
+        'amenities',
+        MAX_ARRAY_SIZE,
+        (item, index) => {
+          if (typeof item !== 'string') {
+            return `amenities[${index}] must be a string`;
+          }
+          if (item.trim() === '') {
+            return `amenities[${index}] cannot be empty`;
+          }
+          if (item.length > 200) {
+            return `amenities[${index}] cannot exceed 200 characters`;
+          }
+          return null;
+        }
+      ));
+    }
   }
 
   // SEO object validation

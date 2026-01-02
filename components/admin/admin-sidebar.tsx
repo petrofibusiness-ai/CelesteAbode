@@ -11,7 +11,9 @@ import {
   Settings,
   FileText,
   Menu,
-  X
+  X,
+  MapPin,
+  Mail
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -34,6 +36,9 @@ export default function AdminSidebar() {
 
   const navItems = [
     { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+    { href: "/admin/leads", label: "Leads", icon: Mail },
+    { href: "/admin/locations", label: "Locations", icon: MapPin },
+    { href: "/admin/locations/new", label: "New Location", icon: Plus },
     { href: "/admin/properties", label: "Properties", icon: Building2 },
     { href: "/admin/properties/new", label: "New Property", icon: Plus },
   ];

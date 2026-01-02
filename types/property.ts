@@ -1,4 +1,5 @@
 // Property types for admin panel
+import type { PropertyType, LocationCategory, ProjectStatus, Configuration } from "@/lib/property-enums";
 
 export interface PropertyMedia {
   type: 'image' | 'video';
@@ -20,11 +21,15 @@ export interface Property {
   slug: string; // URL-friendly identifier (e.g., "forest-walk-villa")
   projectName: string;
   developer: string;
-  location: string;
+  location: string; // Denormalized text field
+  locationCategory?: LocationCategory | null; // Deprecated - use locationId instead
+  locationId?: string | null; // FK to locations_v2
+  localityId?: string | null; // FK to localities
+  propertyType?: PropertyType | null; // Type of property (enum)
   reraId?: string;
-  status: string; // e.g., "Under Construction", "Ready to Move"
+  projectStatus?: ProjectStatus | null; // Current project status (enum)
   possessionDate?: string;
-  unitTypes: string[]; // e.g., ["4 BHK + 5T Villas"]
+  configuration: Configuration[]; // Array of unit configurations (enum array)
   sizes: string; // e.g., "163 sq. yd - 238 sq. yd"
   description: string;
   heroImage: string; // URL to hero image

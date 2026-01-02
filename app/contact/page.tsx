@@ -25,11 +25,13 @@ export default function ContactPage() {
   const [submitStatus, setSubmitStatus] = useState<
     "idle" | "success" | "error"
   >("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus("idle");
+    setErrorMessage("");
 
     try {
       const formData = new FormData(e.currentTarget);
@@ -41,12 +43,23 @@ export default function ContactPage() {
         message: formData.get("message") as string,
       };
 
+      // Validate message length before submitting
+      if (!data.message || data.message.trim().length < 10) {
+        setSubmitStatus("error");
+        setErrorMessage("Message must be at least 10 characters long");
+        setIsSubmitting(false);
+        return;
+      }
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...data,
+          formSource: "contact-page",
+        }),
       });
 
       if (response.ok) {
@@ -55,16 +68,18 @@ export default function ContactPage() {
           setSubmitStatus("success");
           e.currentTarget.reset();
         } else {
-          console.error("Form submission error:", result.error);
           setSubmitStatus("error");
+          setErrorMessage(result.error || "Failed to submit form");
         }
       } else {
-        console.error("HTTP error:", response.status);
+        // Get error message from response
+        const errorData = await response.json().catch(() => ({ error: "Failed to submit form" }));
         setSubmitStatus("error");
+        setErrorMessage(errorData.error || "Failed to submit form. Please try again.");
       }
     } catch (error) {
       setSubmitStatus("error");
-      console.error("Form submission error:", error);
+      setErrorMessage("Network error. Please check your connection and try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -261,6 +276,17 @@ export default function ContactPage() {
                               Message sent successfully! We'll get back to you
                               within 2 hours.
                             </span>
+                          </div>
+                        </div>
+                      )}
+
+                      {submitStatus === "error" && errorMessage && (
+                        <div className="text-center text-red-700 text-xs bg-gradient-to-r from-red-50 to-rose-50 p-2 rounded-lg border border-red-200 shadow-sm">
+                          <div className="flex items-center justify-center gap-1">
+                            <div className="w-4 h-4 bg-red-500 rounded-full flex items-center justify-center">
+                              <span className="text-white text-xs">✕</span>
+                            </div>
+                            <span className="font-medium">{errorMessage}</span>
                           </div>
                         </div>
                       )}

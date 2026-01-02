@@ -10,10 +10,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { ContactPopup } from "@/components/contact-popup";
 import { useEffect, useRef, useState } from "react";
 import { MapPin, Play, ChevronLeft, ChevronRight } from "lucide-react";
 import { Property } from "@/types/property";
+import { getPropertyUrl } from "@/lib/property-url";
 
 interface PropertyDisplay {
   id: string;
@@ -29,25 +29,12 @@ interface PropertyDisplay {
 export function PropertiesSection() {
   const [api, setApi] = useState<any>();
   const [current, setCurrent] = useState(0);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [properties, setProperties] = useState<PropertyDisplay[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedProperty, setSelectedProperty] = useState<{
-    title: string;
-    location: string;
-  } | null>(null);
 
   const handleNavigation = (path: string) => {
     window.location.href = path;
-  };
-
-  const handleContact = (property: PropertyDisplay) => {
-    setSelectedProperty({
-      title: property.name,
-      location: property.address,
-    });
-    setIsPopupOpen(true);
   };
 
   // Fetch properties from API
@@ -64,37 +51,12 @@ export function PropertiesSection() {
         
         const data = await response.json();
         
-        console.log("API Response:", data);
-        console.log("Properties received:", data.properties?.length || 0);
-        console.log("All properties from API:", data.properties);
-        
-        // Log publish status of all properties with IDs to track order
-        if (data.properties && data.properties.length > 0) {
-          console.log("Properties with publish status (from API):", data.properties.map((p: Property, idx: number) => ({
-            index: idx,
-            name: p.projectName,
-            id: p.id,
-            isPublished: p.isPublished,
-            hasHeroImage: !!p.heroImage
-          })));
-        }
-        
         // Map API response to display format
         // IMPORTANT: We do NOT filter by isPublished - show ALL properties
         const mappedProperties: PropertyDisplay[] = (data.properties || [])
           .map((prop: Property, index: number) => {
-            console.log(`Mapping property ${index + 1} (ID: ${prop.id}):`, {
-              name: prop.projectName,
-              isPublished: prop.isPublished,
-              heroImage: prop.heroImage,
-              hasHeroImage: !!prop.heroImage,
-              slug: prop.slug,
-              id: prop.id
-            });
-            
             // Check if property has required fields (only filter by heroImage, NOT by isPublished)
             if (!prop.heroImage) {
-              console.warn(`⚠️ Property "${prop.projectName}" (isPublished: ${prop.isPublished}) is missing hero_image, skipping`);
               return null;
             }
             
@@ -110,19 +72,6 @@ export function PropertiesSection() {
             };
           })
           .filter((prop: PropertyDisplay | null): prop is PropertyDisplay => prop !== null);
-        
-        // Check for duplicate IDs after mapping
-        const ids = mappedProperties.map((p: PropertyDisplay) => p.id);
-        const duplicateIds = ids.filter((id, index) => ids.indexOf(id) !== index);
-        if (duplicateIds.length > 0) {
-          console.warn(`⚠️ Duplicate IDs detected:`, duplicateIds);
-        }
-        
-        console.log("Mapped properties:", mappedProperties.length);
-        console.log("Final properties to display:", mappedProperties.map(p => ({ name: p.name, id: p.id, isPublished: p.isPublished })));
-        console.log("Total properties count:", mappedProperties.length);
-        console.log("Published count in frontend:", mappedProperties.filter(p => p.isPublished === true).length);
-        console.log("Unpublished count in frontend:", mappedProperties.filter(p => p.isPublished === false).length);
         setProperties(mappedProperties);
       } catch (err) {
         console.error("Error fetching properties:", err);
@@ -188,7 +137,6 @@ export function PropertiesSection() {
                 <CarouselContent>
                   {properties.map((property, index) => {
                     // Log each property being rendered (especially unpublished ones)
-                    console.log(`Rendering property ${index + 1}/${properties.length}: ${property.name} (ID: ${property.id}, isPublished: ${property.isPublished})`);
                     return (
                     <CarouselItem
                       key={property.id || `property-${index}`}
@@ -197,7 +145,7 @@ export function PropertiesSection() {
                       <div
                         className="group cursor-pointer p-4"
                         onClick={() => {
-                          handleNavigation(`/projects/${property.slug}`);
+                          handleNavigation(getPropertyUrl(property));
                         }}
                       >
                         <div className="relative overflow-hidden rounded-2xl shadow-xl group-hover:shadow-2xl transition-all duration-500 group-hover:scale-105 border-2 border-black">
@@ -308,33 +256,21 @@ export function PropertiesSection() {
             <Button
               size="default"
               className="bg-primary hover:bg-primary/90 text-white px-6 py-3 text-base rounded-full w-full sm:w-auto"
-              onClick={() => handleNavigation("/projects")}
+              onClick={() => handleNavigation("/properties")}
             >
-              Explore All Projects
+              Explore All Properties
             </Button>
             <Button
               variant="outline"
               size="default"
               className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-3 text-base rounded-full w-full sm:w-auto"
-              onClick={() => properties.length > 0 && handleContact(properties[0])}
-              disabled={properties.length === 0}
+              onClick={() => handleNavigation("/contact")}
             >
               Get Expert Consultation
             </Button>
           </div>
         </div>
       </div>
-
-      {/* Contact Popup */}
-      <ContactPopup
-        isOpen={isPopupOpen}
-        onClose={() => {
-          setIsPopupOpen(false);
-          setSelectedProperty(null);
-        }}
-        propertyTitle={selectedProperty?.title}
-        propertyLocation={selectedProperty?.location}
-      />
     </section>
   );
 }

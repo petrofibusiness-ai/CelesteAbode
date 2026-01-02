@@ -25,6 +25,7 @@ import {
   Star
 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
+import Link from "next/link";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -149,10 +150,10 @@ export default function VillaInNoidaPage() {
             {/* Introduction */}
             <motion.div variants={itemVariants} className="text-center space-y-6">
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                In the heart of India's most connected city, Noida, a new definition of luxury living is taking shape - elegant villas designed not just to house your lifestyle, but to elevate it.
+                In the heart of India's most connected city, Noida, a new definition of luxury living is taking shape - elegant villas designed not just to house your lifestyle, but to elevate it. Explore our curated collection of <Link href="/properties-in-noida" className="text-[#CBB27A] hover:underline font-semibold">luxury properties in Noida</Link> to discover villas that match your aspirations.
               </p>
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                At <span className="text-[#CBB27A] font-semibold">Celeste Abode</span>, we believe a home should be more than architecture - it should be an emotion. A sanctuary where design meets desire, and sophistication meets serenity.
+                At <span className="text-[#CBB27A] font-semibold">Celeste Abode</span>, we believe a home should be more than architecture - it should be an emotion. A sanctuary where design meets desire, and sophistication meets serenity. Learn more about our <Link href="/services" className="text-[#CBB27A] hover:underline font-semibold">real estate consulting services</Link> and how we help you find the perfect villa.
               </p>
             </motion.div>
 
@@ -240,7 +241,7 @@ export default function VillaInNoidaPage() {
               </h2>
               <div className="max-w-3xl mx-auto space-y-6">
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  At Celeste Abode, we go beyond transactions - we understand aspirations. Our consultants blend lifestyle mapping, legal diligence, and investment foresight to help you find a villa that reflects who you are.
+                  At Celeste Abode, we go beyond transactions - we understand aspirations. Our consultants blend lifestyle mapping, legal diligence, and investment foresight to help you find a villa that reflects who you are. Discover our <Link href="/philosophy" className="text-[#CBB27A] hover:underline font-semibold">philosophy</Link> and <Link href="/services" className="text-[#CBB27A] hover:underline font-semibold">comprehensive services</Link> designed to make your property journey seamless.
                 </p>
                 <div className="grid md:grid-cols-3 gap-6 mt-8">
                   {[
@@ -334,7 +335,7 @@ export default function VillaInNoidaPage() {
                 ))}
               </div>
               <p className="text-center text-muted-foreground mt-8 max-w-2xl mx-auto">
-                Whether you seek a 3 BHK contemporary villa, a 4 BHK premium residence, or a custom-built estate, Noida offers options that balance beauty, space, and investment potential.
+                Whether you seek a 3 BHK contemporary villa, a 4 BHK premium residence, or a custom-built estate, Noida offers options that balance beauty, space, and investment potential. <Link href="/properties" className="text-[#CBB27A] hover:underline font-semibold">Browse all properties</Link> or <Link href="/properties-in-noida" className="text-[#CBB27A] hover:underline font-semibold">view Noida properties</Link> to find your perfect match.
               </p>
             </motion.div>
 
@@ -454,13 +455,43 @@ export default function VillaInNoidaPage() {
               </div>
             </motion.div>
 
+            {/* Internal Links Section */}
+            <motion.div variants={itemVariants} className="bg-gradient-to-br from-primary/5 to-[#CBB27A]/5 rounded-3xl p-8 md:p-12 border border-[#CBB27A]/20">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4">
+                  Explore More
+                </h3>
+                <p className="text-muted-foreground mb-6">
+                  Discover our comprehensive property services and curated collections
+                </p>
+              </div>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <Link href="/properties-in-noida" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
+                  <MapPin className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Noida Properties</p>
+                </Link>
+                <Link href="/properties" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
+                  <Building2 className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">All Properties</p>
+                </Link>
+                <Link href="/services" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
+                  <Zap className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Our Services</p>
+                </Link>
+                <Link href="/contact" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
+                  <MessageCircle className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
+                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Contact Us</p>
+                </Link>
+              </div>
+            </motion.div>
+
             {/* CTA Section */}
             <motion.div variants={itemVariants} className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
                 Start Your Villa Journey in Noida Today
               </h2>
               <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
-                If you've ever dreamed of owning a space that mirrors your success and serenity - Celeste Abode is your destination. Explore Noida's most prestigious villas and discover homes that redefine elegance, comfort, and value.
+                If you've ever dreamed of owning a space that mirrors your success and serenity - Celeste Abode is your destination. Explore Noida's most prestigious villas and discover homes that redefine elegance, comfort, and value. <Link href="/properties-in-noida" className="text-[#CBB27A] hover:underline font-semibold">View our Noida property collection</Link> or <Link href="/contact" className="text-[#CBB27A] hover:underline font-semibold">schedule a consultation</Link> to get started.
               </p>
               <p className="text-muted-foreground italic text-lg text-center max-w-2xl mx-auto">
                 Because luxury isn't just about where you live - it's about how beautifully you live there.

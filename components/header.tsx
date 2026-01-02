@@ -104,7 +104,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                 width={95}
                 height={95}
                 sizes="95px"
-                quality={70}
+                quality={60}
                 priority
                 fetchPriority="high"
                 loading="eager"
@@ -150,7 +150,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                 width={95}
                 height={95}
                 sizes="95px"
-                quality={70}
+                quality={60}
                 priority
                 fetchPriority="high"
                 loading="eager"

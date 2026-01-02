@@ -11,29 +11,42 @@ import type { Metadata } from "next"
 export const metadata: Metadata = homepageMetadata
 
 // Server-side rendered components for SEO - content in raw HTML
+// Optimized loading with smaller placeholders for mobile
 const BrandIntro = dynamic(() => import("@/components/brand-intro").then(mod => ({ default: mod.BrandIntro })), { 
   ssr: true, // SSR enabled for SEO
-  loading: () => <div className="min-h-[300px] md:min-h-[400px]" />
+  loading: () => <div className="min-h-[200px] md:min-h-[400px]" />
 })
-const WhyClientsTrustSection = dynamic(() => import("@/components/why-clients-trust-section").then(mod => ({ default: mod.WhyClientsTrustSection })), { ssr: true })
-const BrandCarousel = dynamic(() => import("@/components/brand-carousel").then(mod => ({ default: mod.BrandCarousel })), { ssr: true }) // SSR enabled for trust signals
-const ValuePropositions = dynamic(() => import("@/components/value-propositions").then(mod => ({ default: mod.ValuePropositions })), { ssr: true }) // SSR enabled for SEO
-const WhoWeServe = dynamic(() => import("@/components/who-we-serve").then(mod => ({ default: mod.WhoWeServe })), { ssr: true })
+const WhyClientsTrustSection = dynamic(() => import("@/components/why-clients-trust-section").then(mod => ({ default: mod.WhyClientsTrustSection })), { 
+  ssr: true,
+  loading: () => <div className="min-h-[200px] md:min-h-[300px]" />
+})
+const BrandCarousel = dynamic(() => import("@/components/brand-carousel").then(mod => ({ default: mod.BrandCarousel })), { 
+  ssr: true, // SSR enabled for trust signals
+  loading: () => <div className="min-h-[150px] md:min-h-[200px]" />
+})
+const ValuePropositions = dynamic(() => import("@/components/value-propositions").then(mod => ({ default: mod.ValuePropositions })), { 
+  ssr: true, // SSR enabled for SEO
+  loading: () => <div className="min-h-[200px] md:min-h-[300px]" />
+})
+const WhoWeServe = dynamic(() => import("@/components/who-we-serve").then(mod => ({ default: mod.WhoWeServe })), { 
+  ssr: true,
+  loading: () => <div className="min-h-[200px] md:min-h-[300px]" />
+})
 const WhereWeWork = dynamic(
   () => import("@/components/where-we-work").then(mod => ({ default: mod.WhereWeWork })),
-  { ssr: true, loading: () => <div className="min-h-[600px]" /> } // SSR enabled for local SEO
+  { ssr: true, loading: () => <div className="min-h-[400px] md:min-h-[600px]" /> } // SSR enabled for local SEO
 )
 const TestimonialsSection = dynamic(
   () => import("@/components/testimonials-section").then(mod => ({ default: mod.TestimonialsSection })),
-  { ssr: true, loading: () => <div className="min-h-[300px] md:min-h-[400px]" /> } // SSR enabled for social proof
+  { ssr: true, loading: () => <div className="min-h-[200px] md:min-h-[400px]" /> } // SSR enabled for social proof
 )
 const VaultTeaser = dynamic(
   () => import("@/components/vault-teaser").then(mod => ({ default: mod.VaultTeaser })),
-  { ssr: true, loading: () => <div className="min-h-[300px] md:min-h-[400px]" /> } // SSR enabled for SEO
+  { ssr: true, loading: () => <div className="min-h-[200px] md:min-h-[400px]" /> } // SSR enabled for SEO
 )
 const CTASection = dynamic(
   () => import("@/components/cta-section").then(mod => ({ default: mod.CTASection })),
-  { ssr: true } // SSR enabled for conversion content
+  { ssr: true, loading: () => <div className="min-h-[150px] md:min-h-[200px]" /> } // SSR enabled for conversion content
 )
 
 export default function HomePage() {

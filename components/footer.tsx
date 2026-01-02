@@ -13,8 +13,8 @@ export function Footer() {
       {/* EDIT: lighter shade of black to match bottom image */}
       <div className="max-w-screen-xl mx-auto px-6 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8 mb-8 md:mb-12 justify-items-start sm:justify-items-start">
-          {/* Logo Column */}
-          <div className="flex justify-center lg:justify-start">
+          {/* Logo Column - Centered */}
+          <div className="flex justify-center w-full lg:col-span-1">
             <div className="mb-6">
               <Image
                 src="/logoceleste.avif"
@@ -22,9 +22,9 @@ export function Footer() {
                 width={170}
                 height={156}
                 sizes="(max-width: 640px) 130px, 170px"
-                quality={70}
+                quality={60}
                 className=""
-                priority
+                loading="lazy"
               />
             </div>
           </div>

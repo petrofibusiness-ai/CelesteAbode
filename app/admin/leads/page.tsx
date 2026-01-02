@@ -1331,7 +1331,7 @@ export default function LeadsPage() {
                       target="_blank" 
                       rel="noopener noreferrer" 
                       className="text-xs sm:text-sm text-[#CBB27A] hover:text-[#B8A068] hover:underline break-all font-bold transition-colors"
-                    >
+              >
                       {selectedLeadForDetails.page_url}
                     </a>
             </div>

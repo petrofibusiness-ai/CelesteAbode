@@ -114,17 +114,17 @@ export default function AdminSidebar() {
       <header className="md:hidden fixed top-0 left-0 right-0 h-16 bg-black z-[100] border-b border-gray-800 shadow-lg">
         <div className="flex items-center justify-between h-full px-4 relative">
           {/* Menu Toggle Button - Left */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      <button
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="p-2 rounded-lg hover:bg-gray-800 transition-colors"
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? (
+        aria-label="Toggle menu"
+      >
+        {isMobileMenuOpen ? (
               <X className="w-6 h-6 text-white" />
-            ) : (
+        ) : (
               <Menu className="w-6 h-6 text-white" />
-            )}
-          </button>
+        )}
+      </button>
 
           {/* Logo/Brand - Center */}
           <div className="absolute left-1/2 transform -translate-x-1/2">

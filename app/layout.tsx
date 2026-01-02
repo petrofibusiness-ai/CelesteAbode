@@ -524,8 +524,9 @@ export default function RootLayout({
         <link rel="preload" href="/logoceleste.avif" as="image" type="image/avif" />
         
         {/* Preload critical fonts - async load to prevent render blocking - Mobile optimized */}
+        {/* Defer decorative fonts on mobile - only load on desktop */}
         <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" as="style" media="(min-width: 768px)" />
-        {/* Load Satoshi font CSS asynchronously - prevents CSS chain blocking */}
+        {/* Load Satoshi font CSS asynchronously - prevents CSS chain blocking - Defer on mobile */}
         <link 
           rel="stylesheet" 
           href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap&text=CelesteAbodeRealEstateLuxuryPropertiesPhilosophyServicesContactBookConsultationMasterpiecesLivingExplorePropertiesWhatOurClientsSayGetInTouchOurPhilosophyServicesAtCelesteAbodeExplorePremiumProperties" 
@@ -533,7 +534,7 @@ export default function RootLayout({
           id="satoshi-font-stylesheet"
           suppressHydrationWarning
         />
-        {/* Load Cormorant Garamond font CSS asynchronously */}
+        {/* Load Cormorant Garamond font CSS asynchronously - Desktop only */}
         <link 
           rel="stylesheet" 
           href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" 
@@ -547,26 +548,49 @@ export default function RootLayout({
             __html: `
               (function() {
                 if (typeof window === 'undefined') return;
-                // Load fonts asynchronously to prevent render blocking
+                // Load fonts asynchronously after initial render to prevent render blocking
+                // Defer decorative fonts on mobile for better performance
+                var isMobile = window.innerWidth < 768;
                 var cormorantLink = document.getElementById('cormorant-font-stylesheet');
                 var satoshiLink = document.getElementById('satoshi-font-stylesheet');
-                if (cormorantLink) {
-                  requestAnimationFrame(function() {
-                    cormorantLink.media = 'all';
+                
+                // Load fonts after page is interactive
+                if (document.readyState === 'loading') {
+                  document.addEventListener('DOMContentLoaded', function() {
+                    setTimeout(function() {
+                      if (cormorantLink && !isMobile) {
+                        requestAnimationFrame(function() {
+                          cormorantLink.media = 'all';
+                        });
+                      }
+                      if (satoshiLink && !isMobile) {
+                        requestAnimationFrame(function() {
+                          satoshiLink.media = 'all';
+                        });
+                      }
+                    }, 100);
                   });
-                }
-                if (satoshiLink) {
-                  requestAnimationFrame(function() {
-                    satoshiLink.media = 'all';
-                  });
+                } else {
+                  setTimeout(function() {
+                    if (cormorantLink && !isMobile) {
+                      requestAnimationFrame(function() {
+                        cormorantLink.media = 'all';
+                      });
+                    }
+                    if (satoshiLink && !isMobile) {
+                      requestAnimationFrame(function() {
+                        satoshiLink.media = 'all';
+                      });
+                    }
+                  }, 100);
                 }
               })();
             `,
           }}
         />
         <noscript>
-          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" />
-          <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap&text=CelesteAbodeRealEstateLuxuryPropertiesPhilosophyServicesContactBookConsultationMasterpiecesLivingExplorePropertiesWhatOurClientsSayGetInTouchOurPhilosophyServicesAtCelesteAbodeExplorePremiumProperties" />
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" media="(min-width: 768px)" />
+          <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap&text=CelesteAbodeRealEstateLuxuryPropertiesPhilosophyServicesContactBookConsultationMasterpiecesLivingExplorePropertiesWhatOurClientsSayGetInTouchOurPhilosophyServicesAtCelesteAbodeExplorePremiumProperties" media="(min-width: 768px)" />
         </noscript>
         
         {/* Additional SEO Meta Tags */}
@@ -604,6 +628,25 @@ export default function RootLayout({
         {children}
         <Chatbot />
         {/* Defer analytics to improve initial load performance - load after page is interactive */}
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                if (typeof window === 'undefined') return;
+                // Defer analytics until after page load
+                function loadAnalytics() {
+                  // Analytics will be loaded by their respective components after page load
+                }
+                if (document.readyState === 'loading') {
+                  window.addEventListener('load', loadAnalytics);
+                } else {
+                  setTimeout(loadAnalytics, 2000);
+                }
+              })();
+            `,
+          }}
+        />
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
         <FacebookPixel pixelId={process.env.NEXT_PUBLIC_FB_PIXEL_ID} />
         <Analytics />

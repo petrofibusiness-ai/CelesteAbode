@@ -5,60 +5,62 @@ import { PillButton } from "@/components/ui/pill-button";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-background pt-24">
-      <div className="max-w-7xl mx-auto px-6 w-full">
-        <div className="bg-white rounded-3xl shadow-2xl overflow-hidden relative">
+    <section className="relative min-h-screen flex items-center justify-center bg-background pt-16 md:pt-20">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 w-full">
+        <div className="bg-white rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden relative">
           {/* Video Container */}
-          <div className="relative h-[580px] lg:h-[620px]">
-            {/* Placeholder image - shows while video loads */}
-            <div className="absolute inset-0 w-full h-full">
+          <div className="relative h-[550px] sm:h-[650px] md:h-[700px] lg:h-[750px]">
+            {/* Image - Mobile only - Optimized for LCP */}
+            <div className="absolute inset-0 w-full h-full md:hidden">
               <Image
                 src="/propertyhero.avif"
                 alt="Best real estate consultant guiding property decisions in Delhi NCR - Noida, Greater Noida, and Yamuna Expressway"
                 fill
                 priority
+                fetchPriority="high"
                 className="w-full h-full object-cover object-center"
                 sizes="100vw"
-                quality={75}
+                quality={60}
+                loading="eager"
               />
             </div>
             
-            {/* Cloud-hosted video */}
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-              preload="auto"
-              className="absolute inset-0 w-full h-full object-cover object-center"
+            {/* Cloud-hosted video - Desktop only - Deferred loading */}
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="none"
+              className="hidden md:block absolute inset-0 w-full h-full object-cover object-center"
             >
               <source src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/HEROVIDEO%20(1).mp4" type="video/mp4" />
-              </video>
+            </video>
 
-            {/* Dark overlay for better text readability */}
-            <div className="absolute inset-0 bg-black/70" />
+            {/* Overlay for better text readability */}
+            <div className="absolute inset-0 bg-black/50" />
 
             {/* Left side vignette */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
 
             {/* Left Aligned Text Overlay */}
-            <div className="absolute inset-0 flex items-end pb-16">
+            <div className="absolute inset-0 flex items-end pb-8 md:pb-16">
               {/* Gradient overlay behind text block only - dark on left, transparent on right */}
-              <div className="absolute left-0 top-0 bottom-0 w-full md:w-2/3 lg:w-1/2 bg-gradient-to-r from-black/70 via-black/40 to-transparent pointer-events-none" />
+              <div className="absolute left-0 top-0 bottom-0 w-full md:w-2/3 lg:w-1/2 bg-gradient-to-r from-black/60 via-black/30 to-transparent pointer-events-none" />
               
-              <div className="relative text-left text-[#FAFAF8] max-w-3xl px-4 ml-6 md:px-6 md:ml-8">
+              <div className="relative text-left text-[#FAFAF8] max-w-3xl px-4 ml-4 md:ml-6 md:px-6 md:ml-8">
                 {/* Vision Line - Branding Tagline */}
-                <div className="text-xs mb-2 font-medium tracking-wide uppercase text-[#CBB27A]">
+                <div className="text-xs mb-1.5 md:mb-2 font-medium tracking-wide uppercase text-[#CBB27A]">
                   From Masterpieces of Time To Masterpieces of Living
                 </div>
 
                 {/* H1 - SEO-Optimized Main Headline */}
-                <h1 className="text-2xl md:text-3xl lg:text-4xl font-medium mb-3 leading-tight text-[#FAFAF8]">
+                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium mb-2 md:mb-3 leading-tight text-[#FAFAF8]">
                   Best Real Estate Consultant in Delhi NCR for Residential & Investment Properties
                 </h1>
 
                 {/* Hero Subcopy */}
-                <p className="text-xs md:text-sm text-white mb-4 max-w-xl font-medium font-poppins">
+                <p className="text-xs md:text-sm text-white mb-3 md:mb-4 max-w-xl font-medium font-poppins">
                   Guiding confident property decisions across Noida, Greater Noida, and the Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.
                 </p>
 

@@ -313,30 +313,6 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
               >
                 HOME
               </Link>
-              <Link
-                href="/philosophy"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
-                onClick={() => setIsMobileMenuOpen(false)}
-                aria-label="Navigate to Philosophy page"
-              >
-                PHILOSOPHY
-              </Link>
-              <Link
-                href="/services"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
-                onClick={() => setIsMobileMenuOpen(false)}
-                aria-label="Navigate to Services page"
-              >
-                SERVICES
-              </Link>
-              <Link
-                href="/vault"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
-                onClick={() => setIsMobileMenuOpen(false)}
-                aria-label="Navigate to Vault page"
-              >
-                VAULT
-              </Link>
               
               {/* Mobile Properties Dropdown */}
               <div className="border-l-4 border-transparent">
@@ -430,6 +406,31 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                   )}
                 </AnimatePresence>
               </div>
+              
+              <Link
+                href="/philosophy"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-label="Navigate to Philosophy page"
+              >
+                PHILOSOPHY
+              </Link>
+              <Link
+                href="/services"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-label="Navigate to Services page"
+              >
+                SERVICES
+              </Link>
+              <Link
+                href="/vault"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-label="Navigate to Vault page"
+              >
+                VAULT
+              </Link>
               <Link
                 href="/contact"
                 className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"

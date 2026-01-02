@@ -321,11 +321,13 @@ export async function DELETE(
     }
 
     // Step 3: Delete all localities associated with this location
-    const { error: localitiesDeleteError, count: deletedLocalitiesCount } = await supabase
+    const { error: localitiesDeleteError, data: deletedLocalities } = await supabase
       .from("localities")
       .delete()
       .eq("location_id", locationId)
-      .select("*", { count: "exact", head: true });
+      .select("*");
+    
+    const deletedLocalitiesCount = deletedLocalities?.length || 0;
 
     if (localitiesDeleteError) {
       console.error("Error deleting localities:", localitiesDeleteError);

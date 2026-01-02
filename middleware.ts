@@ -68,6 +68,12 @@ export function middleware(request: NextRequest) {
     response.headers.set(key, value);
   });
 
+  // CRITICAL: Block search engines from indexing admin pages
+  if (pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  }
+
   // HSTS (HTTP Strict Transport Security) - only in production
   if (process.env.NODE_ENV === 'production') {
     response.headers.set(

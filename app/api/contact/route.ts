@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { sendFormSubmissionEmail } from '@/lib/email-service';
+import { sendFormSubmissionEmail, type EmailResult } from '@/lib/email-service';
 import { sanitizeInput, isValidEmail, isValidPhone, isValidName, getClientIP, checkRateLimit } from '@/lib/security';
 import { storeLead, updateLeadEmailStatus } from '@/lib/lead-service';
 
@@ -253,7 +253,7 @@ export async function POST(request: NextRequest) {
 
     // Send email (even if DB storage fails, still try to send email)
     // Only send email if email is provided
-    let emailResult = { success: true, messageId: null };
+    let emailResult: EmailResult = { success: true };
     if (sanitizedEmail) {
       emailResult = await sendFormSubmissionEmail({
         formType: 'contact',

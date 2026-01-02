@@ -22,18 +22,18 @@ export function HeroSection() {
                 quality={75}
               />
             </div>
-
+            
             {/* Cloud-hosted video */}
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
               preload="auto"
               className="absolute inset-0 w-full h-full object-cover object-center"
             >
-              <source src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/HEROVIDEO.mp4" type="video/mp4" />
-            </video>
+              <source src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/HEROVIDEO%20(1).mp4" type="video/mp4" />
+              </video>
 
             {/* Dark overlay for better text readability */}
             <div className="absolute inset-0 bg-black/70" />

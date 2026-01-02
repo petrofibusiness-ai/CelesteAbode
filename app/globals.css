@@ -7,8 +7,8 @@
 /* Cormorant Garamond - only weights needed - loaded via preload in layout */
 /* @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap') layer(fonts); */
 
-/* Import Satoshi Font from Fontshare - Loaded asynchronously */
-@import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap&text=CelesteAbodeRealEstateLuxuryPropertiesPhilosophyServicesContactBookConsultationMasterpiecesLivingExplorePropertiesWhatOurClientsSayGetInTouchOurPhilosophyServicesAtCelesteAbodeExplorePremiumProperties') layer(fonts);
+/* Import Satoshi Font from Fontshare - Loaded asynchronously in layout.tsx to prevent CSS chain blocking */
+/* @import url('https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap&text=CelesteAbodeRealEstateLuxuryPropertiesPhilosophyServicesContactBookConsultationMasterpiecesLivingExplorePropertiesWhatOurClientsSayGetInTouchOurPhilosophyServicesAtCelesteAbodeExplorePremiumProperties') layer(fonts); */
 
 /* Force non-italic text override */
 .force-normal {

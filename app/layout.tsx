@@ -525,13 +525,15 @@ export default function RootLayout({
         
         {/* Preload critical fonts - async load to prevent render blocking - Mobile optimized */}
         <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" as="style" media="(min-width: 768px)" />
-        {/* Preload Satoshi font CSS - Defer on mobile for faster LCP */}
+        {/* Load Satoshi font CSS asynchronously - prevents CSS chain blocking */}
         <link 
-          rel="preload" 
+          rel="stylesheet" 
           href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap&text=CelesteAbodeRealEstateLuxuryPropertiesPhilosophyServicesContactBookConsultationMasterpiecesLivingExplorePropertiesWhatOurClientsSayGetInTouchOurPhilosophyServicesAtCelesteAbodeExplorePremiumProperties" 
-          as="style"
-          media="(min-width: 768px)"
+          media="print"
+          id="satoshi-font-stylesheet"
+          suppressHydrationWarning
         />
+        {/* Load Cormorant Garamond font CSS asynchronously */}
         <link 
           rel="stylesheet" 
           href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" 
@@ -545,18 +547,27 @@ export default function RootLayout({
             __html: `
               (function() {
                 if (typeof window === 'undefined') return;
-                var link = document.getElementById('cormorant-font-stylesheet');
-                if (link) {
-                  // Use requestAnimationFrame to ensure DOM is ready
+                // Load fonts asynchronously to prevent render blocking
+                var cormorantLink = document.getElementById('cormorant-font-stylesheet');
+                var satoshiLink = document.getElementById('satoshi-font-stylesheet');
+                if (cormorantLink) {
                   requestAnimationFrame(function() {
-                    link.media = 'all';
+                    cormorantLink.media = 'all';
+                  });
+                }
+                if (satoshiLink) {
+                  requestAnimationFrame(function() {
+                    satoshiLink.media = 'all';
                   });
                 }
               })();
             `,
           }}
         />
-        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" /></noscript>
+        <noscript>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&display=swap" />
+          <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap&text=CelesteAbodeRealEstateLuxuryPropertiesPhilosophyServicesContactBookConsultationMasterpiecesLivingExplorePropertiesWhatOurClientsSayGetInTouchOurPhilosophyServicesAtCelesteAbodeExplorePremiumProperties" />
+        </noscript>
         
         {/* Additional SEO Meta Tags */}
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />

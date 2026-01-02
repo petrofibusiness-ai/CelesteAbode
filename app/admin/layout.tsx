@@ -106,7 +106,7 @@ export default function AdminLayout({
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
       <div className="flex flex-col md:flex-row">
         <AdminSidebar />
-        <main className="flex-1 md:ml-64 w-full pt-16 md:pt-0">
+        <main className="flex-1 md:ml-64 w-full pt-16 md:pt-0" style={{ paddingTop: '4rem' }}>
           {children}
         </main>
       </div>

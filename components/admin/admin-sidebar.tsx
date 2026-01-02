@@ -110,18 +110,33 @@ export default function AdminSidebar() {
 
   return (
     <>
-      {/* Mobile Menu Button */}
-      <button
-        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="md:hidden fixed top-4 left-4 z-[60] p-3 bg-white rounded-xl shadow-lg border border-gray-200/50 hover:bg-gray-50 transition-all duration-200"
-        aria-label="Toggle menu"
-      >
-        {isMobileMenuOpen ? (
-          <X className="w-6 h-6 text-gray-700" />
-        ) : (
-          <Menu className="w-6 h-6 text-gray-700" />
-        )}
-      </button>
+      {/* Mobile Header Strip - Fixed Black Header */}
+      <header className="md:hidden fixed top-0 left-0 right-0 h-16 bg-black z-[100] border-b border-gray-800 shadow-lg">
+        <div className="flex items-center justify-between h-full px-4 relative">
+          {/* Menu Toggle Button - Left */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 rounded-lg hover:bg-gray-800 transition-colors"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-6 h-6 text-white" />
+            ) : (
+              <Menu className="w-6 h-6 text-white" />
+            )}
+          </button>
+
+          {/* Logo/Brand - Center */}
+          <div className="absolute left-1/2 transform -translate-x-1/2">
+            <h1 className="text-sm font-bold text-white" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Celeste Abode
+            </h1>
+          </div>
+
+          {/* Spacer for balance */}
+          <div className="w-10"></div>
+        </div>
+      </header>
 
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200/50 shadow-lg z-50">
@@ -138,7 +153,8 @@ export default function AdminSidebar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 bg-black/50 z-[55] md:hidden"
+              className="fixed inset-0 bg-black/50 z-[95] md:hidden"
+              style={{ top: '4rem' }}
             />
             {/* Sidebar */}
             <motion.aside
@@ -146,7 +162,7 @@ export default function AdminSidebar() {
               animate={{ x: 0 }}
               exit={{ x: -256 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200/50 shadow-2xl z-[60] md:hidden"
+              className="fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 bg-white border-r border-gray-200/50 shadow-2xl z-[99] md:hidden"
             >
               {sidebarContent}
             </motion.aside>

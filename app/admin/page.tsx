@@ -69,16 +69,16 @@ export default function AdminDashboard() {
   return (
     <div className="p-4 sm:p-6 md:p-8 lg:p-10 bg-gradient-to-br from-gray-50 via-white to-gray-50 min-h-screen">
       {/* Header */}
-      <div className="mb-8 md:mb-10">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-12 h-12 bg-gradient-to-br from-[#CBB27A] to-[#B8A068] rounded-xl flex items-center justify-center shadow-lg">
-            <Building2 className="w-6 h-6 text-white" />
+      <div className="mb-6 sm:mb-8 md:mb-10">
+        <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[#CBB27A] to-[#B8A068] rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
+            <Building2 className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
           </div>
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent" style={{ fontFamily: "Poppins, sans-serif" }}>
+          <div className="min-w-0 flex-1">
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent break-words" style={{ fontFamily: "Poppins, sans-serif" }}>
               Welcome back, {user?.name || "Admin"}!
             </h1>
-            <p className="text-sm sm:text-base text-gray-600 mt-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+            <p className="text-xs sm:text-sm md:text-base text-gray-600 mt-1" style={{ fontFamily: "Poppins, sans-serif" }}>
               Manage your properties and website content from here.
             </p>
           </div>
@@ -86,156 +86,156 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats Cards - Main Metrics */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 md:mb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8 md:mb-10">
         {/* Total Properties Card */}
-        <div className="group relative bg-white rounded-2xl shadow-md hover:shadow-xl border border-gray-200/50 p-6 transition-all duration-300 overflow-hidden">
+        <div className="group relative bg-white rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl border border-gray-200/50 p-4 sm:p-6 transition-all duration-300 overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#CBB27A]/10 to-transparent rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
-          <div className="relative z-10 flex items-center justify-between">
-            <div className="flex-1">
-              <p className="text-xs sm:text-sm font-medium text-gray-500 mb-2 uppercase tracking-wide" style={{ fontFamily: "Poppins, sans-serif" }}>
+          <div className="relative z-10 flex items-center justify-between gap-3">
+            <div className="flex-1 min-w-0">
+              <p className="text-xs sm:text-sm font-medium text-gray-500 mb-1 sm:mb-2 uppercase tracking-wide" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Total Properties
               </p>
-              <p className="text-3xl sm:text-4xl font-bold text-gray-900 mb-1" style={{ fontFamily: "Poppins, sans-serif" }}>
-                {loading ? <Loader2 className="w-8 h-8 animate-spin text-[#CBB27A]" /> : stats.totalProperties}
+              <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {loading ? <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-[#CBB27A]" /> : stats.totalProperties}
               </p>
               <p className="text-xs text-gray-400" style={{ fontFamily: "Poppins, sans-serif" }}>
                 All listings
               </p>
             </div>
-            <div className="w-16 h-16 bg-gradient-to-br from-[#CBB27A]/20 to-[#CBB27A]/10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-              <Building2 className="w-8 h-8 text-[#CBB27A]" />
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[#CBB27A]/20 to-[#CBB27A]/10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg flex-shrink-0">
+              <Building2 className="w-6 h-6 sm:w-8 sm:h-8 text-[#CBB27A]" />
             </div>
           </div>
         </div>
 
         {/* Published Card */}
-        <div className="group relative bg-white rounded-2xl shadow-md hover:shadow-xl border border-gray-200/50 p-6 transition-all duration-300 overflow-hidden">
+        <div className="group relative bg-white rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl border border-gray-200/50 p-4 sm:p-6 transition-all duration-300 overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-green-100/50 to-transparent rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
-          <div className="relative z-10 flex items-center justify-between">
-            <div className="flex-1">
-              <p className="text-xs sm:text-sm font-medium text-gray-500 mb-2 uppercase tracking-wide" style={{ fontFamily: "Poppins, sans-serif" }}>
+          <div className="relative z-10 flex items-center justify-between gap-3">
+            <div className="flex-1 min-w-0">
+              <p className="text-xs sm:text-sm font-medium text-gray-500 mb-1 sm:mb-2 uppercase tracking-wide" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Published
               </p>
-              <p className="text-3xl sm:text-4xl font-bold text-green-600 mb-1" style={{ fontFamily: "Poppins, sans-serif" }}>
-                {loading ? <Loader2 className="w-8 h-8 animate-spin text-green-600" /> : stats.publishedProperties}
+              <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600 mb-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {loading ? <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-green-600" /> : stats.publishedProperties}
               </p>
               <p className="text-xs text-gray-400" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Live on site
               </p>
             </div>
-            <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-              <Eye className="w-8 h-8 text-green-600" />
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-green-100 to-green-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg flex-shrink-0">
+              <Eye className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
             </div>
           </div>
         </div>
 
         {/* Drafts Card */}
-        <div className="group relative bg-white rounded-2xl shadow-md hover:shadow-xl border border-gray-200/50 p-6 transition-all duration-300 overflow-hidden">
+        <div className="group relative bg-white rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl border border-gray-200/50 p-4 sm:p-6 transition-all duration-300 overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-100/50 to-transparent rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
-          <div className="relative z-10 flex items-center justify-between">
-            <div className="flex-1">
-              <p className="text-xs sm:text-sm font-medium text-gray-500 mb-2 uppercase tracking-wide" style={{ fontFamily: "Poppins, sans-serif" }}>
+          <div className="relative z-10 flex items-center justify-between gap-3">
+            <div className="flex-1 min-w-0">
+              <p className="text-xs sm:text-sm font-medium text-gray-500 mb-1 sm:mb-2 uppercase tracking-wide" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Drafts
               </p>
-              <p className="text-3xl sm:text-4xl font-bold text-amber-600 mb-1" style={{ fontFamily: "Poppins, sans-serif" }}>
-                {loading ? <Loader2 className="w-8 h-8 animate-spin text-amber-600" /> : stats.draftProperties}
+              <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-amber-600 mb-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {loading ? <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-amber-600" /> : stats.draftProperties}
               </p>
               <p className="text-xs text-gray-400" style={{ fontFamily: "Poppins, sans-serif" }}>
                 In progress
               </p>
             </div>
-            <div className="w-16 h-16 bg-gradient-to-br from-amber-100 to-amber-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-              <FileText className="w-8 h-8 text-amber-600" />
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-amber-100 to-amber-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg flex-shrink-0">
+              <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-amber-600" />
             </div>
           </div>
         </div>
 
         {/* Total Leads Card */}
-        <div className="group relative bg-white rounded-2xl shadow-md hover:shadow-xl border border-gray-200/50 p-6 transition-all duration-300 overflow-hidden">
+        <div className="group relative bg-white rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl border border-gray-200/50 p-4 sm:p-6 transition-all duration-300 overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/50 to-transparent rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
-          <div className="relative z-10 flex items-center justify-between">
-            <div className="flex-1">
-              <p className="text-xs sm:text-sm font-medium text-gray-500 mb-2 uppercase tracking-wide" style={{ fontFamily: "Poppins, sans-serif" }}>
+          <div className="relative z-10 flex items-center justify-between gap-3">
+            <div className="flex-1 min-w-0">
+              <p className="text-xs sm:text-sm font-medium text-gray-500 mb-1 sm:mb-2 uppercase tracking-wide" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Total Leads
               </p>
-              <p className="text-3xl sm:text-4xl font-bold text-blue-600 mb-1" style={{ fontFamily: "Poppins, sans-serif" }}>
-                {loading ? <Loader2 className="w-8 h-8 animate-spin text-blue-600" /> : stats.totalLeads}
+              <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-600 mb-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {loading ? <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-blue-600" /> : stats.totalLeads}
               </p>
-              <p className="text-xs text-gray-400" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <p className="text-xs text-gray-400 break-words" style={{ fontFamily: "Poppins, sans-serif" }}>
                 {stats.newLeadsLast7Days} new (7d)
               </p>
             </div>
-            <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-              <Mail className="w-8 h-8 text-blue-600" />
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-100 to-blue-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg flex-shrink-0">
+              <Mail className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
             </div>
           </div>
         </div>
       </div>
 
       {/* Leads Insights */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 md:mb-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8 md:mb-10">
         {/* Leads by Status */}
-        <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg">
-              <TrendingUp className="w-5 h-5 text-white" />
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-md border border-gray-200/50 p-4 sm:p-6">
+          <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg flex-shrink-0">
+              <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
-            <h2 className="text-xl font-bold text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>
               Leads by Status
             </h2>
           </div>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-100">
-              <div className="flex items-center gap-3">
-                <Clock className="w-5 h-5 text-blue-600" />
-                <span className="font-medium text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>New</span>
+          <div className="space-y-3 sm:space-y-4">
+            <div className="flex items-center justify-between p-3 sm:p-4 bg-blue-50 rounded-lg border border-blue-100">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
+                <span className="font-medium text-gray-900 text-sm sm:text-base" style={{ fontFamily: "Poppins, sans-serif" }}>New</span>
               </div>
-              <span className="text-2xl font-bold text-blue-600" style={{ fontFamily: "Poppins, sans-serif" }}>
-                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : stats.leadsByStatus.new}
+              <span className="text-xl sm:text-2xl font-bold text-blue-600 flex-shrink-0 ml-2" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {loading ? <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" /> : stats.leadsByStatus.new}
               </span>
             </div>
-            <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg border border-yellow-100">
-              <div className="flex items-center gap-3">
-                <MessageSquare className="w-5 h-5 text-yellow-600" />
-                <span className="font-medium text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>Contacted</span>
+            <div className="flex items-center justify-between p-3 sm:p-4 bg-yellow-50 rounded-lg border border-yellow-100">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-600 flex-shrink-0" />
+                <span className="font-medium text-gray-900 text-sm sm:text-base" style={{ fontFamily: "Poppins, sans-serif" }}>Contacted</span>
               </div>
-              <span className="text-2xl font-bold text-yellow-600" style={{ fontFamily: "Poppins, sans-serif" }}>
-                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : stats.leadsByStatus.contacted}
+              <span className="text-xl sm:text-2xl font-bold text-yellow-600 flex-shrink-0 ml-2" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {loading ? <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" /> : stats.leadsByStatus.contacted}
               </span>
             </div>
-            <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-100">
-              <div className="flex items-center gap-3">
-                <Users className="w-5 h-5 text-green-600" />
-                <span className="font-medium text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>Qualified</span>
+            <div className="flex items-center justify-between p-3 sm:p-4 bg-green-50 rounded-lg border border-green-100">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <Users className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0" />
+                <span className="font-medium text-gray-900 text-sm sm:text-base" style={{ fontFamily: "Poppins, sans-serif" }}>Qualified</span>
               </div>
-              <span className="text-2xl font-bold text-green-600" style={{ fontFamily: "Poppins, sans-serif" }}>
-                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : stats.leadsByStatus.qualified}
+              <span className="text-xl sm:text-2xl font-bold text-green-600 flex-shrink-0 ml-2" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {loading ? <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" /> : stats.leadsByStatus.qualified}
               </span>
             </div>
-            <div className="flex items-center justify-between p-4 bg-purple-50 rounded-lg border border-purple-100">
-              <div className="flex items-center gap-3">
-                <CheckCircle2 className="w-5 h-5 text-purple-600" />
-                <span className="font-medium text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>Converted</span>
+            <div className="flex items-center justify-between p-3 sm:p-4 bg-purple-50 rounded-lg border border-purple-100">
+              <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" />
+                <span className="font-medium text-gray-900 text-sm sm:text-base" style={{ fontFamily: "Poppins, sans-serif" }}>Converted</span>
               </div>
-              <span className="text-2xl font-bold text-purple-600" style={{ fontFamily: "Poppins, sans-serif" }}>
-                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : stats.leadsByStatus.converted}
+              <span className="text-xl sm:text-2xl font-bold text-purple-600 flex-shrink-0 ml-2" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {loading ? <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" /> : stats.leadsByStatus.converted}
               </span>
             </div>
           </div>
         </div>
 
         {/* Locations Overview */}
-        <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-[#CBB27A] to-[#B8A068] rounded-lg flex items-center justify-center shadow-lg">
-                <MapPin className="w-5 h-5 text-white" />
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-md border border-gray-200/50 p-4 sm:p-6">
+          <div className="flex items-center justify-between mb-4 sm:mb-6 flex-wrap gap-2">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-[#CBB27A] to-[#B8A068] rounded-lg flex items-center justify-center shadow-lg flex-shrink-0">
+                <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
-              <h2 className="text-xl font-bold text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <h2 className="text-lg sm:text-xl font-bold text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Active Locations
               </h2>
             </div>
-            <div className="text-sm text-gray-500" style={{ fontFamily: "Poppins, sans-serif" }}>
+            <div className="text-xs sm:text-sm text-gray-500" style={{ fontFamily: "Poppins, sans-serif" }}>
               {loading ? (
                 <Loader2 className="w-4 h-4 animate-spin text-[#CBB27A]" />
               ) : (
@@ -253,9 +253,9 @@ export default function AdminDashboard() {
                 <Link
                   key={location.id}
                   href={`/admin/locations`}
-                  className="flex items-center gap-3 p-3 bg-gray-50 hover:bg-[#CBB27A]/10 rounded-lg border border-gray-200 hover:border-[#CBB27A]/30 transition-all duration-200 group"
+                  className="flex items-center gap-3 p-3 bg-gray-50 hover:bg-[#CBB27A]/10 rounded-lg border border-gray-200 hover:border-[#CBB27A]/30 transition-all duration-200 group ml-0"
                 >
-                  <div className="w-8 h-8 bg-[#CBB27A]/20 rounded-lg flex items-center justify-center group-hover:bg-[#CBB27A]/30 transition-colors">
+                  <div className="w-8 h-8 bg-[#CBB27A]/20 rounded-lg flex items-center justify-center group-hover:bg-[#CBB27A]/30 transition-colors flex-shrink-0">
                     <MapPin className="w-4 h-4 text-[#CBB27A] group-hover:text-[#B8A068]" />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -279,27 +279,27 @@ export default function AdminDashboard() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6 sm:p-8 overflow-hidden relative">
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-md border border-gray-200/50 p-4 sm:p-6 md:p-8 overflow-hidden relative">
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#CBB27A]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-gradient-to-br from-[#CBB27A] to-[#B8A068] rounded-lg flex items-center justify-center shadow-lg">
-              <Plus className="w-5 h-5 text-white" />
+          <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+            <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-[#CBB27A] to-[#B8A068] rounded-lg flex items-center justify-center shadow-lg flex-shrink-0">
+              <Plus className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
             </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>
               Quick Actions
             </h2>
           </div>
-          <div className="flex flex-col sm:flex-row flex-wrap gap-4">
-            <Link href="/admin/properties/new">
-              <Button className="bg-gradient-to-r from-[#CBB27A] to-[#B8A068] hover:from-[#B8A068] hover:to-[#A68F5B] text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 h-12 px-6" style={{ fontFamily: "Poppins, sans-serif" }}>
-                <Plus className="w-5 h-5 mr-2" />
+          <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
+            <Link href="/admin/properties/new" className="w-full sm:w-auto">
+              <Button className="w-full sm:w-auto bg-gradient-to-r from-[#CBB27A] to-[#B8A068] hover:from-[#B8A068] hover:to-[#A68F5B] text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 h-11 sm:h-12 px-4 sm:px-6 text-sm sm:text-base" style={{ fontFamily: "Poppins, sans-serif" }}>
+                <Plus className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 Create New Property
               </Button>
             </Link>
-            <Link href="/admin/properties">
-              <Button variant="outline" className="border-2 border-gray-300 hover:border-[#CBB27A] hover:bg-[#CBB27A]/5 text-gray-700 hover:text-gray-900 transition-all duration-300 hover:scale-105 h-12 px-6" style={{ fontFamily: "Poppins, sans-serif" }}>
-                <Building2 className="w-5 h-5 mr-2" />
+            <Link href="/admin/properties" className="w-full sm:w-auto">
+              <Button variant="outline" className="w-full sm:w-auto border-2 border-gray-300 hover:border-[#CBB27A] hover:bg-[#CBB27A]/5 text-gray-700 hover:text-gray-900 transition-all duration-300 hover:scale-105 h-11 sm:h-12 px-4 sm:px-6 text-sm sm:text-base" style={{ fontFamily: "Poppins, sans-serif" }}>
+                <Building2 className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 View All Properties
               </Button>
             </Link>

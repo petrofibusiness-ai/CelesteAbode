@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendFormSubmissionEmail } from '@/lib/email-service';
 import { sanitizeInput, isValidEmail, isValidPhone, isValidName, getClientIP, checkRateLimit } from '@/lib/security';
+import { storeLead, updateLeadEmailStatus } from '@/lib/lead-service';
 
 async function handleSegmentedEntryForm(body: any, clientIP: string) {
   try {
@@ -62,7 +63,28 @@ async function handleSegmentedEntryForm(body: any, clientIP: string) {
       );
     }
 
-    // Send email with segmented entry data
+    // Store lead in database first
+    const leadResult = await storeLead({
+      firstName: sanitizedFirstName,
+      lastName: sanitizedLastName,
+      email: sanitizedEmail.toLowerCase(),
+      phone: sanitizedPhone,
+      formType: 'segmented-entry',
+      formSource: 'homepage',
+      formData: {
+        intent: sanitizedIntent,
+        formData: formData,
+        emailContent: emailContent,
+      },
+      clientIP: clientIP,
+    });
+
+    // Log if lead storage failed (but continue with email)
+    if (!leadResult.success) {
+      console.error('Failed to store lead in database:', leadResult.error);
+    }
+
+    // Send email (even if DB storage fails, still try to send email)
     const emailResult = await sendFormSubmissionEmail({
       formType: 'segmented-entry',
       intent: sanitizedIntent as ValidIntent,
@@ -74,6 +96,15 @@ async function handleSegmentedEntryForm(body: any, clientIP: string) {
       formData: formData,
       emailContent: emailContent
     });
+
+    // Update lead email status if lead was stored
+    if (leadResult.success && leadResult.leadId) {
+      await updateLeadEmailStatus(
+        leadResult.leadId,
+        emailResult.success,
+        emailResult.error
+      );
+    }
 
     if (!emailResult.success) {
       console.error('Failed to send segmented entry email:', emailResult.error);
@@ -147,7 +178,8 @@ export async function POST(request: NextRequest) {
     // Original contact form validation
     const { firstName, lastName, email, phone, message } = body;
     
-    if (!firstName || !lastName || !email || !phone || !message) {
+    // Email is optional for contact form (phone is primary contact method)
+    if (!firstName || !lastName || !phone || !message) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -157,7 +189,7 @@ export async function POST(request: NextRequest) {
     // Sanitize and validate inputs
     const sanitizedFirstName = sanitizeInput(String(firstName));
     const sanitizedLastName = sanitizeInput(String(lastName));
-    const sanitizedEmail = sanitizeInput(String(email));
+    const sanitizedEmail = email ? sanitizeInput(String(email)) : "";
     const sanitizedPhone = sanitizeInput(String(phone));
     const sanitizedMessage = sanitizeInput(String(message));
 
@@ -168,7 +200,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!isValidEmail(sanitizedEmail)) {
+    // Validate email only if provided
+    if (sanitizedEmail && !isValidEmail(sanitizedEmail)) {
       return NextResponse.json(
         { error: 'Invalid email format' },
         { status: 400 }
@@ -189,15 +222,60 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Send email
-    const emailResult = await sendFormSubmissionEmail({
-      formType: 'contact',
+    // Extract property context if provided
+    const propertyName = body.propertyTitle || body.propertyName || undefined;
+    const propertyLocation = body.propertyLocation || undefined;
+    const propertySlug = body.propertySlug || undefined;
+
+    // Store lead in database first
+    const leadResult = await storeLead({
       firstName: sanitizedFirstName,
       lastName: sanitizedLastName,
-      email: sanitizedEmail.toLowerCase(),
+      email: sanitizedEmail ? sanitizedEmail.toLowerCase() : undefined,
       phone: sanitizedPhone,
-      message: sanitizedMessage
+      formType: 'contact',
+      formSource: body.formSource || 'contact-page', // Allow formSource to be passed
+      propertyName,
+      propertyLocation,
+      propertySlug,
+      formData: {
+        message: sanitizedMessage,
+        ...(propertyName && { propertyTitle: propertyName }),
+        ...(propertyLocation && { propertyLocation }),
+      },
+      clientIP: clientIP,
     });
+
+    // Log if lead storage failed (but continue with email)
+    if (!leadResult.success) {
+      console.error('Failed to store lead in database:', leadResult.error);
+    }
+
+    // Send email (even if DB storage fails, still try to send email)
+    // Only send email if email is provided
+    let emailResult = { success: true, messageId: null };
+    if (sanitizedEmail) {
+      emailResult = await sendFormSubmissionEmail({
+        formType: 'contact',
+        firstName: sanitizedFirstName,
+        lastName: sanitizedLastName,
+        email: sanitizedEmail.toLowerCase(),
+        phone: sanitizedPhone,
+        message: sanitizedMessage
+      });
+    } else {
+      // If no email, just log that email was skipped
+      console.log('Contact form submitted without email - lead stored in database only');
+    }
+
+    // Update lead email status if lead was stored
+    if (leadResult.success && leadResult.leadId) {
+      await updateLeadEmailStatus(
+        leadResult.leadId,
+        emailResult.success,
+        emailResult.error
+      );
+    }
 
     if (!emailResult.success) {
       console.error('Failed to send email:', emailResult.error);

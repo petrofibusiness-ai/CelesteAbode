@@ -45,7 +45,7 @@ export function WhereWeWork() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-porcelain via-white to-porcelain/50 relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-background relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute inset-0 bg-gradient-to-br from-metal/5 to-transparent" />

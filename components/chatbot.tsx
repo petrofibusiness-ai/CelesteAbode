@@ -1,7 +1,7 @@
  "use client";
 
  import { useState, useEffect, useRef } from "react";
- import { X, Send, MessageCircle, ChevronRight, ExternalLink } from "lucide-react";
+ import { X, Send, MessageCircle, ChevronRight, ExternalLink, Phone } from "lucide-react";
  import { Button } from "@/components/ui/button";
  import { Input } from "@/components/ui/input";
  import { motion, AnimatePresence } from "framer-motion";
@@ -706,6 +706,18 @@ export function Chatbot() {
 
   return (
     <>
+      {/* Call Button - Above Chatbot */}
+      <motion.a
+        href="tel:+919818735258"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0, opacity: 0 }}
+        className="fixed bottom-[72px] right-4 sm:bottom-[88px] sm:right-6 z-[9999] bg-green-600 hover:bg-green-700 text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center group w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
+        aria-label="Call us"
+      >
+        <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
+      </motion.a>
+
       {!isOpen && (
         <motion.button
           initial={{ scale: 0, opacity: 0 }}

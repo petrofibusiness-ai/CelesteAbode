@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendFormSubmissionEmail } from '@/lib/email-service';
+import { storeLead, updateLeadEmailStatus } from '@/lib/lead-service';
+import { getClientIP } from '@/lib/security';
 
 export async function POST(request: NextRequest) {
   try {
@@ -37,7 +39,32 @@ export async function POST(request: NextRequest) {
     const firstName = nameParts[0] || '';
     const lastName = nameParts.slice(1).join(' ') || '';
 
-    // Send email using centralized service
+    const clientIP = getClientIP(request);
+
+    // Store lead in database first
+    const leadResult = await storeLead({
+      firstName: firstName,
+      lastName: lastName,
+      email: email.trim().toLowerCase(),
+      phone: phone.trim(),
+      formType: 'advisory-session',
+      formSource: 'advisory-session-page',
+      formData: {
+        budget,
+        propertyType,
+        timeline,
+        location: location?.trim() || '',
+        message: message?.trim() || '',
+      },
+      clientIP,
+    });
+
+    // Log if lead storage failed (but continue with email)
+    if (!leadResult.success) {
+      console.error('Failed to store lead in database:', leadResult.error);
+    }
+
+    // Send email (even if DB storage fails, still try to send email)
     const emailResult = await sendFormSubmissionEmail({
       formType: 'advisory-session',
       firstName: firstName,
@@ -50,6 +77,15 @@ export async function POST(request: NextRequest) {
       location: location?.trim() || '',
       message: message?.trim() || ''
     });
+
+    // Update lead email status if lead was stored
+    if (leadResult.success && leadResult.leadId) {
+      await updateLeadEmailStatus(
+        leadResult.leadId,
+        emailResult.success,
+        emailResult.error
+      );
+    }
 
     if (!emailResult.success) {
       console.error('Failed to send advisory session email:', emailResult.error);

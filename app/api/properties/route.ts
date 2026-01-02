@@ -46,47 +46,24 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error("Supabase error:", error);
-      console.error("Error details:", JSON.stringify(error, null, 2));
       return NextResponse.json(
         { error: "Failed to fetch properties", details: error.message },
         { status: 500 }
       );
     }
 
-    console.log(`Fetched ${data?.length || 0} properties from database`);
-    
-    // Debug: Log all properties with their publish status
-    if (data && data.length > 0) {
-      console.log("Properties found:", data.map((p: any) => ({
-        name: p.project_name,
-        slug: p.slug,
-        is_published: p.is_published
-      })));
-      console.log("Total properties:", data.length);
-      console.log("Published count:", data.filter((p: any) => p.is_published === true).length);
-      console.log("Unpublished count:", data.filter((p: any) => p.is_published === false).length);
-    } else {
-      console.log("No properties found in database!");
-    }
-
     // Convert snake_case to camelCase - DO NOT filter by is_published
-    const properties = (data || []).map((prop, index) => {
+    const properties = (data || []).map((prop) => {
       try {
-        const mapped = supabaseToProperty(prop as any);
-        console.log(`Mapped property ${index + 1}: ${mapped.projectName}, isPublished: ${mapped.isPublished}`);
-        return mapped;
+        return supabaseToProperty(prop as any);
       } catch (err) {
-        console.error(`Error mapping property at index ${index}:`, err);
-        console.error(`Property data:`, JSON.stringify(prop, null, 2));
+        console.error(`Error mapping property:`, err);
         return null;
       }
     }).filter((prop): prop is NonNullable<typeof prop> => prop !== null);
     
     // Add locationSlug to all properties
     const propertiesWithLocation = await addLocationSlugToProperties(properties, supabase);
-    
-    console.log(`Converted ${propertiesWithLocation.length} properties for response`);
-    console.log(`Properties being returned:`, propertiesWithLocation.map(p => ({ name: p.projectName, isPublished: p.isPublished })));
 
     return NextResponse.json(
       { properties: propertiesWithLocation },

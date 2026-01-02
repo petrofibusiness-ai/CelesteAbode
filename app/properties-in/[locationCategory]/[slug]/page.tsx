@@ -25,17 +25,13 @@ async function resolveCanonicalProperty(
   property: ReturnType<typeof supabaseToProperty>;
   canonicalUrl: string;
 } | null> {
-  console.log("[resolveCanonicalProperty] Starting with params:", { locationCategorySlug, slug });
-
   if (!slug) {
-    console.log("[resolveCanonicalProperty] No slug provided");
     return null;
   }
 
   const supabase = getSupabaseAdminClient();
 
   // Step 1: Fetch property by slug from properties_v2 (DB is source of truth)
-  console.log("[resolveCanonicalProperty] Fetching property with slug:", slug);
   const { data: propertyData, error: propertyError } = await supabase
     .from("properties_v2")
     .select("*")
@@ -49,24 +45,17 @@ async function resolveCanonicalProperty(
   }
 
   if (!propertyData) {
-    console.log("[resolveCanonicalProperty] Property not found for slug:", slug);
     return null;
   }
-
-  console.log("[resolveCanonicalProperty] Property found:", { id: propertyData.id, slug: propertyData.slug, location_id: propertyData.location_id });
 
   const property = supabaseToProperty(propertyData);
 
   // Step 2: Property must have a location_id
   if (!property.locationId) {
-    console.log("[resolveCanonicalProperty] Property has no location_id:", propertyData.id);
     return null;
   }
 
-  console.log("[resolveCanonicalProperty] Property location_id:", property.locationId);
-
   // Step 3: Fetch location slug from locations_v2 using location_id (database is source of truth)
-  console.log("[resolveCanonicalProperty] Fetching location with location_id:", property.locationId);
   const { data: locationData, error: locationError } = await supabase
     .from("locations_v2")
     .select("slug")
@@ -79,27 +68,19 @@ async function resolveCanonicalProperty(
   }
 
   if (!locationData || !locationData.slug) {
-    console.log("[resolveCanonicalProperty] Location not found or has no slug for location_id:", property.locationId);
     return null;
   }
 
   // Step 4: Use location slug from database (source of truth) - use as-is, no normalization
   const databaseLocationSlug = locationData.slug;
-  console.log("[resolveCanonicalProperty] Database location slug:", databaseLocationSlug);
 
   // Step 5: Validate URL locationCategory parameter matches database location slug (exact match, no normalization)
-  if (locationCategorySlug) {
-    console.log("[resolveCanonicalProperty] Comparing URL locationCategory:", locationCategorySlug, "with database slug:", databaseLocationSlug);
-    if (locationCategorySlug !== databaseLocationSlug) {
-      console.log("[resolveCanonicalProperty] URL locationCategory doesn't match database location slug - returning 404");
-      return null; // URL location doesn't match database location - return 404
-    }
-    console.log("[resolveCanonicalProperty] Location slugs match!");
+  if (locationCategorySlug && locationCategorySlug !== databaseLocationSlug) {
+    return null; // URL location doesn't match database location - return 404
   }
 
   // Canonical URL uses database location slug (source of truth) - use as-is
   const canonicalUrl = `/properties-in-${databaseLocationSlug}/${slug}`;
-  console.log("[resolveCanonicalProperty] Canonical URL:", canonicalUrl);
 
   return { property, canonicalUrl };
 }
@@ -262,11 +243,9 @@ export default async function PropertyPage({
   );
 
   if (!result) {
-    console.log("[PropertyPage] resolveCanonicalProperty returned null - calling notFound()");
     notFound();
   }
 
-  console.log("[PropertyPage] Successfully resolved property, rendering page");
   return <DynamicPropertyPage property={result.property} />;
 }
 

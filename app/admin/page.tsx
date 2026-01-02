@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Building2, Plus, FileText, Eye, Loader2 } from "lucide-react";
+import { Building2, Plus, FileText, Eye, Loader2, Mail, MapPin, TrendingUp, Users, CheckCircle2, Clock, MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -11,6 +11,16 @@ export default function AdminDashboard() {
     totalProperties: 0,
     publishedProperties: 0,
     draftProperties: 0,
+    totalLocations: 0,
+    activeLocations: [] as Array<{ id: string; name: string; slug: string }>,
+    totalLeads: 0,
+    newLeadsLast7Days: 0,
+    leadsByStatus: {
+      new: 0,
+      contacted: 0,
+      qualified: 0,
+      converted: 0,
+    },
   });
   const [loading, setLoading] = useState(true);
 
@@ -38,6 +48,16 @@ export default function AdminDashboard() {
         totalProperties: data.totalProperties || 0,
         publishedProperties: data.publishedProperties || 0,
         draftProperties: data.draftProperties || 0,
+        totalLocations: data.totalLocations || 0,
+        activeLocations: data.activeLocations || [],
+        totalLeads: data.totalLeads || 0,
+        newLeadsLast7Days: data.newLeadsLast7Days || 0,
+        leadsByStatus: data.leadsByStatus || {
+          new: 0,
+          contacted: 0,
+          qualified: 0,
+          converted: 0,
+        },
       });
     } catch (error) {
       console.error("Error fetching stats:", error);
@@ -65,8 +85,8 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8 md:mb-10">
+      {/* Stats Cards - Main Metrics */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 md:mb-10">
         {/* Total Properties Card */}
         <div className="group relative bg-white rounded-2xl shadow-md hover:shadow-xl border border-gray-200/50 p-6 transition-all duration-300 overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#CBB27A]/10 to-transparent rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
@@ -128,6 +148,133 @@ export default function AdminDashboard() {
               <FileText className="w-8 h-8 text-amber-600" />
             </div>
           </div>
+        </div>
+
+        {/* Total Leads Card */}
+        <div className="group relative bg-white rounded-2xl shadow-md hover:shadow-xl border border-gray-200/50 p-6 transition-all duration-300 overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/50 to-transparent rounded-full blur-2xl -translate-y-1/2 translate-x-1/2"></div>
+          <div className="relative z-10 flex items-center justify-between">
+            <div className="flex-1">
+              <p className="text-xs sm:text-sm font-medium text-gray-500 mb-2 uppercase tracking-wide" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Total Leads
+              </p>
+              <p className="text-3xl sm:text-4xl font-bold text-blue-600 mb-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {loading ? <Loader2 className="w-8 h-8 animate-spin text-blue-600" /> : stats.totalLeads}
+              </p>
+              <p className="text-xs text-gray-400" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {stats.newLeadsLast7Days} new (7d)
+              </p>
+            </div>
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
+              <Mail className="w-8 h-8 text-blue-600" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Leads Insights */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 md:mb-10">
+        {/* Leads by Status */}
+        <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg">
+              <TrendingUp className="w-5 h-5 text-white" />
+            </div>
+            <h2 className="text-xl font-bold text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Leads by Status
+            </h2>
+          </div>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-100">
+              <div className="flex items-center gap-3">
+                <Clock className="w-5 h-5 text-blue-600" />
+                <span className="font-medium text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>New</span>
+              </div>
+              <span className="text-2xl font-bold text-blue-600" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : stats.leadsByStatus.new}
+              </span>
+            </div>
+            <div className="flex items-center justify-between p-4 bg-yellow-50 rounded-lg border border-yellow-100">
+              <div className="flex items-center gap-3">
+                <MessageSquare className="w-5 h-5 text-yellow-600" />
+                <span className="font-medium text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>Contacted</span>
+              </div>
+              <span className="text-2xl font-bold text-yellow-600" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : stats.leadsByStatus.contacted}
+              </span>
+            </div>
+            <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg border border-green-100">
+              <div className="flex items-center gap-3">
+                <Users className="w-5 h-5 text-green-600" />
+                <span className="font-medium text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>Qualified</span>
+              </div>
+              <span className="text-2xl font-bold text-green-600" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : stats.leadsByStatus.qualified}
+              </span>
+            </div>
+            <div className="flex items-center justify-between p-4 bg-purple-50 rounded-lg border border-purple-100">
+              <div className="flex items-center gap-3">
+                <CheckCircle2 className="w-5 h-5 text-purple-600" />
+                <span className="font-medium text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>Converted</span>
+              </div>
+              <span className="text-2xl font-bold text-purple-600" style={{ fontFamily: "Poppins, sans-serif" }}>
+                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : stats.leadsByStatus.converted}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Locations Overview */}
+        <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-[#CBB27A] to-[#B8A068] rounded-lg flex items-center justify-center shadow-lg">
+                <MapPin className="w-5 h-5 text-white" />
+              </div>
+              <h2 className="text-xl font-bold text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Active Locations
+              </h2>
+            </div>
+            <div className="text-sm text-gray-500" style={{ fontFamily: "Poppins, sans-serif" }}>
+              {loading ? (
+                <Loader2 className="w-4 h-4 animate-spin text-[#CBB27A]" />
+              ) : (
+                `${stats.totalLocations} total`
+              )}
+            </div>
+          </div>
+          {loading ? (
+            <div className="flex items-center justify-center py-8">
+              <Loader2 className="w-6 h-6 animate-spin text-[#CBB27A]" />
+            </div>
+          ) : stats.activeLocations.length > 0 ? (
+            <div className="space-y-2 max-h-64 overflow-y-auto">
+              {stats.activeLocations.map((location) => (
+                <Link
+                  key={location.id}
+                  href={`/admin/locations`}
+                  className="flex items-center gap-3 p-3 bg-gray-50 hover:bg-[#CBB27A]/10 rounded-lg border border-gray-200 hover:border-[#CBB27A]/30 transition-all duration-200 group"
+                >
+                  <div className="w-8 h-8 bg-[#CBB27A]/20 rounded-lg flex items-center justify-center group-hover:bg-[#CBB27A]/30 transition-colors">
+                    <MapPin className="w-4 h-4 text-[#CBB27A] group-hover:text-[#B8A068]" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-gray-900 truncate group-hover:text-[#CBB27A] transition-colors" style={{ fontFamily: "Poppins, sans-serif" }}>
+                      {location.name}
+                    </p>
+                    <p className="text-xs text-gray-500 truncate" style={{ fontFamily: "Poppins, sans-serif" }}>
+                      /{location.slug}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-8 text-gray-500" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <MapPin className="w-12 h-12 mx-auto mb-2 text-gray-300" />
+              <p className="text-sm">No active locations</p>
+            </div>
+          )}
         </div>
       </div>
 

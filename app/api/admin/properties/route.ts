@@ -250,7 +250,7 @@ export async function POST(request: NextRequest) {
     });
 
     const duration = Date.now() - startTime;
-    console.log(`Property created: ${property.slug} (${duration}ms)`);
+    // Property created successfully in ${duration}ms
 
     return NextResponse.json({ property: createdProperty }, { status: 201 });
   } catch (error) {

@@ -353,7 +353,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
               reject(new Error("Upload succeeded but no URL returned"));
               return;
             }
-            console.log(`Upload successful for ${type}:`, data.url);
             resolve(data.url);
           } catch (error) {
             reject(new Error("Failed to parse upload response"));
@@ -564,7 +563,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       const updatedFormData = { ...formData };
       const uploadErrors: string[] = [];
       
-      console.log(`Starting save process for property: ${propertySlug} (Edit mode: ${!!property?.id})`);
 
       // Calculate files to upload and files deleted
       const filesToUpload: Array<{ file: File; type: "hero" | "brochure" | "image" | "video" }> = [];
@@ -795,7 +793,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           if (!isTerminalState) {
             safeSetStatusText(`Uploading video ${i + 1} of ${tempFiles.videos.length}...`);
           }
-          console.log(`Uploading video ${i + 1}/${tempFiles.videos.length}: ${currentVideo.name} (${(currentVideo.size / 1024 / 1024).toFixed(2)}MB)`);
           const videoUrl = await uploadFileToR2(
             currentVideo, 
             "video", 
@@ -809,7 +806,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           if (!videoUrl || videoUrl.trim() === "") {
             throw new Error(`Video ${i + 1} upload failed - no URL returned`);
           }
-          console.log(`Video ${i + 1} uploaded successfully: ${videoUrl}`);
           videoData.push({
             title: currentVideo.name.replace(/\.[^/.]+$/, ""),
             src: videoUrl,
@@ -846,8 +842,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       }
       updatedFormData.videos = videoData;
       
-      // Log final video data for debugging
-      console.log(`Final video data:`, videoData);
 
       // Step 2: Validate that critical uploads succeeded
       // If hero image upload failed and we don't have an existing one, abort

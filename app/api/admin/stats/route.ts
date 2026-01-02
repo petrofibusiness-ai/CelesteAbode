@@ -81,19 +81,115 @@ export async function GET(request: NextRequest) {
     const publishedProperties = publishedResult.count || 0;
     const draftProperties = draftResult.count || 0;
 
-    // Debug logging
-    console.log("Stats calculation:", {
-      total: totalProperties,
-      published: publishedProperties,
-      draft: draftProperties,
-      sum: publishedProperties + draftProperties,
-      difference: totalProperties - (publishedProperties + draftProperties)
-    });
+    // Count total locations and fetch location names
+    // Match the same query pattern as admin/locations page
+    const locationsPromise = supabase
+      .from("locations_v2")
+      .select("id, location_name, slug, is_published", { count: 'exact' })
+      .order("location_name", { ascending: true })
+      .limit(10);
+
+    // Count total leads
+    const leadsPromise = supabase
+      .from("leads")
+      .select("*", { count: 'exact', head: true });
+
+    // Count new leads (last 7 days)
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    const newLeadsPromise = supabase
+      .from("leads")
+      .select("*", { count: 'exact', head: true })
+      .gte("created_at", sevenDaysAgo.toISOString());
+
+    // Count leads by status
+    const newLeadsStatusPromise = supabase
+      .from("leads")
+      .select("*", { count: 'exact', head: true })
+      .eq("status", "new");
+
+    const contactedLeadsPromise = supabase
+      .from("leads")
+      .select("*", { count: 'exact', head: true })
+      .eq("status", "contacted");
+
+    const qualifiedLeadsPromise = supabase
+      .from("leads")
+      .select("*", { count: 'exact', head: true })
+      .eq("status", "qualified");
+
+    const convertedLeadsPromise = supabase
+      .from("leads")
+      .select("*", { count: 'exact', head: true })
+      .eq("status", "converted");
+
+    // Execute all additional queries in parallel
+    const [
+      locationsResult,
+      leadsResult,
+      newLeadsResult,
+      newLeadsStatusResult,
+      contactedLeadsResult,
+      qualifiedLeadsResult,
+      convertedLeadsResult
+    ] = await Promise.all([
+      locationsPromise,
+      leadsPromise,
+      newLeadsPromise,
+      newLeadsStatusPromise,
+      contactedLeadsPromise,
+      qualifiedLeadsPromise,
+      convertedLeadsPromise
+    ]);
+
+    // Handle locations result
+    let totalLocations = 0;
+    let activeLocations: Array<{ id: string; name: string; slug: string }> = [];
+    
+    if (locationsResult.error) {
+      console.error("Error fetching locations:", locationsResult.error);
+    } else {
+      totalLocations = locationsResult.count || 0;
+      // Filter for published locations, or if is_published doesn't exist, show all
+      const locationsData = locationsResult.data || [];
+      activeLocations = locationsData
+        .filter((loc: any) => {
+          // Include if is_published is true, undefined, or null (but exclude false)
+          return loc.is_published !== false && loc.location_name; // Use location_name field
+        })
+        .map((loc: any) => ({
+          id: loc.id,
+          name: loc.location_name || 'Unnamed Location', // Use location_name field
+          slug: loc.slug || '',
+        }));
+      
+      // Log for debugging
+      if (activeLocations.length === 0 && totalLocations > 0) {
+        console.log("No active locations found, but total locations:", totalLocations);
+        console.log("Sample location data:", locationsData[0]);
+      }
+    }
+    const totalLeads = leadsResult.count || 0;
+    const newLeadsLast7Days = newLeadsResult.count || 0;
+    const newLeadsStatus = newLeadsStatusResult.count || 0;
+    const contactedLeads = contactedLeadsResult.count || 0;
+    const qualifiedLeads = qualifiedLeadsResult.count || 0;
+    const convertedLeads = convertedLeadsResult.count || 0;
 
     return NextResponse.json({
       totalProperties,
       publishedProperties,
       draftProperties,
+      totalLocations,
+      activeLocations,
+      totalLeads,
+      newLeadsLast7Days,
+      leadsByStatus: {
+        new: newLeadsStatus,
+        contacted: contactedLeads,
+        qualified: qualifiedLeads,
+        converted: convertedLeads,
+      },
     }, {
       headers: {
         'X-RateLimit-Remaining': rateLimit.remaining.toString(),

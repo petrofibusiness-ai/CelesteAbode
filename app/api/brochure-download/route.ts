@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendFormSubmissionEmail } from '@/lib/email-service';
-import { sanitizeInput, isValidEmail } from '@/lib/security';
+import { sanitizeInput, isValidEmail, getClientIP } from '@/lib/security';
+import { storeLead, updateLeadEmailStatus } from '@/lib/lead-service';
 
 // Comprehensive phone validation (same as chatbot)
 function isValidPhoneNumber(phone: string): boolean {
@@ -65,7 +66,7 @@ function isValidPhoneNumber(phone: string): boolean {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, phone, email, propertyName, brochureUrl } = body;
+    const { name, phone, email, propertyName, propertySlug, brochureUrl } = body;
     
     // Validate required fields
     if (!name || !phone || !email || !propertyName) {
@@ -101,6 +102,31 @@ export async function POST(request: NextRequest) {
     const firstName = nameParts[0] || '';
     const lastName = nameParts.slice(1).join(' ') || '';
 
+    const clientIP = getClientIP(request);
+
+    // Store lead in database first
+    const leadResult = await storeLead({
+      firstName: firstName,
+      lastName: lastName,
+      email: sanitizedEmail.trim().toLowerCase(),
+      phone: sanitizedPhone.trim(),
+      formType: 'contact',
+      formSource: propertyName ? `property-brochure-download:${propertyName}` : 'property-brochure-download',
+      propertyName: propertyName,
+      propertySlug: propertySlug || undefined,
+      formData: {
+        brochureUrl: brochureUrl || '',
+        action: 'brochure-download',
+        propertyName: propertyName,
+      },
+      clientIP: clientIP,
+    });
+
+    // Log if lead storage failed (but continue with email and download)
+    if (!leadResult.success) {
+      console.error('Failed to store lead in database:', leadResult.error);
+    }
+
     // Send email notification
     const emailResult = await sendFormSubmissionEmail({
       formType: 'contact', // Using contact form type for brochure downloads
@@ -110,6 +136,15 @@ export async function POST(request: NextRequest) {
       phone: sanitizedPhone.trim(),
       message: `Brochure download request for ${propertyName}`,
     });
+
+    // Update lead email status if lead was stored
+    if (leadResult.success && leadResult.leadId) {
+      await updateLeadEmailStatus(
+        leadResult.leadId,
+        emailResult.success,
+        emailResult.error
+      );
+    }
 
     if (!emailResult.success) {
       console.error('Failed to send brochure download email:', emailResult.error);
@@ -149,4 +184,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-

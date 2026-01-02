@@ -5,6 +5,10 @@ import { Footer } from "@/components/footer"
 import { OrganizationSchema, WebSiteSchema } from "@/lib/structured-data"
 import { AggregateRatingSchema } from "@/lib/homepage-schema"
 import { HomePageClient } from "./home-page-client"
+import { homepageMetadata } from "@/app/metadata"
+import type { Metadata } from "next"
+
+export const metadata: Metadata = homepageMetadata
 
 // Server-side rendered components for SEO - content in raw HTML
 const BrandIntro = dynamic(() => import("@/components/brand-intro").then(mod => ({ default: mod.BrandIntro })), { 
@@ -57,6 +61,14 @@ export default function HomePage() {
           <div className="w-full flex justify-center py-8">
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
           </div>
+          
+          {/* Where We Work - Regional Expertise */}
+          <WhereWeWork />
+
+          {/* Aesthetic Line Separator */}
+          <div className="w-full flex justify-center py-8">
+            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
+          </div>
 
           {/* First Scroll Section: Why Clients Trust Celeste Abode */}
           <WhyClientsTrustSection />
@@ -68,14 +80,6 @@ export default function HomePage() {
 
           {/* Trust Elements: Partner Logos */}
           <BrandCarousel />
-
-          {/* Aesthetic Line Separator */}
-          <div className="w-full flex justify-center py-8">
-            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-          </div>
-          
-          {/* Where We Work - Regional Expertise */}
-          <WhereWeWork />
 
           {/* Who We Serve */}
           <WhoWeServe />

@@ -354,7 +354,7 @@ export async function PATCH(
     });
 
     const duration = Date.now() - startTime;
-    console.log(`Property updated: ${property.projectName} (${deletedCount.count} assets deleted, ${duration}ms)`);
+    // Property updated successfully in ${duration}ms
 
     return NextResponse.json({ 
       property,
@@ -492,7 +492,7 @@ export async function DELETE(
     });
 
     const duration = Date.now() - startTime;
-    console.log(`Property deleted: ${id} (slug: ${normalizedSlug}, ${r2DeleteResult.deletedCount} assets, ${duration}ms)`);
+    // Property deleted successfully in ${duration}ms
     
     return NextResponse.json({ 
       success: true,

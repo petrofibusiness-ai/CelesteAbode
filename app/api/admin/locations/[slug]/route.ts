@@ -343,7 +343,6 @@ export async function DELETE(
       // Continue with location deletion even if localities deletion fails
       // (some localities might not exist, which is fine)
     } else {
-      console.log(`Deleted ${deletedLocalitiesCount || 0} localities for location ${slug}`);
     }
 
     // Step 4: Delete the location itself

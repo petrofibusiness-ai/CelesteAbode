@@ -204,7 +204,6 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      console.log(`Created ${createdLocalities?.length || 0} localities for location ${locationId}`);
     }
 
     const createdLocation = supabaseToLocation(locationData);

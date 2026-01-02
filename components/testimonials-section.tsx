@@ -47,18 +47,14 @@ export function TestimonialsSection() {
             // Try multiple initialization methods
             if (typeof window.Elfsight.init === 'function') {
               window.Elfsight.init();
-              console.log('Elfsight.init() called');
             }
             // Also try direct initialization if available
             if (typeof window.Elfsight.initWidgets === 'function') {
               window.Elfsight.initWidgets();
-              console.log('Elfsight.initWidgets() called');
             }
             // Check if widget container exists in DOM
             const widgetElement = document.querySelector('.elfsight-app-4185bb5e-82e5-45bf-92fc-b41420393094');
-            if (widgetElement) {
-              console.log('Elfsight widget container found in DOM');
-            } else {
+            if (!widgetElement) {
               console.warn('Elfsight widget container not found in DOM');
             }
           } else {
@@ -109,7 +105,6 @@ export function TestimonialsSection() {
       // Also listen for Elfsight ready event if available
       if (typeof window !== 'undefined') {
         window.addEventListener('elfsight:ready', () => {
-          console.log('Elfsight ready event fired');
           initializeElfsight();
           setTimeout(() => checkWidgetLoaded(), 1000);
         });
@@ -158,7 +153,6 @@ export function TestimonialsSection() {
               strategy="afterInteractive"
               id="elfsight-platform-script"
               onLoad={() => {
-                console.log('Elfsight script loaded successfully');
                 setIsScriptLoaded(true);
                 setIsWidgetLoaded(false); // Reset widget loaded state to show loading animation
                 setScriptError(false);
@@ -177,7 +171,7 @@ export function TestimonialsSection() {
                 setIsScriptLoaded(false);
               }}
               onReady={() => {
-                console.log('Elfsight script ready');
+                // Elfsight script ready
               }}
             />
             

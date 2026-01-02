@@ -8,7 +8,6 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PropertySchema, BreadcrumbSchema } from "@/lib/structured-data";
 import { Button } from "@/components/ui/button";
-import { ContactPopup } from "@/components/contact-popup";
 import { BrochureDownloadDialog } from "@/components/brochure-download-dialog";
 import {
   MapPin,
@@ -33,7 +32,6 @@ interface DynamicPropertyPageProps {
 }
 
 export default function DynamicPropertyPage({ property }: DynamicPropertyPageProps) {
-  const [isContactPopupOpen, setIsContactPopupOpen] = useState(false);
   const [isBrochureDialogOpen, setIsBrochureDialogOpen] = useState(false);
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [playingVideoIndex, setPlayingVideoIndex] = useState<number | null>(null);
@@ -165,19 +163,24 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
     setIsSubmitting(true);
     
     try {
+      const nameParts = formData.name.trim().split(' ');
+      const firstName = nameParts[0] || formData.name;
+      const lastName = nameParts.slice(1).join(' ') || 'N/A';
+
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          firstName: formData.name.split(' ')[0] || formData.name,
-          lastName: formData.name.split(' ').slice(1).join(' ') || '',
-          email: '',
-          phone: formData.phone,
-          message: '',
+          firstName: firstName,
+          lastName: lastName,
+          phone: formData.phone.trim(),
+          message: `Property inquiry for ${property.projectName} - ${property.location}`,
+          formSource: "property-page-footer-cta",
           propertyTitle: property.projectName,
           propertyLocation: property.location,
+          propertySlug: property.slug,
         }),
       });
 
@@ -187,6 +190,9 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
         setTimeout(() => {
           setIsSubmitted(false);
         }, 5000);
+      } else {
+        const errorData = await response.json().catch(() => ({ error: "Failed to submit form" }));
+        console.error("Form submission error:", errorData.error);
       }
     } catch (error) {
       console.error("Form submission error:", error);
@@ -794,14 +800,6 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
 
         <Footer />
       </div>
-
-      {/* Contact Popup */}
-      <ContactPopup
-        isOpen={isContactPopupOpen}
-        onClose={() => setIsContactPopupOpen(false)}
-        propertyTitle={property.projectName}
-        propertyLocation={property.location}
-      />
 
       {/* Brochure Download Dialog */}
       {property.brochureUrl && (

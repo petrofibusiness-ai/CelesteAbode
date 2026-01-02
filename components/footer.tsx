@@ -12,7 +12,7 @@ export function Footer() {
       {" "}
       {/* EDIT: lighter shade of black to match bottom image */}
       <div className="max-w-screen-xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8 mb-8 md:mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8 mb-8 md:mb-12 justify-items-start sm:justify-items-start">
           {/* Logo Column */}
           <div className="flex justify-center lg:justify-start">
             <div className="mb-6">
@@ -30,7 +30,7 @@ export function Footer() {
           </div>
 
           {/* Contact Column */}
-          <div>
+          <div className="pl-0">
             <h3 className="h4 mb-6 text-[#CBB27A]">Contact</h3>
             <div className="space-y-4">
               <div className="flex items-center gap-3 group cursor-pointer">
@@ -58,36 +58,41 @@ export function Footer() {
           </div>
 
           {/* Quick Links Column */}
-          <div>
+          <div className="pl-0 ml-0">
             <h3 className="h4 mb-6 text-[#CBB27A]">Quick Links</h3>
-            <div className="space-y-3">
+            <div className="flex flex-col gap-3" style={{ marginLeft: 0 }}>
               <Link
                 href="/"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
               >
                 Home
               </Link>
               <Link
                 href="/philosophy"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
               >
                 Philosophy
               </Link>
               <Link
                 href="/services"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
               >
                 Services
               </Link>
               <Link
                 href="/properties"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
               >
                 Properties
               </Link>
               <Link
                 href="/contact"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
               >
                 Contact
               </Link>
@@ -95,36 +100,41 @@ export function Footer() {
           </div>
 
           {/* Locations Column */}
-          <div>
+          <div className="pl-0 ml-0">
             <h3 className="h4 mb-6 text-[#CBB27A]">Locations</h3>
-            <div className="space-y-3">
+            <div className="flex flex-col gap-3" style={{ marginLeft: 0 }}>
               <Link
                 href="/properties-in-noida"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
               >
                 Properties in Noida
               </Link>
               <Link
                 href="/properties-in-greater-noida"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
               >
                 Properties in Greater Noida
               </Link>
               <Link
                 href="/properties-in-yamuna-expressway"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
               >
                 Properties in Yamuna Expressway
               </Link>
               <Link
                 href="/properties-in-ghaziabad"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
               >
                 Properties in Ghaziabad
               </Link>
               <Link
                 href="/properties-in-lucknow"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
               >
                 Properties in Lucknow
               </Link>
@@ -166,16 +176,18 @@ export function Footer() {
               </div>
 
               {/* Legal Links */}
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1" style={{ marginLeft: 0 }}>
                 <Link
                   href="/privacy-policy"
-                  className="text-xs text-white hover:text-[#CBB27A] transition-colors"
+                  className="text-xs text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                  style={{ marginLeft: 0 }}
                 >
                   Privacy Policy
                 </Link>
                 <Link
                   href="/terms"
-                  className="text-xs text-white hover:text-[#CBB27A] transition-colors"
+                  className="text-xs text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                  style={{ marginLeft: 0 }}
                 >
                   Terms of Service
                 </Link>

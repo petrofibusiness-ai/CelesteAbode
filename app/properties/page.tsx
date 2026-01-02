@@ -10,7 +10,6 @@ import { Footer } from "@/components/footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ContactPopup } from "@/components/contact-popup";
 import { PropertyLeadForm } from "@/components/property-lead-form";
 import { PropertyFilters } from "@/components/property-filters";
 import { GeneralLeadForm } from "@/components/general-lead-form";
@@ -53,12 +52,7 @@ export default function ProjectsPage() {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const [hasMore, setHasMore] = useState(false);
   const [currentOffset, setCurrentOffset] = useState(0);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isGeneralFormOpen, setIsGeneralFormOpen] = useState(false);
-  const [selectedProperty, setSelectedProperty] = useState<{
-    title: string;
-    location: string;
-  } | null>(null);
   const [isSeoExpanded, setIsSeoExpanded] = useState(false);
   const [isCtaContentExpanded, setIsCtaContentExpanded] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
@@ -306,13 +300,6 @@ export default function ProjectsPage() {
   }, [searchParams]);
 
 
-  const handlePropertyClick = (property: Property) => {
-    setSelectedProperty({
-      title: property.projectName,
-      location: property.location,
-    });
-    setIsPopupOpen(true);
-  };
 
   const handleViewDetails = (property: Property) => {
     const propertyUrl = getPropertyUrl(property);
@@ -602,16 +589,6 @@ export default function ProjectsPage() {
         </section>
       </main>
 
-      {/* Contact Popup */}
-      <ContactPopup
-        isOpen={isPopupOpen}
-        onClose={() => {
-          setIsPopupOpen(false);
-          setSelectedProperty(null);
-        }}
-        propertyTitle={selectedProperty?.title}
-        propertyLocation={selectedProperty?.location}
-      />
 
       {/* General Lead Form */}
       <GeneralLeadForm

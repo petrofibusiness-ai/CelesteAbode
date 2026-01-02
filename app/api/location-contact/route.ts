@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendFormSubmissionEmail } from '@/lib/email-service';
 import { sanitizeInput, isValidPhone, isValidName, getClientIP, checkRateLimit } from '@/lib/security';
+import { storeLead, updateLeadEmailStatus } from '@/lib/lead-service';
 
 export async function POST(request: NextRequest) {
   try {
@@ -73,7 +74,29 @@ export async function POST(request: NextRequest) {
     // Create full message with location context
     const fullMessage = `Location: ${sanitizedLocationDisplay}\n\n${sanitizedMessage}`;
 
-    // Send email
+    // Store lead in database first
+    const leadResult = await storeLead({
+      firstName: firstName,
+      lastName: lastName,
+      phone: sanitizedPhone,
+      formType: 'location-contact',
+      formSource: 'location-page-footer-cta',
+      locationSlug: sanitizedLocation,
+      propertyLocation: sanitizedLocationDisplay,
+      formData: {
+        message: sanitizedMessage,
+        location: sanitizedLocation,
+        locationDisplayName: sanitizedLocationDisplay,
+      },
+      clientIP: clientIP,
+    });
+
+    // Log if lead storage failed (but continue with email)
+    if (!leadResult.success) {
+      console.error('Failed to store lead in database:', leadResult.error);
+    }
+
+    // Send email (even if DB storage fails, still try to send email)
     const emailResult = await sendFormSubmissionEmail({
       formType: 'contact',
       firstName: firstName,
@@ -82,6 +105,15 @@ export async function POST(request: NextRequest) {
       phone: sanitizedPhone,
       message: fullMessage
     });
+
+    // Update lead email status if lead was stored
+    if (leadResult.success && leadResult.leadId) {
+      await updateLeadEmailStatus(
+        leadResult.leadId,
+        emailResult.success,
+        emailResult.error
+      );
+    }
 
     if (!emailResult.success) {
       console.error('Failed to send email:', emailResult.error);

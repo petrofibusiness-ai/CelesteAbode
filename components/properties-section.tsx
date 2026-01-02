@@ -66,7 +66,7 @@ export function PropertiesSection() {
               builder: prop.developer,
               address: prop.location,
               image: prop.heroImage,
-              status: prop.status,
+              status: prop.projectStatus || '',
               slug: prop.slug,
               isPublished: prop.isPublished, // Store publish status
             };

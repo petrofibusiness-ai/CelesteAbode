@@ -166,7 +166,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.7,
       };
     })
-    .filter((entry): entry is MetadataRoute.Sitemap[0] => entry !== null);
+    .filter((entry) => entry !== null) as MetadataRoute.Sitemap;
 
   // Combine all pages and ensure no duplicates by URL
   const allPages = [...staticPages, ...locationPages, ...propertyPages];

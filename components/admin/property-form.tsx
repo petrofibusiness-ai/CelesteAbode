@@ -464,7 +464,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     }
 
     // Validate locality belongs to selected location (if locality is selected)
-    if (selectedLocalityId && selectedLocationId.trim() !== "") {
+    if (selectedLocationId && selectedLocalityId && selectedLocalityId.trim() !== "") {
       const localityBelongsToLocation = localities.some(
         (loc) => loc.id === selectedLocalityId
       );
@@ -1115,7 +1115,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     }
     
     // Validate locality belongs to selected location (if locality is selected)
-    if (selectedLocalityId && selectedLocationId.trim() !== "") {
+    if (selectedLocationId && selectedLocalityId && selectedLocalityId.trim() !== "") {
       const localityBelongsToLocation = localities.some(
         (loc) => loc.id === selectedLocalityId
       );

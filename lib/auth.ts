@@ -94,7 +94,13 @@ export async function getCurrentUser(): Promise<AdminUser | null> {
     const cookieStore = await cookies();
     const accessToken = cookieStore.get('sb-access-token')?.value;
 
+    console.log('[DEBUG] getCurrentUser - checking session:', {
+      hasAccessToken: !!accessToken,
+      cookieNames: Array.from(cookieStore).map(c => c.name),
+    });
+
     if (!accessToken) {
+      console.log('[DEBUG] No access token found in cookies');
       return null;
     }
 
@@ -111,6 +117,7 @@ export async function getCurrentUser(): Promise<AdminUser | null> {
     const { data: { user }, error } = await supabaseAdmin.auth.getUser(accessToken);
 
     if (error || !user) {
+      console.log('[DEBUG] Token verification failed:', error);
       // Remove from cache if invalid
       userCache.delete(accessToken);
       return null;

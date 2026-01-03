@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { MapPin, Plus, Edit, Trash2, Eye, EyeOff, Loader2, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Location } from "@/types/location";
@@ -18,6 +19,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 export default function LocationsPage() {
+  const router = useRouter();
   const [locations, setLocations] = useState<Location[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -26,6 +28,23 @@ export default function LocationsPage() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [locationToDelete, setLocationToDelete] = useState<{ slug: string; name: string } | null>(null);
 
+  // Handle authentication errors
+  const handleAuthError = () => {
+    toast.error("Session expired. Please log in again.");
+    router.push("/admin/login");
+  };
+
+  useEffect(() => {
+    // Clear cache on page refresh
+    const handleBeforeUnload = () => {
+      // Clear the cache key from sessionStorage to force fresh fetch on next load
+      sessionStorage.removeItem('locations-cache-timestamp');
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, []);
+
   useEffect(() => {
     fetchLocations();
   }, []);
@@ -33,10 +52,35 @@ export default function LocationsPage() {
   const fetchLocations = async () => {
     try {
       setLoading(true);
-      const response = await fetch("/api/admin/locations");
+      
+      // Check if this is a fresh page load (no cache timestamp)
+      const cacheTimestamp = sessionStorage.getItem('locations-cache-timestamp');
+      const now = Date.now();
+      const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
+      
+      // Force fresh data if:
+      // 1. No cache timestamp (first load or after refresh)
+      // 2. Cache has expired
+      const isFreshLoad = !cacheTimestamp || (now - parseInt(cacheTimestamp)) > CACHE_DURATION;
+      const cacheParam = isFreshLoad ? `?t=${now}` : '';
+      
+      const response = await fetch(`/api/admin/locations${cacheParam}`, {
+        credentials: 'include', // Send authentication cookies
+        cache: 'no-store', // Bypass browser cache
+      });
+      
+      // Handle 401 Unauthorized
+      if (response.status === 401) {
+        handleAuthError();
+        return;
+      }
+      
       if (!response.ok) throw new Error("Failed to fetch locations");
       const data = await response.json();
       setLocations(data || []);
+      
+      // Update cache timestamp on successful fetch
+      sessionStorage.setItem('locations-cache-timestamp', now.toString());
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -56,7 +100,14 @@ export default function LocationsPage() {
       setDeleting(locationToDelete.slug);
       const response = await fetch(`/api/admin/locations/${locationToDelete.slug}`, {
         method: "DELETE",
+        credentials: 'include', // Send authentication cookies
       });
+
+      // Handle 401 Unauthorized
+      if (response.status === 401) {
+        handleAuthError();
+        return;
+      }
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({ error: "Failed to delete location" }));
@@ -91,8 +142,15 @@ export default function LocationsPage() {
       const response = await fetch(`/api/admin/locations/${location.slug}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: 'include', // Send authentication cookies
         body: JSON.stringify({ isPublished: !location.isPublished }),
       });
+
+      // Handle 401 Unauthorized
+      if (response.status === 401) {
+        handleAuthError();
+        return;
+      }
 
       if (!response.ok) throw new Error("Failed to update location");
 

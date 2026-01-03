@@ -17,7 +17,8 @@ import {
   MessageSquare,
   Search,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  RefreshCw
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -140,6 +141,7 @@ export default function LeadsPage() {
   const [expandedLeads, setExpandedLeads] = useState<Set<string>>(new Set());
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState(false);
   const [selectedLeadForDetails, setSelectedLeadForDetails] = useState<Lead | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
 
   // Prevent body scroll when drawer is open
   useEffect(() => {
@@ -171,7 +173,7 @@ export default function LeadsPage() {
     fetchLeads();
   }, [page, statusFilter, formTypeFilter]);
 
-  const fetchLeads = async () => {
+  const fetchLeads = async (forceRefresh: boolean = false) => {
     try {
       setLoading(true);
       const params = new URLSearchParams({
@@ -180,19 +182,39 @@ export default function LeadsPage() {
       });
       if (statusFilter !== "all") params.append("status", statusFilter);
       if (formTypeFilter !== "all") params.append("formType", formTypeFilter);
+      
+      // Add cache-busting timestamp if forcing refresh
+      if (forceRefresh) {
+        params.append("_t", Date.now().toString());
+      }
 
-      const response = await fetch(`/api/admin/leads?${params.toString()}`);
+      const response = await fetch(`/api/admin/leads?${params.toString()}`, {
+        cache: forceRefresh ? 'no-store' : 'default',
+        headers: forceRefresh ? {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+        } : undefined,
+      });
       if (!response.ok) throw new Error("Failed to fetch leads");
       const data = await response.json();
       setLeads(data.leads || []);
       setTotalPages(data.totalPages || 1);
       setTotal(data.total || 0);
+      if (forceRefresh) {
+        toast.success("Leads refreshed successfully");
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
       toast.error("Failed to load leads");
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
+  };
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchLeads(true);
   };
 
   const handleStatusChange = async (leadId: string, newStatus: string) => {
@@ -767,18 +789,33 @@ export default function LeadsPage() {
       {/* Header */}
       <div className="mb-2 sm:mb-4 md:mb-6">
         <div className="bg-gradient-to-r from-[#CBB27A] via-[#B8A068] to-[#CBB27A] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xl border-2 border-[#CBB27A]/20">
-          <div className="flex items-center gap-3 sm:gap-4">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white/20 backdrop-blur-sm rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg border-2 border-white/30 flex-shrink-0">
-              <Mail className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-black" />
+          <div className="flex items-center justify-between gap-3 sm:gap-4">
+            <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white/20 backdrop-blur-sm rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg border-2 border-white/30 flex-shrink-0">
+                <Mail className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-black" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black drop-shadow-lg truncate" style={{ fontFamily: "Poppins, sans-serif" }}>
+                  Leads Management
+                </h1>
+                <p className="text-xs sm:text-sm md:text-base text-black mt-1 font-medium" style={{ fontFamily: "Poppins, sans-serif" }}>
+                  Total: <span className="font-bold text-black">{total}</span> leads
+                  {leads.length !== total && (
+                    <span className="ml-2 text-xs text-gray-600">
+                      (Showing {leads.length} on this page)
+                    </span>
+                  )}
+                </p>
+              </div>
             </div>
-            <div className="min-w-0 flex-1">
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black drop-shadow-lg truncate" style={{ fontFamily: "Poppins, sans-serif" }}>
-                Leads Management
-              </h1>
-              <p className="text-xs sm:text-sm md:text-base text-black mt-1 font-medium" style={{ fontFamily: "Poppins, sans-serif" }}>
-                Total: <span className="font-bold text-black">{total}</span> leads
-              </p>
-            </div>
+            <Button
+              onClick={handleRefresh}
+              disabled={refreshing || loading}
+              className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 p-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-white via-white to-gray-50 hover:from-white hover:via-gray-50 hover:to-white border-2 border-black/30 hover:border-black shadow-lg hover:shadow-xl transition-all duration-300 flex-shrink-0 group disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Refresh leads data"
+            >
+              <RefreshCw className={`w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-black group-hover:scale-110 transition-transform duration-300 ${refreshing ? 'animate-spin' : ''}`} />
+            </Button>
           </div>
         </div>
       </div>

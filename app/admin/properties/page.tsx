@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Building2, Plus, Edit, Trash2, Eye, EyeOff, Loader2, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Property } from "@/types/property";
@@ -19,6 +20,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 export default function PropertiesPage() {
+  const router = useRouter();
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -27,6 +29,23 @@ export default function PropertiesPage() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [propertyToDelete, setPropertyToDelete] = useState<{ id: string; name: string } | null>(null);
 
+  // Handle authentication errors
+  const handleAuthError = () => {
+    toast.error("Session expired. Please log in again.");
+    router.push("/admin/login");
+  };
+
+  useEffect(() => {
+    // Clear cache on page refresh
+    const handleBeforeUnload = () => {
+      // Clear the cache key from sessionStorage to force fresh fetch on next load
+      sessionStorage.removeItem('properties-cache-timestamp');
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, []);
+
   useEffect(() => {
     fetchProperties();
   }, []);
@@ -34,10 +53,35 @@ export default function PropertiesPage() {
   const fetchProperties = async () => {
     try {
       setLoading(true);
-      const response = await fetch("/api/admin/properties");
+      
+      // Check if this is a fresh page load (no cache timestamp)
+      const cacheTimestamp = sessionStorage.getItem('properties-cache-timestamp');
+      const now = Date.now();
+      const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
+      
+      // Force fresh data if:
+      // 1. No cache timestamp (first load or after refresh)
+      // 2. Cache has expired
+      const isFreshLoad = !cacheTimestamp || (now - parseInt(cacheTimestamp)) > CACHE_DURATION;
+      const cacheParam = isFreshLoad ? `?t=${now}` : '';
+      
+      const response = await fetch(`/api/admin/properties${cacheParam}`, {
+        credentials: 'include', // Send authentication cookies
+        cache: 'no-store', // Bypass browser cache
+      });
+      
+      // Handle 401 Unauthorized
+      if (response.status === 401) {
+        handleAuthError();
+        return;
+      }
+      
       if (!response.ok) throw new Error("Failed to fetch properties");
       const data = await response.json();
       setProperties(data.properties || []);
+      
+      // Update cache timestamp on successful fetch
+      sessionStorage.setItem('properties-cache-timestamp', now.toString());
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -60,7 +104,14 @@ export default function PropertiesPage() {
       
       const response = await fetch(`/api/admin/properties/${propertyToDelete.id}`, {
         method: "DELETE",
+        credentials: 'include', // Send authentication cookies
       });
+
+      // Handle 401 Unauthorized
+      if (response.status === 401) {
+        handleAuthError();
+        return;
+      }
 
       if (!response.ok) {
         const error = await response.json();
@@ -94,8 +145,15 @@ export default function PropertiesPage() {
       const response = await fetch(`/api/admin/properties/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
+        credentials: 'include', // Send authentication cookies
         body: JSON.stringify({ isPublished: !currentStatus }),
       });
+
+      // Handle 401 Unauthorized
+      if (response.status === 401) {
+        handleAuthError();
+        return;
+      }
 
       if (!response.ok) {
         const error = await response.json();

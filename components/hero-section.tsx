@@ -8,8 +8,8 @@ export function HeroSection() {
     <section className="relative min-h-screen flex items-center justify-center bg-background pt-16 md:pt-20">
       <div className="max-w-7xl mx-auto px-4 md:px-6 w-full">
         <div className="bg-white rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden relative">
-          {/* Video Container */}
-          <div className="relative h-[550px] sm:h-[650px] md:h-[700px] lg:h-[750px]">
+          {/* Video Container - Desktop heights: md:580px lg:620px */}
+          <div className="relative h-[550px] sm:h-[650px] md:h-[580px] lg:h-[620px]">
             {/* Image - Mobile only - Optimized for LCP */}
             <div className="absolute inset-0 w-full h-full md:hidden">
               <Image

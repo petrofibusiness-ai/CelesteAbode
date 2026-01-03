@@ -40,15 +40,35 @@ export function BrochureDownloadDialog({
   const [errorMessage, setErrorMessage] = useState("");
   const [phoneError, setPhoneError] = useState("");
 
-  // Phone validation function (same as chatbot)
+  // Phone validation function (same as other forms)
   const isValidPhone = (value: string) => {
+    const trimmed = value.trim();
+    
+    // First, check that input only contains allowed characters: digits, +, spaces, dashes, parentheses
+    // Reject any letters or other invalid characters
+    const allowedCharsRegex = /^[\+]?[0-9\s\-\(\)]+$/;
+    if (!allowedCharsRegex.test(trimmed)) {
+      return false;
+    }
+    
     // Extract only digits
-    const digits = value.trim().replace(/\D/g, '');
+    const digits = trimmed.replace(/\D/g, '');
     
     // Basic format check - must be 10-12 digits
     // 10 digits: local number (e.g., 9818735258)
     // 11-12 digits: with country code (e.g., +91 9818735258 = 12 digits, +1 5551234567 = 11 digits)
     if (digits.length < 10 || digits.length > 12) {
+      return false;
+    }
+    
+    // If 11 digits and doesn't start with 0, must start with + (country code required)
+    // 11 digits starting with 0 are allowed without + (e.g., 09876543210)
+    // 11 digits not starting with 0 need + (e.g., +1 5551234567)
+    // 12 digits always need + (e.g., +91 9818735258)
+    if (digits.length === 11 && !digits.startsWith('0') && !trimmed.startsWith('+')) {
+      return false;
+    }
+    if (digits.length === 12 && !trimmed.startsWith('+')) {
       return false;
     }
     
@@ -96,16 +116,43 @@ export function BrochureDownloadDialog({
     return true;
   };
 
+  // Handle phone input to restrict invalid characters
+  const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Allow: backspace, delete, tab, escape, enter, arrow keys, home, end
+    if ([8, 9, 27, 13, 46, 37, 38, 39, 40, 35, 36].indexOf(e.keyCode) !== -1 ||
+      // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+      (e.keyCode === 65 && e.ctrlKey === true) ||
+      (e.keyCode === 67 && e.ctrlKey === true) ||
+      (e.keyCode === 86 && e.ctrlKey === true) ||
+      (e.keyCode === 88 && e.ctrlKey === true)) {
+      return;
+    }
+    
+    // Check if the key is a valid character: digits (0-9), +, -, space, (, )
+    const key = e.key;
+    const isValidChar = /^[0-9+\s\-()]$/.test(key);
+    
+    if (!isValidChar) {
+      e.preventDefault();
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setPhoneError("");
     
     // Validate phone number before submission
+    if (!formData.phone.trim()) {
+      setPhoneError("Phone number is required");
+      return;
+    }
+
     if (!isValidPhone(formData.phone)) {
       const digits = formData.phone.trim().replace(/\D/g, '');
-      if (digits.length < 10) {
-        setPhoneError("Phone number must have at least 10 digits");
-      } else if (digits.length > 12) {
-        setPhoneError("Phone number must not exceed 12 digits");
+      if (digits.length === 11 && !digits.startsWith('0') && !formData.phone.trim().startsWith('+')) {
+        setPhoneError("11-digit numbers (not starting with 0) must start with + (country code required)");
+      } else if (digits.length === 12 && !formData.phone.trim().startsWith('+')) {
+        setPhoneError("12-digit numbers must start with + (country code required)");
       } else {
         setPhoneError("Please enter a valid phone number");
       }
@@ -188,16 +235,48 @@ export function BrochureDownloadDialog({
     }
   };
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    
+    // Only allow digits, +, spaces, hyphens, and parentheses
+    const filteredValue = value.replace(/[^0-9+\s\-()]/g, '');
+    
+    setFormData((prev) => ({
+      ...prev,
+      phone: filteredValue,
+    }));
+    
+    // Clear error when user starts typing
+    if (errorMessage) setErrorMessage("");
+    
+    // Validate phone number in real-time
+    if (filteredValue.trim() && !isValidPhone(filteredValue)) {
+      const digits = filteredValue.trim().replace(/\D/g, '');
+      if (digits.length === 11 && !digits.startsWith('0') && !filteredValue.trim().startsWith('+')) {
+        setPhoneError("11-digit numbers (not starting with 0) must start with + (country code required)");
+      } else if (digits.length === 12 && !filteredValue.trim().startsWith('+')) {
+        setPhoneError("12-digit numbers must start with + (country code required)");
+      } else {
+        setPhoneError("Please enter a valid phone number");
+      }
+    } else {
+      setPhoneError("");
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Skip phone handling here - it's handled by handlePhoneChange
+    if (e.target.name === "phone") {
+      return;
+    }
+    
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
     
-    // Clear phone error when user starts typing (only if error was shown)
-    if (e.target.name === "phone" && phoneError) {
-      setPhoneError("");
-    }
+    // Clear error when user starts typing
+    if (errorMessage) setErrorMessage("");
   };
 
   const handleClose = () => {
@@ -276,7 +355,10 @@ export function BrochureDownloadDialog({
                   name="phone"
                   type="tel"
                   value={formData.phone}
-                  onChange={handleChange}
+                  onChange={handlePhoneChange}
+                  onKeyDown={handlePhoneKeyDown}
+                  inputMode="tel"
+                  pattern="[0-9+\s\-()]*"
                   required
                   placeholder="Enter your phone number"
                   className={`h-12 border-2 ${
@@ -330,8 +412,14 @@ export function BrochureDownloadDialog({
               </Button>
               <Button
                 type="submit"
-                disabled={isSubmitting}
-                className="flex-1 h-12 bg-black hover:bg-gray-900 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70"
+                disabled={
+                  isSubmitting || 
+                  !formData.name.trim() || 
+                  !formData.phone.trim() || 
+                  !isValidPhone(formData.phone) ||
+                  !formData.email.trim()
+                }
+                className="flex-1 h-12 bg-black hover:bg-gray-900 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>

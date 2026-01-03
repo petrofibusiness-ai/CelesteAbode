@@ -1,12 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { uploadImageToR2, uploadHeroImageToR2 } from "@/lib/r2-upload";
+import { verifyCSRFToken } from "@/lib/csrf";
+import { validateUploadedFile, sanitizeFilename, COMMON_CONFIGS } from "@/lib/file-upload-validator";
+import { validateJSONBody } from "@/lib/validation-schemas";
+import { logSecurityEvent, getClientIP, getUserAgent } from "@/lib/security-events";
+import { z } from "zod";
+
+const ImageUploadParamsSchema = z.object({
+  propertySlug: z.string().max(255),
+  isHero: z.enum(["true", "false"]).optional(),
+});
 
 export async function POST(request: NextRequest) {
   try {
     const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // CSRF token validation
+    const csrfToken = request.headers.get('x-csrf-token');
+    const isValidCSRF = await verifyCSRFToken(csrfToken);
+
+    if (!isValidCSRF) {
+      await logSecurityEvent('CSRF_FAILED', {
+        userId: user.id,
+        userEmail: user.email,
+        ip: getClientIP(request.headers.get('x-forwarded-for')),
+        userAgent: getUserAgent(request.headers.get('user-agent')),
+        endpoint: '/api/admin/upload/image',
+      });
+
+      return NextResponse.json(
+        { error: "CSRF token validation failed" },
+        { status: 403 }
+      );
     }
 
     const formData = await request.formData();
@@ -21,39 +50,60 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate image type
-    if (!file.type.startsWith("image/")) {
+    // Validate file
+    const validation = await validateUploadedFile(file, COMMON_CONFIGS.IMAGE);
+    if (!validation.valid) {
+      await logSecurityEvent('FILE_UPLOAD_FAILED', {
+        userId: user.id,
+        userEmail: user.email,
+        ip: getClientIP(request.headers.get('x-forwarded-for')),
+        userAgent: getUserAgent(request.headers.get('user-agent')),
+        endpoint: '/api/admin/upload/image',
+        metadata: { reason: validation.error, fileName: file.name },
+      });
+
       return NextResponse.json(
-        { error: "File must be an image" },
+        { error: validation.error || "File validation failed" },
         { status: 400 }
       );
     }
 
     // Validate property slug
-    if (!propertySlug || propertySlug.trim() === "") {
+    if (!propertySlug || propertySlug.length > 255) {
       return NextResponse.json(
-        { error: "Property slug is required" },
+        { error: "Invalid property slug" },
         { status: 400 }
       );
     }
 
-    // Upload to R2
-    const result = isHero
-      ? await uploadHeroImageToR2(file, propertySlug)
-      : await uploadImageToR2(file, propertySlug);
+    // Sanitize filename
+    const sanitized = sanitizeFilename(file.name);
 
-    if (!result.success) {
+    // Upload image
+    let uploadResult;
+    if (isHero) {
+      uploadResult = await uploadHeroImageToR2(file, propertySlug, sanitized);
+    } else {
+      uploadResult = await uploadImageToR2(file, propertySlug, sanitized);
+    }
+
+    if (!uploadResult.success) {
+      console.error("[INTERNAL] Image upload failed:", uploadResult.error);
       return NextResponse.json(
-        { error: result.error || "Upload failed" },
+        { error: "Failed to upload image" },
         { status: 500 }
       );
     }
 
-    return NextResponse.json({ url: result.url, key: result.key });
+    return NextResponse.json(uploadResult);
   } catch (error) {
-    console.error("Image upload error:", error);
+    console.error("[INTERNAL] Image upload error:", {
+      error: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : undefined,
+    });
+
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "An error occurred while processing your request" },
       { status: 500 }
     );
   }

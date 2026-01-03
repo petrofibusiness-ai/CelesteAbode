@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
+import { requireAdminAuth } from "@/lib/admin-auth-guard";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
 
 /**
@@ -8,10 +9,12 @@ import { getSupabaseAdminClient } from "@/lib/supabase-server";
  */
 export async function GET(request: NextRequest) {
   try {
-    const user = await getCurrentUser();
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // Strict authentication check
+    const auth = await requireAdminAuth(request);
+    if (!auth.authenticated) {
+      return auth.response!;
     }
+    const user = auth.user;
 
     const supabase = getSupabaseAdminClient();
     const { data, error } = await supabase

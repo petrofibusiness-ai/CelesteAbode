@@ -51,20 +51,20 @@ export async function authenticateUser(email: string, password: string): Promise
       return { success: false, error: 'Authentication failed' };
     }
 
-    // Set session cookies
+    // Set session cookies with reduced lifetimes for enhanced security
     const cookieStore = await cookies();
     cookieStore.set('sb-access-token', data.session.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      sameSite: 'strict', // Stronger than 'lax' - prevents cross-site cookie sending
+      maxAge: 60 * 15, // 15 minutes - short-lived access token
       path: '/',
     });
     cookieStore.set('sb-refresh-token', data.session.refresh_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 30, // 30 days
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24, // 1 day - refresh token expiry
       path: '/',
     });
 

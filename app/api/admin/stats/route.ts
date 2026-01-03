@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
+import { requireAdminAuth } from "@/lib/admin-auth-guard";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 
@@ -9,14 +10,15 @@ const QUERY_TIMEOUT = 10000;
 // GET - Get dashboard statistics (using SQL-native operations)
 export async function GET(request: NextRequest) {
   try {
-    // Authentication check
-    const user = await getCurrentUser();
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // Strict authentication check using centralized guard
+    const auth = await requireAdminAuth(request);
+    if (!auth.authenticated) {
+      return auth.response!;
     }
+    const user = auth.user;
 
     // Rate limiting
-    const rateLimitId = getRateLimitIdentifier(request, user.id);
+    const rateLimitId = getRateLimitIdentifier(request, user!.id);
     const rateLimit = checkRateLimit(rateLimitId, RATE_LIMITS.ADMIN_READ);
     if (!rateLimit.success) {
       return NextResponse.json(

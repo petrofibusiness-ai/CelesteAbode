@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
+import { requireAdminAuth } from "@/lib/admin-auth-guard";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { locationToSupabase, supabaseToLocation } from "@/lib/supabase-location-mapper";
 import { Location } from "@/types/location";
@@ -9,10 +10,12 @@ const QUERY_TIMEOUT = 30000; // 30 seconds
 // GET - List all locations
 export async function GET(request: NextRequest) {
   try {
-    const user = await getCurrentUser();
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // Strict authentication check
+    const auth = await requireAdminAuth(request);
+    if (!auth.authenticated) {
+      return auth.response!;
     }
+    const user = auth.user;
 
     const supabase = getSupabaseAdminClient();
     const { data, error } = await supabase
@@ -21,9 +24,9 @@ export async function GET(request: NextRequest) {
       .order("created_at", { ascending: false });
 
     if (error) {
-      console.error("Error fetching locations:", error);
+      console.error("[INTERNAL] Error fetching locations:", error);
       return NextResponse.json(
-        { error: "Failed to fetch locations" },
+        { error: "An error occurred while processing your request" },
         { status: 500 }
       );
     }
@@ -31,9 +34,12 @@ export async function GET(request: NextRequest) {
     const locations = (data || []).map(supabaseToLocation);
     return NextResponse.json(locations);
   } catch (error) {
-    console.error("Error in GET /api/admin/locations:", error);
+    console.error("[INTERNAL] Error in GET /api/admin/locations:", {
+      error: error instanceof Error ? error.message : "Unknown error",
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "An error occurred while processing your request" },
       { status: 500 }
     );
   }
@@ -42,10 +48,12 @@ export async function GET(request: NextRequest) {
 // POST - Create new location
 export async function POST(request: NextRequest) {
   try {
-    const user = await getCurrentUser();
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // Strict authentication check
+    const auth = await requireAdminAuth(request);
+    if (!auth.authenticated) {
+      return auth.response!;
     }
+    const user = auth.user;
 
     const body = await request.json();
 

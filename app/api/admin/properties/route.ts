@@ -6,6 +6,9 @@ import { supabaseToProperty, propertyToSupabase } from "@/lib/supabase-property-
 import { validatePropertyData } from "@/lib/validation";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 import { logAuditEntry, getRequestMetadata } from "@/lib/audit-log";
+import { verifyCSRFToken } from "@/lib/csrf";
+import { validateQueryParams, validateJSONBody, PropertyFilterSchema, PropertyDataSchema } from "@/lib/validation-schemas";
+import { logSecurityEvent, getClientIP, getUserAgent } from "@/lib/security-events";
 
 // Query timeout: 30 seconds
 const QUERY_TIMEOUT = 30000;
@@ -35,10 +38,33 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Get pagination parameters
-    const searchParams = request.nextUrl.searchParams;
-    const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
-    const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '20', 10)));
+    // Parse and validate query parameters
+    let filters;
+    try {
+      const params = {
+        page: request.nextUrl.searchParams.get('page'),
+        limit: request.nextUrl.searchParams.get('limit'),
+        search: request.nextUrl.searchParams.get('search'),
+        published: request.nextUrl.searchParams.get('published'),
+      };
+      filters = validateQueryParams(PropertyFilterSchema, params);
+    } catch (error) {
+      await logSecurityEvent('INVALID_INPUT', {
+        userId: user.id,
+        userEmail: user.email,
+        ip: getClientIP(request.headers.get('x-forwarded-for')),
+        userAgent: getUserAgent(request.headers.get('user-agent')),
+        endpoint: '/api/admin/properties',
+        metadata: { error: error instanceof Error ? error.message : 'Invalid parameters' },
+      });
+
+      return NextResponse.json(
+        { error: 'Invalid query parameters' },
+        { status: 400 }
+      );
+    }
+
+    const { page, limit } = filters;
     const offset = (page - 1) * limit;
 
     // Get Supabase admin client to bypass RLS and see all properties
@@ -122,6 +148,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // CSRF token validation
+    const csrfToken = request.headers.get('x-csrf-token');
+    const isValidCSRF = await verifyCSRFToken(csrfToken);
+
+    if (!isValidCSRF) {
+      await logSecurityEvent('CSRF_FAILED', {
+        userId: user.id,
+        userEmail: user.email,
+        ip: getClientIP(request.headers.get('x-forwarded-for')),
+        userAgent: getUserAgent(request.headers.get('user-agent')),
+        endpoint: '/api/admin/properties',
+      });
+
+      return NextResponse.json(
+        { error: 'CSRF token validation failed' },
+        { status: 403 }
+      );
+    }
+
     // Rate limiting
     const rateLimitId = getRateLimitIdentifier(request, user.id);
     const rateLimit = checkRateLimit(rateLimitId, RATE_LIMITS.ADMIN_WRITE);
@@ -139,16 +184,22 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse and validate request body
-    const body = await request.json();
+    let validatedData;
+    try {
+      const body = await request.json();
+      validatedData = validateJSONBody(PropertyDataSchema, body);
+    } catch (error) {
+      await logSecurityEvent('INVALID_INPUT', {
+        userId: user.id,
+        userEmail: user.email,
+        ip: getClientIP(request.headers.get('x-forwarded-for')),
+        userAgent: getUserAgent(request.headers.get('user-agent')),
+        endpoint: '/api/admin/properties',
+        metadata: { error: error instanceof Error ? error.message : 'Invalid input' },
+      });
 
-    // Input validation
-    const validationErrors = validatePropertyData(body);
-    if (validationErrors.length > 0) {
       return NextResponse.json(
-        { 
-          error: "Validation failed",
-          details: validationErrors,
-        },
+        { error: 'Invalid input data', details: error instanceof Error ? error.message : 'Validation failed' },
         { status: 400 }
       );
     }

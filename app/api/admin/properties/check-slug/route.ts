@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { isAuthenticated } from "@/lib/auth";
+import { requireAdminAuth } from "@/lib/admin-auth-guard";
 import { supabaseAdmin } from "@/lib/supabase";
 
 /**
@@ -8,8 +8,10 @@ import { supabaseAdmin } from "@/lib/supabase";
  */
 export async function GET(request: NextRequest) {
   try {
-    if (!(await isAuthenticated())) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    // Strict authentication check using centralized guard
+    const auth = await requireAdminAuth(request);
+    if (!auth.authenticated) {
+      return auth.response!;
     }
 
     if (!supabaseAdmin) {

@@ -64,12 +64,88 @@ const nextConfig = {
             value: 'on'
           },
           {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY'
+          },
+          {
             key: 'X-XSS-Protection',
             value: '1; mode=block'
           },
           {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin'
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'geolocation=(), microphone=(), camera=()'
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload'
+          },
+          {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // Admin panel - enhanced security headers
+      {
+        source: '/admin/:path*',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY'
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin'
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'geolocation=(), microphone=(), camera=()'
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload'
+          },
+          {
+            key: 'Cache-Control',
+            value: 'private, no-cache, no-store, must-revalidate'
+          },
+        ],
+      },
+      // API admin routes - strict security
+      {
+        source: '/api/admin/:path*',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin'
+          },
+          {
+            key: 'Cache-Control',
+            value: 'private, no-cache, no-store, must-revalidate'
           },
         ],
       },
@@ -84,6 +160,71 @@ const nextConfig = {
       },
       {
         source: '/logoceleste.avif',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      // API Caching Headers
+      {
+        source: '/api/admin/leads',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'private, max-age=30, s-maxage=30',
+          },
+        ],
+      },
+      {
+        source: '/api/admin/stats',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'private, max-age=60, s-maxage=60',
+          },
+        ],
+      },
+      {
+        source: '/api/admin/properties',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'private, max-age=120, s-maxage=120',
+          },
+        ],
+      },
+      {
+        source: '/api/admin/locations',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'private, max-age=300, s-maxage=300',
+          },
+        ],
+      },
+      // Immutable Asset Caching
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/fonts/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/images/:path*',
         headers: [
           {
             key: 'Cache-Control',

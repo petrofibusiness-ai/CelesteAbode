@@ -1,15 +1,54 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabaseAdminClient } from '@/lib/supabase-server';
+import { getCurrentUser } from '@/lib/auth';
+import { verifyCSRFToken } from '@/lib/csrf';
+import {
+  validateQueryParams,
+  validateJSONBody,
+  LeadFilterSchema,
+  UpdateLeadSchema,
+} from '@/lib/validation-schemas';
+import { logSecurityEvent, getClientIP, getUserAgent } from '@/lib/security-events';
 
 export async function GET(request: NextRequest) {
   try {
+    // Authentication check
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const supabase = getSupabaseAdminClient();
-    
-    const searchParams = request.nextUrl.searchParams;
-    const status = searchParams.get('status');
-    const formType = searchParams.get('formType');
-    const page = parseInt(searchParams.get('page') || '1', 10);
-    const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '50', 10)));
+
+    // Parse and validate query parameters
+    let filters;
+    try {
+      const params = {
+        status: request.nextUrl.searchParams.get('status'),
+        formType: request.nextUrl.searchParams.get('formType'),
+        page: request.nextUrl.searchParams.get('page'),
+        limit: request.nextUrl.searchParams.get('limit'),
+      };
+      filters = validateQueryParams(LeadFilterSchema, params);
+    } catch (error) {
+      await logSecurityEvent('INVALID_INPUT', {
+        userId: user.id,
+        userEmail: user.email,
+        ip: getClientIP(request.headers.get('x-forwarded-for')),
+        userAgent: getUserAgent(request.headers.get('user-agent')),
+        endpoint: '/api/admin/leads',
+        metadata: {
+          error: error instanceof Error ? error.message : 'Invalid parameters',
+        },
+      });
+
+      return NextResponse.json(
+        { error: 'Invalid query parameters' },
+        { status: 400 }
+      );
+    }
+
+    const { page, limit, status, formType } = filters;
     const offset = (page - 1) * limit;
 
     // Get filtered count
@@ -79,9 +118,13 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Exception fetching leads:', error);
+    console.error('[INTERNAL] Exception fetching leads:', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+    });
+
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'An error occurred while processing your request' },
       { status: 500 }
     );
   }
@@ -89,19 +132,59 @@ export async function GET(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    const supabase = getSupabaseAdminClient();
-    const body = await request.json();
-    
-    const { id, status, notes } = body;
+    // Authentication check
+    const user = await getCurrentUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
-    if (!id) {
+    // CSRF token validation
+    const csrfToken = request.headers.get('x-csrf-token');
+    const isValidCSRF = await verifyCSRFToken(csrfToken);
+
+    if (!isValidCSRF) {
+      const ip = getClientIP(request.headers.get('x-forwarded-for'));
+      await logSecurityEvent('CSRF_FAILED', {
+        userId: user.id,
+        userEmail: user.email,
+        ip,
+        userAgent: getUserAgent(request.headers.get('user-agent')),
+        endpoint: '/api/admin/leads',
+      });
+
       return NextResponse.json(
-        { error: 'Lead ID is required' },
+        { error: 'CSRF token validation failed' },
+        { status: 403 }
+      );
+    }
+
+    // Parse and validate request body
+    let updateData;
+    try {
+      const body = await request.json();
+      updateData = validateJSONBody(UpdateLeadSchema, body);
+    } catch (error) {
+      await logSecurityEvent('INVALID_INPUT', {
+        userId: user.id,
+        userEmail: user.email,
+        ip: getClientIP(request.headers.get('x-forwarded-for')),
+        userAgent: getUserAgent(request.headers.get('user-agent')),
+        endpoint: '/api/admin/leads',
+        metadata: {
+          error: error instanceof Error ? error.message : 'Invalid input',
+        },
+      });
+
+      return NextResponse.json(
+        { error: 'Invalid request data' },
         { status: 400 }
       );
     }
 
-    const updateData: {
+    const supabase = getSupabaseAdminClient();
+    const { id, status, notes } = updateData;
+
+    const dataToUpdate: {
       status?: string;
       notes?: string;
       updated_at?: string;
@@ -110,32 +193,50 @@ export async function PATCH(request: NextRequest) {
     };
 
     if (status) {
-      updateData.status = status;
+      dataToUpdate.status = status;
     }
     if (notes !== undefined) {
-      updateData.notes = notes;
+      dataToUpdate.notes = notes;
     }
 
     const { data, error } = await supabase
       .from('leads')
-      .update(updateData)
+      .update(dataToUpdate)
       .eq('id', id)
       .select()
       .single();
 
     if (error) {
-      console.error('Error updating lead:', error);
+      console.error('[INTERNAL] Error updating lead:', error);
       return NextResponse.json(
-        { error: 'Failed to update lead' },
+        { error: 'An error occurred while processing your request' },
         { status: 500 }
       );
     }
 
+    // Log audit entry for lead update
+    await logSecurityEvent('UNAUTHORIZED_ACCESS', {
+      userId: user.id,
+      userEmail: user.email,
+      ip: getClientIP(request.headers.get('x-forwarded-for')),
+      userAgent: getUserAgent(request.headers.get('user-agent')),
+      endpoint: '/api/admin/leads',
+      metadata: {
+        operation: 'UPDATE',
+        leadId: id,
+        updates: Object.keys(dataToUpdate),
+      },
+    });
+
     return NextResponse.json({ lead: data });
   } catch (error) {
-    console.error('Exception updating lead:', error);
+    console.error('[INTERNAL] Exception updating lead:', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+    });
+
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'An error occurred while processing your request' },
       { status: 500 }
     );
   }

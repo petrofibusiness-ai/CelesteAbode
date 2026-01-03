@@ -1,16 +1,15 @@
-import { NextResponse } from 'next/server';
-import { getCurrentUser } from '@/lib/auth';
+import { NextRequest, NextResponse } from 'next/server';
+import { requireAdminAuth } from '@/lib/admin-auth-guard';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const user = await getCurrentUser();
-
-    if (!user) {
-      return NextResponse.json(
-        { error: 'Not authenticated' },
-        { status: 401 }
-      );
+    // Strict authentication check using centralized guard
+    const auth = await requireAdminAuth(request);
+    if (!auth.authenticated) {
+      return auth.response!;
     }
+
+    const user = auth.user;
 
     return NextResponse.json({ user });
   } catch (error) {

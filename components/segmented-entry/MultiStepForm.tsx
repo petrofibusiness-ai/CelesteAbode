@@ -1088,8 +1088,8 @@ export function MultiStepForm({ isOpen, onClose, intent }: MultiStepFormProps) {
                 !formData.step3.contactInfo.name.trim() || 
                 !formData.step3.contactInfo.phone.trim() || 
                 !isValidPhone(formData.step3.contactInfo.phone) ||
-                !formData.step3.contactInfo.whatsapp.trim() || 
-                !isValidPhone(formData.step3.contactInfo.whatsapp) ||
+                !formData.step3.contactInfo.whatsapp?.trim() || 
+                !isValidPhone(formData.step3.contactInfo.whatsapp || "") ||
                 !formData.step3.contactInfo.email.trim()
               }
               className="bg-primary hover:bg-primary/90 text-xs px-2 py-1.5 min-w-0 flex-shrink disabled:opacity-50 disabled:cursor-not-allowed"

@@ -12,39 +12,71 @@ export async function GET(request: NextRequest) {
     const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '50', 10)));
     const offset = (page - 1) * limit;
 
-    // Build query
-    let query = supabase
+    // Get filtered count
+    let countQuery = supabase
       .from('leads')
-      .select('*', { count: 'exact' })
-      .order('created_at', { ascending: false });
+      .select('*', { count: 'exact', head: true });
 
-    // Apply filters
+    // Apply filters to count query
     if (status && status !== 'all') {
-      query = query.eq('status', status);
+      countQuery = countQuery.eq('status', status);
     }
     if (formType && formType !== 'all') {
-      query = query.eq('form_type', formType);
+      countQuery = countQuery.eq('form_type', formType);
     }
 
-    // Apply pagination
-    query = query.range(offset, offset + limit - 1);
+    const { count, error: countError } = await countQuery;
 
-    const { data, error, count } = await query;
-
-    if (error) {
-      console.error('Error fetching leads:', error);
+    if (countError) {
+      console.error('Error fetching lead count:', countError);
       return NextResponse.json(
-        { error: 'Failed to fetch leads' },
+        { error: 'Failed to fetch lead count' },
         { status: 500 }
       );
     }
 
+    // Now fetch the actual data with pagination
+    let dataQuery = supabase
+      .from('leads')
+      .select('*')
+      .order('created_at', { ascending: false });
+
+    // Apply filters to data query
+    if (status && status !== 'all') {
+      dataQuery = dataQuery.eq('status', status);
+    }
+    if (formType && formType !== 'all') {
+      dataQuery = dataQuery.eq('form_type', formType);
+    }
+
+    // Apply pagination
+    dataQuery = dataQuery.range(offset, offset + limit - 1);
+
+    const { data, error: dataError } = await dataQuery;
+
+    if (dataError) {
+      console.error('[Leads API] Error fetching leads:', dataError);
+      return NextResponse.json(
+        { error: 'Failed to fetch leads', details: dataError.message },
+        { status: 500 }
+      );
+    }
+
+    const totalCount = count || 0;
+    const totalPages = Math.ceil(totalCount / limit);
+
     return NextResponse.json({
       leads: data || [],
-      total: count || 0,
+      total: totalCount,
       page,
       limit,
-      totalPages: Math.ceil((count || 0) / limit),
+      totalPages,
+    }, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
     });
   } catch (error) {
     console.error('Exception fetching leads:', error);

@@ -78,9 +78,12 @@ CREATE POLICY "Public can insert leads"
   FOR INSERT
   WITH CHECK (true);
 
--- Policy: Only authenticated admins can view leads
--- Note: This will be enforced via service role key in admin API routes
--- For direct database access, you may want to add more specific policies
+-- Policy: Service role (used by admin API routes) can view all leads
+-- This ensures the service role key can read all leads even with RLS enabled
+CREATE POLICY "Service role can view all leads"
+  ON leads
+  FOR SELECT
+  USING (true);
 
 -- Add comments for documentation
 COMMENT ON TABLE leads IS 'Centralized lead management table for all form submissions';

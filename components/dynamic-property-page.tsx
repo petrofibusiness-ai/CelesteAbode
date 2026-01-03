@@ -44,6 +44,7 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [phoneError, setPhoneError] = useState("");
 
   // Get site URL for client-side component
   const siteUrl = typeof window !== 'undefined' 
@@ -151,7 +152,135 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isLightboxOpen, mediaItems.length]);
 
+  // Phone validation function (same as other forms)
+  const isValidPhone = (value: string) => {
+    const trimmed = value.trim();
+    
+    // First, check that input only contains allowed characters: digits, +, spaces, dashes, parentheses
+    // Reject any letters or other invalid characters
+    const allowedCharsRegex = /^[\+]?[0-9\s\-\(\)]+$/;
+    if (!allowedCharsRegex.test(trimmed)) {
+      return false;
+    }
+    
+    // Extract only digits
+    const digits = trimmed.replace(/\D/g, '');
+    
+    // Basic format check - must be 10-12 digits
+    // 10 digits: local number (e.g., 9818735258)
+    // 11-12 digits: with country code (e.g., +91 9818735258 = 12 digits, +1 5551234567 = 11 digits)
+    if (digits.length < 10 || digits.length > 12) {
+      return false;
+    }
+    
+    // If 11 digits and doesn't start with 0, must start with + (country code required)
+    // 11 digits starting with 0 are allowed without + (e.g., 09876543210)
+    // 11 digits not starting with 0 need + (e.g., +1 5551234567)
+    // 12 digits always need + (e.g., +91 9818735258)
+    if (digits.length === 11 && !digits.startsWith('0') && !trimmed.startsWith('+')) {
+      return false;
+    }
+    if (digits.length === 12 && !trimmed.startsWith('+')) {
+      return false;
+    }
+    
+    // Check for all zeros (0000000000, etc.)
+    if (/^0+$/.test(digits)) {
+      return false;
+    }
+    
+    // Check for repeated numbers (1111111111, 2222222222, etc.)
+    // Check if all digits are the same
+    if (/^(\d)\1{9,}$/.test(digits)) {
+      return false;
+    }
+    
+    // Check for sequential numbers (1234567890, 0123456789, etc.)
+    const isSequential = (str: string) => {
+      for (let i = 0; i < str.length - 1; i++) {
+        const current = parseInt(str[i]);
+        const next = parseInt(str[i + 1]);
+        // Check if next digit is current + 1 (handles wrap-around like 9->0)
+        if (next !== (current + 1) % 10) {
+          return false;
+        }
+      }
+      return str.length >= 10;
+    };
+    
+    // Check for reverse sequential (9876543210, 987654321, etc.)
+    const isReverseSequential = (str: string) => {
+      for (let i = 0; i < str.length - 1; i++) {
+        const current = parseInt(str[i]);
+        const next = parseInt(str[i + 1]);
+        // Check if next digit is current - 1 (handles wrap-around like 0->9)
+        if (next !== (current - 1 + 10) % 10) {
+          return false;
+        }
+      }
+      return str.length >= 10;
+    };
+    
+    if (isSequential(digits) || isReverseSequential(digits)) {
+      return false;
+    }
+    
+    return true;
+  };
+
+  // Handle phone input to restrict invalid characters
+  const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Allow: backspace, delete, tab, escape, enter, arrow keys, home, end
+    if ([8, 9, 27, 13, 46, 37, 38, 39, 40, 35, 36].indexOf(e.keyCode) !== -1 ||
+      // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+      (e.keyCode === 65 && e.ctrlKey === true) ||
+      (e.keyCode === 67 && e.ctrlKey === true) ||
+      (e.keyCode === 86 && e.ctrlKey === true) ||
+      (e.keyCode === 88 && e.ctrlKey === true)) {
+      return;
+    }
+    
+    // Check if the key is a valid character: digits (0-9), +, -, space, (, )
+    const key = e.key;
+    const isValidChar = /^[0-9+\s\-()]$/.test(key);
+    
+    if (!isValidChar) {
+      e.preventDefault();
+    }
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    
+    // Only allow digits, +, spaces, hyphens, and parentheses
+    const filteredValue = value.replace(/[^0-9+\s\-()]/g, '');
+    
+    setFormData({
+      ...formData,
+      phone: filteredValue,
+    });
+    
+    // Validate phone number in real-time
+    if (filteredValue.trim() && !isValidPhone(filteredValue)) {
+      const digits = filteredValue.trim().replace(/\D/g, '');
+      if (digits.length === 11 && !digits.startsWith('0') && !filteredValue.trim().startsWith('+')) {
+        setPhoneError("11-digit numbers (not starting with 0) must start with + (country code required)");
+      } else if (digits.length === 12 && !filteredValue.trim().startsWith('+')) {
+        setPhoneError("12-digit numbers must start with + (country code required)");
+      } else {
+        setPhoneError("Please enter a valid phone number");
+      }
+    } else {
+      setPhoneError("");
+    }
+  };
+
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    // Skip phone handling here - it's handled by handlePhoneChange
+    if (e.target.name === "phone") {
+      return;
+    }
+    
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -161,11 +290,32 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setPhoneError("");
+    
+    // Validate phone number before submission
+    if (!formData.phone.trim()) {
+      setPhoneError("Phone number is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!isValidPhone(formData.phone)) {
+      const digits = formData.phone.trim().replace(/\D/g, '');
+      if (digits.length === 11 && !digits.startsWith('0') && !formData.phone.trim().startsWith('+')) {
+        setPhoneError("11-digit numbers (not starting with 0) must start with + (country code required)");
+      } else if (digits.length === 12 && !formData.phone.trim().startsWith('+')) {
+        setPhoneError("12-digit numbers must start with + (country code required)");
+      } else {
+        setPhoneError("Please enter a valid phone number");
+      }
+      setIsSubmitting(false);
+      return;
+    }
     
     try {
       const nameParts = formData.name.trim().split(' ');
       const firstName = nameParts[0] || formData.name;
-      const lastName = nameParts.slice(1).join(' ') || 'N/A';
+      const lastName = nameParts.slice(1).join(' ') || 'Not Provided';
 
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -187,6 +337,7 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
       if (response.ok) {
         setIsSubmitted(true);
         setFormData({ name: "", phone: "" });
+        setPhoneError("");
         setTimeout(() => {
           setIsSubmitted(false);
         }, 5000);
@@ -775,17 +926,25 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
                         id="phone"
                         name="phone"
                         value={formData.phone}
-                        onChange={handleFormChange}
+                        onChange={handlePhoneChange}
+                        onKeyDown={handlePhoneKeyDown}
+                        inputMode="tel"
+                        pattern="[0-9+\s\-()]*"
                         required
-                        className="w-full px-3 py-2.5 rounded-lg border border-white/20 bg-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-[#CBB27A] focus:border-transparent transition-all text-sm"
+                        className={`w-full px-3 py-2.5 rounded-lg border bg-white/10 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-[#CBB27A] focus:border-transparent transition-all text-sm ${
+                          phoneError ? "border-red-500" : "border-white/20"
+                        }`}
                         placeholder="Enter your phone number"
                         style={{ fontFamily: "Poppins, sans-serif" }}
                       />
+                      {phoneError && (
+                        <p className="mt-1.5 text-sm text-red-400 font-poppins">{phoneError}</p>
+                      )}
                     </div>
 
                     <button
                       type="submit"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || !formData.name.trim() || !formData.phone.trim() || !isValidPhone(formData.phone)}
                       className="w-full px-5 py-3 bg-[#CBB27A] hover:bg-[#B8A066] text-white rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#CBB27A] disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                       style={{ fontFamily: "Poppins, sans-serif" }}
                     >

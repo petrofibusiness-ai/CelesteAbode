@@ -53,6 +53,8 @@ export function MultiStepForm({ isOpen, onClose, intent }: MultiStepFormProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [otherLocation, setOtherLocation] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+  const [whatsappError, setWhatsappError] = useState("");
   const [formData, setFormData] = useState<FormSubmissionData>({
     intent,
     step1: {},
@@ -72,6 +74,149 @@ export function MultiStepForm({ isOpen, onClose, intent }: MultiStepFormProps) {
           block: 'center',
         });
       });
+    }
+  };
+
+  // Phone validation function (same as CTA section)
+  const isValidPhone = (value: string) => {
+    const trimmed = value.trim();
+    
+    // First, check that input only contains allowed characters: digits, +, spaces, dashes, parentheses
+    // Reject any letters or other invalid characters
+    const allowedCharsRegex = /^[\+]?[0-9\s\-\(\)]+$/;
+    if (!allowedCharsRegex.test(trimmed)) {
+      return false;
+    }
+    
+    // Extract only digits
+    const digits = trimmed.replace(/\D/g, '');
+    
+    // Basic format check - must be 10-12 digits
+    // 10 digits: local number (e.g., 9818735258)
+    // 11-12 digits: with country code (e.g., +91 9818735258 = 12 digits, +1 5551234567 = 11 digits)
+    if (digits.length < 10 || digits.length > 12) {
+      return false;
+    }
+    
+    // If 11 digits and doesn't start with 0, must start with + (country code required)
+    // 11 digits starting with 0 are allowed without + (e.g., 09876543210)
+    // 11 digits not starting with 0 need + (e.g., +1 5551234567)
+    // 12 digits always need + (e.g., +91 9818735258)
+    if (digits.length === 11 && !digits.startsWith('0') && !trimmed.startsWith('+')) {
+      return false;
+    }
+    if (digits.length === 12 && !trimmed.startsWith('+')) {
+      return false;
+    }
+    
+    // Check for all zeros (0000000000, etc.)
+    if (/^0+$/.test(digits)) {
+      return false;
+    }
+    
+    // Check for repeated numbers (1111111111, 2222222222, etc.)
+    // Check if all digits are the same
+    if (/^(\d)\1{9,}$/.test(digits)) {
+      return false;
+    }
+    
+    // Check for sequential numbers (1234567890, 0123456789, etc.)
+    const isSequential = (str: string) => {
+      for (let i = 0; i < str.length - 1; i++) {
+        const current = parseInt(str[i]);
+        const next = parseInt(str[i + 1]);
+        // Check if next digit is current + 1 (handles wrap-around like 9->0)
+        if (next !== (current + 1) % 10) {
+          return false;
+        }
+      }
+      return str.length >= 10;
+    };
+    
+    // Check for reverse sequential (9876543210, 987654321, etc.)
+    const isReverseSequential = (str: string) => {
+      for (let i = 0; i < str.length - 1; i++) {
+        const current = parseInt(str[i]);
+        const next = parseInt(str[i + 1]);
+        // Check if next digit is current - 1 (handles wrap-around like 0->9)
+        if (next !== (current - 1 + 10) % 10) {
+          return false;
+        }
+      }
+      return str.length >= 10;
+    };
+    
+    if (isSequential(digits) || isReverseSequential(digits)) {
+      return false;
+    }
+    
+    return true;
+  };
+
+  // Handle phone input to restrict invalid characters
+  const handlePhoneKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    // Allow: backspace, delete, tab, escape, enter, arrow keys, home, end
+    if ([8, 9, 27, 13, 46, 37, 38, 39, 40, 35, 36].indexOf(e.keyCode) !== -1 ||
+      // Allow: Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+      (e.keyCode === 65 && e.ctrlKey === true) ||
+      (e.keyCode === 67 && e.ctrlKey === true) ||
+      (e.keyCode === 86 && e.ctrlKey === true) ||
+      (e.keyCode === 88 && e.ctrlKey === true)) {
+      return;
+    }
+    
+    // Check if the key is a valid character: digits (0-9), +, -, space, (, )
+    const key = e.key;
+    const isValidChar = /^[0-9+\s\-()]$/.test(key);
+    
+    if (!isValidChar) {
+      e.preventDefault();
+    }
+  };
+
+  const handlePhoneChange = (field: 'phone' | 'whatsapp', value: string) => {
+    // Only allow digits, +, spaces, hyphens, and parentheses
+    const filteredValue = value.replace(/[^0-9+\s\-()]/g, '');
+    
+    setFormData((prev) => ({
+      ...prev,
+      step3: {
+        ...prev.step3,
+        contactInfo: {
+          ...prev.step3.contactInfo,
+          [field]: filteredValue,
+        },
+      },
+    }));
+    
+    // Validate phone number in real-time
+    if (filteredValue.trim() && !isValidPhone(filteredValue)) {
+      const digits = filteredValue.trim().replace(/\D/g, '');
+      if (digits.length === 11 && !digits.startsWith('0') && !filteredValue.trim().startsWith('+')) {
+        if (field === 'phone') {
+          setPhoneError("11-digit numbers (not starting with 0) must start with + (country code required)");
+        } else {
+          setWhatsappError("11-digit numbers (not starting with 0) must start with + (country code required)");
+        }
+      } else if (digits.length === 12 && !filteredValue.trim().startsWith('+')) {
+        if (field === 'phone') {
+          setPhoneError("12-digit numbers must start with + (country code required)");
+        } else {
+          setWhatsappError("12-digit numbers must start with + (country code required)");
+        }
+      } else {
+        if (field === 'phone') {
+          setPhoneError("Please enter a valid phone number");
+        } else {
+          setWhatsappError("Please enter a valid phone number");
+        }
+      }
+    } else {
+      if (field === 'phone') {
+        setPhoneError("");
+      } else {
+        setWhatsappError("");
+      }
     }
   };
 
@@ -157,6 +302,33 @@ export function MultiStepForm({ isOpen, onClose, intent }: MultiStepFormProps) {
       return;
     }
 
+    // Validate phone numbers
+    if (!isValidPhone(formData.step3.contactInfo.phone)) {
+      const digits = formData.step3.contactInfo.phone.trim().replace(/\D/g, '');
+      if (digits.length === 11 && !digits.startsWith('0') && !formData.step3.contactInfo.phone.trim().startsWith('+')) {
+        setPhoneError("11-digit numbers (not starting with 0) must start with + (country code required)");
+      } else if (digits.length === 12 && !formData.step3.contactInfo.phone.trim().startsWith('+')) {
+        setPhoneError("12-digit numbers must start with + (country code required)");
+      } else {
+        setPhoneError("Please enter a valid mobile number");
+      }
+      setCurrentStep(2);
+      return;
+    }
+
+    if (!isValidPhone(formData.step3.contactInfo.whatsapp)) {
+      const digits = formData.step3.contactInfo.whatsapp.trim().replace(/\D/g, '');
+      if (digits.length === 11 && !digits.startsWith('0') && !formData.step3.contactInfo.whatsapp.trim().startsWith('+')) {
+        setWhatsappError("11-digit numbers (not starting with 0) must start with + (country code required)");
+      } else if (digits.length === 12 && !formData.step3.contactInfo.whatsapp.trim().startsWith('+')) {
+        setWhatsappError("12-digit numbers must start with + (country code required)");
+      } else {
+        setWhatsappError("Please enter a valid WhatsApp number");
+      }
+      setCurrentStep(2);
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       // Add "Other" location if specified
@@ -175,6 +347,8 @@ export function MultiStepForm({ isOpen, onClose, intent }: MultiStepFormProps) {
         // Reset form
         setCurrentStep(1);
         setOtherLocation("");
+        setPhoneError("");
+        setWhatsappError("");
         setFormData({
           intent,
           step1: {},
@@ -745,21 +919,16 @@ export function MultiStepForm({ isOpen, onClose, intent }: MultiStepFormProps) {
             placeholder="Enter your mobile number"
             value={formData.step3.contactInfo.phone}
             onFocus={handleInputFocus}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                step3: {
-                  ...prev.step3,
-                  contactInfo: {
-                    ...prev.step3.contactInfo,
-                    phone: e.target.value,
-                  },
-                },
-              }))
-            }
-            className="border-metal/20 focus:border-metal/40"
+            onChange={(e) => handlePhoneChange('phone', e.target.value)}
+            onKeyDown={handlePhoneKeyDown}
+            inputMode="tel"
+            pattern="[0-9+\s\-()]*"
+            className={`border-metal/20 focus:border-metal/40 ${phoneError ? "border-red-500 focus:border-red-500" : ""}`}
             required
           />
+          {phoneError && (
+            <p className="text-sm text-red-600 font-poppins">{phoneError}</p>
+          )}
         </div>
 
         {/* WhatsApp Number */}
@@ -777,21 +946,16 @@ export function MultiStepForm({ isOpen, onClose, intent }: MultiStepFormProps) {
             placeholder="Enter your WhatsApp number"
             value={formData.step3.contactInfo.whatsapp || ""}
             onFocus={handleInputFocus}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                step3: {
-                  ...prev.step3,
-                  contactInfo: {
-                    ...prev.step3.contactInfo,
-                    whatsapp: e.target.value,
-                  },
-                },
-              }))
-            }
-            className="border-metal/20 focus:border-metal/40"
+            onChange={(e) => handlePhoneChange('whatsapp', e.target.value)}
+            onKeyDown={handlePhoneKeyDown}
+            inputMode="tel"
+            pattern="[0-9+\s\-()]*"
+            className={`border-metal/20 focus:border-metal/40 ${whatsappError ? "border-red-500 focus:border-red-500" : ""}`}
             required
           />
+          {whatsappError && (
+            <p className="text-sm text-red-600 font-poppins">{whatsappError}</p>
+          )}
         </div>
 
         {/* Email Address */}
@@ -919,8 +1083,16 @@ export function MultiStepForm({ isOpen, onClose, intent }: MultiStepFormProps) {
           ) : (
             <Button
               onClick={handleSubmit}
-              disabled={isSubmitting}
-              className="bg-primary hover:bg-primary/90 text-xs px-2 py-1.5 min-w-0 flex-shrink"
+              disabled={
+                isSubmitting || 
+                !formData.step3.contactInfo.name.trim() || 
+                !formData.step3.contactInfo.phone.trim() || 
+                !isValidPhone(formData.step3.contactInfo.phone) ||
+                !formData.step3.contactInfo.whatsapp.trim() || 
+                !isValidPhone(formData.step3.contactInfo.whatsapp) ||
+                !formData.step3.contactInfo.email.trim()
+              }
+              className="bg-primary hover:bg-primary/90 text-xs px-2 py-1.5 min-w-0 flex-shrink disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? "Submitting..." : "Submit"}
             </Button>

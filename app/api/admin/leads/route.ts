@@ -23,14 +23,22 @@ export async function GET(request: NextRequest) {
     // Parse and validate query parameters
     let filters;
     try {
-      const params = {
+      console.log('[Leads API] Starting param extraction');
+      const rawParams = {
         status: request.nextUrl.searchParams.get('status'),
         formType: request.nextUrl.searchParams.get('formType'),
         page: request.nextUrl.searchParams.get('page'),
         limit: request.nextUrl.searchParams.get('limit'),
+        t: request.nextUrl.searchParams.get('t'),
+        _t: request.nextUrl.searchParams.get('_t'),
       };
-      filters = validateQueryParams(LeadFilterSchema, params);
+      console.log('[Leads API] Incoming query params:', JSON.stringify(rawParams));
+      console.log('[Leads API] Starting validation');
+      filters = validateQueryParams(LeadFilterSchema, rawParams);
+      console.log('[Leads API] Parsed filters:', JSON.stringify(filters));
     } catch (error) {
+      console.error('[Leads API] Validation failed:', error instanceof Error ? error.message : String(error));
+      console.error('[Leads API] Full error:', error);
       await logSecurityEvent('INVALID_INPUT', {
         userId: user.id,
         userEmail: user.email,
@@ -103,6 +111,8 @@ export async function GET(request: NextRequest) {
 
     const totalCount = count || 0;
     const totalPages = Math.ceil(totalCount / limit);
+
+    console.debug('[Leads API] Response meta', { totalCount, totalPages, page, limit, returned: data?.length || 0 });
 
     return NextResponse.json({
       leads: data || [],

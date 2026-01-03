@@ -35,11 +35,5 @@
         }
       ]
     }
-  ],
-  "crons": [
-    {
-      "path": "/api/admin/stats",
-      "schedule": "*/5 * * * *"
-    }
   ]
 }

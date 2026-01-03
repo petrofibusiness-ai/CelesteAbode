@@ -76,20 +76,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Log successful upload
-    await logSecurityEvent('FILE_UPLOAD_SUCCESS', {
-      userId: user?.id || 'unknown',
-      userEmail: user?.email,
-      ip: getClientIP(request.headers.get('x-forwarded-for')),
-      userAgent: getUserAgent(request.headers.get('user-agent')),
-      endpoint: '/api/admin/upload/location-image',
-      metadata: {
-        file_type: 'location_image',
-        image_type: imageType,
-        location_slug: locationSlug
-      }
-    });
-
     return NextResponse.json({ url: result.url, key: result.key });
   } catch (error) {
     console.error("Location image upload error:", error);

@@ -82,9 +82,9 @@ export async function POST(request: NextRequest) {
     // Upload image
     let uploadResult;
     if (isHero) {
-      uploadResult = await uploadHeroImageToR2(file, propertySlug, sanitized);
+      uploadResult = await uploadHeroImageToR2(file, propertySlug);
     } else {
-      uploadResult = await uploadImageToR2(file, propertySlug, sanitized);
+      uploadResult = await uploadImageToR2(file, propertySlug);
     }
 
     if (!uploadResult.success) {

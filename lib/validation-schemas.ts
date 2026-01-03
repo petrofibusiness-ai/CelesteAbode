@@ -2,6 +2,7 @@
 // Uses Zod for type-safe schema validation
 
 import { z } from 'zod';
+import { PROPERTY_TYPES, PROJECT_STATUSES, CONFIGURATIONS } from '@/lib/property-enums';
 
 // ============= Common Schemas =============
 
@@ -19,15 +20,18 @@ export const URLSchema = z.string().url('Invalid URL format').max(2048);
 
 export const LeadFilterSchema = z.object({
   status: z
-    .enum(['all', 'new', 'contacted', 'qualified', 'converted', 'rejected'])
+    .enum(['all', 'new', 'contacted', 'qualified', 'converted', 'rejected', 'lost'])
     .optional()
     .default('all'),
   formType: z
-    .enum(['all', 'contact', 'property-inquiry', 'quote'])
+    .enum(['all', 'contact', 'viewing', 'location-contact', 'advisory-session', 'chatbot', 'segmented-entry', 'property-inquiry', 'quote'])
     .optional()
     .default('all'),
   page: z.number().int().min(1).max(10000).default(1),
   limit: z.number().int().min(1).max(100).default(50),
+  // Allow cache-busting timestamp used by admin refresh button
+  t: z.number().optional(),
+  _t: z.number().optional(),
 });
 
 export const UpdateLeadSchema = z.object({
@@ -48,22 +52,43 @@ export const PropertyFilterSchema = z.object({
   limit: z.number().int().min(1).max(100).default(20),
   search: z.string().max(255).optional(),
   published: z.boolean().optional(),
+  // Allow cache-busting query param used by admin UI refresh button
+  t: z.number().optional(),
+  _t: z.number().optional(),
 });
 
 export const PropertyDataSchema = z.object({
-  name: z.string().min(1).max(500),
+  projectName: z.string().min(1).max(500),
   slug: SlugSchema,
-  description: z.string().max(5000).optional(),
-  price: z.number().nonnegative().optional(),
-  location: z.string().max(500).optional(),
-  images: z
-    .array(z.object({
-      url: URLSchema,
-      alt: z.string().max(255).optional(),
-    }))
-    .optional(),
-  heroImageUrl: URLSchema.optional(),
-  is_published: z.boolean().default(false),
+  developer: z.string().min(1).max(500),
+  location: z.string().min(1).max(500),
+  locationId: UUIDSchema.optional().nullable(),
+  localityId: UUIDSchema.optional().nullable(),
+  propertyType: z.enum(PROPERTY_TYPES).optional().nullable(),
+  reraId: z.string().max(255).optional(),
+  projectStatus: z.enum(PROJECT_STATUSES).optional().nullable(),
+  possessionDate: z.string().max(255).optional(),
+  configuration: z.array(z.enum(CONFIGURATIONS)).optional().default([]),
+  sizes: z.string().min(1).max(1000),
+  description: z.string().min(1).max(5000),
+  heroImage: URLSchema,
+  brochureUrl: URLSchema.optional(),
+  images: z.array(z.string().url()).optional().default([]),
+  videos: z.array(z.object({
+    title: z.string().max(500).optional(),
+    src: URLSchema,
+    thumbnail: URLSchema.optional(),
+  })).optional().default([]),
+  amenities: z.array(z.string().max(500)).optional().default([]),
+  price: z.string().max(500).optional(),
+  seo: z.object({
+    title: z.string().max(500).optional(),
+    description: z.string().max(5000).optional(),
+    keywords: z.string().max(500).optional(),
+    ogImage: URLSchema.optional(),
+    canonical: URLSchema.optional(),
+  }).optional(),
+  isPublished: z.boolean().default(false),
 });
 
 export type PropertyFilter = z.infer<typeof PropertyFilterSchema>;
@@ -116,16 +141,17 @@ export type PDFUpload = z.infer<typeof PDFUploadSchema>;
  */
 export function validateQueryParams<T extends z.ZodSchema>(
   schema: T,
-  params: Record<string, string | string[] | undefined>
+  params: Record<string, string | string[] | null | undefined>
 ): z.infer<T> {
   // Convert query params to appropriate types
   const converted: Record<string, any> = {};
 
   for (const [key, value] of Object.entries(params)) {
-    if (value === undefined) continue;
+    // Skip undefined and null values - let Zod use schema defaults
+    if (value === undefined || value === null) continue;
 
-    // Try to parse as number
-    if (!isNaN(Number(value as string))) {
+    // Try to parse as number (only if it's a valid number string)
+    if (typeof value === 'string' && value.trim() !== '' && !isNaN(Number(value))) {
       converted[key] = Number(value);
     } else if (value === 'true') {
       converted[key] = true;

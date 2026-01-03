@@ -225,27 +225,27 @@ export async function POST(request: NextRequest) {
 
     // Prepare property data
     const property: Omit<Property, "id" | "createdAt" | "updatedAt"> = {
-      slug: body.slug.trim().toLowerCase(),
-      projectName: body.projectName.trim(),
-      developer: body.developer.trim(),
-      location: body.location.trim(),
-      locationId: body.locationId || null, // FK to locations_v2 (required)
-      localityId: body.localityId || null, // FK to localities (optional)
-      propertyType: body.propertyType || null,
-      reraId: body.reraId?.trim() || undefined,
-      projectStatus: body.projectStatus || null,
-      possessionDate: body.possessionDate?.trim() || undefined,
-      configuration: Array.isArray(body.configuration) ? body.configuration : [],
-      sizes: body.sizes.trim(),
-      description: body.description.trim(),
-      heroImage: body.heroImage.trim(),
-      brochureUrl: body.brochureUrl?.trim() || undefined,
-      images: Array.isArray(body.images) ? body.images.filter((url: string) => url && url.trim()) : [],
-      videos: Array.isArray(body.videos) ? body.videos : [],
-      amenities: Array.isArray(body.amenities) ? body.amenities.filter((a: string) => a && typeof a === 'string' && a.trim() !== '') : [],
-      price: body.price?.trim() || undefined,
-      seo: body.seo && typeof body.seo === 'object' ? body.seo : {},
-      isPublished: body.isPublished === true,
+      slug: validatedData.slug.trim().toLowerCase(),
+      projectName: validatedData.projectName.trim(),
+      developer: validatedData.developer.trim(),
+      location: validatedData.location.trim(),
+      locationId: validatedData.locationId || null, // FK to locations_v2 (required)
+      localityId: validatedData.localityId || null, // FK to localities (optional)
+      propertyType: validatedData.propertyType || null,
+      reraId: validatedData.reraId?.trim() || undefined,
+      projectStatus: validatedData.projectStatus || null,
+      possessionDate: validatedData.possessionDate?.trim() || undefined,
+      configuration: Array.isArray(validatedData.configuration) ? validatedData.configuration : [],
+      sizes: validatedData.sizes.trim(),
+      description: validatedData.description.trim(),
+      heroImage: validatedData.heroImage.trim(),
+      brochureUrl: validatedData.brochureUrl?.trim() || undefined,
+      images: Array.isArray(validatedData.images) ? validatedData.images.filter((url: string) => url && url.trim()) : [],
+      videos: Array.isArray(validatedData.videos) ? validatedData.videos.filter((v: any) => v && v.src && v.title && v.thumbnail).map((v: any) => ({ title: v.title, src: v.src, thumbnail: v.thumbnail })) : [],
+      amenities: Array.isArray(validatedData.amenities) ? validatedData.amenities.filter((a: string) => a && typeof a === 'string' && a.trim() !== '') : [],
+      price: validatedData.price?.trim() || undefined,
+      seo: validatedData.seo && typeof validatedData.seo === 'object' ? validatedData.seo : {},
+      isPublished: validatedData.isPublished === true,
     };
 
     // Validate hero image URL

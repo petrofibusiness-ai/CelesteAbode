@@ -96,7 +96,7 @@ export async function getCurrentUser(): Promise<AdminUser | null> {
 
     console.log('[DEBUG] getCurrentUser - checking session:', {
       hasAccessToken: !!accessToken,
-      cookieNames: Array.from(cookieStore).map(c => c.name),
+      cookieNames: Array.from(cookieStore).map(c => c[0]),
     });
 
     if (!accessToken) {

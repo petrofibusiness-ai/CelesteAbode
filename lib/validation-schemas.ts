@@ -2,6 +2,7 @@
 // Uses Zod for type-safe schema validation
 
 import { z } from 'zod';
+import { PROPERTY_TYPES, PROJECT_STATUSES, CONFIGURATIONS } from '@/lib/property-enums';
 
 // ============= Common Schemas =============
 
@@ -57,19 +58,37 @@ export const PropertyFilterSchema = z.object({
 });
 
 export const PropertyDataSchema = z.object({
-  name: z.string().min(1).max(500),
+  projectName: z.string().min(1).max(500),
   slug: SlugSchema,
-  description: z.string().max(5000).optional(),
-  price: z.number().nonnegative().optional(),
-  location: z.string().max(500).optional(),
-  images: z
-    .array(z.object({
-      url: URLSchema,
-      alt: z.string().max(255).optional(),
-    }))
-    .optional(),
-  heroImageUrl: URLSchema.optional(),
-  is_published: z.boolean().default(false),
+  developer: z.string().min(1).max(500),
+  location: z.string().min(1).max(500),
+  locationId: UUIDSchema.optional().nullable(),
+  localityId: UUIDSchema.optional().nullable(),
+  propertyType: z.enum(PROPERTY_TYPES).optional().nullable(),
+  reraId: z.string().max(255).optional(),
+  projectStatus: z.enum(PROJECT_STATUSES).optional().nullable(),
+  possessionDate: z.string().max(255).optional(),
+  configuration: z.array(z.enum(CONFIGURATIONS)).optional().default([]),
+  sizes: z.string().min(1).max(1000),
+  description: z.string().min(1).max(5000),
+  heroImage: URLSchema,
+  brochureUrl: URLSchema.optional(),
+  images: z.array(z.string().url()).optional().default([]),
+  videos: z.array(z.object({
+    title: z.string().max(500).optional(),
+    src: URLSchema,
+    thumbnail: URLSchema.optional(),
+  })).optional().default([]),
+  amenities: z.array(z.string().max(500)).optional().default([]),
+  price: z.string().max(500).optional(),
+  seo: z.object({
+    title: z.string().max(500).optional(),
+    description: z.string().max(5000).optional(),
+    keywords: z.string().max(500).optional(),
+    ogImage: URLSchema.optional(),
+    canonical: URLSchema.optional(),
+  }).optional(),
+  isPublished: z.boolean().default(false),
 });
 
 export type PropertyFilter = z.infer<typeof PropertyFilterSchema>;

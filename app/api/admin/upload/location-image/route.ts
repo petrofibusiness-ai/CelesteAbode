@@ -56,12 +56,18 @@ export async function POST(request: NextRequest) {
 
     if (!result.success) {
       // Log failed upload
-      await logSecurityEvent(request, "FILE_UPLOAD_FAILED", {
-        user_id: user?.id || 'unknown',
-        file_type: 'location_image',
-        image_type: imageType,
-        location_slug: locationSlug,
-        error: result.error || 'Unknown error'
+      await logSecurityEvent('FILE_UPLOAD_FAILED', {
+        userId: user?.id || 'unknown',
+        userEmail: user?.email,
+        ip: getClientIP(request.headers.get('x-forwarded-for')),
+        userAgent: getUserAgent(request.headers.get('user-agent')),
+        endpoint: '/api/admin/upload/location-image',
+        metadata: {
+          file_type: 'location_image',
+          image_type: imageType,
+          location_slug: locationSlug,
+          error: result.error || 'Unknown error'
+        }
       });
 
       return NextResponse.json(
@@ -71,11 +77,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Log successful upload
-    await logSecurityEvent(request, "FILE_UPLOAD_SUCCESS", {
-      user_id: user?.id || 'unknown',
-      file_type: 'location_image',
-      image_type: imageType,
-      location_slug: locationSlug
+    await logSecurityEvent('FILE_UPLOAD_SUCCESS', {
+      userId: user?.id || 'unknown',
+      userEmail: user?.email,
+      ip: getClientIP(request.headers.get('x-forwarded-for')),
+      userAgent: getUserAgent(request.headers.get('user-agent')),
+      endpoint: '/api/admin/upload/location-image',
+      metadata: {
+        file_type: 'location_image',
+        image_type: imageType,
+        location_slug: locationSlug
+      }
     });
 
     return NextResponse.json({ url: result.url, key: result.key });
@@ -83,9 +95,14 @@ export async function POST(request: NextRequest) {
     console.error("Location image upload error:", error);
 
     // Log security event for unhandled errors
-    await logSecurityEvent(request, "FILE_UPLOAD_FAILED", {
-      error: error instanceof Error ? error.message : 'Unknown error',
-      file_type: 'location_image'
+    await logSecurityEvent('FILE_UPLOAD_FAILED', {
+      ip: getClientIP(request.headers.get('x-forwarded-for')),
+      userAgent: getUserAgent(request.headers.get('user-agent')),
+      endpoint: '/api/admin/upload/location-image',
+      metadata: {
+        error: error instanceof Error ? error.message : 'Unknown error',
+        file_type: 'location_image'
+      }
     });
 
     return NextResponse.json(

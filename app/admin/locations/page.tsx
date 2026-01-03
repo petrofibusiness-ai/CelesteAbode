@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { MapPin, Plus, Edit, Trash2, Eye, EyeOff, Loader2, ExternalLink } from "lucide-react";
+import { MapPin, Plus, Edit, Trash2, Eye, EyeOff, Loader2, ExternalLink, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Location } from "@/types/location";
 import { toast } from "sonner";
@@ -23,6 +23,7 @@ export default function LocationsPage() {
   const [locations, setLocations] = useState<Location[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
   const [updating, setUpdating] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -49,7 +50,7 @@ export default function LocationsPage() {
     fetchLocations();
   }, []);
 
-  const fetchLocations = async () => {
+  const fetchLocations = async (forceRefresh: boolean = false) => {
     try {
       setLoading(true);
       
@@ -59,9 +60,10 @@ export default function LocationsPage() {
       const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
       
       // Force fresh data if:
-      // 1. No cache timestamp (first load or after refresh)
-      // 2. Cache has expired
-      const isFreshLoad = !cacheTimestamp || (now - parseInt(cacheTimestamp)) > CACHE_DURATION;
+      // 1. Manual refresh triggered
+      // 2. No cache timestamp (first load or after refresh)
+      // 3. Cache has expired
+      const isFreshLoad = forceRefresh || !cacheTimestamp || (now - parseInt(cacheTimestamp)) > CACHE_DURATION;
       const cacheParam = isFreshLoad ? `?t=${now}` : '';
       
       const response = await fetch(`/api/admin/locations${cacheParam}`, {
@@ -81,11 +83,21 @@ export default function LocationsPage() {
       
       // Update cache timestamp on successful fetch
       sessionStorage.setItem('locations-cache-timestamp', now.toString());
+
+      if (forceRefresh) {
+        toast.success("Locations refreshed successfully");
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
+  };
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchLocations(true);
   };
 
   const handleDeleteClick = (slug: string, name: string) => {
@@ -194,12 +206,22 @@ export default function LocationsPage() {
             Manage location-specific property pages
           </p>
         </div>
-        <Link href="/admin/locations/new">
-          <Button className="bg-[#CBB27A] hover:bg-[#CBB27A]/90 text-white font-poppins">
-            <Plus className="w-4 h-4 mr-2" />
-            New Location
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <Button
+            onClick={handleRefresh}
+            disabled={refreshing || loading}
+            className="h-11 w-11 sm:h-12 sm:w-12 p-0 rounded-xl bg-white border-2 border-black/30 hover:border-black shadow-lg hover:shadow-xl transition-all duration-300 flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Refresh locations"
+          >
+            <RefreshCw className={`w-5 h-5 text-black transition-transform duration-300 ${refreshing ? 'animate-spin' : ''}`} />
           </Button>
-        </Link>
+          <Link href="/admin/locations/new">
+            <Button className="bg-[#CBB27A] hover:bg-[#CBB27A]/90 text-white font-poppins">
+              <Plus className="w-4 h-4 mr-2" />
+              New Location
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {locations.length === 0 ? (

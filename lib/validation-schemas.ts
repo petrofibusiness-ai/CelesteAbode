@@ -19,15 +19,18 @@ export const URLSchema = z.string().url('Invalid URL format').max(2048);
 
 export const LeadFilterSchema = z.object({
   status: z
-    .enum(['all', 'new', 'contacted', 'qualified', 'converted', 'rejected'])
+    .enum(['all', 'new', 'contacted', 'qualified', 'converted', 'rejected', 'lost'])
     .optional()
     .default('all'),
   formType: z
-    .enum(['all', 'contact', 'property-inquiry', 'quote'])
+    .enum(['all', 'contact', 'viewing', 'location-contact', 'advisory-session', 'chatbot', 'segmented-entry', 'property-inquiry', 'quote'])
     .optional()
     .default('all'),
   page: z.number().int().min(1).max(10000).default(1),
   limit: z.number().int().min(1).max(100).default(50),
+  // Allow cache-busting timestamp used by admin refresh button
+  t: z.number().optional(),
+  _t: z.number().optional(),
 });
 
 export const UpdateLeadSchema = z.object({
@@ -48,6 +51,9 @@ export const PropertyFilterSchema = z.object({
   limit: z.number().int().min(1).max(100).default(20),
   search: z.string().max(255).optional(),
   published: z.boolean().optional(),
+  // Allow cache-busting query param used by admin UI refresh button
+  t: z.number().optional(),
+  _t: z.number().optional(),
 });
 
 export const PropertyDataSchema = z.object({
@@ -116,16 +122,17 @@ export type PDFUpload = z.infer<typeof PDFUploadSchema>;
  */
 export function validateQueryParams<T extends z.ZodSchema>(
   schema: T,
-  params: Record<string, string | string[] | undefined>
+  params: Record<string, string | string[] | null | undefined>
 ): z.infer<T> {
   // Convert query params to appropriate types
   const converted: Record<string, any> = {};
 
   for (const [key, value] of Object.entries(params)) {
-    if (value === undefined) continue;
+    // Skip undefined and null values - let Zod use schema defaults
+    if (value === undefined || value === null) continue;
 
-    // Try to parse as number
-    if (!isNaN(Number(value as string))) {
+    // Try to parse as number (only if it's a valid number string)
+    if (typeof value === 'string' && value.trim() !== '' && !isNaN(Number(value))) {
       converted[key] = Number(value);
     } else if (value === 'true') {
       converted[key] = true;

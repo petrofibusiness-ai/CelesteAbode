@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Building2, Plus, Edit, Trash2, Eye, EyeOff, Loader2, ExternalLink } from "lucide-react";
+import { Building2, Plus, Edit, Trash2, Eye, EyeOff, Loader2, ExternalLink, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Property } from "@/types/property";
 import { toast } from "sonner";
@@ -24,6 +24,7 @@ export default function PropertiesPage() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
   const [updating, setUpdating] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -50,7 +51,7 @@ export default function PropertiesPage() {
     fetchProperties();
   }, []);
 
-  const fetchProperties = async () => {
+  const fetchProperties = async (forceRefresh: boolean = false) => {
     try {
       setLoading(true);
       
@@ -60,9 +61,10 @@ export default function PropertiesPage() {
       const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
       
       // Force fresh data if:
-      // 1. No cache timestamp (first load or after refresh)
-      // 2. Cache has expired
-      const isFreshLoad = !cacheTimestamp || (now - parseInt(cacheTimestamp)) > CACHE_DURATION;
+      // 1. Manual refresh triggered
+      // 2. No cache timestamp (first load or after refresh)
+      // 3. Cache has expired
+      const isFreshLoad = forceRefresh || !cacheTimestamp || (now - parseInt(cacheTimestamp)) > CACHE_DURATION;
       const cacheParam = isFreshLoad ? `?t=${now}` : '';
       
       const response = await fetch(`/api/admin/properties${cacheParam}`, {
@@ -82,11 +84,21 @@ export default function PropertiesPage() {
       
       // Update cache timestamp on successful fetch
       sessionStorage.setItem('properties-cache-timestamp', now.toString());
+
+      if (forceRefresh) {
+        toast.success("Properties refreshed successfully");
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
+  };
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await fetchProperties(true);
   };
 
   const handleDeleteClick = (id: string, name: string) => {
@@ -200,25 +212,36 @@ export default function PropertiesPage() {
             </div>
           </div>
         </div>
-        <Link 
-          href="/admin/properties/new" 
-          className="w-full sm:w-auto"
-          onClick={(e) => {
-            // Prevent navigation if deletion is in progress
-            if (deleting !== null) {
-              e.preventDefault();
-            }
-          }}
-        >
-          <Button 
-            className="w-full sm:w-auto bg-gradient-to-r from-[#CBB27A] to-[#B8A068] hover:from-[#B8A068] hover:to-[#A68F5B] text-white text-sm sm:text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 h-12 px-6" 
-            disabled={deleting !== null}
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <Button
+            onClick={handleRefresh}
+            disabled={refreshing || loading}
+            className="h-12 w-12 p-0 rounded-xl bg-white border-2 border-black/30 hover:border-black shadow-lg hover:shadow-xl transition-all duration-300 flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+            title="Refresh properties"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
-            <Plus className="w-5 h-5 mr-2" />
-            New Property
+            <RefreshCw className={`w-5 h-5 text-black transition-transform duration-300 ${refreshing ? 'animate-spin' : ''}`} />
           </Button>
-        </Link>
+          <Link 
+            href="/admin/properties/new" 
+            className="w-full sm:w-auto"
+            onClick={(e) => {
+              // Prevent navigation if deletion is in progress
+              if (deleting !== null) {
+                e.preventDefault();
+              }
+            }}
+          >
+            <Button 
+              className="w-full sm:w-auto bg-gradient-to-r from-[#CBB27A] to-[#B8A068] hover:from-[#B8A068] hover:to-[#A68F5B] text-white text-sm sm:text-base shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 h-12 px-6" 
+              disabled={deleting !== null}
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            >
+              <Plus className="w-5 h-5 mr-2" />
+              New Property
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {error && (

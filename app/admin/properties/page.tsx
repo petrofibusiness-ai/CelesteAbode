@@ -173,7 +173,7 @@ export default function PropertiesPage() {
       }
 
       toast.success(`Property ${!currentStatus ? "published" : "unpublished"} successfully`);
-      fetchProperties();
+      fetchProperties(true); // Force refresh to get updated data
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to update property");
     } finally {

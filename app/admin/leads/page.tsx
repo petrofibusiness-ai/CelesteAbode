@@ -189,6 +189,7 @@ export default function LeadsPage() {
       }
 
       const response = await fetch(`/api/admin/leads?${params.toString()}`, {
+        credentials: 'include', // Send authentication cookies
         cache: forceRefresh ? 'no-store' : 'default',
         headers: forceRefresh ? {
           'Cache-Control': 'no-cache, no-store, must-revalidate',

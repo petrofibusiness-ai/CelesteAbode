@@ -182,7 +182,7 @@ export default function LeadsPage() {
       });
       if (statusFilter !== "all") params.append("status", statusFilter);
       if (formTypeFilter !== "all") params.append("formType", formTypeFilter);
-      
+
       // Add cache-busting timestamp if forcing refresh
       if (forceRefresh) {
         params.append("_t", Date.now().toString());
@@ -792,22 +792,22 @@ export default function LeadsPage() {
         <div className="bg-gradient-to-r from-[#CBB27A] via-[#B8A068] to-[#CBB27A] rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-xl border-2 border-[#CBB27A]/20">
           <div className="flex items-center justify-between gap-3 sm:gap-4">
             <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white/20 backdrop-blur-sm rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg border-2 border-white/30 flex-shrink-0">
-                <Mail className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-black" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black drop-shadow-lg truncate" style={{ fontFamily: "Poppins, sans-serif" }}>
-                  Leads Management
-                </h1>
-                <p className="text-xs sm:text-sm md:text-base text-black mt-1 font-medium" style={{ fontFamily: "Poppins, sans-serif" }}>
-                  Total: <span className="font-bold text-black">{total}</span> leads
+            <div className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 bg-white/20 backdrop-blur-sm rounded-lg sm:rounded-xl flex items-center justify-center shadow-lg border-2 border-white/30 flex-shrink-0">
+              <Mail className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-black" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-black drop-shadow-lg truncate" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Leads Management
+              </h1>
+              <p className="text-xs sm:text-sm md:text-base text-black mt-1 font-medium" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Total: <span className="font-bold text-black">{total}</span> leads
                   {leads.length !== total && (
                     <span className="ml-2 text-xs text-gray-600">
                       (Showing {leads.length} on this page)
                     </span>
                   )}
-                </p>
-              </div>
+              </p>
+            </div>
             </div>
             <Button
               onClick={handleRefresh}

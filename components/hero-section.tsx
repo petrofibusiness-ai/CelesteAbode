@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { PillButton } from "@/components/ui/pill-button";
+import { homepageTitle, homepageDescription } from "@/app/metadata";
 
 export function HeroSection() {
   return (
@@ -14,7 +15,7 @@ export function HeroSection() {
             <div className="absolute inset-0 w-full h-full md:hidden">
               <Image
                 src="/propertyhero.avif"
-                alt="Best real estate consultant guiding property decisions in Delhi NCR - Noida, Greater Noida, and Yamuna Expressway"
+                alt="Real estate consultant in Delhi NCR guiding property decisions - Noida, Greater Noida, and Yamuna Expressway"
                 fill
                 priority
                 fetchPriority="high"
@@ -55,13 +56,13 @@ export function HeroSection() {
                 </div>
 
                 {/* H1 - SEO-Optimized Main Headline */}
-                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-medium mb-2 md:mb-3 leading-tight text-[#FAFAF8]">
-                  Best Real Estate Consultant in Delhi NCR for Residential & Investment Properties
+                <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-medium mb-2 md:mb-3 leading-tight text-[#FAFAF8]">
+                  {homepageTitle}
                 </h1>
 
                 {/* Hero Subcopy */}
-                <p className="text-xs md:text-sm text-white mb-3 md:mb-4 max-w-xl font-medium font-poppins">
-                  Guiding confident property decisions across Noida, Greater Noida, and the Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.
+                <p className="text-xs sm:text-sm text-white mb-3 md:mb-4 max-w-xl font-medium font-poppins">
+                  {homepageDescription}
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-2">

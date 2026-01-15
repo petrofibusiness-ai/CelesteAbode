@@ -17,11 +17,11 @@ export function ValuePropositions() {
           transition={{ duration: 0.8 }}
         >
           <h2 className="heading-bold text-primary mb-6">
-          The Mark of Expertise : Our{" "}
-          <span className="text-[#CBB27A]">Impact & Results</span>
+          Measurable Results That{" "}
+          <span className="text-[#CBB27A]">Speak Volumes</span>
           </h2>
           <p className="text-sm md:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed font-poppins">
-            A decade of trusted consulting in Delhi NCR, backed by measurable results and thousands of satisfied clients who made confident property decisions with our guidance.
+            As a trusted real estate consultant in Delhi NCR, our work is reflected in long-term client relationships, consistent delivery, and market-specific advisory built on data and process.
           </p>
         </motion.div>
 

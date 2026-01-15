@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Phone, Mail, Shield, CheckCircle, Users, CheckCircle2 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
+import { FAQSection } from "@/components/faq-section";
 
 export function CTASection() {
   const [formData, setFormData] = useState({
@@ -283,6 +284,11 @@ export function CTASection() {
           </div>
         </motion.div>
 
+        {/* Frequently Asked Questions */}
+        <div className="mb-12">
+          <FAQSection />
+        </div>
+
         {/* Aesthetic Line Separator */}
         <div className="w-full flex justify-center py-8 mb-12">
           <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
@@ -306,13 +312,10 @@ export function CTASection() {
               className="space-y-6"
             >
               <h2 className="heading-bold text-3xl md:text-4xl lg:text-5xl leading-tight">
-            Ready to find your{" "}
-            <span className="text-[#CBB27A]">masterpiece?</span>
+            Ready to Connect with Delhi NCR's{" "}
+            <span className="text-[#CBB27A]">Trusted Real Estate Consultants?</span>
           </h2>
 
-              <p className="text-lg text-muted leading-relaxed font-poppins">
-                Connect with our expert advisors for personalized guidance and exclusive property insights. We're here to help you make informed decisions about your next real estate investment.
-              </p>
 
           {/* Contact Information */}
               <div className="pt-4 space-y-4">

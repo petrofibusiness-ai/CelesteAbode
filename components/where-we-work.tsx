@@ -61,7 +61,7 @@ export function WhereWeWork() {
           transition={{ duration: 0.8 }}
         >
           <h2 className="heading-bold text-primary mb-4 md:mb-6">
-            Where We <span className="text-[#CBB27A]">Work</span>
+            Real Estate Advisory Services Across <span className="text-[#CBB27A]">Delhi NCR</span>
           </h2>
           <p className="text-sm md:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed font-poppins">
             Our real estate consulting services are actively focused across Noida, Greater Noida, and the Yamuna Expressway, with selective guidance in emerging NCR corridors such as Ghaziabad and NH24.

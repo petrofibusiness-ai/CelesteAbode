@@ -4,7 +4,6 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { OrganizationSchema, WebSiteSchema } from "@/lib/structured-data"
 import { AggregateRatingSchema } from "@/lib/homepage-schema"
-import { HomePageClient } from "./home-page-client"
 import { homepageMetadata } from "@/app/metadata"
 import type { Metadata } from "next"
 
@@ -48,6 +47,10 @@ const CTASection = dynamic(
   () => import("@/components/cta-section").then(mod => ({ default: mod.CTASection })),
   { ssr: true, loading: () => <div className="min-h-[150px] md:min-h-[200px]" /> } // SSR enabled for conversion content
 )
+const PropertyEvaluationSection = dynamic(
+  () => import("@/components/property-evaluation-section").then(mod => ({ default: mod.PropertyEvaluationSection })),
+  { ssr: true, loading: () => <div className="min-h-[300px] md:min-h-[400px]" /> } // SSR enabled for SEO content
+)
 
 export default function HomePage() {
 
@@ -61,12 +64,12 @@ export default function HomePage() {
 
           {/* The Celeste Philosophy */}
           <BrandIntro />
-          
+
           {/* Aesthetic Line Separator */}
           <div className="w-full flex justify-center py-8">
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
           </div>
-          
+
           {/* Trust Elements: Key Metrics - The Mark of Expertise: Our Impact & Results */}
           <ValuePropositions />
 
@@ -77,6 +80,14 @@ export default function HomePage() {
           
           {/* Where We Work - Regional Expertise */}
           <WhereWeWork />
+
+          {/* Aesthetic Line Separator */}
+          <div className="w-full flex justify-center py-8">
+            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
+          </div>
+
+          {/* Property Evaluation Section */}
+          <PropertyEvaluationSection />
 
           {/* Aesthetic Line Separator */}
           <div className="w-full flex justify-center py-8">
@@ -97,18 +108,6 @@ export default function HomePage() {
           {/* Who We Serve */}
           <WhoWeServe />
 
-          {/* Aesthetic Line Separator */}
-          <div className="w-full flex justify-center py-8">
-            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-          </div>
-          
-          {/* Live, Invest, or Aspire. We make it real */}
-          <HomePageClient />
-          
-          {/* Aesthetic Line Separator */}
-          <div className="w-full flex justify-center py-8">
-            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-          </div>
 
           {/* The Celeste Abode Vault */}
           <VaultTeaser />
@@ -120,7 +119,7 @@ export default function HomePage() {
           
           {/* What Our Clients Say */}
           <TestimonialsSection />
-          
+
           {/* Trusted by Thousands of Families */}
           <CTASection />
         </main>

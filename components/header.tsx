@@ -167,6 +167,8 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
               <div
                 ref={propertiesMenuRef}
                 className="relative"
+                onMouseEnter={() => !isMobile && setIsPropertiesOpen(true)}
+                onMouseLeave={() => !isMobile && setIsPropertiesOpen(false)}
               >
                 <button
                   type="button"

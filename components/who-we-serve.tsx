@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
   User,
@@ -9,45 +10,72 @@ import {
   Briefcase,
   Globe,
   Laptop,
+  ChevronDown,
 } from "lucide-react";
 
 export function WhoWeServe() {
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
+
   const audiences = [
     {
       id: "home-buyers",
-      title: "Home Buyers & End-Users",
-      description: "Consulting support for home buyers evaluating RERA-compliant residential properties in Noida, Greater Noida, and Yamuna Expressway, with focus on legal clarity and long-term suitability.",
-      icon: <User className="w-7 h-7" />,
+      title: "First-Time Home Buyers",
+      shortText: "Structured guidance for first-time buyers in the Delhi NCR property market.",
+      fullText: "Buying a first home involves regulatory, financial, and location-based decisions. As a real estate consultant in Delhi NCR, we assist first-time buyers with RERA verification, project evaluation, locality assessment, and long-term suitability. Our advisory-led approach helps buyers understand each step clearly before committing.",
+      icon: <User className="w-8 h-8" />,
+      gradient: "from-gray-50 to-slate-50",
+      iconColor: "text-[#CBB27A]",
+      iconBg: "bg-[#CBB27A]/10",
     },
     {
       id: "investors",
-      title: "Real Estate Investors",
-      description: "Data-driven property investment advisory in Delhi NCR, supported by ROI assessment, location intelligence, and market insights for informed investment decisions.",
-      icon: <TrendingUp className="w-7 h-7" />,
+      title: "Property Investors",
+      shortText: "Strategic real estate consulting for long-term investment planning.",
+      fullText: "Our real estate advisory for investors focuses on data-driven evaluation of rental yield potential, capital appreciation, taxation considerations, and market cycles across Delhi NCR. We prioritize sustainable investment strategies based on fundamentals rather than short-term speculation.",
+      icon: <TrendingUp className="w-8 h-8" />,
+      gradient: "from-gray-50 to-slate-50",
+      iconColor: "text-[#CBB27A]",
+      iconBg: "bg-[#CBB27A]/10",
     },
     {
       id: "nris",
-      title: "NRIs & Global Indians",
-      description: "Structured real estate consulting for NRIs seeking transparent, compliant property investments in NCR, with end-to-end guidance and remote decision support.",
-      icon: <Globe className="w-7 h-7" />,
+      title: "NRIs & Overseas Buyers",
+      shortText: "End-to-end property consulting for NRI and international clients.",
+      fullText: "As an experienced property consultant, we support NRIs and overseas buyers through remote property evaluation, legal verification, and compliance with India-specific regulatory requirements. Our process is designed to ensure clarity, compliance, and smooth coordination across borders.",
+      icon: <Globe className="w-8 h-8" />,
+      gradient: "from-gray-50 to-slate-50",
+      iconColor: "text-[#CBB27A]",
+      iconBg: "bg-[#CBB27A]/10",
     },
     {
       id: "corporates",
-      title: "Corporates & Institutions",
-      description: "Strategic real estate consulting for corporates and institutions exploring commercial and investment opportunities across NCR.",
-      icon: <Briefcase className="w-7 h-7" />,
-    },
-    {
-      id: "developers",
-      title: "Developers & Builders",
-      description: "Market-led consulting for developers focused on project positioning, buyer intelligence, and sales strategy within NCR real estate markets.",
-      icon: <Building2 className="w-7 h-7" />,
+      title: "Corporate Organizations",
+      shortText: "Professional real estate consulting for commercial requirements.",
+      fullText: "We provide real estate consulting services to corporate clients seeking office spaces, commercial assets, or strategic property investments. Our support includes market intelligence, location feasibility analysis, and transaction advisory to assist informed business decisions within Delhi NCR.",
+      icon: <Briefcase className="w-8 h-8" />,
+      gradient: "from-gray-50 to-slate-50",
+      iconColor: "text-[#CBB27A]",
+      iconBg: "bg-[#CBB27A]/10",
     },
     {
       id: "professionals",
-      title: "Professionals & Entrepreneurs",
-      description: "Consulting-led property guidance for professionals seeking premium residential properties in Delhi NCR, aligned with lifestyle and long-term value.",
-      icon: <Laptop className="w-7 h-7" />,
+      title: "Working Professionals",
+      shortText: "Advisory-led property consulting for working professionals.",
+      fullText: "Working professionals rely on our real estate consulting firm for practical guidance on premium residential options across Noida, Greater Noida, Yamuna Expressway, and wider NCR. Our recommendations consider connectivity, livability, future value, and long-term suitability rather than short-term appeal.",
+      icon: <Laptop className="w-8 h-8" />,
+      gradient: "from-gray-50 to-slate-50",
+      iconColor: "text-[#CBB27A]",
+      iconBg: "bg-[#CBB27A]/10",
+    },
+    {
+      id: "developers",
+      title: "Real Estate Developers",
+      shortText: "Market intelligence and advisory support for developers.",
+      fullText: "We offer advisory real estate services to developers through structured market research, buyer behavior analysis, and competitive positioning insights. Our role focuses on aligning projects with market demand and supporting informed go-to-market decisions across Delhi NCR.",
+      icon: <Building2 className="w-8 h-8" />,
+      gradient: "from-gray-50 to-slate-50",
+      iconColor: "text-[#CBB27A]",
+      iconBg: "bg-[#CBB27A]/10",
     },
   ];
 
@@ -63,52 +91,86 @@ export function WhoWeServe() {
           transition={{ duration: 0.8 }}
         >
           <h2 className="heading-bold text-primary mb-6">
-            Who <span className="text-[#CBB27A]">We Serve</span>
+            Real Estate Consulting for Buyers, Investors & NRIs Across <span className="text-[#CBB27A]">Delhi NCR</span>
           </h2>
-          <h3 className="text-xl md:text-2xl text-muted-foreground mb-4 font-medium font-poppins">
-            Real Estate Consulting Built for Diverse Needs Across Delhi NCR
-          </h3>
         </motion.div>
 
         {/* Divider Line */}
         <div className="w-24 h-0.5 bg-[#CBB27A] mx-auto mb-16"></div>
 
         {/* Audience Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {audiences.map((audience, index) => {
-            // First row (0-2) links to properties, second row (3-5) links to services
-            const linkUrl = index < 3 ? "/properties" : "/services";
-            
+            const Icon = audience.icon.type;
+            const isExpanded = expandedCard === audience.id;
+
             return (
-            <motion.div
-              key={audience.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
-            >
-                <Link href={linkUrl}>
-                  <div className="group relative bg-white rounded-xl p-6 shadow-md active:shadow-xl md:hover:shadow-xl transition-all duration-300 active:-translate-y-1 md:hover:-translate-y-1 border border-border cursor-pointer h-full">
-              {/* Icon */}
-              <div className="text-[#CBB27A] mb-4 group-hover:scale-110 transition-transform duration-300">
-                {audience.icon}
-              </div>
+              <motion.div
+                key={audience.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+              >
+                <div className="h-full bg-white rounded-xl border border-gray-200/60 hover:border-[#CBB27A]/50 transition-all duration-300 shadow-sm hover:shadow-xl group relative overflow-hidden flex flex-col">
+                  {/* Gradient background */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${audience.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`} />
 
-              {/* Content */}
-              <div className="space-y-2">
-                <h3 className="text-lg font-bold text-ink leading-tight">
-                  {audience.title}
-                </h3>
-                <p className="text-muted text-sm leading-relaxed font-poppins">
-                  {audience.description}
-                </p>
-              </div>
+                  {/* Decorative corner accent */}
+                  <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-[#CBB27A]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
-              {/* Hover Effect Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-transparent to-[#CBB27A]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl pointer-events-none"></div>
+                  <div className="p-6 md:p-8 relative z-10 text-center flex-1 flex flex-col">
+                    {/* Icon */}
+                    <div className="mb-6">
+                      <div className={`w-16 h-16 rounded-xl ${audience.iconBg} flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm mx-auto`}>
+                        <Icon className={`w-8 h-8 ${audience.iconColor} transition-colors duration-300`} />
+                      </div>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-lg md:text-xl font-semibold text-[#2B3035] mb-4 tracking-tight">
+                      {audience.title}
+                    </h3>
+
+                    {/* Short Description */}
+                    <p className="text-sm md:text-base text-[#4A4F55] leading-relaxed font-normal mb-4 flex-1">
+                      {audience.shortText}
+                    </p>
+
+                    {/* Expandable Content */}
+                    <AnimatePresence>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pt-4 border-t border-gray-200 mt-4">
+                            <p className="text-sm text-[#4A4F55] leading-relaxed text-justify">
+                              {audience.fullText}
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {/* Read More Button - Always at bottom */}
+                    <div className="mt-auto pt-4">
+                      <button
+                        onClick={() => setExpandedCard(isExpanded ? null : audience.id)}
+                        className="inline-flex items-center gap-2 text-sm font-medium text-[#CBB27A] hover:text-[#B8A068] transition-colors"
+                      >
+                        {isExpanded ? "Read Less" : "Read More"}
+                        <ChevronDown
+                          className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                    </div>
                   </div>
-                </Link>
-            </motion.div>
+                </div>
+              </motion.div>
             );
           })}
         </div>

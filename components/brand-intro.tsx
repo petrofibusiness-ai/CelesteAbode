@@ -39,23 +39,23 @@ export function BrandIntro() {
         >
           <div className="h-px w-12 md:w-16 bg-gradient-to-r from-[#CBB27A] to-transparent" />
           <p className="text-xs md:text-sm tracking-[0.2em] uppercase font-semibold text-[#CBB27A]">
-            THE CELESTE PHILOSOPHY
+            THE CELESTE ABODE APPROACH
           </p>
           <div className="h-px w-12 md:w-16 bg-gradient-to-l from-[#CBB27A]/30 to-transparent" />
         </motion.div>
 
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start lg:items-end">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           {/* Left Column - Headline */}
           <motion.div 
-            className="lg:col-span-5 flex flex-col"
+            className="lg:col-span-5 flex flex-col justify-start"
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: containerDuration, ease: [0.25, 0.1, 0.25, 1] }}
           >
             {/* Headline with enhanced typography */}
-            <h2 className="text-3xl md:text-4xl lg:text-5xl leading-[1.15] text-left font-semibold text-[#2B3035] tracking-tight">
-              Data‑Driven, Compliant & Intelligent Property Consulting for Delhi NCR Investors
+            <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl leading-[1.2] text-left font-semibold text-[#2B3035] tracking-tight pr-4 lg:pr-8 mb-0">
+              Real Estate Consulting Built for Delhi NCR Property Decisions
             </h2>
           </motion.div>
 
@@ -75,7 +75,7 @@ export function BrandIntro() {
               <div className="relative pl-5 md:pl-6 border-l border-[#CBB27A]/40">
                 <p className="text-xs md:text-sm lg:text-base leading-[1.7] text-[#4A4F55] font-normal font-poppins">
                   Celeste Abode is a <span className="text-[#2B3035] font-medium">trusted real estate consultant</span> in Delhi NCR, built for people who want clarity before committing to a property.
-              </p>
+                </p>
               </div>
 
               {/* Second paragraph */}
@@ -83,11 +83,16 @@ export function BrandIntro() {
                 In a market driven by pressure and noise, we focus on what actually protects your decision: <span className="text-[#2B3035] font-medium">RERA-compliant projects</span>, <span className="text-[#2B3035] font-medium">data-backed analysis</span>, and <span className="text-[#2B3035] font-medium">deep local understanding</span>. Our role is not to push options, but to help you evaluate what makes sense financially, legally, and long-term.
               </p>
 
-              {/* Third paragraph */}
+              {/* Recommended supporting line */}
+              <p className="text-xs md:text-sm lg:text-base leading-[1.7] text-[#4A4F55] font-normal font-poppins">
+                As a <span className="text-[#2B3035] font-medium">real estate consulting firm</span> in Delhi NCR, Celeste Abode provides <span className="text-[#2B3035] font-medium">unbiased property advisory services</span> focused on <span className="text-[#2B3035] font-medium">long-term value</span> and <span className="text-[#2B3035] font-medium">regulatory clarity</span>.
+              </p>
+
+              {/* Highlight / Callout Box */}
               <div className="relative bg-[#CBB27A]/5 p-5 md:p-6 rounded-md border-l-2 border-[#CBB27A]/30">
                 <p className="text-xs md:text-sm lg:text-base leading-[1.7] text-[#2B3035] font-normal font-poppins">
-                  From Noida and Greater Noida to the Yamuna Expressway, every recommendation is guided by one principle: <span className="font-medium text-[#CBB27A]">secure decisions today that hold value tomorrow</span>.
-              </p>
+                  From Noida and Greater Noida to the Yamuna Expressway, every recommendation is guided by one principle: <span className="font-medium text-[#CBB27A]">secure decisions today that hold value tomorrow.</span>
+                </p>
               </div>
             </motion.div>
           </div>

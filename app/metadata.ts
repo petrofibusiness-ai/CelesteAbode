@@ -1,234 +1,43 @@
 import type { Metadata } from "next";
 
+// Export title and description as constants for reuse in components
+export const homepageTitle = "Trusted Real Estate Consultant for Properties in Delhi NCR | Celeste Abode";
+export const homepageDescription = "Guiding confident property decisions across Noida, Greater Noida, and Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.";
+
 export const homepageMetadata: Metadata = {
-  title: "Trusted Real Estate Consultant for Properties in Delhi NCR | Celeste Abode",
-  description: "Guiding confident property decisions across Noida, Greater Noida, and Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.",
-  keywords: [
-    // Primary Brand & Core Keywords (Homepage Focus)
-    "luxury real estate advisory NCR",
-    "premium real estate consultants NCR",
-    "real estate investment advisory India",
-    "luxury property consultants Noida",
-    "high value property investment advisory",
-    "bespoke real estate advisory services",
-    "data driven real estate consulting",
-    "luxury real estate NCR",
-    "real estate consulting Noida",
-    "investment advisory real estate",
-    "premium property advisory NCR",
-    "high-value property investments",
-    
-    // Primary Keywords
-    "luxury real estate consulting NCR",
-    "strategic property investment advisory",
-    "data-driven real estate consulting",
-    "RERA compliant property advisory",
-    "property investment consultant NCR",
-    
-    // Location-Based Keywords (Local SEO Focus)
-    "real estate consultants in Noida",
-    "luxury property consultants Delhi NCR",
-    "property investment advisory NCR",
-    "premium real estate advisory Greater Noida",
-    "Yamuna Expressway property consultants",
-    "NCR luxury real estate experts",
-    "Delhi NCR property investment advisors",
-    "property investment Delhi NCR",
-    "luxury homes in Greater Noida",
-    "properties on Yamuna Expressway",
-    "NCR real estate experts",
-    
-    // Location-based Keywords
-    "real estate consultant Noida",
-    "property advisor Gurugram",
-    "luxury property consultant Delhi NCR",
-    "Yamuna Expressway property investment",
-    "Greater Noida real estate advisor",
-    "Noida Expressway property consultant",
-    "Gurugram property investment advisory",
-    "Delhi NCR real estate consulting",
-    "Ghaziabad property advisor",
-    
-    // Service-Based Keywords (Services Page Focus)
-    "real estate investment advisory services",
-    "property portfolio advisory services",
-    "real estate transaction consulting",
-    "end to end property advisory",
-    "personalized real estate advisory",
-    "strategic property investment planning",
-    "residential real estate advisory NCR",
-    "property investment advisory services",
-    "virtual property tours NCR",
-    "personalized property strategy",
-    
-    // Service-based Keywords
-    "bespoke lifestyle curation",
-    "investment security NCR",
-    "property ROI strategy",
-    "signature residences NCR",
-    "high-value property investment",
-    "AI-powered property intelligence",
-    "luxury apartment consultant",
-    "villa investment advisory",
-    "ready to move property NCR",
-    "pre-launch property investment",
-    
-    // NRI & Investor-Focused Keywords (High-Intent)
-    "NRI real estate advisory India",
-    "property investment for NRIs in NCR",
-    "NRI property consultants Noida",
-    "luxury property investment India for NRIs",
-    "trusted real estate advisor for NRIs",
-    "India real estate investment advisory for overseas buyers",
-    "NRI real estate services India",
-    
-    // NRI & Specialized Services
-    "NRI property services NCR",
-    "global Indian property investment",
-    "remote property management",
-    "end-to-end transaction security",
-    "legal property verification NCR",
-    
-    // Market-specific
-    "Jewar Airport property investment",
-    "Noida Sector 62 property",
-    "luxury real estate NCR",
-    "premium property advisory India",
-    "real estate market intelligence",
-    
-    // Location-Based Keywords - Delhi NCR
-    "luxury real estate in Delhi NCR",
-    "premium apartments in Delhi NCR",
-    "investment property Delhi NCR",
+    keywords: [
+    // Core Business Keywords
     "real estate consultant Delhi NCR",
-    "real estate for NRIs Delhi NCR",
-    "best residential projects in Noida & Greater Noida",
-    
-    // Location-Based Keywords - Noida
-    "apartments in Noida",
-    "new projects Noida",
-    "luxury apartments Noida",
-    "Noida real estate investment",
-    "properties near Noida metro",
-    "properties near Noida City Centre",
-    "properties near Noida Expressway",
-    "apartments for families in Noida",
-    
-    // Location-Based Keywords - Greater Noida
-    "apartments in Greater Noida",
-    "villas in Greater Noida",
-    "luxury residences Greater Noida",
-    "new projects Greater Noida",
-    "real estate investment Greater Noida",
-    "properties near Greater Noida West",
-    "properties near Techzone",
-    "properties near Yamuna Expressway",
-    "properties near Knowledge Park",
-    "premium villa Greater Noida for sale",
-    "investment property near Yamuna Expressway",
-    "villas for sale for families in Greater Noida",
-    
-    // Trust & Positioning Keywords (About / Philosophy Page)
-    "trusted real estate advisors NCR",
-    "independent real estate advisory India",
-    "client first real estate consulting",
-    "transparent property advisory services",
-    "research based real estate advisory",
+    "property consultant Noida",
+    "real estate consulting firm",
+    "property investment advisory NCR",
+    "luxury real estate consultant",
+
+    // Location-Focused Keywords
+    "real estate consultant Noida",
+    "property advisor Greater Noida",
+    "Yamuna Expressway property consultant",
+    "Delhi NCR real estate advisory",
+
+    // Service Keywords
+    "property investment consultant",
+    "real estate advisory services",
+    "RERA compliant property advisory",
+    "data-driven real estate consulting",
+
+    // NRI & Investor Keywords
+    "NRI real estate advisory India",
+    "property investment for NRIs NCR",
+    "overseas property consultant India",
+
+    // Trust & Quality Keywords
     "trusted real estate consultant",
-    "transparent property advisory",
-    "reliable real estate advisory",
-    "credible investment advisor",
-    "data-backed guidance",
-    "honest property consultancy",
-    "dependable real estate partner",
-    "authentic client-first service",
-    "ethical real estate consulting",
-    "documented transaction security",
-    "RERA-compliant properties",
-    "RERA compliant projects",
-    "legal verification & due diligence",
-    "complete paperwork support",
-    "end-to-end transaction security",
-    "full documentation & compliance",
-    "licensed real estate experts",
-    "certified real estate experts",
-    "verified builder associates",
-    
-    // Long-Tail Conversion Keywords (Low Volume, High Quality)
-    "best luxury property consultant in Noida",
-    "premium real estate advisory for investors",
-    "personalized property investment advisory NCR",
-    "luxury home buying advisory Delhi NCR",
-    "how to invest in luxury real estate NCR",
-    "best real estate consultant Noida",
-    "top property advisory firms in NCR",
-    "luxury property portfolio management",
-    "data-driven real estate advice",
-    
-    // Brand Visibility & Market Positioning
-    "premium real estate advisor NCR",
-    "high-end property investment advisory",
-    "NCR real estate experts",
-    "real estate investment consultancy",
-    "top real estate consultancy in Noida",
-    "top real estate consultancy in NCR",
-    "curated luxury projects",
-    "exclusive signature residences",
-    "off-market luxury properties",
-    "investment-grade real estate opportunities",
-    "high ROI property investments",
-    "real estate market analysis & insights",
-    "property investment strategies",
-    "lifestyle-driven property recommendations",
-    
-    // High Return / Investment Focus
-    "high-ROI real estate investment",
-    "data-driven ROI strategy",
-    "real estate investment security",
-    "property yield analysis",
-    "long-term capital appreciation",
-    "investment portfolio optimisation",
-    "property as wealth-building asset",
-    "investment-grade properties",
-    "investment advisory services",
-    "real estate asset management",
-    "future-proof property investments",
-    "smart property investment planning",
-    "buy-to-let properties",
-    "rental income properties",
-    "capital growth properties",
-    
-    // Documentation, Compliance & Full-Service Advisory
-    "RERA verified projects",
-    "legal & regulatory compliance",
-    "due diligence & legal verification",
-    "complete transaction support",
-    "paperwork & documentation handled",
-    "end-to-end purchase process",
-    "from booking to registration support",
-    "transparent property records",
-    "verified property documentation",
-    "secure investment process",
-    "safe and compliant real estate deals",
-    
-    // Consultancy & Client-Centric / Personalized Services
-    "bespoke property advisory",
-    "personalised investment plans",
-    "personalized investment plans",
-    "lifestyle-aligned property recommendations",
-    "client-first real estate consulting",
-    "tailored property solutions",
-    "custom real estate advisory",
-    "expert property consultancy",
-    "professional property advisors",
-    "real estate consulting and advising",
-    "full-service real estate consultancy",
-    "comprehensive property guidance",
-    "NRI real estate solutions",
+    "independent property advisory",
+    "transparent real estate consulting",
   ],
   openGraph: {
-    title: "Trusted Real Estate Consultant for Properties in Delhi NCR | Celeste Abode",
-    description: "Guiding confident property decisions across Noida, Greater Noida, and Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.",
+    title: homepageTitle,
+    description: homepageDescription,
     url: "https://www.celesteabode.com",
     siteName: "Celeste Abode",
     locale: "en_IN",
@@ -244,8 +53,8 @@ export const homepageMetadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Trusted Real Estate Consultant for Properties in Delhi NCR | Celeste Abode",
-    description: "Guiding confident property decisions across Noida, Greater Noida, and Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.",
+    title: homepageTitle,
+    description: homepageDescription,
     images: ["https://www.celesteabode.com/propertyhero.avif"],
     creator: "@celesteabode",
   },

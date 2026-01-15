@@ -1,11 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Lock, ArrowRight, BookOpen } from "lucide-react";
+import { Lock, ArrowRight, BookOpen, ChevronDown } from "lucide-react";
 
 export function VaultTeaser() {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   return (
     <section className="relative py-20 md:py-32 bg-background overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -49,22 +52,50 @@ export function VaultTeaser() {
               The Celeste Abode <span className="text-[#CBB27A]">Vault</span>
             </h2>
 
-            {/* Subheading - H3 */}
-            <h3 className="text-xl md:text-2xl text-ink font-medium mt-4">
-              Clear Answers for Confident Property Decisions
-            </h3>
 
             {/* Description */}
-            <div className="text-sm md:text-base text-ink leading-relaxed max-w-xl mt-6 space-y-4">
-              <p className="font-poppins">
+            <div className="text-sm md:text-base text-ink leading-relaxed max-w-xl mt-6">
+              <p className="font-poppins mb-4">
+                Explore our real estate knowledge hub designed to simplify property consulting and informed investment decisions.
+              </p>
+              <p className="font-poppins mb-4">
                 Buying property in Delhi NCR involves complex terms, legal processes, and regulatory details that often confuse buyers and investors.
               </p>
               <p className="font-poppins">
                 The Celeste Abode Vault is our knowledge centre, built to simplify real estate decisions, covering RERA rules, legal terminology, FAQs, location insights, and common buyer questions in clear, practical language.
               </p>
-              <p className="font-poppins">
-                Whether you're evaluating a property or preparing to invest, the Vault helps you understand the process before you commit.
-              </p>
+
+              {/* Expandable Content */}
+              <AnimatePresence>
+                {isExpanded && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="pt-4 border-t border-gray-200 mt-4">
+                      <p className="text-sm text-[#4A4F55] leading-relaxed text-justify font-poppins">
+                        Whether you're evaluating a property or preparing to invest, the Vault helps you understand the process before you commit. Our comprehensive guides break down complex real estate concepts into digestible explanations, ensuring you make informed decisions with confidence.
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Read More Button */}
+              <div className="mt-4">
+                <button
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="inline-flex items-center gap-2 text-sm font-medium text-[#CBB27A] hover:text-[#B8A068] transition-colors"
+                >
+                  {isExpanded ? "Read Less" : "Read More"}
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""}`}
+                  />
+                </button>
+              </div>
             </div>
 
             {/* CTA Button */}

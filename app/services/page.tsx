@@ -24,29 +24,26 @@ export const metadata: Metadata = {
   description:
     "Celeste Abode offers comprehensive real estate investment advisory services, property portfolio advisory, real estate transaction consulting, end-to-end property advisory, and personalized real estate advisory across Delhi NCR.",
   keywords: [
-    // Service-Based Keywords (Services Page Focus)
+    // Core Service Keywords
+    "real estate consultant",
+    "real estate advisory",
+    "real estate consulting services",
+    "real estate consulting firm",
+    "property consultant",
+    "advisory real estate",
+
+    // Service-Specific Keywords
     "real estate investment advisory services",
-    "property portfolio advisory services",
     "real estate transaction consulting",
     "end to end property advisory",
     "personalized real estate advisory",
     "strategic property investment planning",
     "residential real estate advisory NCR",
-    "property investment advisory services",
-    "virtual property tours NCR",
-    "personalized property strategy",
-    
-    // Additional Service Keywords
-    "real estate services",
-    "property consulting services",
+
+    // Additional Services
     "luxury property advisory",
     "NRI property services",
-    "investment advisory",
-    "virtual property tours",
-    "property due diligence",
-    "real estate market analysis",
-    "location intelligence",
-    "property portfolio management",
+    "property portfolio advisory services",
   ],
   openGraph: {
     title: "Real Estate Investment Advisory Services | Property Portfolio Advisory | Celeste Abode",

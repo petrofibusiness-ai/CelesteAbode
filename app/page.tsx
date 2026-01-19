@@ -64,12 +64,12 @@ export default function HomePage() {
 
           {/* The Celeste Philosophy */}
           <BrandIntro />
-
+          
           {/* Aesthetic Line Separator */}
           <div className="w-full flex justify-center py-8">
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
           </div>
-
+          
           {/* Trust Elements: Key Metrics - The Mark of Expertise: Our Impact & Results */}
           <ValuePropositions />
 
@@ -119,7 +119,7 @@ export default function HomePage() {
           
           {/* What Our Clients Say */}
           <TestimonialsSection />
-
+          
           {/* Trusted by Thousands of Families */}
           <CTASection />
         </main>

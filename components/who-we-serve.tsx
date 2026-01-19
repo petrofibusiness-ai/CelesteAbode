@@ -103,15 +103,15 @@ export function WhoWeServe() {
           {audiences.map((audience, index) => {
             const Icon = audience.icon.type;
             const isExpanded = expandedCard === audience.id;
-
+            
             return (
-              <motion.div
-                key={audience.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-              >
+            <motion.div
+              key={audience.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+            >
                 <div className="h-full bg-white rounded-xl border border-gray-200/60 hover:border-[#CBB27A]/50 transition-all duration-300 shadow-sm hover:shadow-xl group relative overflow-hidden flex flex-col">
                   {/* Gradient background */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${audience.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none`} />
@@ -120,17 +120,17 @@ export function WhoWeServe() {
                   <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-[#CBB27A]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
                   <div className="p-6 md:p-8 relative z-10 text-center flex-1 flex flex-col">
-                    {/* Icon */}
+              {/* Icon */}
                     <div className="mb-6">
                       <div className={`w-16 h-16 rounded-xl ${audience.iconBg} flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-sm mx-auto`}>
                         <Icon className={`w-8 h-8 ${audience.iconColor} transition-colors duration-300`} />
                       </div>
-                    </div>
+              </div>
 
                     {/* Title */}
                     <h3 className="text-lg md:text-xl font-semibold text-[#2B3035] mb-4 tracking-tight">
-                      {audience.title}
-                    </h3>
+                  {audience.title}
+                </h3>
 
                     {/* Short Description */}
                     <p className="text-sm md:text-base text-[#4A4F55] leading-relaxed font-normal mb-4 flex-1">
@@ -150,8 +150,8 @@ export function WhoWeServe() {
                           <div className="pt-4 border-t border-gray-200 mt-4">
                             <p className="text-sm text-[#4A4F55] leading-relaxed text-justify">
                               {audience.fullText}
-                            </p>
-                          </div>
+                </p>
+              </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -170,7 +170,7 @@ export function WhoWeServe() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+            </motion.div>
             );
           })}
         </div>

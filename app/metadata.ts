@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 // Export title and description as constants for reuse in components
 export const homepageTitle = "Trusted Real Estate Consultant for Properties in Delhi NCR | Celeste Abode";
+export const homepageH1 = "Trusted Real Estate Consultant for Properties in Delhi NCR";
 export const homepageDescription = "Guiding confident property decisions across Noida, Greater Noida, and Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.";
 
 export const homepageMetadata: Metadata = {

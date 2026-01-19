@@ -14,7 +14,7 @@ export function AboutSection() {
     },
     {
       icon: <TrendingUp className="w-12 h-12" />,
-      title: "High-Value Investment Advisory",
+      title: "High-Value Real Estate Investment Advisory",
       description: "Leveraging market data and insider access to maximize ROI."
     },
     {

@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer";
 import { PillButton } from "@/components/ui/pill-button";
 import { ServicesHeroSection } from "@/components/services-hero-section";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Building2,
   Target,
@@ -84,7 +85,7 @@ export default function ServicesPage() {
       challenge:
         "Abundance of options with little alignment to lifestyle, taste, or long-term plans.",
       approach:
-        "We curate a tightly vetted portfolio of apartments, villas and legacy plots, prioritising architectural merit, privacy, neighbourhood character and quality of build. Every recommendation is grounded in lifestyle profiling and detailed project due diligence.",
+        "We curate a tightly vetted portfolio of apartments, villas and legacy plots, prioritising architectural merit, privacy, neighbourhood character and quality of build. Every recommendation is grounded in lifestyle profiling and detailed project due diligence. <Link href='/properties' className='text-[#CBB27A] hover:text-[#B8A068] transition-colors'>Browse our curated properties</Link>.",
       deliverables: [
         "Shortlist tailored to your aesthetic, space needs and daily rhythm",
         "Comparative analysis on design, developer credibility and livability",
@@ -95,7 +96,7 @@ export default function ServicesPage() {
         "A residence that feels personally authored, not merely purchased.",
     },
     {
-      title: "High-Value Investment Advisory",
+      title: "High-Value Real Estate Investment Advisory",
       subtitle: "Real estate as a disciplined, compounding asset.",
       challenge:
         "Uncertainty around pricing, risk and returns in a complex market.",
@@ -193,11 +194,11 @@ export default function ServicesPage() {
         <div className="py-8 flex justify-center">
           <div className="max-w-6xl text-center">
             <p className="text-base md:text-lg lg:text-xl text-muted-foreground/80 leading-relaxed font-light italic px-4 md:px-0">
-              At Celeste Abode, services are designed as modular consulting
-              solutions that guide you from discovery to possession.
-              <br />
-              Each engagement is evidence-driven and tailored to your budget,
-              timeline, and dream.
+              As a trusted real estate consultant in Delhi NCR, Celeste Abode delivers
+              comprehensive real estate advisory services through our proven framework.
+            
+              Every engagement combines property consultant expertise with data-driven insights
+              for confident investment decisions.
             </p>
           </div>
         </div>
@@ -219,7 +220,7 @@ export default function ServicesPage() {
                     <p className="text-muted-foreground mb-12 md:mb-12 leading-relaxed h-20">
                       Custom investment plans aligned with your financial goals,
                       risk appetite, and timeline, built on data-driven market
-                      and yield analysis.
+                      and yield analysis. <Link href="/vault" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Explore market insights in our Vault</Link>.
                     </p>
                     <div className="bg-[#CBB27A]/10 p-4 rounded-lg mt-4 md:mt-0">
                       <h4 className="font-semibold text-foreground mb-2">
@@ -241,12 +242,12 @@ export default function ServicesPage() {
                   </div>
                   <div className="flex flex-col h-full">
                     <h2 className="text-2xl font-bold text-foreground mb-4 h-16 flex items-center">
-                      End-to-End Transaction Consulting
+                      End-to-End Real Estate Transaction Consulting
                     </h2>
                     <p className="text-muted-foreground mb-12 leading-relaxed h-20">
                       Complete transaction support from initial due diligence to
                       possession, ensuring every legal and financial aspect is
-                      handled with precision.
+                      handled with precision. <Link href="/vault" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Learn about legal processes</Link>.
                     </p>
                     <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
                       <h4 className="font-semibold text-foreground mb-2">
@@ -299,7 +300,7 @@ export default function ServicesPage() {
                   </div>
                   <div className="flex flex-col h-full">
                     <h2 className="text-2xl font-bold text-foreground mb-4 h-16 flex items-center">
-                      Investment Advisory
+                      Real Estate Investment Advisory
                     </h2>
                     <p className="text-muted-foreground mb-12 md:mb-6 leading-relaxed h-20">
                       Strategic investment guidance with market intelligence,
@@ -398,7 +399,7 @@ export default function ServicesPage() {
                     <p className="text-muted-foreground mb-12 md:mb-6 leading-relaxed h-20">
                       Advanced digital experiences that bring properties to
                       life, enabling informed decisions from anywhere in the
-                      world.
+                      world. <Link href="/properties" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Explore virtual tours</Link>.
                     </p>
                     <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
                       <h4 className="font-semibold text-foreground mb-2">
@@ -424,12 +425,12 @@ export default function ServicesPage() {
                   </div>
                   <div className="flex flex-col h-full">
                     <h2 className="text-2xl font-bold text-foreground mb-4 h-16 flex items-center">
-                      Location Intelligence & Market Reports
+                      Location Intelligence & Real Estate Market Reports
                     </h2>
                     <p className="text-muted-foreground mb-12 md:mb-12 leading-relaxed h-20">
                       In-depth location analysis with infrastructure timelines,
                       connectivity, and growth projections to align investments
-                      with long-term value.
+                      with long-term value. <Link href="/vault" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Access location insights</Link>.
                     </p>
                     <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
                       <h4 className="font-semibold text-foreground mb-2">
@@ -539,8 +540,8 @@ export default function ServicesPage() {
           <div className="max-w-7xl mx-auto px-4 lg:px-8">
             <div className="relative overflow-hidden rounded-2xl shadow-2xl w-full h-[500px] bg-muted">
               <Image
-                src="/IvoryCounty/FlatsInsideAesthetic.avif"
-                alt="Ready to Transform Your Property Journey - Real Estate Investment"
+                src="/residential-plot-with-landscaping.avif"
+                alt="Ready to Connect with Delhi NCR's Trusted Real Estate Consultant - Professional Property Advisory Services"
                 fill
                 loading="lazy"
                 className="object-cover object-[center_60%] scale-110"
@@ -553,17 +554,17 @@ export default function ServicesPage() {
               <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
               <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 text-center">
                 <h2 className="text-2xl md:text-5xl font-bold text-white mb-4 md:mb-6 leading-tight">
-                  Ready to Transform Your{" "}
-                  <span className="text-[#CBB27A]">Property Journey</span>?
+                  Ready to Connect with Delhi NCR's{" "}
+                  <span className="text-[#CBB27A]">Trusted Real Estate Consultant</span>?
                 </h2>
                 <p className="text-base md:text-xl text-white/90 mb-6 md:mb-8 max-w-2xl md:max-w-3xl mx-auto leading-relaxed">
-                  Let our expert team guide you through every step of your real
-                  estate investment, from discovery to possession.
+                  Experience comprehensive real estate consulting services that deliver
+                  confident property decisions with expert real estate advisory guidance.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-2 justify-center">
                   <a
                     href="tel:+919818735258"
-                    className="bg-[#CBB27A] text-white px-5 py-2.5 rounded-full font-medium hover:bg-[#CBB27A]/90 transition-all duration-200 text-sm w-full sm:w-auto text-center shadow-lg hover:shadow-xl"
+                    className="bg-black text-white px-5 py-2.5 rounded-full font-medium hover:bg-black/90 transition-all duration-200 text-sm w-full sm:w-auto text-center shadow-lg hover:shadow-xl"
                   >
                     Schedule Consultation
                   </a>
@@ -571,7 +572,7 @@ export default function ServicesPage() {
                     href="https://wa.me/919818735258"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="border-2 border-white text-white px-5 py-2.5 rounded-full font-medium hover:bg-white hover:text-[#000000] transition-all duration-200 text-sm w-full sm:w-auto text-center shadow-lg hover:shadow-xl"
+                    className="bg-black text-white px-5 py-2.5 rounded-full font-medium hover:bg-black/90 transition-all duration-200 text-sm w-full sm:w-auto text-center shadow-lg hover:shadow-xl"
                   >
                     Chat on WhatsApp
                   </a>

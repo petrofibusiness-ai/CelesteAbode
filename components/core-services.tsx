@@ -23,7 +23,7 @@ export function CoreServices() {
     },
     {
       id: "transaction",
-      title: "End-to-End Transaction Consulting",
+      title: "End-to-End Real Estate Transaction Consulting",
       description:
         "Complete transaction support from initial due diligence to possession, ensuring every legal and financial aspect is handled with precision.",
       icon: <FileCheck className="w-8 h-8" />,
@@ -37,7 +37,7 @@ export function CoreServices() {
     },
     {
       id: "investment",
-      title: "Investment Advisory",
+      title: "Real Estate Investment Advisory",
       description:
         "Strategic investment guidance with market intelligence, exit strategies, and portfolio optimization for maximum returns.",
       icon: <TrendingUp className="w-8 h-8" />,

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { PillButton } from "@/components/ui/pill-button";
-import { homepageTitle, homepageDescription } from "@/app/metadata";
+import { homepageTitle, homepageDescription, homepageH1 } from "@/app/metadata";
 
 export function HeroSection() {
   return (
@@ -57,7 +57,7 @@ export function HeroSection() {
 
                 {/* H1 - SEO-Optimized Main Headline */}
                 <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-medium mb-2 md:mb-3 leading-tight text-[#FAFAF8]">
-                  {homepageTitle}
+                  {homepageH1}
                 </h1>
 
                 {/* Hero Subcopy */}

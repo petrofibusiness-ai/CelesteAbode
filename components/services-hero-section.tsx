@@ -18,7 +18,7 @@ export function ServicesHeroSection() {
           <div className="relative h-[580px] lg:h-[620px]">
             <Image
               src="/luxury-villa-with-garden-and-modern-design.avif"
-              alt="Intelligent Property Advisory for Every Goal - Services"
+              alt="Intelligent Real Estate Advisory & Consulting Services for Every Goal - Services"
               fill
               priority
               loading="eager"
@@ -43,10 +43,10 @@ export function ServicesHeroSection() {
                   }}
                 >
                   <div className="block text-[#FAFAF8]">
-                    Intelligent Property Advisory for
+                    Intelligent Real Estate Advisory &
                   </div>
                   <div className="block text-[#FAFAF8] mt-2">
-                    <span className="text-[#CBB27A]">Every Goal</span>
+                    <span className="text-[#CBB27A]">Consulting Services for Every Goal</span>
                   </div>
                 </h1>
               </div>

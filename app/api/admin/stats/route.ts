@@ -165,11 +165,7 @@ export async function GET(request: NextRequest) {
           slug: loc.slug || '',
         }));
       
-      // Log for debugging
-      if (activeLocations.length === 0 && totalLocations > 0) {
-        console.log("No active locations found, but total locations:", totalLocations);
-        console.log("Sample location data:", locationsData[0]);
-      }
+      // Active locations processed
     }
     const totalLeads = leadsResult.count || 0;
     const newLeadsLast7Days = newLeadsResult.count || 0;

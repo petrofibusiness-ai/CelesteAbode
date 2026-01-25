@@ -142,6 +142,7 @@ export default function LeadsPage() {
   const [detailsDrawerOpen, setDetailsDrawerOpen] = useState(false);
   const [selectedLeadForDetails, setSelectedLeadForDetails] = useState<Lead | null>(null);
   const [refreshing, setRefreshing] = useState(false);
+  const [csrfToken, setCsrfToken] = useState<string | null>(null);
 
   // Prevent body scroll when drawer is open
   useEffect(() => {
@@ -168,6 +169,27 @@ export default function LeadsPage() {
       document.body.style.top = '';
     };
   }, [detailsDrawerOpen]);
+
+  // Fetch CSRF token on mount
+  useEffect(() => {
+    const fetchCSRFToken = async () => {
+      try {
+        const response = await fetch("/api/admin/auth/csrf", {
+          credentials: 'include',
+          cache: 'no-store',
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.csrfToken) {
+            setCsrfToken(data.csrfToken);
+          }
+        }
+      } catch (err) {
+        // CSRF token fetch failed
+      }
+    };
+    fetchCSRFToken();
+  }, []);
 
   useEffect(() => {
     fetchLeads();
@@ -219,15 +241,46 @@ export default function LeadsPage() {
   };
 
   const handleStatusChange = async (leadId: string, newStatus: string) => {
+    if (!csrfToken) {
+      toast.error("CSRF token not available. Please refresh the page.");
+      // Try to fetch token again
+      try {
+        const response = await fetch("/api/admin/auth/csrf", {
+          credentials: 'include',
+          cache: 'no-store',
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.csrfToken) {
+            setCsrfToken(data.csrfToken);
+            // Retry the request
+            setTimeout(() => handleStatusChange(leadId, newStatus), 100);
+            return;
+          }
+        }
+      } catch (err) {
+        // CSRF token refetch failed
+      }
+      return;
+    }
+
     try {
       setUpdatingLead(leadId);
+      const headers = new Headers();
+      headers.set('Content-Type', 'application/json');
+      headers.set('x-csrf-token', csrfToken);
+      
       const response = await fetch("/api/admin/leads", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: headers,
+        credentials: 'include',
         body: JSON.stringify({ id: leadId, status: newStatus }),
       });
 
-      if (!response.ok) throw new Error("Failed to update lead status");
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to update lead status");
+      }
       
       toast.success("Lead status updated");
       fetchLeads();
@@ -246,16 +299,46 @@ export default function LeadsPage() {
 
   const handleNotesSave = async () => {
     if (!selectedLead) return;
+    if (!csrfToken) {
+      toast.error("CSRF token not available. Please refresh the page.");
+      // Try to fetch token again
+      try {
+        const response = await fetch("/api/admin/auth/csrf", {
+          credentials: 'include',
+          cache: 'no-store',
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.csrfToken) {
+            setCsrfToken(data.csrfToken);
+            // Retry the request
+            setTimeout(() => handleNotesSave(), 100);
+            return;
+          }
+        }
+      } catch (err) {
+        // CSRF token refetch failed
+      }
+      return;
+    }
 
     try {
       setUpdatingLead(selectedLead.id);
+      const headers = new Headers();
+      headers.set('Content-Type', 'application/json');
+      headers.set('x-csrf-token', csrfToken);
+      
       const response = await fetch("/api/admin/leads", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: headers,
+        credentials: 'include',
         body: JSON.stringify({ id: selectedLead.id, notes }),
       });
 
-      if (!response.ok) throw new Error("Failed to save notes");
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "Failed to save notes");
+      }
       
       toast.success("Notes saved");
       setNotesDialogOpen(false);

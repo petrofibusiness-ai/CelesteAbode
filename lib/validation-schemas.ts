@@ -37,7 +37,7 @@ export const LeadFilterSchema = z.object({
 export const UpdateLeadSchema = z.object({
   id: UUIDSchema,
   status: z
-    .enum(['new', 'contacted', 'qualified', 'converted', 'rejected'])
+    .enum(['new', 'contacted', 'qualified', 'converted', 'rejected', 'lost'])
     .optional(),
   notes: z.string().max(5000).optional(),
 });

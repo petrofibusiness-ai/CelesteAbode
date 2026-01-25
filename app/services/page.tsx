@@ -203,6 +203,16 @@ export default function ServicesPage() {
         {/* Modular Service Grid */}
         <Section className="py-16 md:py-20">
           <div className="max-w-7xl mx-auto px-4 lg:px-8">
+            {/* Section Heading */}
+            <div className="text-center mb-12 md:mb-16">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+                Our Comprehensive Real Estate Services
+              </h2>
+              <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+                Tailored advisory solutions designed to meet diverse property needs across Delhi NCR
+              </p>
+            </div>
+
             {/* Row 1: Equalized Cards */}
             <div className="grid lg:grid-cols-2 gap-8 mb-16">
               <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:shadow-[#CBB27A]/20 h-full">
@@ -335,7 +345,7 @@ export default function ServicesPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-12 text-center">
-                  <h3
+                  <h2
                     className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight"
                     style={{
                       textShadow: "0 2px 4px rgba(0,0,0,0.5)",
@@ -350,7 +360,7 @@ export default function ServicesPage() {
                       Every Outcome{" "}
                       <span className="text-[#CBB27A]">Designed For You</span>
                     </div>
-                  </h3>
+                  </h2>
                 </div>
               </div>
             </div>

@@ -265,7 +265,7 @@ export async function POST(request: NextRequest) {
       });
     } else {
       // If no email, just log that email was skipped
-      console.log('Contact form submitted without email - lead stored in database only');
+      // Contact form submitted without email - lead stored in database only
     }
 
     // Update lead email status if lead was stored

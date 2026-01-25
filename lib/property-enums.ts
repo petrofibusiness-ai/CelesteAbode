@@ -58,6 +58,7 @@ export const CONFIGURATIONS = [
   '3 BHK',
   '3 BHK + Study',
   '4 BHK',
+  '5 BHK',
 ] as const;
 
 export type Configuration = typeof CONFIGURATIONS[number];

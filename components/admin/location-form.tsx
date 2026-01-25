@@ -21,6 +21,8 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [csrfToken, setCsrfToken] = useState<string | null>(null);
+  const csrfTokenRef = useRef<string | null>(null); // Ref for synchronous access
 
   const [formData, setFormData] = useState<LocationFormData>({
     slug: location?.slug || "",
@@ -61,6 +63,29 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
 
   const heroInputRef = useRef<HTMLInputElement>(null);
   const celesteAbodeInputRef = useRef<HTMLInputElement>(null);
+
+  // Fetch CSRF token on mount
+  useEffect(() => {
+    const fetchCSRFToken = async () => {
+      try {
+        const response = await fetch("/api/admin/auth/csrf", {
+          credentials: 'include',
+          cache: 'no-store',
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.csrfToken) {
+            setCsrfToken(data.csrfToken);
+            csrfTokenRef.current = data.csrfToken; // Update ref synchronously
+            // CSRF token fetched successfully
+          }
+        }
+      } catch (err) {
+        // CSRF token fetch failed - will retry on next request
+      }
+    };
+    fetchCSRFToken();
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -108,6 +133,30 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
   };
 
   const uploadFileToR2 = async (file: File, locationSlug: string, imageType: "hero" | "celeste-abode"): Promise<string> => {
+    // Check if CSRF token is available (use ref for synchronous access)
+    const token = csrfTokenRef.current || csrfToken;
+    if (!token) {
+      // Try to fetch token one more time
+      try {
+        const response = await fetch("/api/admin/auth/csrf", {
+          credentials: 'include',
+          cache: 'no-store',
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.csrfToken) {
+            setCsrfToken(data.csrfToken);
+            csrfTokenRef.current = data.csrfToken;
+            // Retry upload with new token
+            return uploadFileToR2(file, locationSlug, imageType);
+          }
+        }
+      } catch (err) {
+        // CSRF token fetch failed
+      }
+      return Promise.reject(new Error("CSRF token not available. Please refresh the page and try again."));
+    }
+
     return new Promise((resolve, reject) => {
       const uploadFormData = new FormData();
       uploadFormData.append("file", file);
@@ -131,6 +180,13 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
           } catch {
             reject(new Error("Invalid response from server"));
           }
+        } else if (xhr.status === 401) {
+          // Session expired - redirect to login
+          toast.error("Your session has expired. Please log in again.");
+          setTimeout(() => {
+            window.location.href = "/admin/login";
+          }, 2000);
+          reject(new Error("Session expired. Please log in again."));
         } else {
           try {
             const errorData = JSON.parse(xhr.responseText);
@@ -147,6 +203,19 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
       xhr.open("POST", "/api/admin/upload/location-image");
       // Ensure credentials (cookies) are sent with the request
       xhr.withCredentials = true;
+      
+      // Get token from ref (synchronous) or state
+      const tokenToUse = csrfTokenRef.current || csrfToken;
+      
+      // Add CSRF token header (should always be available at this point)
+      if (!tokenToUse) {
+        reject(new Error("CSRF token is missing. Please refresh the page."));
+        return;
+      }
+      
+      xhr.setRequestHeader("x-csrf-token", tokenToUse);
+      // CSRF token included in request header
+      
       xhr.send(uploadFormData);
     });
   };
@@ -291,9 +360,20 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
       const url = location ? `/api/admin/locations/${location.slug}` : "/api/admin/locations";
       const method = location ? "PUT" : "POST";
 
+      // Get CSRF token from ref or state
+      const tokenToUse = csrfTokenRef.current || csrfToken;
+      if (!tokenToUse) {
+        throw new Error("CSRF token not available. Please refresh the page and try again.");
+      }
+
+      const headers = new Headers();
+      headers.set('Content-Type', 'application/json');
+      headers.set('x-csrf-token', tokenToUse);
+
       const response = await fetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: headers,
+        credentials: 'include',
         body: JSON.stringify(submitData),
       });
 

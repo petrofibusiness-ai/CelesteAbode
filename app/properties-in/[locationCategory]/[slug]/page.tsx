@@ -229,11 +229,11 @@ export default async function PropertyPage({
   const resolvedParams = await params;
   const { locationCategory, slug } = resolvedParams;
 
-  console.log("[PropertyPage] Received params:", { locationCategory, slug });
+  // Property page params validated
 
   // Validate params (Next.js should provide these via middleware rewrite)
   if (!locationCategory || !slug || locationCategory.trim() === "") {
-    console.log("[PropertyPage] Invalid params - calling notFound()");
+    // Invalid params - redirecting to 404
     notFound();
   }
 

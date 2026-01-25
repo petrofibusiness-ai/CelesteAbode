@@ -29,6 +29,7 @@ export default function PropertiesPage() {
   const [deleting, setDeleting] = useState<string | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [propertyToDelete, setPropertyToDelete] = useState<{ id: string; name: string } | null>(null);
+  const [csrfToken, setCsrfToken] = useState<string | null>(null);
 
   // Handle authentication errors
   const handleAuthError = () => {
@@ -45,6 +46,27 @@ export default function PropertiesPage() {
 
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, []);
+
+  // Fetch CSRF token on mount
+  useEffect(() => {
+    const fetchCSRFToken = async () => {
+      try {
+        const response = await fetch("/api/admin/auth/csrf", {
+          credentials: 'include',
+          cache: 'no-store',
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.csrfToken) {
+            setCsrfToken(data.csrfToken);
+          }
+        }
+      } catch (err) {
+        // CSRF token fetch failed
+      }
+    };
+    fetchCSRFToken();
   }, []);
 
   useEffect(() => {
@@ -114,9 +136,15 @@ export default function PropertiesPage() {
       setDeleteDialogOpen(false);
       setDeleting(propertyToDelete.id);
       
+      const headers = new Headers();
+      if (csrfToken) {
+        headers.set('x-csrf-token', csrfToken);
+      }
+      
       const response = await fetch(`/api/admin/properties/${propertyToDelete.id}`, {
         method: "DELETE",
         credentials: 'include', // Send authentication cookies
+        headers: headers,
       });
 
       // Handle 401 Unauthorized
@@ -152,11 +180,20 @@ export default function PropertiesPage() {
   };
 
   const handleTogglePublish = async (id: string, currentStatus: boolean) => {
+    if (!csrfToken) {
+      toast.error("CSRF token not available. Please refresh the page.");
+      return;
+    }
+
     try {
       setUpdating(id);
+      const headers = new Headers();
+      headers.set('Content-Type', 'application/json');
+      headers.set('x-csrf-token', csrfToken);
+      
       const response = await fetch(`/api/admin/properties/${id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: headers,
         credentials: 'include', // Send authentication cookies
         body: JSON.stringify({ isPublished: !currentStatus }),
       });

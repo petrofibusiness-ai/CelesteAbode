@@ -41,7 +41,6 @@ export async function GET(request: NextRequest) {
     // Parse and validate query parameters
     let filters;
     try {
-      console.log('[Properties API] Starting param extraction');
       const rawParams = {
         page: request.nextUrl.searchParams.get('page'),
         limit: request.nextUrl.searchParams.get('limit'),
@@ -50,13 +49,8 @@ export async function GET(request: NextRequest) {
         t: request.nextUrl.searchParams.get('t'),
         _t: request.nextUrl.searchParams.get('_t'),
       };
-      console.log('[Properties API] Incoming query params:', JSON.stringify(rawParams));
-      console.log('[Properties API] Starting validation with schema');
       filters = validateQueryParams(PropertyFilterSchema, rawParams);
-      console.log('[Properties API] Parsed filters:', JSON.stringify(filters));
     } catch (error) {
-      console.error('[Properties API] Validation failed:', error instanceof Error ? error.message : String(error));
-      console.error('[Properties API] Full error:', error);
       await logSecurityEvent('INVALID_INPUT', {
         userId: user.id,
         userEmail: user.email,
@@ -121,13 +115,7 @@ export async function GET(request: NextRequest) {
       return property;
     });
 
-    console.debug('[Properties API] Response meta', {
-      total: count || 0,
-      returned: properties.length,
-      page,
-      limit,
-      totalPages: Math.ceil((count || 0) / limit),
-    });
+    // Response metadata (removed debug log for production)
 
     return NextResponse.json({
       properties,

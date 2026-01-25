@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { requireAdminAuth } from "@/lib/admin-auth-guard";
 import { uploadLocationHeroImageToR2, uploadLocationCelesteAbodeImageToR2 } from "@/lib/r2-upload";
 import { logSecurityEvent, getClientIP, getUserAgent } from "@/lib/security-events";
+import { verifyCSRFToken } from "@/lib/csrf";
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,6 +13,25 @@ export async function POST(request: NextRequest) {
       return auth.response!;
     }
     const user = auth.user;
+
+    // CSRF token validation
+    const csrfToken = request.headers.get('x-csrf-token');
+    const isValidCSRF = await verifyCSRFToken(csrfToken);
+
+    if (!isValidCSRF) {
+      await logSecurityEvent('CSRF_FAILED', {
+        userId: user.id,
+        userEmail: user.email,
+        ip: getClientIP(request.headers.get('x-forwarded-for')),
+        userAgent: getUserAgent(request.headers.get('user-agent')),
+        endpoint: '/api/admin/upload/location-image',
+      });
+
+      return NextResponse.json(
+        { error: 'CSRF token validation failed' },
+        { status: 403 }
+      );
+    }
 
     const formData = await request.formData();
     const file = formData.get("file") as File;

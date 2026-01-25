@@ -20,14 +20,7 @@ export async function requireAdminAuth(request: NextRequest): Promise<AuthResult
   try {
     const user = await getCurrentUser();
     
-    console.log('[DEBUG] Auth check result:', { 
-      userExists: !!user,
-      userId: user?.id,
-      endpoint: request.url,
-    });
-    
     if (!user) {
-      console.log('[DEBUG] No user found - returning 401');
       return {
         authenticated: false,
         response: NextResponse.json(

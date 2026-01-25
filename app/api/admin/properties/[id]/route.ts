@@ -6,6 +6,8 @@ import { deleteR2ObjectsByPrefix, deleteR2ObjectByKey, deriveR2KeyFromUrl } from
 import { validatePropertyData } from "@/lib/validation";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 import { logAuditEntry, getRequestMetadata } from "@/lib/audit-log";
+import { verifyCSRFToken } from "@/lib/csrf";
+import { logSecurityEvent, getClientIP, getUserAgent } from "@/lib/security-events";
 
 // Query timeout: 30 seconds
 const QUERY_TIMEOUT = 30000;
@@ -110,6 +112,25 @@ export async function PATCH(
     const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // CSRF token validation
+    const csrfToken = request.headers.get('x-csrf-token');
+    const isValidCSRF = await verifyCSRFToken(csrfToken);
+
+    if (!isValidCSRF) {
+      await logSecurityEvent('CSRF_FAILED', {
+        userId: user.id,
+        userEmail: user.email,
+        ip: getClientIP(request.headers.get('x-forwarded-for')),
+        userAgent: getUserAgent(request.headers.get('user-agent')),
+        endpoint: '/api/admin/properties/[id]',
+      });
+
+      return NextResponse.json(
+        { error: 'CSRF token validation failed' },
+        { status: 403 }
+      );
     }
 
     // Rate limiting
@@ -390,6 +411,25 @@ export async function DELETE(
     const user = await getCurrentUser();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // CSRF token validation
+    const csrfToken = request.headers.get('x-csrf-token');
+    const isValidCSRF = await verifyCSRFToken(csrfToken);
+
+    if (!isValidCSRF) {
+      await logSecurityEvent('CSRF_FAILED', {
+        userId: user.id,
+        userEmail: user.email,
+        ip: getClientIP(request.headers.get('x-forwarded-for')),
+        userAgent: getUserAgent(request.headers.get('user-agent')),
+        endpoint: '/api/admin/properties/[id]',
+      });
+
+      return NextResponse.json(
+        { error: 'CSRF token validation failed' },
+        { status: 403 }
+      );
     }
 
     // Rate limiting

@@ -62,7 +62,8 @@ BEGIN
       '2 BHK + Study',
       '3 BHK',
       '3 BHK + Study',
-      '4 BHK'
+      '4 BHK',
+      '5 BHK'
     );
   END IF;
 END $$;
@@ -133,7 +134,7 @@ BEGIN
     SET configuration_new = ARRAY(
       SELECT DISTINCT value::text::configuration_enum
       FROM jsonb_array_elements_text(unit_types) AS value
-      WHERE value::text IN ('2 BHK', '2 BHK + Study', '3 BHK', '3 BHK + Study', '4 BHK')
+      WHERE value::text IN ('2 BHK', '2 BHK + Study', '3 BHK', '3 BHK + Study', '4 BHK', '5 BHK')
     )
     WHERE unit_types IS NOT NULL 
       AND unit_types != '[]'::jsonb
@@ -168,7 +169,7 @@ CREATE INDEX IF NOT EXISTS idx_properties_configuration ON properties USING GIN(
 COMMENT ON COLUMN properties.property_type IS 'Type of property: Apartment/Flats, Villas, or Plots/Lands';
 COMMENT ON COLUMN properties.location_category IS 'Location category for filtering properties by region';
 COMMENT ON COLUMN properties.project_status IS 'Current status of the project: New Launch, Under Construction, or Ready to Move';
-COMMENT ON COLUMN properties.configuration IS 'Array of unit configurations (multiple selectable): 2 BHK, 2 BHK + Study, 3 BHK, 3 BHK + Study, 4 BHK';
+COMMENT ON COLUMN properties.configuration IS 'Array of unit configurations (multiple selectable): 2 BHK, 2 BHK + Study, 3 BHK, 3 BHK + Study, 4 BHK, 5 BHK';
 
 -- ============================================
 -- OPTIONAL: Migrate existing status to project_status

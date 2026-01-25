@@ -4,6 +4,8 @@ import { requireAdminAuth } from "@/lib/admin-auth-guard";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { locationToSupabase, supabaseToLocation } from "@/lib/supabase-location-mapper";
 import { Location } from "@/types/location";
+import { verifyCSRFToken } from "@/lib/csrf";
+import { logSecurityEvent, getClientIP, getUserAgent } from "@/lib/security-events";
 
 const QUERY_TIMEOUT = 30000;
 
@@ -77,6 +79,25 @@ export async function PUT(
       return auth.response!;
     }
     const user = auth.user;
+
+    // CSRF token validation
+    const csrfToken = request.headers.get('x-csrf-token');
+    const isValidCSRF = await verifyCSRFToken(csrfToken);
+
+    if (!isValidCSRF) {
+      await logSecurityEvent('CSRF_FAILED', {
+        userId: user.id,
+        userEmail: user.email,
+        ip: getClientIP(request.headers.get('x-forwarded-for')),
+        userAgent: getUserAgent(request.headers.get('user-agent')),
+        endpoint: '/api/admin/locations/[slug]',
+      });
+
+      return NextResponse.json(
+        { error: 'CSRF token validation failed' },
+        { status: 403 }
+      );
+    }
 
     const { slug } = await params;
     const body = await request.json();
@@ -265,6 +286,25 @@ export async function DELETE(
       return auth.response!;
     }
     const user = auth.user;
+
+    // CSRF token validation
+    const csrfToken = request.headers.get('x-csrf-token');
+    const isValidCSRF = await verifyCSRFToken(csrfToken);
+
+    if (!isValidCSRF) {
+      await logSecurityEvent('CSRF_FAILED', {
+        userId: user.id,
+        userEmail: user.email,
+        ip: getClientIP(request.headers.get('x-forwarded-for')),
+        userAgent: getUserAgent(request.headers.get('user-agent')),
+        endpoint: '/api/admin/locations/[slug]',
+      });
+
+      return NextResponse.json(
+        { error: 'CSRF token validation failed' },
+        { status: 403 }
+      );
+    }
 
     const { slug } = await params;
     const supabase = getSupabaseAdminClient();

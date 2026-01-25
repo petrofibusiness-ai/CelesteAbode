@@ -82,6 +82,7 @@ export function PropertyFilters({ onFilterChange }: PropertyFiltersProps) {
       { value: "3bhk", label: "3 BHK" },
       { value: "3bhk-study", label: "3 BHK + Study" },
       { value: "4bhk", label: "4 BHK" },
+      { value: "5bhk", label: "5 BHK" },
     ],
   };
 

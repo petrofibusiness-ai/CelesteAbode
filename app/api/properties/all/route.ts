@@ -36,6 +36,7 @@ function mapConfigurationFilter(filterValue: string): string | null {
     "3bhk": "3 BHK",
     "3bhk-study": "3 BHK + Study",
     "4bhk": "4 BHK",
+    "5bhk": "5 BHK",
   };
   return mapping[filterValue] || null;
 }

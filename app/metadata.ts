@@ -6,26 +6,26 @@ export const homepageH1 = "Trusted Real Estate Consultant for Properties in Delh
 export const homepageDescription = "Guiding confident property decisions across Noida, Greater Noida, and Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.";
 
 export const homepageMetadata: Metadata = {
-    keywords: [
+  keywords: [
     // Core Business Keywords
     "real estate consultant Delhi NCR",
     "property consultant Noida",
     "real estate consulting firm",
     "property investment advisory NCR",
     "luxury real estate consultant",
-
+    
     // Location-Focused Keywords
     "real estate consultant Noida",
     "property advisor Greater Noida",
     "Yamuna Expressway property consultant",
     "Delhi NCR real estate advisory",
-
+    
     // Service Keywords
     "property investment consultant",
     "real estate advisory services",
     "RERA compliant property advisory",
     "data-driven real estate consulting",
-
+    
     // NRI & Investor Keywords
     "NRI real estate advisory India",
     "property investment for NRIs NCR",

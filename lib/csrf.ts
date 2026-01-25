@@ -15,10 +15,14 @@ export async function generateCSRFToken(): Promise<string> {
   const token = randomBytes(CSRF_TOKEN_LENGTH).toString('hex');
   const cookieStore = await cookies();
 
+  // In development, use 'lax' for sameSite to allow cookies to work properly
+  // In production, use 'strict' for better security
+  const sameSite = process.env.NODE_ENV === 'production' ? 'strict' : 'lax';
+
   cookieStore.set(CSRF_COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
+    sameSite: sameSite as 'strict' | 'lax' | 'none',
     maxAge: CSRF_TOKEN_MAX_AGE,
     path: '/',
   });

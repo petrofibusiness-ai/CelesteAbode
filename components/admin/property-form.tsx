@@ -32,6 +32,8 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [csrfToken, setCsrfToken] = useState<string | null>(null);
+  const csrfTokenRef = useRef<string | null>(null); // Ref for synchronous access
   
   // Progress overlay state
   const [showProgressOverlay, setShowProgressOverlay] = useState(false);
@@ -45,6 +47,28 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
   const terminalStateRef = useRef(false);
   const uploadStatusRef = useRef<"uploading" | "processing" | "success" | "error">("uploading");
   
+  // Fetch CSRF token on mount
+  useEffect(() => {
+    const fetchCSRFToken = async () => {
+      try {
+        const response = await fetch("/api/admin/auth/csrf", {
+          credentials: 'include',
+          cache: 'no-store',
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.csrfToken) {
+            setCsrfToken(data.csrfToken);
+            csrfTokenRef.current = data.csrfToken; // Update ref synchronously
+          }
+        }
+      } catch (err) {
+        // CSRF token fetch failed - will retry on next request
+      }
+    };
+    fetchCSRFToken();
+  }, []);
+
   // Sync refs with state
   useEffect(() => {
     terminalStateRef.current = isTerminalState;
@@ -313,6 +337,30 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     propertySlug: string,
     onProgress?: (bytesUploaded: number, totalBytes: number) => void
   ): Promise<string> => {
+    // Check if CSRF token is available (use ref for synchronous access)
+    const token = csrfTokenRef.current || csrfToken;
+    if (!token) {
+      // Try to fetch token one more time
+      try {
+        const response = await fetch("/api/admin/auth/csrf", {
+          credentials: 'include',
+          cache: 'no-store',
+        });
+        if (response.ok) {
+          const data = await response.json();
+          if (data.csrfToken) {
+            setCsrfToken(data.csrfToken);
+            csrfTokenRef.current = data.csrfToken;
+            // Retry upload with new token
+            return uploadFileToR2(file, type, propertySlug, onProgress);
+          }
+        }
+      } catch (err) {
+        // CSRF token fetch failed
+      }
+      return Promise.reject(new Error("CSRF token not available. Please refresh the page and try again."));
+    }
+
     return new Promise((resolve, reject) => {
       const uploadFormData = new FormData();
       uploadFormData.append("file", file);
@@ -357,6 +405,13 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           } catch (error) {
             reject(new Error("Failed to parse upload response"));
           }
+        } else if (xhr.status === 401) {
+          // Session expired - redirect to login
+          toast.error("Your session has expired. Please log in again.");
+          setTimeout(() => {
+            window.location.href = "/admin/login";
+          }, 2000);
+          reject(new Error("Session expired. Please log in again."));
         } else {
           try {
             const errorData = JSON.parse(xhr.responseText);
@@ -382,6 +437,20 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
 
       // Start upload
       xhr.open("POST", endpoint);
+      xhr.withCredentials = true; // Include cookies
+      
+      // Get token from ref (synchronous) or state
+      const tokenToUse = csrfTokenRef.current || csrfToken;
+      
+      // Add CSRF token header (should always be available at this point)
+      if (!tokenToUse) {
+        reject(new Error("CSRF token is missing. Please refresh the page."));
+        return;
+      }
+      
+      xhr.setRequestHeader("x-csrf-token", tokenToUse);
+      // CSRF token included in request header
+      
       xhr.send(uploadFormData);
     });
   };
@@ -938,9 +1007,20 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       // Update progress during save (90-95%)
       setUploadProgress(progressRanges.saveStart + (progressRanges.saveEnd - progressRanges.saveStart) * 0.5);
 
+      // Get CSRF token from ref or state
+      const tokenToUse = csrfTokenRef.current || csrfToken;
+      if (!tokenToUse) {
+        throw new Error("CSRF token not available. Please refresh the page and try again.");
+      }
+
+      const headers = new Headers();
+      headers.set('Content-Type', 'application/json');
+      headers.set('x-csrf-token', tokenToUse);
+
       const response = await fetch(url, {
         method,
-        headers: { "Content-Type": "application/json" },
+        headers: headers,
+        credentials: 'include',
         body: JSON.stringify(propertyData),
       });
 

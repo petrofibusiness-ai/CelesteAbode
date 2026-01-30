@@ -6,7 +6,7 @@ import { Footer } from "@/components/footer";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, Clock, ArrowRight, BookOpen, Phone, Mail, Loader2 } from "lucide-react";
+import { Calendar, Clock, ArrowRight, Phone, Mail, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { blogPosts } from "@/lib/blog-data";
 
@@ -82,13 +82,6 @@ export default function BlogPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#CBB27A]/10 border border-[#CBB27A]/20 mb-6">
-                <BookOpen className="w-4 h-4 text-[#CBB27A]" />
-                <span className="text-sm font-medium text-[#CBB27A] uppercase tracking-wider">
-                  Real Estate Intelligence
-                </span>
-              </div>
-              
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 font-poppins">
                 The <span className="text-[#CBB27A]">Celeste Abode</span> Journal
               </h1>

@@ -155,7 +155,7 @@ export default async function BlogPostPage({
                 priority
                 sizes="100vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/30" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/40" />
               {/* Hero content overlay on image */}
               <div className="absolute inset-0 flex flex-col justify-end">
               <div className="max-w-[95%] xl:max-w-[1800px] mx-auto px-4 w-full pb-12 pt-10 md:pb-16 md:pt-12">

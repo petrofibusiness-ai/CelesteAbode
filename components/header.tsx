@@ -130,10 +130,10 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
 
           {/* Desktop Layout - nav centered, Contact button absolute right */}
           <div className="hidden md:block relative w-full h-24">
-            {/* Centered nav (left links + logo + right links) - position doesn't depend on Contact button */}
-            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center">
+            {/* Centered nav (left links + logo + right links) - shifted right */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%+2.5rem)] -translate-y-1/2 flex items-center pl-6 pr-6">
               {/* Left Menu Group: Home | Properties | Services */}
-              <nav className="flex items-center space-x-8 mr-16">
+              <nav className="flex items-center space-x-8 mr-12">
                 <Link href="/" className="nav-link">
                   HOME
                 </Link>
@@ -225,8 +225,8 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                 </Link>
               </nav>
 
-              {/* Center Logo */}
-              <Link href="/">
+              {/* Center Logo - explicit height so it doesn't collapse in flex layout */}
+              <Link href="/" className="flex items-center shrink-0 h-20">
                 <Image
                   src="/logoceleste.avif"
                   alt="Celeste Abode Logo"
@@ -237,12 +237,12 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                   priority
                   fetchPriority="high"
                   loading="eager"
-                  style={{ width: "auto", height: "auto" }}
+                  className="h-20 w-auto object-contain"
                 />
               </Link>
 
               {/* Right Menu Group: Vault | Blogs | Philosophy */}
-              <nav className="flex items-center space-x-8 ml-16">
+              <nav className="flex items-center space-x-8 ml-12">
                 <Link href="/vault" className="nav-link">
                   VAULT
                 </Link>

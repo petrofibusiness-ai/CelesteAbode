@@ -5,9 +5,7 @@ import { blogPosts } from '@/lib/blog-data';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.celesteabode.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const supabase = getSupabaseAdminClient();
-  
-  // Static pages
+  // Static pages (including blog listing + all blog articles) – always included
   const staticPages: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
@@ -114,6 +112,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
+  let locationPages: MetadataRoute.Sitemap = [];
+  let propertyPages: MetadataRoute.Sitemap = [];
+
+  try {
+    const supabase = getSupabaseAdminClient();
+
   // Fetch published locations from locations_v2
   const { data: locationsData, error: locationsError } = await supabase
     .from('locations_v2')
@@ -124,7 +128,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Error fetching locations for sitemap:', locationsError);
   }
 
-  const locationPages: MetadataRoute.Sitemap = (locationsData || []).map((location) => ({
+  locationPages = (locationsData || []).map((location) => ({
     url: `${SITE_URL}/properties-in-${location.slug}`,
     lastModified: location.updated_at ? new Date(location.updated_at) : new Date(),
     changeFrequency: 'weekly' as const,
@@ -160,7 +164,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Generate property URLs with resolved location slugs
   // Only include properties where we can resolve the location slug
-  const propertyPages = (propertiesData || [])
+  propertyPages = (propertiesData || [])
     .map((property) => {
       if (!property.location_id) {
         console.warn(`Property ${property.id} (slug: ${property.slug}) has no location_id - excluding from sitemap`);
@@ -181,6 +185,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       };
     })
     .filter((entry) => entry !== null) as MetadataRoute.Sitemap;
+
+  } catch (err) {
+    console.error('Sitemap: Supabase fetch failed, using static + blog pages only:', err);
+  }
 
   // Combine all pages and ensure no duplicates by URL
   const allPages = [...staticPages, ...locationPages, ...propertyPages];

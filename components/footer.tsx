@@ -90,6 +90,13 @@ export function Footer() {
                 Properties
               </Link>
               <Link
+                href="/blog"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
+              >
+                Blogs
+              </Link>
+              <Link
                 href="/contact"
                 className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
                 style={{ marginLeft: 0 }}

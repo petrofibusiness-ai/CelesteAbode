@@ -157,15 +157,15 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
       <div className="min-h-screen bg-background">
         <Header alwaysBlack={true} />
         <main className="relative">
-          {/* Hero Section */}
-          <section className="relative min-h-screen flex items-center justify-center">
+          {/* Hero Section - responsive height so image isn't oversized on mobile */}
+          <section className="relative min-h-[70vh] sm:min-h-[80vh] lg:min-h-screen flex items-center justify-center">
             <div className="absolute inset-0">
               <Image
                 src={location.heroImage}
                 alt={heroAltText}
                 fill
                 priority
-                className="object-cover"
+                className="object-cover object-center"
                 sizes="100vw"
                 quality={90}
               />
@@ -173,7 +173,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
             </div>
 
             <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-4 leading-tight font-poppins text-white not-italic">
+              <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-3 md:mb-4 leading-tight font-poppins text-white not-italic">
                 {location.heroText.includes(location.locationName) ? (
                   location.heroText.split(location.locationName).map((part, i, arr) => (
                     <span key={i}>
@@ -186,7 +186,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
                 )}
               </h1>
 
-              <p className="text-base md:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed font-poppins not-italic">
+              <p className="text-xs sm:text-sm md:text-base lg:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed font-poppins not-italic">
                 {location.heroSubtext}
               </p>
             </div>

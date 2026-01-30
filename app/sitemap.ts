@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { getSupabaseAdminClient } from '@/lib/supabase-server';
+import { blogPosts } from '@/lib/blog-data';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.celesteabode.com';
 
@@ -44,6 +45,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
+    {
+      url: `${SITE_URL}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    },
+    // Individual blog articles from blog-data
+    ...blogPosts.map((post) => ({
+      url: `${SITE_URL}/blog/${post.slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    })),
     {
       url: `${SITE_URL}/advisory-session`,
       lastModified: new Date(),

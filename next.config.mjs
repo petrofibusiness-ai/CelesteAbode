@@ -248,75 +248,50 @@ const nextConfig = {
         destination: '/properties',
         permanent: true,
       },
-      // Redirect individual project pages to property pages
+      // Specific project redirects (must come before generic /projects/:slug so they take precedence)
+      // 1 - Greater Noida
+      { source: '/projects/1', destination: '/properties-in-greater-noida/arihant-abode', permanent: true },
+      { source: '/projects/arihant-abode', destination: '/properties-in-greater-noida/arihant-abode', permanent: true },
+      // 2 - Greater Noida (already set)
+      { source: '/projects/2', destination: '/properties-in-greater-noida/spring-elmas', permanent: true },
+      { source: '/projects/spring-elmas', destination: '/properties-in-greater-noida/spring-elmas', permanent: true },
+      // 3 - Greater Noida
+      { source: '/projects/3', destination: '/properties-in-greater-noida/eternia-residences', permanent: true },
+      { source: '/projects/eternia-residences', destination: '/properties-in-greater-noida/eternia-residences', permanent: true },
+      // 4 - Greater Noida (already set)
+      { source: '/projects/4', destination: '/properties-in-greater-noida/rg-pleiaddes', permanent: true },
+      { source: '/projects/rg-pleiaddes', destination: '/properties-in-greater-noida/rg-pleiaddes', permanent: true },
+      // 5 - Greater Noida
+      { source: '/projects/5', destination: '/properties-in-greater-noida/irish-platinum', permanent: true },
+      { source: '/projects/irish-platinum', destination: '/properties-in-greater-noida/irish-platinum', permanent: true },
+      // 6 - Yamuna Expressway
+      { source: '/projects/6', destination: '/properties-in-yamuna-expressway/elite-x', permanent: true },
+      { source: '/projects/elite-x', destination: '/properties-in-yamuna-expressway/elite-x', permanent: true },
+      // 7 - Greater Noida
+      { source: '/projects/7', destination: '/properties-in-greater-noida/ace-hanei', permanent: true },
+      { source: '/projects/ace-hanei', destination: '/properties-in-greater-noida/ace-hanei', permanent: true },
+      // 8 - Greater Noida
+      { source: '/projects/8', destination: '/properties-in-greater-noida/the-brook-and-rivulet', permanent: true },
+      { source: '/projects/the-brook-and-rivulet', destination: '/properties-in-greater-noida/the-brook-and-rivulet', permanent: true },
+      // 9 - Greater Noida
+      { source: '/projects/9', destination: '/properties-in-greater-noida/renox-thrive', permanent: true },
+      { source: '/projects/renox-thrive', destination: '/properties-in-greater-noida/renox-thrive', permanent: true },
+      // 10 - Greater Noida
+      { source: '/projects/10', destination: '/properties-in-greater-noida/civitech-strings', permanent: true },
+      { source: '/projects/civitech-strings', destination: '/properties-in-greater-noida/civitech-strings', permanent: true },
+      // 11 - Ghaziabad
+      { source: '/projects/11', destination: '/properties-in-ghaziabad/forest-walk-villa', permanent: true },
+      { source: '/projects/forest-walk-villa', destination: '/properties-in-ghaziabad/forest-walk-villa', permanent: true },
+      // 12 - Greater Noida
+      { source: '/projects/12', destination: '/properties-in-greater-noida/vvip', permanent: true },
+      { source: '/projects/vvip', destination: '/properties-in-greater-noida/vvip', permanent: true },
+      // 13 - Greater Noida
+      { source: '/projects/13', destination: '/properties-in-greater-noida/panchsheel-greens-ii', permanent: true },
+      { source: '/projects/panchsheel-greens-ii', destination: '/properties-in-greater-noida/panchsheel-greens-ii', permanent: true },
+      // Fallback: any other /projects/:slug -> /properties/:slug
       {
         source: '/projects/:slug',
         destination: '/properties/:slug',
-        permanent: true,
-      },
-      {
-        source: '/projects/1',
-        destination: '/properties/arihant-abode',
-        permanent: true,
-      },
-      {
-        source: '/projects/2',
-        destination: '/properties/spring-elmas',
-        permanent: true,
-      },
-      {
-        source: '/projects/3',
-        destination: '/properties/eternia-residences',
-        permanent: true,
-      },
-      {
-        source: '/projects/4',
-        destination: '/properties/rg-pleiaddes',
-        permanent: true,
-      },
-      {
-        source: '/projects/5',
-        destination: '/properties/irish-platinum',
-        permanent: true,
-      },
-      {
-        source: '/projects/6',
-        destination: '/properties/elite-x',
-        permanent: true,
-      },
-      {
-        source: '/projects/7',
-        destination: '/properties/ace-hanei',
-        permanent: true,
-      },
-      {
-        source: '/projects/8',
-        destination: '/properties/the-brook-and-rivulet',
-        permanent: true,
-      },
-      {
-        source: '/projects/9',
-        destination: '/properties/renox-thrive',
-        permanent: true,
-      },
-      {
-        source: '/projects/10',
-        destination: '/properties/civitech-strings',
-        permanent: true,
-      },
-      {
-        source: '/projects/11',
-        destination: '/properties/forest-walk-villa',
-        permanent: true,
-      },
-      {
-        source: '/projects/12',
-        destination: '/properties/vvip',
-        permanent: true,
-      },
-      {
-        source: '/projects/13',
-        destination: '/properties/panchsheel-greens-ii',
         permanent: true,
       },
     ];

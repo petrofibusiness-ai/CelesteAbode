@@ -226,6 +226,7 @@ export async function POST(request: NextRequest) {
     const propertyName = body.propertyTitle || body.propertyName || undefined;
     const propertyLocation = body.propertyLocation || undefined;
     const propertySlug = body.propertySlug || undefined;
+    const locationPreference = body.locationPreference ? String(body.locationPreference).trim() : undefined;
 
     // Store lead in database first
     const leadResult = await storeLead({
@@ -242,6 +243,7 @@ export async function POST(request: NextRequest) {
         message: sanitizedMessage,
         ...(propertyName && { propertyTitle: propertyName }),
         ...(propertyLocation && { propertyLocation }),
+        ...(locationPreference && { locationPreference }),
       },
       clientIP: clientIP,
     });

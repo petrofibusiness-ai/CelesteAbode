@@ -610,3 +610,50 @@ export function ArticleSchema({
   );
 }
 
+// Blog Page Schema
+export function BlogPageSchema({
+  name,
+  description,
+  url,
+  publisher,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  publisher: {
+    name: string;
+    logo: string;
+  };
+}) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: name,
+    description: description,
+    url: url,
+    publisher: {
+      "@type": "Organization",
+      name: publisher.name,
+      "@id": "https://www.celesteabode.com/#organization",
+      logo: {
+        "@type": "ImageObject",
+        url: publisher.logo,
+      },
+    },
+    inLanguage: "en-IN",
+    about: {
+      "@type": "Thing",
+      name: "Real Estate",
+    },
+  };
+
+  return (
+    <Script
+      id="blog-page-schema"
+      type="application/ld+json"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+

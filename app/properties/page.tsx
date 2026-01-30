@@ -321,8 +321,8 @@ export default function ProjectsPage() {
         <section className="relative min-h-screen flex items-center justify-center bg-background pt-24">
           <div className="max-w-7xl mx-auto px-6 w-full">
             <div className="bg-white rounded-3xl shadow-2xl overflow-hidden relative">
-              {/* Full Container Image */}
-              <div className="relative h-[580px] lg:h-[620px]">
+              {/* Full Container Image - responsive height so image isn't oversized on mobile */}
+              <div className="relative h-[50vh] min-h-[320px] sm:min-h-[380px] md:h-[500px] lg:h-[580px] xl:h-[620px]">
                 <Image
                   src="/hero-.avif"
                   alt="Property Portfolio Hero"
@@ -345,7 +345,7 @@ export default function ProjectsPage() {
                 <div className="absolute inset-0 flex items-end pb-16">
                   <div className="text-left text-[#FAFAF8] max-w-4xl px-4 ml-6 md:px-6 md:ml-8">
                     <h1
-                      className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-4 leading-tight text-[#FAFAF8]"
+                      className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-4 leading-tight text-[#FAFAF8]"
                       style={{
                         textShadow: "0 1px 2px rgba(0,0,0,0.35)",
                         letterSpacing: "-0.01em",
@@ -361,8 +361,8 @@ export default function ProjectsPage() {
                       </div>
                     </h1>
 
-                    <p className="text-sm sm:text-base md:text-lg text-[#CBB27A] mb-4 md:mb-6 max-w-2xl font-poppins leading-relaxed">
-                      Curated projects across Noida, Greater Noida, Yamuna Expressway, and NCR growth corridors—evaluated for legality, location logic, and long-term suitability.
+                    <p className="text-xs sm:text-sm md:text-base lg:text-lg text-[#CBB27A] mb-4 md:mb-6 max-w-2xl font-poppins leading-relaxed">
+                      Curated residential and investment properties across Noida, Greater Noida, the Yamuna Expressway, and emerging NCR growth corridors—each evaluated for legal compliance, location fundamentals, market logic, and long-term investment suitability.
                     </p>
                   </div>
                 </div>
@@ -380,7 +380,7 @@ export default function ProjectsPage() {
         <section className="pt-10 pb-2 bg-background">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center font-poppins">
-              Shortlist Projects Based on Your Priorities
+              Explore Properties Based on Your Investment Priorities
               </h2>
             </div>
         </section>
@@ -541,19 +541,21 @@ export default function ProjectsPage() {
                       </p>
 
                       <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">
-                        The key to making informed property decisions lies in evaluating fundamental factors beyond marketing claims. Developer credibility matters significantly, as a track record of on-time delivery, quality construction, and financial stability reveals more about future performance than any sales pitch. Location maturity cannot be overstated either. Established infrastructure, connectivity, and social amenities that exist today matter far more than future promises that may or may not materialize.{!isCtaContentExpanded && (
-                          <> <button onClick={() => setIsCtaContentExpanded(true)} className="text-[#CBB27A] font-bold hover:underline cursor-pointer" aria-label="Read more about property evaluation">Read More...</button></>
-                        )}
-                        {isCtaContentExpanded && (
-                          <> When evaluating properties across Delhi NCR, it's essential to look beyond surface-level amenities and marketing narratives. The true value of a property investment lies in factors that have proven track records rather than speculative future developments. This approach ensures that buyers and investors make decisions based on tangible evidence rather than optimistic projections.</>
+                        The key to making informed property decisions lies in evaluating fundamental factors beyond marketing claims. Developer credibility matters significantly, as a track record of on-time delivery, quality construction, and financial stability reveals more about future performance than any sales pitch. Location maturity cannot be overstated either. Established infrastructure, connectivity, and social amenities that exist today matter far more than future promises that may or may not materialize. When evaluating properties across Delhi NCR, it&apos;s essential to look beyond surface-level amenities and marketing narratives and focus on fundamental real estate investment factors such as location maturity, delivery history, and pricing logic. The true value of a property investment lies in factors that have proven track records rather than speculative future developments. This approach ensures that buyers and investors make decisions based on tangible evidence rather than optimistic projections.
+                        {!isCtaContentExpanded && (
+                          <>{" "}<button type="button" onClick={() => setIsCtaContentExpanded(true)} className="text-[#CBB27A] font-bold hover:underline cursor-pointer" aria-label="Read more about Celeste Abode">Read More...</button></>
                         )}
                       </p>
 
-                      {/* Brand positioning with subtle styling - shown when expanded */}
+                      {/* Brand positioning - shown when Read More is expanded */}
                       {isCtaContentExpanded && (
                         <div className="mt-6 md:mt-10 pt-6 md:pt-8 border-t border-gray-200">
-                          <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">
-                            At <strong className="text-[#CBB27A]">Celeste Abode</strong>, we don't present properties as inventory to be sold. Instead, we curate options that pass rigorous evaluation criteria around developer credibility, location logic, pricing fairness, and long-term suitability. Our advisory-led approach helps buyers and investors in <strong>Delhi NCR</strong> make informed decisions by focusing on evidence over marketing, substance over surface-level amenities, and long-term value over short-term promises. <button onClick={() => setIsCtaContentExpanded(false)} className="text-[#CBB27A] font-bold hover:underline cursor-pointer" aria-label="Read less">Read Less</button>
+                          <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-6 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">
+                            At <strong className="text-[#CBB27A]">Celeste Abode</strong>, we don&apos;t present properties as inventory to be sold. Instead, we curate residential and investment properties across key Delhi NCR markets—including Noida, Greater Noida, the Yamuna Expressway, and emerging growth corridors—that pass rigorous evaluation across developer credibility, location logic, pricing fairness, and long-term suitability.
+                          </p>
+                          <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-0 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">
+                            Our advisory-led approach, backed by structured <Link href="/services" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors font-medium">real estate consulting and advisory services</Link>, helps buyers and investors in <strong>Delhi NCR</strong> make informed property decisions based on evidence, not sales narratives.{" "}
+                            <button type="button" onClick={() => setIsCtaContentExpanded(false)} className="text-[#CBB27A] font-bold hover:underline cursor-pointer" aria-label="Read less">Read Less</button>
                           </p>
                         </div>
                       )}
@@ -572,10 +574,10 @@ export default function ProjectsPage() {
             <div className="text-center mt-16 mb-8">
               <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl border border-gray-200 p-8 md:p-12 lg:p-16 max-w-4xl mx-auto">
                 <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4 font-poppins">
-                  Ready to Make an Informed Property Decision?
+                  Ready to Make an Informed Property Decision in Delhi NCR?
                 </h3>
                 <p className="text-base md:text-lg text-gray-700 mb-8 max-w-2xl mx-auto font-poppins leading-relaxed">
-                  Let our advisory team help you evaluate properties in Delhi NCR based on developer credibility, location maturity, and long-term suitability—not just marketing claims.
+                  Let our advisory team help you evaluate residential and investment properties in Delhi NCR based on developer credibility, location maturity, pricing logic, and long-term suitability—not just marketing claims.
                 </p>
                   <Button
                     onClick={() => setIsGeneralFormOpen(true)}

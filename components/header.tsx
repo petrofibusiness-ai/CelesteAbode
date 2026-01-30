@@ -127,128 +127,139 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
             </button>
           </div>
 
-          {/* Desktop Layout */}
-          <div className="hidden md:flex items-center justify-center w-full">
-            {/* Left Menu Group */}
-            <nav className="flex items-center space-x-8 mr-16">
-              <Link href="/" className="nav-link">
-                HOME
-              </Link>
-              <Link href="/philosophy" className="nav-link">
-                PHILOSOPHY
-              </Link>
-              <Link href="/services" className="nav-link">
-                SERVICES
-              </Link>
-            </nav>
+          {/* Desktop Layout - nav centered, Contact button absolute right */}
+          <div className="hidden md:block relative w-full h-24">
+            {/* Centered nav (left links + logo + right links) - position doesn't depend on Contact button */}
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center">
+              {/* Left Menu Group */}
+              <nav className="flex items-center space-x-8 mr-16">
+                <Link href="/" className="nav-link">
+                  HOME
+                </Link>
+                <Link href="/philosophy" className="nav-link">
+                  PHILOSOPHY
+                </Link>
+                <Link href="/services" className="nav-link">
+                  SERVICES
+                </Link>
+              </nav>
 
-            {/* Center Logo */}
-            <Link href="/">
-              <Image
-                src="/logoceleste.avif"
-                alt="Celeste Abode Logo"
-                width={95}
-                height={95}
-                sizes="95px"
-                quality={60}
-                priority
-                fetchPriority="high"
-                loading="eager"
-              />
-            </Link>
-
-            {/* Right Menu Group */}
-            <nav className="flex items-center space-x-8 ml-16">
-              <Link href="/vault" className="nav-link">
-                VAULT
+              {/* Center Logo */}
+              <Link href="/">
+                <Image
+                  src="/logoceleste.avif"
+                  alt="Celeste Abode Logo"
+                  width={95}
+                  height={95}
+                  sizes="95px"
+                  quality={60}
+                  priority
+                  fetchPriority="high"
+                  loading="eager"
+                />
               </Link>
-              
-              {/* Properties Dropdown */}
-              <div
-                ref={propertiesMenuRef}
-                className="relative"
-                onMouseEnter={() => !isMobile && setIsPropertiesOpen(true)}
-                onMouseLeave={() => !isMobile && setIsPropertiesOpen(false)}
-              >
-                <button
-                  type="button"
-                  onClick={() => setIsPropertiesOpen(!isPropertiesOpen)}
-                  className="nav-link cursor-pointer no-underline-animation"
-                  aria-expanded={isPropertiesOpen}
-                  aria-haspopup="true"
-                >
-                  PROPERTIES
-                </button>
+
+              {/* Right Menu Group */}
+              <nav className="flex items-center space-x-8 ml-16">
+                <Link href="/vault" className="nav-link">
+                  VAULT
+                </Link>
                 
-                {/* Dropdown Menu */}
-                <AnimatePresence>
-                  {isPropertiesOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -5 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -5 }}
-                      transition={{ duration: 0.2, ease: "easeOut" }}
-                      className="absolute top-full left-1/2 -translate-x-1/2 w-72 z-[100]"
-                      style={{ 
-                        marginTop: '0px'
-                      }}
-                    >
-                      <div className="bg-[#0f1112] border-l border-r border-b border-l-[#0f1112] border-r-[#0f1112] border-b-white/10 rounded-b-xl shadow-2xl overflow-hidden backdrop-blur-md">
-                        <div className="py-2" style={{ paddingTop: '28px' }}>
-                        <Link
-                          href="/properties-in-noida"
-                          className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
-                          onClick={() => setIsPropertiesOpen(false)}
-                        >
-                          Properties in Noida
-                        </Link>
-                        <Link
-                          href="/properties-in-greater-noida"
-                          className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
-                          onClick={() => setIsPropertiesOpen(false)}
-                        >
-                          Properties in Greater Noida
-                        </Link>
-                        <Link
-                          href="/properties-in-yamuna-expressway"
-                          className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
-                          onClick={() => setIsPropertiesOpen(false)}
-                        >
-                          Properties in Yamuna Expressway
-                        </Link>
-                        <Link
-                          href="/properties-in-ghaziabad"
-                          className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
-                          onClick={() => setIsPropertiesOpen(false)}
-                        >
-                          Properties in Ghaziabad
-                        </Link>
-                        <Link
-                          href="/properties-in-lucknow"
-                          className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
-                          onClick={() => setIsPropertiesOpen(false)}
-                        >
-                          Properties in Lucknow
-                        </Link>
-                        <div className="border-t border-white/10 my-1"></div>
-                        <Link
-                          href="/properties"
-                          className="block px-4 py-3 text-sm font-semibold text-[#CBB27A] hover:bg-[#CBB27A]/10 transition-all duration-200 font-poppins"
-                          onClick={() => setIsPropertiesOpen(false)}
-                        >
-                          View all properties
-                        </Link>
+                {/* Properties Dropdown */}
+                <div
+                  ref={propertiesMenuRef}
+                  className="relative"
+                  onMouseEnter={() => !isMobile && setIsPropertiesOpen(true)}
+                  onMouseLeave={() => !isMobile && setIsPropertiesOpen(false)}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setIsPropertiesOpen(!isPropertiesOpen)}
+                    className="nav-link cursor-pointer no-underline-animation"
+                    aria-expanded={isPropertiesOpen}
+                    aria-haspopup="true"
+                  >
+                    PROPERTIES
+                  </button>
+                  
+                  {/* Dropdown Menu */}
+                  <AnimatePresence>
+                    {isPropertiesOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -5 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="absolute top-full left-1/2 -translate-x-1/2 w-72 z-[100]"
+                        style={{ 
+                          marginTop: '0px'
+                        }}
+                      >
+                        <div className="bg-[#0f1112] border-l border-r border-b border-l-[#0f1112] border-r-[#0f1112] border-b-white/10 rounded-b-xl shadow-2xl overflow-hidden backdrop-blur-md">
+                          <div className="py-2" style={{ paddingTop: '28px' }}>
+                          <Link
+                            href="/properties-in-noida"
+                            className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
+                            onClick={() => setIsPropertiesOpen(false)}
+                          >
+                            Properties in Noida
+                          </Link>
+                          <Link
+                            href="/properties-in-greater-noida"
+                            className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
+                            onClick={() => setIsPropertiesOpen(false)}
+                          >
+                            Properties in Greater Noida
+                          </Link>
+                          <Link
+                            href="/properties-in-yamuna-expressway"
+                            className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
+                            onClick={() => setIsPropertiesOpen(false)}
+                          >
+                            Properties in Yamuna Expressway
+                          </Link>
+                          <Link
+                            href="/properties-in-ghaziabad"
+                            className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
+                            onClick={() => setIsPropertiesOpen(false)}
+                          >
+                            Properties in Ghaziabad
+                          </Link>
+                          <Link
+                            href="/properties-in-lucknow"
+                            className="block px-4 py-3 text-sm text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-200 font-poppins"
+                            onClick={() => setIsPropertiesOpen(false)}
+                          >
+                            Properties in Lucknow
+                          </Link>
+                          <div className="border-t border-white/10 my-1"></div>
+                          <Link
+                            href="/properties"
+                            className="block px-4 py-3 text-sm font-semibold text-[#CBB27A] hover:bg-[#CBB27A]/10 transition-all duration-200 font-poppins"
+                            onClick={() => setIsPropertiesOpen(false)}
+                          >
+                            View all properties
+                          </Link>
+                          </div>
                         </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-              
-              <Link href="/contact" className="nav-link">
-                CONTACT
-              </Link>
-            </nav>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+                
+                <Link href="/blog" className="nav-link">
+                  BLOGS
+                </Link>
+              </nav>
+            </div>
+            
+            {/* Contact Capsule Button - absolute right, doesn't affect nav centering */}
+            <Link
+              href="/contact"
+              className="absolute right-0 top-1/2 -translate-y-1/2 px-5 py-2.5 bg-gradient-to-r from-[#CBB27A] to-[#B39A6A] text-white text-sm font-semibold rounded-full hover:shadow-lg hover:shadow-[#CBB27A]/30 hover:scale-105 active:scale-95 transition-all duration-200 font-poppins whitespace-nowrap"
+            >
+              Contact Us
+            </Link>
           </div>
         </div>
       </div>
@@ -432,6 +443,14 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                 aria-label="Navigate to Vault page"
               >
                 VAULT
+              </Link>
+              <Link
+                href="/blog"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-label="Navigate to Blogs page"
+              >
+                BLOGS
               </Link>
               <Link
                 href="/contact"

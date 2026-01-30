@@ -14,8 +14,8 @@ export function PhilosophyHeroSection() {
           transition={{ duration: 0.8 }}
           className="bg-white rounded-3xl shadow-2xl overflow-hidden relative"
         >
-          {/* Full Container Image */}
-          <div className="relative h-[580px] lg:h-[620px]">
+          {/* Full Container Image - responsive height so image isn't oversized on mobile */}
+          <div className="relative h-[50vh] min-h-[320px] sm:min-h-[380px] md:h-[500px] lg:h-[580px] xl:h-[620px]">
             <Image
               src="/PHILOSOPHYHERO.avif"
               alt="Philosophy - The Morning Light, The View, The Peace You Seek"
@@ -39,22 +39,22 @@ export function PhilosophyHeroSection() {
             <div className="absolute inset-0 flex items-end pb-16">
               <div className="text-left text-[#FAFAF8] max-w-4xl px-4 ml-6 md:px-6 md:ml-8">
                 <h1
-                  className="text-3xl md:text-4xl lg:text-5xl font-medium mb-4 leading-tight text-[#FAFAF8]"
+                  className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-4 leading-tight text-[#FAFAF8]"
                   style={{
                     textShadow: "0 1px 2px rgba(0,0,0,0.35)",
                     letterSpacing: "-0.01em",
                   }}
                 >
                   <div className="block text-[#FAFAF8]">
-                    More Than Property -
+                    More Than Property —
                   </div>
                   <div className="block text-[#FAFAF8] mt-2">
-                    It's <span className="text-[#CBB27A]">Personal</span>
+                    A <span className="text-[#CBB27A]">Thoughtful Real Estate Advisory Approach</span>
                   </div>
                 </h1>
 
-                <p className="text-base md:text-lg text-[#CBB27A] mb-6 max-w-2xl">
-                  Guiding Your Aspiration, Defining Your Investment.
+                <p className="text-sm sm:text-base md:text-lg text-[#CBB27A] mb-4 md:mb-6 max-w-2xl">
+                  Guiding property decisions in Delhi NCR through clarity, evidence, and long-term perspective.
                 </p>
               </div>
             </div>

@@ -6,6 +6,7 @@ import { GoogleAnalytics } from "@/components/google-analytics";
 import { FacebookPixel } from "@/components/facebook-pixel";
 import "./globals.css";
 import { Chatbot } from "@/components/chatbot";
+import { ConsultationModalGlobal } from "@/components/consultation-modal-global";
 import { validateEnv } from "@/lib/env-validation";
 
 // Validate environment variables in production
@@ -627,6 +628,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${poppins.variable} antialiased`} suppressHydrationWarning>
         {children}
         <Chatbot />
+        <ConsultationModalGlobal />
         {/* Defer analytics to improve initial load performance - load after page is interactive */}
         <script
           suppressHydrationWarning

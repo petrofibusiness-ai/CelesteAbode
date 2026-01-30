@@ -1,6 +1,7 @@
 import { Section } from "@/components/ui/section";
 import { Card, CardContent } from "@/components/ui/card";
 import { Header } from "@/components/header";
+import { OpenConsultationTrigger } from "@/components/open-consultation-trigger";
 import { Footer } from "@/components/footer";
 import { PillButton } from "@/components/ui/pill-button";
 import { ServicesHeroSection } from "@/components/services-hero-section";
@@ -191,11 +192,10 @@ export default function ServicesPage() {
         <div className="py-8 flex justify-center">
           <div className="max-w-6xl text-center">
             <p className="text-base md:text-lg lg:text-xl text-muted-foreground/80 leading-relaxed font-light italic px-4 md:px-0">
-              As a trusted real estate consultant in Delhi NCR, Celeste Abode delivers
-              comprehensive real estate advisory services through our proven framework.
-            
-              Every engagement combines property consultant expertise with data-driven insights
-              for confident investment decisions.
+              As a trusted real estate consulting firm in Delhi NCR, Celeste Abode provides
+              real estate consulting and advisory services through a structured, data-driven framework.
+              Each engagement combines strategic property insights with market intelligence
+              to support confident property and investment decisions.
             </p>
           </div>
         </div>
@@ -222,12 +222,12 @@ export default function ServicesPage() {
                   </div>
                   <div className="flex flex-col h-full">
                     <h2 className="text-2xl font-bold text-foreground mb-4 h-16 flex items-center">
-                      Personalized ROI-Driven Strategy
+                      Personalized ROI-Driven Real Estate Consulting Strategy
                     </h2>
                     <p className="text-muted-foreground mb-12 md:mb-12 leading-relaxed h-20">
-                      Custom investment plans aligned with your financial goals,
-                      risk appetite, and timeline, built on data-driven market
-                      and yield analysis. <Link href="/vault" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Explore market insights in our Vault</Link>.
+                      Custom real estate investment strategies aligned with your financial goals,
+                      risk appetite, and timelines, supported by data-driven market analysis
+                      and yield projections. <Link href="/vault" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Explore real estate market insights in our Vault</Link>.
                     </p>
                     <div className="bg-[#CBB27A]/10 p-4 rounded-lg mt-4 md:mt-0">
                       <h4 className="font-semibold text-foreground mb-2">
@@ -249,12 +249,12 @@ export default function ServicesPage() {
                   </div>
                   <div className="flex flex-col h-full">
                     <h2 className="text-2xl font-bold text-foreground mb-4 h-16 flex items-center">
-                      End-to-End Real Estate Transaction Consulting
+                      End-to-End Real Estate Transaction Consulting Services
                     </h2>
                     <p className="text-muted-foreground mb-12 leading-relaxed h-20">
-                      Complete transaction support from initial due diligence to
-                      possession, ensuring every legal and financial aspect is
-                      handled with precision. <Link href="/vault" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Learn about legal processes</Link>.
+                      Comprehensive real estate transaction consulting support from initial due diligence to
+                      possession, ensuring legal and financial processes are
+                      managed with precision. <Link href="/vault" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Learn about real estate legal processes</Link>.
                     </p>
                     <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
                       <h4 className="font-semibold text-foreground mb-2">
@@ -283,9 +283,7 @@ export default function ServicesPage() {
                       NRI Real Estate Services
                     </h2>
                     <p className="text-muted-foreground mb-12 md:mb-6 leading-relaxed h-20">
-                      Support for Non-Resident Indians, managing regulatory
-                      requirements, currency, and remote property with seamless
-                      digital processes.
+                      Real estate consulting services for NRIs, offering end-to-end advisory and transaction support with full compliance, transparency, and seamless remote coordination. <Link href="/philosophy" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Learn more about our advisory philosophy</Link>.
                     </p>
                     <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
                       <h4 className="font-semibold text-foreground mb-2">
@@ -307,12 +305,10 @@ export default function ServicesPage() {
                   </div>
                   <div className="flex flex-col h-full">
                     <h2 className="text-2xl font-bold text-foreground mb-4 h-16 flex items-center">
-                      Real Estate Investment Advisory
+                      Real Estate Investment Advisory Services
                     </h2>
                     <p className="text-muted-foreground mb-12 md:mb-6 leading-relaxed h-20">
-                      Strategic investment guidance with market intelligence,
-                      exit strategies, and portfolio optimization for maximum
-                      returns.
+                      Strategic real estate investment advisory services focused on identifying high-potential opportunities based on yield, appreciation, and long-term risk assessment.
                     </p>
                     <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
                       <h4 className="font-semibold text-foreground mb-2">
@@ -361,6 +357,9 @@ export default function ServicesPage() {
                       <span className="text-[#CBB27A]">Designed For You</span>
                     </div>
                   </h2>
+                  <p className="text-white/90 text-base md:text-lg max-w-2xl mx-auto" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.5)" }}>
+                    Our real estate consulting and advisory services are built on data-backed insights, structured processes, and client-first decision-making.
+                  </p>
                 </div>
               </div>
             </div>
@@ -377,9 +376,7 @@ export default function ServicesPage() {
                       Luxury & Signature Residences
                     </h2>
                     <p className="text-muted-foreground mb-12 md:mb-6 leading-relaxed h-20">
-                      Exclusive premium properties tailored to your lifestyle,
-                      design preferences, and legacy goals, including off-market
-                      opportunities.
+                      Exclusive luxury residences selected through expert real estate advisory, tailored to your lifestyle preferences, design sensibilities, and long-term legacy goals, including select off-market opportunities.
                     </p>
                     <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
                       <h4 className="font-semibold text-foreground mb-2">
@@ -404,9 +401,7 @@ export default function ServicesPage() {
                       Virtual Tours & Digital Consultations
                     </h2>
                     <p className="text-muted-foreground mb-12 md:mb-6 leading-relaxed h-20">
-                      Advanced digital experiences that bring properties to
-                      life, enabling informed decisions from anywhere in the
-                      world. <Link href="/properties" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Explore virtual tours</Link>.
+                      Virtual tours and digital consultations support our real estate consulting process by enabling remote property evaluation and informed decision-making. <Link href="/properties" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Explore virtual tours</Link>.
                     </p>
                     <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
                       <h4 className="font-semibold text-foreground mb-2">
@@ -435,7 +430,7 @@ export default function ServicesPage() {
                       Location Intelligence & Real Estate Market Reports
                     </h2>
                     <p className="text-muted-foreground mb-12 md:mb-12 leading-relaxed h-20">
-                      In-depth location analysis with infrastructure timelines,
+                      In-depth real estate location analysis with infrastructure timelines,
                       connectivity, and growth projections to align investments
                       with long-term value. <Link href="/vault" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Access location insights</Link>.
                     </p>
@@ -462,9 +457,8 @@ export default function ServicesPage() {
                       Post-Purchase & Portfolio Support
                     </h2>
                     <p className="text-muted-foreground mb-12 md:mb-12 leading-relaxed h-20">
-                      Ongoing support for property management, portfolio
-                      optimization, and strategic decisions to maximize your
-                      investment value.
+                      Ongoing real estate support for property management, portfolio
+                      optimization, and strategic decisions to maximize long-term investment value.
                     </p>
                     <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
                       <h4 className="font-semibold text-foreground mb-2">
@@ -569,17 +563,14 @@ export default function ServicesPage() {
                   confident property decisions with expert real estate advisory guidance.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-2 justify-center">
-                  <a
-                    href="tel:+919818735258"
-                    className="bg-black text-white px-5 py-2.5 rounded-full font-medium hover:bg-black/90 transition-all duration-200 text-sm w-full sm:w-auto text-center shadow-lg hover:shadow-xl"
-                  >
+                  <OpenConsultationTrigger className="bg-black text-white px-5 py-2.5 rounded-full font-medium hover:bg-black/90 transition-all duration-200 text-sm w-full sm:w-auto text-center shadow-lg hover:shadow-xl hover:scale-105 active:scale-[0.98]">
                     Schedule Consultation
-                  </a>
+                  </OpenConsultationTrigger>
                   <a
                     href="https://wa.me/919818735258"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-black text-white px-5 py-2.5 rounded-full font-medium hover:bg-black/90 transition-all duration-200 text-sm w-full sm:w-auto text-center shadow-lg hover:shadow-xl"
+                    className="bg-black text-white px-5 py-2.5 rounded-full font-medium hover:bg-black/90 transition-all duration-200 text-sm w-full sm:w-auto text-center shadow-lg hover:shadow-xl hover:scale-105 active:scale-[0.98]"
                   >
                     Chat on WhatsApp
                   </a>

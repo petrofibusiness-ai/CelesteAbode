@@ -8,6 +8,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { FAQPageSchema, BreadcrumbSchema } from "@/lib/structured-data";
 import { Button } from "@/components/ui/button";
+import { OpenConsultationTrigger } from "@/components/open-consultation-trigger";
 import { Input } from "@/components/ui/input";
 import {
   Accordion,
@@ -47,106 +48,106 @@ export default function VaultPage() {
         {
           question: "What is the difference between a flat and an apartment?",
           answer:
-            "Both refer to residential units within a building. 'Flat' is the term commonly used in India; 'apartment' is an international term.",
+            "Both terms refer to residential units within a building. \"Flat\" is the term commonly used in India, while \"apartment\" is more widely used internationally.",
         },
         {
           question:
             "What is carpet area, built-up area, and super built-up area?",
           answer:
-            "• Carpet Area: Actual usable area within the walls.\n• Built-up Area: Carpet area + wall thickness + balcony area.\n• Super Built-up Area: Built-up area + proportionate common areas like lifts, lobby, and staircase.",
+            "• Carpet Area: The net usable floor area within the internal walls of a property.\n• Built-up Area: Carpet area plus wall thickness and balcony area.\n• Super Built-up Area: Built-up area along with a proportionate share of common areas such as lifts, lobbies, and staircases.",
         },
         {
           question: "What is RERA and why is it important?",
           answer:
-            "The Real Estate Regulatory Authority (RERA) ensures transparency and accountability between developers and buyers.",
+            "The Real Estate Regulatory Authority (RERA) ensures transparency, accountability, and timely delivery of real estate projects, helping buyers make informed property buying decisions.",
         },
         {
           question:
             "What are the key documents required while buying property?",
           answer:
-            "• Sale Deed & Title Deed\n• RERA Registration Certificate\n• Building Plan Approval\n• Encumbrance Certificate\n• Occupancy Certificate (OC)\n• Property Tax Receipts\n• NOC from authorities",
+            "Some of the essential documents to verify while buying a property include:\n• Sale Deed & Title Deed\n• RERA Registration Certificate\n• Approved Building Plans\n• Encumbrance Certificate\n• Occupancy Certificate (OC)\n• Property Tax Receipts\n• No Objection Certificates (NOCs) from relevant authorities\nVerifying these documents is a critical step in making a secure real estate investment.",
         },
         {
           question: "What is an Occupancy Certificate (OC)?",
           answer:
-            "Issued by the local authority to confirm that the building is completed as per approved plans and is safe to live in.",
+            "An official certificate issued by the local authority confirming that a building has been constructed as per approved plans and is safe and fit for occupancy.",
         },
         {
           question: "What is a Possession Letter?",
           answer:
-            "A letter issued by the builder to the buyer stating the date when the property is ready for possession.",
+            "A letter issued by the builder stating the official date on which the buyer can take possession of the property.",
         },
         {
           question: "What is a Sale Deed?",
           answer:
-            "A legal document that finalizes the sale and transfers ownership from the seller to the buyer.",
+            "A legal document that finalizes the sale and transfers ownership of the property from the seller to the buyer.",
         },
         {
           question: "What is a Title Deed?",
           answer:
-            "Proof that the property is legally owned by the seller and has a clear title.",
+            "A legal document that proves ownership of the property and confirms that the title is clear and marketable.",
         },
         {
           question: "What is Stamp Duty and Registration Fee?",
           answer:
-            "Government charges payable during registration — typically 5–8% (Stamp Duty) and 1–2% (Registration Fee), depending on the state.",
+            "Government charges payable during property registration—typically 5–8% as stamp duty and 1–2% as registration fees, depending on state regulations.",
         },
         {
           question: "What is a Power of Attorney (POA)?",
           answer:
-            "A document that authorizes someone to act on your behalf for property transactions.",
+            "A legal document that authorizes a person to act on another's behalf in property-related transactions.",
         },
         {
           question: "What is Home Loan Pre-approval?",
           answer:
-            "A preliminary loan sanction from the bank showing the eligible amount based on your income and credit score.",
+            "A preliminary loan sanction from a bank indicating the eligible loan amount based on the buyer's income, credit score, and financial profile—often recommended as part of a structured real estate advisory process.",
         },
         {
           question: "What is Property Valuation?",
           answer:
-            "The process of estimating the market value of a property by a certified valuer.",
+            "The process of estimating the fair market value of a property, usually conducted by a certified valuer, to support confident property investment decisions.",
         },
         {
           question:
             "What is the difference between Freehold and Leasehold property?",
           answer:
-            "• Freehold: Permanent ownership of land and building.\n• Leasehold: Ownership for a fixed term (e.g., 99 years), after which it reverts to the landowner.",
+            "• Freehold: Permanent ownership of both land and building.\n• Leasehold: Ownership rights granted for a fixed tenure (such as 99 years), subject to lease terms.",
         },
         {
           question: "What is an NOC (No Objection Certificate)?",
           answer:
-            "Official clearance from relevant authorities like Fire, Water, and Electricity departments.",
+            "An official clearance issued by relevant authorities such as Fire, Water, or Electricity departments, confirming that there are no objections to the property.",
         },
         {
           question:
-            "What is 'Ready to Move-in' vs 'Under Construction' property?",
+            "What is the difference between Ready-to-Move-in and Under-Construction property?",
           answer:
-            "• Ready to Move-in: Completed project ready for immediate possession.\n• Under Construction: Still being built — usually cheaper, but has delivery risks.",
+            "• Ready-to-Move-in: A completed project available for immediate possession.\n• Under Construction: A project still being developed, typically priced lower but involving delivery timelines and associated risks.\nThe right choice depends on budget, risk appetite, and timeline, and should ideally be evaluated with proper real estate consulting guidance.",
         },
         {
           question: "What is Property Tax?",
           answer:
-            "A recurring tax paid to the municipal authority for ownership and maintenance of civic infrastructure.",
+            "A recurring tax paid to the municipal authority for property ownership and the maintenance of civic infrastructure.",
         },
         {
           question: "What are Society Maintenance Charges?",
           answer:
-            "Monthly charges for upkeep of building common areas, lifts, gardens, and security.",
+            "Monthly charges paid for the upkeep of common areas such as lifts, security, gardens, and shared facilities within a residential complex.",
         },
         {
           question: "Can NRIs buy property in India?",
           answer:
-            "Yes, NRIs can buy residential and commercial properties, but not agricultural or farmhouse land without RBI approval.",
+            "Yes, NRIs can purchase residential and commercial properties in India but are restricted from buying agricultural land or farmhouses without RBI approval.",
         },
         {
           question: "What is Primary vs Resale Property?",
           answer:
-            "• Primary: Bought directly from builder.\n• Resale: Bought from an existing owner.",
+            "• Primary Property: Purchased directly from a developer or builder.\n• Resale Property: Purchased from an existing owner.",
         },
         {
           question: "What is Property Mutation?",
           answer:
-            "It's the process of updating ownership details in municipal records after a sale.",
+            "The process of updating ownership details in municipal or government records after a property sale or transfer.",
         },
       ],
     },
@@ -155,74 +156,78 @@ export default function VaultPage() {
       questions: [
         {
           question: "What is Capital Appreciation?",
-          answer: "The increase in the value of property over time.",
+          answer:
+            "The increase in a property's market value over time, influenced by factors such as location growth, infrastructure development, and demand.",
         },
         {
           question: "What is Rental Yield?",
           answer:
-            "(Annual Rent ÷ Property Value) × 100 — measures income potential of a property.",
+            "A metric used to measure income potential, calculated as: (Annual Rent ÷ Property Value) × 100, helping investors assess rental returns.",
         },
         {
           question: "What are REITs (Real Estate Investment Trusts)?",
           answer:
-            "Companies that own and manage income-producing real estate and allow investors to buy shares.",
+            "Companies that own, operate, or finance income-producing real estate assets and allow investors to participate by purchasing shares.",
         },
         {
           question: "What is an ideal investment duration?",
           answer:
-            "A long-term horizon (5–10 years) helps earn better appreciation and returns.",
+            "A long-term investment horizon of 5–10 years generally offers better capital appreciation and more stable returns in real estate.",
         },
         {
           question: "What factors affect property prices?",
           answer:
-            "Location, infrastructure, demand, builder reputation, government policy, and economy.",
+            "Key factors include location, infrastructure development, demand and supply, builder reputation, government policies, and overall economic conditions.",
         },
         {
           question: "What is a Pre-launch or Soft-launch offer?",
           answer:
-            "Early-stage offer before RERA registration. Usually cheaper but riskier.",
+            "An early-stage property offer made before RERA registration. These projects are often priced lower but involve higher regulatory and delivery risks.",
         },
         {
           question: "What is Property Flipping?",
-          answer: "Buying at low price and selling quickly for profit.",
+          answer:
+            "An investment strategy where a property is purchased at a lower price and sold within a short period to earn quick profits.",
         },
         {
           question: "What is Capital Gains Tax?",
           answer:
-            "Tax on profits from property sale —\n• Short-term: Sold within 24 months → added to income.\n• Long-term: Held for >24 months → 20% tax with indexation.",
+            "Tax levied on profits earned from selling a property:\n• Short-term: Sold within 24 months — gains added to taxable income\n• Long-term: Held for more than 24 months — taxed at 20% with indexation benefits\nUnderstanding capital gains tax is essential for informed real estate investment decisions.",
         },
         {
           question: "What is Circle Rate or Ready Reckoner Rate?",
-          answer: "Minimum rate set by government for property transactions.",
+          answer:
+            "The minimum property valuation set by the government for calculating stamp duty and registration charges during property transactions.",
         },
         {
           question: "What is a Joint Venture (JV)?",
           answer:
-            "A partnership between landowners and developers for constructing a project and sharing revenue.",
+            "A partnership between landowners and developers where both parties collaborate to construct a project and share revenue or profits.",
         },
         {
           question: "What is FSI/FAR?",
           answer:
-            "Floor Space Index / Floor Area Ratio — ratio of built-up area to total land area; decides construction density.",
+            "Floor Space Index (FSI) or Floor Area Ratio (FAR) defines the ratio of total built-up area to the plot size and determines construction density.",
         },
         {
           question: "Why invest in commercial property?",
           answer:
-            "It offers higher rental yields, longer leases, and steady income.",
+            "Commercial real estate often offers higher rental yields, longer lease tenures, and more stable income compared to residential investments.",
         },
         {
           question: "How do investors earn from real estate?",
-          answer: "Through rental income and capital appreciation.",
+          answer:
+            "Primarily through rental income and long-term capital appreciation, depending on market conditions and investment strategy.",
         },
         {
-          question: "What are key risks in real estate investment?",
+          question: "What are the key risks in real estate investment?",
           answer:
-            "Project delays, legal disputes, low liquidity, and market downturn.",
+            "Common risks include project delays, legal disputes, low liquidity, regulatory changes, and market downturns.",
         },
         {
           question: "How can I verify a builder's credibility?",
           answer:
-            "Check RERA registration, previous delivery track record, reviews, and financial stability.",
+            "Check the builder's RERA registration, past project delivery record, customer reviews, and financial stability before investing.",
         },
       ],
     },
@@ -231,51 +236,53 @@ export default function VaultPage() {
       questions: [
         {
           question: "What is TDS on property purchase?",
-          answer: "1% TDS deducted for property purchases above ₹50 lakh.",
+          answer:
+            "Tax Deducted at Source (TDS) at the rate of 1% is applicable on property purchases valued above ₹50 lakh and must be deducted by the buyer at the time of transaction.",
         },
         {
           question: "Can I take a Joint Home Loan?",
           answer:
-            "Yes. Co-applicants can be spouse, parents, or siblings — increases loan eligibility.",
+            "Yes. A joint home loan can be taken with co-applicants such as a spouse, parents, or siblings, which may help increase overall loan eligibility.",
         },
         {
           question: "What is EMI?",
           answer:
-            "Equal Monthly Installment to repay principal + interest on a home loan.",
+            "EMI (Equated Monthly Installment) is the fixed monthly payment made towards repaying the principal and interest on a home loan.",
         },
         {
-          question: "What is CIBIL Score?",
+          question: "What is a CIBIL Score?",
           answer:
-            "Credit score (300–900) used by lenders to assess creditworthiness.",
+            "A credit score ranging from 300 to 900 that lenders use to assess an individual's creditworthiness and loan repayment capability.",
         },
         {
           question: "What is a Balance Transfer?",
           answer:
-            "Shifting your home loan to another bank for lower interest rates.",
+            "The process of shifting an existing home loan from one lender to another, typically to benefit from lower interest rates or better loan terms.",
         },
         {
           question: "What is a Resale Agreement?",
-          answer: "Legal contract between an existing owner and new buyer.",
+          answer:
+            "A legal contract executed between an existing property owner and a new buyer for the sale of a resale property.",
         },
         {
           question: "Can I sell a mortgaged property?",
           answer:
-            "Yes, but the outstanding loan must be cleared or transferred at sale time.",
+            "Yes. A mortgaged property can be sold, provided the outstanding loan amount is cleared or transferred at the time of sale, as per lender guidelines.",
         },
         {
           question: "What is Property Insurance?",
           answer:
-            "Protects your home against damage from fire, theft, or natural disasters.",
+            "An insurance policy that protects a property against potential damage caused by fire, theft, or natural disasters.",
         },
         {
           question: "What is a Top-up Loan?",
           answer:
-            "Additional loan taken on your existing home loan for renovation or other needs.",
+            "An additional loan availed on an existing home loan, commonly used for renovation, expansion, or other personal requirements.",
         },
         {
           question: "What are Registration Charges?",
           answer:
-            "1–2% of property value, payable to the government during registration.",
+            "Government fees, typically ranging from 1–2% of the property value, payable at the time of property registration to legally record ownership.",
         },
       ],
     },
@@ -285,27 +292,27 @@ export default function VaultPage() {
         {
           question: "What are emerging property hotspots?",
           answer:
-            "Tier-2 cities, metro outskirts, and areas near new highways, airports, or IT hubs.",
+            "Emerging property hotspots typically include Tier-2 cities, metro outskirts, and locations near upcoming infrastructure such as highways, airports, metro corridors, and IT hubs that indicate future growth potential.",
         },
         {
           question: "How does infrastructure affect property value?",
           answer:
-            "Better roads, metro connectivity, and amenities raise demand and appreciation.",
+            "Infrastructure developments such as improved road networks, metro connectivity, public amenities, and commercial hubs increase demand, accessibility, and long-term property appreciation.",
         },
         {
           question: "What are Green or Sustainable Buildings?",
           answer:
-            "Eco-friendly structures with energy-efficient materials and water-saving systems.",
+            "Green or sustainable buildings are designed using energy-efficient materials, water-saving systems, and environmentally responsible practices to reduce operational costs and environmental impact.",
         },
         {
           question: "What is Co-living?",
           answer:
-            "Modern shared housing concept for young professionals — affordable and social.",
+            "Co-living is a modern shared housing concept offering furnished spaces, shared amenities, and flexible leases, primarily catering to young professionals seeking affordability and community living.",
         },
         {
-          question: "How to identify the right time to buy property?",
+          question: "How can I identify the right time to buy property?",
           answer:
-            "When interest rates are low, infrastructure is developing, and the project is RERA-approved.",
+            "The right time to buy property is typically when interest rates are favorable, infrastructure development is underway, market conditions are stable, and the project is RERA-approved—ensuring regulatory compliance and buyer protection.",
         },
       ],
     },
@@ -315,115 +322,115 @@ export default function VaultPage() {
     {
       term: "Agreement to Sale",
       definition:
-        "A preliminary contract outlining terms before final sale deed.",
+        "A preliminary contract outlining the agreed terms and conditions between buyer and seller before the execution of the final sale deed.",
       categories: ["Legal"],
     },
     {
       term: "Appreciation",
-      definition: "Increase in property value over time.",
+      definition: "The increase in a property's market value over time due to location growth, demand, and infrastructure development.",
       categories: ["Financial"],
     },
     {
       term: "Built-up Area",
-      definition: "Carpet area + wall thickness + balcony area.",
+      definition: "The total area of a property including the carpet area, internal and external wall thickness, and balcony or terrace space.",
       categories: ["Legal", "Property"],
     },
     {
       term: "Carpet Area",
-      definition: "Usable floor space within walls.",
+      definition: "The net usable floor area within the internal walls of a property, excluding wall thickness, balconies, and common areas.",
       categories: ["Legal", "Property"],
     },
     {
       term: "Circle Rate",
       definition:
-        "Minimum value set by the government for property transactions.",
+        "The minimum property value set by the government for a specific area, used to calculate stamp duty and registration charges during property transactions.",
       categories: ["Legal", "Financial"],
     },
     {
       term: "Completion Certificate (CC)",
-      definition: "Proof that construction matches approved plans.",
+      definition: "An official certificate issued by the local authority confirming that a building has been constructed as per approved plans and complies with applicable regulations.",
       categories: ["Legal"],
     },
     {
       term: "Down Payment",
       definition:
-        "Amount paid upfront while booking a property (usually 10–20%).",
+        "The upfront amount paid by the buyer during property purchase, typically representing a percentage of the total property value.",
       categories: ["Financial"],
     },
     {
       term: "Encumbrance Certificate (EC)",
-      definition: "Shows property is free from any legal dues or mortgage.",
+      definition: "A legal document that confirms whether a property is free from financial liabilities, legal dues, or mortgages.",
       categories: ["Legal"],
     },
     {
       term: "FAR/FSI",
       definition:
-        "Floor Area Ratio/Floor Space Index — defines how much can be built.",
+        "Floor Area Ratio (FAR) or Floor Space Index (FSI) determines the maximum construction area allowed on a plot based on regulatory guidelines.",
       categories: ["Legal", "Property"],
     },
     {
       term: "Freehold Property",
-      definition: "Full ownership of land and building.",
+      definition: "A property where the buyer has complete legal ownership of both the land and the structure, with full rights of transfer and usage.",
       categories: ["Legal", "Property"],
     },
     {
       term: "Leasehold Property",
-      definition: "Ownership for a limited period (like 99 years).",
+      definition: "A property held on a lease for a fixed period, where ownership rights are granted for a limited duration (such as 99 years), subject to lease terms.",
       categories: ["Legal", "Property"],
     },
     {
       term: "Loan to Value (LTV)",
-      definition: "Percentage of property cost financed by bank.",
+      definition: "The percentage of a property's value that a lender is willing to finance, with the remainder paid by the buyer as a down payment.",
       categories: ["Financial"],
     },
     {
       term: "Mutation",
-      definition: "Change of ownership in government records.",
+      definition: "The process of updating ownership details in government land records after a property transfer.",
       categories: ["Legal"],
     },
     {
       term: "No Objection Certificate (NOC)",
-      definition: "Approval from authorities for construction/sale.",
+      definition: "An official clearance issued by relevant authorities confirming that there are no objections to property construction, sale, or transfer.",
       categories: ["Legal"],
     },
     {
       term: "Occupancy Certificate (OC)",
-      definition: "Proof that a building is ready to occupy.",
+      definition: "An official certificate issued by local authorities confirming that a building is safe and compliant for occupancy.",
       categories: ["Legal"],
     },
     {
       term: "Power of Attorney (POA)",
-      definition: "Authorization to act on another's behalf.",
+      definition: "A legal document that authorizes a person to act on behalf of another in property-related transactions.",
       categories: ["Legal"],
     },
     {
       term: "RERA",
-      definition: "Real Estate Regulatory Authority for buyer protection.",
+      definition: "The Real Estate Regulatory Authority established to regulate real estate projects and protect the interests of property buyers.",
       categories: ["Legal"],
     },
     {
       term: "Ready Reckoner Rate",
-      definition: "Minimum government-set valuation for property.",
+      definition: "A government-determined minimum property valuation used for calculating stamp duty and registration charges.",
       categories: ["Legal", "Financial"],
     },
     {
       term: "Registration",
-      definition: "Legal recording of property ownership transfer.",
+      definition: "The legal process of recording a property transaction with government authorities to officially transfer ownership.",
       categories: ["Legal"],
     },
     {
       term: "Rental Yield",
-      definition: "Rent income percentage relative to property cost.",
+      definition: "The annual rental income expressed as a percentage of the property's purchase price, used to assess investment returns.",
       categories: ["Financial"],
     },
     {
       term: "Stamp Duty",
-      definition: "Tax paid for registering property ownership.",
+      definition: "A government tax paid during property registration to legally validate the ownership transfer.",
       categories: ["Legal", "Financial"],
     },
     {
       term: "Title Deed",
-      definition: "Legal proof of property ownership.",
+      definition: "A legal document that establishes and confirms the ownership rights of a property holder.",
       categories: ["Legal"],
     },
   ];
@@ -473,8 +480,8 @@ export default function VaultPage() {
               transition={{ duration: 0.8 }}
               className="bg-white rounded-3xl shadow-2xl overflow-hidden relative"
             >
-              {/* Hero Image Background */}
-              <div className="relative h-[580px] lg:h-[620px]">
+              {/* Hero Image Background - responsive height so image isn't oversized on mobile */}
+              <div className="relative h-[50vh] min-h-[320px] sm:min-h-[380px] md:h-[500px] lg:h-[580px] xl:h-[620px]">
                 <Image
                   src="/vaulthero.avif"
                   alt="Vault Hero"
@@ -491,7 +498,7 @@ export default function VaultPage() {
                 <div className="absolute inset-0 flex items-end pb-16">
                   <div className="text-left text-[#FAFAF8] max-w-4xl px-4 ml-6 md:px-6 md:ml-8">
                     <h1
-                      className="text-3xl md:text-4xl lg:text-5xl font-medium mb-4 leading-tight text-[#FAFAF8]"
+                      className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-4 leading-tight text-[#FAFAF8]"
                       style={{
                         textShadow: "0 1px 2px rgba(0,0,0,0.35)",
                         letterSpacing: "-0.01em",
@@ -506,7 +513,7 @@ export default function VaultPage() {
                       </div>
                     </h1>
 
-                    <p className="text-base md:text-lg text-[#CBB27A] mb-6 max-w-2xl">
+                    <p className="text-sm sm:text-base md:text-lg text-[#CBB27A] mb-4 md:mb-6 max-w-2xl">
                       Your personal archive of refined definitions, expert
                       answers, and insights reserved for those who seek
                       precision in every property decision.
@@ -524,20 +531,41 @@ export default function VaultPage() {
         </div>
 
         {/* Introduction Section */}
-        <Section className="pb-16 bg-background">
-          <div className="max-w-4xl mx-auto text-center">
+        <Section className="pb-20 bg-background">
+          <div className="max-w-4xl mx-auto px-4">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-center"
+              className="relative rounded-2xl overflow-hidden border border-[#CBB27A]/15 bg-gradient-to-br from-white via-white to-[#CBB27A]/5 px-6 py-10 md:px-12 md:py-12 shadow-[0_4px_24px_-4px_rgba(203,178,122,0.12)]"
             >
-              <p className="text-base text-[#666] leading-relaxed mx-auto">
-                Buying or investing in property is one of the biggest financial
-                decisions in life. This guide helps you understand the basic
-                concepts, legal terms, and important questions related to
-                property buying, selling, and investment.
-              </p>
+              {/* Left accent */}
+              <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#CBB27A]/40 via-[#CBB27A] to-[#CBB27A]/40" />
+              <div className="relative pl-2 md:pl-0">
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-[#CBB27A]/10 mb-5">
+                    <BookOpen className="w-6 h-6 text-[#CBB27A]" strokeWidth={1.5} />
+                  </div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#CBB27A] mb-6 text-center">
+                    About this guide
+                  </p>
+                </div>
+                <p className="text-lg md:text-xl text-foreground/95 leading-[1.7] text-center font-medium max-w-2xl mx-auto">
+                  Buying or investing in property is one of the most significant financial
+                  decisions you will make. From legal terminology and regulatory requirements
+                  to market dynamics and investment risks, the process can often feel
+                  complex and overwhelming.
+                </p>
+                <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#CBB27A]/50 to-transparent mx-auto my-7" />
+                <p className="text-base text-muted-foreground leading-[1.75] text-center max-w-2xl mx-auto">
+                  Inside the Vault, Celeste Abode brings clarity to these challenges by
+                  breaking down essential real estate concepts, legal frameworks, and
+                  critical questions that buyers and investors must understand before
+                  committing. This knowledge-driven guide is designed to help you navigate
+                  property buying, selling, and investment decisions with confidence,
+                  accuracy, and long-term perspective.
+                </p>
+              </div>
             </motion.div>
           </div>
         </Section>
@@ -551,8 +579,8 @@ export default function VaultPage() {
                 <span className="text-[#CBB27A]">Terms</span>
               </h2>
               <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                Master the key terminology that every property buyer, seller,
-                and investor should know.
+                Understand the essential terminology every property buyer, seller,
+                and investor needs to navigate real estate decisions with confidence.
               </p>
             </div>
 
@@ -632,8 +660,7 @@ export default function VaultPage() {
                 Strategic <span className="text-[#CBB27A]">Q&A</span>
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Deep-dive consultations on the most critical real estate
-                decisions
+                In-depth answers to the most critical questions around property buying, investing, and market decisions.
               </p>
             </div>
 
@@ -707,9 +734,7 @@ export default function VaultPage() {
                 <span className="text-[#CBB27A]">Confidential Clarity</span>?
               </h2>
               <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                The VAULT contains the fundamentals. For personalized strategy
-                on complex transactions, confidential market intelligence, and
-                exclusive opportunities—schedule a private consultation.
+                The Vault provides essential real estate fundamentals. For personalized real estate consulting, complex transaction strategy, confidential market intelligence, and exclusive advisory support, we recommend scheduling a private consultation.
               </p>
             </div>
 
@@ -765,13 +790,10 @@ export default function VaultPage() {
                   Get personalized guidance on your specific property goals and
                   investment strategy.
                 </p>
-                <Button
-                  className="w-full bg-primary hover:bg-primary/90 text-white h-12 text-lg"
-                  onClick={() => (window.location.href = "/contact")}
-                >
-                  <Phone className="w-5 h-5 mr-2" />
+                <OpenConsultationTrigger className="w-full bg-primary hover:bg-primary/90 text-white h-12 text-lg flex items-center justify-center gap-2 rounded-md font-medium transition-transform duration-200 hover:scale-[1.02] active:scale-[0.98]">
+                  <Phone className="w-5 h-5" />
                   Schedule Consultation
-                </Button>
+                </OpenConsultationTrigger>
               </div>
             </div>
           </div>

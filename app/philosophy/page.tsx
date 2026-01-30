@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 import { Scale, Heart, Star, Rocket, Building2, Eye } from "lucide-react";
 import { BreadcrumbSchema } from "@/lib/structured-data";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function PhilosophyPage() {
   return (
@@ -72,9 +73,7 @@ export default function PhilosophyPage() {
                         Trust
                       </h3>
                       <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                        Built on <strong>authentic guidance</strong> and
-                        RERA-aligned diligence, ensuring every move is certified
-                        and secure.
+                        Built on authentic guidance and RERA-aligned due diligence, ensuring every property decision is legally verified, compliant, and secure.
                       </p>
                     </div>
                   </div>
@@ -97,10 +96,7 @@ export default function PhilosophyPage() {
                         Transparency
                       </h3>
                       <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                        We replace guesswork with facts. Achieve transparency
-                        through clear{" "}
-                        <strong>ROI, absorption, and risk reports</strong>—the
-                        full data behind the dream.
+                        We replace guesswork with facts by presenting clear ROI metrics, absorption data, and risk assessments—so every investment is backed by complete, verifiable information.
                       </p>
                     </div>
                   </motion.div>
@@ -123,11 +119,7 @@ export default function PhilosophyPage() {
                         Transformation
                       </h3>
                       <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-                        Experience the effortless{" "}
-                        <strong>transformation</strong> of your goals into
-                        reality, integrating AI curation with{" "}
-                        <strong>human insight</strong> for data-backed
-                        decision-making.
+                        We translate personal goals into practical outcomes by combining AI-driven market analysis with human advisory insight—enabling confident, data-backed property decisions.
                       </p>
                     </div>
                   </motion.div>
@@ -158,9 +150,7 @@ export default function PhilosophyPage() {
         <div className="py-6 md:py-8 flex justify-center px-4 sm:px-6">
           <div className="max-w-4xl text-center">
             <p className="text-xs sm:text-sm md:text-base text-muted-foreground/80 leading-relaxed sm:leading-relaxed font-light italic px-2 sm:px-0">
-              We seamlessly blend cutting-edge property technology and expert
-              sales knowledge to secure your perfect, high-value home and
-              investment future.
+              We combine advanced property intelligence with seasoned real estate advisory expertise to help clients secure high-value homes and long-term investment outcomes across Delhi NCR.
             </p>
           </div>
         </div>
@@ -182,10 +172,9 @@ export default function PhilosophyPage() {
                   Push Sales
                 </h3>
                 <p className="text-lg text-muted-foreground/70 leading-relaxed italic">
-                  Unlike listing-driven portals, the typical brokerage model
-                  starts with <em>what's for sale</em> - creating noise and
-                  applying sales pressure. Endless listings, overwhelming
-                  choices, and pushy tactics.
+                  Buyers often face confusion from endless listings, pressure to
+                  decide quickly, and information overload—with little clarity
+                  on what truly fits their goals or risk profile.
                 </p>
               </div>
 
@@ -196,15 +185,11 @@ export default function PhilosophyPage() {
                   Our Promise
                 </h3>
                 <p className="text-lg text-foreground leading-relaxed mb-6">
-                  <strong>Celeste Abode starts with why you buy.</strong> Our{" "}
-                  <strong>curated consulting model</strong> eliminates noise and
-                  replaces pressure with purpose.
+                  <strong>Celeste Abode starts with your goals.</strong> We provide decision support through selective curation—only options that pass our data validation make it to you. No noise, no pressure; just evidence-based recommendations that fit your timeline and risk appetite.
                 </p>
                 <div className="bg-[#CBB27A]/10 p-6 rounded-lg">
                   <p className="text-lg text-foreground leading-relaxed">
-                    Our experts act as <strong>strategic partners</strong> who
-                    curate the <strong>Top 3 Definitive Projects</strong> fit
-                    for you - each rigorously backed by data.
+                    Our advisors act as <strong>strategic partners</strong>, curating a shortlist of properties validated by real market data—so every option is grounded in financial reality, not assumptions.
                   </p>
                 </div>
               </div>
@@ -214,13 +199,20 @@ export default function PhilosophyPage() {
             <div className="flex justify-center mt-16">
               <div className="max-w-4xl text-center">
                 <p className="text-sm md:text-base text-muted-foreground/80 leading-relaxed font-light italic">
-                  Each recommendation is backed by data:{" "}
-                  <strong>
-                    absorption rates, yield bands, and exit liquidity forecasts.
-                  </strong>{" "}
-                  We ensure the foundation is financially flawless.
+                  Each recommendation is supported by real market indicators such as absorption trends, yield ranges, and exit liquidity visibility—ensuring decisions are grounded in financial reality, not assumptions.
                 </p>
               </div>
+            </div>
+
+            {/* Minimal CTA - philosophy-led tone */}
+            <div className="flex justify-center mt-10">
+              <Link
+                href="/services"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[#CBB27A]/40 text-foreground hover:bg-[#CBB27A]/10 hover:border-[#CBB27A]/60 transition-colors text-sm font-medium"
+              >
+                Explore Our Advisory Approach
+                <span aria-hidden>→</span>
+              </Link>
             </div>
           </div>
         </Section>
@@ -234,7 +226,7 @@ export default function PhilosophyPage() {
                 <span className="text-[#CBB27A]">Standard</span>
               </h2>
               <p className="text-xl text-muted-foreground text-center">
-                Our Non-Negotiables
+                Our Non-Negotiables in Real Estate Advisory
               </p>
             </div>
 
@@ -268,9 +260,7 @@ export default function PhilosophyPage() {
                       </div>
                     </div>
                     <p className="text-muted-foreground leading-relaxed flex-grow transition-colors duration-300 group-hover:text-foreground/90">
-                      <strong>We lead with evidence.</strong> Our strategy is
-                      rooted in proprietary market data and legal foresight, not
-                      sales objectives.
+                      We lead with evidence. Our real estate advisory approach is rooted in verified market data, legal diligence, and long-term feasibility—never sales targets.
                     </p>
                   </CardContent>
                 </Card>
@@ -305,12 +295,7 @@ export default function PhilosophyPage() {
                       </div>
                     </div>
                     <p className="text-muted-foreground leading-relaxed flex-grow transition-colors duration-300 group-hover:text-foreground/90">
-                      <strong>
-                        Every interaction reflects respect and emotion to your
-                        journey.
-                      </strong>{" "}
-                      We prioritize the profound human aspiration behind every
-                      investment and decision.
+                      Every interaction is built on respect for your goals and context. We focus on understanding the purpose behind each property decision—whether for end-use or investment.
                     </p>
                   </CardContent>
                 </Card>
@@ -345,9 +330,7 @@ export default function PhilosophyPage() {
                       </div>
                     </div>
                     <p className="text-muted-foreground leading-relaxed flex-grow transition-colors duration-300 group-hover:text-foreground/90">
-                      <strong>AI curation meets human judgment.</strong> Our
-                      tools maximize efficiency; our elite expertise ensures the
-                      selection is a truly perfect fit.
+                      Technology supports our process—not replaces judgment. Data tools enhance efficiency, while experienced advisors ensure every recommendation is context-driven and practical.
                     </p>
                   </CardContent>
                 </Card>
@@ -359,9 +342,7 @@ export default function PhilosophyPage() {
               <div className="bg-[#CBB27A]/10 border-2 border-[#CBB27A]/30 rounded-xl p-8 text-center max-w-4xl">
                 <p className="text-2xl text-foreground leading-relaxed">
                   <strong>
-                    Celeste Abode exists to create peace of mind in a complex
-                    market
-                    <br />- so you feel absolutely confident about every move.
+                    Celeste Abode exists to bring clarity and peace of mind to real estate decisions—so you feel confident at every stage, from evaluation to execution.
                   </strong>
                 </p>
               </div>
@@ -375,10 +356,13 @@ export default function PhilosophyPage() {
             <div className="space-y-16">
               {/* Heading */}
               <div className="text-center">
-                <h2 className="heading-bold text-primary mb-6">
+                <h2 className="heading-bold text-primary mb-3">
                   The Peace of a Decision Made{" "}
                   <span className="text-[#CBB27A]">Right</span>
                 </h2>
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                  When clarity replaces confusion in real estate decisions
+                </p>
               </div>
 
               {/* Image */}
@@ -391,12 +375,12 @@ export default function PhilosophyPage() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
                   quality={90}
                 />
-                <div className="absolute bottom-0 right-0 p-8 text-right">
-                  <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
-                    The Morning Light, The View, The Peace You Seek
+                <div className="absolute bottom-0 right-0 p-4 md:p-8 text-right max-w-xl ml-auto">
+                  <h3 className="text-sm sm:text-base md:text-xl lg:text-2xl font-bold text-white mb-1.5 md:mb-2">
+                    The morning light. The view. The quiet confidence of knowing you chose right.
                   </h3>
-                  <p className="text-base md:text-lg text-white/90">
-                    That is the true value we deliver - where data meets desire
+                  <p className="text-xs sm:text-sm md:text-base lg:text-lg text-white/90">
+                    That&apos;s the value we focus on—where careful evaluation meets personal aspiration.
                   </p>
                 </div>
               </div>
@@ -414,19 +398,16 @@ export default function PhilosophyPage() {
           <div className="bg-gradient-to-br from-primary/10 to-[#CBB27A]/20 rounded-xl shadow-lg w-full max-w-4xl mx-auto p-6">
             <div className="text-center max-w-2xl mx-auto">
               <h2 className="text-2xl font-semibold text-primary mb-3">
-                Ready to Chart Your{" "}
-                <span className="text-[#CBB27A]">Definitive Asset</span>?
+                Ready to Make a{" "}
+                <span className="text-[#CBB27A]">Confident Property Decision</span>?
               </h2>
               <p className="text-base text-foreground mb-4 leading-relaxed">
-                Whether you're an NRI buying remotely or a family upgrading
-                within NCR, we offer the same level of{" "}
-                <strong>compliance, clarity, and care</strong>. Virtual tours
-                and digital diligence make the process seamless.
+                Whether you&apos;re an NRI investing remotely or a family upgrading within Delhi NCR, our advisory team ensures the same standards of diligence, compliance, and clarity. From virtual walkthroughs to digital due diligence, we make informed property decisions seamless—without pressure or guesswork.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <div className="flex flex-col sm:flex-row gap-3 justify-center items-stretch">
                 <Button
                   size="lg"
-                  className="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 text-base rounded-full w-full sm:w-auto"
+                  className="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 text-base rounded-full w-full sm:w-auto m-0 shrink-0"
                   onClick={() => (window.location.href = "/advisory-session")}
                 >
                   Request Advisory Session
@@ -434,7 +415,7 @@ export default function PhilosophyPage() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-2.5 text-base rounded-full w-full sm:w-auto"
+                  className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-2.5 text-base rounded-full w-full sm:w-auto m-0 shrink-0"
                   onClick={() => (window.location.href = "tel:+919818735258")}
                 >
                   Talk to Our Expert Now

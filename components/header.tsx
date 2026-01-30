@@ -108,6 +108,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                 priority
                 fetchPriority="high"
                 loading="eager"
+                style={{ width: "auto", height: "auto" }}
               />
             </Link>
 
@@ -131,38 +132,10 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
           <div className="hidden md:block relative w-full h-24">
             {/* Centered nav (left links + logo + right links) - position doesn't depend on Contact button */}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center">
-              {/* Left Menu Group */}
+              {/* Left Menu Group: Home | Properties | Services */}
               <nav className="flex items-center space-x-8 mr-16">
                 <Link href="/" className="nav-link">
                   HOME
-                </Link>
-                <Link href="/philosophy" className="nav-link">
-                  PHILOSOPHY
-                </Link>
-                <Link href="/services" className="nav-link">
-                  SERVICES
-                </Link>
-              </nav>
-
-              {/* Center Logo */}
-              <Link href="/">
-                <Image
-                  src="/logoceleste.avif"
-                  alt="Celeste Abode Logo"
-                  width={95}
-                  height={95}
-                  sizes="95px"
-                  quality={60}
-                  priority
-                  fetchPriority="high"
-                  loading="eager"
-                />
-              </Link>
-
-              {/* Right Menu Group */}
-              <nav className="flex items-center space-x-8 ml-16">
-                <Link href="/vault" className="nav-link">
-                  VAULT
                 </Link>
                 
                 {/* Properties Dropdown */}
@@ -247,8 +220,37 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                   </AnimatePresence>
                 </div>
                 
+                <Link href="/services" className="nav-link">
+                  SERVICES
+                </Link>
+              </nav>
+
+              {/* Center Logo */}
+              <Link href="/">
+                <Image
+                  src="/logoceleste.avif"
+                  alt="Celeste Abode Logo"
+                  width={95}
+                  height={95}
+                  sizes="95px"
+                  quality={60}
+                  priority
+                  fetchPriority="high"
+                  loading="eager"
+                  style={{ width: "auto", height: "auto" }}
+                />
+              </Link>
+
+              {/* Right Menu Group: Vault | Blogs | Philosophy */}
+              <nav className="flex items-center space-x-8 ml-16">
+                <Link href="/vault" className="nav-link">
+                  VAULT
+                </Link>
                 <Link href="/blog" className="nav-link">
                   BLOGS
+                </Link>
+                <Link href="/philosophy" className="nav-link">
+                  PHILOSOPHY
                 </Link>
               </nav>
             </div>
@@ -302,6 +304,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                   sizes="40px"
                   quality={70}
                   className="rounded-lg"
+                  style={{ width: "auto", height: "auto" }}
                 />
                 <h2 className="text-lg font-semibold text-white font-poppins">
                   Celeste Abode
@@ -421,14 +424,6 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
               </div>
               
               <Link
-                href="/philosophy"
-                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
-                onClick={() => setIsMobileMenuOpen(false)}
-                aria-label="Navigate to Philosophy page"
-              >
-                PHILOSOPHY
-              </Link>
-              <Link
                 href="/services"
                 className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
@@ -453,12 +448,20 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                 BLOGS
               </Link>
               <Link
+                href="/philosophy"
+                className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
+                onClick={() => setIsMobileMenuOpen(false)}
+                aria-label="Navigate to Philosophy page"
+              >
+                PHILOSOPHY
+              </Link>
+              <Link
                 href="/contact"
                 className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Contact page"
               >
-                CONTACT
+                CONTACT US
               </Link>
             </nav>
 

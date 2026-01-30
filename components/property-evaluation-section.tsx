@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Section } from "@/components/ui/section";
 import { Card, CardContent } from "@/components/ui/card";
@@ -9,6 +10,8 @@ import { ChevronDown, X, Shield, TrendingUp, MapPin, Target } from "lucide-react
 export function PropertyEvaluationSection() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const scrollPositionRef = useRef(0);
+  const mobileLockAppliedRef = useRef(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -19,17 +22,57 @@ export function PropertyEvaluationSection() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Prevent body scroll when sidebar is open
+  // Lock background scroll when modal/panel is open (mobile: position fixed + save scroll; desktop: overflow hidden)
   useEffect(() => {
-    if (isExpanded && !isMobile) {
-      document.body.style.overflow = 'hidden';
+    const html = document.documentElement;
+    const body = document.body;
+    if (isExpanded) {
+      if (isMobile) {
+        scrollPositionRef.current = window.scrollY;
+        body.style.position = "fixed";
+        body.style.top = `-${scrollPositionRef.current}px`;
+        body.style.left = "0";
+        body.style.right = "0";
+        body.style.overflow = "hidden";
+        body.style.touchAction = "none";
+        html.style.overflow = "hidden";
+        mobileLockAppliedRef.current = true;
+      } else {
+        html.style.overflow = "hidden";
+        body.style.overflow = "hidden";
+      }
     } else {
-      document.body.style.overflow = 'unset';
+      if (isMobile && mobileLockAppliedRef.current) {
+        mobileLockAppliedRef.current = false;
+        html.style.overflow = "";
+        body.style.position = "";
+        body.style.top = "";
+        body.style.left = "";
+        body.style.right = "";
+        body.style.overflow = "";
+        body.style.touchAction = "";
+        requestAnimationFrame(() => {
+          window.scrollTo(0, scrollPositionRef.current);
+        });
+      } else {
+        html.style.overflow = "";
+        body.style.overflow = "";
+      }
     }
-
-    // Cleanup on unmount
     return () => {
-      document.body.style.overflow = 'unset';
+      if (mobileLockAppliedRef.current) {
+        mobileLockAppliedRef.current = false;
+        requestAnimationFrame(() => {
+          window.scrollTo(0, scrollPositionRef.current);
+        });
+      }
+      html.style.overflow = "";
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.right = "";
+      body.style.overflow = "";
+      body.style.touchAction = "";
     };
   }, [isExpanded, isMobile]);
 
@@ -94,9 +137,64 @@ export function PropertyEvaluationSection() {
     </div>
   );
 
+  // Mobile modal: render via Portal into document.body so it's never clipped and sits above header
+  const mobileModalPortal =
+    typeof document !== "undefined" &&
+    isMobile &&
+    createPortal(
+      <AnimatePresence>
+        {isExpanded && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[9999] touch-none"
+              onClick={() => setIsExpanded(false)}
+              aria-hidden="true"
+              style={{ position: "fixed" }}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="fixed inset-x-4 top-1/2 -translate-y-1/2 max-h-[80vh] bg-white rounded-2xl shadow-2xl z-[10000] overflow-y-auto font-poppins overscroll-contain"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="evaluation-modal-title"
+              style={{ position: "fixed" }}
+            >
+              <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
+                <h3 id="evaluation-modal-title" className="text-lg font-semibold text-[#2B3035] font-poppins">
+                  How This Evaluation Works
+                </h3>
+                <button
+                  onClick={() => setIsExpanded(false)}
+                  className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-[#4A4F55] hover:text-[#2B3035]"
+                  aria-label="Close modal"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <div className="px-6 py-6 max-h-[60vh] overflow-y-auto">
+                <div className="text-sm leading-relaxed font-poppins">
+                  {panelContent}
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>,
+      document.body
+    );
+
   return (
-    <Section className="pt-20 md:pt-28 pb-16 md:pb-24 bg-background relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+    <>
+      {mobileModalPortal}
+      <Section className="pt-20 md:pt-28 pb-16 md:pb-24 bg-background relative">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
         {/* Header */}
         <div className="mb-12 md:mb-16">
           <motion.div
@@ -214,53 +312,6 @@ export function PropertyEvaluationSection() {
             )}
           </AnimatePresence>
 
-          {/* Mobile: Popup Modal */}
-          <AnimatePresence>
-            {isExpanded && isMobile && (
-              <>
-                {/* Backdrop */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
-                  onClick={() => setIsExpanded(false)}
-                />
-
-                {/* Modal */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                  className="fixed inset-x-4 top-1/2 -translate-y-1/2 transform max-h-[80vh] bg-white rounded-2xl shadow-2xl z-50 overflow-y-auto font-poppins"
-                >
-                  {/* Modal Header */}
-                  <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between rounded-t-2xl">
-                    <h3 className="text-lg font-semibold text-[#2B3035] font-poppins">
-                      How This Evaluation Works
-                    </h3>
-                    <button
-                      onClick={() => setIsExpanded(false)}
-                      className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors text-[#4A4F55] hover:text-[#2B3035]"
-                      aria-label="Close modal"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                  </div>
-
-                  {/* Modal Content */}
-                  <div className="px-6 py-6 max-h-[60vh] overflow-y-auto">
-                    <div className="text-sm leading-relaxed font-poppins">
-                      {panelContent}
-                    </div>
-                  </div>
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
-
           {/* Mobile: Trigger Button */}
           {isMobile && !isExpanded && (
             <div className="mt-6 md:mt-8 max-w-4xl mx-auto px-4">
@@ -278,21 +329,21 @@ export function PropertyEvaluationSection() {
                   <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#CBB27A]/20 via-[#CBB27A]/40 to-[#CBB27A]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
 
                   {/* Main button content */}
-                  <div className="relative bg-white rounded-[14px] p-6 flex items-center justify-between gap-4 transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-[#CBB27A]/5 group-hover:to-[#CBB27A]/10">
+                  <div className="relative bg-white rounded-[14px] py-3 px-4 flex items-center justify-between gap-3 transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-[#CBB27A]/5 group-hover:to-[#CBB27A]/10">
                     {/* Content */}
-                    <div className="flex-1 text-left">
-                      <span className="block text-base md:text-lg font-semibold text-[#2B3035] group-hover:text-[#CBB27A] transition-colors duration-300 mb-1">
+                    <div className="flex-1 text-left min-w-0">
+                      <span className="block text-sm md:text-base font-semibold text-[#2B3035] group-hover:text-[#CBB27A] transition-colors duration-300 mb-0.5">
                         See how this evaluation works in practice
                       </span>
-                      <span className="text-xs md:text-sm text-[#4A4F55] group-hover:text-[#2B3035] transition-colors duration-300 font-medium">
+                      <span className="text-xs text-[#4A4F55] group-hover:text-[#2B3035] transition-colors duration-300 font-medium">
                         Discover the structured approach
                       </span>
                     </div>
 
-                    {/* Icon with enhanced styling */}
+                    {/* Icon */}
                     <div className="flex-shrink-0 relative">
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#CBB27A]/10 to-[#CBB27A]/20 flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-sm group-hover:shadow-md">
-                        <ChevronDown className="w-5 h-5 md:w-6 md:h-6 text-[#CBB27A] group-hover:text-[#B8A068] transition-colors duration-300 rotate-90 group-hover:translate-x-1" />
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#CBB27A]/10 to-[#CBB27A]/20 flex items-center justify-center group-hover:scale-110 transition-all duration-300 shadow-sm group-hover:shadow-md">
+                        <ChevronDown className="w-4 h-4 md:w-5 md:h-5 text-[#CBB27A] group-hover:text-[#B8A068] transition-colors duration-300 rotate-90 group-hover:translate-x-1" />
                       </div>
                       {/* Subtle glow effect */}
                       <div className="absolute inset-0 rounded-full bg-[#CBB27A]/20 opacity-0 group-hover:opacity-100 blur-md transition-opacity duration-500 -z-10" />
@@ -312,9 +363,9 @@ export function PropertyEvaluationSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6 }}
                 onClick={() => setIsExpanded(true)}
-                className="w-full text-left flex items-center justify-between gap-4 py-5 px-6 border-2 border-gray-200 hover:border-[#CBB27A]/60 bg-gradient-to-r from-white to-gray-50/50 hover:from-[#CBB27A]/5 hover:to-[#CBB27A]/10 rounded-xl transition-all duration-300 group shadow-sm hover:shadow-md"
+                className="w-full text-left flex items-center justify-between gap-3 py-3 px-5 border-2 border-gray-200 hover:border-[#CBB27A]/60 bg-gradient-to-r from-white to-gray-50/50 hover:from-[#CBB27A]/5 hover:to-[#CBB27A]/10 rounded-xl transition-all duration-300 group shadow-sm hover:shadow-md"
               >
-                <span className="text-base md:text-lg font-medium text-[#2B3035] group-hover:text-[#CBB27A] transition-colors">
+                <span className="text-sm md:text-base font-medium text-[#2B3035] group-hover:text-[#CBB27A] transition-colors">
                   See how this evaluation works in practice
                 </span>
                 <div className="flex items-center gap-2">
@@ -329,6 +380,7 @@ export function PropertyEvaluationSection() {
         </div>
       </div>
     </Section>
+    </>
   );
 }
 

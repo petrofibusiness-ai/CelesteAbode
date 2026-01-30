@@ -73,8 +73,8 @@ export default function BlogLayout({
   children: React.ReactNode;
 }) {
   const breadcrumbItems = [
-    { name: "Home", item: "https://celesteabode.com/" },
-    { name: "Blog", item: "https://celesteabode.com/blog" },
+    { name: "Home", url: "https://celesteabode.com/" },
+    { name: "Blog", url: "https://celesteabode.com/blog" },
   ];
 
   return (

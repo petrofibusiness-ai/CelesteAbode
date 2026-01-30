@@ -25,6 +25,7 @@ export function Footer() {
                 quality={60}
                 className=""
                 loading="lazy"
+                style={{ width: "auto", height: "auto" }}
               />
             </div>
           </div>

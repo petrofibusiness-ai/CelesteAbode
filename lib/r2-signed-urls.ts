@@ -93,7 +93,8 @@ export async function generateSignedUploadUrl(
 
   // Generate presigned URL (valid for 1 hour)
   const expiresIn = 3600; // 1 hour
-  const uploadUrl = await getSignedUrl(r2Client, command, { expiresIn });
+  // Type assertion to handle AWS SDK version type mismatch
+  const uploadUrl = await getSignedUrl(r2Client, command, { expiresIn } as any);
 
   // Construct public URL
   const baseUrl = R2_PUBLIC_URL.trim().replace(/\/$/, "");

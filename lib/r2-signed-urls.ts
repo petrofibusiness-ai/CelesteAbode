@@ -93,8 +93,10 @@ export async function generateSignedUploadUrl(
 
   // Generate presigned URL (valid for 1 hour)
   const expiresIn = 3600; // 1 hour
-  // Type assertion to handle AWS SDK version type mismatch
-  const uploadUrl = await getSignedUrl(r2Client, command, { expiresIn } as any);
+  // Workaround for AWS SDK type mismatch between client-s3 and s3-request-presigner
+  // This is a known issue with AWS SDK v3 type definitions
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const uploadUrl: string = await (getSignedUrl as any)(r2Client, command, { expiresIn });
 
   // Construct public URL
   const baseUrl = R2_PUBLIC_URL.trim().replace(/\/$/, "");

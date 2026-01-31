@@ -3,7 +3,8 @@ import type { Metadata } from "next";
 // Export title and description as constants for reuse in components
 export const homepageTitle = "Trusted Real Estate Consultant for Properties in Delhi NCR";
 export const homepageH1 = "Trusted Real Estate Consultant for Properties in Delhi NCR";
-export const homepageDescription = "Guiding confident property decisions across Noida, Greater Noida, and Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.";
+export const homepageDescription = "Independent real estate consulting in Delhi NCR for buyers and investors seeking RERA-safe, data-led property decisions across Noida and Yamuna Expressway.";
+export const homepageHeroSubtext = "Independent real estate advisory services focused on clarity, compliance, and long-term value.";
 
 export const homepageMetadata: Metadata = {
   title: homepageTitle,

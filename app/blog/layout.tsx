@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { BreadcrumbSchema, BlogPageSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Real Estate Blog & Market Insights | Celeste Abode - Delhi NCR Property Intelligence",
+  title: "Real Estate Insights & Market Analysis | Delhi NCR",
   description:
-    "Expert real estate blog covering Delhi NCR property market analysis, investment strategies, legal guidance, NRI advisory, and location intelligence for Noida, Greater Noida, and Yamuna Expressway.",
+    "Expert insights on real estate markets, regulations, and investment trends across Delhi NCR—designed to support informed property decisions.",
   keywords: [
     "real estate blog",
     "Delhi NCR property insights",
@@ -26,9 +26,9 @@ export const metadata: Metadata = {
   creator: "Celeste Abode",
   publisher: "Celeste Abode",
   openGraph: {
-    title: "Real Estate Blog & Market Insights | Celeste Abode",
+    title: "Real Estate Insights & Market Analysis | Delhi NCR",
     description:
-      "Expert analysis, market intelligence, and strategic guidance for property investment in Delhi NCR - Noida, Greater Noida, and Yamuna Expressway.",
+      "Expert insights on real estate markets, regulations, and investment trends across Delhi NCR—designed to support informed property decisions.",
     url: "https://celesteabode.com/blog",
     siteName: "Celeste Abode",
     locale: "en_IN",
@@ -44,9 +44,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Real Estate Blog & Market Insights | Celeste Abode",
+    title: "Real Estate Insights & Market Analysis | Delhi NCR",
     description:
-      "Expert property market analysis and investment guidance for Delhi NCR real estate.",
+      "Expert insights on real estate markets, regulations, and investment trends across Delhi NCR—designed to support informed property decisions.",
     images: ["/propertyhero.avif"],
     creator: "@celesteabode",
   },
@@ -82,7 +82,7 @@ export default function BlogLayout({
       <BreadcrumbSchema items={breadcrumbItems} />
       <BlogPageSchema
         name="Celeste Abode Real Estate Blog"
-        description="Expert real estate insights, market analysis, and advisory guidance for property investment in Delhi NCR"
+        description="Expert insights on real estate markets, regulations, and investment trends across Delhi NCR—designed to support informed property decisions."
         url="https://celesteabode.com/blog"
         publisher={{
           name: "Celeste Abode",

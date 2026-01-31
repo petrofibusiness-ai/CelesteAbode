@@ -2,6 +2,7 @@ import { Section } from "@/components/ui/section";
 import { Card, CardContent } from "@/components/ui/card";
 import { Header } from "@/components/header";
 import { OpenConsultationTrigger } from "@/components/open-consultation-trigger";
+import { ScheduleConsultationCardWrapper } from "@/components/schedule-consultation-card-wrapper";
 import { Footer } from "@/components/footer";
 import { PillButton } from "@/components/ui/pill-button";
 import { ServicesHeroSection } from "@/components/services-hero-section";
@@ -21,9 +22,9 @@ import type { Metadata } from "next";
 import { BreadcrumbSchema } from "@/lib/structured-data";
 
 export const metadata: Metadata = {
-  title: "Real Estate Investment Advisory Services | Property Portfolio Advisory | Celeste Abode",
+  title: "Real Estate Consulting & Advisory Services in Delhi NCR",
   description:
-    "Celeste Abode offers comprehensive real estate investment advisory services, property portfolio advisory, real estate transaction consulting, end-to-end property advisory, and personalized real estate advisory across Delhi NCR.",
+    "Professional real estate consulting and advisory services in Delhi NCR, supporting confident property and investment decisions through data-driven strategy.",
   keywords: [
     // Core Service Keywords
     "real estate consultant",
@@ -47,10 +48,10 @@ export const metadata: Metadata = {
     "property portfolio advisory services",
   ],
   openGraph: {
-    title: "Real Estate Investment Advisory Services | Property Portfolio Advisory | Celeste Abode",
+    title: "Real Estate Consulting & Advisory Services in Delhi NCR",
     description:
-      "Celeste Abode offers comprehensive real estate investment advisory services, property portfolio advisory, real estate transaction consulting, and end-to-end property advisory across Delhi NCR.",
-    url: "https://www.celesteabode.com/services",
+      "Professional real estate consulting and advisory services in Delhi NCR, supporting confident property and investment decisions through data-driven strategy.",
+    url: "https://www.celesteabode.com/real-estate-consulting-services",
     siteName: "Celeste Abode",
     images: [
       {
@@ -65,13 +66,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Real Estate Investment Advisory Services | Property Portfolio Advisory",
+    title: "Real Estate Consulting & Advisory Services in Delhi NCR",
     description:
-      "Comprehensive real estate investment advisory services, property portfolio advisory, and real estate transaction consulting across Delhi NCR.",
+      "Professional real estate consulting and advisory services in Delhi NCR, supporting confident property and investment decisions through data-driven strategy.",
     images: ["/premium-apartment-interior-living-room.avif"],
   },
   alternates: {
-    canonical: "https://www.celesteabode.com/services",
+    canonical: "https://www.celesteabode.com/real-estate-consulting-services",
   },
 };
 
@@ -175,7 +176,7 @@ export default function ServicesPage() {
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://www.celesteabode.com" },
-          { name: "Services", url: "https://www.celesteabode.com/services" },
+          { name: "Services", url: "https://www.celesteabode.com/real-estate-consulting-services" },
         ]}
       />
     <div className="min-h-screen bg-background">
@@ -215,25 +216,26 @@ export default function ServicesPage() {
 
             {/* Row 1: Equalized Cards */}
             <div className="grid lg:grid-cols-2 gap-8 mb-16">
+              <ScheduleConsultationCardWrapper>
               <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:shadow-[#CBB27A]/20 h-full">
-                <CardContent className="p-8 relative flex flex-col h-full">
-                  <div className="absolute bottom-32 right-2 max-sm:bottom-50 max-sm:right-4 text-8xl font-black text-[#CBB27A]/20">
+                <CardContent className="p-6 md:p-8 relative flex flex-col h-full min-h-0">
+                  <div className="absolute top-4 right-4 text-6xl md:text-7xl lg:text-8xl font-black text-[#CBB27A]/20 select-none">
                     01
                   </div>
-                  <div className="flex flex-col h-full">
-                    <h2 className="text-2xl font-bold text-foreground mb-4 h-16 flex items-center">
+                  <div className="flex flex-col gap-4 pr-12 md:pr-20 min-w-0">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground mb-0 leading-tight">
                       Personalized ROI-Driven Real Estate Consulting Strategy
                     </h2>
-                    <p className="text-muted-foreground mb-12 md:mb-12 leading-relaxed h-20">
+                    <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-2 md:mb-4">
                       Custom real estate investment strategies aligned with your financial goals,
                       risk appetite, and timelines, supported by data-driven market analysis
-                      and yield projections. <Link href="/vault" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Explore real estate market insights in our Vault</Link>.
+                      and yield projections. <Link href="/real-estate-insights" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Explore real estate market insights in our Vault</Link>.
                     </p>
-                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg mt-4 md:mt-0">
-                      <h4 className="font-semibold text-foreground mb-2">
+                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg mt-2">
+                      <h4 className="font-semibold text-foreground mb-2 text-sm md:text-base">
                         Key Deliverables:
                       </h4>
-                      <ul className="space-y-1 text-sm text-muted-foreground">
+                      <ul className="space-y-1.5 text-sm text-muted-foreground">
                         <li>• Investment timeline & budget optimization</li>
                         <li>• Market analysis & yield projections</li>
                         <li>• Risk assessment & mitigation strategies</li>
@@ -242,25 +244,27 @@ export default function ServicesPage() {
                   </div>
                 </CardContent>
               </Card>
+              </ScheduleConsultationCardWrapper>
+              <ScheduleConsultationCardWrapper>
               <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:shadow-[#CBB27A]/20 h-full">
-                <CardContent className="p-8 relative flex flex-col h-full">
-                  <div className="absolute bottom-32 right-4 text-8xl font-black text-[#CBB27A]/20">
+                <CardContent className="p-6 md:p-8 relative flex flex-col h-full min-h-0">
+                  <div className="absolute top-4 right-4 text-6xl md:text-7xl lg:text-8xl font-black text-[#CBB27A]/20 select-none">
                     02
                   </div>
-                  <div className="flex flex-col h-full">
-                    <h2 className="text-2xl font-bold text-foreground mb-4 h-16 flex items-center">
+                  <div className="flex flex-col gap-4 pr-12 md:pr-20 min-w-0">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground mb-0 leading-tight">
                       End-to-End Real Estate Transaction Consulting Services
                     </h2>
-                    <p className="text-muted-foreground mb-12 leading-relaxed h-20">
+                    <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-2 md:mb-4">
                       Comprehensive real estate transaction consulting support from initial due diligence to
                       possession, ensuring legal and financial processes are
-                      managed with precision. <Link href="/vault" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Learn about real estate legal processes</Link>.
+                      managed with precision. <Link href="/real-estate-insights" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Learn about real estate legal processes</Link>.
                     </p>
-                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
-                      <h4 className="font-semibold text-foreground mb-2">
+                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg mt-2">
+                      <h4 className="font-semibold text-foreground mb-2 text-sm md:text-base">
                         Key Deliverables:
                       </h4>
-                      <ul className="space-y-1 text-sm text-muted-foreground">
+                      <ul className="space-y-1.5 text-sm text-muted-foreground">
                         <li>• Legal documentation review</li>
                         <li>• Financial structuring & negotiations</li>
                         <li>• Possession & handover coordination</li>
@@ -269,27 +273,29 @@ export default function ServicesPage() {
                   </div>
                 </CardContent>
               </Card>
+              </ScheduleConsultationCardWrapper>
             </div>
 
             {/* Row 2: Equalized Cards */}
             <div className="grid lg:grid-cols-2 gap-8 mb-16">
+              <ScheduleConsultationCardWrapper>
               <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:shadow-[#CBB27A]/20 h-full">
-                <CardContent className="p-8 relative flex flex-col h-full">
-                  <div className="absolute bottom-32 right-4 max-sm:bottom-36 max-sm:right-4 text-8xl font-black text-[#CBB27A]/20">
+                <CardContent className="p-6 md:p-8 relative flex flex-col h-full min-h-0">
+                  <div className="absolute top-4 right-4 text-6xl md:text-7xl lg:text-8xl font-black text-[#CBB27A]/20 select-none">
                     03
                   </div>
-                  <div className="flex flex-col h-full">
-                    <h2 className="text-2xl font-bold text-foreground mb-4 h-16 flex items-center">
+                  <div className="flex flex-col gap-4 pr-12 md:pr-20 min-w-0">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground mb-0 leading-tight">
                       NRI Real Estate Services
                     </h2>
-                    <p className="text-muted-foreground mb-12 md:mb-6 leading-relaxed h-20">
-                      Real estate consulting services for NRIs, offering end-to-end advisory and transaction support with full compliance, transparency, and seamless remote coordination. <Link href="/philosophy" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Learn more about our advisory philosophy</Link>.
+                    <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-2 md:mb-4">
+                      Real estate consulting services for NRIs, offering end-to-end advisory and transaction support with full compliance, transparency, and seamless remote coordination. <Link href="/advisory-philosophy" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Learn more about our advisory philosophy</Link>.
                     </p>
-                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
-                      <h4 className="font-semibold text-foreground mb-2">
+                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg mt-2">
+                      <h4 className="font-semibold text-foreground mb-2 text-sm md:text-base">
                         Key Deliverables:
                       </h4>
-                      <ul className="space-y-1 text-sm text-muted-foreground">
+                      <ul className="space-y-1.5 text-sm text-muted-foreground">
                         <li>• FEMA compliance & documentation</li>
                         <li>• Remote property management</li>
                         <li>• Digital diligence & virtual tours</li>
@@ -298,23 +304,25 @@ export default function ServicesPage() {
                   </div>
                 </CardContent>
               </Card>
+              </ScheduleConsultationCardWrapper>
+              <ScheduleConsultationCardWrapper>
               <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:shadow-[#CBB27A]/20 h-full">
-                <CardContent className="p-8 relative flex flex-col h-full">
-                  <div className="absolute bottom-32 right-4 text-8xl font-black text-[#CBB27A]/20">
+                <CardContent className="p-6 md:p-8 relative flex flex-col h-full min-h-0">
+                  <div className="absolute top-4 right-4 text-6xl md:text-7xl lg:text-8xl font-black text-[#CBB27A]/20 select-none">
                     04
                   </div>
-                  <div className="flex flex-col h-full">
-                    <h2 className="text-2xl font-bold text-foreground mb-4 h-16 flex items-center">
+                  <div className="flex flex-col gap-4 pr-12 md:pr-20 min-w-0">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground mb-0 leading-tight">
                       Real Estate Investment Advisory Services
                     </h2>
-                    <p className="text-muted-foreground mb-12 md:mb-6 leading-relaxed h-20">
+                    <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-2 md:mb-4">
                       Strategic real estate investment advisory services focused on identifying high-potential opportunities based on yield, appreciation, and long-term risk assessment.
                     </p>
-                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
-                      <h4 className="font-semibold text-foreground mb-2">
+                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg mt-2">
+                      <h4 className="font-semibold text-foreground mb-2 text-sm md:text-base">
                         Key Deliverables:
                       </h4>
-                      <ul className="space-y-1 text-sm text-muted-foreground">
+                      <ul className="space-y-1.5 text-sm text-muted-foreground">
                         <li>• Market timing analysis</li>
                         <li>• Exit strategy planning</li>
                         <li>• Portfolio optimization</li>
@@ -323,6 +331,7 @@ export default function ServicesPage() {
                   </div>
                 </CardContent>
               </Card>
+              </ScheduleConsultationCardWrapper>
             </div>
 
             {/* Integrated Visual Banner */}
@@ -366,23 +375,24 @@ export default function ServicesPage() {
 
             {/* Row 3: Equalized Cards */}
             <div className="grid lg:grid-cols-2 gap-8 mb-16">
+              <ScheduleConsultationCardWrapper>
               <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:shadow-[#CBB27A]/20 h-full">
-                <CardContent className="p-8 relative flex flex-col h-full">
-                  <div className="absolute bottom-32 right-4 max-sm:bottom-37 max-sm:right-4 text-8xl font-black text-[#CBB27A]/20">
+                <CardContent className="p-6 md:p-8 relative flex flex-col h-full min-h-0">
+                  <div className="absolute top-4 right-4 text-6xl md:text-7xl lg:text-8xl font-black text-[#CBB27A]/20 select-none">
                     05
                   </div>
-                  <div className="flex flex-col h-full">
-                    <h2 className="text-2xl font-bold text-foreground mb-4 h-16 flex items-center">
+                  <div className="flex flex-col gap-4 pr-12 md:pr-20 min-w-0">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground mb-0 leading-tight">
                       Luxury & Signature Residences
                     </h2>
-                    <p className="text-muted-foreground mb-12 md:mb-6 leading-relaxed h-20">
+                    <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-2 md:mb-4">
                       Exclusive luxury residences selected through expert real estate advisory, tailored to your lifestyle preferences, design sensibilities, and long-term legacy goals, including select off-market opportunities.
                     </p>
-                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
-                      <h4 className="font-semibold text-foreground mb-2">
+                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg mt-2">
+                      <h4 className="font-semibold text-foreground mb-2 text-sm md:text-base">
                         Key Deliverables:
                       </h4>
-                      <ul className="space-y-1 text-sm text-muted-foreground">
+                      <ul className="space-y-1.5 text-sm text-muted-foreground">
                         <li>• Exclusive property access</li>
                         <li>• Lifestyle & design consultation</li>
                         <li>• Private preview experiences</li>
@@ -391,23 +401,25 @@ export default function ServicesPage() {
                   </div>
                 </CardContent>
               </Card>
+              </ScheduleConsultationCardWrapper>
+              <ScheduleConsultationCardWrapper>
               <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:shadow-[#CBB27A]/20 h-full">
-                <CardContent className="p-8 relative flex flex-col h-full">
-                  <div className="absolute bottom-32 right-4 text-8xl font-black text-[#CBB27A]/20">
+                <CardContent className="p-6 md:p-8 relative flex flex-col h-full min-h-0">
+                  <div className="absolute top-4 right-4 text-6xl md:text-7xl lg:text-8xl font-black text-[#CBB27A]/20 select-none">
                     06
                   </div>
-                  <div className="flex flex-col h-full">
-                    <h2 className="text-2xl font-bold text-foreground mb-4 h-16 flex items-center">
+                  <div className="flex flex-col gap-4 pr-12 md:pr-20 min-w-0">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground mb-0 leading-tight">
                       Virtual Tours & Digital Consultations
                     </h2>
-                    <p className="text-muted-foreground mb-12 md:mb-6 leading-relaxed h-20">
+                    <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-2 md:mb-4">
                       Virtual tours and digital consultations support our real estate consulting process by enabling remote property evaluation and informed decision-making. <Link href="/properties" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Explore virtual tours</Link>.
                     </p>
-                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
-                      <h4 className="font-semibold text-foreground mb-2">
+                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg mt-2">
+                      <h4 className="font-semibold text-foreground mb-2 text-sm md:text-base">
                         Key Deliverables:
                       </h4>
-                      <ul className="space-y-1 text-sm text-muted-foreground">
+                      <ul className="space-y-1.5 text-sm text-muted-foreground">
                         <li>• 360° virtual property tours</li>
                         <li>• Digital documentation review</li>
                         <li>• Remote consultation sessions</li>
@@ -416,29 +428,31 @@ export default function ServicesPage() {
                   </div>
                 </CardContent>
               </Card>
+              </ScheduleConsultationCardWrapper>
             </div>
 
             {/* Row 4: Equalized Cards */}
             <div className="grid lg:grid-cols-2 gap-8">
+              <ScheduleConsultationCardWrapper>
               <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:shadow-[#CBB27A]/20 h-full">
-                <CardContent className="p-8 relative flex flex-col h-full">
-                  <div className="absolute bottom-32 right-4 max-sm:bottom-37 max-sm:right-4 text-8xl font-black text-[#CBB27A]/20">
+                <CardContent className="p-6 md:p-8 relative flex flex-col h-full min-h-0">
+                  <div className="absolute top-4 right-4 text-6xl md:text-7xl lg:text-8xl font-black text-[#CBB27A]/20 select-none">
                     07
                   </div>
-                  <div className="flex flex-col h-full">
-                    <h2 className="text-2xl font-bold text-foreground mb-4 h-16 flex items-center">
+                  <div className="flex flex-col gap-4 pr-12 md:pr-20 min-w-0">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground mb-0 leading-tight">
                       Location Intelligence & Real Estate Market Reports
                     </h2>
-                    <p className="text-muted-foreground mb-12 md:mb-12 leading-relaxed h-20">
+                    <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-2 md:mb-4">
                       In-depth real estate location analysis with infrastructure timelines,
                       connectivity, and growth projections to align investments
-                      with long-term value. <Link href="/vault" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Access location insights</Link>.
+                      with long-term value. <Link href="/real-estate-insights" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors">Access location insights</Link>.
                     </p>
-                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
-                      <h4 className="font-semibold text-foreground mb-2">
+                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg mt-2">
+                      <h4 className="font-semibold text-foreground mb-2 text-sm md:text-base">
                         Key Deliverables:
                       </h4>
-                      <ul className="space-y-1 text-sm text-muted-foreground">
+                      <ul className="space-y-1.5 text-sm text-muted-foreground">
                         <li>• Infrastructure development analysis</li>
                         <li>• Future growth projections</li>
                         <li>• Comparative location analysis</li>
@@ -447,24 +461,26 @@ export default function ServicesPage() {
                   </div>
                 </CardContent>
               </Card>
+              </ScheduleConsultationCardWrapper>
+              <ScheduleConsultationCardWrapper>
               <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:shadow-[#CBB27A]/20 h-full">
-                <CardContent className="p-8 relative flex flex-col h-full">
-                  <div className="absolute bottom-32 right-4 text-8xl font-black text-[#CBB27A]/20">
+                <CardContent className="p-6 md:p-8 relative flex flex-col h-full min-h-0">
+                  <div className="absolute top-4 right-4 text-6xl md:text-7xl lg:text-8xl font-black text-[#CBB27A]/20 select-none">
                     08
                   </div>
-                  <div className="flex flex-col h-full">
-                    <h2 className="text-2xl font-bold text-foreground mb-4 h-16 flex items-center">
+                  <div className="flex flex-col gap-4 pr-12 md:pr-20 min-w-0">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground mb-0 leading-tight">
                       Post-Purchase & Portfolio Support
                     </h2>
-                    <p className="text-muted-foreground mb-12 md:mb-12 leading-relaxed h-20">
+                    <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-2 md:mb-4">
                       Ongoing real estate support for property management, portfolio
                       optimization, and strategic decisions to maximize long-term investment value.
                     </p>
-                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg">
-                      <h4 className="font-semibold text-foreground mb-2">
+                    <div className="bg-[#CBB27A]/10 p-4 rounded-lg mt-2">
+                      <h4 className="font-semibold text-foreground mb-2 text-sm md:text-base">
                         Key Deliverables:
                       </h4>
-                      <ul className="space-y-1 text-sm text-muted-foreground">
+                      <ul className="space-y-1.5 text-sm text-muted-foreground">
                         <li>• Property management coordination</li>
                         <li>• Portfolio performance tracking</li>
                         <li>• Strategic decision support</li>
@@ -473,6 +489,7 @@ export default function ServicesPage() {
                   </div>
                 </CardContent>
               </Card>
+              </ScheduleConsultationCardWrapper>
             </div>
           </div>
         </Section>
@@ -481,9 +498,8 @@ export default function ServicesPage() {
         <div className="fixed right-0 top-1/2 transform -translate-y-1/2 z-50 hidden lg:block">
           <div className="bg-[#CBB27A] text-white p-4 rounded-lg shadow-2xl max-w-[110px]">
             <div className="flex flex-col items-center space-y-4">
-              <a
-                href="tel:+919818735258"
-                className="flex flex-col items-center text-[#000000] hover:text-gray-700 hover:scale-105 transition-all duration-200 cursor-pointer p-2 rounded-lg hover:bg-white/10"
+              <OpenConsultationTrigger
+                className="flex flex-col items-center text-[#000000] hover:text-gray-700 hover:scale-105 transition-all duration-200 cursor-pointer p-2 rounded-lg hover:bg-white/10 border-0 bg-transparent w-full"
               >
                 <svg
                   className="w-6 h-6 mb-1"
@@ -495,7 +511,7 @@ export default function ServicesPage() {
                 <span className="text-xs font-semibold text-center">
                   Schedule a Consultation
                 </span>
-              </a>
+              </OpenConsultationTrigger>
               <div className="w-16 h-px bg-gray-700 rounded-full"></div>
               <a
                 href="https://wa.me/919818735258"

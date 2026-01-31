@@ -17,7 +17,7 @@ const services: ServiceCard[] = [
     title: "Bespoke Lifestyle Curation",
     description: "We use AI-powered intelligence and profiling to match your lifestyle, commute, and goals with verified luxury projects.",
     icon: Target,
-    link: "/philosophy",
+    link: "/advisory-philosophy",
   },
   {
     title: "Data-Driven ROI Strategy",
@@ -127,7 +127,7 @@ export function CelesteConsultingFramework() {
             From location strategy to legacy planning, explore the full scope of our advisory.
           </p>
           <Link
-            href="/services"
+            href="/real-estate-consulting-services"
             className="inline-flex items-center gap-2 px-6 py-3 text-base font-medium rounded-full bg-black text-white md:border-2 md:border-black md:bg-transparent md:text-[#000000] active:bg-black active:text-white md:hover:bg-black md:hover:text-white transition-all duration-300 active:scale-105 md:hover:scale-105 active:shadow-lg md:hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
             aria-label="Explore all services"
           >

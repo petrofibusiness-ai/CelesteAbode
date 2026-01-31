@@ -122,7 +122,7 @@ export function CoreServices() {
           transition={{ duration: 0.6, delay: 0.6 }}
         >
           <Link
-            href="/services"
+            href="/real-estate-consulting-services"
             className="inline-flex items-center gap-2 px-6 py-3 text-base font-medium rounded-full border-2 border-black bg-transparent text-[#000000] hover:bg-black hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
             aria-label="Explore all services"
           >

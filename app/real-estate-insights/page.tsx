@@ -464,64 +464,60 @@ export default function VaultPage() {
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://www.celesteabode.com" },
-          { name: "Vault", url: "https://www.celesteabode.com/vault" },
+          { name: "Vault", url: "https://www.celesteabode.com/real-estate-insights" },
         ]}
       />
       <FAQPageSchema faqs={allFAQs} />
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-0">
-        {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center bg-background pt-24">
-          <div className="max-w-7xl mx-auto px-6 w-full">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="bg-white rounded-3xl shadow-2xl overflow-hidden relative"
-            >
-              {/* Hero Image Background - responsive height so image isn't oversized on mobile */}
-              <div className="relative h-[50vh] min-h-[320px] sm:min-h-[380px] md:h-[500px] lg:h-[580px] xl:h-[620px]">
-                <Image
-                  src="/vaulthero.avif"
-                  alt="Vault Hero"
-                  fill
-                  priority
-                  loading="eager"
-                  className="object-cover object-center"
-                  sizes="100vw"
-                  quality={80}
-                />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent"></div>
+        {/* Hero Section – mobile: full-height, header overlaps, centered text. Desktop: card, bottom-left text. */}
+        <section className="relative bg-background pt-0 md:pt-24 md:min-h-screen md:flex md:items-center md:justify-center">
+          <div className="w-full md:max-w-7xl md:mx-auto md:px-6 md:w-full">
+            <div className="relative overflow-hidden w-full min-h-screen md:min-h-0 md:h-[500px] lg:h-[580px] xl:h-[620px] md:rounded-3xl md:shadow-2xl md:bg-white">
+              <Image
+                src="/vaulthero.avif"
+                alt="Vault Hero"
+                fill
+                priority
+                loading="eager"
+                className="object-cover object-center"
+                sizes="100vw"
+                quality={80}
+              />
 
-                {/* Left Aligned Text Overlay */}
-                <div className="absolute inset-0 flex items-end pb-16">
-                  <div className="text-left text-[#FAFAF8] max-w-4xl px-4 ml-6 md:px-6 md:ml-8">
-                    <h1
-                      className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-4 leading-tight text-[#FAFAF8]"
-                      style={{
-                        textShadow: "0 1px 2px rgba(0,0,0,0.35)",
-                        letterSpacing: "-0.01em",
-                      }}
-                    >
-                      <div className="block text-[#FAFAF8]">
-                        Inside the <span className="text-[#CBB27A]">Vault</span>
-                      </div>
-                      <div className="block text-[#FAFAF8] mt-2">
-                        Exclusive Real Estate{" "}
-                        <span className="text-[#CBB27A]">Intelligence</span>
-                      </div>
-                    </h1>
+              {/* Same overlay stack as homepage & properties */}
+              <div className="absolute inset-0 bg-black/45" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_70%_at_50%_50%,rgba(0,0,0,0.25),transparent)]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent md:bg-gradient-to-r md:from-black/60 md:via-black/20 md:to-transparent" />
 
-                    <p className="text-sm sm:text-base md:text-lg text-[#CBB27A] mb-4 md:mb-6 max-w-2xl">
-                      Your personal archive of refined definitions, expert
-                      answers, and insights reserved for those who seek
-                      precision in every property decision.
-                    </p>
-                  </div>
+              {/* Mobile: centered. Desktop: bottom-left. */}
+              <div className="absolute inset-0 flex items-center justify-center px-4 py-10 md:items-end md:justify-start md:pb-16 md:pl-6 md:pt-0 lg:pb-16 lg:pl-8 md:px-0">
+                <div className="relative text-center text-[#FAFAF8] max-w-2xl mx-auto md:text-left md:mx-0 md:max-w-4xl px-4 md:px-0 md:ml-0">
+                  <h1
+                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-4 leading-tight text-white tracking-tight"
+                    style={{
+                      textShadow: "0 1px 2px rgba(0,0,0,0.35)",
+                      letterSpacing: "-0.01em",
+                    }}
+                  >
+                    <div className="block text-[#FAFAF8]">
+                      Inside the <span className="text-[#CBB27A]">Vault</span>
+                    </div>
+                    <div className="block text-[#FAFAF8] mt-1 md:mt-2">
+                      Exclusive Real Estate{" "}
+                      <span className="text-[#CBB27A]">Intelligence</span>
+                    </div>
+                  </h1>
+
+                  <p className="text-sm sm:text-base md:text-lg text-white/90 md:text-[#CBB27A] mb-6 md:mb-6 max-w-lg mx-auto md:mx-0 md:max-w-2xl">
+                    Your personal archive of refined definitions, expert
+                    answers, and insights reserved for those who seek
+                    precision in every property decision.
+                  </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 

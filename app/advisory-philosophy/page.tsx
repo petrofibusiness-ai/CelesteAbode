@@ -20,7 +20,7 @@ export default function PhilosophyPage() {
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://www.celesteabode.com" },
-          { name: "Philosophy", url: "https://www.celesteabode.com/philosophy" },
+          { name: "Philosophy", url: "https://www.celesteabode.com/advisory-philosophy" },
         ]}
       />
     <div className="min-h-screen bg-background">
@@ -207,7 +207,7 @@ export default function PhilosophyPage() {
             {/* Minimal CTA - philosophy-led tone */}
             <div className="flex justify-center mt-10">
               <Link
-                href="/services"
+                href="/real-estate-consulting-services"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-[#CBB27A]/40 text-foreground hover:bg-[#CBB27A]/10 hover:border-[#CBB27A]/60 transition-colors text-sm font-medium"
               >
                 Explore Our Advisory Approach

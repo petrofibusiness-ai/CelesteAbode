@@ -20,13 +20,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: `${SITE_URL}/philosophy`,
+      url: `${SITE_URL}/advisory-philosophy`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${SITE_URL}/services`,
+      url: `${SITE_URL}/real-estate-consulting-services`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8,
@@ -38,7 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     },
     {
-      url: `${SITE_URL}/vault`,
+      url: `${SITE_URL}/real-estate-insights`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.7,

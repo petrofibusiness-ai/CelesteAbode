@@ -235,8 +235,8 @@ export function CTASection() {
   };
 
   return (
-    <section className="pt-0 pb-20 bg-background">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="pt-0 pb-20 bg-background overflow-x-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full min-w-0">
         {/* Trust Card */}
         <motion.div
           className="bg-white rounded-2xl p-8 shadow-lg mb-12 max-w-3xl mx-auto"
@@ -296,22 +296,22 @@ export function CTASection() {
 
         {/* CTA Section - Two Column Grid */}
         <motion.div
-          className="max-w-6xl mx-auto"
+          className="max-w-6xl mx-auto w-full min-w-0"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start min-w-0">
             {/* Left Column - Text Content */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="space-y-6"
+              className="space-y-6 min-w-0"
             >
-              <h2 className="heading-bold text-3xl md:text-4xl lg:text-5xl leading-tight">
+              <h2 className="heading-bold text-3xl md:text-4xl lg:text-5xl leading-tight break-words">
             Ready to Connect with Delhi NCR's{" "}
             <span className="text-[#CBB27A]">Trusted Real Estate Consultants?</span>
           </h2>
@@ -347,7 +347,7 @@ export function CTASection() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-white rounded-2xl p-6 shadow-lg border border-border max-w-md lg:max-w-none"
+              className="bg-white rounded-2xl p-6 shadow-lg border border-border w-full max-w-full lg:max-w-none min-w-0"
             >
               {isSubmitted ? (
                 <motion.div
@@ -367,7 +367,7 @@ export function CTASection() {
                   </p>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4 min-w-0 w-full">
                   {error && (
                     <div className="p-3 rounded-lg bg-red-50 border border-red-200">
                       <p className="text-sm text-red-600 font-poppins">{error}</p>

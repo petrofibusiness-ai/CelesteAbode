@@ -248,7 +248,7 @@ export default function VillasInGreaterNoidaPage() {
               </h2>
               <div className="max-w-3xl mx-auto space-y-6">
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  At Celeste Abode, we understand that a home is more than a purchase - it's a personal statement. Our experts curate only the most exquisite villas in Greater Noida, combining lifestyle alignment with legal and financial assurance. Learn about our <Link href="/services" className="text-[#CBB27A] hover:underline font-semibold">comprehensive property advisory services</Link> and <Link href="/philosophy" className="text-[#CBB27A] hover:underline font-semibold">data-driven approach</Link> to finding your perfect home.
+                  At Celeste Abode, we understand that a home is more than a purchase - it's a personal statement. Our experts curate only the most exquisite villas in Greater Noida, combining lifestyle alignment with legal and financial assurance. Learn about our <Link href="/real-estate-consulting-services" className="text-[#CBB27A] hover:underline font-semibold">comprehensive property advisory services</Link> and <Link href="/advisory-philosophy" className="text-[#CBB27A] hover:underline font-semibold">data-driven approach</Link> to finding your perfect home.
                 </p>
                 <div className="grid md:grid-cols-2 gap-6 mt-8">
                   {[
@@ -492,7 +492,7 @@ export default function VillasInGreaterNoidaPage() {
                   <Building2 className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
                   <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">All Properties</p>
                 </Link>
-                <Link href="/services" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
+                <Link href="/real-estate-consulting-services" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
                   <Zap className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
                   <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Our Services</p>
                 </Link>

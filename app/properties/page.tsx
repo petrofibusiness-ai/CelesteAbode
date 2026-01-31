@@ -317,54 +317,50 @@ export default function ProjectsPage() {
     <div className="min-h-screen bg-background">
       <main className="pt-0">
         <Header />
-        {/* Hero Section */}
-        <section className="relative min-h-screen flex items-center justify-center bg-background pt-24">
-          <div className="max-w-7xl mx-auto px-6 w-full">
-            <div className="bg-white rounded-3xl shadow-2xl overflow-hidden relative">
-              {/* Full Container Image - responsive height so image isn't oversized on mobile */}
-              <div className="relative h-[50vh] min-h-[320px] sm:min-h-[380px] md:h-[500px] lg:h-[580px] xl:h-[620px]">
-                <Image
-                  src="/hero-.avif"
-                  alt="Property Portfolio Hero"
-                  fill
-                  priority
-                  loading="eager"
-                  className="object-cover object-bottom md:object-cover md:object-[center_70%]"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
-                  quality={85}
-                  fetchPriority="high"
-                />
+        {/* Hero Section – mobile: full-height, header overlaps, centered text. Desktop: card, bottom-left text. */}
+        <section className="relative bg-background pt-0 md:pt-24 md:min-h-screen md:flex md:items-center md:justify-center">
+          <div className="w-full md:max-w-7xl md:mx-auto md:px-6 md:w-full">
+            <div className="relative overflow-hidden w-full min-h-screen md:min-h-0 md:h-[500px] lg:h-[580px] xl:h-[620px] md:rounded-3xl md:shadow-2xl md:bg-white">
+              <Image
+                src="/hero-.avif"
+                alt="Property Portfolio Hero"
+                fill
+                priority
+                loading="eager"
+                className="object-cover object-center md:object-[center_70%]"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+                quality={85}
+                fetchPriority="high"
+              />
 
-                {/* Dark overlay for better text readability */}
-                <div className="absolute inset-0 bg-black/50" />
+              {/* Same overlay stack as homepage: flat + center dark + gradient */}
+              <div className="absolute inset-0 bg-black/45" />
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_70%_at_50%_50%,rgba(0,0,0,0.25),transparent)]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent md:bg-gradient-to-r md:from-black/50 md:via-black/20 md:to-transparent" />
 
-                {/* Left side vignette */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
+              {/* Mobile: centered. Desktop: bottom-left. */}
+              <div className="absolute inset-0 flex items-center justify-center px-4 py-10 md:items-end md:justify-start md:pb-16 md:pl-6 md:pt-0 md:px-6 md:ml-0 lg:pb-16 lg:pl-8">
+                <div className="relative text-center text-[#FAFAF8] max-w-2xl mx-auto md:text-left md:mx-0 md:max-w-4xl px-4 md:px-0 md:ml-0">
+                  <h1
+                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-4 leading-tight text-white tracking-tight"
+                    style={{
+                      textShadow: "0 1px 2px rgba(0,0,0,0.35)",
+                      letterSpacing: "-0.01em",
+                    }}
+                  >
+                    <div className="block text-[#FAFAF8]">
+                      Verified Residential & Investment
+                    </div>
+                    <div className="block text-[#FAFAF8] mt-1 md:mt-2">
+                      <span className="text-[#CBB27A]">
+                        Properties in Delhi NCR
+                      </span>
+                    </div>
+                  </h1>
 
-                {/* Left Aligned Text Overlay */}
-                <div className="absolute inset-0 flex items-end pb-16">
-                  <div className="text-left text-[#FAFAF8] max-w-4xl px-4 ml-6 md:px-6 md:ml-8">
-                    <h1
-                      className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-medium mb-3 md:mb-4 leading-tight text-[#FAFAF8]"
-                      style={{
-                        textShadow: "0 1px 2px rgba(0,0,0,0.35)",
-                        letterSpacing: "-0.01em",
-                      }}
-                    >
-                      <div className="block text-[#FAFAF8]">
-                        Verified Residential & Investment
-                      </div>
-                      <div className="block text-[#FAFAF8] mt-1 md:mt-2">
-                        <span className="text-[#CBB27A]">
-                          Properties in Delhi NCR
-                        </span>
-                      </div>
-                    </h1>
-
-                    <p className="text-xs sm:text-sm md:text-base lg:text-lg text-[#CBB27A] mb-4 md:mb-6 max-w-2xl font-poppins leading-relaxed">
-                      Curated residential and investment properties across Noida, Greater Noida, the Yamuna Expressway, and emerging NCR growth corridors—each evaluated for legal compliance, location fundamentals, market logic, and long-term investment suitability.
-                    </p>
-                  </div>
+                  <p className="text-xs sm:text-sm md:text-sm lg:text-base text-white/90 md:text-[#CBB27A] mb-6 md:mb-6 max-w-lg mx-auto md:mx-0 md:max-w-2xl font-poppins leading-relaxed">
+                    Curated residential and investment properties in Delhi NCR across Noida, Greater Noida, and the Yamuna Expressway—assessed for legal compliance, location fundamentals, and long-term investment potential.
+                  </p>
                 </div>
               </div>
             </div>
@@ -554,7 +550,7 @@ export default function ProjectsPage() {
                             At <strong className="text-[#CBB27A]">Celeste Abode</strong>, we don&apos;t present properties as inventory to be sold. Instead, we curate residential and investment properties across key Delhi NCR markets—including Noida, Greater Noida, the Yamuna Expressway, and emerging growth corridors—that pass rigorous evaluation across developer credibility, location logic, pricing fairness, and long-term suitability.
                           </p>
                           <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-0 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">
-                            Our advisory-led approach, backed by structured <Link href="/services" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors font-medium">real estate consulting and advisory services</Link>, helps buyers and investors in <strong>Delhi NCR</strong> make informed property decisions based on evidence, not sales narratives.{" "}
+                            Our advisory-led approach, backed by structured <Link href="/real-estate-consulting-services" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors font-medium">real estate consulting and advisory services</Link>, helps buyers and investors in <strong>Delhi NCR</strong> make informed property decisions based on evidence, not sales narratives.{" "}
                             <button type="button" onClick={() => setIsCtaContentExpanded(false)} className="text-[#CBB27A] font-bold hover:underline cursor-pointer" aria-label="Read less">Read Less</button>
                           </p>
                         </div>

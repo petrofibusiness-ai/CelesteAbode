@@ -421,7 +421,7 @@ export default function BlogPage() {
               
               <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
                 <Link
-                  href="/services"
+                  href="/real-estate-consulting-services"
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#CBB27A] text-white font-semibold rounded-full hover:bg-[#B39A6A] hover:shadow-lg hover:shadow-[#CBB27A]/30 hover:scale-105 active:scale-95 transition-all duration-200 font-poppins"
                 >
                   Explore Our Services

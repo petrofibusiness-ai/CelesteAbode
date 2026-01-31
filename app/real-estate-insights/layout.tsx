@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     title: "Real Estate Vault - Property Terms, FAQs & Investment Guide | Celeste Abode",
     description:
       "Comprehensive real estate knowledge base with terms, FAQs, and investment guidance.",
-    url: "https://www.celesteabode.com/vault",
+    url: "https://www.celesteabode.com/real-estate-insights",
     siteName: "Celeste Abode",
     images: [
       {
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     images: ["/vaulthero.avif"],
   },
   alternates: {
-    canonical: "https://www.celesteabode.com/vault",
+    canonical: "https://www.celesteabode.com/real-estate-insights",
   },
 };
 

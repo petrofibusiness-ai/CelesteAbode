@@ -220,7 +220,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                   </AnimatePresence>
                 </div>
                 
-                <Link href="/services" className="nav-link">
+                <Link href="/real-estate-consulting-services" className="nav-link">
                   SERVICES
                 </Link>
               </nav>
@@ -243,13 +243,13 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
 
               {/* Right Menu Group: Vault | Blogs | Philosophy */}
               <nav className="flex items-center space-x-8 ml-12">
-                <Link href="/vault" className="nav-link">
+                <Link href="/real-estate-insights" className="nav-link">
                   VAULT
                 </Link>
                 <Link href="/blog" className="nav-link">
                   BLOGS
                 </Link>
-                <Link href="/philosophy" className="nav-link">
+                <Link href="/advisory-philosophy" className="nav-link">
                   PHILOSOPHY
                 </Link>
               </nav>
@@ -424,7 +424,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
               </div>
               
               <Link
-                href="/services"
+                href="/real-estate-consulting-services"
                 className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Services page"
@@ -432,7 +432,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                 SERVICES
               </Link>
               <Link
-                href="/vault"
+                href="/real-estate-insights"
                 className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Vault page"
@@ -448,7 +448,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                 BLOGS
               </Link>
               <Link
-                href="/philosophy"
+                href="/advisory-philosophy"
                 className="block px-6 py-4 min-h-[48px] flex items-center text-white hover:text-[#CBB27A] hover:bg-white/5 transition-all duration-300 border-l-4 border-transparent hover:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/50 focus:ring-inset font-poppins"
                 onClick={() => setIsMobileMenuOpen(false)}
                 aria-label="Navigate to Philosophy page"

@@ -2,87 +2,84 @@
 
 import Image from "next/image";
 import { PillButton } from "@/components/ui/pill-button";
-import { homepageTitle, homepageDescription, homepageH1 } from "@/app/metadata";
+import { homepageH1, homepageHeroSubtext } from "@/app/metadata";
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-background pt-16 md:pt-20">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 w-full">
-        <div className="bg-white rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden relative">
-          {/* Video Container - Desktop heights: md:580px lg:620px */}
-          <div className="relative h-[550px] sm:h-[650px] md:h-[580px] lg:h-[620px]">
-            {/* Image - Mobile only - Optimized for LCP */}
-            <div className="absolute inset-0 w-full h-full md:hidden">
-              <Image
-                src="/propertyhero.avif"
-                alt="Real estate consultant in Delhi NCR guiding property decisions - Noida, Greater Noida, and Yamuna Expressway"
-                fill
-                priority
-                fetchPriority="high"
-                className="w-full h-full object-cover object-center"
-                sizes="100vw"
-                quality={60}
-                loading="eager"
-              />
-            </div>
-            
-            {/* Cloud-hosted video - Desktop only - Deferred loading */}
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="none"
-              className="hidden md:block absolute inset-0 w-full h-full object-cover object-center"
-            >
-              <source src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/HEROVIDEO%20(1).mp4" type="video/mp4" />
-            </video>
+    <section className="relative bg-background pt-0 md:pt-24 md:min-h-screen md:flex md:items-center md:justify-center">
+      <div className="w-full md:max-w-7xl md:mx-auto md:px-6 md:w-full">
+        <div
+          className={
+            "relative overflow-hidden w-full min-h-screen md:min-h-0 md:h-[580px] lg:h-[620px] md:rounded-2xl lg:rounded-3xl md:shadow-2xl md:bg-white"
+          }
+        >
+          <div className="absolute inset-0 w-full h-full md:hidden">
+            <Image
+              src="/propertyhero.avif"
+              alt="Real estate consultant in Delhi NCR guiding property decisions - Noida, Greater Noida, and Yamuna Expressway"
+              fill
+              priority
+              fetchPriority="high"
+              className="w-full h-full object-cover object-center"
+              sizes="100vw"
+              quality={60}
+              loading="eager"
+            />
+          </div>
 
-            {/* Overlay for better text readability */}
-            <div className="absolute inset-0 bg-black/50" />
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="none"
+            className="hidden md:block absolute inset-0 w-full h-full object-cover object-center"
+          >
+            <source
+              src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/HEROVIDEO%20(1).mp4"
+              type="video/mp4"
+            />
+          </video>
 
-            {/* Left side vignette */}
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-black/45" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_70%_at_50%_50%,rgba(0,0,0,0.25),transparent)]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-transparent md:bg-gradient-to-r md:from-black/50 md:via-black/20 md:to-transparent" />
 
-            {/* Left Aligned Text Overlay */}
-            <div className="absolute inset-0 flex items-end pb-8 md:pb-16">
-              {/* Gradient overlay behind text block only - dark on left, transparent on right */}
-              <div className="absolute left-0 top-0 bottom-0 w-full md:w-2/3 lg:w-1/2 bg-gradient-to-r from-black/60 via-black/30 to-transparent pointer-events-none" />
-              
-              <div className="relative text-left text-[#FAFAF8] max-w-3xl px-4 ml-4 md:ml-6 md:px-6 md:ml-8">
-                {/* Vision Line - Branding Tagline */}
-                <div className="text-xs mb-1.5 md:mb-2 font-medium tracking-wide uppercase text-[#CBB27A]">
-                  From Masterpieces of Time To Masterpieces of Living
-                </div>
+          <div className="absolute inset-0 flex items-center justify-center px-4 py-10 md:items-end md:justify-start md:pb-10 md:pl-8 md:pt-0 lg:pb-20 lg:pl-10 md:px-0">
+            <div className="relative text-center text-[#FAFAF8] max-w-2xl mx-auto md:text-left md:mx-0 md:max-w-3xl">
+              <div className="text-[10px] sm:text-xs mb-3 md:mb-2 font-medium tracking-[0.2em] uppercase text-[#CBB27A] md:tracking-wide">
+                From Masterpieces of Time To Masterpieces of Living
+              </div>
 
-                {/* H1 - SEO-Optimized Main Headline */}
-                <h1 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-medium mb-2 md:mb-3 leading-tight text-[#FAFAF8]">
-                  {homepageH1}
-                </h1>
+              <h1 className="text-2xl sm:text-3xl font-semibold mb-3 leading-tight text-white tracking-tight md:text-3xl md:mb-3 lg:text-4xl xl:text-5xl">
+                {homepageH1}
+              </h1>
 
-                {/* Hero Subcopy */}
-                <p className="text-xs sm:text-sm text-white mb-3 md:mb-4 max-w-xl font-medium font-poppins">
-                  {homepageDescription}
-                </p>
+              <p className="text-sm sm:text-base text-white/90 mb-6 max-w-lg mx-auto font-poppins leading-relaxed md:mx-0 md:mb-4 md:max-w-xl">
+                {homepageHeroSubtext}
+              </p>
 
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <PillButton
-                    variant="primary"
-                    size="sm"
-                    className="text-xs md:text-sm px-4 py-2 bg-white text-[#2B3035] hover:bg-white/90 rounded-full w-[160px] text-center m-0"
-                    asChild
-                  >
-                    <a href="/properties" className="m-0">Explore Properties</a>
-                  </PillButton>
-                  <PillButton
-                    variant="outline"
-                    size="sm"
-                    className="text-xs md:text-sm px-4 py-2 border border-white text-white hover:bg-white/20 rounded-full w-[160px] text-center m-0"
-                    asChild
-                  >
-                    <a href="/contact" className="m-0">Book Consultation</a>
-                  </PillButton>
-                </div>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center items-center md:justify-start md:flex-row">
+                <PillButton
+                  variant="primary"
+                  size="sm"
+                  className="text-xs md:text-sm px-5 py-2.5 bg-white text-[#2B3035] hover:bg-white/90 rounded-full min-w-[160px] text-center m-0"
+                  asChild
+                >
+                  <a href="/properties" className="m-0">
+                    Explore Properties
+                  </a>
+                </PillButton>
+                <PillButton
+                  variant="outline"
+                  size="sm"
+                  className="text-xs md:text-sm px-5 py-2.5 border-2 border-white text-white hover:bg-white/20 rounded-full min-w-[160px] text-center m-0"
+                  asChild
+                >
+                  <a href="/contact" className="m-0">
+                    Book Consultation
+                  </a>
+                </PillButton>
               </div>
             </div>
           </div>

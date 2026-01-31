@@ -11,11 +11,13 @@ import { BreadcrumbSchema } from "@/lib/structured-data";
 import { ArticleLeadForm } from "./article-lead-form";
 import { NoidaSafe2026Content } from "./noida-safe-2026-content";
 import { YamunaExpresswayContent } from "./yamuna-expressway-content";
+import { NoidaVsGreaterNoidaContent } from "./noida-vs-greater-noida-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 
 const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "is-noida-safe-to-buy-property-2026": NoidaSafe2026Content,
   "yamuna-expressway-growth-corridor-delhi-ncr": YamunaExpresswayContent,
+  "noida-vs-greater-noida-investment-2026": NoidaVsGreaterNoidaContent,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://celesteabode.com";
@@ -255,11 +257,11 @@ export default async function BlogPostPage({
                         </p>
                         <p className="text-gray-500 font-poppins">
                           Full article coming soon. Explore our{" "}
-                          <Link href="/vault" className="text-[#CBB27A] font-semibold hover:underline">
+                          <Link href="/real-estate-insights" className="text-[#CBB27A] font-semibold hover:underline">
                             Vault
                           </Link>{" "}
                           for more real estate insights, or{" "}
-                          <Link href="/services" className="text-[#CBB27A] font-semibold hover:underline">
+                          <Link href="/real-estate-consulting-services" className="text-[#CBB27A] font-semibold hover:underline">
                             our services
                           </Link>{" "}
                           for advisory support.

@@ -176,7 +176,7 @@ export function WhyClientsTrustSection() {
           className="text-center mt-12"
         >
           <Link
-            href="/services"
+            href="/real-estate-consulting-services"
             className="inline-flex items-center gap-2 px-6 py-3 text-base font-medium rounded-full bg-black text-white md:border-2 md:border-black md:bg-transparent md:text-[#000000] active:bg-black active:text-white md:hover:bg-black md:hover:text-white transition-all duration-300 active:scale-105 md:hover:scale-105 active:shadow-lg md:hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
             aria-label="See how we work"
           >

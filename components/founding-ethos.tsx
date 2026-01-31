@@ -184,7 +184,7 @@ export function FoundingEthos() {
           size="md"
           asChild
         >
-          <Link href="/services" aria-label="View our services">
+          <Link href="/real-estate-consulting-services" aria-label="View our services">
             View Services
           </Link>
         </PillButton>

@@ -70,14 +70,14 @@ export function Footer() {
                 Home
               </Link>
               <Link
-                href="/philosophy"
+                href="/advisory-philosophy"
                 className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
                 style={{ marginLeft: 0 }}
               >
                 Philosophy
               </Link>
               <Link
-                href="/services"
+                href="/real-estate-consulting-services"
                 className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
                 style={{ marginLeft: 0 }}
               >

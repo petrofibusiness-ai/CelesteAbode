@@ -153,7 +153,7 @@ export default function VillaInNoidaPage() {
                 In the heart of India's most connected city, Noida, a new definition of luxury living is taking shape - elegant villas designed not just to house your lifestyle, but to elevate it. Explore our curated collection of <Link href="/properties-in-noida" className="text-[#CBB27A] hover:underline font-semibold">luxury properties in Noida</Link> to discover villas that match your aspirations.
               </p>
               <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                At <span className="text-[#CBB27A] font-semibold">Celeste Abode</span>, we believe a home should be more than architecture - it should be an emotion. A sanctuary where design meets desire, and sophistication meets serenity. Learn more about our <Link href="/services" className="text-[#CBB27A] hover:underline font-semibold">real estate consulting services</Link> and how we help you find the perfect villa.
+                At <span className="text-[#CBB27A] font-semibold">Celeste Abode</span>, we believe a home should be more than architecture - it should be an emotion. A sanctuary where design meets desire, and sophistication meets serenity. Learn more about our <Link href="/real-estate-consulting-services" className="text-[#CBB27A] hover:underline font-semibold">real estate consulting services</Link> and how we help you find the perfect villa.
               </p>
             </motion.div>
 
@@ -241,7 +241,7 @@ export default function VillaInNoidaPage() {
               </h2>
               <div className="max-w-3xl mx-auto space-y-6">
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  At Celeste Abode, we go beyond transactions - we understand aspirations. Our consultants blend lifestyle mapping, legal diligence, and investment foresight to help you find a villa that reflects who you are. Discover our <Link href="/philosophy" className="text-[#CBB27A] hover:underline font-semibold">philosophy</Link> and <Link href="/services" className="text-[#CBB27A] hover:underline font-semibold">comprehensive services</Link> designed to make your property journey seamless.
+                  At Celeste Abode, we go beyond transactions - we understand aspirations. Our consultants blend lifestyle mapping, legal diligence, and investment foresight to help you find a villa that reflects who you are. Discover our <Link href="/advisory-philosophy" className="text-[#CBB27A] hover:underline font-semibold">philosophy</Link> and <Link href="/real-estate-consulting-services" className="text-[#CBB27A] hover:underline font-semibold">comprehensive services</Link> designed to make your property journey seamless.
                 </p>
                 <div className="grid md:grid-cols-3 gap-6 mt-8">
                   {[
@@ -474,7 +474,7 @@ export default function VillaInNoidaPage() {
                   <Building2 className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
                   <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">All Properties</p>
                 </Link>
-                <Link href="/services" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
+                <Link href="/real-estate-consulting-services" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
                   <Zap className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
                   <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Our Services</p>
                 </Link>

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Luxury Residential Projects NCR | Premium Real Estate Projects Noida | Celeste Abode",
+  title: "Luxury Residential & Investment Properties in Delhi NCR",
   description:
-    "Curated residential & investment properties in Delhi NCR. Verified projects across Noida, Greater Noida, Yamuna Expressway—evaluated for legality & long-term suitability.",
+    "Explore verified residential and investment properties in Delhi NCR across Noida, Greater Noida, and Yamuna Expressway—curated for compliance, location strength, and long-term value.",
   keywords: [
     "properties Delhi NCR",
     "verified properties Noida",
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     "villas Noida",
   ],
   openGraph: {
-    title: "Luxury Residential Projects NCR | Premium Real Estate Projects Noida | Celeste Abode",
+    title: "Luxury Residential & Investment Properties in Delhi NCR",
     description:
-      "Curated residential & investment properties in Delhi NCR. Verified projects across Noida, Greater Noida, Yamuna Expressway—evaluated for legality & long-term suitability.",
+      "Explore verified residential and investment properties in Delhi NCR across Noida, Greater Noida, and Yamuna Expressway—curated for compliance, location strength, and long-term value.",
     url: "https://www.celesteabode.com/properties",
     siteName: "Celeste Abode",
     images: [
@@ -45,9 +45,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Verified Properties Delhi NCR | Noida, Greater Noida",
+    title: "Luxury Residential & Investment Properties in Delhi NCR",
     description:
-      "Curated residential & investment properties in Delhi NCR. Verified projects across Noida, Greater Noida, Yamuna Expressway—evaluated for legality & long-term suitability.",
+      "Explore verified residential and investment properties in Delhi NCR across Noida, Greater Noida, and Yamuna Expressway—curated for compliance, location strength, and long-term value.",
     images: ["/hero-.avif"],
   },
   alternates: {

@@ -242,6 +242,10 @@ const nextConfig = {
   // Redirects from /projects to /properties and numeric project URLs to slug-based URLs
   async redirects() {
     return [
+      // Services, Philosophy, Vault: old URLs → new slugs
+      { source: '/services', destination: '/real-estate-consulting-services', permanent: true },
+      { source: '/philosophy', destination: '/advisory-philosophy', permanent: true },
+      { source: '/vault', destination: '/real-estate-insights', permanent: true },
       // Redirect main projects page to properties page
       {
         source: '/projects',

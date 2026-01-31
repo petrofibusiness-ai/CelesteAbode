@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Our Philosophy - Trust, Transparency & Transformation | Celeste Abode",
+  title: "Our Real Estate Advisory Philosophy | Celeste Abode",
   description:
-    "Discover Celeste Abode's philosophy: Trust, Transparency, and Transformation. Evidence-driven real estate consulting that prioritizes your goals over sales pressure. Learn about our non-negotiables and standards.",
+    "Our real estate advisory philosophy is built on independence, regulatory clarity, and disciplined decision-making—designed to protect long-term client interests.",
   keywords: [
     // Trust & Positioning Keywords (About / Philosophy Page)
     "trusted real estate advisors NCR",
@@ -23,10 +23,10 @@ export const metadata: Metadata = {
     "trustworthy property advisor",
   ],
   openGraph: {
-    title: "Our Philosophy - Trust, Transparency & Transformation | Celeste Abode",
+    title: "Our Real Estate Advisory Philosophy | Celeste Abode",
     description:
-      "Evidence-driven real estate consulting that prioritizes your goals over sales pressure. Discover our philosophy of Trust, Transparency, and Transformation.",
-    url: "https://www.celesteabode.com/philosophy",
+      "Our real estate advisory philosophy is built on independence, regulatory clarity, and disciplined decision-making—designed to protect long-term client interests.",
+    url: "https://www.celesteabode.com/advisory-philosophy",
     siteName: "Celeste Abode",
     images: [
       {
@@ -41,13 +41,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Our Philosophy - Trust, Transparency & Transformation",
+    title: "Our Real Estate Advisory Philosophy | Celeste Abode",
     description:
-      "Evidence-driven real estate consulting that prioritizes your goals over sales pressure.",
+      "Our real estate advisory philosophy is built on independence, regulatory clarity, and disciplined decision-making—designed to protect long-term client interests.",
     images: ["/TRUSTTRANIMAGE.avif"],
   },
   alternates: {
-    canonical: "https://www.celesteabode.com/philosophy",
+    canonical: "https://www.celesteabode.com/advisory-philosophy",
   },
 };
 

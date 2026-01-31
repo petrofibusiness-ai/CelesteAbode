@@ -8,7 +8,7 @@ import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-
 import { logAuditEntry, getRequestMetadata } from "@/lib/audit-log";
 import { verifyCSRFToken } from "@/lib/csrf";
 import { logSecurityEvent, getClientIP, getUserAgent } from "@/lib/security-events";
-import { revalidatePropertyCaches, revalidatePropertyAPIs } from "@/lib/cache-revalidation";
+import { revalidatePropertyCaches, revalidatePropertyAPIs, revalidateAllPropertyCaches } from "@/lib/cache-revalidation";
 
 // Query timeout: 30 seconds
 const QUERY_TIMEOUT = 30000;

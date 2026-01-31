@@ -380,7 +380,7 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
         address={property.location}
         developer={property.developer}
         reraId={property.reraId}
-        configuration={property.configuration}
+        configuration={property.configuration || undefined}
         area={property.sizes}
         status={property.projectStatus || "Not specified"}
         url={projectUrl}

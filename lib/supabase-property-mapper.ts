@@ -60,7 +60,7 @@ export function supabaseToProperty(supabaseProp: SupabaseProperty): Property {
     reraId: supabaseProp.rera_id || undefined,
     projectStatus: supabaseProp.project_status || undefined,
     possessionDate: supabaseProp.possession_date || undefined,
-    configuration: supabaseProp.configuration || (supabaseProp.property_type === 'Commercial' ? undefined : []),
+    configuration: supabaseProp.property_type === 'Commercial' ? null : (supabaseProp.configuration || []),
     sizes: supabaseProp.sizes,
     description: supabaseProp.description,
     heroImage: supabaseProp.hero_image,

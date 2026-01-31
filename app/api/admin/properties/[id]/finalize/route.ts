@@ -226,21 +226,6 @@ export async function PATCH(
       ...requestMetadata,
     });
 
-    // Revalidate caches after property finalization
-    const property = supabaseToProperty(existingData);
-    let locationSlug: string | undefined;
-    if (property.locationId) {
-      const { data: locationData } = await supabase
-        .from("locations_v2")
-        .select("slug")
-        .eq("id", property.locationId)
-        .single();
-      locationSlug = locationData?.slug;
-    }
-    
-    await revalidatePropertyCaches(property.slug, locationSlug);
-    await revalidatePropertyAPIs();
-
     const duration = Date.now() - startTime;
 
     console.log(`[FINALIZE] Property finalized`, {

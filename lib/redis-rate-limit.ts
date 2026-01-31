@@ -42,11 +42,12 @@ async function getRedisClient() {
         token: redisToken,
       });
     } else {
-      // Standard Redis client
-      const Redis = (await import('ioredis')).default;
-      redisClient = new Redis(redisUrl, {
-        password: redisToken,
-      });
+      // Standard Redis client (optional - only if ioredis is installed)
+      // Note: ioredis is optional - only needed for standard Redis (not Upstash)
+      // For now, we only support Upstash. To use standard Redis, install ioredis:
+      // npm install ioredis
+      console.warn("[RATE_LIMIT] Standard Redis (ioredis) not supported. Please use Upstash or install ioredis package.");
+      return null;
     }
     return redisClient;
   } catch (error) {

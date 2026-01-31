@@ -410,7 +410,6 @@ export function PropertyFilters({ onFilterChange }: PropertyFiltersProps) {
                 </AnimatePresence>
               </div>
             </div>
-            )}
             </div>
 
             {/* Desktop Search Button - Centered Below Filters */}

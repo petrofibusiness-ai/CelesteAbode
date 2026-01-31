@@ -29,7 +29,7 @@ export interface Property {
   reraId?: string;
   projectStatus?: ProjectStatus | null; // Current project status (enum)
   possessionDate?: string;
-  configuration: Configuration[]; // Array of unit configurations (enum array)
+  configuration: Configuration[] | null; // Array of unit configurations (enum array) - null for Commercial properties
   sizes: string; // e.g., "163 sq. yd - 238 sq. yd"
   description: string;
   heroImage: string; // URL to hero image

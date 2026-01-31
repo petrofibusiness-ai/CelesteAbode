@@ -15,16 +15,20 @@ export async function generateCSRFToken(): Promise<string> {
   const token = randomBytes(CSRF_TOKEN_LENGTH).toString('hex');
   const cookieStore = await cookies();
 
-  // In development, use 'lax' for sameSite to allow cookies to work properly
-  // In production, use 'strict' for better security
-  const sameSite = process.env.NODE_ENV === 'production' ? 'strict' : 'lax';
+  // Always use 'lax' for CSRF cookies to ensure stability across subdomains
+  // 'strict' causes intermittent failures with fetch requests
+  const sameSite = 'lax';
 
+  // Use 'lax' for SameSite to allow cross-subdomain requests
+  // 'strict' breaks uploads from different subdomains
   cookieStore.set(CSRF_COOKIE_NAME, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: sameSite as 'strict' | 'lax' | 'none',
+    sameSite: 'lax', // Changed from conditional to always 'lax' for stability
     maxAge: CSRF_TOKEN_MAX_AGE,
     path: '/',
+    // Add domain if needed for subdomain support
+    // domain: process.env.COOKIE_DOMAIN || undefined,
   });
 
   return token;

@@ -469,41 +469,47 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
                     Type
                   </p>
                   <p className="text-sm sm:text-base md:text-lg font-bold text-white leading-tight">
-                    Residential
+                    {property.propertyType || 'Residential'}
                   </p>
                 </div>
               </div>
 
-              {/* Divider */}
-              <div className="hidden sm:block w-px h-12 bg-[#CBB27A]"></div>
+              {/* Divider - Only show if Configuration is displayed */}
+              {property.propertyType !== 'Commercial' && (
+                <div className="hidden sm:block w-px h-12 bg-[#CBB27A]"></div>
+              )}
 
-              {/* Configuration */}
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="w-10 h-10 bg-[#CBB27A]/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-[#CBB27A] flex-shrink-0">
-                  <Sparkles className="w-5 h-5 text-[#CBB27A]" />
-                </div>
-                <div className="flex flex-col">
-                  <p className="text-xs sm:text-sm font-semibold text-[#CBB27A] uppercase tracking-wider mb-0.5 sm:mb-1 leading-tight">
-                    Configuration
-                  </p>
-                  {property.configuration && property.configuration.length > 0 ? (
-                    <div className="flex flex-col gap-0.5">
-                      {property.configuration.map((type, index) => (
-                        <p key={index} className="text-sm sm:text-base md:text-lg font-bold text-white leading-tight">
-                          {type}
-                        </p>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-sm sm:text-base md:text-lg font-bold text-white leading-tight">
-                      N/A
+              {/* Configuration - Hidden for Commercial properties */}
+              {property.propertyType !== 'Commercial' && (
+                <div className="flex items-center gap-2 sm:gap-3">
+                  <div className="w-10 h-10 bg-[#CBB27A]/20 backdrop-blur-sm rounded-full flex items-center justify-center border border-[#CBB27A] flex-shrink-0">
+                    <Sparkles className="w-5 h-5 text-[#CBB27A]" />
+                  </div>
+                  <div className="flex flex-col">
+                    <p className="text-xs sm:text-sm font-semibold text-[#CBB27A] uppercase tracking-wider mb-0.5 sm:mb-1 leading-tight">
+                      Configuration
                     </p>
-                  )}
+                    {property.configuration && property.configuration.length > 0 ? (
+                      <div className="flex flex-col gap-0.5">
+                        {property.configuration.map((type, index) => (
+                          <p key={index} className="text-sm sm:text-base md:text-lg font-bold text-white leading-tight">
+                            {type}
+                          </p>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm sm:text-base md:text-lg font-bold text-white leading-tight">
+                        N/A
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
+              )}
 
-              {/* Divider */}
-              <div className="hidden sm:block w-px h-12 bg-[#CBB27A]"></div>
+              {/* Divider - Only show if RERA ID is displayed */}
+              {property.reraId && (
+                <div className="hidden sm:block w-px h-12 bg-[#CBB27A]"></div>
+              )}
 
               {/* RERA ID */}
               {property.reraId && (

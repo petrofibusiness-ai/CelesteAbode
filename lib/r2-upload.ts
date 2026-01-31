@@ -97,25 +97,27 @@ export async function uploadToR2(
     const fileExtension = file.name.split(".").pop()?.toLowerCase() || "";
 
     // Determine folder structure and filename based on file type
+    // Include timestamp to ensure unique URLs and prevent cache reuse
+    const timestamp = Date.now();
     let objectKey: string;
     switch (fileType) {
       case "hero":
-        // Format: {slug}/{slug}_hero.{ext}
-        objectKey = `${sanitizedSlug}/${sanitizedSlug}_hero.${fileExtension}`;
+        // Format: {slug}/{slug}_hero_{timestamp}.{ext} - timestamp prevents cache reuse
+        objectKey = `${sanitizedSlug}/${sanitizedSlug}_hero_${timestamp}.${fileExtension}`;
         break;
       case "brochure":
-        // Format: {slug}/{slug}_brochure.{ext}
-        objectKey = `${sanitizedSlug}/${sanitizedSlug}_brochure.${fileExtension}`;
+        // Format: {slug}/{slug}_brochure_{timestamp}.{ext}
+        objectKey = `${sanitizedSlug}/${sanitizedSlug}_brochure_${timestamp}.${fileExtension}`;
         break;
       case "image":
-        // Format: {slug}/images/{slug}_{originalFilename}
+        // Format: {slug}/images/{slug}_{timestamp}_{originalFilename}
         const imageFilename = sanitizeFilename(file.name);
-        objectKey = `${sanitizedSlug}/images/${sanitizedSlug}_${imageFilename}`;
+        objectKey = `${sanitizedSlug}/images/${sanitizedSlug}_${timestamp}_${imageFilename}`;
         break;
       case "video":
-        // Format: {slug}/videos/{slug}_{originalFilename}
+        // Format: {slug}/videos/{slug}_{timestamp}_{originalFilename}
         const videoFilename = sanitizeFilename(file.name);
-        objectKey = `${sanitizedSlug}/videos/${sanitizedSlug}_${videoFilename}`;
+        objectKey = `${sanitizedSlug}/videos/${sanitizedSlug}_${timestamp}_${videoFilename}`;
         break;
       case "location-hero":
         // Format: {slug}/{slug}_hero.{ext}

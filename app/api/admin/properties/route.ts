@@ -9,6 +9,7 @@ import { logAuditEntry, getRequestMetadata } from "@/lib/audit-log";
 import { verifyCSRFToken } from "@/lib/csrf";
 import { validateQueryParams, validateJSONBody, PropertyFilterSchema, PropertyDataSchema } from "@/lib/validation-schemas";
 import { logSecurityEvent, getClientIP, getUserAgent } from "@/lib/security-events";
+import { revalidatePropertyCaches, revalidatePropertyAPIs } from "@/lib/cache-revalidation";
 
 // Query timeout: 30 seconds
 const QUERY_TIMEOUT = 30000;
@@ -129,6 +130,7 @@ export async function GET(request: NextRequest) {
       headers: {
         'X-RateLimit-Remaining': rateLimit.remaining.toString(),
         'X-RateLimit-Reset': new Date(rateLimit.resetTime).toISOString(),
+        'Cache-Control': 'private, no-store, no-cache, must-revalidate',
       },
     });
   } catch (error) {
@@ -223,7 +225,9 @@ export async function POST(request: NextRequest) {
       reraId: validatedData.reraId?.trim() || undefined,
       projectStatus: validatedData.projectStatus || null,
       possessionDate: validatedData.possessionDate?.trim() || undefined,
-      configuration: Array.isArray(validatedData.configuration) ? validatedData.configuration : [],
+      configuration: validatedData.propertyType === 'Commercial' 
+        ? null 
+        : (Array.isArray(validatedData.configuration) ? validatedData.configuration : []),
       sizes: validatedData.sizes.trim(),
       description: validatedData.description.trim(),
       heroImage: validatedData.heroImage.trim(),
@@ -304,10 +308,33 @@ export async function POST(request: NextRequest) {
       ...requestMetadata,
     });
 
+    // Revalidate caches after property creation
+    // Fetch location slug for proper cache invalidation
+    let locationSlug: string | undefined;
+    if (property.locationId) {
+      const { data: locationData } = await supabase
+        .from("locations_v2")
+        .select("slug")
+        .eq("id", property.locationId)
+        .single();
+      locationSlug = locationData?.slug;
+    }
+    
+    await revalidatePropertyCaches(property.slug, locationSlug);
+    await revalidatePropertyAPIs();
+
     const duration = Date.now() - startTime;
     // Property created successfully in ${duration}ms
 
-    return NextResponse.json({ property: createdProperty }, { status: 201 });
+    return NextResponse.json(
+      { property: createdProperty },
+      {
+        status: 201,
+        headers: {
+          'Cache-Control': 'private, no-store, no-cache, must-revalidate',
+        },
+      }
+    );
   } catch (error) {
     console.error("Error creating property:", error);
     

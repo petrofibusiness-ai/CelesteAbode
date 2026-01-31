@@ -16,6 +16,7 @@ function mapPropertyTypeFilter(filterValue: string): string | null {
     "apartments": "Apartment/Flats",
     "villas": "Villas",
     "plots": "Plots/Lands",
+    "commercial": "Commercial",
   };
   return mapping[filterValue] || null;
 }
@@ -67,7 +68,8 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const propertyTypeFilter = searchParams.get("propertyType");
     const projectStatusFilter = searchParams.get("projectStatus");
-    const configurationFilters = searchParams.getAll("configuration");
+    // Don't process configuration filters if Commercial is selected
+    const configurationFilters = propertyTypeFilter === "commercial" ? [] : searchParams.getAll("configuration");
     const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '50', 10))); // Default 50, max 100
     const offset = Math.max(0, parseInt(searchParams.get('offset') || '0', 10));
 
@@ -94,6 +96,7 @@ export async function GET(request: NextRequest) {
     }
 
     // Apply configuration filters (multiple)
+    // Note: Commercial properties have NULL configuration, so they won't match configuration filters
     if (configurationFilters.length > 0) {
       const mappedConfigs = configurationFilters
         .map(mapConfigurationFilter)
@@ -101,7 +104,8 @@ export async function GET(request: NextRequest) {
       
       if (mappedConfigs.length > 0) {
         // Use .in() for multiple configuration values
-        query = query.in("configuration", mappedConfigs);
+        // This will exclude NULL configurations (Commercial properties)
+        query = query.not("configuration", "is", null).in("configuration", mappedConfigs);
       }
     }
 
@@ -147,7 +151,8 @@ export async function GET(request: NextRequest) {
       },
       {
         headers: {
-          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+          'Cache-Control': 'public, s-maxage=10, max-age=10',
+          'Cache-Tag': 'api-properties-all,properties',
         },
       }
     );

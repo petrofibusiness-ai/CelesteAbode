@@ -9,6 +9,14 @@ const nextConfig = {
   },
   compress: true,
   poweredByHeader: false,
+  // API route body size limit (only for metadata endpoints, not file uploads)
+  // Large files bypass API routes via signed URLs
+  api: {
+    bodyParser: {
+      sizeLimit: '1mb', // Safe limit for metadata only
+    },
+    responseLimit: '8mb',
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     // Optimized device sizes - reduced for mobile performance
@@ -16,7 +24,7 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     // Mobile-optimized quality settings - lower quality for faster LCP
     qualities: [60, 65, 70, 75, 80, 85, 90, 95],
-    minimumCacheTTL: 31536000, // 1 year cache
+    minimumCacheTTL: 3600, // 1 hour cache for dynamic property images (reduced from 1 year)
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     loader: 'default',
@@ -89,7 +97,7 @@ const nextConfig = {
           },
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            value: 'public, max-age=0, must-revalidate',
           },
         ],
       },
@@ -154,7 +162,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            value: 'public, max-age=0, must-revalidate',
           },
         ],
       },
@@ -163,54 +171,19 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            value: 'public, max-age=0, must-revalidate',
           },
         ],
       },
-      // API Caching Headers
-      {
-        source: '/api/admin/leads',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'private, max-age=30, s-maxage=30',
-          },
-        ],
-      },
-      {
-        source: '/api/admin/stats',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'private, max-age=60, s-maxage=60',
-          },
-        ],
-      },
-      {
-        source: '/api/admin/properties',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'private, max-age=120, s-maxage=120',
-          },
-        ],
-      },
-      {
-        source: '/api/admin/locations',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'private, max-age=300, s-maxage=300',
-          },
-        ],
-      },
+      // Admin API routes - NO CACHING (removed to prevent stale data)
+      // All admin routes use route-level headers for authoritative control
       // Immutable Asset Caching
       {
         source: '/_next/static/:path*',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            value: 'public, max-age=0, must-revalidate',
           },
         ],
       },
@@ -219,7 +192,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            value: 'public, max-age=0, must-revalidate',
           },
         ],
       },
@@ -228,7 +201,7 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            value: 'public, max-age=0, must-revalidate',
           },
         ],
       },

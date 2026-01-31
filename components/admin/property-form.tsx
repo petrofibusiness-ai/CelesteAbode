@@ -547,8 +547,8 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     if (formData.projectStatus && !isValidProjectStatus(formData.projectStatus)) {
       newErrors.projectStatus = "Invalid project status selected";
     }
-    // Validate configuration array
-    if (formData.configuration && formData.configuration.length > 0) {
+    // Validate configuration array (skip for Commercial properties)
+    if (formData.propertyType !== 'Commercial' && formData.configuration && formData.configuration.length > 0) {
       const invalidConfigs = formData.configuration.filter(c => !isValidConfiguration(c));
       if (invalidConfigs.length > 0) {
         newErrors.configuration = "Invalid configuration values selected";
@@ -1188,8 +1188,8 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     if (formData.propertyType && !isValidPropertyType(formData.propertyType)) return false;
     if (formData.projectStatus && !isValidProjectStatus(formData.projectStatus)) return false;
     
-    // Validate configuration array if it has items
-    if (formData.configuration && formData.configuration.length > 0) {
+    // Validate configuration array if it has items (skip for Commercial properties)
+    if (formData.propertyType !== 'Commercial' && formData.configuration && formData.configuration.length > 0) {
       const invalidConfigs = formData.configuration.filter(c => !isValidConfiguration(c));
       if (invalidConfigs.length > 0) return false;
     }
@@ -1439,6 +1439,10 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                   const value = e.target.value || null;
                   if (value === null || isValidPropertyType(value)) {
                     handleChange("propertyType", value);
+                    // Clear configuration when Commercial is selected
+                    if (value === 'Commercial') {
+                      handleChange("configuration", []);
+                    }
                   }
                 }}
                 className={`h-11 border-2 ${errors.propertyType ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20"} rounded-xl transition-all w-full px-3 bg-white`}
@@ -1609,46 +1613,48 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6 sm:p-8 space-y-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#CBB27A]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         <div className="relative z-10">
-          {/* Configuration (Unit Types) */}
-          <div className="mt-8">
-          <Label className="text-base sm:text-lg font-bold text-gray-800 mb-6 block" style={{ fontFamily: "Poppins, sans-serif" }}>
-            Configuration (Unit Types)
-          </Label>
-          <div className="space-y-3">
-            {CONFIGURATIONS.map((config) => {
-              const isSelected = formData.configuration?.includes(config) || false;
-              return (
-                <label
-                  key={config}
-                  className={`flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer transition-all ${
-                    isSelected
-                      ? "border-[#CBB27A] bg-gradient-to-r from-[#CBB27A]/10 to-[#CBB27A]/5"
-                      : "border-gray-200 hover:border-[#CBB27A]/50 hover:bg-gray-50"
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={isSelected}
-                    onChange={() => handleConfigurationChange(config)}
-                    className="w-5 h-5 text-[#CBB27A] border-gray-300 rounded focus:ring-[#CBB27A] focus:ring-2"
-                  />
-                  <span className="text-sm font-medium text-gray-700 flex-1" style={{ fontFamily: "Poppins, sans-serif" }}>
-                    {config}
-                  </span>
-                </label>
-              );
-            })}
-          </div>
-          {errors.configuration && (
-            <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
-              <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-              {errors.configuration}
+          {/* Configuration (Unit Types) - Hidden for Commercial properties */}
+          {formData.propertyType !== 'Commercial' && (
+            <div className="mt-8">
+            <Label className="text-base sm:text-lg font-bold text-gray-800 mb-6 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Configuration (Unit Types)
+            </Label>
+            <div className="space-y-3">
+              {CONFIGURATIONS.map((config) => {
+                const isSelected = formData.configuration?.includes(config) || false;
+                return (
+                  <label
+                    key={config}
+                    className={`flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer transition-all ${
+                      isSelected
+                        ? "border-[#CBB27A] bg-gradient-to-r from-[#CBB27A]/10 to-[#CBB27A]/5"
+                        : "border-gray-200 hover:border-[#CBB27A]/50 hover:bg-gray-50"
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      onChange={() => handleConfigurationChange(config)}
+                      className="w-5 h-5 text-[#CBB27A] border-gray-300 rounded focus:ring-[#CBB27A] focus:ring-2"
+                    />
+                    <span className="text-sm font-medium text-gray-700 flex-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+                      {config}
+                    </span>
+                  </label>
+                );
+              })}
+            </div>
+            {errors.configuration && (
+              <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
+                <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                {errors.configuration}
+              </p>
+            )}
+            <p className="text-xs text-gray-500 mt-3" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Select one or more unit configurations. Multiple selections are allowed.
             </p>
+            </div>
           )}
-          <p className="text-xs text-gray-500 mt-3" style={{ fontFamily: "Poppins, sans-serif" }}>
-            Select one or more unit configurations. Multiple selections are allowed.
-          </p>
-          </div>
 
           {/* Hero Image */}
           <div className="mt-8">

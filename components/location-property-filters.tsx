@@ -67,6 +67,7 @@ export function LocationPropertyFilters({
       { value: "apartments", label: "Apartments / Flats" },
       { value: "villas", label: "Villas" },
       { value: "plots", label: "Plots / Land" },
+      { value: "commercial", label: "Commercial" },
     ],
     projectStatus: [
       { value: "all", label: "All Status" },
@@ -96,6 +97,17 @@ export function LocationPropertyFilters({
       setFilters(newFilters);
       onFilterChange?.(newFilters);
       // Keep dropdown open for multi-select
+    } else if (filterType === "propertyType") {
+      // Single selection for propertyType - clear configuration when Commercial is selected
+      const newFilters = { 
+        ...filters, 
+        [filterType]: value,
+        // Clear configuration when Commercial is selected
+        configuration: value === "commercial" ? [] : filters.configuration
+      };
+      setFilters(newFilters);
+      setOpenDropdown(null);
+      onFilterChange?.(newFilters);
     } else {
       // Single selection for other filters
       const newFilters = { ...filters, [filterType]: value };
@@ -323,32 +335,41 @@ export function LocationPropertyFilters({
                 </div>
               </div>
 
-              {/* Configuration Filter */}
+              {/* Configuration Filter - Disabled for Commercial properties */}
               <div className="flex-1 relative">
                 <label className="block text-sm font-semibold text-gray-700 mb-2 font-poppins">
                   Configuration
                 </label>
                 <div className="relative">
                   <button
-                    onClick={() =>
-                      setOpenDropdown(
-                        openDropdown === "configuration" ? null : "configuration"
-                      )
-                    }
-                    className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-left flex items-center justify-between hover:border-[#CBB27A] transition-all duration-200 font-poppins"
+                    onClick={() => {
+                      if (filters.propertyType !== "commercial") {
+                        setOpenDropdown(
+                          openDropdown === "configuration" ? null : "configuration"
+                        );
+                      }
+                    }}
+                    disabled={filters.propertyType === "commercial"}
+                    className={`w-full px-4 py-3 bg-gray-50 border-2 rounded-xl text-left flex items-center justify-between transition-all duration-200 font-poppins ${
+                      filters.propertyType === "commercial"
+                        ? "border-gray-200 bg-gray-100 cursor-not-allowed opacity-60"
+                        : "border-gray-200 hover:border-[#CBB27A]"
+                    }`}
                   >
-                    <span className="text-gray-800">{getFilterLabel("configuration")}</span>
+                    <span className={filters.propertyType === "commercial" ? "text-gray-400" : "text-gray-800"}>
+                      {filters.propertyType === "commercial" ? "Not applicable" : getFilterLabel("configuration")}
+                    </span>
                     <motion.div
                       animate={{
                         rotate: openDropdown === "configuration" ? 180 : 0,
                       }}
                       transition={{ duration: 0.2 }}
                     >
-                      <ChevronDown className="w-5 h-5 text-gray-500" />
+                      <ChevronDown className={`w-5 h-5 ${filters.propertyType === "commercial" ? "text-gray-400" : "text-gray-500"}`} />
                     </motion.div>
                   </button>
                   <AnimatePresence>
-                    {openDropdown === "configuration" && (
+                    {openDropdown === "configuration" && filters.propertyType !== "commercial" && (
                       <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -582,69 +603,80 @@ export function LocationPropertyFilters({
                 </div>
               </div>
 
-              {/* Configuration Filter */}
+              {/* Configuration Filter - Disabled for Commercial properties */}
               <div className="relative">
                 <label className="block text-xs font-semibold text-gray-700 mb-2 font-poppins">
                   Configuration
                 </label>
                 <div className="relative">
                   <button
-                    onClick={() =>
-                      setOpenDropdown(
-                        openDropdown === "configuration" ? null : "configuration"
-                      )
-                    }
-                    className="w-full px-3 py-2.5 bg-gray-50 border-2 border-gray-200 rounded-xl text-left flex items-center justify-between hover:border-[#CBB27A] transition-all duration-200 font-poppins text-sm"
+                    onClick={() => {
+                      if (filters.propertyType !== "commercial") {
+                        setOpenDropdown(
+                          openDropdown === "configuration" ? null : "configuration"
+                        );
+                      }
+                    }}
+                    disabled={filters.propertyType === "commercial"}
+                    className={`w-full px-3 py-2.5 bg-gray-50 border-2 rounded-xl text-left flex items-center justify-between transition-all duration-200 font-poppins text-sm ${
+                      filters.propertyType === "commercial"
+                        ? "border-gray-200 bg-gray-100 cursor-not-allowed opacity-60"
+                        : "border-gray-200 hover:border-[#CBB27A]"
+                    }`}
                   >
-                    <span className="text-gray-800 truncate">
-                      {getFilterLabel("configuration")}
+                    <span className={`truncate ${filters.propertyType === "commercial" ? "text-gray-400" : "text-gray-800"}`}>
+                      {filters.propertyType === "commercial" ? "Not applicable" : getFilterLabel("configuration")}
                     </span>
                     <ChevronDown
-                      className={`w-4 h-4 text-gray-500 flex-shrink-0 transition-transform ${
-                        openDropdown === "configuration" ? "rotate-180" : ""
+                      className={`w-4 h-4 flex-shrink-0 transition-transform ${
+                        filters.propertyType === "commercial"
+                          ? "text-gray-400"
+                          : openDropdown === "configuration"
+                          ? "text-gray-500 rotate-180"
+                          : "text-gray-500"
                       }`}
                     />
                   </button>
                   <AnimatePresence>
-                    {openDropdown === "configuration" && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl overflow-hidden max-h-60 overflow-y-auto"
-                      >
-                        {filterOptions.configuration.map((option) => {
-                          const isSelected = filters.configuration.includes(option.value);
-                          return (
-                            <button
-                              key={option.value}
-                              onClick={() => handleFilterChange("configuration", option.value)}
-                              className={`w-full px-3 py-2.5 text-left hover:bg-[#CBB27A]/10 transition-colors font-poppins text-sm flex items-center gap-3 ${
-                                isSelected
-                                  ? "bg-[#CBB27A]/20 text-[#CBB27A] font-semibold"
-                                  : "text-gray-800"
-                              }`}
-                            >
-                              <div className={`w-4 h-4 border-2 rounded flex items-center justify-center flex-shrink-0 ${
-                                isSelected
-                                  ? "border-[#CBB27A] bg-[#CBB27A]"
-                                  : "border-gray-300"
-                              }`}>
-                                {isSelected && (
-                                  <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                  </svg>
-                                )}
-                              </div>
-                              <span>{option.label}</span>
-                            </button>
-                          );
-                        })}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                    {openDropdown === "configuration" && filters.propertyType !== "commercial" && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-200 rounded-xl shadow-xl overflow-hidden max-h-60 overflow-y-auto"
+                        >
+                          {filterOptions.configuration.map((option) => {
+                            const isSelected = filters.configuration.includes(option.value);
+                            return (
+                              <button
+                                key={option.value}
+                                onClick={() => handleFilterChange("configuration", option.value)}
+                                className={`w-full px-3 py-2.5 text-left hover:bg-[#CBB27A]/10 transition-colors font-poppins text-sm flex items-center gap-3 ${
+                                  isSelected
+                                    ? "bg-[#CBB27A]/20 text-[#CBB27A] font-semibold"
+                                    : "text-gray-800"
+                                }`}
+                              >
+                                <div className={`w-4 h-4 border-2 rounded flex items-center justify-center flex-shrink-0 ${
+                                  isSelected
+                                    ? "border-[#CBB27A] bg-[#CBB27A]"
+                                    : "border-gray-300"
+                                }`}>
+                                  {isSelected && (
+                                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                    </svg>
+                                  )}
+                                </div>
+                                <span>{option.label}</span>
+                              </button>
+                            );
+                          })}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
                 </div>
-              </div>
             </div>
 
             {/* Search Button - Centered */}

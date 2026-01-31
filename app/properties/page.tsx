@@ -97,9 +97,12 @@ export default function ProjectsPage() {
         if (filterState.projectStatus && filterState.projectStatus !== "all") {
           params.append("projectStatus", filterState.projectStatus);
         }
-        filterState.configuration.forEach((config) => {
-          params.append("configuration", config);
-        });
+        // Don't send configuration filter for Commercial properties
+        if (filterState.propertyType !== "commercial") {
+          filterState.configuration.forEach((config) => {
+            params.append("configuration", config);
+          });
+        }
 
         // Use the all-properties endpoint with abort signal
         const response = await fetch(`/api/properties/all?${params.toString()}`, {
@@ -140,9 +143,12 @@ export default function ProjectsPage() {
           if (filterState.projectStatus && filterState.projectStatus !== "all") {
             params.append("projectStatus", filterState.projectStatus);
           }
-          filterState.configuration.forEach((config) => {
-            params.append("configuration", config);
-          });
+          // Don't send configuration filter for Commercial properties
+          if (filterState.propertyType !== "commercial") {
+            filterState.configuration.forEach((config) => {
+              params.append("configuration", config);
+            });
+          }
 
           try {
             const response = await fetch(`/api/properties/search?${params.toString()}`, {

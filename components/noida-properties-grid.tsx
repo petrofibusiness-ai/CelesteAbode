@@ -62,9 +62,12 @@ export function NoidaPropertiesGrid({ initialProperties, location }: NoidaProper
       if (filters.projectStatus && filters.projectStatus !== "all") {
         params.append("projectStatus", filters.projectStatus);
       }
-      filters.configuration.forEach((config) => {
-        params.append("configuration", config);
-      });
+      // Don't send configuration filter for Commercial properties
+      if (filters.propertyType !== "commercial") {
+        filters.configuration.forEach((config) => {
+          params.append("configuration", config);
+        });
+      }
 
       const response = await fetch(`/api/properties/search?${params.toString()}`);
       

@@ -167,7 +167,7 @@ export async function generateMetadata({
 /* =========================
    ISR CONFIG
    ========================= */
-export const revalidate = 60;
+export const revalidate = 10; // Reduced from 60s to 10s for faster updates
 export const dynamicParams = true; // Allow on-demand generation for new properties
 
 /* =========================

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { unstable_cache } from "next/cache";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { supabaseToProperty } from "@/lib/supabase-property-mapper";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
@@ -17,6 +18,7 @@ function mapPropertyTypeFilter(filterValue: string): string | null {
     "apartments": "Apartment/Flats",
     "villas": "Villas",
     "plots": "Plots/Lands",
+    "commercial": "Commercial",
   };
   return mapping[filterValue] || null;
 }
@@ -70,7 +72,8 @@ export async function GET(request: NextRequest) {
     const localityFilters = searchParams.getAll("locality"); // Support multiple locality filters
     const propertyTypeFilter = searchParams.get("propertyType");
     const projectStatusFilter = searchParams.get("projectStatus");
-    const configurationFilters = searchParams.getAll("configuration");
+    // Don't process configuration filters if Commercial is selected
+    const configurationFilters = propertyTypeFilter === "commercial" ? [] : searchParams.getAll("configuration");
     const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '6', 10)));
     const offset = Math.max(0, parseInt(searchParams.get('offset') || '0', 10));
 
@@ -146,7 +149,8 @@ export async function GET(request: NextRequest) {
             headers: {
               'X-RateLimit-Remaining': rateLimit.remaining.toString(),
               'X-RateLimit-Reset': new Date(rateLimit.resetTime).toISOString(),
-              'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+              'Cache-Control': 'public, s-maxage=10, max-age=10',
+              'Cache-Tag': 'api-properties-search,properties',
             },
           }
         );
@@ -210,7 +214,11 @@ export async function GET(request: NextRequest) {
       
       if (validConfigurations.length > 0) {
         filteredData = filteredData.filter((property: any) => {
-          const propertyConfigs = property.configuration || [];
+          // Skip Commercial properties (NULL configuration) when filtering by configuration
+          if (!property.configuration || property.configuration.length === 0) {
+            return false;
+          }
+          const propertyConfigs = property.configuration;
           // Check if property's configuration array contains any of the selected configurations
           return validConfigurations.some(config => propertyConfigs.includes(config));
         });

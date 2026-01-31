@@ -8,6 +8,7 @@ import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-
 import { logAuditEntry, getRequestMetadata } from "@/lib/audit-log";
 import { verifyCSRFToken } from "@/lib/csrf";
 import { logSecurityEvent, getClientIP, getUserAgent } from "@/lib/security-events";
+import { revalidatePropertyCaches, revalidatePropertyAPIs } from "@/lib/cache-revalidation";
 
 // Query timeout: 30 seconds
 const QUERY_TIMEOUT = 30000;
@@ -81,7 +82,14 @@ export async function GET(
       }
     }
 
-    return NextResponse.json({ property });
+    return NextResponse.json(
+      { property },
+      {
+        headers: {
+          'Cache-Control': 'private, no-store, no-cache, must-revalidate',
+        },
+      }
+    );
   } catch (error) {
     console.error("Error fetching property:", error);
     
@@ -374,13 +382,35 @@ export async function PATCH(
       ...requestMetadata,
     });
 
+    // Revalidate caches after property update
+    // Fetch location slug for proper cache invalidation
+    let locationSlug: string | undefined;
+    if (existingProperty.locationId) {
+      const { data: locationData } = await supabase
+        .from("locations_v2")
+        .select("slug")
+        .eq("id", existingProperty.locationId)
+        .single();
+      locationSlug = locationData?.slug;
+    }
+    
+    await revalidatePropertyCaches(existingProperty.slug, locationSlug);
+    await revalidatePropertyAPIs();
+
     const duration = Date.now() - startTime;
     // Property updated successfully in ${duration}ms
 
-    return NextResponse.json({ 
-      property,
-      deletedAssets: deletedCount.count,
-    });
+    return NextResponse.json(
+      {
+        property,
+        deletedAssets: deletedCount.count,
+      },
+      {
+        headers: {
+          'Cache-Control': 'private, no-store, no-cache, must-revalidate',
+        },
+      }
+    );
   } catch (error) {
     console.error("Error updating property:", error);
     
@@ -531,13 +561,38 @@ export async function DELETE(
       ...requestMetadata,
     });
 
+    // Revalidate caches after property deletion
+    // Fetch location slug from old values for proper cache invalidation
+    let locationSlug: string | undefined;
+    if (oldValues?.location_id) {
+      const { data: locationData } = await supabase
+        .from("locations_v2")
+        .select("slug")
+        .eq("id", oldValues.location_id)
+        .single();
+      locationSlug = locationData?.slug;
+    }
+    
+    if (normalizedSlug) {
+      await revalidatePropertyCaches(normalizedSlug, locationSlug);
+      await revalidatePropertyAPIs();
+      await revalidateAllPropertyCaches();
+    }
+
     const duration = Date.now() - startTime;
     // Property deleted successfully in ${duration}ms
     
-    return NextResponse.json({ 
-      success: true,
-      deletedAssets: r2DeleteResult.deletedCount,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        deletedAssets: r2DeleteResult.deletedCount,
+      },
+      {
+        headers: {
+          'Cache-Control': 'private, no-store, no-cache, must-revalidate',
+        },
+      }
+    );
   } catch (error) {
     console.error("Error deleting property:", error);
     

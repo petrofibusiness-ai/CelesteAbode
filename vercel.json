@@ -5,20 +5,7 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "private, max-age=30"
-        },
-        {
-          "key": "X-Cache-Type",
-          "value": "admin"
-        }
-      ]
-    },
-    {
-      "source": "/api/:path*",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=60, s-maxage=60, stale-while-revalidate=300"
+          "value": "private, no-store, no-cache, must-revalidate"
         }
       ]
     },

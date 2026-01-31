@@ -112,7 +112,8 @@ export async function GET(
         headers: {
           'X-RateLimit-Remaining': rateLimit.remaining.toString(),
           'X-RateLimit-Reset': new Date(rateLimit.resetTime).toISOString(),
-          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300', // Cache for 1 minute
+          'Cache-Control': 'public, s-maxage=10, max-age=10', // Cache for 10 seconds (reduced from 60s + 300s stale)
+          'Cache-Tag': `api-properties-location,properties,location-${normalizedCategory}`,
         },
       }
     );

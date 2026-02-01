@@ -660,64 +660,71 @@ export default function VaultPage() {
               </p>
             </div>
 
-            <Accordion type="multiple" className="space-y-6">
-              {filteredFAQs.map(([key, section]) => (
-                <motion.div
-                  key={key}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  viewport={{ once: true }}
-                >
-                  <AccordionItem
-                    value={key}
-                    className="border border-primary/20 rounded-xl bg-white shadow-lg"
+            <div itemScope itemType="https://schema.org/FAQPage">
+              <Accordion type="multiple" defaultValue={["buying", "investment"]} className="space-y-6">
+                {filteredFAQs.map(([key, section]) => (
+                  <motion.div
+                    key={key}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
                   >
-                    <AccordionTrigger className="px-8 py-6 text-left hover:no-underline bg-gradient-to-r from-primary/5 to-[#CBB27A]/5 hover:from-primary/10 hover:to-[#CBB27A]/10 transition-all">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                          {key === "buying" && (
-                            <Building2 className="w-6 h-6 text-primary" />
-                          )}
-                          {key === "investment" && (
-                            <TrendingUp className="w-6 h-6 text-primary" />
-                          )}
-                          {key === "legal" && (
-                            <Scale className="w-6 h-6 text-primary" />
-                          )}
-                          {key === "market" && (
-                            <FileText className="w-6 h-6 text-primary" />
-                          )}
+                    <AccordionItem
+                      value={key}
+                      className="border border-primary/20 rounded-xl bg-white shadow-lg"
+                    >
+                      <AccordionTrigger className="px-8 py-6 text-left hover:no-underline bg-gradient-to-r from-primary/5 to-[#CBB27A]/5 hover:from-primary/10 hover:to-[#CBB27A]/10 transition-all">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                            {key === "buying" && (
+                              <Building2 className="w-6 h-6 text-primary" />
+                            )}
+                            {key === "investment" && (
+                              <TrendingUp className="w-6 h-6 text-primary" />
+                            )}
+                            {key === "legal" && (
+                              <Scale className="w-6 h-6 text-primary" />
+                            )}
+                            {key === "market" && (
+                              <FileText className="w-6 h-6 text-primary" />
+                            )}
+                          </div>
+                          <span className="text-xl font-bold text-primary">
+                            {section.title}
+                          </span>
                         </div>
-                        <span className="text-xl font-bold text-primary">
-                          {section.title}
-                        </span>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent className="px-8 pb-6 mt-4">
-                      <div className="space-y-6">
-                        {section.questions.map((item, index) => (
-                          <Card
-                            key={index}
-                            className="border-0 shadow-sm bg-gradient-to-r from-background to-primary/5"
-                          >
-                            <CardContent className="p-6">
-                              <h4 className="font-bold text-primary mb-4 flex items-start gap-3">
-                                <HelpCircle className="w-5 h-5 text-[#CBB27A] mt-1 flex-shrink-0" />
-                                {item.question}
-                              </h4>
-                              <p className="text-muted-foreground leading-relaxed ml-8">
-                                {item.answer}
-                              </p>
-                            </CardContent>
-                          </Card>
-                        ))}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </motion.div>
-              ))}
-            </Accordion>
+                      </AccordionTrigger>
+                      <AccordionContent className="px-8 pb-6 mt-4">
+                        <div className="space-y-6">
+                          {section.questions.map((item, index) => (
+                            <Card
+                              key={index}
+                              className="border-0 shadow-sm bg-gradient-to-r from-background to-primary/5"
+                              itemScope
+                              itemProp="mainEntity"
+                              itemType="https://schema.org/Question"
+                            >
+                              <CardContent className="p-6">
+                                <h4 className="font-bold text-primary mb-4 flex items-start gap-3" itemProp="name">
+                                  <HelpCircle className="w-5 h-5 text-[#CBB27A] mt-1 flex-shrink-0" aria-hidden />
+                                  {item.question}
+                                </h4>
+                                <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                                  <p className="text-muted-foreground leading-relaxed ml-8" itemProp="text">
+                                    {item.answer}
+                                  </p>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </motion.div>
+                ))}
+              </Accordion>
+            </div>
           </div>
         </Section>
 

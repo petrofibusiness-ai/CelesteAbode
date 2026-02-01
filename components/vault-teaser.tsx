@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { Lock, ArrowRight, BookOpen, ChevronDown } from "lucide-react";
@@ -65,24 +65,12 @@ export function VaultTeaser() {
                 The Celeste Abode Vault is our knowledge centre, built to simplify real estate decisions, covering RERA rules, legal terminology, FAQs, location insights, and common buyer questions in clear, practical language.
               </p>
 
-              {/* Expandable Content */}
-              <AnimatePresence>
-                {isExpanded && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="pt-4 border-t border-gray-200 mt-4">
-                      <p className="text-sm text-[#4A4F55] leading-relaxed text-justify font-poppins">
-                        Whether you're evaluating a property or preparing to invest, the Vault helps you understand the process before you commit. Our comprehensive guides break down complex real estate concepts into digestible explanations, ensuring you make informed decisions with confidence.
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {/* Expandable content - always in DOM for crawlers; visibility toggled for UX */}
+              <div className={`pt-4 border-t border-gray-200 mt-4 ${isExpanded ? "block" : "hidden"}`}>
+                <p className="text-sm text-[#4A4F55] leading-relaxed text-justify font-poppins">
+                  Whether you're evaluating a property or preparing to invest, the Vault helps you understand the process before you commit. Our comprehensive guides break down complex real estate concepts into digestible explanations, ensuring you make informed decisions with confidence.
+                </p>
+              </div>
 
               {/* Read More Button */}
               <div className="mt-4">

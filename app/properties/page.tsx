@@ -549,18 +549,16 @@ export default function ProjectsPage() {
                         )}
                       </p>
 
-                      {/* Brand positioning - shown when Read More is expanded */}
-                      {isCtaContentExpanded && (
-                        <div className="mt-6 md:mt-10 pt-6 md:pt-8 border-t border-gray-200">
-                          <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-6 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">
-                            At <strong className="text-[#CBB27A]">Celeste Abode</strong>, we don&apos;t present properties as inventory to be sold. Instead, we curate residential and investment properties across key Delhi NCR markets—including Noida, Greater Noida, the Yamuna Expressway, and emerging growth corridors—that pass rigorous evaluation across developer credibility, location logic, pricing fairness, and long-term suitability.
-                          </p>
-                          <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-0 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">
-                            Our advisory-led approach, backed by structured <Link href="/real-estate-consulting-services" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors font-medium">real estate consulting and advisory services</Link>, helps buyers and investors in <strong>Delhi NCR</strong> make informed property decisions based on evidence, not sales narratives.{" "}
-                            <button type="button" onClick={() => setIsCtaContentExpanded(false)} className="text-[#CBB27A] font-bold hover:underline cursor-pointer" aria-label="Read less">Read Less</button>
-                          </p>
-                        </div>
-                      )}
+                      {/* Brand positioning - always in DOM for crawlers; visibility toggled for UX */}
+                      <div className={`mt-6 md:mt-10 pt-6 md:pt-8 border-t border-gray-200 ${isCtaContentExpanded ? "block" : "hidden"}`}>
+                        <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-6 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">
+                          At <strong className="text-[#CBB27A]">Celeste Abode</strong>, we don&apos;t present properties as inventory to be sold. Instead, we curate residential and investment properties across key Delhi NCR markets—including Noida, Greater Noida, the Yamuna Expressway, and emerging growth corridors—that pass rigorous evaluation across developer credibility, location logic, pricing fairness, and long-term suitability.
+                        </p>
+                        <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-0 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">
+                          Our advisory-led approach, backed by structured <Link href="/real-estate-consulting-services" className="text-[#CBB27A] hover:text-[#B8A068] transition-colors font-medium">real estate consulting and advisory services</Link>, helps buyers and investors in <strong>Delhi NCR</strong> make informed property decisions based on evidence, not sales narratives.{" "}
+                          <button type="button" onClick={() => setIsCtaContentExpanded(false)} className="text-[#CBB27A] font-bold hover:underline cursor-pointer" aria-label="Read less">Read Less</button>
+                        </p>
+                      </div>
                       </div>
                     </div>
               </div>

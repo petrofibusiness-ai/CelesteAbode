@@ -29,6 +29,15 @@ import {
 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
 import Link from "next/link";
+import { FAQPageSchema } from "@/lib/structured-data";
+
+const PLOTS_NOIDA_FAQS: Array<{ question: string; answer: string }> = [
+  { question: "What is the price range of plots in Noida?", answer: "Residential plots start around ₹60 lakh and go up to ₹8 crore and above, depending on sector, size, and proximity to expressways." },
+  { question: "Are the plots RERA-approved?", answer: "Yes. All plots curated by Celeste Abode are RERA-registered and approved by the Noida Authority." },
+  { question: "Which sectors are best for buying plots in Noida?", answer: "Sectors 150, 162, 117, and the Yamuna Expressway belt are currently in high demand." },
+  { question: "Can I get loan assistance for buying a plot?", answer: "Yes. Several leading banks and NBFCs offer plot purchase loans, and Celeste Abode assists you through the process." },
+  { question: "Is buying a plot in Noida a safe investment?", answer: "Absolutely. Noida's regulatory framework, planned infrastructure, and upcoming projects make it one of NCR's most secure land markets." },
+];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -108,6 +117,7 @@ export default function PlotsInNoidaPage() {
   };
 
   return (
+    <>
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-24 pb-16">
@@ -406,7 +416,7 @@ export default function PlotsInNoidaPage() {
             </motion.div>
 
             {/* FAQs Section */}
-            <motion.div variants={itemVariants} className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-border">
+            <motion.div variants={itemVariants} className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-border" itemScope itemType="https://schema.org/FAQPage">
               <div className="text-center mb-10">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#CBB27A]/10 mb-6">
                   <MessageCircle className="w-8 h-8 text-[#CBB27A]" />
@@ -416,28 +426,7 @@ export default function PlotsInNoidaPage() {
                 </h2>
               </div>
               <div className="space-y-6 max-w-3xl mx-auto">
-                {[
-                  {
-                    q: "What is the price range of plots in Noida?",
-                    a: "Residential plots start around ₹60 lakh and go up to ₹8 crore and above, depending on sector, size, and proximity to expressways.",
-                  },
-                  {
-                    q: "Are the plots RERA-approved?",
-                    a: "Yes. All plots curated by Celeste Abode are RERA-registered and approved by the Noida Authority.",
-                  },
-                  {
-                    q: "Which sectors are best for buying plots in Noida?",
-                    a: "Sectors 150, 162, 117, and the Yamuna Expressway belt are currently in high demand.",
-                  },
-                  {
-                    q: "Can I get loan assistance for buying a plot?",
-                    a: "Yes. Several leading banks and NBFCs offer plot purchase loans, and Celeste Abode assists you through the process.",
-                  },
-                  {
-                    q: "Is buying a plot in Noida a safe investment?",
-                    a: "Absolutely. Noida's regulatory framework, planned infrastructure, and upcoming projects make it one of NCR's most secure land markets.",
-                  },
-                ].map((faq, index) => (
+                {PLOTS_NOIDA_FAQS.map((faq, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
@@ -445,11 +434,16 @@ export default function PlotsInNoidaPage() {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
                     className="p-6 bg-gradient-to-r from-primary/5 to-[#CBB27A]/5 rounded-xl border border-[#CBB27A]/20"
+                    itemScope
+                    itemProp="mainEntity"
+                    itemType="https://schema.org/Question"
                   >
-                    <h3 className="font-semibold text-primary mb-2 flex items-start gap-2">
-                      <span className="text-[#CBB27A]">Q{index + 1}.</span> {faq.q}
+                    <h3 className="font-semibold text-primary mb-2 flex items-start gap-2" itemProp="name">
+                      <span className="text-[#CBB27A]">Q{index + 1}.</span> {faq.question}
                     </h3>
-                    <p className="text-muted-foreground ml-6 leading-relaxed">{faq.a}</p>
+                    <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                      <p className="text-muted-foreground ml-6 leading-relaxed" itemProp="text">{faq.answer}</p>
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -714,5 +708,7 @@ export default function PlotsInNoidaPage() {
       </main>
       <Footer />
     </div>
+    <FAQPageSchema faqs={PLOTS_NOIDA_FAQS} />
+    </>
   );
 }

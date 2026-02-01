@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { Shield, CheckCircle, BarChart3, MapPin, FileCheck, Users, ChevronDown, ArrowRight } from "lucide-react";
 
@@ -129,24 +129,12 @@ export function WhyClientsTrustSection() {
                       {pillar.shortText}
                     </p>
 
-                    {/* Expandable Content */}
-                    <AnimatePresence>
-                      {isExpanded && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pt-4 border-t border-gray-200 mt-4">
-                            <p className="text-sm text-[#4A4F55] leading-relaxed text-justify">
-                              {pillar.fullText}
-                            </p>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                    {/* Expandable content - always in DOM for crawlers; visibility toggled for UX */}
+                    <div className={`pt-4 border-t border-gray-200 mt-4 ${isExpanded ? "block" : "hidden"}`}>
+                      <p className="text-sm text-[#4A4F55] leading-relaxed text-justify">
+                        {pillar.fullText}
+                      </p>
+                    </div>
 
                     {/* Read More Button - Always at bottom */}
                     <div className="mt-auto pt-4">

@@ -28,6 +28,15 @@ import {
 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
 import Link from "next/link";
+import { FAQPageSchema } from "@/lib/structured-data";
+
+const VILLA_NOIDA_EXTENSION_FAQS: Array<{ question: string; answer: string }> = [
+  { question: "What is the price range for villas in Noida Extension?", answer: "Villas start around ₹80 Lakh and go beyond ₹3 Crore, depending on size, location, and builder reputation." },
+  { question: "Are villas in Noida Extension RERA-registered?", answer: "Yes - all villas curated by Celeste Abode are RERA-compliant and legally verified." },
+  { question: "How far is Noida Extension from Delhi and Noida City Centre?", answer: "Just 20–25 minutes via Noida-Greater Noida Link Road or metro, offering effortless daily commute." },
+  { question: "Are there ready-to-move villas available?", answer: "Absolutely. Several premium projects offer ready-to-move and semi-furnished villas with modern amenities." },
+  { question: "Why invest in a villa in Noida Extension?", answer: "It's the perfect mix of affordability, connectivity, and lifestyle - making it ideal for both living and long-term appreciation." },
+];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -107,6 +116,7 @@ export default function VillaInNoidaExtensionPage() {
   };
 
   return (
+    <>
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-24 pb-16">
@@ -415,7 +425,7 @@ export default function VillaInNoidaExtensionPage() {
             </motion.div>
 
             {/* FAQs Section */}
-            <motion.div variants={itemVariants} className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-border">
+            <motion.div variants={itemVariants} className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-border" itemScope itemType="https://schema.org/FAQPage">
               <div className="text-center mb-10">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#CBB27A]/10 mb-6">
                   <MessageCircle className="w-8 h-8 text-[#CBB27A]" />
@@ -425,28 +435,7 @@ export default function VillaInNoidaExtensionPage() {
                 </h2>
               </div>
               <div className="space-y-6 max-w-3xl mx-auto">
-                {[
-                  {
-                    q: "What is the price range for villas in Noida Extension?",
-                    a: "Villas start around ₹80 Lakh and go beyond ₹3 Crore, depending on size, location, and builder reputation.",
-                  },
-                  {
-                    q: "Are villas in Noida Extension RERA-registered?",
-                    a: "Yes - all villas curated by Celeste Abode are RERA-compliant and legally verified.",
-                  },
-                  {
-                    q: "How far is Noida Extension from Delhi and Noida City Centre?",
-                    a: "Just 20–25 minutes via Noida-Greater Noida Link Road or metro, offering effortless daily commute.",
-                  },
-                  {
-                    q: "Are there ready-to-move villas available?",
-                    a: "Absolutely. Several premium projects offer ready-to-move and semi-furnished villas with modern amenities.",
-                  },
-                  {
-                    q: "Why invest in a villa in Noida Extension?",
-                    a: "It's the perfect mix of affordability, connectivity, and lifestyle - making it ideal for both living and long-term appreciation.",
-                  },
-                ].map((faq, index) => (
+                {VILLA_NOIDA_EXTENSION_FAQS.map((faq, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
@@ -454,11 +443,16 @@ export default function VillaInNoidaExtensionPage() {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
                     className="p-6 bg-gradient-to-r from-primary/5 to-[#CBB27A]/5 rounded-xl border border-[#CBB27A]/20"
+                    itemScope
+                    itemProp="mainEntity"
+                    itemType="https://schema.org/Question"
                   >
-                    <h3 className="font-semibold text-primary mb-2 flex items-start gap-2">
-                      <span className="text-[#CBB27A]">Q{index + 1}.</span> {faq.q}
+                    <h3 className="font-semibold text-primary mb-2 flex items-start gap-2" itemProp="name">
+                      <span className="text-[#CBB27A]">Q{index + 1}.</span> {faq.question}
                     </h3>
-                    <p className="text-muted-foreground ml-6 leading-relaxed">{faq.a}</p>
+                    <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                      <p className="text-muted-foreground ml-6 leading-relaxed" itemProp="text">{faq.answer}</p>
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -723,5 +717,7 @@ export default function VillaInNoidaExtensionPage() {
       </main>
       <Footer />
     </div>
+    <FAQPageSchema faqs={VILLA_NOIDA_EXTENSION_FAQS} />
+    </>
   );
 }

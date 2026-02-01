@@ -1,41 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, HelpCircle } from "lucide-react";
+import { HOMEPAGE_FAQS } from "@/lib/homepage-faqs";
+
+/** First N FAQs to expand by default for SEO (visible content weight). */
+const DEFAULT_OPEN_COUNT = 2;
 
 export function FAQSection() {
-  const [openFAQ, setOpenFAQ] = useState<number | null>(null);
+  const [openFAQs, setOpenFAQs] = useState<Set<number>>(
+    () => new Set(HOMEPAGE_FAQS.slice(0, DEFAULT_OPEN_COUNT).map((_, i) => i))
+  );
 
-  const faqs = [
-    {
-      question: "How do I choose the right property in Delhi NCR?",
-      answer: "Choosing the right property in Delhi NCR depends on budget alignment, location fundamentals, developer credibility, and long-term growth prospects. At Celeste Abode, our real estate advisory evaluates these factors together rather than focusing on listings alone, helping buyers make decisions based on suitability and risk, not urgency."
-    },
-    {
-      question: "Is Delhi NCR a good market for real estate investment right now?",
-      answer: "Delhi NCR continues to attract both end-users and long-term investors due to infrastructure development and diversified demand. However, investment outcomes vary by micro-market. Celeste Abode provides real estate consulting services based on data-led market analysis rather than broad market sentiment."
-    },
-    {
-      question: "What legal checks are essential before buying property in Delhi NCR?",
-      answer: "Buyers should verify RERA registration, land title, ownership history, project approvals, and agreement terms. Celeste Abode follows a structured legal due diligence process as part of its property consulting approach to help reduce regulatory and documentation-related risks."
-    },
-    {
-      question: "Should I buy a ready-to-move or under-construction property in NCR?",
-      answer: "The choice depends on possession timeline, budget flexibility, and risk tolerance. Under-construction properties may offer pricing advantages, while ready-to-move homes provide immediacy and clarity. Through real estate consulting, Celeste Abode helps buyers assess this decision objectively."
-    },
-    {
-      question: "How can a real estate consultant add value beyond property listings?",
-      answer: "A real estate consultant in Delhi NCR adds value through market comparison, legal verification, price benchmarking, and negotiation support. Celeste Abode operates as a consulting-led firm, focusing on informed decision-making rather than inventory push."
-    },
-    {
-      question: "Is working with a real estate consultant in Delhi NCR worth it?",
-      answer: "For buyers and investors navigating a complex market, working with a Best Real Estate Consultant in Delhi NCR helps reduce risk, save time, and avoid misaligned purchases. Celeste Abode's advisory model is designed to provide clarity and structure throughout the process."
-    }
-  ];
+  const toggle = (index: number) => {
+    setOpenFAQs((prev) => {
+      const next = new Set(prev);
+      if (next.has(index)) next.delete(index);
+      else next.add(index);
+      return next;
+    });
+  };
+
+  const faqs = HOMEPAGE_FAQS;
 
   return (
-    <section className="pt-0 pb-0 bg-background">
+    <section className="pt-0 pb-0 bg-background" aria-label="Frequently Asked Questions">
       <div className="max-w-4xl mx-auto px-6">
         {/* Section Header */}
         <motion.div
@@ -56,8 +46,8 @@ export function FAQSection() {
           </p>
         </motion.div>
 
-        {/* FAQ Items */}
-        <div className="space-y-4">
+        {/* FAQ Items – schema.org markup for explicit Q&A relationship */}
+        <div className="space-y-4" itemScope itemType="https://schema.org/FAQPage">
           {faqs.map((faq, index) => (
             <motion.div
               key={index}
@@ -66,38 +56,45 @@ export function FAQSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-white rounded-xl border border-gray-200/60 hover:border-[#CBB27A]/50 transition-all duration-300 shadow-sm hover:shadow-md"
+              itemScope
+              itemProp="mainEntity"
+              itemType="https://schema.org/Question"
             >
               <button
-                onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
+                type="button"
+                onClick={() => toggle(index)}
+                aria-expanded={openFAQs.has(index)}
+                aria-controls={`faq-answer-${index}`}
+                id={`faq-question-${index}`}
                 className="w-full px-6 md:px-8 py-6 text-left flex items-center justify-between hover:bg-gray-50/50 transition-colors duration-200 rounded-xl"
               >
-                <h3 className="text-base md:text-lg font-semibold text-[#2B3035] pr-4 leading-relaxed">
+                <h3 className="text-base md:text-lg font-semibold text-[#2B3035] pr-4 leading-relaxed" itemProp="name">
                   {faq.question}
                 </h3>
                 <ChevronDown
                   className={`w-5 h-5 text-[#CBB27A] transition-transform duration-300 flex-shrink-0 ${
-                    openFAQ === index ? "rotate-180" : ""
+                    openFAQs.has(index) ? "rotate-180" : ""
                   }`}
+                  aria-hidden
                 />
               </button>
 
-              <AnimatePresence>
-                {openFAQ === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="px-6 md:px-8 pb-6 border-t border-gray-100">
-                      <p className="text-sm md:text-base text-[#4A4F55] leading-relaxed pt-4">
-                        {faq.answer}
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {/* Answer always in DOM for crawlers; visibility toggled for UX */}
+              <div
+                id={`faq-answer-${index}`}
+                role="region"
+                aria-labelledby={`faq-question-${index}`}
+                itemScope
+                itemProp="acceptedAnswer"
+                itemType="https://schema.org/Answer"
+                className={openFAQs.has(index) ? "block" : "hidden"}
+              >
+                <div className="px-6 md:px-8 pb-6 border-t border-gray-100">
+                  <p className="text-sm md:text-base text-[#4A4F55] leading-relaxed pt-4" itemProp="text">
+                    {faq.answer}
+                  </p>
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>

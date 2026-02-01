@@ -28,6 +28,15 @@ import {
 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
 import Link from "next/link";
+import { FAQPageSchema } from "@/lib/structured-data";
+
+const BUY_VILLA_NOIDA_FAQS: Array<{ question: string; answer: string }> = [
+  { question: "What is the starting price to buy a villa in Noida?", answer: "Prices start around ₹1 Crore and can exceed ₹10 Crore for ultra-luxury villas in sectors like 150 and 44." },
+  { question: "Are these villas RERA-approved?", answer: "Yes - all villas curated by Celeste Abode are verified, RERA-compliant, and legally secure." },
+  { question: "Which sectors are best for villas in Noida?", answer: "Sectors 44, 47, 93, 135, and 150 are among the most desirable for premium villas." },
+  { question: "Does Celeste Abode help with home loans or documentation?", answer: "Absolutely - we assist with financing, legal verification, and registration to make your purchase seamless." },
+  { question: "Is buying a villa in Noida a good investment?", answer: "Yes - with infrastructure growth, rising demand, and the upcoming Jewar Airport, villas in Noida are among NCR's most promising investments." },
+];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -107,6 +116,7 @@ export default function BuyVillaInNoidaPage() {
   };
 
   return (
+    <>
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-24 pb-16">
@@ -405,7 +415,7 @@ export default function BuyVillaInNoidaPage() {
             </motion.div>
 
             {/* FAQs Section */}
-            <motion.div variants={itemVariants} className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-border">
+            <motion.div variants={itemVariants} className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-border" itemScope itemType="https://schema.org/FAQPage">
               <div className="text-center mb-10">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#CBB27A]/10 mb-6">
                   <MessageCircle className="w-8 h-8 text-[#CBB27A]" />
@@ -415,28 +425,7 @@ export default function BuyVillaInNoidaPage() {
                 </h2>
               </div>
               <div className="space-y-6 max-w-3xl mx-auto">
-                {[
-                  {
-                    q: "What is the starting price to buy a villa in Noida?",
-                    a: "Prices start around ₹1 Crore and can exceed ₹10 Crore for ultra-luxury villas in sectors like 150 and 44.",
-                  },
-                  {
-                    q: "Are these villas RERA-approved?",
-                    a: "Yes - all villas curated by Celeste Abode are verified, RERA-compliant, and legally secure.",
-                  },
-                  {
-                    q: "Which sectors are best for villas in Noida?",
-                    a: "Sectors 44, 47, 93, 135, and 150 are among the most desirable for premium villas.",
-                  },
-                  {
-                    q: "Does Celeste Abode help with home loans or documentation?",
-                    a: "Absolutely - we assist with financing, legal verification, and registration to make your purchase seamless.",
-                  },
-                  {
-                    q: "Is buying a villa in Noida a good investment?",
-                    a: "Yes - with infrastructure growth, rising demand, and the upcoming Jewar Airport, villas in Noida are among NCR's most promising investments.",
-                  },
-                ].map((faq, index) => (
+                {BUY_VILLA_NOIDA_FAQS.map((faq, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
@@ -444,11 +433,16 @@ export default function BuyVillaInNoidaPage() {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
                     className="p-6 bg-gradient-to-r from-primary/5 to-[#CBB27A]/5 rounded-xl border border-[#CBB27A]/20"
+                    itemScope
+                    itemProp="mainEntity"
+                    itemType="https://schema.org/Question"
                   >
-                    <h3 className="font-semibold text-primary mb-2 flex items-start gap-2">
-                      <span className="text-[#CBB27A]">Q{index + 1}.</span> {faq.q}
+                    <h3 className="font-semibold text-primary mb-2 flex items-start gap-2" itemProp="name">
+                      <span className="text-[#CBB27A]">Q{index + 1}.</span> {faq.question}
                     </h3>
-                    <p className="text-muted-foreground ml-6 leading-relaxed">{faq.a}</p>
+                    <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                      <p className="text-muted-foreground ml-6 leading-relaxed" itemProp="text">{faq.answer}</p>
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -713,5 +707,7 @@ export default function BuyVillaInNoidaPage() {
       </main>
       <Footer />
     </div>
+    <FAQPageSchema faqs={BUY_VILLA_NOIDA_FAQS} />
+    </>
   );
 }

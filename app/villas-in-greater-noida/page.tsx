@@ -28,6 +28,15 @@ import {
 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
 import Link from "next/link";
+import { FAQPageSchema } from "@/lib/structured-data";
+
+const VILLAS_GREATER_NOIDA_FAQS: Array<{ question: string; answer: string }> = [
+  { question: "What is the average price range of villas in Greater Noida?", answer: "Premium villas start around ₹1 Cr and can go beyond ₹8 Cr, depending on the sector, size, and builder." },
+  { question: "Are Greater Noida villas RERA-approved?", answer: "Yes, all villas recommended by Celeste Abode comply with RERA and local authority guidelines." },
+  { question: "Which is the best area in Greater Noida for villas?", answer: "Jaypee Greens, Omega, and the Yamuna Expressway belt are among the most sought-after localities." },
+  { question: "Is Greater Noida good for investment?", answer: "Absolutely. With rapid infrastructure growth, airport proximity, and corporate development, Greater Noida offers high ROI potential." },
+  { question: "Does Celeste Abode help with site visits and legal checks?", answer: "Yes - we provide complete assistance, from property tours to legal verification and negotiation." },
+];
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -107,6 +116,7 @@ export default function VillasInGreaterNoidaPage() {
   };
 
   return (
+    <>
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-24 pb-16">
@@ -424,7 +434,7 @@ export default function VillasInGreaterNoidaPage() {
             </motion.div>
 
             {/* FAQs Section */}
-            <motion.div variants={itemVariants} className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-border">
+            <motion.div variants={itemVariants} className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-border" itemScope itemType="https://schema.org/FAQPage">
               <div className="text-center mb-10">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#CBB27A]/10 mb-6">
                   <MessageCircle className="w-8 h-8 text-[#CBB27A]" />
@@ -434,28 +444,7 @@ export default function VillasInGreaterNoidaPage() {
                 </h2>
               </div>
               <div className="space-y-6 max-w-3xl mx-auto">
-                {[
-                  {
-                    q: "What is the average price range of villas in Greater Noida?",
-                    a: "Premium villas start around ₹1 Cr and can go beyond ₹8 Cr, depending on the sector, size, and builder.",
-                  },
-                  {
-                    q: "Are Greater Noida villas RERA-approved?",
-                    a: "Yes, all villas recommended by Celeste Abode comply with RERA and local authority guidelines.",
-                  },
-                  {
-                    q: "Which is the best area in Greater Noida for villas?",
-                    a: "Jaypee Greens, Omega, and the Yamuna Expressway belt are among the most sought-after localities.",
-                  },
-                  {
-                    q: "Is Greater Noida good for investment?",
-                    a: "Absolutely. With rapid infrastructure growth, airport proximity, and corporate development, Greater Noida offers high ROI potential.",
-                  },
-                  {
-                    q: "Does Celeste Abode help with site visits and legal checks?",
-                    a: "Yes - we provide complete assistance, from property tours to legal verification and negotiation.",
-                  },
-                ].map((faq, index) => (
+                {VILLAS_GREATER_NOIDA_FAQS.map((faq, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
@@ -463,11 +452,16 @@ export default function VillasInGreaterNoidaPage() {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
                     className="p-6 bg-gradient-to-r from-primary/5 to-[#CBB27A]/5 rounded-xl border border-[#CBB27A]/20"
+                    itemScope
+                    itemProp="mainEntity"
+                    itemType="https://schema.org/Question"
                   >
-                    <h3 className="font-semibold text-primary mb-2 flex items-start gap-2">
-                      <span className="text-[#CBB27A]">Q{index + 1}.</span> {faq.q}
+                    <h3 className="font-semibold text-primary mb-2 flex items-start gap-2" itemProp="name">
+                      <span className="text-[#CBB27A]">Q{index + 1}.</span> {faq.question}
                     </h3>
-                    <p className="text-muted-foreground ml-6 leading-relaxed">{faq.a}</p>
+                    <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                      <p className="text-muted-foreground ml-6 leading-relaxed" itemProp="text">{faq.answer}</p>
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -732,5 +726,7 @@ export default function VillasInGreaterNoidaPage() {
       </main>
       <Footer />
     </div>
+    <FAQPageSchema faqs={VILLAS_GREATER_NOIDA_FAQS} />
+    </>
   );
 }

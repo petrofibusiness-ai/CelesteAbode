@@ -2,7 +2,8 @@ import dynamic from "next/dynamic"
 import { HeroSection } from "@/components/hero-section"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { OrganizationSchema, WebSiteSchema } from "@/lib/structured-data"
+import { OrganizationSchema, WebSiteSchema, FAQPageSchema } from "@/lib/structured-data"
+import { HOMEPAGE_FAQS } from "@/lib/homepage-faqs"
 import { AggregateRatingSchema } from "@/lib/homepage-schema"
 import { homepageMetadata } from "@/app/metadata"
 import type { Metadata } from "next"
@@ -128,6 +129,7 @@ export default function HomePage() {
       {/* Structured data - load after page content */}
       <OrganizationSchema />
       <WebSiteSchema />
+      <FAQPageSchema faqs={HOMEPAGE_FAQS} />
       <AggregateRatingSchema />
     </>
   )

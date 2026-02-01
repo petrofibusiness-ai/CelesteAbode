@@ -213,6 +213,12 @@ export function PropertyEvaluationSection() {
           </motion.div>
         </div>
 
+        {/* Crawlable copy of "How This Evaluation Works" – always in DOM for SEO; visually hidden (sr-only) */}
+        <div className="sr-only">
+          <h3 id="evaluation-works-seo">How This Evaluation Works</h3>
+          {panelContent}
+        </div>
+
         {/* Desktop: Side Panel Layout | Mobile: Stacked Layout */}
         <div className="relative">
           {/* Cards Container - Desktop: Left Side | Mobile: Full Width */}

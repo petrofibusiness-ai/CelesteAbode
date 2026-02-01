@@ -17,6 +17,7 @@ import { LocationPropertyFilters } from "@/components/location-property-filters"
 import { LocationContactForm } from "@/components/location-contact-form";
 import { WhyInvestSection } from "@/components/why-invest-section";
 import LocationFAQs from "@/components/location-faqs";
+import { FAQPageSchema } from "@/lib/structured-data";
 
 interface PageProps {
   params: Promise<{
@@ -385,6 +386,9 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
         </main>
         <Footer />
       </div>
+      {location.faqs && location.faqs.length > 0 && (
+        <FAQPageSchema faqs={location.faqs.map((f) => ({ question: f.question, answer: f.answer }))} />
+      )}
     </>
   );
 }

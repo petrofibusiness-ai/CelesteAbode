@@ -5,13 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, HelpCircle } from "lucide-react";
 import { HOMEPAGE_FAQS } from "@/lib/homepage-faqs";
 
-/** First N FAQs to expand by default for SEO (visible content weight). */
-const DEFAULT_OPEN_COUNT = 2;
-
 export function FAQSection() {
-  const [openFAQs, setOpenFAQs] = useState<Set<number>>(
-    () => new Set(HOMEPAGE_FAQS.slice(0, DEFAULT_OPEN_COUNT).map((_, i) => i))
-  );
+  const [openFAQs, setOpenFAQs] = useState<Set<number>>(() => new Set());
 
   const toggle = (index: number) => {
     setOpenFAQs((prev) => {
@@ -46,8 +41,8 @@ export function FAQSection() {
           </p>
         </motion.div>
 
-        {/* FAQ Items – schema.org markup for explicit Q&A relationship */}
-        <div className="space-y-4" itemScope itemType="https://schema.org/FAQPage">
+        {/* FAQ Items – structured data via JSON-LD only (page-level FAQPageSchema) to avoid duplicate FAQPage / unnamed items in Rich Results */}
+        <div className="space-y-4">
           {faqs.map((faq, index) => (
             <motion.div
               key={index}
@@ -56,9 +51,6 @@ export function FAQSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-white rounded-xl border border-gray-200/60 hover:border-[#CBB27A]/50 transition-all duration-300 shadow-sm hover:shadow-md"
-              itemScope
-              itemProp="mainEntity"
-              itemType="https://schema.org/Question"
             >
               <button
                 type="button"
@@ -68,7 +60,7 @@ export function FAQSection() {
                 id={`faq-question-${index}`}
                 className="w-full px-6 md:px-8 py-6 text-left flex items-center justify-between hover:bg-gray-50/50 transition-colors duration-200 rounded-xl"
               >
-                <h3 className="text-base md:text-lg font-semibold text-[#2B3035] pr-4 leading-relaxed" itemProp="name">
+                <h3 className="text-base md:text-lg font-semibold text-[#2B3035] pr-4 leading-relaxed">
                   {faq.question}
                 </h3>
                 <ChevronDown
@@ -84,13 +76,10 @@ export function FAQSection() {
                 id={`faq-answer-${index}`}
                 role="region"
                 aria-labelledby={`faq-question-${index}`}
-                itemScope
-                itemProp="acceptedAnswer"
-                itemType="https://schema.org/Answer"
                 className={openFAQs.has(index) ? "block" : "hidden"}
               >
                 <div className="px-6 md:px-8 pb-6 border-t border-gray-100">
-                  <p className="text-sm md:text-base text-[#4A4F55] leading-relaxed pt-4" itemProp="text">
+                  <p className="text-sm md:text-base text-[#4A4F55] leading-relaxed pt-4">
                     {faq.answer}
                   </p>
                 </div>

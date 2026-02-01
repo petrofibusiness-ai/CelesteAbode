@@ -415,8 +415,8 @@ export default function PlotsInNoidaPage() {
               </p>
             </motion.div>
 
-            {/* FAQs Section */}
-            <motion.div variants={itemVariants} className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-border" itemScope itemType="https://schema.org/FAQPage">
+            {/* FAQs Section – structured data via JSON-LD only (FAQPageSchema) to avoid duplicate FAQPage in Rich Results */}
+            <motion.div variants={itemVariants} className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-border">
               <div className="text-center mb-10">
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#CBB27A]/10 mb-6">
                   <MessageCircle className="w-8 h-8 text-[#CBB27A]" />
@@ -434,16 +434,11 @@ export default function PlotsInNoidaPage() {
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
                     className="p-6 bg-gradient-to-r from-primary/5 to-[#CBB27A]/5 rounded-xl border border-[#CBB27A]/20"
-                    itemScope
-                    itemProp="mainEntity"
-                    itemType="https://schema.org/Question"
                   >
-                    <h3 className="font-semibold text-primary mb-2 flex items-start gap-2" itemProp="name">
+                    <h3 className="font-semibold text-primary mb-2 flex items-start gap-2">
                       <span className="text-[#CBB27A]">Q{index + 1}.</span> {faq.question}
                     </h3>
-                    <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
-                      <p className="text-muted-foreground ml-6 leading-relaxed" itemProp="text">{faq.answer}</p>
-                    </div>
+                    <p className="text-muted-foreground ml-6 leading-relaxed">{faq.answer}</p>
                   </motion.div>
                 ))}
               </div>

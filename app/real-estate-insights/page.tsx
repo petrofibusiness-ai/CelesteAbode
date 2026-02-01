@@ -660,7 +660,8 @@ export default function VaultPage() {
               </p>
             </div>
 
-            <div itemScope itemType="https://schema.org/FAQPage">
+            {/* Structured data via JSON-LD only (FAQPageSchema) to avoid duplicate FAQPage in Rich Results */}
+            <div>
               <Accordion type="multiple" defaultValue={["buying", "investment"]} className="space-y-6">
                 {filteredFAQs.map(([key, section]) => (
                   <motion.div
@@ -701,20 +702,15 @@ export default function VaultPage() {
                             <Card
                               key={index}
                               className="border-0 shadow-sm bg-gradient-to-r from-background to-primary/5"
-                              itemScope
-                              itemProp="mainEntity"
-                              itemType="https://schema.org/Question"
                             >
                               <CardContent className="p-6">
-                                <h4 className="font-bold text-primary mb-4 flex items-start gap-3" itemProp="name">
+                                <h4 className="font-bold text-primary mb-4 flex items-start gap-3">
                                   <HelpCircle className="w-5 h-5 text-[#CBB27A] mt-1 flex-shrink-0" aria-hidden />
                                   {item.question}
                                 </h4>
-                                <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
-                                  <p className="text-muted-foreground leading-relaxed ml-8" itemProp="text">
-                                    {item.answer}
-                                  </p>
-                                </div>
+                                <p className="text-muted-foreground leading-relaxed ml-8">
+                                  {item.answer}
+                                </p>
                               </CardContent>
                             </Card>
                           ))}

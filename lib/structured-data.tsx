@@ -206,21 +206,24 @@ export function PropertySchema({
   );
 }
 
-// FAQPage Schema
+// FAQPage Schema (JSON-LD only – do not duplicate with microdata on same page)
 export function FAQPageSchema({
   faqs,
 }: {
   faqs: Array<{ question: string; answer: string }>;
 }) {
+  const validFaqs = faqs.filter(
+    (faq) => typeof faq.question === "string" && faq.question.trim() !== "" && typeof faq.answer === "string" && faq.answer.trim() !== ""
+  );
   const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
+    mainEntity: validFaqs.map((faq) => ({
       "@type": "Question",
-      name: faq.question,
+      name: faq.question.trim(),
       acceptedAnswer: {
         "@type": "Answer",
-        text: faq.answer,
+        text: faq.answer.trim(),
       },
     })),
   };

@@ -5,17 +5,12 @@ import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { FAQ } from "@/types/location";
 
-/** First N FAQs to expand by default for SEO (visible content weight). */
-const DEFAULT_OPEN_COUNT = 2;
-
 interface LocationFAQsProps {
   faqs: FAQ[];
 }
 
 export default function LocationFAQs({ faqs }: LocationFAQsProps) {
-  const [openFAQs, setOpenFAQs] = useState<Set<number>>(() =>
-    new Set(faqs.slice(0, DEFAULT_OPEN_COUNT).map((_, i) => i))
-  );
+  const [openFAQs, setOpenFAQs] = useState<Set<number>>(() => new Set());
 
   const toggleFAQ = (index: number) => {
     setOpenFAQs((prev) => {
@@ -30,8 +25,9 @@ export default function LocationFAQs({ faqs }: LocationFAQsProps) {
     return null;
   }
 
+  // Structured data via JSON-LD only (page-level FAQPageSchema) to avoid duplicate FAQPage in Rich Results
   return (
-    <div className="space-y-4" itemScope itemType="https://schema.org/FAQPage">
+    <div className="space-y-4">
       {faqs.map((faq, index) => (
         <motion.div
           key={faq.id || index}
@@ -40,9 +36,6 @@ export default function LocationFAQs({ faqs }: LocationFAQsProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: index * 0.1 }}
-          itemScope
-          itemProp="mainEntity"
-          itemType="https://schema.org/Question"
         >
           <button
             type="button"
@@ -52,7 +45,7 @@ export default function LocationFAQs({ faqs }: LocationFAQsProps) {
             id={`location-faq-question-${index}`}
             className="w-full px-6 py-5 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
           >
-            <span className="text-lg font-semibold text-gray-900 pr-4 font-poppins" itemProp="name">
+            <span className="text-lg font-semibold text-gray-900 pr-4 font-poppins">
               {faq.question}
             </span>
             <motion.div
@@ -69,12 +62,9 @@ export default function LocationFAQs({ faqs }: LocationFAQsProps) {
             id={`location-faq-answer-${index}`}
             role="region"
             aria-labelledby={`location-faq-question-${index}`}
-            itemScope
-            itemProp="acceptedAnswer"
-            itemType="https://schema.org/Answer"
             className={openFAQs.has(index) ? "block" : "hidden"}
           >
-            <div className="px-6 py-5 pt-0 text-gray-600 font-poppins leading-relaxed" itemProp="text">
+            <div className="px-6 py-5 pt-0 text-gray-600 font-poppins leading-relaxed">
               {faq.answer}
             </div>
           </div>

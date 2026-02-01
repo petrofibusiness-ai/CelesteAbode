@@ -92,6 +92,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+/** Pre-render known location slugs so they are discoverable and fast; fallback list used when DB unavailable at build. */
+export async function generateStaticParams(): Promise<{ locationCategory: string }[]> {
+  const fallbackSlugs = ['noida', 'greater-noida', 'yamuna-expressway', 'ghaziabad', 'lucknow'];
+  try {
+    const supabase = getSupabaseAdminClient();
+    const { data, error } = await supabase
+      .from('locations_v2')
+      .select('slug')
+      .eq('is_published', true);
+    if (error || !data?.length) return fallbackSlugs.map((slug) => ({ locationCategory: slug }));
+    return data.map((row) => ({ locationCategory: row.slug }));
+  } catch {
+    return fallbackSlugs.map((slug) => ({ locationCategory: slug }));
+  }
+}
+
+export const dynamicParams = true;
+
 export default async function LocationPropertiesPage({ params }: PageProps) {
   const { locationCategory: locationSlug } = await params;
   const supabase = getSupabaseAdminClient();

@@ -187,7 +187,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .filter((entry) => entry !== null) as MetadataRoute.Sitemap;
 
   } catch (err) {
-    console.error('Sitemap: Supabase fetch failed, using static + blog pages only:', err);
+    console.error('Sitemap: Supabase fetch failed:', err);
+    // Fallback: include footer-linked locations so they are always in sitemap even when DB is unavailable
+    const fallbackLocationSlugs = ['noida', 'greater-noida', 'yamuna-expressway', 'ghaziabad', 'lucknow'];
+    locationPages = fallbackLocationSlugs.map((slug) => ({
+      url: `${SITE_URL}/properties-in-${slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+    }));
   }
 
   // Combine all pages and ensure no duplicates by URL

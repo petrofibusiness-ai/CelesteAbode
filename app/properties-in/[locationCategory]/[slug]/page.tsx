@@ -110,11 +110,9 @@ export async function generateMetadata({
 
   const { property, canonicalUrl } = result;
 
+  // Use production domain only for canonical/OG so Google never sees a different host (e.g. VERCEL_URL preview)
   const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    (process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "https://www.celesteabode.com");
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
 
   const fullUrl = `${siteUrl}${canonicalUrl}`;
 

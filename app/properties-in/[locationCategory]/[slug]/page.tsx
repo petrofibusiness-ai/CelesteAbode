@@ -131,7 +131,7 @@ export async function generateMetadata({
       follow: true,
     },
     openGraph: {
-      title: property.seo?.title || property.projectName,
+      title: property.seo?.title || `${property.projectName} | Celeste Abode`,
       description:
         property.seo?.description || property.description,
       url: fullUrl,
@@ -151,7 +151,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: property.seo?.title || property.projectName,
+      title: property.seo?.title || `${property.projectName} | Celeste Abode`,
       description: property.seo?.description || property.description || `${property.projectName} in ${property.location} - Luxury Property by Celeste Abode`,
       images: property.heroImage ? [property.heroImage] : [],
       creator: "@celesteabode",

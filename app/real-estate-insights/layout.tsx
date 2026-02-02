@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Real Estate Vault - Property Terms, FAQs & Investment Guide",
+    title: "Real Estate Vault - Property Terms, FAQs & Investment Guide | Celeste Abode",
     description: "Comprehensive real estate knowledge base with terms, FAQs, and investment guidance.",
     images: ["/vaulthero.avif"],
   },

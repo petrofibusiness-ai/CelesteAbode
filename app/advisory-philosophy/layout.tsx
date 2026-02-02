@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Our Real Estate Advisory Philosophy | Celeste Abode",
+  title: "Our Real Estate Advisory Philosophy",
   description:
     "Our real estate advisory philosophy is built on independence, regulatory clarity, and disciplined decision-making—designed to protect long-term client interests.",
   keywords: [
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     "trustworthy property advisor",
   ],
   openGraph: {
-    title: "Our Real Estate Advisory Philosophy | Celeste Abode",
+    title: "Our Real Estate Advisory Philosophy",
     description:
       "Our real estate advisory philosophy is built on independence, regulatory clarity, and disciplined decision-making—designed to protect long-term client interests.",
     url: "https://www.celesteabode.com/advisory-philosophy",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Our Real Estate Advisory Philosophy | Celeste Abode",
+    title: "Our Real Estate Advisory Philosophy",
     description:
       "Our real estate advisory philosophy is built on independence, regulatory clarity, and disciplined decision-making—designed to protect long-term client interests.",
     images: ["/TRUSTTRANIMAGE.avif"],

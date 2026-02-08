@@ -17,7 +17,7 @@ import { LocationPropertyFilters } from "@/components/location-property-filters"
 import { LocationContactForm } from "@/components/location-contact-form";
 import { WhyInvestSection } from "@/components/why-invest-section";
 import LocationFAQs from "@/components/location-faqs";
-import { FAQPageSchema } from "@/lib/structured-data";
+import { FAQPageSchema, BreadcrumbSchema, LocationPageSchema } from "@/lib/structured-data";
 
 interface PageProps {
   params: Promise<{
@@ -171,8 +171,24 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
   const heroAltText = location.imageAltTexts?.hero || `Properties in ${location.locationName} - Celeste Abode`;
   const celesteAbodeAltText = location.imageAltTexts?.celesteAbode || `Celeste Abode - Trusted Real Estate Consultant in ${location.locationName}`;
 
+  const siteUrl = "https://www.celesteabode.com";
+  const locationUrl = `${siteUrl}/properties-in-${location.slug}`;
+  const breadcrumbItems = [
+    { name: "Home", url: siteUrl },
+    { name: "Properties", url: `${siteUrl}/properties` },
+    { name: `Properties in ${location.locationName}`, url: locationUrl },
+  ];
+
   return (
     <>
+      <BreadcrumbSchema items={breadcrumbItems} />
+      <LocationPageSchema
+        name={location.metaTitle}
+        description={location.metaDescription}
+        url={locationUrl}
+        image={location.heroImage}
+        locationName={location.locationName}
+      />
       <div className="min-h-screen bg-background">
         <Header alwaysBlack={true} />
         <main className="relative">

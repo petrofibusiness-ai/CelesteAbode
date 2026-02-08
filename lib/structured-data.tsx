@@ -613,6 +613,100 @@ export function ArticleSchema({
   );
 }
 
+// WebPage Schema – for static location/SEO pages (e.g. villa-in-noida-extension, plots-in-noida)
+export function WebPageSchema({
+  name,
+  description,
+  url,
+  image,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  image?: string;
+}) {
+  const baseUrl = "https://www.celesteabode.com";
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: name,
+    description: description,
+    url: url.startsWith("http") ? url : `${baseUrl}${url}`,
+    inLanguage: "en-IN",
+    publisher: {
+      "@type": "Organization",
+      name: "Celeste Abode",
+      "@id": `${baseUrl}/#organization`,
+      logo: {
+        "@type": "ImageObject",
+        url: `${baseUrl}/logoceleste.avif`,
+      },
+    },
+    ...(image && {
+      image: image.startsWith("http") ? image : `${baseUrl}${image}`,
+    }),
+  };
+
+  return (
+    <Script
+      id="webpage-schema"
+      type="application/ld+json"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
+// Location Page Schema – for dynamic location pages (e.g. /properties-in-noida)
+export function LocationPageSchema({
+  name,
+  description,
+  url,
+  image,
+  locationName,
+}: {
+  name: string;
+  description: string;
+  url: string;
+  image?: string;
+  locationName: string;
+}) {
+  const baseUrl = "https://www.celesteabode.com";
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: name,
+    description: description,
+    url: url.startsWith("http") ? url : `${baseUrl}${url}`,
+    inLanguage: "en-IN",
+    about: {
+      "@type": "Place",
+      name: locationName,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Celeste Abode",
+      "@id": `${baseUrl}/#organization`,
+      logo: {
+        "@type": "ImageObject",
+        url: `${baseUrl}/logoceleste.avif`,
+      },
+    },
+    ...(image && {
+      image: image.startsWith("http") ? image : `${baseUrl}${image}`,
+    }),
+  };
+
+  return (
+    <Script
+      id="location-page-schema"
+      type="application/ld+json"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+
 // Blog Page Schema
 export function BlogPageSchema({
   name,

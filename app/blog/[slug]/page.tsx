@@ -12,12 +12,14 @@ import { ArticleLeadForm } from "./article-lead-form";
 import { NoidaSafe2026Content } from "./noida-safe-2026-content";
 import { YamunaExpresswayContent } from "./yamuna-expressway-content";
 import { NoidaVsGreaterNoidaContent } from "./noida-vs-greater-noida-content";
+import { JewarAirportNcrProperty2026Content } from "./jewar-airport-ncr-property-2026-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 
 const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "is-noida-safe-to-buy-property-2026": NoidaSafe2026Content,
   "yamuna-expressway-growth-corridor-delhi-ncr": YamunaExpresswayContent,
   "noida-vs-greater-noida-investment-2026": NoidaVsGreaterNoidaContent,
+  "jewar-airport-ncr-property-buyers-2026": JewarAirportNcrProperty2026Content,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://celesteabode.com";
@@ -79,6 +81,19 @@ export async function generateMetadata({
       "NCR property investment",
       "Celeste Abode",
     ],
+    "jewar-airport-ncr-property-buyers-2026": [
+      "Jewar airport property",
+      "Jewar airport NCR property",
+      "Noida International Airport property",
+      "property near Jewar airport",
+      "Jewar airport impact on real estate",
+      "Yamuna Expressway property Jewar",
+      "Greater Noida Jewar airport",
+      "real estate near Jewar airport",
+      "Jewar airport property 2026",
+      "NCR property Jewar",
+      "Celeste Abode",
+    ],
   };
   const keywords = keywordsBySlug[post.slug] ?? [
     "property buyers Delhi NCR",
@@ -136,7 +151,7 @@ export default async function BlogPostPage({
       <ArticleSchema
         headline={post.title}
         description={post.excerpt}
-        image={`${SITE_URL}${post.image}`}
+        image={post.image.startsWith("http") ? post.image : `${SITE_URL}${post.image}`}
         author="Celeste Abode Advisory Team"
         datePublished={post.date}
         url={`${SITE_URL}/blog/${post.slug}`}

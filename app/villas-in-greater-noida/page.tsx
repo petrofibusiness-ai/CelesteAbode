@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { motion } from "framer-motion";
@@ -28,7 +29,7 @@ import {
 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
 import Link from "next/link";
-import { FAQPageSchema } from "@/lib/structured-data";
+import { FAQPageSchema, WebPageSchema } from "@/lib/structured-data";
 
 const VILLAS_GREATER_NOIDA_FAQS: Array<{ question: string; answer: string }> = [
   { question: "What is the average price range of villas in Greater Noida?", answer: "Premium villas start around ₹1 Cr and can go beyond ₹8 Cr, depending on the sector, size, and builder." },
@@ -117,56 +118,54 @@ export default function VillasInGreaterNoidaPage() {
 
   return (
     <>
+      <WebPageSchema
+        name="Villas in Greater Noida – Redefining Luxury & Lifestyle | Celeste Abode"
+        description="Discover premium villas in Greater Noida with Celeste Abode. Spacious designs, serene neighborhoods, and future-ready infrastructure — where every villa is crafted for modern elegance."
+        url="https://www.celesteabode.com/villas-in-greater-noida"
+        image="/luxury-villa-with-garden-and-modern-design.avif"
+      />
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-24 pb-16">
-        {/* Hero Section */}
-        <section className="relative pt-20 pb-16 bg-gradient-to-br from-background via-primary/5 to-[#CBB27A]/5 overflow-hidden">
-          <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-          <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-primary leading-tight">
-                Villas in Greater Noida – Where Modern Vision{" "}
-                <span className="text-[#CBB27A]">Meets Serene Living</span>
-              </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground font-light italic mb-4">
-                Luxury, Space & Sophistication - All in One Address
-              </p>
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: "100px" }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                className="h-1 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent mx-auto mt-6"
-              />
-            </motion.div>
+      <main className="pt-0 pb-16">
+        <section className="relative min-h-[55vh] md:min-h-[60vh] flex items-center justify-center">
+          <div className="absolute inset-0">
+            <Image src="/luxury-villa-with-garden-and-modern-design.avif" alt="Villas in Greater Noida" fill priority className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/40" />
+          </div>
+          <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+            <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white leading-tight">Villas in Greater Noida</motion.h1>
+            <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }} className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">Jaypee Greens, Omega & Yamuna belt – ₹1 Cr to ₹8 Cr+</motion.p>
           </div>
         </section>
 
-        {/* Aesthetic Line Separator */}
-        <div className="w-full flex justify-center py-8">
-          <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-        </div>
-
-        {/* Main Content */}
-        <section className="max-w-5xl mx-auto px-6 py-12">
+        <section className="max-w-6xl mx-auto px-6 py-12 md:py-16">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="space-y-16"
+            className="space-y-16 md:space-y-20"
           >
-            {/* Introduction */}
-            <motion.div variants={itemVariants} className="text-center space-y-6">
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                Welcome to Greater Noida, where life moves at the perfect pace - calm yet connected, elegant yet energetic.
-              </p>
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                At <span className="text-[#CBB27A] font-semibold">Celeste Abode</span>, we bring you hand-picked villas in Greater Noida that blend architectural brilliance with lifestyle perfection. Each villa isn't just a structure - it's a sanctuary designed for those who value privacy, beauty, and timeless comfort. <Link href="/properties-in-greater-noida" className="text-[#CBB27A] hover:underline font-semibold">Explore our Greater Noida properties</Link> or <Link href="/properties" className="text-[#CBB27A] hover:underline font-semibold">browse all luxury villas</Link>.
-              </p>
+            <motion.div variants={itemVariants} className="grid md:grid-cols-2 gap-10 items-center">
+              <div className="space-y-4 order-2 md:order-1">
+                <p className="text-lg text-muted-foreground leading-relaxed">Greater Noida's villa market is spread across Jaypee Greens, Pari Chowk, and corridors along the Yamuna Expressway. Prices are lower than Noida for comparable built-up area; the trade-off is distance from Delhi and a longer infrastructure rollout.</p>
+                <p className="text-lg text-muted-foreground leading-relaxed"><span className="text-[#CBB27A] font-semibold">Celeste Abode</span> only recommends RERA-registered villas from builders with a visible delivery record. <Link href="/properties-in-greater-noida" className="text-[#CBB27A] hover:underline font-semibold">View Greater Noida villas</Link> or <Link href="/properties" className="text-[#CBB27A] hover:underline font-semibold">browse all properties</Link>.</p>
+              </div>
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl border border-gray-100 order-1 md:order-2">
+                <Image src="/GREATER NOIDA.avif" alt="Greater Noida villas" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+              </div>
+            </motion.div>
+
+            {/* Unique: Localities at a glance */}
+            <motion.div variants={itemVariants} className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-border">
+              <h2 className="text-2xl md:text-3xl font-bold text-primary mb-6 text-center">
+                Greater Noida Villa Localities: What Each Offers
+              </h2>
+              <div className="max-w-3xl mx-auto space-y-3 text-muted-foreground">
+                <p><span className="font-semibold text-primary">Jaypee Greens:</span> Golf course, green environs, and established social infrastructure; premium pricing and strong resale.</p>
+                <p><span className="font-semibold text-primary">Omega I & II:</span> Planned sectors with wide roads and a mix of ready and under-construction villas; verify builder delivery timelines.</p>
+                <p><span className="font-semibold text-primary">Pari Chowk and vicinity:</span> Central Greater Noida; good connectivity to Noida and Delhi; check exact project RERA status.</p>
+                <p><span className="font-semibold text-primary">Yamuna Expressway belt:</span> Jewar airport story and relatively lower per-sq-ft prices; focus on projects with clear connectivity and completion visibility.</p>
+              </div>
             </motion.div>
 
             {/* The Charm Section */}
@@ -175,14 +174,11 @@ export default function VillasInGreaterNoidaPage() {
                 <TreePine className="w-8 h-8 text-[#CBB27A]" />
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
-                The Charm of Living in Greater Noida
+                Why Villas in Greater Noida Attract Buyers and Investors
               </h2>
               <div className="max-w-3xl mx-auto space-y-4 text-lg text-muted-foreground leading-relaxed text-center">
                 <p>
-                  Greater Noida has evolved from a promising extension of NCR to a modern city in its own right. With green boulevards, wide roads, and premium gated communities, it's one of India's most thoughtfully planned urban destinations.
-                </p>
-                <p>
-                  Whether you prefer a ready-to-move villa near Pari Chowk, a golf-facing estate in Jaypee Greens, or a modern villa in Sector 1 or Omega II, each locality offers a balance of serenity and sophistication.
+                  Greater Noida offers more square footage per rupee than Noida, with the Jewar airport and metro extensions supporting long-term demand. The key is to pick a locality with visible infrastructure and a RERA-registered project from a builder who has delivered on time. We help you compare Jaypee Greens, Omega, and the Yamuna belt so you can align your budget and horizon with the right option.
                 </p>
               </div>
             </motion.div>
@@ -462,32 +458,26 @@ export default function VillasInGreaterNoidaPage() {
               </div>
             </motion.div>
 
-            {/* Internal Links Section */}
-            <motion.div variants={itemVariants} className="bg-gradient-to-br from-primary/5 to-[#CBB27A]/5 rounded-3xl p-8 md:p-12 border border-[#CBB27A]/20">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4">
-                  Explore More
-                </h3>
-                <p className="text-muted-foreground mb-6">
-                  Discover our comprehensive property services and curated collections
-                </p>
-              </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                <Link href="/properties-in-greater-noida" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
-                  <MapPin className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Greater Noida Properties</p>
+            {/* Internal links – prominent strip */}
+            <motion.div variants={itemVariants} className="bg-gradient-to-br from-primary/8 to-[#CBB27A]/10 rounded-2xl p-8 md:p-10 border border-[#CBB27A]/25">
+              <h3 className="text-xl md:text-2xl font-bold text-primary mb-2 text-center">Explore Greater Noida & Our Services</h3>
+              <p className="text-muted-foreground text-center mb-6 max-w-xl mx-auto">Browse listings, advisory services, and get in touch for a shortlist.</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Link href="/properties-in-greater-noida" className="group flex flex-col items-center justify-center p-5 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-md transition-all">
+                  <MapPin className="w-7 h-7 text-[#CBB27A] mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-primary text-sm text-center group-hover:text-[#CBB27A] transition-colors">Greater Noida Properties</span>
                 </Link>
-                <Link href="/properties" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
-                  <Building2 className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">All Properties</p>
+                <Link href="/properties" className="group flex flex-col items-center justify-center p-5 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-md transition-all">
+                  <Building2 className="w-7 h-7 text-[#CBB27A] mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-primary text-sm text-center group-hover:text-[#CBB27A] transition-colors">All Properties</span>
                 </Link>
-                <Link href="/real-estate-consulting-services" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
-                  <Zap className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Our Services</p>
+                <Link href="/real-estate-consulting-services" className="group flex flex-col items-center justify-center p-5 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-md transition-all">
+                  <Zap className="w-7 h-7 text-[#CBB27A] mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-primary text-sm text-center group-hover:text-[#CBB27A] transition-colors">Our Services</span>
                 </Link>
-                <Link href="/contact" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
-                  <MessageCircle className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Contact Us</p>
+                <Link href="/contact" className="group flex flex-col items-center justify-center p-5 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-md transition-all">
+                  <MessageCircle className="w-7 h-7 text-[#CBB27A] mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-primary text-sm text-center group-hover:text-[#CBB27A] transition-colors">Contact Us</span>
                 </Link>
               </div>
             </motion.div>
@@ -495,13 +485,10 @@ export default function VillasInGreaterNoidaPage() {
             {/* CTA Section */}
             <motion.div variants={itemVariants} className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                Start Your Greater Noida Villa Journey Today
+                Compare Villas in Jaypee Greens, Omega, and the Yamuna Belt
               </h2>
               <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
-                If you've ever envisioned a home that balances nature, elegance, and future growth - Greater Noida is where that dream comes alive. At Celeste Abode, we'll guide you to villas that redefine comfort, security, and sophistication. <Link href="/properties-in-greater-noida" className="text-[#CBB27A] hover:underline font-semibold">View our Greater Noida villa collection</Link> or <Link href="/contact" className="text-[#CBB27A] hover:underline font-semibold">schedule a consultation</Link>.
-              </p>
-              <p className="text-muted-foreground italic text-lg text-center max-w-2xl mx-auto">
-                Because true luxury isn't about owning more - it's about living beautifully, every single day.
+                We shortlist RERA-verified villas by locality, builder, and price. <Link href="/properties-in-greater-noida" className="text-[#CBB27A] hover:underline font-semibold">View Greater Noida villa listings</Link> or <Link href="/contact" className="text-[#CBB27A] hover:underline font-semibold">contact us</Link> for a tailored shortlist and site visits.
               </p>
             </motion.div>
           </motion.div>

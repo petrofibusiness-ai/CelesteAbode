@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { motion } from "framer-motion";
@@ -29,7 +30,7 @@ import {
 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
 import Link from "next/link";
-import { FAQPageSchema } from "@/lib/structured-data";
+import { FAQPageSchema, WebPageSchema } from "@/lib/structured-data";
 
 const PLOTS_GREATER_NOIDA_FAQS: Array<{ question: string; answer: string }> = [
   { question: "What is the price range for plots in Greater Noida?", answer: "Plots start from around ₹30 lakh and can go up to ₹5 crore or more, depending on size, location, and sector." },
@@ -118,56 +119,57 @@ export default function PlotsInGreaterNoidaPage() {
 
   return (
     <>
+      <WebPageSchema
+        name="Plots in Greater Noida – Premium Land for Investment & Living | Celeste Abode"
+        description="Discover premium plots in Greater Noida with Celeste Abode. Ideal for building your dream home or securing high-growth land investments in NCR's fastest-growing city."
+        url="https://www.celesteabode.com/plots-in-greater-noida"
+        image="/premium-residential-plot-with-landscaping.avif"
+      />
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-24 pb-16">
-        {/* Hero Section */}
-        <section className="relative pt-20 pb-16 bg-gradient-to-br from-background via-primary/5 to-[#CBB27A]/5 overflow-hidden">
-          <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-          <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-primary leading-tight">
-                Plots in Greater Noida – Your Gateway to{" "}
-                <span className="text-[#CBB27A]">Growth</span>
-              </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground font-light italic mb-4">
-                Because Every Vision Begins with Land
-              </p>
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: "100px" }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                className="h-1 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent mx-auto mt-6"
-              />
-            </motion.div>
+      <main className="pt-0 pb-16">
+        <section className="relative min-h-[55vh] md:min-h-[60vh] flex items-center justify-center">
+          <div className="absolute inset-0">
+            <Image src="/premium-residential-plot-with-landscaping.avif" alt="Plots in Greater Noida" fill priority className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/40" />
+          </div>
+          <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+            <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white leading-tight">Plots in Greater Noida</motion.h1>
+            <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }} className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">Greater Noida West, Knowledge Park & Yamuna corridor – where plot prices and infrastructure align</motion.p>
           </div>
         </section>
 
-        {/* Aesthetic Line Separator */}
-        <div className="w-full flex justify-center py-8">
-          <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-        </div>
-
-        {/* Main Content */}
-        <section className="max-w-5xl mx-auto px-6 py-12">
+        <section className="max-w-6xl mx-auto px-6 py-12 md:py-16">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="space-y-16"
+            className="space-y-16 md:space-y-20"
           >
-            {/* Introduction */}
-            <motion.div variants={itemVariants} className="text-center space-y-6">
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto text-center">
-                Greater Noida is not just a city; it is a vision of planned growth, connectivity, and modern living. Owning a plot in Greater Noida is an opportunity to invest in both your future home and a high-potential asset.
-              </p>
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto text-center">
-                At <span className="text-[#CBB27A] font-semibold">Celeste Abode</span>, we help you discover prime plots in Greater Noida that are strategically located, legally verified, and designed for long-term growth. Whether you are building your dream home or expanding your investment portfolio, Greater Noida offers unmatched potential. <Link href="/properties-in-greater-noida" className="text-[#CBB27A] hover:underline font-semibold">Explore Greater Noida properties</Link> or <Link href="/properties" className="text-[#CBB27A] hover:underline font-semibold">browse all available plots</Link>.
-              </p>
+            <motion.div variants={itemVariants} className="grid md:grid-cols-2 gap-10 items-center">
+              <div className="space-y-4 order-2 md:order-1">
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Greater Noida offers some of NCR's most competitive plot prices, with the trade-off being distance from Delhi and a longer infrastructure rollout. Buyers who pick the right corridor and verify RERA or authority status can lock in value for the next 5–10 years.
+                </p>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  <span className="text-[#CBB27A] font-semibold">Celeste Abode</span> helps you compare Greater Noida West, Knowledge Park, and the Yamuna Expressway belt. <Link href="/properties-in-greater-noida" className="text-[#CBB27A] hover:underline font-semibold">See Greater Noida properties</Link> or <Link href="/properties" className="text-[#CBB27A] hover:underline font-semibold">browse all plots</Link>.
+                </p>
+              </div>
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl border border-gray-100 order-1 md:order-2">
+                <Image src="/GREATER NOIDA.avif" alt="Greater Noida plots" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+              </div>
+            </motion.div>
+
+            {/* Unique: Greater Noida West vs Yamuna Expressway */}
+            <motion.div variants={itemVariants} className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-border">
+              <h2 className="text-2xl md:text-3xl font-bold text-primary mb-6 text-center">
+                Greater Noida West vs Yamuna Expressway Plots: What to Know
+              </h2>
+              <div className="max-w-3xl mx-auto space-y-4 text-muted-foreground">
+                <p>Greater Noida West (Noida Extension) is closer to Noida and Delhi, with metro connectivity and a more established social infrastructure. Plot prices here have already seen a strong run; focus on sectors with clear title and builder or authority delivery track record.</p>
+                <p>The Yamuna Expressway (YEIDA) belt is closer to the Jewar airport and often more affordable per sq ft, but infrastructure and liquidity are still evolving. Suited to buyers with a 5–7 year horizon who can verify RERA/authority status and exact location.</p>
+                <p>We help you weigh both corridors against your budget, timeline, and end-use before you shortlist. Always confirm registration and encumbrance before signing.</p>
+              </div>
             </motion.div>
 
             {/* Why Invest Section */}
@@ -177,35 +179,38 @@ export default function PlotsInGreaterNoidaPage() {
                   <Award className="w-8 h-8 text-[#CBB27A]" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                  Why Invest in Plots in Greater Noida?
+                  Why Plot Buyers Choose Greater Noida
                 </h2>
+                <p className="text-lg text-muted-foreground italic">
+                  Lower entry price per sq ft, Jewar airport upside, and a single planning authority (GNIDA / YEIDA) for clarity.
+                </p>
               </div>
               <div className="grid md:grid-cols-2 gap-6">
                 {[
                   {
                     icon: <Home className="w-6 h-6" />,
-                    title: "Freedom to Build",
-                    description: "Customize your home exactly the way you want, from layout to landscape.",
+                    title: "More land for your budget",
+                    description: "Compared to Noida, Greater Noida plots often give you larger area or a better location for the same outlay.",
                   },
                   {
-                    icon: <MapPin className="w-6 h-6" />,
-                    title: "Connectivity & Infrastructure",
-                    description: "Well-connected via Noida-Greater Noida Expressway, Yamuna Expressway, metro, and upcoming Jewar Airport.",
+                    icon: <Plane className="w-6 h-6" />,
+                    title: "Jewar airport corridor",
+                    description: "Plots along the Yamuna Expressway and near the airport link road are pricing in long-term demand; verify connectivity and RERA.",
                   },
                   {
                     icon: <TrendingUp className="w-6 h-6" />,
-                    title: "High Appreciation Potential",
-                    description: "With rapid urban development, Greater Noida plots offer excellent capital growth opportunities.",
+                    title: "Planned city advantage",
+                    description: "GNIDA and YEIDA master plans mean designated residential sectors, fewer encroachment issues, and clearer title than in unplanned belts.",
                   },
                   {
                     icon: <TreePine className="w-6 h-6" />,
-                    title: "Planned Environment",
-                    description: "Wide roads, green spaces, and regulated development ensure sustainable living and long-term value.",
+                    title: "Green and wide layouts",
+                    description: "Greater Noida’s wide roads and green norms support both liveability and future resale in the right sectors.",
                   },
                   {
                     icon: <Building2 className="w-6 h-6" />,
-                    title: "Modern Amenities Nearby",
-                    description: "Schools, hospitals, retail, and recreational hubs are within easy reach, providing convenience and lifestyle benefits.",
+                    title: "Schools and hospitals in pipeline",
+                    description: "Social infrastructure is expanding in Greater Noida West and along the Yamuna belt; check what’s operational vs planned.",
                   },
                 ].map((item, index) => (
                   <motion.div
@@ -234,11 +239,11 @@ export default function PlotsInGreaterNoidaPage() {
                 <Building2 className="w-8 h-8 text-[#CBB27A]" />
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
-                Celeste Abode – Turning Land into Opportunity
+                How We Shortlist Greater Noida Plots
               </h2>
               <div className="max-w-3xl mx-auto space-y-6">
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  At Celeste Abode, we understand that buying land is more than a transaction - it's a step toward shaping your future. Our team ensures that every plot in Greater Noida you consider is verified and valuable. Learn about our <Link href="/real-estate-consulting-services" className="text-[#CBB27A] hover:underline font-semibold">property investment advisory</Link> and <Link href="/advisory-philosophy" className="text-[#CBB27A] hover:underline font-semibold">data-driven approach</Link> to real estate consulting.
+                  We only suggest plots that are RERA or authority-allotted, with clear title and a sector we’ve assessed for demand and infrastructure. Whether you prefer Greater Noida West or the Yamuna belt, we help you compare like-for-like. <Link href="/real-estate-consulting-services" className="text-[#CBB27A] hover:underline font-semibold">Consulting services</Link> and <Link href="/advisory-philosophy" className="text-[#CBB27A] hover:underline font-semibold">how we work</Link>.
                 </p>
                 <div className="grid md:grid-cols-2 gap-6 mt-8">
                   {[
@@ -441,32 +446,26 @@ export default function PlotsInGreaterNoidaPage() {
               </div>
             </motion.div>
 
-            {/* Internal Links Section */}
-            <motion.div variants={itemVariants} className="bg-gradient-to-br from-primary/5 to-[#CBB27A]/5 rounded-3xl p-8 md:p-12 border border-[#CBB27A]/20">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4">
-                  Explore More
-                </h3>
-                <p className="text-muted-foreground mb-6">
-                  Discover our comprehensive property services and curated collections
-                </p>
-              </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                <Link href="/properties-in-greater-noida" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
-                  <MapPin className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Greater Noida Properties</p>
+            {/* Internal links – prominent strip */}
+            <motion.div variants={itemVariants} className="bg-gradient-to-br from-primary/8 to-[#CBB27A]/10 rounded-2xl p-8 md:p-10 border border-[#CBB27A]/25">
+              <h3 className="text-xl md:text-2xl font-bold text-primary mb-2 text-center">Explore Greater Noida & Our Services</h3>
+              <p className="text-muted-foreground text-center mb-6 max-w-xl mx-auto">Browse listings, advisory services, and get in touch for a shortlist.</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Link href="/properties-in-greater-noida" className="group flex flex-col items-center justify-center p-5 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-md transition-all">
+                  <MapPin className="w-7 h-7 text-[#CBB27A] mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-primary text-sm text-center group-hover:text-[#CBB27A] transition-colors">Greater Noida Properties</span>
                 </Link>
-                <Link href="/properties" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
-                  <Building2 className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">All Properties</p>
+                <Link href="/properties" className="group flex flex-col items-center justify-center p-5 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-md transition-all">
+                  <Building2 className="w-7 h-7 text-[#CBB27A] mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-primary text-sm text-center group-hover:text-[#CBB27A] transition-colors">All Properties</span>
                 </Link>
-                <Link href="/real-estate-consulting-services" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
-                  <Zap className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Our Services</p>
+                <Link href="/real-estate-consulting-services" className="group flex flex-col items-center justify-center p-5 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-md transition-all">
+                  <Zap className="w-7 h-7 text-[#CBB27A] mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-primary text-sm text-center group-hover:text-[#CBB27A] transition-colors">Our Services</span>
                 </Link>
-                <Link href="/contact" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
-                  <MessageCircle className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Contact Us</p>
+                <Link href="/contact" className="group flex flex-col items-center justify-center p-5 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-md transition-all">
+                  <MessageCircle className="w-7 h-7 text-[#CBB27A] mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-primary text-sm text-center group-hover:text-[#CBB27A] transition-colors">Contact Us</span>
                 </Link>
               </div>
             </motion.div>
@@ -474,13 +473,10 @@ export default function PlotsInGreaterNoidaPage() {
             {/* CTA Section */}
             <motion.div variants={itemVariants} className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                Start Your Greater Noida Plot Journey Today
+                Compare Greater Noida West and Yamuna Belt Plots
               </h2>
               <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
-                Looking to secure land in one of NCR's fastest-growing cities? Let Celeste Abode guide you to the perfect plot in Greater Noida - where your dream home, investment, or development project can take shape. <Link href="/properties-in-greater-noida" className="text-[#CBB27A] hover:underline font-semibold">View available plots in Greater Noida</Link> or <Link href="/contact" className="text-[#CBB27A] hover:underline font-semibold">schedule a consultation</Link>.
-              </p>
-              <p className="text-muted-foreground italic text-lg text-center max-w-2xl mx-auto">
-                Because every great vision begins with a strong foundation - and yours begins here, in Greater Noida.
+                Tell us your budget and purpose (self-use or investment), and we’ll shortlist verified plots in the right corridor. <Link href="/properties-in-greater-noida" className="text-[#CBB27A] hover:underline font-semibold">View Greater Noida plot listings</Link> or <Link href="/contact" className="text-[#CBB27A] hover:underline font-semibold">contact us</Link> for a tailored shortlist.
               </p>
             </motion.div>
           </motion.div>

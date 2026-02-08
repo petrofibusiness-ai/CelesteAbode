@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { motion } from "framer-motion";
@@ -26,7 +27,7 @@ import {
 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
 import Link from "next/link";
-import { FAQPageSchema } from "@/lib/structured-data";
+import { FAQPageSchema, WebPageSchema } from "@/lib/structured-data";
 
 const VILLA_NOIDA_FAQS: Array<{ question: string; answer: string }> = [
   { question: "What is the starting price of villas in Noida?", answer: "Depending on the sector and project, villas start from ₹1.5 Cr and go upwards of ₹10 Cr for ultra-luxury residences." },
@@ -115,56 +116,48 @@ export default function VillaInNoidaPage() {
 
   return (
     <>
+      <WebPageSchema
+        name="Luxury Villa in Noida – Discover Elegant Living with Celeste Abode"
+        description="Explore exquisite villas in Noida with Celeste Abode. Experience modern design, serene surroundings, and timeless luxury — where every home tells a story of elegance and comfort."
+        url="https://www.celesteabode.com/villa-in-noida"
+        image="/luxury-villa-exterior-modern-architecture.avif"
+      />
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-24 pb-16">
-        {/* Hero Section */}
-        <section className="relative pt-20 pb-16 bg-gradient-to-br from-background via-primary/5 to-[#CBB27A]/5 overflow-hidden">
-          <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-          <div className="max-w-5xl mx-auto px-6 text-center relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-primary leading-tight">
-                Villa in Noida – Where Luxury{" "}
-                <span className="text-[#CBB27A]">Finds Its True Home</span>
-              </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground font-light italic mb-4">
-                From Spaces You Live In to Spaces You Belong To
-              </p>
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: "100px" }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                className="h-1 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent mx-auto mt-6"
-              />
-            </motion.div>
+      <main className="pt-0 pb-16">
+        <section className="relative min-h-[55vh] md:min-h-[60vh] flex items-center justify-center">
+          <div className="absolute inset-0">
+            <Image src="/luxury-villa-exterior-modern-architecture.avif" alt="Villas in Noida" fill priority className="object-cover object-center" sizes="100vw" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/40" />
+          </div>
+          <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+            <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6 text-white leading-tight">Villas in Noida</motion.h1>
+            <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.15 }} className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">Sector 44, 47, 93 & 150 – RERA villas from ₹1.5 Cr</motion.p>
           </div>
         </section>
 
-        {/* Aesthetic Line Separator */}
-        <div className="w-full flex justify-center py-8">
-          <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-        </div>
+        <section className="max-w-6xl mx-auto px-6 py-12 md:py-16">
+          <motion.div variants={containerVariants} initial="hidden" animate="visible" className="space-y-16 md:space-y-20">
+            <motion.div variants={itemVariants} className="grid md:grid-cols-2 gap-10 items-center">
+              <div className="space-y-4 order-2 md:order-1">
+                <p className="text-lg text-muted-foreground leading-relaxed">Noida's villa supply is concentrated in sectors 44, 47, 93, 135, and 150. Prices start from around ₹1.5 Cr and go well beyond ₹10 Cr for ultra-luxury projects. Metro access and builder delivery history are the two biggest differentiators for resale and rental.</p>
+                <p className="text-lg text-muted-foreground leading-relaxed"><span className="text-[#CBB27A] font-semibold">Celeste Abode</span> only recommends RERA-registered villas from developers with a visible completion record. <Link href="/properties-in-noida" className="text-[#CBB27A] hover:underline font-semibold">View Noida villas</Link> or read our <Link href="/real-estate-consulting-services" className="text-[#CBB27A] hover:underline font-semibold">consulting approach</Link>.</p>
+              </div>
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl border border-gray-100 order-1 md:order-2">
+                <Image src="/NOIDA.avif" alt="Noida villas" fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+              </div>
+            </motion.div>
 
-        {/* Main Content */}
-        <section className="max-w-5xl mx-auto px-6 py-12">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="space-y-16"
-          >
-            {/* Introduction */}
-            <motion.div variants={itemVariants} className="text-center space-y-6">
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                In the heart of India's most connected city, Noida, a new definition of luxury living is taking shape - elegant villas designed not just to house your lifestyle, but to elevate it. Explore our curated collection of <Link href="/properties-in-noida" className="text-[#CBB27A] hover:underline font-semibold">luxury properties in Noida</Link> to discover villas that match your aspirations.
-              </p>
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-                At <span className="text-[#CBB27A] font-semibold">Celeste Abode</span>, we believe a home should be more than architecture - it should be an emotion. A sanctuary where design meets desire, and sophistication meets serenity. Learn more about our <Link href="/real-estate-consulting-services" className="text-[#CBB27A] hover:underline font-semibold">real estate consulting services</Link> and how we help you find the perfect villa.
-              </p>
+            {/* Unique: Where villas are concentrated in Noida */}
+            <motion.div variants={itemVariants} className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-border">
+              <h2 className="text-2xl md:text-3xl font-bold text-primary mb-6 text-center">
+                Where to Look for Villas in Noida: Sector Snapshot
+              </h2>
+              <div className="max-w-3xl mx-auto space-y-3 text-muted-foreground">
+                <p><span className="font-semibold text-primary">Sector 44 & 47:</span> Established, close to commercial and metro; premium pricing and strong rental demand.</p>
+                <p><span className="font-semibold text-primary">Sector 93 & 135:</span> Mix of ready and under-construction; good connectivity to Noida Expressway and Delhi.</p>
+                <p><span className="font-semibold text-primary">Sector 150:</span> Newer, premium corridor with larger formats; verify possession timelines and builder track record.</p>
+              </div>
             </motion.div>
 
             {/* The Essence Section */}
@@ -173,14 +166,11 @@ export default function VillaInNoidaPage() {
                 <Sparkles className="w-8 h-8 text-[#CBB27A]" />
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
-                The Essence of a Noida Villa
+                What Makes a Noida Villa a Sound Choice
               </h2>
               <div className="max-w-3xl mx-auto space-y-4 text-lg text-muted-foreground leading-relaxed text-center">
                 <p>
-                  Every villa in Noida we curate tells a story - of space, sunlight, and subtle grandeur. Whether you're drawn to the lush green avenues of Sector 150, the tranquil neighbourhoods of Noida Extension, or the premium elegance near the Noida Expressway, each location offers a unique blend of comfort and connectivity.
-                </p>
-                <p>
-                  Our villas are thoughtfully designed with expansive living areas, landscaped gardens, private terraces, and the kind of quiet luxury that makes every day feel extraordinary.
+                  Villas in Noida appeal to both end-users and investors because of metro connectivity, corporate presence, and the Jewar airport story. The key is to pick a sector with proven demand and a builder who has delivered on time. We focus on RERA-registered projects and developers with a visible track record so you get liquidity and peace of mind.
                 </p>
               </div>
             </motion.div>
@@ -192,33 +182,38 @@ export default function VillaInNoidaPage() {
                   <Award className="w-8 h-8 text-[#CBB27A]" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                  Why Choose a Villa in Noida?
+                  Why Buyers Choose Villas in Noida Over Apartments
                 </h2>
                 <p className="text-lg text-muted-foreground italic">
-                  Because luxury isn't about location - it's about lifestyle.
+                  More space, privacy, and control – with metro and expressway access that apartments in the same sector also enjoy.
                 </p>
               </div>
               <div className="grid md:grid-cols-2 gap-6">
                 {[
                   {
                     icon: <Home className="w-6 h-6" />,
-                    title: "Space to Breathe",
-                    description: "Independent villas offer the freedom of open layouts, personal gardens, and privacy unmatched by apartments.",
+                    title: "Own terrace and greens",
+                    description: "Private outdoor space and no shared walls – a clear step up from high-rise living in the same micro-market.",
                   },
                   {
                     icon: <MapPin className="w-6 h-6" />,
-                    title: "Strategic Connectivity",
-                    description: "Noida connects seamlessly to Delhi, Gurugram, and Greater Noida via expressways, metro, and upcoming airport routes.",
+                    title: "Metro and expressway",
+                    description: "Sectors 44, 47, 93, 150 have or will have metro access; Noida Expressway links Delhi and Greater Noida.",
                   },
                   {
                     icon: <TrendingUp className="w-6 h-6" />,
-                    title: "Investment Value",
-                    description: "Noida's real estate market continues to thrive, making villas a high-appreciation, low-risk asset.",
+                    title: "Liquidity in the right sectors",
+                    description: "Villas in established Noida sectors hold value and attract tenants and buyers when you need to exit.",
                   },
                   {
-                    icon: <Heart className="w-6 h-6" />,
-                    title: "Quality of Life",
-                    description: "With international schools, hospitals, shopping districts, and golf courses nearby - every comfort is within reach.",
+                    icon: <Shield className="w-6 h-6" />,
+                    title: "RERA and builder credibility",
+                    description: "We only suggest projects that are RERA-registered and from developers with a visible delivery history.",
+                  },
+                  {
+                    icon: <Award className="w-6 h-6" />,
+                    title: "Schools and hospitals nearby",
+                    description: "Noida's social infrastructure in these sectors supports both family living and rental demand.",
                   },
                 ].map((item, index) => (
                   <motion.div
@@ -247,11 +242,11 @@ export default function VillaInNoidaPage() {
                 <Building2 className="w-8 h-8 text-[#CBB27A]" />
               </div>
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
-                Celeste Abode – Crafting Lifestyle-Aligned Homes
+                How We Shortlist Villas in Noida
               </h2>
               <div className="max-w-3xl mx-auto space-y-6">
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  At Celeste Abode, we go beyond transactions - we understand aspirations. Our consultants blend lifestyle mapping, legal diligence, and investment foresight to help you find a villa that reflects who you are. Discover our <Link href="/advisory-philosophy" className="text-[#CBB27A] hover:underline font-semibold">philosophy</Link> and <Link href="/real-estate-consulting-services" className="text-[#CBB27A] hover:underline font-semibold">comprehensive services</Link> designed to make your property journey seamless.
+                  We only recommend villas that are RERA-registered and from builders with a visible delivery record. We compare sectors 44, 47, 93, 150 and help you avoid overpaying for the wrong location. <Link href="/advisory-philosophy" className="text-[#CBB27A] hover:underline font-semibold">Our philosophy</Link> and <Link href="/real-estate-consulting-services" className="text-[#CBB27A] hover:underline font-semibold">consulting services</Link>.
                 </p>
                 <div className="grid md:grid-cols-3 gap-6 mt-8">
                   {[
@@ -444,32 +439,26 @@ export default function VillaInNoidaPage() {
               </div>
             </motion.div>
 
-            {/* Internal Links Section */}
-            <motion.div variants={itemVariants} className="bg-gradient-to-br from-primary/5 to-[#CBB27A]/5 rounded-3xl p-8 md:p-12 border border-[#CBB27A]/20">
-              <div className="text-center mb-8">
-                <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4">
-                  Explore More
-                </h3>
-                <p className="text-muted-foreground mb-6">
-                  Discover our comprehensive property services and curated collections
-                </p>
-              </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                <Link href="/properties-in-noida" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
-                  <MapPin className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Noida Properties</p>
+            {/* Internal links – prominent strip */}
+            <motion.div variants={itemVariants} className="bg-gradient-to-br from-primary/8 to-[#CBB27A]/10 rounded-2xl p-8 md:p-10 border border-[#CBB27A]/25">
+              <h3 className="text-xl md:text-2xl font-bold text-primary mb-2 text-center">Explore Noida & Our Services</h3>
+              <p className="text-muted-foreground text-center mb-6 max-w-xl mx-auto">Browse listings, advisory services, and get in touch for a shortlist.</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <Link href="/properties-in-noida" className="group flex flex-col items-center justify-center p-5 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-md transition-all">
+                  <MapPin className="w-7 h-7 text-[#CBB27A] mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-primary text-sm text-center group-hover:text-[#CBB27A] transition-colors">Noida Properties</span>
                 </Link>
-                <Link href="/properties" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
-                  <Building2 className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">All Properties</p>
+                <Link href="/properties" className="group flex flex-col items-center justify-center p-5 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-md transition-all">
+                  <Building2 className="w-7 h-7 text-[#CBB27A] mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-primary text-sm text-center group-hover:text-[#CBB27A] transition-colors">All Properties</span>
                 </Link>
-                <Link href="/real-estate-consulting-services" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
-                  <Zap className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Our Services</p>
+                <Link href="/real-estate-consulting-services" className="group flex flex-col items-center justify-center p-5 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-md transition-all">
+                  <Zap className="w-7 h-7 text-[#CBB27A] mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-primary text-sm text-center group-hover:text-[#CBB27A] transition-colors">Our Services</span>
                 </Link>
-                <Link href="/contact" className="group p-4 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-lg transition-all text-center">
-                  <MessageCircle className="w-6 h-6 text-[#CBB27A] mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="font-semibold text-primary group-hover:text-[#CBB27A] transition-colors">Contact Us</p>
+                <Link href="/contact" className="group flex flex-col items-center justify-center p-5 bg-white rounded-xl border border-border hover:border-[#CBB27A] hover:shadow-md transition-all">
+                  <MessageCircle className="w-7 h-7 text-[#CBB27A] mb-2 group-hover:scale-110 transition-transform" />
+                  <span className="font-semibold text-primary text-sm text-center group-hover:text-[#CBB27A] transition-colors">Contact Us</span>
                 </Link>
               </div>
             </motion.div>
@@ -477,13 +466,10 @@ export default function VillaInNoidaPage() {
             {/* CTA Section */}
             <motion.div variants={itemVariants} className="text-center">
               <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                Start Your Villa Journey in Noida Today
+                Shortlist RERA-Verified Villas in Sectors 44, 47, 93, 150
               </h2>
               <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
-                If you've ever dreamed of owning a space that mirrors your success and serenity - Celeste Abode is your destination. Explore Noida's most prestigious villas and discover homes that redefine elegance, comfort, and value. <Link href="/properties-in-noida" className="text-[#CBB27A] hover:underline font-semibold">View our Noida property collection</Link> or <Link href="/contact" className="text-[#CBB27A] hover:underline font-semibold">schedule a consultation</Link> to get started.
-              </p>
-              <p className="text-muted-foreground italic text-lg text-center max-w-2xl mx-auto">
-                Because luxury isn't just about where you live - it's about how beautifully you live there.
+                We help you compare ready and under-construction villas by location, builder, and price. <Link href="/properties-in-noida" className="text-[#CBB27A] hover:underline font-semibold">View Noida villa listings</Link> or <Link href="/contact" className="text-[#CBB27A] hover:underline font-semibold">contact us</Link> for a tailored shortlist and site visits.
               </p>
             </motion.div>
           </motion.div>

@@ -108,6 +108,9 @@ export async function generateStaticParams(): Promise<{ locationCategory: string
   }
 }
 
+// Enable ISR for location listing pages (e.g. /properties-in-noida via middleware rewrite)
+// Without this, pages generated at build time can remain stale in production after DB updates.
+export const revalidate = 10;
 export const dynamicParams = true;
 
 export default async function LocationPropertiesPage({ params }: PageProps) {

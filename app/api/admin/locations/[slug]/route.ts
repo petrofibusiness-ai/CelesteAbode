@@ -6,6 +6,7 @@ import { locationToSupabase, supabaseToLocation } from "@/lib/supabase-location-
 import { Location } from "@/types/location";
 import { verifyCSRFToken } from "@/lib/csrf";
 import { logSecurityEvent, getClientIP, getUserAgent } from "@/lib/security-events";
+import { revalidatePath } from "next/cache";
 
 const QUERY_TIMEOUT = 30000;
 
@@ -264,6 +265,10 @@ export async function PUT(
       label: loc.name,
     }));
 
+    // Invalidate public location page cache so FAQs/metadata update immediately in production.
+    // Public URL is /properties-in-{slug} but middleware rewrites to /properties-in/{slug}.
+    revalidatePath(`/properties-in/${slug}`);
+
     return NextResponse.json(updatedLocation);
   } catch (error) {
     console.error("Error in PUT /api/admin/locations/[slug]:", error);
@@ -418,6 +423,9 @@ export async function DELETE(
         { status: 500 }
       );
     }
+
+    // Invalidate public location page cache (and remove stale page output).
+    revalidatePath(`/properties-in/${slug}`);
 
     return NextResponse.json({ 
       success: true,

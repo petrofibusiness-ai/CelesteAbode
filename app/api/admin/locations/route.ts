@@ -6,6 +6,7 @@ import { locationToSupabase, supabaseToLocation } from "@/lib/supabase-location-
 import { Location } from "@/types/location";
 import { verifyCSRFToken } from "@/lib/csrf";
 import { logSecurityEvent, getClientIP, getUserAgent } from "@/lib/security-events";
+import { revalidatePath } from "next/cache";
 
 const QUERY_TIMEOUT = 30000; // 30 seconds
 
@@ -236,6 +237,11 @@ export async function POST(request: NextRequest) {
     }
 
     const createdLocation = supabaseToLocation(locationData);
+
+    // Invalidate public location page cache so the newly created location page renders in production.
+    // Public URL is /properties-in-{slug} but middleware rewrites to /properties-in/{slug}.
+    revalidatePath(`/properties-in/${createdLocation.slug}`);
+
     return NextResponse.json(createdLocation, { status: 201 });
   } catch (error) {
     console.error("Error in POST /api/admin/locations:", error);

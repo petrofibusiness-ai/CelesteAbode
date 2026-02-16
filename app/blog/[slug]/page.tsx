@@ -37,7 +37,7 @@ export async function generateMetadata({
   const post = getPostBySlug(slug);
   if (!post) return { title: "Article Not Found" };
 
-  const title = `${post.title} | Celeste Abode Blog`;
+  const title = `${post.title} - Blog`;
   const description = post.excerpt;
   const url = `${SITE_URL}/blog/${post.slug}`;
   const imageUrl = post.image.startsWith("http") ? post.image : `${SITE_URL}${post.image}`;

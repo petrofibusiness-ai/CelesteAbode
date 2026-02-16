@@ -1,22 +1,18 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Real Estate Vault - Property Terms, FAQs & Investment Guide | Celeste Abode",
+  title: "Real Estate Vault - Property Terms, FAQs & Investment Guide",
   description:
     "Master property buying with clear real estate terms, FAQs, legal basics, and investment frameworks—built to help buyers and investors make safer, smarter decisions.",
   keywords: [
-    "real estate terms",
-    "property buying guide",
-    "real estate FAQ",
-    "property investment guide",
-    "RERA guide",
-    "property glossary",
-    "real estate knowledge base",
-    "property buying questions",
-    "real estate investment FAQ",
+    "real estate terms glossary",
+    "property buying FAQ",
+    "real estate investment guide India",
+    "RERA guide for buyers",
+    "property due diligence basics",
   ],
   openGraph: {
-    title: "Real Estate Vault - Property Terms, FAQs & Investment Guide | Celeste Abode",
+    title: "Real Estate Vault - Property Terms, FAQs & Investment Guide",
     description:
       "Learn real estate terms, RERA basics, due-diligence checklists, and practical FAQs to make safer property decisions in Delhi NCR.",
     url: "https://www.celesteabode.com/real-estate-insights",
@@ -34,7 +30,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Real Estate Vault - Property Terms, FAQs & Investment Guide | Celeste Abode",
+    title: "Real Estate Vault - Property Terms, FAQs & Investment Guide",
     description:
       "Get practical real estate FAQs, legal basics, and investment explainers to make confident property decisions.",
     images: ["/vaulthero.avif"],

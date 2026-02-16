@@ -1,27 +1,17 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "AI-Powered Real Estate Consulting in India | Celeste Abode",
+  title: "AI-Powered Real Estate Consulting in India",
   description:
     "Buy luxury apartments, flats & villas in Noida, Gurgaon, Delhi NCR, Ghaziabad, and Lucknow with Celeste Abode – India's trusted AI-driven real estate advisory. Expert property consultation, investment advisory, and NRI services.",
   keywords: [
     "real estate consulting India",
-    "luxury apartments Noida",
     "property advisory Delhi NCR",
-    "AI real estate",
-    "property investment India",
-    "NRI property services",
-    "Greater Noida properties",
-    "Yamuna Expressway projects",
-    "ready to move apartments",
-    "property investment advisory",
-    "real estate Noida",
-    "luxury villas Gurgaon",
-    "property consultant Noida",
-    "real estate agent Delhi NCR",
+    "luxury apartments Noida",
+    "property investment advisory India",
   ],
   openGraph: {
-    title: "AI-Powered Real Estate Consulting in India | Celeste Abode",
+    title: "AI-Powered Real Estate Consulting in India",
     description:
       "Buy luxury apartments, flats & villas in Noida, Gurgaon, Delhi NCR, Ghaziabad, and Lucknow with Celeste Abode – India's trusted AI-driven real estate advisory.",
     url: "https://www.celesteabode.com",
@@ -39,7 +29,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI-Powered Real Estate Consulting in India | Celeste Abode",
+    title: "AI-Powered Real Estate Consulting in India",
     description:
       "Buy luxury apartments, flats & villas in Noida, Gurgaon, Delhi NCR, Ghaziabad, and Lucknow with Celeste Abode.",
     images: ["/hero.avif"],

@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Request Advisory Session - Personalized Property Consultation | Celeste Abode",
+  title: "Request Advisory Session - Personalized Property Consultation",
   description:
     "Book a 1:1 advisory session to discuss budget, location options, builder risk, and investment strategy across Noida, Greater Noida, and Yamuna Expressway.",
   keywords: [
-    "property advisory session",
+    "book property advisory session",
     "real estate consultation booking",
-    "personalized property advice",
-    "property investment consultation",
-    "real estate expert consultation",
+    "one to one property consultation",
+    "investment strategy consultation NCR",
   ],
   openGraph: {
-    title: "Request Advisory Session - Personalized Property Consultation | Celeste Abode",
+    title: "Request Advisory Session - Personalized Property Consultation",
     description:
       "Book a 1:1 advisory session to discuss budget, location options, builder risk, and investment strategy across Noida, Greater Noida, and Yamuna Expressway.",
     url: "https://www.celesteabode.com/advisory-session",

@@ -5,22 +5,11 @@ export const metadata: Metadata = {
   description:
     "See how Celeste Abode protects buyers with independent advice, RERA-first due diligence, and data-backed decision frameworks—not sales pressure.",
   keywords: [
-    // Trust & Positioning Keywords (About / Philosophy Page)
-    "trusted real estate advisors NCR",
-    "independent real estate advisory India",
-    "client first real estate consulting",
-    "transparent property advisory services",
-    "research based real estate advisory",
-    
-    // Additional Philosophy Keywords
-    "real estate philosophy",
-    "property consulting ethics",
-    "transparent real estate",
-    "evidence-based property advice",
-    "real estate trust",
-    "property consulting standards",
-    "ethical real estate",
-    "trustworthy property advisor",
+    "real estate advisory philosophy",
+    "independent property advisory",
+    "transparent real estate consulting",
+    "client first property guidance",
+    "RERA-first advisory approach",
   ],
   openGraph: {
     title: "Our Real Estate Advisory Philosophy",

@@ -10,34 +10,11 @@ export const homepageMetadata: Metadata = {
   title: homepageTitle,
   description: homepageDescription,
   keywords: [
-    // Core Business Keywords
-    "real estate consultant Delhi NCR",
-    "property consultant Noida",
-    "real estate consulting firm",
-    "property investment advisory NCR",
-    "luxury real estate consultant",
-    
-    // Location-Focused Keywords
-    "real estate consultant Noida",
-    "property advisor Greater Noida",
-    "Yamuna Expressway property consultant",
-    "Delhi NCR real estate advisory",
-    
-    // Service Keywords
-    "property investment consultant",
-    "real estate advisory services",
-    "RERA compliant property advisory",
-    "data-driven real estate consulting",
-    
-    // NRI & Investor Keywords
-    "NRI real estate advisory India",
-    "property investment for NRIs NCR",
-    "overseas property consultant India",
-
-    // Trust & Quality Keywords
-    "trusted real estate consultant",
-    "independent property advisory",
-    "transparent real estate consulting",
+    "trusted real estate consultant Delhi NCR",
+    "independent property advisory Noida",
+    "RERA-safe property decisions",
+    "data-led real estate consulting",
+    "Noida and Yamuna Expressway property advisory",
   ],
   openGraph: {
     title: homepageTitle,

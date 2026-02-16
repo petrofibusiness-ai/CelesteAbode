@@ -5,7 +5,7 @@ import { ObfuscatedEmailText } from "@/components/obfuscated-email-text"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Terms of Service - Celeste Abode",
+  title: "Terms of Service",
   description:
     "Terms and conditions governing your use of Celeste Abode's real estate services. Read our terms of service, user obligations, and service agreements.",
   robots: {

@@ -26,26 +26,11 @@ export const metadata: Metadata = {
   description:
     "Professional real estate consulting and advisory services in Delhi NCR, supporting confident property and investment decisions through data-driven strategy.",
   keywords: [
-    // Core Service Keywords
-    "real estate consultant",
-    "real estate advisory",
-    "real estate consulting services",
-    "real estate consulting firm",
-    "property consultant",
-    "advisory real estate",
-
-    // Service-Specific Keywords
-    "real estate investment advisory services",
-    "real estate transaction consulting",
-    "end to end property advisory",
-    "personalized real estate advisory",
-    "strategic property investment planning",
-    "residential real estate advisory NCR",
-
-    // Additional Services
-    "luxury property advisory",
-    "NRI property services",
-    "property portfolio advisory services",
+    "real estate consulting services Delhi NCR",
+    "property investment advisory services",
+    "NRI property advisory India",
+    "end to end property consulting",
+    "luxury real estate advisory",
   ],
   openGraph: {
     title: "Real Estate Consulting & Advisory Services in Delhi NCR",

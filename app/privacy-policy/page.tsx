@@ -5,7 +5,7 @@ import { ObfuscatedEmailText } from "@/components/obfuscated-email-text"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - Celeste Abode",
+  title: "Privacy Policy",
   description:
     "Celeste Abode's privacy policy outlining how we collect, use, and protect your personal information. Learn about our data protection practices and your privacy rights.",
   robots: {

@@ -25,6 +25,10 @@ interface PageProps {
   }>;
 }
 
+function stripBrandSuffix(title: string): string {
+  return title.replace(/\s*[\|\-]\s*Celeste Abode\s*$/i, "").trim();
+}
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locationCategory } = await params;
   const supabase = getSupabaseAdminClient();
@@ -37,14 +41,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!data) {
     return {
-      title: "Location Not Found | Celeste Abode",
+      title: "Location Not Found",
     };
   }
 
   const locationData = supabaseToLocation(data);
 
   return {
-    title: locationData.metaTitle,
+    title: stripBrandSuffix(locationData.metaTitle),
     description: locationData.metaDescription,
     keywords: locationData.metaKeywords,
     authors: [{ name: "Celeste Abode" }],

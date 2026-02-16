@@ -11,6 +11,10 @@ interface PageProps {
   }>;
 }
 
+function stripBrandSuffix(title: string): string {
+  return title.replace(/\s*[\|\-]\s*Celeste Abode\s*$/i, "").trim();
+}
+
 /**
  * Resolve property using database location_id as source of truth
  * 1. Fetch property by slug from properties_v2
@@ -115,9 +119,10 @@ export async function generateMetadata({
     process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
 
   const fullUrl = `${siteUrl}${canonicalUrl}`;
+  const seoTitle = stripBrandSuffix(property.seo?.title || property.projectName);
 
   return {
-    title: property.seo?.title || `${property.projectName} | Celeste Abode`,
+    title: seoTitle,
     description:
       property.seo?.description || property.description,
     keywords:
@@ -131,7 +136,7 @@ export async function generateMetadata({
       follow: true,
     },
     openGraph: {
-      title: property.seo?.title || `${property.projectName} | Celeste Abode`,
+      title: seoTitle,
       description:
         property.seo?.description || property.description,
       url: fullUrl,
@@ -151,7 +156,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: "summary_large_image",
-      title: property.seo?.title || `${property.projectName} | Celeste Abode`,
+      title: seoTitle,
       description: property.seo?.description || property.description || `${property.projectName} in ${property.location} - Luxury Property by Celeste Abode`,
       images: property.heroImage ? [property.heroImage] : [],
       creator: "@celesteabode",

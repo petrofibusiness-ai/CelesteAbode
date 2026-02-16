@@ -2,12 +2,19 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Location, LocationFormData, Locality, FAQ } from "@/types/location";
+import { Blog, Location, LocationFormData, Locality, FAQ } from "@/types/location";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Upload, X, Plus, Loader2, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 
@@ -33,9 +40,12 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
     exploreSectionHeading: location?.exploreSectionHeading || "Explore Our Curated Collection",
     exploreSectionDescription: location?.exploreSectionDescription || "RERA-compliant projects with verified credentials and transparent documentation",
     localities: location?.localities || [],
-    whyInvestContent: location?.whyInvestContent || [],
     celesteAbodeImage: location?.celesteAbodeImage || location?.heroImage || "",
     faqs: location?.faqs || [],
+    blogs: (location?.blogs && location.blogs.length > 0) ? location.blogs : [{ title: "", description: "" }],
+    compareLocation1: location?.compareLocation1 ?? null,
+    compareLocation2: location?.compareLocation2 ?? null,
+    compareLocation3: location?.compareLocation3 ?? null,
     footerCtaHeading: location?.footerCtaHeading || "Ready to Find Your Home",
     footerCtaDescription: location?.footerCtaDescription || "",
     metaTitle: location?.metaTitle || "",
@@ -60,6 +70,7 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
 
   const [newLocality, setNewLocality] = useState({ slug: "", name: "" });
   const [newMetaKeyword, setNewMetaKeyword] = useState("");
+  const [compareLocationOptions, setCompareLocationOptions] = useState<Array<{ id: string; location_name: string; slug: string }>>([]);
 
   const heroInputRef = useRef<HTMLInputElement>(null);
   const celesteAbodeInputRef = useRef<HTMLInputElement>(null);
@@ -93,6 +104,30 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
       if (previewUrls.celesteAbode) URL.revokeObjectURL(previewUrls.celesteAbode);
     };
   }, [previewUrls]);
+
+  // Fetch locations for Compare Locations dropdowns
+  useEffect(() => {
+    const fetchLocationsForCompare = async () => {
+      try {
+        const response = await fetch("/api/admin/locations/list", {
+          credentials: "include",
+          cache: "no-store",
+        });
+        if (!response.ok) return;
+        const data = await response.json();
+        const list: Array<{ id: string; location_name: string; slug: string }> = Array.isArray(data) ? data : [];
+
+        // Exclude current location itself in edit mode (DB constraint: compare locations must not match self)
+        const filtered = location?.id ? list.filter((l) => l.id !== location.id) : list;
+        setCompareLocationOptions(filtered);
+      } catch (error) {
+        // Non-blocking: compare dropdowns will just be empty
+        console.error("Error fetching locations for compare:", error);
+      }
+    };
+
+    fetchLocationsForCompare();
+  }, [location?.id]);
 
   const handleChange = (field: keyof LocationFormData, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -247,18 +282,19 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
     handleChange("localities", formData.localities.filter((_, i) => i !== index));
   };
 
-  const addWhyInvestParagraph = () => {
-    handleChange("whyInvestContent", [...formData.whyInvestContent, ""]);
+  const addBlog = () => {
+    handleChange("blogs", [...formData.blogs, { title: "", description: "" }]);
   };
 
-  const updateWhyInvestParagraph = (index: number, value: string) => {
-    const updated = [...formData.whyInvestContent];
-    updated[index] = value;
-    handleChange("whyInvestContent", updated);
+  const updateBlog = (index: number, field: keyof Blog, value: string) => {
+    const updated = [...formData.blogs];
+    updated[index] = { ...updated[index], [field]: value };
+    handleChange("blogs", updated);
   };
 
-  const removeWhyInvestParagraph = (index: number) => {
-    handleChange("whyInvestContent", formData.whyInvestContent.filter((_, i) => i !== index));
+  const removeBlog = (index: number) => {
+    if (formData.blogs.length <= 1) return;
+    handleChange("blogs", formData.blogs.filter((_, i) => i !== index));
   };
 
   const addFAQ = () => {
@@ -315,6 +351,35 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
     if (!formData.heroSubtext) newErrors.heroSubtext = "Hero subtext is required";
     if (!formData.metaTitle) newErrors.metaTitle = "Meta title is required";
     if (!formData.metaDescription) newErrors.metaDescription = "Meta description is required";
+
+    // Blogs validation
+    if (!Array.isArray(formData.blogs) || formData.blogs.length === 0) {
+      newErrors.blogs = "At least 1 blog is required";
+    } else {
+      formData.blogs.forEach((blog, index) => {
+        if (!blog.title || blog.title.trim() === "") newErrors[`blogs.${index}.title`] = "Title is required";
+        if (!blog.description || blog.description.trim() === "") newErrors[`blogs.${index}.description`] = "Description is required";
+      });
+    }
+
+    // Compare locations validation (exactly 3 unique)
+    const compareSelections = [
+      formData.compareLocation1,
+      formData.compareLocation2,
+      formData.compareLocation3,
+    ].filter((v): v is string => typeof v === "string" && v.trim() !== "");
+
+    if (compareSelections.length !== 3) {
+      newErrors.compareLocations = "Please select 3 locations to compare";
+    } else {
+      const unique = new Set(compareSelections);
+      if (unique.size !== 3) {
+        newErrors.compareLocations = "Compare locations must be 3 unique locations";
+      }
+      if (location?.id && compareSelections.includes(location.id)) {
+        newErrors.compareLocations = "Compare locations cannot include the current location";
+      }
+    }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -609,42 +674,155 @@ export default function LocationForm({ location, onSuccess }: LocationFormProps)
           </div>
         </section>
 
-        {/* Why Invest Content */}
+        {/* Blogs */}
         <section className="bg-white rounded-xl shadow-md p-6 space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-900 font-poppins">Why Invest Content</h2>
-            <Button type="button" onClick={addWhyInvestParagraph} variant="outline" size="sm" className="font-poppins">
+            <div className="space-y-1">
+              <h2 className="text-2xl font-bold text-gray-900 font-poppins">Blogs</h2>
+              <p className="text-sm text-gray-600 font-poppins">
+                Add short, location-specific blog snippets (title + description).
+              </p>
+            </div>
+            <Button
+              type="button"
+              onClick={addBlog}
+              variant="outline"
+              size="sm"
+              className="font-poppins border-black hover:bg-black hover:text-white"
+            >
               <Plus className="w-4 h-4 mr-2" />
-              Add Paragraph
+              Add Blog
             </Button>
           </div>
           
-          <div className="space-y-4">
-            {formData.whyInvestContent.map((paragraph, index) => (
-              <div key={index} className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label className="font-poppins">Paragraph {index + 1}</Label>
+          {errors.blogs && <p className="text-red-500 text-sm font-poppins">{errors.blogs}</p>}
+
+          <div className="space-y-5">
+            {formData.blogs.map((blog, index) => (
+              <div key={index} className="rounded-lg border border-gray-200 bg-white p-4 sm:p-5 space-y-4">
+                <div className="flex items-center justify-between gap-3">
+                  <Label className="font-poppins font-semibold">Blog {index + 1}</Label>
                   <Button
                     type="button"
-                    onClick={() => removeWhyInvestParagraph(index)}
+                    onClick={() => removeBlog(index)}
                     variant="ghost"
                     size="sm"
                     className="text-red-500 hover:text-red-700"
+                    disabled={formData.blogs.length <= 1}
+                    title={formData.blogs.length <= 1 ? "At least 1 blog is required" : "Remove blog"}
                   >
                     <X className="w-4 h-4" />
                   </Button>
                 </div>
-                <Textarea
-                  value={paragraph}
-                  onChange={(e) => updateWhyInvestParagraph(index, e.target.value)}
-                  className="font-poppins !border-black focus:!border-black focus:ring-black placeholder:text-gray-400"
-                  rows={4}
-                />
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label className="font-poppins">Title *</Label>
+                    <Input
+                      value={blog.title}
+                      onChange={(e) => updateBlog(index, "title", e.target.value)}
+                      placeholder="e.g., Why invest in Noida?"
+                      className="mt-1 font-poppins !border-black focus:!border-black focus:ring-black placeholder:text-gray-400"
+                    />
+                    {errors[`blogs.${index}.title`] && (
+                      <p className="text-red-500 text-sm mt-1 font-poppins">{errors[`blogs.${index}.title`]}</p>
+                    )}
+                  </div>
+                  <div className="md:col-span-2">
+                    <Label className="font-poppins">Description *</Label>
+                    <Textarea
+                      value={blog.description}
+                      onChange={(e) => updateBlog(index, "description", e.target.value)}
+                      placeholder="Short description..."
+                      className="mt-1 font-poppins !border-black focus:!border-black focus:ring-black placeholder:text-gray-400"
+                      rows={3}
+                    />
+                    {errors[`blogs.${index}.description`] && (
+                      <p className="text-red-500 text-sm mt-1 font-poppins">{errors[`blogs.${index}.description`]}</p>
+                    )}
+                  </div>
+                </div>
               </div>
             ))}
-            {formData.whyInvestContent.length === 0 && (
-              <p className="text-sm text-gray-500 font-poppins">No paragraphs added yet.</p>
-            )}
+          </div>
+        </section>
+
+        {/* Compare Locations */}
+        <section className="bg-white rounded-xl shadow-md p-6 space-y-6">
+          <div className="space-y-1">
+            <h2 className="text-2xl font-bold text-gray-900 font-poppins">Compare Locations</h2>
+            <p className="text-sm text-gray-600 font-poppins">
+              Select exactly 3 different locations to compare.
+            </p>
+          </div>
+
+          {errors.compareLocations && (
+            <p className="text-red-500 text-sm font-poppins">{errors.compareLocations}</p>
+          )}
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <Label className="font-poppins">Compare Location 1 *</Label>
+              <Select
+                value={formData.compareLocation1 || ""}
+                onValueChange={(val) => handleChange("compareLocation1", val || null)}
+              >
+                <SelectTrigger className="w-full font-poppins !border-black focus:!border-black focus:ring-black">
+                  <SelectValue placeholder="Select a location" />
+                </SelectTrigger>
+                <SelectContent>
+                  {compareLocationOptions
+                    .filter((opt) => opt.id !== formData.compareLocation2 && opt.id !== formData.compareLocation3)
+                    .map((opt) => (
+                      <SelectItem key={opt.id} value={opt.id}>
+                        {opt.location_name}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="font-poppins">Compare Location 2 *</Label>
+              <Select
+                value={formData.compareLocation2 || ""}
+                onValueChange={(val) => handleChange("compareLocation2", val || null)}
+              >
+                <SelectTrigger className="w-full font-poppins !border-black focus:!border-black focus:ring-black">
+                  <SelectValue placeholder="Select a location" />
+                </SelectTrigger>
+                <SelectContent>
+                  {compareLocationOptions
+                    .filter((opt) => opt.id !== formData.compareLocation1 && opt.id !== formData.compareLocation3)
+                    .map((opt) => (
+                      <SelectItem key={opt.id} value={opt.id}>
+                        {opt.location_name}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="font-poppins">Compare Location 3 *</Label>
+              <Select
+                value={formData.compareLocation3 || ""}
+                onValueChange={(val) => handleChange("compareLocation3", val || null)}
+              >
+                <SelectTrigger className="w-full font-poppins !border-black focus:!border-black focus:ring-black">
+                  <SelectValue placeholder="Select a location" />
+                </SelectTrigger>
+                <SelectContent>
+                  {compareLocationOptions
+                    .filter((opt) => opt.id !== formData.compareLocation1 && opt.id !== formData.compareLocation2)
+                    .map((opt) => (
+                      <SelectItem key={opt.id} value={opt.id}>
+                        {opt.location_name}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </section>
 

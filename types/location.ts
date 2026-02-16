@@ -9,6 +9,11 @@ export interface FAQ {
   answer: string;
 }
 
+export interface Blog {
+  title: string;
+  description: string;
+}
+
 export interface ImageAltTexts {
   hero?: string;
   celesteAbode?: string;
@@ -28,6 +33,10 @@ export interface Location {
   whyInvestContent: string[]; // Array of paragraphs
   celesteAbodeImage?: string;
   faqs: FAQ[];
+  blogs: Blog[];
+  compareLocation1: string | null;
+  compareLocation2: string | null;
+  compareLocation3: string | null;
   footerCtaHeading?: string;
   footerCtaDescription?: string;
   metaTitle: string;
@@ -51,9 +60,12 @@ export interface LocationFormData {
   exploreSectionHeading: string;
   exploreSectionDescription: string;
   localities: Locality[];
-  whyInvestContent: string[];
   celesteAbodeImage: string;
   faqs: FAQ[];
+  blogs: Blog[];
+  compareLocation1: string | null;
+  compareLocation2: string | null;
+  compareLocation3: string | null;
   footerCtaHeading: string;
   footerCtaDescription: string;
   metaTitle: string;

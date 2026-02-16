@@ -134,6 +134,10 @@ export async function PUT(
     if (body.whyInvestContent !== undefined) updateData.whyInvestContent = Array.isArray(body.whyInvestContent) ? body.whyInvestContent : [];
     if (body.celesteAbodeImage !== undefined) updateData.celesteAbodeImage = body.celesteAbodeImage.trim();
     if (body.faqs !== undefined) updateData.faqs = Array.isArray(body.faqs) ? body.faqs : [];
+    if (body.blogs !== undefined) updateData.blogs = Array.isArray(body.blogs) ? body.blogs : [];
+    if (body.compareLocation1 !== undefined) updateData.compareLocation1 = typeof body.compareLocation1 === 'string' ? body.compareLocation1 : null;
+    if (body.compareLocation2 !== undefined) updateData.compareLocation2 = typeof body.compareLocation2 === 'string' ? body.compareLocation2 : null;
+    if (body.compareLocation3 !== undefined) updateData.compareLocation3 = typeof body.compareLocation3 === 'string' ? body.compareLocation3 : null;
     if (body.footerCtaHeading !== undefined) updateData.footerCtaHeading = body.footerCtaHeading.trim();
     if (body.footerCtaDescription !== undefined) updateData.footerCtaDescription = body.footerCtaDescription.trim();
     if (body.metaTitle !== undefined) updateData.metaTitle = body.metaTitle.trim();

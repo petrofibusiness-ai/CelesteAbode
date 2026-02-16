@@ -1,4 +1,4 @@
-import { Location } from "@/types/location";
+import { Blog, Location } from "@/types/location";
 
 // Supabase uses snake_case, TypeScript uses camelCase - matches locations_v2 table
 export interface SupabaseLocation {
@@ -28,6 +28,10 @@ export interface SupabaseLocation {
     og?: string;
   };
   is_published: boolean;
+  blogs: Blog[];
+  compare_location_1?: string | null;
+  compare_location_2?: string | null;
+  compare_location_3?: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -46,6 +50,10 @@ export function supabaseToLocation(supabaseLocation: SupabaseLocation): Location
     whyInvestContent: supabaseLocation.why_invest_content || [],
     celesteAbodeImage: supabaseLocation.celeste_abode_image,
     faqs: supabaseLocation.faqs || [],
+    blogs: supabaseLocation.blogs || [],
+    compareLocation1: supabaseLocation.compare_location_1 ?? null,
+    compareLocation2: supabaseLocation.compare_location_2 ?? null,
+    compareLocation3: supabaseLocation.compare_location_3 ?? null,
     footerCtaHeading: supabaseLocation.footer_cta_heading,
     footerCtaDescription: supabaseLocation.footer_cta_description,
     metaTitle: supabaseLocation.meta_title,
@@ -85,6 +93,10 @@ export function locationToSupabase(location: Partial<Location>): Partial<Supabas
   if (location.ogDescription !== undefined) result.og_description = location.ogDescription;
   if (location.imageAltTexts !== undefined) result.image_alt_texts = location.imageAltTexts;
   if (location.isPublished !== undefined) result.is_published = location.isPublished;
+  if (location.blogs !== undefined) result.blogs = location.blogs;
+  if (location.compareLocation1 !== undefined) result.compare_location_1 = location.compareLocation1;
+  if (location.compareLocation2 !== undefined) result.compare_location_2 = location.compareLocation2;
+  if (location.compareLocation3 !== undefined) result.compare_location_3 = location.compareLocation3;
 
   return result;
 }

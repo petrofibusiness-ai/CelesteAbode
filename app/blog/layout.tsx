@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     title: "Real Estate Insights & Market Analysis | Delhi NCR",
     description:
       "Expert insights on real estate markets, regulations, and investment trends across Delhi NCR—designed to support informed property decisions.",
-    url: "https://celesteabode.com/blog",
+    url: "https://www.celesteabode.com/blog",
     siteName: "Celeste Abode",
     locale: "en_IN",
     type: "website",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     creator: "@celesteabode",
   },
   alternates: {
-    canonical: "https://celesteabode.com/blog",
+    canonical: "https://www.celesteabode.com/blog",
   },
   robots: {
     index: true,
@@ -73,8 +73,8 @@ export default function BlogLayout({
   children: React.ReactNode;
 }) {
   const breadcrumbItems = [
-    { name: "Home", url: "https://celesteabode.com/" },
-    { name: "Blog", url: "https://celesteabode.com/blog" },
+    { name: "Home", url: "https://www.celesteabode.com/" },
+    { name: "Blog", url: "https://www.celesteabode.com/blog" },
   ];
 
   return (
@@ -83,10 +83,10 @@ export default function BlogLayout({
       <BlogPageSchema
         name="Celeste Abode Real Estate Blog"
         description="Expert insights on real estate markets, regulations, and investment trends across Delhi NCR—designed to support informed property decisions."
-        url="https://celesteabode.com/blog"
+        url="https://www.celesteabode.com/blog"
         publisher={{
           name: "Celeste Abode",
-          logo: "https://celesteabode.com/logoceleste.avif",
+          logo: "https://www.celesteabode.com/logoceleste.avif",
         }}
       />
       {children}

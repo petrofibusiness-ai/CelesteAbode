@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Luxury Residential & Investment Properties in Delhi NCR",
   description:
-    "Explore verified residential and investment properties in Delhi NCR across Noida, Greater Noida, and Yamuna Expressway—curated for compliance, location strength, and long-term value.",
+    "Explore verified apartments, villas, and plots in Noida, Greater Noida, and Yamuna Expressway. Compare RERA status, builder credibility, and location fundamentals before you shortlist.",
   keywords: [
     "properties Delhi NCR",
     "verified properties Noida",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Luxury Residential & Investment Properties in Delhi NCR",
     description:
-      "Explore verified residential and investment properties in Delhi NCR across Noida, Greater Noida, and Yamuna Expressway—curated for compliance, location strength, and long-term value.",
+      "Explore verified apartments, villas, and plots in Noida, Greater Noida, and Yamuna Expressway. Compare RERA status, builder credibility, and location fundamentals before you shortlist.",
     url: "https://www.celesteabode.com/properties",
     siteName: "Celeste Abode",
     images: [
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Luxury Residential & Investment Properties in Delhi NCR",
     description:
-      "Explore verified residential and investment properties in Delhi NCR across Noida, Greater Noida, and Yamuna Expressway—curated for compliance, location strength, and long-term value.",
+      "Explore verified apartments, villas, and plots in Noida, Greater Noida, and Yamuna Expressway. Compare RERA status, builder credibility, and location fundamentals before you shortlist.",
     images: ["/hero-.avif"],
   },
   alternates: {

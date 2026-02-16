@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Contact Us - Real Estate Consultation Noida | Celeste Abode",
   description:
-    "Get in touch with Celeste Abode for luxury property consultation in Noida, Greater Noida, and Delhi NCR. Call +91 9818735258 or visit our office in Sector 62, Noida. Expert real estate advisors available 24/7.",
+    "Talk to a Celeste Abode advisor for Noida, Greater Noida, and Yamuna Expressway properties. Get curated shortlists, transparent guidance, and faster decision support.",
   keywords: [
     "contact real estate consultant",
     "property advisor Noida",
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Contact Us - Real Estate Consultation Noida | Celeste Abode",
     description:
-      "Get in touch for luxury property consultation. Call +91 9818735258 or visit Sector 62, Noida.",
+      "Talk to a Celeste Abode advisor for Noida, Greater Noida, and Yamuna Expressway properties. Get curated shortlists and transparent guidance.",
     url: "https://www.celesteabode.com/contact",
     siteName: "Celeste Abode",
     locale: "en_IN",
@@ -24,7 +24,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary",
     title: "Contact Us - Real Estate Consultation Noida",
-    description: "Get in touch for luxury property consultation. Call +91 9818735258.",
+    description:
+      "Speak with an advisor for curated property shortlists and clear, transparent decision support.",
   },
   alternates: {
     canonical: "https://www.celesteabode.com/contact",

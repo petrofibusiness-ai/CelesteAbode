@@ -121,7 +121,7 @@ export default function PlotsInNoidaPage() {
     <>
       <WebPageSchema
         name="Plots in Noida – Invest in Space, Build Your Dream | Celeste Abode"
-        description="Explore premium residential and investment plots in Noida with Celeste Abode. Build your dream home or secure a high-growth land investment in NCR's most promising location."
+        description="Compare RERA-approved plots in Noida across Sector 150, 162, and 117. Get clear insights on pricing, legal checks, and long-term investment potential."
         url="https://www.celesteabode.com/plots-in-noida"
         image="/residential-plot-with-landscaping.avif"
       />

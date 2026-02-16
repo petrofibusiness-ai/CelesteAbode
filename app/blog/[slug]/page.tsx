@@ -22,7 +22,7 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "jewar-airport-ncr-property-buyers-2026": JewarAirportNcrProperty2026Content,
 };
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://celesteabode.com";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
 
 export async function generateStaticParams() {
   return blogPosts.map((post) => ({ slug: post.slug }));

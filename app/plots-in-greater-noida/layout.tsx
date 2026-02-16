@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Plots in Greater Noida – Premium Land for Investment & Living | Celeste Abode",
   description:
-    "Discover premium plots in Greater Noida with Celeste Abode. Ideal for building your dream home or securing high-growth land investments in NCR's fastest-growing city.",
+    "Explore verified plots in Greater Noida West, Knowledge Park, and the Yamuna corridor. Compare entry price, infra outlook, and long-term upside before investing.",
   keywords: [
     // Location-Focused Keywords
     "real estate consultants in Greater Noida",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Plots in Greater Noida – Premium Land for Investment & Living | Celeste Abode",
     description:
-      "Discover premium plots in Greater Noida with Celeste Abode. Ideal for building your dream home or securing high-growth land investments in NCR's fastest-growing city.",
+      "Explore verified plots in Greater Noida West, Knowledge Park, and the Yamuna corridor. Compare entry price, infra outlook, and long-term upside before investing.",
     url: "https://www.celesteabode.com/plots-in-greater-noida",
     siteName: "Celeste Abode",
     type: "website",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Plots in Greater Noida – Premium Land for Investment & Living",
     description:
-      "Discover premium plots in Greater Noida with Celeste Abode. Ideal for building your dream home or securing high-growth land investments in NCR's fastest-growing city.",
+      "Explore verified plots in Greater Noida West, Knowledge Park, and the Yamuna corridor. Compare entry price, infra outlook, and long-term upside before investing.",
   },
   alternates: {
     canonical: "https://www.celesteabode.com/plots-in-greater-noida",

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Request Advisory Session - Personalized Property Consultation | Celeste Abode",
   description:
-    "Book a personalized real estate advisory session with Celeste Abode. Get expert guidance on property buying, investment, and portfolio optimization tailored to your needs, budget, and timeline.",
+    "Book a 1:1 advisory session to discuss budget, location options, builder risk, and investment strategy across Noida, Greater Noida, and Yamuna Expressway.",
   keywords: [
     "property advisory session",
     "real estate consultation booking",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Request Advisory Session - Personalized Property Consultation | Celeste Abode",
     description:
-      "Book a personalized real estate advisory session with expert guidance on property buying and investment.",
+      "Book a 1:1 advisory session to discuss budget, location options, builder risk, and investment strategy across Noida, Greater Noida, and Yamuna Expressway.",
     url: "https://www.celesteabode.com/advisory-session",
     siteName: "Celeste Abode",
     locale: "en_IN",
@@ -23,7 +23,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary",
     title: "Request Advisory Session - Personalized Property Consultation",
-    description: "Book a personalized real estate advisory session with expert guidance.",
+    description:
+      "Book a 1:1 advisory session to align budget, micro-market options, and risk before you invest.",
   },
   alternates: {
     canonical: "https://www.celesteabode.com/advisory-session",

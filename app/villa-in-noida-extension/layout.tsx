@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Villa in Noida Extension – Elegant Living & Smart Investment | Celeste Abode",
   description:
-    "Explore the finest villas in Noida Extension with Celeste Abode. Experience modern design, spacious comfort, and a lifestyle perfectly balanced between city energy and suburban calm.",
+    "Discover RERA-verified villas in Noida Extension (Greater Noida West). Compare Techzone and Bisrakh options, pricing bands, and connectivity before you buy.",
   keywords: [
     // Location-Focused Keywords
     "real estate consultants in Noida",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Villa in Noida Extension – Elegant Living & Smart Investment | Celeste Abode",
     description:
-      "Explore the finest villas in Noida Extension with Celeste Abode. Experience modern design, spacious comfort, and a lifestyle perfectly balanced between city energy and suburban calm.",
+      "Discover RERA-verified villas in Noida Extension (Greater Noida West). Compare Techzone and Bisrakh options, pricing bands, and connectivity before you buy.",
     url: "https://www.celesteabode.com/villa-in-noida-extension",
     siteName: "Celeste Abode",
     type: "website",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Villa in Noida Extension – Elegant Living & Smart Investment",
     description:
-      "Explore the finest villas in Noida Extension with Celeste Abode. Experience modern design, spacious comfort, and a lifestyle perfectly balanced between city energy and suburban calm.",
+      "Discover RERA-verified villas in Noida Extension (Greater Noida West). Compare Techzone and Bisrakh options, pricing bands, and connectivity before you buy.",
   },
   alternates: {
     canonical: "https://www.celesteabode.com/villa-in-noida-extension",

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Villas in Greater Noida – Redefining Luxury & Lifestyle | Celeste Abode",
   description:
-    "Discover premium villas in Greater Noida with Celeste Abode. Spacious designs, serene neighborhoods, and future-ready infrastructure — where every villa is crafted for modern elegance.",
+    "Find spacious villas in Greater Noida across Jaypee Greens, Omega, and the Yamuna belt. Compare value, connectivity, and future growth with transparent guidance.",
   keywords: [
     // Location-Focused Keywords
     "real estate consultants in Noida",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Villas in Greater Noida – Redefining Luxury & Lifestyle | Celeste Abode",
     description:
-      "Discover premium villas in Greater Noida with Celeste Abode. Spacious designs, serene neighborhoods, and future-ready infrastructure.",
+      "Find spacious villas in Greater Noida across Jaypee Greens, Omega, and the Yamuna belt. Compare value, connectivity, and future growth with transparent guidance.",
     url: "https://www.celesteabode.com/villas-in-greater-noida",
     siteName: "Celeste Abode",
     type: "website",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Villas in Greater Noida – Redefining Luxury & Lifestyle",
     description:
-      "Discover premium villas in Greater Noida with Celeste Abode. Spacious designs, serene neighborhoods, and future-ready infrastructure.",
+      "Compare Greater Noida villa options by locality, pricing logic, and growth potential before you shortlist.",
   },
   alternates: {
     canonical: "https://www.celesteabode.com/villas-in-greater-noida",

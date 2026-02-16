@@ -522,7 +522,6 @@ export default function RootLayout({
         
         {/* Preload critical LCP image - highest priority - earliest possible - Mobile optimized */}
         <link rel="preload" href="/propertyhero.avif" as="image" type="image/avif" fetchPriority="high" />
-        <link rel="preload" href="/logoceleste.avif" as="image" type="image/avif" />
         
         {/* Preload critical fonts - async load to prevent render blocking - Mobile optimized */}
         {/* Defer decorative fonts on mobile - only load on desktop */}

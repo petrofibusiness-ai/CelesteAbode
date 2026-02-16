@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Luxury Villa in Noida – Discover Elegant Living with Celeste Abode",
   description:
-    "Explore exquisite villas in Noida with Celeste Abode. Experience modern design, serene surroundings, and timeless luxury — where every home tells a story of elegance and comfort.",
+    "Shortlist luxury villas in Noida sectors 44, 47, 93, and 150. Evaluate builder credibility, location strength, and resale potential with data-backed advisory.",
   keywords: [
     // Location-Focused Keywords
     "real estate consultants in Noida",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Luxury Villa in Noida – Discover Elegant Living with Celeste Abode",
     description:
-      "Explore exquisite villas in Noida with Celeste Abode. Experience modern design, serene surroundings, and timeless luxury.",
+      "Shortlist luxury villas in Noida sectors 44, 47, 93, and 150. Evaluate builder credibility, location strength, and resale potential with data-backed advisory.",
     url: "https://www.celesteabode.com/villa-in-noida",
     siteName: "Celeste Abode",
     type: "website",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Luxury Villa in Noida – Discover Elegant Living",
     description:
-      "Explore exquisite villas in Noida with Celeste Abode. Experience modern design, serene surroundings, and timeless luxury.",
+      "Shortlist Noida villas by sector, budget, and builder track record with transparent, data-backed guidance.",
   },
   alternates: {
     canonical: "https://www.celesteabode.com/villa-in-noida",

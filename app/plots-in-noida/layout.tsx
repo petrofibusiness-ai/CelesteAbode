@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Plots in Noida – Invest in Space, Build Your Dream | Celeste Abode",
   description:
-    "Explore premium residential and investment plots in Noida with Celeste Abode. Build your dream home or secure a high-growth land investment in NCR's most promising location.",
+    "Compare RERA-approved plots in Noida across Sector 150, 162, and 117. Get clear insights on pricing, legal checks, and long-term investment potential.",
   keywords: [
     // Location-Focused Keywords
     "real estate consultants in Noida",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Plots in Noida – Invest in Space, Build Your Dream | Celeste Abode",
     description:
-      "Explore premium residential and investment plots in Noida with Celeste Abode. Build your dream home or secure a high-growth land investment in NCR's most promising location.",
+      "Compare RERA-approved plots in Noida across Sector 150, 162, and 117. Get clear insights on pricing, legal checks, and long-term investment potential.",
     url: "https://www.celesteabode.com/plots-in-noida",
     siteName: "Celeste Abode",
     type: "website",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Plots in Noida – Invest in Space, Build Your Dream",
     description:
-      "Explore premium residential and investment plots in Noida with Celeste Abode. Build your dream home or secure a high-growth land investment in NCR's most promising location.",
+      "Compare RERA-approved plots in Noida across Sector 150, 162, and 117. Get clear insights on pricing, legal checks, and long-term investment potential.",
   },
   alternates: {
     canonical: "https://www.celesteabode.com/plots-in-noida",

@@ -120,7 +120,7 @@ export default function VillasInGreaterNoidaPage() {
     <>
       <WebPageSchema
         name="Villas in Greater Noida – Redefining Luxury & Lifestyle | Celeste Abode"
-        description="Discover premium villas in Greater Noida with Celeste Abode. Spacious designs, serene neighborhoods, and future-ready infrastructure — where every villa is crafted for modern elegance."
+        description="Find spacious villas in Greater Noida across Jaypee Greens, Omega, and the Yamuna belt. Compare value, connectivity, and future growth with transparent guidance."
         url="https://www.celesteabode.com/villas-in-greater-noida"
         image="/luxury-villa-with-garden-and-modern-design.avif"
       />

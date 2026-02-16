@@ -118,7 +118,7 @@ export default function VillaInNoidaPage() {
     <>
       <WebPageSchema
         name="Luxury Villa in Noida – Discover Elegant Living with Celeste Abode"
-        description="Explore exquisite villas in Noida with Celeste Abode. Experience modern design, serene surroundings, and timeless luxury — where every home tells a story of elegance and comfort."
+        description="Shortlist luxury villas in Noida sectors 44, 47, 93, and 150. Evaluate builder credibility, location strength, and resale potential with data-backed advisory."
         url="https://www.celesteabode.com/villa-in-noida"
         image="/luxury-villa-exterior-modern-architecture.avif"
       />

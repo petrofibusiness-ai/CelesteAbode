@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Buy Villa in Noida – Premium Homes for Refined Living | Celeste Abode",
   description:
-    "Looking to buy a villa in Noida? Explore premium independent villas with Celeste Abode — modern designs, world-class amenities, and a lifestyle crafted for elegance and comfort.",
+    "Planning to buy a villa in Noida? Compare RERA-verified options by sector, budget, and possession timeline—with support on legal checks and negotiations.",
   keywords: [
     // Location-Focused Keywords
     "real estate consultants in Noida",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Buy Villa in Noida – Premium Homes for Refined Living | Celeste Abode",
     description:
-      "Looking to buy a villa in Noida? Explore premium independent villas with Celeste Abode — modern designs, world-class amenities, and a lifestyle crafted for elegance and comfort.",
+      "Planning to buy a villa in Noida? Compare RERA-verified options by sector, budget, and possession timeline—with support on legal checks and negotiations.",
     url: "https://www.celesteabode.com/buy-villa-in-noida",
     siteName: "Celeste Abode",
     type: "website",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Buy Villa in Noida – Premium Homes for Refined Living",
     description:
-      "Looking to buy a villa in Noida? Explore premium independent villas with Celeste Abode — modern designs, world-class amenities, and a lifestyle crafted for elegance and comfort.",
+      "Planning to buy a villa in Noida? Compare RERA-verified options by sector, budget, and possession timeline—with support on legal checks and negotiations.",
   },
   alternates: {
     canonical: "https://www.celesteabode.com/buy-villa-in-noida",

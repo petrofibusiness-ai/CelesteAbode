@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Our Real Estate Advisory Philosophy",
   description:
-    "Our real estate advisory philosophy is built on independence, regulatory clarity, and disciplined decision-making—designed to protect long-term client interests.",
+    "See how Celeste Abode protects buyers with independent advice, RERA-first due diligence, and data-backed decision frameworks—not sales pressure.",
   keywords: [
     // Trust & Positioning Keywords (About / Philosophy Page)
     "trusted real estate advisors NCR",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Our Real Estate Advisory Philosophy",
     description:
-      "Our real estate advisory philosophy is built on independence, regulatory clarity, and disciplined decision-making—designed to protect long-term client interests.",
+      "See how Celeste Abode protects buyers with independent advice, RERA-first due diligence, and data-backed decision frameworks—not sales pressure.",
     url: "https://www.celesteabode.com/advisory-philosophy",
     siteName: "Celeste Abode",
     images: [
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Our Real Estate Advisory Philosophy",
     description:
-      "Our real estate advisory philosophy is built on independence, regulatory clarity, and disciplined decision-making—designed to protect long-term client interests.",
+      "See how Celeste Abode protects buyers with independent advice, RERA-first due diligence, and data-backed decision frameworks—not sales pressure.",
     images: ["/TRUSTTRANIMAGE.avif"],
   },
   alternates: {

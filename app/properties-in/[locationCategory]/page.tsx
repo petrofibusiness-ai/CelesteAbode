@@ -175,6 +175,34 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
       })
     : [];
 
+  // Fetch compare locations (compare_location_1, _2, _3 are FKs to locations_v2)
+  const compareLocationIds = [location.compareLocation1, location.compareLocation2, location.compareLocation3].filter(
+    (id): id is string => !!id
+  );
+  let compareLocations: { title: string; subtitle: string; href: string; image: string; alt: string }[] = [];
+  if (compareLocationIds.length > 0) {
+    const { data: compareData } = await supabase
+      .from("locations_v2")
+      .select("id, slug, location_name, hero_image")
+      .in("id", compareLocationIds)
+      .eq("is_published", true);
+    const compareMap = new Map((compareData || []).map((row) => [row.id, row]));
+    compareLocations = [location.compareLocation1, location.compareLocation2, location.compareLocation3]
+      .filter((id): id is string => !!id)
+      .map((id) => {
+        const row = compareMap.get(id);
+        if (!row) return null;
+        return {
+          title: row.location_name,
+          subtitle: `Explore properties in ${row.location_name}`,
+          href: `/properties-in-${row.slug}`,
+          image: row.hero_image,
+          alt: `Explore properties in ${row.location_name}`,
+        };
+      })
+      .filter((r): r is NonNullable<typeof r> => r !== null);
+  }
+
   const heroAltText = location.imageAltTexts?.hero || `Properties in ${location.locationName} - Celeste Abode`;
   const celesteAbodeAltText = location.imageAltTexts?.celesteAbode || `Celeste Abode - Trusted Real Estate Consultant in ${location.locationName}`;
 
@@ -288,6 +316,95 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
           </div>
 
+          {/* Blogs Section - from locations_v2.blogs (JSONB), aligned like Why Invest */}
+          {location.blogs && location.blogs.length > 0 && (
+            <>
+              <section className="py-14 md:py-20 bg-background px-4 sm:px-6 lg:px-8">
+                <div className="max-w-[1200px] mx-auto space-y-10 md:space-y-12">
+                  {location.blogs.map((blog, index) => (
+                    <article key={index}>
+                      <header className="text-center mb-8 md:mb-12 lg:mb-16">
+                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                          {blog.title}
+                        </h2>
+                      </header>
+                      <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden border border-gray-200">
+                        <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
+                          <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0 last:mb-0">
+                            {blog.description}
+                          </p>
+                        </div>
+                      </div>
+                      {index < location.blogs!.length - 1 && (
+                        <div className="w-full flex justify-center py-8">
+                          <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
+                        </div>
+                      )}
+                    </article>
+                  ))}
+                </div>
+              </section>
+
+              {/* Aesthetic Line Separator */}
+              <div className="w-full flex justify-center py-2">
+                <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
+              </div>
+            </>
+          )}
+
+          {/* Compare Nearby NCR Markets - from locations_v2 compare_location_1/2/3 */}
+          {compareLocations.length > 0 && (
+            <>
+              <section className="py-14 md:py-20 bg-white">
+                <div className="max-w-6xl mx-auto px-6">
+                  <div className="text-center mb-8 md:mb-10">
+                    <h2 className="text-2xl md:text-4xl font-bold text-primary mb-3 font-poppins">
+                      Compare Nearby NCR Markets Before You Decide
+                    </h2>
+                    <p className="text-muted-foreground max-w-2xl mx-auto text-center font-poppins">
+                      Explore adjacent corridors with image-led cards so you can compare options before deciding.
+                    </p>
+                  </div>
+                  <div className="grid md:grid-cols-3 gap-6">
+                    {compareLocations.map((region) => (
+                      <Link
+                        key={region.href}
+                        href={region.href}
+                        className="group block"
+                      >
+                        <div className="relative h-[260px] md:h-[300px] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1">
+                          <Image
+                            src={region.image}
+                            alt={region.alt}
+                            fill
+                            className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                            quality={90}
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/25 group-hover:from-black/95 transition-all duration-500" />
+                          <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
+                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-2 group-hover:text-[#CBB27A] transition-colors font-poppins">
+                              {region.title}
+                            </h3>
+                            <p className="text-white/85 text-sm md:text-base font-poppins">
+                              {region.subtitle}
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              {/* Aesthetic Line Separator */}
+              <div className="w-full flex justify-center py-2">
+                <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
+              </div>
+            </>
+          )}
+
           {/* Why Invest Section */}
           <WhyInvestSection location={location} />
 
@@ -296,60 +413,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
           </div>
 
-          {/* Celeste Abode Section */}
-          <section className="py-16 md:py-24 bg-background">
-            <div className="max-w-6xl mx-auto px-6">
-              <div className="bg-white rounded-3xl p-8 md:p-12 shadow-xl border border-gray-100">
-                <div className="grid md:grid-cols-2 gap-8 items-center">
-                  <div className="order-2 md:order-1">
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-normal text-[#CBB27A] mb-4 font-poppins tracking-tight">
-                      Celeste Abode
-                    </h2>
-                    <h3 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4 font-poppins">
-                      Your Trusted Real Estate Partner in <span className="text-[#CBB27A]">Delhi NCR</span>
-                    </h3>
-                    <p className="text-gray-600 font-poppins leading-relaxed mb-6">
-                      In a market driven by pressure and noise, Celeste Abode focuses on what actually protects your decision: 
-                      <span className="font-semibold text-gray-900"> RERA-compliant projects</span>, 
-                      <span className="font-semibold text-gray-900"> data-backed analysis</span>, and 
-                      <span className="font-semibold text-gray-900"> deep local understanding</span>.
-                    </p>
-                    <p className="text-gray-600 font-poppins leading-relaxed mb-6">
-                      Our role is not to push options, but to help you evaluate what makes sense financially, legally, and long-term. 
-                      From Noida to Greater Noida, every recommendation is guided by one principle: 
-                      <span className="font-semibold text-[#CBB27A]"> secure decisions today that hold value tomorrow</span>.
-                    </p>
-                    <div className="flex flex-wrap gap-4">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-[#CBB27A]" />
-                        <span className="text-sm font-medium text-gray-700">RERA Verified</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-[#CBB27A]" />
-                        <span className="text-sm font-medium text-gray-700">Data-Driven Insights</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-5 h-5 text-[#CBB27A]" />
-                        <span className="text-sm font-medium text-gray-700">Local Expertise</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="relative h-80 md:h-96 rounded-2xl overflow-hidden order-1 md:order-2">
-                    <Image
-                      src={location.celesteAbodeImage || location.heroImage}
-                      alt={celesteAbodeAltText}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      quality={90}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
+       
           {/* Aesthetic Line Separator */}
           <div className="w-full flex justify-center py-2">
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>

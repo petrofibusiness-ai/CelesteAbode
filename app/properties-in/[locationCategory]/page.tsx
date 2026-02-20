@@ -243,22 +243,15 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
             </div>
 
             <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-              <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-3 md:mb-4 leading-tight font-poppins text-white not-italic">
-                {location.heroText.includes(location.locationName) ? (
-                  location.heroText.split(location.locationName).map((part, i, arr) => (
-                    <span key={i}>
-                      {part}
-                      {i < arr.length - 1 && <span className="text-[#CBB27A]">{location.locationName}</span>}
-                    </span>
-                  ))
-                ) : (
-                  location.heroText
-                )}
-              </h1>
+              <h1
+                className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-3 md:mb-4 leading-tight font-poppins text-white not-italic"
+                dangerouslySetInnerHTML={{ __html: location.heroText }}
+              />
 
-              <p className="text-xs sm:text-sm md:text-base lg:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed font-poppins not-italic">
-                {location.heroSubtext}
-              </p>
+              <p
+                className="text-xs sm:text-sm md:text-base lg:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed font-poppins not-italic"
+                dangerouslySetInnerHTML={{ __html: location.heroSubtext }}
+              />
             </div>
           </section>
 
@@ -266,21 +259,14 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
           <section id="properties" className="py-16 md:py-24 bg-background relative">
             <div className="max-w-7xl mx-auto px-6">
               <div className="text-center mb-12">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
-                  {location.exploreSectionHeading && location.exploreSectionHeading.includes("Curated Collection") ? (
-                    location.exploreSectionHeading.split("Curated Collection").map((part, i, arr) => (
-                      <span key={i}>
-                        {part}
-                        {i < arr.length - 1 && <span className="text-[#CBB27A]">Curated Collection</span>}
-                      </span>
-                    ))
-                  ) : (
-                    location.exploreSectionHeading || "Explore Properties"
-                  )}
-                </h2>
-                <p className="text-lg text-gray-600 max-w-2xl mx-auto font-poppins">
-                  {location.exploreSectionDescription}
-                </p>
+                <h2
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2"
+                  dangerouslySetInnerHTML={{ __html: location.exploreSectionHeading || "Explore Properties" }}
+                />
+                <p
+                  className="text-lg text-gray-600 max-w-2xl mx-auto font-poppins"
+                  dangerouslySetInnerHTML={{ __html: location.exploreSectionDescription ?? "" }}
+                />
               </div>
 
               {/* Property Filters Section */}
@@ -452,12 +438,22 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
               <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
                 {/* Left Column - Content */}
                 <div className="space-y-6">
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
-                    {location.footerCtaHeading || "Ready to Find Your Home"} in <span className="text-[#CBB27A]">{location.locationName}</span>?
-                  </h2>
-                  <p className="text-lg text-white/80 leading-relaxed font-poppins">
-                    {location.footerCtaDescription || "Connect with our expert advisors for personalized guidance and exclusive property insights. We're here to help you make informed decisions about your next real estate investment."}
-                  </p>
+                  <h2
+                    className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        location.footerCtaHeading ||
+                        `Ready to Find Your Home in <span class="text-[#CBB27A]">${location.locationName}</span>?`,
+                    }}
+                  />
+                  <p
+                    className="text-lg text-white/80 leading-relaxed font-poppins"
+                    dangerouslySetInnerHTML={{
+                      __html:
+                        location.footerCtaDescription ||
+                        "Connect with our expert advisors for personalized guidance and exclusive property insights. We're here to help you make informed decisions about your next real estate investment.",
+                    }}
+                  />
 
                   {/* Contact Information */}
                   <div className="pt-4 space-y-4">

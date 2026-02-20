@@ -24,12 +24,11 @@ export function WhyInvestSection({ location }: WhyInvestSectionProps) {
           <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
             <div className="w-full max-w-none">
               {location.whyInvestContent.map((paragraph, index) => (
-                <p
+                <div
                   key={index}
                   className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0 last:mb-0"
-                >
-                  {paragraph}
-                </p>
+                  dangerouslySetInnerHTML={{ __html: paragraph }}
+                />
               ))}
             </div>
           </div>

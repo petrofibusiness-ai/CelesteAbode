@@ -415,9 +415,8 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
                   fontFamily: "Poppins, sans-serif",
                   textShadow: "0 4px 30px rgba(0,0,0,0.8)",
                 }}
-              >
-                {property.projectName}
-              </h1>
+                dangerouslySetInnerHTML={{ __html: property.projectName }}
+              />
 
               <div className="flex items-center gap-3 mb-3">
                 <MapPin className="w-5 h-5 md:w-6 md:h-6 text-[#CBB27A]" />
@@ -441,9 +440,8 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
                       fontFamily: "Poppins, sans-serif",
                       textShadow: "0 2px 10px rgba(0,0,0,0.5)",
                     }}
-                  >
-                    {property.developer}
-                  </p>
+                    dangerouslySetInnerHTML={{ __html: property.developer }}
+                  />
                 </div>
               )}
             </div>
@@ -546,9 +544,8 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
                   <h2
                     className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900"
                     style={{ fontFamily: "Poppins, sans-serif" }}
-                  >
-                    About {property.projectName}
-                  </h2>
+                    dangerouslySetInnerHTML={{ __html: `About ${property.projectName}` }}
+                  />
                 </div>
                 <div className="w-16 sm:w-20 h-1 bg-[#CBB27A] mb-6 sm:mb-8"></div>
 
@@ -565,9 +562,8 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
                         letterSpacing: "-0.01em",
                         lineHeight: "1.8",
                       }}
-                    >
-                      {property.description}
-                    </p>
+                      dangerouslySetInnerHTML={{ __html: property.description }}
+                    />
                   </div>
                 </div>
               </div>
@@ -581,7 +577,7 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
                   style={{ fontFamily: "Poppins, sans-serif" }}
                 >
                   Get detailed information about{" "}
-                  <span className="font-semibold text-[#CBB27A]">{property.projectName}</span>{" "}
+                  <span className="font-semibold text-[#CBB27A]" dangerouslySetInnerHTML={{ __html: property.projectName }} />{" "}
                   and explore your investment opportunity today.
                 </p>
               </div>
@@ -869,10 +865,8 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
                 <h2
                   className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
                   style={{ fontFamily: "Poppins, sans-serif" }}
-                >
-                  Ready to Explore{" "}
-                  <span className="text-[#CBB27A]">{property.projectName}</span>?
-                </h2>
+                  dangerouslySetInnerHTML={{ __html: `Ready to Explore <span class="text-[#CBB27A]">${property.projectName}</span>?` }}
+                />
                 <p
                   className="text-sm sm:text-base md:text-lg text-white/80 leading-relaxed"
                   style={{ fontFamily: "Poppins, sans-serif" }}

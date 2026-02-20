@@ -64,9 +64,10 @@ export default function LocationFAQs({ faqs }: LocationFAQsProps) {
             aria-labelledby={`location-faq-question-${index}`}
             className={openFAQs.has(index) ? "block" : "hidden"}
           >
-            <div className="px-6 py-5 pt-0 text-gray-600 font-poppins leading-relaxed">
-              {faq.answer}
-            </div>
+            <div
+              className="px-6 py-5 pt-0 text-gray-600 font-poppins leading-relaxed"
+              dangerouslySetInnerHTML={{ __html: faq.answer }}
+            />
           </div>
         </motion.div>
       ))}

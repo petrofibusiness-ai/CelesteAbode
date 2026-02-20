@@ -137,7 +137,7 @@ export default async function DummyPage() {
       const { data: propertiesData } = await supabase
         .from("properties_v2")
         .select(
-          "id, slug, project_name, developer, location, location_id, locality_id, project_status, hero_image, is_published, created_at, updated_at"
+          "id, slug, project_name, developer, location, location_id, locality_id, project_status, hero_image, hero_image_alt, is_published, created_at, updated_at"
         )
         .eq("location_id", noidaLocation.id)
         .eq("is_published", true)

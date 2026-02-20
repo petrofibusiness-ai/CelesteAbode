@@ -436,7 +436,7 @@ export default function ProjectsPage() {
                       <div className="relative w-full h-80 rounded-xl overflow-hidden">
                         <Image
                           src={property.heroImage}
-                          alt={`${property.projectName} - ${property.location}`}
+                          alt={property.heroImageAlt || `${property.projectName} - ${property.location}`}
                           fill
                           className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

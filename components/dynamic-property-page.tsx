@@ -393,7 +393,7 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
           {property.heroImage ? (
             <Image
               src={property.heroImage}
-              alt={property.projectName}
+              alt={property.heroImageAlt || property.projectName}
               fill
               className="object-cover object-center"
               priority
@@ -656,9 +656,9 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
                                 className="relative w-full h-full flex items-center justify-center bg-black cursor-pointer group/image"
                                 onClick={() => openLightbox(index)}
                               >
-                                <img
-                                  src={item.src}
-                                  alt={`${property.projectName} - Image ${index + 1}`}
+                    <img
+                      src={item.src}
+                      alt={property.heroImageAlt || `${property.projectName} - Image ${index + 1}`}
                                   className="object-contain w-full h-full"
                                 />
                                 {/* Enlarge Icon Overlay */}
@@ -686,7 +686,7 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
                                     >
                                       <img
                                         src={item.thumbnail}
-                                        alt={item.title || 'Video thumbnail'}
+                                        alt={item.title || property.heroImageAlt || 'Video thumbnail'}
                                         className="object-contain w-full h-full"
                                       />
                                     </div>
@@ -1016,7 +1016,7 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
                   <div className="relative w-full h-full flex items-center justify-center">
                     <img
                       src={mediaItems[lightboxIndex].src}
-                      alt={`${property.projectName} - Image ${lightboxIndex + 1}`}
+                      alt={property.heroImageAlt || `${property.projectName} - Image ${lightboxIndex + 1}`}
                       className="object-contain w-full h-full max-h-[90vh]"
                     />
                   </div>

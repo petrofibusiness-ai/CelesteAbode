@@ -72,6 +72,7 @@ export const PropertyDataSchema = z.object({
   sizes: z.string().min(1).max(1000),
   description: z.string().min(1).max(5000),
   heroImage: URLSchema,
+  heroImageAlt: z.string().max(255).optional(),
   brochureUrl: URLSchema.optional(),
   images: z.array(z.string().url()).optional().default([]),
   videos: z.array(z.object({

@@ -321,7 +321,7 @@ export default function PropertiesPage() {
                 {property.heroImage ? (
                   <img
                     src={property.heroImage}
-                    alt={property.projectName}
+                    alt={property.heroImageAlt || property.projectName}
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       // Fallback if image fails to load

@@ -222,6 +222,9 @@ export function validatePropertyData(body: any): ValidationError[] {
   if (body.reraId) {
     errors.push(...validateString(body.reraId, 'reraId', false, 100));
   }
+  if (body.heroImageAlt) {
+    errors.push(...validateString(body.heroImageAlt, 'heroImageAlt', false, 255));
+  }
   if (body.possessionDate) {
     errors.push(...validateString(body.possessionDate, 'possessionDate', false, 100));
   }

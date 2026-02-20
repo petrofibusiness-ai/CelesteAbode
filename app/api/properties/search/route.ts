@@ -113,7 +113,7 @@ export async function GET(request: NextRequest) {
     // Filter order: location_id (mandatory) → locality_id (optional) → other filters
     let query = supabase
       .from("properties_v2")
-      .select("id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, configuration, hero_image, is_published, created_at, updated_at")
+    .select("id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, configuration, hero_image, hero_image_alt, is_published, created_at, updated_at")
       .eq("location_id", locationData.id) // MANDATORY: Location filter using location_id
       .eq("is_published", true); // Only published properties
 

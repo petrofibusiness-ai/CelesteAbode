@@ -20,6 +20,7 @@ export interface SupabaseProperty {
   sizes: string;
   description: string;
   hero_image: string;
+  hero_image_alt?: string | null;
   brochure_url?: string | null;
   images: string[];
   videos?: Array<{
@@ -64,6 +65,7 @@ export function supabaseToProperty(supabaseProp: SupabaseProperty): Property {
     sizes: supabaseProp.sizes,
     description: supabaseProp.description,
     heroImage: supabaseProp.hero_image,
+  heroImageAlt: supabaseProp.hero_image_alt || undefined,
     brochureUrl: supabaseProp.brochure_url || undefined,
     images: supabaseProp.images || [],
     videos: supabaseProp.videos || undefined,
@@ -96,6 +98,7 @@ export function propertyToSupabase(property: Omit<Property, "id" | "createdAt" |
     sizes: property.sizes,
     description: property.description,
     hero_image: property.heroImage,
+  hero_image_alt: property.heroImageAlt || null,
     brochure_url: property.brochureUrl || null,
     images: property.images || [],
     videos: property.videos || null,

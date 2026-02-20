@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     // This explicitly fetches both published and unpublished properties
     const queryPromise = supabase
       .from("properties_v2")
-      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, hero_image, is_published, created_at, updated_at")
+    .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, hero_image, hero_image_alt, is_published, created_at, updated_at")
       // NO .eq("is_published", true) filter - we want ALL properties
       .order("created_at", { ascending: false }); // Newest first
 

@@ -112,6 +112,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     sizes: property?.sizes || "",
     description: property?.description || "",
     heroImage: property?.heroImage || "",
+    heroImageAlt: property?.heroImageAlt || "",
     brochureUrl: property?.brochureUrl || "",
     images: property?.images || [],
     videos: property?.videos || [],
@@ -1716,6 +1717,23 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
             <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
             {errors.heroImage}
           </p>}
+          {/* Hero Image Alt Text */}
+          <div className="mt-4">
+            <Label htmlFor="heroImageAlt" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Hero Image Alt Text
+            </Label>
+            <Input
+              id="heroImageAlt"
+              value={formData.heroImageAlt || ""}
+              onChange={(e) => handleChange("heroImageAlt", e.target.value)}
+              placeholder="Short description for screen readers and SEO"
+              className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all placeholder:text-gray-400"
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            />
+            <p className="text-xs text-gray-500 mt-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+              This text is used as the image alt attribute for accessibility and SEO (optional).
+            </p>
+          </div>
         </div>
 
         {/* Brochure */}

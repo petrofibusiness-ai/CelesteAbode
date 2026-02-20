@@ -21,6 +21,7 @@ interface PropertyDisplay {
   builder: string;
   address: string;
   image: string;
+  imageAlt?: string; // Alt text for hero image
   status: string;
   slug: string;
   isPublished?: boolean; // Add isPublished to track publish status
@@ -66,6 +67,7 @@ export function PropertiesSection() {
               builder: prop.developer,
               address: prop.location,
               image: prop.heroImage,
+              imageAlt: prop.heroImageAlt, // Store hero image alt text
               status: prop.projectStatus || '',
               slug: prop.slug,
               isPublished: prop.isPublished, // Store publish status
@@ -153,7 +155,7 @@ export function PropertiesSection() {
                           {property.image ? (
                             <Image
                               src={property.image}
-                              alt={property.name}
+                              alt={property.imageAlt || property.name}
                               width={450}
                               height={450}
                               className="w-full aspect-[4/5] md:aspect-square object-cover rounded-2xl"

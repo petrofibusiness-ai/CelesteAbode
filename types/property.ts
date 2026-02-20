@@ -33,6 +33,7 @@ export interface Property {
   sizes: string; // e.g., "163 sq. yd - 238 sq. yd"
   description: string;
   heroImage: string; // URL to hero image
+  heroImageAlt?: string; // Optional alt text for hero image
   brochureUrl?: string; // Cloudflare PDF URL
   images: string[]; // Array of image URLs (Cloudinary)
   videos?: Array<{

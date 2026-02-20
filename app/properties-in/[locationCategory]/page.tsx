@@ -151,13 +151,13 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
 
   // Fetch initial 6 properties for this location using location_id
   // Production logic: Only fetch properties that belong to this location_id
-  const { data: propertiesData, error } = await supabase
-    .from("properties_v2")
-    .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, hero_image, is_published, created_at, updated_at")
-    .eq("location_id", location.id) // MANDATORY: Only properties for this location
-    .eq("is_published", true)
-    .order("created_at", { ascending: false })
-    .limit(6);
+    const { data: propertiesData, error } = await supabase
+      .from("properties_v2")
+      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, hero_image, hero_image_alt, is_published, created_at, updated_at")
+      .eq("location_id", location.id) // MANDATORY: Only properties for this location
+      .eq("is_published", true)
+      .order("created_at", { ascending: false })
+      .limit(6);
 
   if (error) {
     console.error("Error fetching properties for location:", error);

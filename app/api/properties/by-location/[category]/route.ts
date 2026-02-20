@@ -70,7 +70,7 @@ export async function GET(
     // Fetch limit + 1 to check if there are more properties without a separate count query
     const queryPromise = supabase
       .from("properties_v2")
-      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, hero_image, is_published, created_at, updated_at")
+      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, hero_image, hero_image_alt, is_published, created_at, updated_at")
       .eq("location_id", locationData.id) // Filter by location_id instead of location_category
       .eq("is_published", true)
       .order("created_at", { ascending: false })

@@ -78,7 +78,7 @@ export async function GET(request: NextRequest) {
     // Admin should see both published and draft properties
     const { data, error, count } = await supabase
       .from("properties_v2")
-      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, is_published, hero_image, created_at, updated_at", { count: 'exact' })
+      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, is_published, hero_image, hero_image_alt, created_at, updated_at", { count: 'exact' })
       .order("created_at", { ascending: false })
       .range(offset, offset + limit - 1);
 
@@ -231,6 +231,7 @@ export async function POST(request: NextRequest) {
       sizes: validatedData.sizes.trim(),
       description: validatedData.description.trim(),
       heroImage: validatedData.heroImage.trim(),
+      heroImageAlt: validatedData.heroImageAlt?.trim() || undefined,
       brochureUrl: validatedData.brochureUrl?.trim() || undefined,
       images: Array.isArray(validatedData.images) ? validatedData.images.filter((url: string) => url && url.trim()) : [],
       videos: Array.isArray(validatedData.videos) ? validatedData.videos.filter((v: any) => v && v.src && v.title && v.thumbnail).map((v: any) => ({ title: v.title, src: v.src, thumbnail: v.thumbnail })) : [],

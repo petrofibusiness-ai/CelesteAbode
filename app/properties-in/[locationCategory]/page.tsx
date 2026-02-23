@@ -310,15 +310,17 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
                   {location.blogs.map((blog, index) => (
                     <article key={index}>
                       <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                        <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
-                          {blog.title}
-                        </h2>
+                        <h2
+                          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2"
+                          dangerouslySetInnerHTML={{ __html: blog.title }}
+                        />
                       </header>
                       <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden border border-gray-200">
                         <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
-                          <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0 last:mb-0">
-                            {blog.description}
-                          </p>
+                          <p
+                            className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0 last:mb-0"
+                            dangerouslySetInnerHTML={{ __html: blog.description }}
+                          />
                         </div>
                       </div>
                       {index < location.blogs!.length - 1 && (

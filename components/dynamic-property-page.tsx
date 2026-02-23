@@ -29,9 +29,11 @@ import { getPropertyAbsoluteUrl } from "@/lib/property-url";
 
 interface DynamicPropertyPageProps {
   property: Property;
+  /** Canonical full URL for this property page (e.g. https://www.celesteabode.com/properties-in-ghaziabad/forest-walk-villa). Use for schema and breadcrumbs so they match the actual URL. */
+  canonicalUrl?: string;
 }
 
-export default function DynamicPropertyPage({ property }: DynamicPropertyPageProps) {
+export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicPropertyPageProps) {
   const [isBrochureDialogOpen, setIsBrochureDialogOpen] = useState(false);
   const [currentMediaIndex, setCurrentMediaIndex] = useState(0);
   const [playingVideoIndex, setPlayingVideoIndex] = useState<number | null>(null);
@@ -51,7 +53,7 @@ export default function DynamicPropertyPage({ property }: DynamicPropertyPagePro
     ? window.location.origin 
     : process.env.NEXT_PUBLIC_SITE_URL || 'https://www.celesteabode.com';
 
-  const projectUrl = getPropertyAbsoluteUrl(property);
+  const projectUrl = canonicalUrl ?? getPropertyAbsoluteUrl(property);
 
   // Create unified media array (images and videos)
   const mediaItems = [

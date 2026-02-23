@@ -249,6 +249,15 @@ export default async function PropertyPage({
     notFound();
   }
 
-  return <DynamicPropertyPage property={result.property} />;
+  const siteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
+  const canonicalFullUrl = `${siteUrl}${result.canonicalUrl}`;
+
+  return (
+    <DynamicPropertyPage
+      property={result.property}
+      canonicalUrl={canonicalFullUrl}
+    />
+  );
 }
 

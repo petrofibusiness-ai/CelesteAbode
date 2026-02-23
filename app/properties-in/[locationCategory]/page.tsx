@@ -343,7 +343,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
           {/* Compare Nearby NCR Markets - from locations_v2 compare_location_1/2/3 */}
           {compareLocations.length > 0 && (
             <>
-              <section className="py-14 md:py-20 bg-white">
+              <section className="py-14 md:py-20 bg-background">
                 <div className="max-w-6xl mx-auto px-6">
                   <div className="text-center mb-8 md:mb-10">
                     <h2 className="text-2xl md:text-4xl font-bold text-primary mb-3 font-poppins">

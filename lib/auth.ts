@@ -57,7 +57,7 @@ export async function authenticateUser(email: string, password: string): Promise
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict', // Stronger than 'lax' - prevents cross-site cookie sending
-      maxAge: 60 * 15, // 15 minutes - short-lived access token
+      maxAge: 60 * 60 * 2, // 2 hours - access token
       path: '/',
     });
     cookieStore.set('sb-refresh-token', data.session.refresh_token, {

@@ -373,9 +373,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
                             <h3 className="text-3xl md:text-4xl font-bold text-white mb-2 group-hover:text-[#CBB27A] transition-colors font-poppins">
                               {region.title}
                             </h3>
-                            <p className="text-white/85 text-sm md:text-base font-poppins">
-                              {region.subtitle}
-                            </p>
+                     
                           </div>
                         </div>
                       </Link>
@@ -390,20 +388,6 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
               </div>
             </>
           )}
-
-          {/* Why Invest Section */}
-          <WhyInvestSection location={location} />
-
-          {/* Aesthetic Line Separator */}
-          <div className="w-full flex justify-center py-2">
-            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-          </div>
-
-       
-          {/* Aesthetic Line Separator */}
-          <div className="w-full flex justify-center py-2">
-            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-          </div>
 
           {/* FAQ Section */}
           {location.faqs && location.faqs.length > 0 && (

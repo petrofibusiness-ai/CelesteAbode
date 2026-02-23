@@ -13,6 +13,7 @@ import { NoidaSafe2026Content } from "./noida-safe-2026-content";
 import { YamunaExpresswayContent } from "./yamuna-expressway-content";
 import { NoidaVsGreaterNoidaContent } from "./noida-vs-greater-noida-content";
 import { JewarAirportNcrProperty2026Content } from "./jewar-airport-ncr-property-2026-content";
+import { ForestWalkVillaGhaziabadContent } from "./forest-walk-villa-ghaziabad-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 
 const ARTICLE_CONTENT: Record<string, ComponentType> = {
@@ -20,6 +21,7 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "yamuna-expressway-growth-corridor-delhi-ncr": YamunaExpresswayContent,
   "noida-vs-greater-noida-investment-2026": NoidaVsGreaterNoidaContent,
   "jewar-airport-ncr-property-buyers-2026": JewarAirportNcrProperty2026Content,
+  "forest-walk-villa-ghaziabad-luxury-living-2026": ForestWalkVillaGhaziabadContent,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -37,7 +39,9 @@ export async function generateMetadata({
   const post = getPostBySlug(slug);
   if (!post) return { title: "Article Not Found" };
 
-  const title = `${post.title} - Blog`;
+  const title = post.slug === "forest-walk-villa-ghaziabad-luxury-living-2026"
+    ? post.title
+    : `${post.title} - Blog`;
   const description = post.excerpt;
   const url = `${SITE_URL}/blog/${post.slug}`;
   const imageUrl = post.image.startsWith("http") ? post.image : `${SITE_URL}${post.image}`;
@@ -92,6 +96,20 @@ export async function generateMetadata({
       "real estate near Jewar airport",
       "Jewar airport property 2026",
       "NCR property Jewar",
+      "Celeste Abode",
+    ],
+    "forest-walk-villa-ghaziabad-luxury-living-2026": [
+      "Forest Walk Villa Ghaziabad",
+      "Forest Walk Villa",
+      "luxury villas Ghaziabad",
+      "villas in Ghaziabad NH-24",
+      "4 BHK villas Ghaziabad",
+      "RERA villas Ghaziabad",
+      "Dasna Ghaziabad villas",
+      "Madhusudhan Group villas",
+      "SRSD Buildcon Forest Walk",
+      "Ghaziabad villa township",
+      "properties in Ghaziabad",
       "Celeste Abode",
     ],
   };
@@ -178,7 +196,9 @@ export default async function BlogPostPage({
               <div className="max-w-[95%] xl:max-w-[1800px] mx-auto px-4 w-full pb-12 pt-10 md:pb-16 md:pt-12">
                 <div className="max-w-3xl mx-auto text-center">
                   <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-[1.2] font-poppins mb-5 px-2">
-                    {post.title}
+                    {slug === "forest-walk-villa-ghaziabad-luxury-living-2026"
+                      ? "Forest Walk Villa Ghaziabad: Why This Township Is Selling Out"
+                      : post.title}
                   </h1>
                   <p className="text-lg md:text-xl text-white/85 font-poppins leading-relaxed mb-7 max-w-2xl mx-auto px-2">
                     {post.excerpt}

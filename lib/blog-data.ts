@@ -65,6 +65,19 @@ export const blogPosts: BlogPost[] = [
     featured: true,
     views: "890",
   },
+  {
+    id: 5,
+    title: "Forest Walk Villas By Madhusudan Group: Best Luxury Living on NH24 Ghaziabad",
+    slug: "forest-walk-villa-ghaziabad-luxury-living-2026",
+    excerpt:
+      "Discover why Forest Walk Villas on NH24 Ghaziabad is one of the most sought-after places to live in 2026 with unmatched nature, luxury amenities and excellent connectivity.",
+    category: "Project Spotlight",
+    readTime: "11 min read",
+    date: "January 30, 2026",
+    image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/forest-walk-villa_hero.avif",
+    featured: true,
+    views: "760",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {

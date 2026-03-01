@@ -160,7 +160,7 @@ Premium luxury real estate consulting in Noida, Gurugram, and Delhi NCR. Data-dr
 - ✅ URL: https://www.celesteabode.com
 - ✅ Logo: https://www.celesteabode.com/logoceleste.avif
 - ✅ Description: Comprehensive service description
-- ✅ Address: 716, Tower A, Ithum, Sector 62, Noida, 201309
+- ✅ Address: 615, 6th Floor, Galaxy Blue Sapphire Plaza, Sector 4, Greater Noida (West), U.P - 201309
 - ✅ Contact: +91-9818735258
 - ✅ Area Served: Noida, Greater Noida, Gurugram, Delhi, Ghaziabad, Yamuna Expressway, Noida Expressway
 - ✅ Price Range: ₹50 Lakhs - ₹5 Crores
@@ -176,7 +176,7 @@ Premium luxury real estate consulting in Noida, Gurugram, and Delhi NCR. Data-dr
 **Location:** `lib/structured-data.tsx`
 
 **Key Properties:**
-- ✅ Geographic Coordinates: 28.5355, 77.3910
+- ✅ Geographic Coordinates: 28.6076655, 77.4354885
 - ✅ Opening Hours: Monday-Saturday, 9:00 AM - 7:00 PM
 - ✅ Area Served: 6 cities with City schema
 - ✅ Service Types: 8 service types
@@ -374,10 +374,10 @@ Premium luxury real estate consulting in Noida, Gurugram, and Delhi NCR. Data-dr
 <meta name="geo.region" content="IN-UP" />
 <meta name="geo.placename" content="Noida" />
 <meta name="geo.position" content="28.5355;77.3910" />
-<meta name="ICBM" content="28.5355, 77.3910" />
+<meta name="ICBM" content="28.6076655, 77.4354885" />
 ```
 
-**Coordinates:** 28.5355°N, 77.3910°E (Noida, Uttar Pradesh)
+**Coordinates:** 28.6076655°N, 77.4354885°E (Sector 4, Greater Noida West, Uttar Pradesh)
 
 **Status:** ✅ Properly geotagged for local search
 
@@ -385,8 +385,8 @@ Premium luxury real estate consulting in Noida, Gurugram, and Delhi NCR. Data-dr
 
 ### 5.2 LocalBusiness Schema Geographic Data
 **Implementation:**
-- ✅ Address: 716, Tower A, Ithum, Sector 62, Noida, 201309, India
-- ✅ Geo Coordinates: 28.5355, 77.3910
+- ✅ Address: 615, 6th Floor, Galaxy Blue Sapphire Plaza, Sector 4, Greater Noida (West), U.P - 201309, India
+- ✅ Geo Coordinates: 28.6076655, 77.4354885
 - ✅ Area Served: 6 cities with structured City schema
 
 **Status:** ✅ Comprehensive local business information

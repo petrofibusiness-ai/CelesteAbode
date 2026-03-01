@@ -377,15 +377,15 @@ keywords: [
 other: {
   "geo.region": "IN-UP",
   "geo.placename": "Noida",
-  "geo.position": "28.5355;77.3910",
-  "ICBM": "28.5355, 77.3910",
+  "geo.position": "28.6076655;77.4354885",
+  "ICBM": "28.6076655, 77.4354885",
 }
 
 // In layout.tsx (duplicate for redundancy)
 <meta name="geo.region" content="IN-UP" />
 <meta name="geo.placename" content="Noida" />
-<meta name="geo.position" content="28.5355;77.3910" />
-<meta name="ICBM" content="28.5355, 77.3910" />
+<meta name="geo.position" content="28.6076655;77.4354885" />
+<meta name="ICBM" content="28.6076655, 77.4354885" />
 ```
 
 **Detailed Breakdown:**
@@ -402,7 +402,7 @@ other: {
 - **SEO Value:** Helps with city-specific local searches
 - **Consistency:** Matches address in schema markup
 
-**geo.position: "28.5355;77.3910"**
+**geo.position: "28.6076655;77.4354885"**
 - **Format:** Latitude;Longitude (semicolon separator)
 - **Latitude:** 28.5355°N (North of equator)
 - **Longitude:** 77.3910°E (East of Prime Meridian)
@@ -410,16 +410,16 @@ other: {
 - **Purpose:** Exact geographic coordinates for mapping and local search
 - **SEO Value:** Enables Google Maps integration and local search results
 
-**ICBM: "28.5355, 77.3910"**
+**ICBM: "28.6076655, 77.4354885"**
 - **Format:** Latitude,Longitude (comma separator)
 - **ICBM:** "I Can't Believe It's Not a Map" (legacy format)
 - **Purpose:** Alternative format for older systems
 - **SEO Value:** Ensures compatibility with all mapping systems
 
 **Coordinate Verification:**
-- **Address:** 716, Tower A, Ithum, Sector 62, Noida, 201309
-- **Coordinates:** 28.5355°N, 77.3910°E
-- **Verification:** ✅ Coordinates match Sector 62, Noida location
+- **Address:** 615, 6th Floor, Galaxy Blue Sapphire Plaza, Sector 4, Greater Noida (West), U.P - 201309
+- **Coordinates:** 28.6076655°N, 77.4354885°E
+- **Verification:** ✅ Coordinates match Sector 4, Greater Noida (West) location
 
 **Why Both Formats:**
 - **geo.position:** Modern standard (semicolon separator)
@@ -806,7 +806,7 @@ robots: {
   ],
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "716, Tower A, Ithum",
+    "streetAddress": "615, 6th Floor, Galaxy Blue Sapphire Plaza",
     "addressLocality": "Sector 62",
     "addressRegion": "Noida",
     "postalCode": "201309",
@@ -923,7 +923,7 @@ robots: {
 - **SEO Impact:** Establishes expertise areas in knowledge graph
 
 **address: PostalAddress Object**
-- **streetAddress:** "716, Tower A, Ithum"
+- **streetAddress:** "615, 6th Floor, Galaxy Blue Sapphire Plaza"
 - **addressLocality:** "Sector 62"
 - **addressRegion:** "Noida"
 - **postalCode:** "201309"

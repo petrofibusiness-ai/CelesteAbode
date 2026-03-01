@@ -128,8 +128,8 @@ The audit tool may have been looking for:
 - Used semantic `<address>` HTML tag (better for SEO)
 - Added proper line breaks for readability:
   ```
-  716, Tower A, Ithum
-  Sector 62, Noida
+  615, 6th Floor, Galaxy Blue Sapphire Plaza
+  Sector 4, Greater Noida (West), U.P - 201309
   Uttar Pradesh 201309
   India
   ```

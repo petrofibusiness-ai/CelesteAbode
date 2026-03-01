@@ -91,14 +91,14 @@ description: "Guiding confident property decisions across Noida, Greater Noida, 
 ```typescript
 "geo.region": "IN-UP",
 "geo.placename": "Noida",
-"geo.position": "28.5355;77.3910",
-"ICBM": "28.5355, 77.3910"
+"geo.position": "28.6076655;77.4354885",
+"ICBM": "28.6076655, 77.4354885"
 ```
 
 **Details:**
 - **Region:** Uttar Pradesh, India
 - **City:** Noida
-- **Coordinates:** 28.5355°N, 77.3910°E
+- **Coordinates:** 28.6076655°N, 77.4354885°E
 - **Purpose:** Local SEO signals for NCR region
 
 **File Reference:** `app/metadata.ts` lines 266-271
@@ -238,7 +238,7 @@ robots: {
   "description": "Trusted real estate advisory in Delhi NCR...",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "716, Tower A, Ithum",
+    "streetAddress": "615, 6th Floor, Galaxy Blue Sapphire Plaza",
     "addressLocality": "Sector 62",
     "addressRegion": "Noida",
     "postalCode": "201309",

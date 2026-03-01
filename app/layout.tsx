@@ -98,8 +98,8 @@ export const metadata: Metadata = {
   other: {
     "geo.region": "IN-UP",
     "geo.placename": "Noida",
-    "geo.position": "28.5355;77.3910",
-    "ICBM": "28.5355, 77.3910",
+    "geo.position": "28.6076655;77.4354885",
+    "ICBM": "28.6076655, 77.4354885",
   },
 };
 
@@ -211,8 +211,8 @@ export default function RootLayout({
         {/* Geographic Meta Tags */}
         <meta name="geo.region" content="IN-UP" />
         <meta name="geo.placename" content="Noida" />
-        <meta name="geo.position" content="28.5355;77.3910" />
-        <meta name="ICBM" content="28.5355, 77.3910" />
+        <meta name="geo.position" content="28.6076655;77.4354885" />
+        <meta name="ICBM" content="28.6076655, 77.4354885" />
         
         {/* Business Information */}
         <meta name="contact" content="support@celesteabode.com" />

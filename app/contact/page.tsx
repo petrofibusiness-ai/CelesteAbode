@@ -601,8 +601,8 @@ export default function ContactPage() {
                               Office Locations
                             </h3>
                             <p className="text-primary font-semibold mb-1 text-sm">
-                              Celeste Abode, 716, Tower A, Ithum, Sector 62,
-                              Noida.
+                              Celeste Abode, 615, 6th Floor, Galaxy Blue Sapphire Plaza,
+                              Sector 4, Greater Noida (West), U.P - 201309.
                             </p>
                             <p className="text-xs text-muted-foreground">
                               Serving the entire NCR region

@@ -56,8 +56,8 @@ export const homepageMetadata: Metadata = {
   other: {
     "geo.region": "IN-UP",
     "geo.placename": "Noida",
-    "geo.position": "28.5355;77.3910",
-    "ICBM": "28.5355, 77.3910",
+    "geo.position": "28.6076655;77.4354885",
+    "ICBM": "28.6076655, 77.4354885",
   },
 };
 

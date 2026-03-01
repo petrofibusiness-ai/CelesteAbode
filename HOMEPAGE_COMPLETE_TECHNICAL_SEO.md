@@ -455,7 +455,7 @@ robots: {
 other: {
   "geo.region": "IN-UP",
   "geo.placename": "Noida",
-  "geo.position": "28.5355;77.3910",
+  "geo.position": "28.6076655;77.4354885",
   "ICBM": "28.5355, 77.3910",
 }
 ```
@@ -464,14 +464,14 @@ other: {
 ```html
 <meta name="geo.region" content="IN-UP" />
 <meta name="geo.placename" content="Noida" />
-<meta name="geo.position" content="28.5355;77.3910" />
+<meta name="geo.position" content="28.6076655;77.4354885" />
 <meta name="ICBM" content="28.5355, 77.3910" />
 ```
 
 **Details:**
 - **Region:** Uttar Pradesh, India (IN-UP)
 - **City:** Noida
-- **Coordinates:** 28.5355°N, 77.3910°E
+- **Coordinates:** 28.6076655°N, 77.4354885°E
 - **Purpose:** Local SEO signals for NCR region
 
 **File Reference:** `app/metadata.ts` lines 290-295
@@ -509,7 +509,7 @@ other: {
   },
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "716, Tower A, Ithum",
+    "streetAddress": "615, 6th Floor, Galaxy Blue Sapphire Plaza",
     "addressLocality": "Sector 62",
     "addressRegion": "Noida",
     "postalCode": "201309",
@@ -588,7 +588,7 @@ other: {
   "priceRange": "₹50 Lakhs - ₹5 Crores",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "716, Tower A, Ithum",
+    "streetAddress": "615, 6th Floor, Galaxy Blue Sapphire Plaza",
     "addressLocality": "Sector 62",
     "addressRegion": "Uttar Pradesh",
     "postalCode": "201309",
@@ -596,8 +596,8 @@ other: {
   },
   "geo": {
     "@type": "GeoCoordinates",
-    "latitude": 28.5355,
-    "longitude": 77.3910
+    "latitude": 28.6076655,
+    "longitude": 77.4354885
   },
   "openingHoursSpecification": {
     "@type": "OpeningHoursSpecification",

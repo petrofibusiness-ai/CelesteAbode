@@ -109,7 +109,7 @@ robots: {
 
 **Implementation:**
 - ✅ Organization name, URL, logo
-- ✅ Complete address (716, Tower A, Ithum, Sector 62, Noida, 201309)
+- ✅ Complete address (615, 6th Floor, Galaxy Blue Sapphire Plaza, Sector 4, Greater Noida (West), U.P - 201309)
 - ✅ Contact point with phone (+91-9818735258)
 - ✅ Social media profiles (Facebook, LinkedIn, Twitter, Instagram)
 - ✅ Area served (Noida, Greater Noida, Gurugram, Delhi, Ghaziabad, Yamuna Expressway, Noida Expressway)
@@ -342,16 +342,16 @@ Crawl-delay: 1
 ```html
 <meta name="geo.region" content="IN-UP" />
 <meta name="geo.placename" content="Noida" />
-<meta name="geo.position" content="28.5355;77.3910" />
-<meta name="ICBM" content="28.5355, 77.3910" />
+<meta name="geo.position" content="28.6076655;77.4354885" />
+<meta name="ICBM" content="28.6076655, 77.4354885" />
 ```
 
-**Coordinates:** 28.5355°N, 77.3910°E (Sector 62, Noida)
+**Coordinates:** 28.6076655°N, 77.4354885°E (Sector 4, Greater Noida West)
 
 ### 5.2 Local Business Information
 
 **Address:**
-- Street: 716, Tower A, Ithum
+- Street: 615, 6th Floor, Galaxy Blue Sapphire Plaza
 - Locality: Sector 62
 - City: Noida
 - State: Uttar Pradesh

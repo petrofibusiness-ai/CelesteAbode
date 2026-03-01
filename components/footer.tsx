@@ -49,9 +49,8 @@ export function Footer() {
               <div className="flex items-start gap-3 group cursor-pointer">
                 <MapPin className="w-6 h-6 text-white group-hover:text-[#CBB27A] transition-colors mt-0.5 flex-shrink-0" />
                 <address className="text-sm text-white group-hover:text-[#CBB27A] transition-colors not-italic">
-                  716, Tower A, Ithum<br />
-                  Sector 62, Noida<br />
-                  Uttar Pradesh 201309<br />
+                  615, 6th Floor, Galaxy Blue Sapphire Plaza<br />
+                  Sector 4, Greater Noida (West), U.P - 201309<br />
                   India
                 </address>
               </div>

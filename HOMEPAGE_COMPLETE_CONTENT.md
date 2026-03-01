@@ -271,8 +271,8 @@ Guiding confident property decisions across Noida, Greater Noida, and Yamuna Exp
 ### Geographic Meta Tags
 - **Geo Region:** IN-UP (Uttar Pradesh, India)
 - **Geo Placename:** Noida
-- **Geo Position:** 28.5355;77.3910
-- **ICBM:** 28.5355, 77.3910
+- **Geo Position:** 28.6076655;77.4354885
+- **ICBM:** 28.6076655, 77.4354885
 
 ---
 
@@ -783,7 +783,7 @@ Best Real Estate Consultant for Properties in Delhi NCR
 - Type: Organization
 - Name: Celeste Abode
 - Legal Name: Celeste Abode Private Limited
-- Address: 716, Tower A, Ithum, Sector 62, Noida, 201309, India
+- Address: 615, 6th Floor, Galaxy Blue Sapphire Plaza, Sector 4, Greater Noida (West), U.P - 201309, India
 - Phone: +91-9818735258
 - Area Served: Noida, Greater Noida, Gurugram, Delhi, Ghaziabad, Yamuna Expressway, Noida Expressway
 

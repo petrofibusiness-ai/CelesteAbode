@@ -42,9 +42,9 @@ export function OrganizationSchema() {
     ],
     address: {
       "@type": "PostalAddress",
-      streetAddress: "716, Tower A, Ithum",
-      addressLocality: "Sector 62",
-      addressRegion: "Noida",
+      streetAddress: "615, 6th Floor, Galaxy Blue Sapphire Plaza",
+      addressLocality: "Sector 4, Greater Noida (West)",
+      addressRegion: "Uttar Pradesh",
       postalCode: "201309",
       addressCountry: "IN",
     },
@@ -252,16 +252,16 @@ export function LocalBusinessSchema() {
     description: "Celeste Abode - Premium luxury real estate advisory in NCR. Real estate investment advisory services, property portfolio advisory, and high-value property investment advisory. Expert real estate consultants in Noida, Greater Noida, Gurugram, Yamuna Expressway, and Delhi NCR.",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "716, Tower A, Ithum",
-      addressLocality: "Sector 62",
+      streetAddress: "615, 6th Floor, Galaxy Blue Sapphire Plaza",
+      addressLocality: "Sector 4, Greater Noida (West)",
       addressRegion: "Uttar Pradesh",
       postalCode: "201309",
       addressCountry: "IN",
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: 28.5355,
-      longitude: 77.3910,
+      latitude: 28.6076655,
+      longitude: 77.4354885,
     },
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",

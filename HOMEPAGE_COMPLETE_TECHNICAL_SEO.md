@@ -456,7 +456,7 @@ other: {
   "geo.region": "IN-UP",
   "geo.placename": "Noida",
   "geo.position": "28.6076655;77.4354885",
-  "ICBM": "28.5355, 77.3910",
+  "ICBM": "28.6076655, 77.4354885",
 }
 ```
 
@@ -465,7 +465,7 @@ other: {
 <meta name="geo.region" content="IN-UP" />
 <meta name="geo.placename" content="Noida" />
 <meta name="geo.position" content="28.6076655;77.4354885" />
-<meta name="ICBM" content="28.5355, 77.3910" />
+<meta name="ICBM" content="28.6076655, 77.4354885" />
 ```
 
 **Details:**

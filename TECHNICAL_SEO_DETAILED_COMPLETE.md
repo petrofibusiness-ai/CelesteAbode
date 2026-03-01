@@ -404,8 +404,8 @@ other: {
 
 **geo.position: "28.6076655;77.4354885"**
 - **Format:** Latitude;Longitude (semicolon separator)
-- **Latitude:** 28.5355°N (North of equator)
-- **Longitude:** 77.3910°E (East of Prime Meridian)
+- **Latitude:** 28.6076655°N (North of equator)
+- **Longitude:** 77.4354885°E (East of Prime Meridian)
 - **Precision:** 4 decimal places (accuracy: ~11 meters)
 - **Purpose:** Exact geographic coordinates for mapping and local search
 - **SEO Value:** Enables Google Maps integration and local search results

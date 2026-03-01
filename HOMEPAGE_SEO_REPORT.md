@@ -373,7 +373,7 @@ Premium luxury real estate consulting in Noida, Gurugram, and Delhi NCR. Data-dr
 ```html
 <meta name="geo.region" content="IN-UP" />
 <meta name="geo.placename" content="Noida" />
-<meta name="geo.position" content="28.5355;77.3910" />
+<meta name="geo.position" content="28.6076655;77.4354885" />
 <meta name="ICBM" content="28.6076655, 77.4354885" />
 ```
 

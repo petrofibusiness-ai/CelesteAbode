@@ -1,5 +1,5 @@
 import type React from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Poppins } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalytics } from "@/components/google-analytics";
@@ -103,6 +103,14 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: "#0B1020",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -111,16 +119,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Preconnect to external domains - Critical for performance */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        <link rel="dns-prefetch" href="https://elfsightcdn.com" />
+        {/* Preconnect only. Skip fonts.googleapis.com / fonts.gstatic.com — next/font (Inter, Poppins) adds them. */}
         <link rel="preconnect" href="https://elfsightcdn.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://api.fontshare.com" />
         <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
-        {/* Preconnect to Next.js image optimization for faster LCP */}
         <link rel="preconnect" href="https://www.celesteabode.com" />
         
         {/* Preload critical LCP image - highest priority - earliest possible - Mobile optimized */}
@@ -196,23 +197,14 @@ export default function RootLayout({
           <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap&text=CelesteAbodeRealEstateLuxuryPropertiesPhilosophyServicesContactBookConsultationMasterpiecesLivingExplorePropertiesWhatOurClientsSayGetInTouchOurPhilosophyServicesAtCelesteAbodeExplorePremiumProperties" media="(min-width: 768px)" />
         </noscript>
         
-        {/* Additional SEO Meta Tags */}
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+        {/* Additional meta (viewport & geo come from root layout metadata/viewport export to avoid duplicates) */}
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="language" content="en" />
         <meta name="revisit-after" content="7 days" />
-        <meta name="author" content="Celeste Abode" />
         <meta name="copyright" content="Celeste Abode" />
-        <meta name="theme-color" content="#0B1020" />
         <meta name="format-detection" content="telephone=yes" />
-        
-        {/* Geographic Meta Tags */}
-        <meta name="geo.region" content="IN-UP" />
-        <meta name="geo.placename" content="Noida" />
-        <meta name="geo.position" content="28.6076655;77.4354885" />
-        <meta name="ICBM" content="28.6076655, 77.4354885" />
         
         {/* Business Information */}
         <meta name="contact" content="support@celesteabode.com" />

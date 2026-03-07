@@ -17,6 +17,7 @@ import { LocationPropertyFilters } from "@/components/location-property-filters"
 import { LocationContactForm } from "@/components/location-contact-form";
 import { WhyInvestSection } from "@/components/why-invest-section";
 import LocationFAQs from "@/components/location-faqs";
+import { SeoBlocksRevealController } from "@/components/seo-blocks-reveal-controller";
 import { FAQPageSchema, BreadcrumbSchema, LocationPageSchema } from "@/lib/structured-data";
 
 interface PageProps {
@@ -297,43 +298,42 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
             </div>
           </section>
 
-          {/* Aesthetic Line Separator */}
-          <div className="w-full flex justify-center py-2">
-            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-          </div>
-
-          {/* Blogs Section - from locations_v2.blogs (JSONB), aligned like Why Invest */}
+          {/* SEO content blocks: server-rendered HTML only; client controller gets counts (no data payload duplication) */}
           {location.blogs && location.blogs.length > 0 && (
             <>
-              <section className="py-14 md:py-20 bg-background px-4 sm:px-6 lg:px-8">
-                <div className="max-w-[1200px] mx-auto space-y-10 md:space-y-12">
-                  {location.blogs.map((blog, index) => (
-                    <article key={index}>
-                      <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                        <h2
-                          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2"
-                          dangerouslySetInnerHTML={{ __html: blog.title }}
+              <SeoBlocksRevealController
+                initialVisible={2}
+                step={2}
+                totalCount={location.blogs.length}
+              >
+                {location.blogs.map((blog, index) => (
+                  <article key={index} data-seo-block>
+                    <header className="text-center mb-8 md:mb-12 lg:mb-16">
+                      <h2
+                        className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2"
+                        dangerouslySetInnerHTML={{ __html: blog.title }}
+                      />
+                    </header>
+                    <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden border border-gray-200">
+                      <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
+                        <div
+                          className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0 last:mb-0"
+                          dangerouslySetInnerHTML={{ __html: blog.description }}
                         />
-                      </header>
-                      <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden border border-gray-200">
-                        <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
-                          <p
-                            className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0 last:mb-0"
-                            dangerouslySetInnerHTML={{ __html: blog.description }}
-                          />
-                        </div>
                       </div>
-                      {index < location.blogs!.length - 1 && (
-                        <div className="w-full flex justify-center py-8">
-                          <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-                        </div>
-                      )}
-                    </article>
-                  ))}
-                </div>
-              </section>
+                    </div>
+                    {index < location.blogs.length - 1 && (
+                      <div
+                        className="w-full flex justify-center py-8"
+                        data-seo-separator={index}
+                      >
+                        <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent" />
+                      </div>
+                    )}
+                  </article>
+                ))}
+              </SeoBlocksRevealController>
 
-              {/* Aesthetic Line Separator */}
               <div className="w-full flex justify-center py-2">
                 <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
               </div>

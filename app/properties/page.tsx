@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect, Suspense, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Header } from "@/components/header";

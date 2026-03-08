@@ -159,14 +159,18 @@ export async function GET(request: NextRequest) {
 
     // Apply property type filter if provided
     if (propertyTypeFilter && propertyTypeFilter !== "all") {
-      const propertyTypeEnum = mapPropertyTypeFilter(propertyTypeFilter);
-      if (propertyTypeEnum && isValidPropertyType(propertyTypeEnum)) {
-        query = query.eq("property_type", propertyTypeEnum);
+      if (propertyTypeFilter === "residential") {
+        query = query.in("property_type", ["Apartment/Flats", "Villas"]);
       } else {
-        return NextResponse.json(
-          { error: "Invalid property type" },
-          { status: 400 }
-        );
+        const propertyTypeEnum = mapPropertyTypeFilter(propertyTypeFilter);
+        if (propertyTypeEnum && isValidPropertyType(propertyTypeEnum)) {
+          query = query.eq("property_type", propertyTypeEnum);
+        } else {
+          return NextResponse.json(
+            { error: "Invalid property type" },
+            { status: 400 }
+          );
+        }
       }
     }
 

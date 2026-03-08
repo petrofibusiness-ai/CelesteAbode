@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const EASE_OUT_SMOOTH = "cubic-bezier(0.25, 0.46, 0.45, 0.94)";
 const EXPAND_DURATION_MS = 550;
@@ -63,11 +63,11 @@ export function SeoBlocksRevealController({
       el.style.paddingBottom = show ? "" : "0";
     });
 
-    // Hide separator after last visible block when "Read more" is shown
+    // Hide separators that appear before unrevealed blocks (only show lines between visible blocks)
     const separators = container.querySelectorAll<HTMLElement>("[data-seo-separator]");
     separators.forEach((el) => {
       const idx = parseInt(el.getAttribute("data-seo-separator") ?? "-1", 10);
-      const hide = idx === visibleCount - 1 && visibleCount < totalCount;
+      const hide = idx >= visibleCount - 1;
       el.style.transition = transition;
       el.style.maxHeight = hide ? "0px" : "200px";
       el.style.overflow = "hidden";
@@ -84,9 +84,15 @@ export function SeoBlocksRevealController({
   const canCollapse = visibleCount > initialVisible;
 
   const showMore = () => setVisibleCount((prev) => Math.min(prev + step, totalCount));
-  const showLess = () => setVisibleCount(initialVisible);
+
+  /** Collapse and scroll user back to top of this section so they don't feel lost */
+  const showLess = () => {
+    sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setVisibleCount(initialVisible);
+  };
 
   return (
+    <>
     <section
       ref={sectionRef}
       className={`relative py-14 md:py-20 bg-background px-4 sm:px-6 lg:px-8 ${className}`.trim()}
@@ -121,37 +127,44 @@ export function SeoBlocksRevealController({
             </>
           )}
 
-          {hasMore ? (
-            <button
-              type="button"
-              onClick={showMore}
-              className="group relative flex flex-col items-center gap-3 py-4 px-6 text-base md:text-lg font-bold text-[#CBB27A] font-poppins uppercase tracking-widest bg-transparent border-0 cursor-pointer select-none touch-manipulation outline-none focus-visible:ring-2 focus-visible:ring-[#CBB27A]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm transition-[color,transform] duration-300 ease-out hover:text-[#b89b5e] hover:scale-[1.02] active:scale-[0.98]"
-              aria-label={`Show ${Math.min(step, totalCount - visibleCount)} more sections`}
-            >
-              Read more
-              <div className="flex flex-col items-center gap-2" aria-hidden>
-                <ChevronDown className="w-6 h-6 text-[#CBB27A] transition-transform duration-300 ease-out group-hover:translate-y-1" style={{ transitionDelay: prefersReducedMotion ? "0ms" : "0ms" }} />
-                <ChevronDown className="w-5 h-5 text-[#CBB27A]/80 transition-transform duration-300 ease-out group-hover:translate-y-1" style={{ transitionDelay: prefersReducedMotion ? "0ms" : "50ms" }} />
-                <ChevronDown className="w-4 h-4 text-[#CBB27A]/60 transition-transform duration-300 ease-out group-hover:translate-y-1" style={{ transitionDelay: prefersReducedMotion ? "0ms" : "100ms" }} />
-              </div>
-            </button>
-          ) : canCollapse ? (
-            <button
-              type="button"
-              onClick={showLess}
-              className="group relative flex flex-col items-center gap-3 py-4 px-6 text-sm md:text-base font-semibold text-gray-500 font-poppins uppercase tracking-wider bg-transparent border-0 cursor-pointer select-none touch-manipulation outline-none focus-visible:ring-2 focus-visible:ring-gray-400/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm transition-[color,transform] duration-300 ease-out hover:text-foreground hover:scale-[1.02] active:scale-[0.98]"
-              aria-label="Show less"
-            >
-              Read less
-              <div className="flex flex-col items-center gap-2 rotate-180" aria-hidden>
-                <ChevronDown className="w-5 h-5 text-gray-400 transition-transform duration-300 ease-out group-hover:translate-y-0.5" style={{ transitionDelay: prefersReducedMotion ? "0ms" : "0ms" }} />
-                <ChevronDown className="w-4 h-4 text-gray-400/80 transition-transform duration-300 ease-out group-hover:translate-y-0.5" style={{ transitionDelay: prefersReducedMotion ? "0ms" : "40ms" }} />
-                <ChevronDown className="w-3 h-3 text-gray-400/60 transition-transform duration-300 ease-out group-hover:translate-y-0.5" style={{ transitionDelay: prefersReducedMotion ? "0ms" : "80ms" }} />
-              </div>
-            </button>
-          ) : null}
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
+            {hasMore && (
+              <button
+                type="button"
+                onClick={showMore}
+                className="group relative flex flex-col items-center gap-3 py-4 px-6 text-base md:text-lg font-bold text-[#CBB27A] font-poppins uppercase tracking-widest bg-transparent border-0 cursor-pointer select-none touch-manipulation outline-none focus-visible:ring-2 focus-visible:ring-[#CBB27A]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-sm transition-[color,transform] duration-300 ease-out hover:text-[#b89b5e] hover:scale-[1.02] active:scale-[0.98]"
+                aria-label={`Show ${Math.min(step, totalCount - visibleCount)} more sections`}
+              >
+                Read more
+                <div className="flex flex-col items-center gap-2" aria-hidden>
+                  <ChevronDown className="w-6 h-6 text-[#CBB27A] transition-transform duration-300 ease-out group-hover:translate-y-1" style={{ transitionDelay: prefersReducedMotion ? "0ms" : "0ms" }} />
+                  <ChevronDown className="w-5 h-5 text-[#CBB27A]/80 transition-transform duration-300 ease-out group-hover:translate-y-1" style={{ transitionDelay: prefersReducedMotion ? "0ms" : "50ms" }} />
+                  <ChevronDown className="w-4 h-4 text-[#CBB27A]/60 transition-transform duration-300 ease-out group-hover:translate-y-1" style={{ transitionDelay: prefersReducedMotion ? "0ms" : "100ms" }} />
+                </div>
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Floating "Close section" pill: visible when expanded, always in viewport for immediate exit */}
+      {showReveal && canCollapse && (
+        <div
+          className="fixed bottom-6 left-1/2 z-40 -translate-x-1/2 animate-in fade-in duration-300"
+          aria-hidden="false"
+        >
+          <button
+            type="button"
+            onClick={showLess}
+            className="flex items-center gap-2 rounded-full border border-[#CBB27A]/40 bg-white/90 px-4 py-2.5 text-sm font-semibold text-[#CBB27A] shadow-lg backdrop-blur-md transition-colors hover:bg-[#CBB27A]/10 hover:text-[#b89b5e] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#CBB27A]/50 focus-visible:ring-offset-2"
+            aria-label="Close section"
+          >
+            <ChevronUp className="h-4 w-4" />
+            <span className="font-poppins uppercase tracking-wider">Close section</span>
+          </button>
         </div>
       )}
     </section>
+    </>
   );
 }

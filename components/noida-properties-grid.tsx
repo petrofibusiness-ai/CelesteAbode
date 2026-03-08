@@ -18,11 +18,13 @@ interface FilterState {
 interface NoidaPropertiesGridProps {
   initialProperties: Property[];
   location: string;
+  /** Lock to one property type (e.g. "residential" for apartments + villas only). Omit for all types. */
+  defaultPropertyType?: string;
 }
 
 const PROPERTIES_PER_PAGE = 6;
 
-export function NoidaPropertiesGrid({ initialProperties, location }: NoidaPropertiesGridProps) {
+export function NoidaPropertiesGrid({ initialProperties, location, defaultPropertyType }: NoidaPropertiesGridProps) {
   const [properties, setProperties] = useState<Property[]>(initialProperties);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -30,7 +32,7 @@ export function NoidaPropertiesGrid({ initialProperties, location }: NoidaProper
   const [currentOffset, setCurrentOffset] = useState(initialProperties.length);
   const [activeFilters, setActiveFilters] = useState<FilterState>({
     locality: [],
-    propertyType: "all",
+    propertyType: defaultPropertyType ?? "all",
     projectStatus: "all",
     configuration: [],
   });

@@ -27,6 +27,17 @@
   font-style: normal !important;
 }
 
+/* Editorial / luxury content block: gold drop cap on first paragraph */
+.prose-editorial > p:first-of-type::first-letter {
+  float: left;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: var(--sand);
+  margin-right: 0.25rem;
+  line-height: 0.9;
+  margin-top: 0.05em;
+}
+
 /* Sophisticated luxury color palette with warm neutrals and gold accents */
 :root {
   /* Core Palette */

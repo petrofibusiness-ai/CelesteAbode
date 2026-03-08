@@ -118,6 +118,13 @@ export function Footer() {
                 Properties in Noida
               </Link>
               <Link
+                href="/residential-property-in-noida"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
+              >
+                Residential Property in Noida
+              </Link>
+              <Link
                 href="/properties-in-greater-noida"
                 className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
                 style={{ marginLeft: 0 }}

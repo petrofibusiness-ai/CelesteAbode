@@ -16,18 +16,23 @@ interface LocationPropertyFiltersProps {
   location: string;
   localities: Array<{ value: string; label: string }>;
   onFilterChange?: (filters: FilterState) => void;
+  /** When set, property type filter is hidden and this value is used (e.g. "residential"). */
+  hidePropertyType?: boolean;
+  defaultPropertyType?: string;
 }
 
 export function LocationPropertyFilters({ 
   location, 
   localities,
-  onFilterChange 
+  onFilterChange,
+  hidePropertyType,
+  defaultPropertyType,
 }: LocationPropertyFiltersProps) {
   const [filters, setFilters] = useState<FilterState>({
-    locality: [], // Empty array means all localities
-    propertyType: "all",
+    locality: [],
+    propertyType: defaultPropertyType ?? "all",
     projectStatus: "all",
-    configuration: [], // Empty array means all configurations
+    configuration: [],
   });
 
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -138,6 +143,9 @@ export function LocationPropertyFilters({
       }
       return `${filters.configuration.length} Configurations Selected`;
     }
+    if (filterType === "propertyType" && filters.propertyType === "residential") {
+      return "Residential (Apartments & Villas)";
+    }
     const options = filterOptions[filterType];
     const selected = options.find((opt) => opt.value === filters[filterType]);
     return selected?.label || "Select";
@@ -229,7 +237,7 @@ export function LocationPropertyFilters({
                 </div>
               </div>
 
-              {/* Property Type Filter */}
+              {!hidePropertyType && (
               <div className="flex-1 relative">
                 <label className="block text-sm font-semibold text-gray-700 mb-2 font-poppins">
                   Property Type
@@ -281,6 +289,7 @@ export function LocationPropertyFilters({
                   </AnimatePresence>
                 </div>
               </div>
+              )}
 
               {/* Project Status Filter */}
               <div className="flex-1 relative">
@@ -499,7 +508,7 @@ export function LocationPropertyFilters({
                 </div>
               </div>
 
-              {/* Property Type Filter */}
+              {!hidePropertyType && (
               <div className="relative">
                 <label className="block text-xs font-semibold text-gray-700 mb-2 font-poppins">
                   Property Type
@@ -550,6 +559,7 @@ export function LocationPropertyFilters({
                   </AnimatePresence>
                 </div>
               </div>
+              )}
 
               {/* Project Status Filter */}
               <div className="relative">

@@ -723,7 +723,7 @@ export function Chatbot() {
           <Instagram className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
         </a>
         <a
-          href="https://www.linkedin.com/company/celesteabode"
+          href="https://www.linkedin.com/company/celeste-abode/"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-[#0A66C2] hover:bg-[#004182] text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"

@@ -94,18 +94,8 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center h-24">
-          {/* Mobile Layout */}
-          <div className="flex items-center justify-between w-full md:hidden gap-2">
-            {/* Phone capsule - left */}
-            <a
-              href="tel:+919818735258"
-              className="flex items-center gap-2 shrink-0 bg-[#0f1112] border border-[#CBB27A] rounded-full px-3 py-2 text-[#CBB27A] text-sm font-medium font-poppins hover:bg-[#CBB27A]/10 transition-colors"
-              aria-label="Call us"
-            >
-              <Phone className="w-4 h-4 shrink-0" />
-              <span className="hidden xs:inline truncate max-w-[120px]">+91 9818735258</span>
-            </a>
-            {/* Logo - center on Mobile */}
+          {/* Mobile Layout - logo left, menu right; phone capsule desktop only */}
+          <div className="flex items-center justify-between w-full md:hidden">
             <Link href="/" className="flex-shrink-0">
               <Image
                 src="/logoceleste.avif"
@@ -495,7 +485,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                   <Instagram className="w-5 h-5" />
                 </a>
                 <a
-                  href="https://www.linkedin.com/company/celesteabode"
+                  href="https://www.linkedin.com/company/celeste-abode/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-11 h-11 rounded-full bg-[#0A66C2] text-white flex items-center justify-center hover:bg-[#004182] transition-colors"

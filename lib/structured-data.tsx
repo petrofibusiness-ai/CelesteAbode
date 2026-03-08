@@ -57,7 +57,7 @@ export function OrganizationSchema() {
     },
     sameAs: [
       "https://www.facebook.com/celesteabode",
-      "https://www.linkedin.com/company/celesteabode",
+      "https://www.linkedin.com/company/celeste-abode/",
       "https://twitter.com/celesteabode",
       "https://www.instagram.com/celesteabode",
     ],
@@ -380,7 +380,7 @@ export function BrandSchema() {
     url: "https://www.celesteabode.com",
     sameAs: [
       "https://www.facebook.com/celesteabode",
-      "https://www.linkedin.com/company/celesteabode",
+      "https://www.linkedin.com/company/celeste-abode/",
       "https://twitter.com/celesteabode",
       "https://www.instagram.com/celesteabode"
     ],

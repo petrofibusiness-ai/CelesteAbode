@@ -363,7 +363,7 @@ export default async function ResidentialPropertyInNoidaPage() {
             </div>
 
             <aside className="hidden lg:block">
-              <ConsultationSidebar />
+              <ConsultationSidebar headline="Looking for a home in Noida?" subtext="Tell us your budget. We shortlist, verify, and set up visits only for what fits." />
             </aside>
           </div>
 

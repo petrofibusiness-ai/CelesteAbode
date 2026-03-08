@@ -7,17 +7,25 @@ type Variant = "residential" | "commercial";
 
 const COPY: Record<Variant, { headline: string; subtext: string }> = {
   residential: {
-    headline: "Get a Verified Shortlist—No Guesswork.",
-    subtext: "Our consultants shortlist, verify, and walk you through every option before you visit a single site.",
+    headline: "Tell us what you need. We'll shortlist and verify before you visit.",
+    subtext: "Consultants shortlist, verify, and walk you through options before any site visit.",
   },
   commercial: {
-    headline: "Commercial Advice. No Pitch, No Pressure.",
-    subtext: "Our commercial advisors shortlist, verify, and walk you through every option before you visit a single site.",
+    headline: "Commercial advice. No pitch, no pressure.",
+    subtext: "We shortlist and verify options; you visit only what fits.",
   },
 };
 
-export function ConsultationSidebar({ variant = "residential" }: { variant?: Variant }) {
-  const { headline, subtext } = COPY[variant];
+type Props = {
+  variant?: Variant;
+  headline?: string;
+  subtext?: string;
+};
+
+export function ConsultationSidebar({ variant = "residential", headline: headlineProp, subtext: subtextProp }: Props) {
+  const fallback = COPY[variant];
+  const headline = headlineProp ?? fallback.headline;
+  const subtext = subtextProp ?? fallback.subtext;
   return (
     <div className="sticky top-28 self-start overflow-hidden rounded-2xl border border-[#CBB27A]/30 bg-gradient-to-b from-gray-900 to-gray-800 p-5 shadow-xl max-h-[calc(100vh-8rem)] overflow-y-auto my-2">
       <h3 className="text-lg font-bold text-white font-poppins mb-1">

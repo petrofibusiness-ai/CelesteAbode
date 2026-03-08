@@ -821,7 +821,7 @@ robots: {
   },
   "sameAs": [
     "https://www.facebook.com/celesteabode",
-    "https://www.linkedin.com/company/celesteabode",
+    "https://www.linkedin.com/company/celeste-abode/",
     "https://twitter.com/celesteabode",
     "https://www.instagram.com/celesteabode"
   ],
@@ -942,7 +942,7 @@ robots: {
 **sameAs: [4 social media URLs]**
 - **Values:**
   1. "https://www.facebook.com/celesteabode"
-  2. "https://www.linkedin.com/company/celesteabode"
+  2. "https://www.linkedin.com/company/celeste-abode/"
   3. "https://twitter.com/celesteabode"
   4. "https://www.instagram.com/celesteabode"
 - **Purpose:** Links to social media profiles

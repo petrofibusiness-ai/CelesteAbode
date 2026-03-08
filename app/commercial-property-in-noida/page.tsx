@@ -259,7 +259,7 @@ export default function CommercialPropertyInNoidaPage() {
             </div>
 
             <aside className="hidden lg:block">
-              <ConsultationSidebar variant="commercial" />
+              <ConsultationSidebar variant="commercial" headline="Looking to buy commercial in Noida?" subtext="We check yield potential and legal standing before recommending anything." />
             </aside>
           </div>
 

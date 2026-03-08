@@ -8,6 +8,11 @@
 
 *This month's work focused on a new residential-property landing page, improved content UX, and a sticky consultation sidebar to convert readers without breaking the flow.*
 
+### Flats for Sale in Greater Noida page
+43. **New page:** `/flats-for-sale-in-greater-noida` — same structure as flats-in-Noida: hero (H1 "Flats for Sale in Greater Noida — Buy Apartments in Greater Noida"), listing (filters + grid, apartments only), gold line, two-column layout with sticky consultation sidebar on the **left** (`lg:grid-cols-[360px_1fr]`).
+44. **Content:** 7 SEO blocks — Explore best flats, Apartments for modern living (gated / luxury / affordable), Buy studio apartment (compact for investment, near commercial hubs), BHK flat (1 BHK, 2 & 3 BHK), Top locations (Greater Noida West, Yamuna Expressway), Why buy flats (connectivity, infrastructure, appreciation), Why Celeste Abode (consultants, verified listings, buying assistance); expand/collapse and gold separators; 3 FAQs with full advisory copy; dark CTA "Ready to Buy a Flat in Greater Noida?"
+45. **SEO & nav:** Layout metadata, canonical, Open Graph, Twitter; BreadcrumbSchema, WebPageSchema, FAQPageSchema; sitemap entry (monthly, 0.8); footer "Flats for Sale in Greater Noida" under Locations.
+
 ### New page & SEO
 1. **New page:** `/residential-property-in-noida` — dedicated landing for buying residential property in Noida (apartments, villas, luxury).
 2. **Sitemap:** New URL added with monthly change frequency and priority 0.8.
@@ -65,7 +70,7 @@
 36. **Flats FAQs:** All four answers updated to full advisory copy — average price by sector/config (Greater Noida West 2 BHK, mid-Noida, Expressway 3 BHK), best sector by goal (budget/families/investors/premium), investment case (127% rise, fundamentals, zone/developer selection), how to choose (RERA, delivery record, payment milestones, site visit, agreement review, title/approvals, comparables; Celeste Abode checks).
 
 ### Social media integration (sticky + mobile menu)
-37. **Desktop — left-side sticky:** Instagram, LinkedIn, and WhatsApp buttons added as a sticky vertical stack on the **left** side of the viewport, vertically centered (`fixed left-4 sm:left-6 top-1/2 -translate-y-1/2`). Order top to bottom: Instagram (gradient brand colors), LinkedIn (#0A66C2), WhatsApp (#25D366). Links: instagram.com/celesteabode, linkedin.com/company/celesteabode, wa.me/919818735258. **Hidden on mobile** (`hidden md:flex`).
+37. **Desktop — left-side sticky:** Instagram, LinkedIn, and WhatsApp buttons added as a sticky vertical stack on the **left** side of the viewport, vertically centered (`fixed left-4 sm:left-6 top-1/2 -translate-y-1/2`). Order top to bottom: Instagram (gradient brand colors), LinkedIn (#0A66C2), WhatsApp (#25D366). Links: instagram.com/celesteabode, linkedin.com/company/celeste-abode, wa.me/919818735258. **Hidden on mobile** (`hidden md:flex`).
 38. **Desktop — right-side unchanged:** Call (green, tel link) and Chatbot (Property Advisor) buttons remain sticky on the right corner; no social icons on the right.
 39. **Mobile — in menu bar:** On viewports below `md`, the three social links (Instagram, LinkedIn, WhatsApp) appear **inside the header mobile menu**, directly **below "Contact Us"**, in a **horizontal row** with brand-colored circular icons. Tapping a link opens the target and closes the menu. Implemented in `components/header.tsx` (mobile nav) and `components/chatbot.tsx` (desktop sticky left stack).
 

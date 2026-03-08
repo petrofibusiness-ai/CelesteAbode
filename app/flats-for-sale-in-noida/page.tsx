@@ -149,7 +149,7 @@ export default async function FlatsForSaleInNoidaPage() {
           {/* Two-column: sidebar LEFT, content RIGHT */}
           <div className="max-w-7xl mx-auto px-6 lg:grid lg:grid-cols-[360px_1fr] lg:gap-10 lg:pb-32">
             <aside className="hidden lg:block order-first">
-              <ConsultationSidebar variant="residential" />
+              <ConsultationSidebar variant="residential" headline="Not sure what's actually worth seeing?" subtext="Share your budget and we'll bring you only the flats worth your time." />
             </aside>
             <div className="min-w-0">
               <div className="max-w-4xl">

@@ -132,6 +132,13 @@ export function Footer() {
                 Commercial Property in Noida
               </Link>
               <Link
+                href="/flats-for-sale-in-noida"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
+              >
+                Flats for Sale in Noida
+              </Link>
+              <Link
                 href="/properties-in-greater-noida"
                 className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
                 style={{ marginLeft: 0 }}

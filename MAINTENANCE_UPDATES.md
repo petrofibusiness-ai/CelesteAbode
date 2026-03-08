@@ -57,6 +57,23 @@
 30. **Residential FAQs:** All four answers updated to full advisory copy — Noida good for most NCR buyers (location qualifier), price band Rs 4,500–15,000 per sq ft and mid-segment detail, sector choice by buyer type (150 / 75–78 / Greater Noida West), safe purchase steps (RERA, delivery record, agreement review, mutation; Celeste Abode role).
 31. **Commercial FAQs:** All four answers updated to full advisory copy — yield vs residential and vacant-risk qualifier, price by asset/zone (Expressway office, retail, Noida Extension entry), location by objective (Expressway / 62 & 18 / Extension), safe purchase (RERA, plan/use category, builder clauses, actual occupancy; Celeste Abode role).
 
+### Flats for sale in Noida page
+32. **New page:** `/flats-for-sale-in-noida` — same structure as residential: hero (H1 "Flats for Sale in Noida — Buy the Best Flats in Noida"), then listing (filters + grid), then content. Listing shows flats only via `defaultPropertyType="apartments"` (Apartment/Flats); hidePropertyType; initial fetch and search API filter to apartments only.
+33. **Sidebar on left:** Two-column layout uses `lg:grid-cols-[360px_1fr]` with ConsultationSidebar in the first column (left), content in the second. Same sticky form as residential (variant="residential"); only column order differs from residential/commercial pages.
+34. **Content:** 7 SEO blocks (Find best flats for modern living, Buy with expert consultants, 2 BHK for sale, 3 BHK for sale, Top locations, Why buy flats in Noida, Why Celeste Abode); expand/collapse and gold separators as on residential; 4 FAQs with FAQPageSchema; dark CTA "Ready to Buy a Flat in Noida?"
+35. **Flats SEO & nav:** Layout metadata, canonical, Open Graph, Twitter; BreadcrumbSchema, WebPageSchema, FAQPageSchema; sitemap entry (monthly, 0.8); footer "Flats for Sale in Noida" under Locations.
+36. **Flats FAQs:** All four answers updated to full advisory copy — average price by sector/config (Greater Noida West 2 BHK, mid-Noida, Expressway 3 BHK), best sector by goal (budget/families/investors/premium), investment case (127% rise, fundamentals, zone/developer selection), how to choose (RERA, delivery record, payment milestones, site visit, agreement review, title/approvals, comparables; Celeste Abode checks).
+
+### Social media integration (sticky + mobile menu)
+37. **Desktop — left-side sticky:** Instagram, LinkedIn, and WhatsApp buttons added as a sticky vertical stack on the **left** side of the viewport, vertically centered (`fixed left-4 sm:left-6 top-1/2 -translate-y-1/2`). Order top to bottom: Instagram (gradient brand colors), LinkedIn (#0A66C2), WhatsApp (#25D366). Links: instagram.com/celesteabode, linkedin.com/company/celesteabode, wa.me/919818735258. **Hidden on mobile** (`hidden md:flex`).
+38. **Desktop — right-side unchanged:** Call (green, tel link) and Chatbot (Property Advisor) buttons remain sticky on the right corner; no social icons on the right.
+39. **Mobile — in menu bar:** On viewports below `md`, the three social links (Instagram, LinkedIn, WhatsApp) appear **inside the header mobile menu**, directly **below "Contact Us"**, in a **horizontal row** with brand-colored circular icons. Tapping a link opens the target and closes the menu. Implemented in `components/header.tsx` (mobile nav) and `components/chatbot.tsx` (desktop sticky left stack).
+
+### Header capsules (desktop)
+40. **Phone capsule — left:** Desktop-only capsule on the **left** side of the header: mobile number (+91 9818735258) in a **black background**, **gold border** (`border-2 border-[#CBB27A]`), rounded-full, `tel:` link. Not shown on mobile.
+41. **Capsule width and height:** Both header capsules (phone left, Contact Us right) use the **same width** (`w-[180px] min-w-[180px]`) and **same height** (`h-10` = 40px); content centered with flex. Contact Us capsule remains gold gradient on the right.
+42. **Contact Us capsule — black text:** "Contact Us" label in the right capsule changed from white to **black text** (`text-black`) for contrast on the gold gradient background.
+
 ---
 
 ## How to use this doc

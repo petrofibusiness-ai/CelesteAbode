@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Phone, Mail, ChevronDown } from "lucide-react";
+import { Menu, X, Phone, Mail, ChevronDown, Instagram, Linkedin } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -95,9 +95,18 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-center h-24">
           {/* Mobile Layout */}
-          <div className="flex items-center justify-between w-full md:hidden">
-            {/* Logo - Left on Mobile */}
-            <Link href="/">
+          <div className="flex items-center justify-between w-full md:hidden gap-2">
+            {/* Phone capsule - left */}
+            <a
+              href="tel:+919818735258"
+              className="flex items-center gap-2 shrink-0 bg-[#0f1112] border border-[#CBB27A] rounded-full px-3 py-2 text-[#CBB27A] text-sm font-medium font-poppins hover:bg-[#CBB27A]/10 transition-colors"
+              aria-label="Call us"
+            >
+              <Phone className="w-4 h-4 shrink-0" />
+              <span className="hidden xs:inline truncate max-w-[120px]">+91 9818735258</span>
+            </a>
+            {/* Logo - center on Mobile */}
+            <Link href="/" className="flex-shrink-0">
               <Image
                 src="/logoceleste.avif"
                 alt="Celeste Abode Logo"
@@ -130,6 +139,15 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
 
           {/* Desktop Layout - nav centered, Contact button absolute right */}
           <div className="hidden md:block relative w-full h-24">
+            {/* Phone capsule - left side, desktop only: black background, gold border */}
+            <a
+              href="tel:+919818735258"
+              className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center justify-center gap-2 w-[180px] min-w-[180px] h-10 bg-black border-2 border-[#CBB27A] rounded-full px-4 text-[#CBB27A] text-sm font-medium font-poppins hover:text-white/90 transition-colors whitespace-nowrap"
+              aria-label="Call us"
+            >
+              <Phone className="w-4 h-4 shrink-0" />
+              <span>+91 9818735258</span>
+            </a>
             {/* Centered nav (left links + logo + right links) - shifted right */}
             <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%+2.5rem)] -translate-y-1/2 flex items-center pl-6 pr-6">
               {/* Left Menu Group: Home | Properties | Services */}
@@ -255,10 +273,10 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
               </nav>
             </div>
             
-            {/* Contact Capsule Button - absolute right, doesn't affect nav centering */}
+            {/* Contact Capsule Button - absolute right, same width as phone capsule */}
             <Link
               href="/contact"
-              className="absolute right-0 top-1/2 -translate-y-1/2 px-5 py-2.5 bg-gradient-to-r from-[#CBB27A] to-[#B39A6A] text-white text-sm font-semibold rounded-full hover:shadow-lg hover:shadow-[#CBB27A]/30 hover:scale-105 active:scale-95 transition-all duration-200 font-poppins whitespace-nowrap"
+              className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center justify-center w-[180px] min-w-[180px] h-10 px-5 bg-gradient-to-r from-[#CBB27A] to-[#B39A6A] text-black text-sm font-semibold rounded-full hover:shadow-lg hover:shadow-[#CBB27A]/30 hover:scale-105 active:scale-95 transition-all duration-200 font-poppins whitespace-nowrap"
             >
               Contact Us
             </Link>
@@ -463,6 +481,42 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
               >
                 CONTACT US
               </Link>
+
+              {/* Social links - horizontal, below Contact Us (mobile only) */}
+              <div className="px-6 py-4 flex items-center justify-start gap-4">
+                <a
+                  href="https://www.instagram.com/celesteabode/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-11 h-11 rounded-full bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#F77737] text-white flex items-center justify-center hover:opacity-90 transition-opacity"
+                  aria-label="Instagram"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Instagram className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/celesteabode"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-11 h-11 rounded-full bg-[#0A66C2] text-white flex items-center justify-center hover:bg-[#004182] transition-colors"
+                  aria-label="LinkedIn"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
+                <a
+                  href="https://wa.me/919818735258"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-11 h-11 rounded-full bg-[#25D366] text-white flex items-center justify-center hover:bg-[#20bd5a] transition-colors"
+                  aria-label="WhatsApp"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.865 9.865 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                  </svg>
+                </a>
+              </div>
             </nav>
 
             {/* Menu Footer */}

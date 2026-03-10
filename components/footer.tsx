@@ -167,6 +167,13 @@ export function Footer() {
                 Properties in Ghaziabad
               </Link>
               <Link
+                href="/flats-in-ghaziabad"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
+              >
+                Flats in Ghaziabad
+              </Link>
+              <Link
                 href="/properties-in-lucknow"
                 className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
                 style={{ marginLeft: 0 }}

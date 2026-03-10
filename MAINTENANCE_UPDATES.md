@@ -79,6 +79,11 @@
 41. **Capsule width and height:** Both header capsules (phone left, Contact Us right) use the **same width** (`w-[180px] min-w-[180px]`) and **same height** (`h-10` = 40px); content centered with flex. Contact Us capsule remains gold gradient on the right.
 42. **Contact Us capsule — black text:** "Contact Us" label in the right capsule changed from white to **black text** (`text-black`) for contrast on the gold gradient background.
 
+### Flats in Ghaziabad page
+46. **New page:** `/flats-in-ghaziabad` — hero (H1 "Flats in Ghaziabad"), no listing grid, content-only SEO landing with two-column layout on desktop: main content on the left, sticky consultation sidebar on the right.
+47. **Content:** 10 SEO blocks covering flats in Ghaziabad for modern living, why work with consultants, Indirapuram-focused section (ready-to-move, 3 BHK, amenities), services for flat buyers, top locations (Indirapuram, Vaishali, Vasundhara), how Celeste Abode helps, why Celeste is trusted, and benefits of professional property dealers; 4 FAQs with full advisory answers; dark CTA.
+48. **SEO & nav:** Layout metadata, canonical, Open Graph, Twitter; BreadcrumbSchema, WebPageSchema, FAQPageSchema; sitemap entry (monthly, 0.8); footer "Flats in Ghaziabad" link under Locations.
+
 ---
 
 ## How to use this doc

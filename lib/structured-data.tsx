@@ -12,11 +12,11 @@ export function OrganizationSchema() {
     url: "https://www.celesteabode.com",
     logo: {
       "@type": "ImageObject",
-      url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
+      url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp",
       width: 170,
       height: 156
     },
-    image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
+    image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp",
     slogan: "The Convergence of Data Intelligence and Luxury Living",
     description:
       "Independent real estate advisory providing compliant, data-backed property guidance across Delhi NCR. We help buyers, investors, and NRIs make informed property decisions in Noida, Greater Noida, and Yamuna Expressway through RERA compliance, market intelligence, and transparent advisory services.",
@@ -243,7 +243,7 @@ export function LocalBusinessSchema() {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
     name: "Celeste Abode",
-    image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
+    image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp",
     "@id": "https://www.celesteabode.com/#localbusiness",
     url: "https://www.celesteabode.com/",
     telephone: "+91 9818735258",
@@ -315,7 +315,7 @@ export function WebSiteSchema() {
       "@id": "https://www.celesteabode.com/#organization",
       logo: {
         "@type": "ImageObject",
-        url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
+        url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp",
         width: 170,
         height: 156
       }
@@ -349,7 +349,7 @@ export function BrandSchema() {
     alternateName: ["Celeste Abode Real Estate", "Celeste Abode Private Limited"],
     slogan: "The Convergence of Data Intelligence and Luxury Living",
     description: "Celeste Abode - Premium luxury real estate advisory brand specializing in real estate investment advisory services, property portfolio advisory, high-value property investment advisory, and personalized real estate advisory in Delhi NCR.",
-    logo: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
+    logo: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp",
     url: "https://www.celesteabode.com",
     sameAs: [
       "https://www.facebook.com/celesteabode",
@@ -566,7 +566,7 @@ export function ArticleSchema({
       "@id": "https://www.celesteabode.com/#organization",
       logo: {
         "@type": "ImageObject",
-        url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
+        url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp",
       },
     },
     datePublished: datePublished,
@@ -611,7 +611,7 @@ export function WebPageSchema({
       "@id": `${baseUrl}/#organization`,
       logo: {
         "@type": "ImageObject",
-        url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
+        url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp",
       },
     },
     ...(image && {
@@ -660,7 +660,7 @@ export function LocationPageSchema({
       "@id": `${baseUrl}/#organization`,
       logo: {
         "@type": "ImageObject",
-        url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
+        url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp",
       },
     },
     ...(image && {

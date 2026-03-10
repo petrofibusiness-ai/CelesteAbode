@@ -98,7 +98,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
           <div className="flex items-center justify-between w-full md:hidden">
             <Link href="/" className="flex-shrink-0">
               <Image
-                src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png"
+                src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp"
                 alt="Celeste Abode Logo"
                 width={95}
                 height={95}
@@ -236,7 +236,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
               {/* Center Logo - explicit height so it doesn't collapse in flex layout */}
               <Link href="/" className="flex items-center shrink-0 h-20">
                 <Image
-                  src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png"
+                  src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp"
                   alt="Celeste Abode Logo"
                   width={95}
                   height={95}
@@ -305,7 +305,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
             <div className="flex items-center justify-between p-6 border-b border-white/10">
               <div className="flex items-center gap-3">
                 <Image
-                  src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png"
+                  src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp"
                   alt="Celeste Abode Logo"
                   width={40}
                   height={40}

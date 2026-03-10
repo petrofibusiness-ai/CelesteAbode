@@ -77,7 +77,7 @@ export default async function FlatsForSaleInNoidaPage() {
         name="Flats for Sale in Noida - Buy the Best Flats in Noida"
         description="Find the best flats for sale in Noida. Ready to move, under construction & new launch 2 BHK, 3 BHK flats. Expert consultants, verified listings."
         url={PAGE_URL}
-        image="/NOIDA.avif"
+        image="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/flat-for-sale-in-noida/flat-for-sale-in-noida.webp"
       />
       <FAQPageSchema faqs={FLATS_FAQS} />
 
@@ -87,7 +87,7 @@ export default async function FlatsForSaleInNoidaPage() {
           <section className="relative min-h-screen flex items-center justify-center">
             <div className="absolute inset-0">
               <Image
-                src="/NOIDA.avif"
+                src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/flat-for-sale-in-noida/flat-for-sale-in-noida.webp"
                 alt="Flats for sale in Noida - buy the best flats in Noida"
                 fill
                 priority

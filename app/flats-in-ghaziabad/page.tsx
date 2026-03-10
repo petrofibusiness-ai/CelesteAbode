@@ -58,7 +58,7 @@ export default function FlatsInGhaziabadPage() {
         name="Flats in Ghaziabad - Buy Flat in Ghaziabad with Verified Listings"
         description="Buy flats in Ghaziabad with trusted real estate consultants. Indirapuram, Vaishali, Vasundhara. Verified listings, expert due diligence, and end-to-end buying assistance."
         url={PAGE_URL}
-        image="/GHAZIABAD.avif"
+        image="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/flats-in-ghaziabad/flats-in-ghaziabad.webp"
       />
       <FAQPageSchema faqs={GHAZIABAD_FLATS_FAQS} />
 
@@ -68,7 +68,7 @@ export default function FlatsInGhaziabadPage() {
           <section className="relative min-h-screen flex items-center justify-center">
             <div className="absolute inset-0">
               <Image
-                src="/GHAZIABAD.avif"
+                src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/flats-in-ghaziabad/flats-in-ghaziabad.webp"
                 alt="Flats in Ghaziabad - buy flat in Ghaziabad with verified listings"
                 fill
                 priority

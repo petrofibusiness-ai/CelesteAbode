@@ -89,6 +89,20 @@
 50. **Content:** 10 SEO blocks covering combined residential + commercial narrative: why invest in Lucknow, residential formats (flats, villas, premium projects), commercial formats (office, retail, pre-leased), consulting services, how Celeste Abode helps, and benefits of working with consultants; 4 FAQs with full advisory answers; dark CTA.
 51. **SEO & nav:** Layout metadata, canonical, Open Graph, Twitter; BreadcrumbSchema, WebPageSchema, FAQPageSchema; sitemap entry (monthly, 0.8); footer "Commercial & Residential Property in Lucknow" link under Locations.
 
+### Logo & assets (R2)
+52. **Logo:** Site logo switched to R2 URL `https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp`; all references updated (header, footer, blog layout, structured data). Local `public/logoceleste.avif` removed; obsolete Cache-Control header for `/logoceleste.avif` removed from `next.config.mjs`.
+
+### Structured data (LocalBusiness / RealEstateAgent)
+53. **LocalBusinessSchema:** Updated to RealEstateAgent with direct logo URL, address (Galaxy Blue Sapphire Plaza, Sector 4, Greater Noida West), geo (28.607256, 77.4354391), opening hours Mon–Sat 09:00–18:00, sameAs (Instagram, LinkedIn), priceRange "₹". Description and areaServed (Noida, Greater Noida, Gurugram, Delhi, Ghaziabad, Yamuna Expressway) retained.
+
+### Hero images — location landing pages (R2 webp)
+54. **Flats for Sale in Greater Noida:** Hero image (and WebPageSchema image) set to R2 webp: `flat-for-sale-in-greater-noida/flat-for-sale-in-greater-noida.webp`. Replaces local `/GREATER NOIDA.avif`.
+55. **Flats for Sale in Noida:** Hero and schema image set to R2 webp: `flat-for-sale-in-noida/flat-for-sale-in-noida.webp`. Replaces local `/NOIDA.avif`.
+56. **Residential Property in Noida:** Hero and schema image set to R2 webp: `residential-property-in-noida/residential-property-in-noida.webp`. Replaces local `/NOIDA.avif`.
+57. **Commercial Property in Noida:** Hero and schema image set to R2 webp: `commercial-property-in-noida/commercial-property-in-noida.webp`. Replaces local `/NOIDA.avif`.
+58. **Flats in Ghaziabad:** Hero and WebPageSchema image set to R2 webp: `flats-in-ghaziabad/flats-in-ghaziabad.webp`. Replaces local `/GHAZIABAD.avif`.
+59. **Commercial and Residential Property in Lucknow:** Hero and WebPageSchema image set to R2 webp: `commercial-and-residential-property-in-lucknow/commercial-and-residential-property-in-lucknow.webp`. Replaces local `/LUCKNOW.avif`.
+
 ---
 
 ## How to use this doc

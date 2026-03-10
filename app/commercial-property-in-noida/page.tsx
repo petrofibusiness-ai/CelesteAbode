@@ -38,7 +38,7 @@ export default function CommercialPropertyInNoidaPage() {
         name="Buy Commercial Property in Noida – Best Commercial Property for Investment"
         description="Buy commercial property in Noida with expert consultants. Office space, retail, showrooms & high-ROI commercial investment. Verified listings and end-to-end assistance."
         url={PAGE_URL}
-        image="/NOIDA.avif"
+        image="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/commercial-property-in-noida/commercial-property-in-noida.webp"
       />
       <FAQPageSchema faqs={COMMERCIAL_FAQS} />
 
@@ -48,7 +48,7 @@ export default function CommercialPropertyInNoidaPage() {
           <section className="relative min-h-screen flex items-center justify-center">
             <div className="absolute inset-0">
               <Image
-                src="/NOIDA.avif"
+                src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/commercial-property-in-noida/commercial-property-in-noida.webp"
                 alt="Commercial property in Noida - buy best commercial property for investment"
                 fill
                 priority

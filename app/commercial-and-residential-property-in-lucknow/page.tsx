@@ -58,7 +58,7 @@ export default function CommercialAndResidentialPropertyInLucknowPage() {
         name="Invest in Residential and Commercial Property in Lucknow with Expert Real Estate Consultants"
         description="Invest in residential and commercial property in Lucknow with expert real estate consultants. Gomti Nagar, Shaheed Path, Hazratganj and more. Verified projects, due diligence, and end-to-end advisory."
         url={PAGE_URL}
-        image="/LUCKNOW.avif"
+        image="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/commercial-and-residential-property-in-lucknow/commercial-and-residential-property-in-lucknow.webp"
       />
       <FAQPageSchema faqs={LUCKNOW_PROPERTY_FAQS} />
 
@@ -68,7 +68,7 @@ export default function CommercialAndResidentialPropertyInLucknowPage() {
           <section className="relative min-h-screen flex items-center justify-center">
             <div className="absolute inset-0">
               <Image
-                src="/LUCKNOW.avif"
+                src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/commercial-and-residential-property-in-lucknow/commercial-and-residential-property-in-lucknow.webp"
                 alt="Invest in residential and commercial property in Lucknow with expert real estate consultants"
                 fill
                 priority

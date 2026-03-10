@@ -78,7 +78,7 @@ export default async function ResidentialPropertyInNoidaPage() {
         name="Buy Residential Property in Noida - Buy Home & Luxury Property for Sale"
         description="Noida has become one of NCR's most sought-after cities for homebuyers. Buy residential property in Noida with trusted consultants. Explore apartments, villas & luxury homes for sale."
         url={PAGE_URL}
-        image="/NOIDA.avif"
+        image="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/residential-property-in-noida/residential-property-in-noida.webp"
       />
       <FAQPageSchema faqs={RESIDENTIAL_FAQS} />
 
@@ -89,7 +89,7 @@ export default async function ResidentialPropertyInNoidaPage() {
           <section className="relative min-h-screen flex items-center justify-center">
             <div className="absolute inset-0">
               <Image
-                src="/NOIDA.avif"
+                src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/residential-property-in-noida/residential-property-in-noida.webp"
                 alt="Residential property in Noida - buy home and luxury property"
                 fill
                 priority

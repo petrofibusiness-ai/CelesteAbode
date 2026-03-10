@@ -76,7 +76,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
         name="Flats for Sale in Greater Noida - Buy Apartments in Greater Noida"
         description="Find the best flats for sale in Greater Noida. Gated communities, studio apartments, 1 BHK, 2 & 3 BHK flats. Expert consultants, verified listings."
         url={PAGE_URL}
-        image="/GREATER NOIDA.avif"
+        image="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/flat-for-sale-in-greater-noida/flat-for-sale-in-greater-noida.webp"
       />
       <FAQPageSchema faqs={GREATER_NOIDA_FLATS_FAQS} />
 
@@ -86,7 +86,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
           <section className="relative min-h-screen flex items-center justify-center">
             <div className="absolute inset-0">
               <Image
-                src="/GREATER NOIDA.avif"
+                src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/flat-for-sale-in-greater-noida/flat-for-sale-in-greater-noida.webp"
                 alt="Flats for sale in Greater Noida - buy apartments in Greater Noida"
                 fill
                 priority

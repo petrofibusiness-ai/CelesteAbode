@@ -111,13 +111,6 @@ export function Footer() {
             <h3 className="h4 mb-6 text-[#CBB27A]">Locations</h3>
             <div className="flex flex-col gap-3" style={{ marginLeft: 0 }}>
               <Link
-                href="/properties-in-noida"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
-                style={{ marginLeft: 0 }}
-              >
-                Properties in Noida
-              </Link>
-              <Link
                 href="/residential-property-in-noida"
                 className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
                 style={{ marginLeft: 0 }}
@@ -139,13 +132,6 @@ export function Footer() {
                 Flats for Sale in Noida
               </Link>
               <Link
-                href="/properties-in-greater-noida"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
-                style={{ marginLeft: 0 }}
-              >
-                Properties in Greater Noida
-              </Link>
-              <Link
                 href="/flats-for-sale-in-greater-noida"
                 className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
                 style={{ marginLeft: 0 }}
@@ -153,32 +139,11 @@ export function Footer() {
                 Flats for Sale in Greater Noida
               </Link>
               <Link
-                href="/properties-in-yamuna-expressway"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
-                style={{ marginLeft: 0 }}
-              >
-                Properties in Yamuna Expressway
-              </Link>
-              <Link
-                href="/properties-in-ghaziabad"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
-                style={{ marginLeft: 0 }}
-              >
-                Properties in Ghaziabad
-              </Link>
-              <Link
                 href="/flats-in-ghaziabad"
                 className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
                 style={{ marginLeft: 0 }}
               >
                 Flats in Ghaziabad
-              </Link>
-              <Link
-                href="/properties-in-lucknow"
-                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
-                style={{ marginLeft: 0 }}
-              >
-                Properties in Lucknow
               </Link>
             </div>
           </div>

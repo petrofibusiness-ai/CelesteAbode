@@ -96,8 +96,13 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/40" />
             </div>
             <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight font-poppins">
-                <span className="text-[#CBB27A]">Flats for Sale in Greater Noida</span> — Buy Apartments in Greater Noida
+              <h1 className="font-bold text-white leading-tight font-poppins">
+                <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#CBB27A]">
+                  Flats for Sale in Greater Noida
+                </span>
+                <span className="block text-base sm:text-lg md:text-2xl lg:text-3xl">
+                  — Buy Apartments in Greater Noida
+                </span>
               </h1>
             </div>
           </section>

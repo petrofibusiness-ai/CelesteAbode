@@ -103,6 +103,9 @@
 58. **Flats in Ghaziabad:** Hero and WebPageSchema image set to R2 webp: `flats-in-ghaziabad/flats-in-ghaziabad.webp`. Replaces local `/GHAZIABAD.avif`.
 59. **Commercial and Residential Property in Lucknow:** Hero and WebPageSchema image set to R2 webp: `commercial-and-residential-property-in-lucknow/commercial-and-residential-property-in-lucknow.webp`. Replaces local `/LUCKNOW.avif`.
 
+### Hero — full viewport (property-in pages)
+60. **Property-in hero height:** All property-in and location landing hero sections use full viewport height. Dynamic `properties-in/[locationCategory]` hero updated from `min-h-[70vh] sm:min-h-[80vh] lg:min-h-screen` to `min-h-screen` at all breakpoints so the hero image is always full viewport. Static pages (residential/commercial property in Noida, flats for sale in Noida/Greater Noida, flats in Ghaziabad, commercial-and-residential in Lucknow) already used `min-h-screen`.
+
 ---
 
 ## How to use this doc

@@ -228,8 +228,8 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
       <div className="min-h-screen bg-background">
         <Header alwaysBlack={true} />
         <main className="relative">
-          {/* Hero Section - responsive height so image isn't oversized on mobile */}
-          <section className="relative min-h-[70vh] sm:min-h-[80vh] lg:min-h-screen flex items-center justify-center">
+          {/* Hero Section - full viewport */}
+          <section className="relative min-h-screen flex items-center justify-center">
             <div className="absolute inset-0">
               <Image
                 src={location.heroImage}

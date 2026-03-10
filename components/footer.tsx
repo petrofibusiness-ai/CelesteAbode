@@ -145,6 +145,13 @@ export function Footer() {
               >
                 Flats in Ghaziabad
               </Link>
+              <Link
+                href="/commercial-and-residential-property-in-lucknow"
+                className="block text-sm text-white hover:text-[#CBB27A] transition-colors !m-0 !ml-0"
+                style={{ marginLeft: 0 }}
+              >
+                Commercial & Residential Property in Lucknow
+              </Link>
             </div>
           </div>
 

@@ -84,6 +84,11 @@
 47. **Content:** 10 SEO blocks covering flats in Ghaziabad for modern living, why work with consultants, Indirapuram-focused section (ready-to-move, 3 BHK, amenities), services for flat buyers, top locations (Indirapuram, Vaishali, Vasundhara), how Celeste Abode helps, why Celeste is trusted, and benefits of professional property dealers; 4 FAQs with full advisory answers; dark CTA.
 48. **SEO & nav:** Layout metadata, canonical, Open Graph, Twitter; BreadcrumbSchema, WebPageSchema, FAQPageSchema; sitemap entry (monthly, 0.8); footer "Flats in Ghaziabad" link under Locations.
 
+### Commercial and Residential Property in Lucknow page
+49. **New page:** `/commercial-and-residential-property-in-lucknow` — hero (H1 "Invest in Residential and Commercial Property in Lucknow" / second line "with Expert Real Estate Consultants"), no listing grid, content-only SEO landing; two-column layout on desktop with main content on the left and sticky consultation sidebar on the right.
+50. **Content:** 10 SEO blocks covering combined residential + commercial narrative: why invest in Lucknow, residential formats (flats, villas, premium projects), commercial formats (office, retail, pre-leased), consulting services, how Celeste Abode helps, and benefits of working with consultants; 4 FAQs with full advisory answers; dark CTA.
+51. **SEO & nav:** Layout metadata, canonical, Open Graph, Twitter; BreadcrumbSchema, WebPageSchema, FAQPageSchema; sitemap entry (monthly, 0.8); footer "Commercial & Residential Property in Lucknow" link under Locations.
+
 ---
 
 ## How to use this doc

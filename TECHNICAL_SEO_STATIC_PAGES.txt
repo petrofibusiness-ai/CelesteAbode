@@ -1,0 +1,210 @@
+================================================================================
+TECHNICAL SEO RECORD – STATIC PAGES
+Celeste Abode | Maintenance log for meta, structured data, and on-page SEO
+================================================================================
+Last updated: 2026-01-30
+Source: app/metadata.ts, app/*/layout.tsx, app/*/page.tsx, lib/structured-data.tsx
+================================================================================
+
+
+**STATIC PAGES COVERED**
+- Home (/)
+- Services (/real-estate-consulting-services)
+- Philosophy (/advisory-philosophy)
+- Contact (/contact)
+- Vault / Real Estate Insights (/real-estate-insights)
+- Advisory Session (/advisory-session)
+- Terms of Service (/terms)
+- Privacy Policy (/privacy-policy)
+
+
+================================================================================
+**1. HOME (/)
+================================================================================
+
+**Meta (source: app/metadata.ts, app/page.tsx)**
+- Title: Trusted Real Estate Consultant for Properties in Delhi NCR
+- Description: Independent real estate consulting in Delhi NCR for buyers and investors seeking RERA-safe, data-led property decisions across Noida and Yamuna Expressway.
+- Keywords: trusted real estate consultant Delhi NCR, independent property advisory Noida, RERA-safe property decisions, data-led real estate consulting, Noida and Yamuna Expressway property advisory
+- Canonical: https://www.celesteabode.com
+- Open Graph: title, description, url, siteName, images (propertyhero.avif 1200x630), locale en_IN, type website
+- Twitter: card summary_large_image, title, description, images, creator @celesteabode
+- Robots: index, follow; googleBot index, follow, max-video-preview -1, max-image-preview large, max-snippet -1
+- Other: geo.region IN-UP, geo.placename Noida, geo.position, ICBM
+
+**Structured data (JSON-LD)**
+- OrganizationSchema
+- WebSiteSchema
+- FAQPageSchema (HOMEPAGE_FAQS)
+- AggregateRatingSchema (lib/homepage-schema.tsx)
+
+**On-page**
+- H1: Trusted Real Estate Consultant for Properties in Delhi NCR (homepageH1)
+- Hero subtext: Independent real estate advisory services focused on clarity, compliance, and long-term value.
+- Content: HeroSection, BrandIntro, ValuePropositions, WhoWeServe, WhereWeWork, TestimonialsSection, VaultTeaser, PropertyEvaluationSection, CTASection, FAQ (HOMEPAGE_FAQS)
+
+
+================================================================================
+**2. SERVICES (/real-estate-consulting-services)
+================================================================================
+
+**Meta (source: app/real-estate-consulting-services/page.tsx – inline metadata)**
+- Title: Real Estate Consulting & Advisory Services in Delhi NCR
+- Description: Professional real estate consulting and advisory services in Delhi NCR, supporting confident property and investment decisions through data-driven strategy.
+- Keywords: real estate consulting services Delhi NCR, property investment advisory services, NRI property advisory India, end to end property consulting, luxury real estate advisory
+- Canonical: https://www.celesteabode.com/real-estate-consulting-services
+- Open Graph: title, description, url, siteName, images (premium-apartment-interior-living-room.avif 1200x630), locale en_IN, type website
+- Twitter: card summary_large_image, title, description, images
+
+**Structured data (JSON-LD)**
+- BreadcrumbSchema: Home → Services
+
+**On-page**
+- H1: Real Estate Consulting & Advisory Services (ServicesHeroSection)
+- Content: service cards (Luxury & Premium Residences, High-Value Investment Advisory, NRI & Global Client Services, End-to-End Consulting, Personalised Lifestyle Mapping, Solution at Your Doorstep), CTA
+
+
+================================================================================
+**3. PHILOSOPHY (/advisory-philosophy)
+================================================================================
+
+**Meta (source: app/advisory-philosophy/layout.tsx)**
+- Title: Our Real Estate Advisory Philosophy
+- Description: See how Celeste Abode protects buyers with independent advice, RERA-first due diligence, and data-backed decision frameworks—not sales pressure.
+- Keywords: real estate advisory philosophy, independent property advisory, transparent real estate consulting, client first property guidance, RERA-first advisory approach
+- Canonical: https://www.celesteabode.com/advisory-philosophy
+- Open Graph: title, description, url, siteName, images (TRUSTTRANIMAGE.avif 1200x630), locale en_IN, type website
+- Twitter: card summary_large_image, title, description, images
+
+**Structured data (JSON-LD)**
+- BreadcrumbSchema: Home → Philosophy
+
+**On-page**
+- H1: in PhilosophyHeroSection (advisory philosophy hero)
+- H2: Our Ethos (Trust, Transparency, Transformation, etc.)
+- Content: PhilosophyHeroSection, Four Pillars (Trust, Transparency, Transformation, Precision), imagery, CTA
+
+
+================================================================================
+**4. CONTACT (/contact)
+================================================================================
+
+**Meta (source: app/contact/layout.tsx)**
+- Title: Contact Us - Real Estate Consultation Noida
+- Description: Talk to a Celeste Abode advisor for Noida, Greater Noida, and Yamuna Expressway properties. Get curated shortlists, transparent guidance, and faster decision support.
+- Keywords: contact real estate advisor Noida, property consultation Delhi NCR, Celeste Abode contact, real estate office Noida sector 62
+- Canonical: https://www.celesteabode.com/contact
+- Open Graph: title, description, url, siteName, locale en_IN, type website (no image)
+- Twitter: card summary, title, description (shorter)
+
+**Structured data (JSON-LD)**
+- BreadcrumbSchema: Home → Contact
+- LocalBusinessSchema (RealEstateAgent: address, geo, opening hours, sameAs, etc.)
+
+**On-page**
+- H1: Get in Touch
+- Content: contact form, address, phone, email, map/section
+
+
+================================================================================
+**5. VAULT / REAL ESTATE INSIGHTS (/real-estate-insights)
+================================================================================
+
+**Meta (source: app/real-estate-insights/layout.tsx)**
+- Title: Real Estate Vault - Property Terms, FAQs & Investment Guide
+- Description: Master property buying with clear real estate terms, FAQs, legal basics, and investment frameworks—built to help buyers and investors make safer, smarter decisions.
+- Keywords: real estate terms glossary, property buying FAQ, real estate investment guide India, RERA guide for buyers, property due diligence basics
+- Canonical: https://www.celesteabode.com/real-estate-insights
+- Open Graph: title, description, url, siteName, images (vaulthero.avif 1200x630), locale en_IN, type website
+- Twitter: card summary_large_image, title, description, images
+
+**Structured data (JSON-LD)**
+- BreadcrumbSchema: Home → Vault
+- FAQPageSchema (allFAQs from page)
+
+**On-page**
+- H1: in hero (Vault / Real Estate Insights)
+- Content: hero, glossary/terms, FAQs, investment guide content
+
+
+================================================================================
+**6. ADVISORY SESSION (/advisory-session)
+================================================================================
+
+**Meta (source: app/advisory-session/layout.tsx)**
+- Title: Request Advisory Session - Personalized Property Consultation
+- Description: Book a 1:1 advisory session to discuss budget, location options, builder risk, and investment strategy across Noida, Greater Noida, and Yamuna Expressway.
+- Keywords: book property advisory session, real estate consultation booking, one to one property consultation, investment strategy consultation NCR
+- Canonical: https://www.celesteabode.com/advisory-session
+- Open Graph: title, description, url, siteName, locale en_IN, type website (no image)
+- Twitter: card summary, title, description
+- Robots: index, follow
+
+**Structured data (JSON-LD)**
+- BreadcrumbSchema: Home → Advisory Session
+
+**On-page**
+- H1: Request Advisory Session (or “Request Submitted Successfully” on success)
+- Content: booking form, CTA
+
+
+================================================================================
+**7. TERMS OF SERVICE (/terms)
+================================================================================
+
+**Meta (source: app/terms/page.tsx)**
+- Title: Terms of Service
+- Description: Terms and conditions governing your use of Celeste Abode's real estate services. Read our terms of service, user obligations, and service agreements.
+- Canonical: https://www.celesteabode.com/terms
+- Robots: index false, follow true
+
+**Structured data (JSON-LD)**
+- None
+
+**On-page**
+- H1: Terms of Service
+- Content: legal terms, contact block (email, phone, address)
+
+
+================================================================================
+**8. PRIVACY POLICY (/privacy-policy)
+================================================================================
+
+**Meta (source: app/privacy-policy/page.tsx)**
+- Title: Privacy Policy
+- Description: Celeste Abode's privacy policy outlining how we collect, use, and protect your personal information. Learn about our data protection practices and your privacy rights.
+- Canonical: https://www.celesteabode.com/privacy-policy
+- Robots: index false, follow true
+
+**Structured data (JSON-LD)**
+- None
+
+**On-page**
+- H1: Privacy Policy
+- Content: policy text, contact block
+
+
+================================================================================
+**QUICK REFERENCE – STRUCTURED DATA BY PAGE
+================================================================================
+- Home:         OrganizationSchema, WebSiteSchema, FAQPageSchema, AggregateRatingSchema
+- Services:     BreadcrumbSchema
+- Philosophy:   BreadcrumbSchema
+- Contact:      BreadcrumbSchema, LocalBusinessSchema
+- Vault:        BreadcrumbSchema, FAQPageSchema
+- Advisory:     BreadcrumbSchema
+- Terms:        —
+- Privacy:      —
+
+
+================================================================================
+**GLOBAL / SHARED (app/layout.tsx, root)
+================================================================================
+- Favicon: public/favicon_celeste/* (see app/layout.tsx)
+- Logo (header/footer): R2 URL logocelesteabode.webp
+- (main) layout metadata (app/(main)/layout.tsx) applies to routes under (main); home uses app/metadata.ts via page export.
+
+
+================================================================================
+END OF RECORD – Update this file when changing meta, schemas, or H1s on static pages.
+================================================================================

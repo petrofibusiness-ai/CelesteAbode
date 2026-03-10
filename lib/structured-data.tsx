@@ -17,9 +17,9 @@ export function OrganizationSchema() {
       height: 156
     },
     image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp",
-    slogan: "The Convergence of Data Intelligence and Luxury Living",
+    slogan: "Independent real estate advisory services focused on clarity, compliance, and long-term value.",
     description:
-      "Independent real estate advisory providing compliant, data-backed property guidance across Delhi NCR. We help buyers, investors, and NRIs make informed property decisions in Noida, Greater Noida, and Yamuna Expressway through RERA compliance, market intelligence, and transparent advisory services.",
+      "Independent real estate consulting in Delhi NCR for buyers and investors seeking RERA-safe, data-led property decisions across Noida and Yamuna Expressway.",
     foundingDate: "2024",
     numberOfEmployees: {
       "@type": "QuantitativeValue",
@@ -50,16 +50,14 @@ export function OrganizationSchema() {
     },
     contactPoint: {
       "@type": "ContactPoint",
-      telephone: "+91-9818735258",
+      telephone: "+91 9818735258",
       contactType: "Customer Service",
       areaServed: ["IN"],
       availableLanguage: ["English", "Hindi"],
     },
     sameAs: [
-      "https://www.facebook.com/celesteabode",
+      "https://www.instagram.com/celesteabode/",
       "https://www.linkedin.com/company/celeste-abode/",
-      "https://twitter.com/celesteabode",
-      "https://www.instagram.com/celesteabode",
     ],
     areaServed: [
       { "@type": "City", "name": "Noida" },
@@ -67,6 +65,7 @@ export function OrganizationSchema() {
       { "@type": "City", "name": "Gurugram" },
       { "@type": "City", "name": "Delhi" },
       { "@type": "City", "name": "Ghaziabad" },
+      { "@type": "City", "name": "Lucknow" },
       { "@type": "AdministrativeArea", "name": "Yamuna Expressway" },
       { "@type": "AdministrativeArea", "name": "Noida Expressway" }
     ],
@@ -249,18 +248,19 @@ export function LocalBusinessSchema() {
     telephone: "+91 9818735258",
     priceRange: "₹",
     description:
-      "Celeste Abode - Premium luxury real estate advisory in NCR. Real estate investment advisory services, property portfolio advisory, and high-value property investment advisory. Expert real estate consultants in Noida, Greater Noida, Gurugram, Yamuna Expressway, and Delhi NCR.",
+      "Independent real estate consulting in Delhi NCR for buyers and investors seeking RERA-safe, data-led property decisions across Noida and Yamuna Expressway.",
     address: {
       "@type": "PostalAddress",
       streetAddress: "615, 6th Floor, Galaxy Blue Sapphire Plaza, Sector 4",
-      addressLocality: "Greater Noida West",
+      addressLocality: "Greater Noida (West)",
+      addressRegion: "Uttar Pradesh",
       postalCode: "201309",
       addressCountry: "IN",
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: 28.607256,
-      longitude: 77.4354391,
+      latitude: 28.6076655,
+      longitude: 77.4354885,
     },
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
@@ -281,7 +281,9 @@ export function LocalBusinessSchema() {
       { "@type": "City", name: "Gurugram" },
       { "@type": "City", name: "Delhi" },
       { "@type": "City", name: "Ghaziabad" },
+      { "@type": "City", name: "Lucknow" },
       { "@type": "AdministrativeArea", name: "Yamuna Expressway" },
+      { "@type": "AdministrativeArea", name: "Noida Expressway" },
     ],
     sameAs: [
       "https://www.instagram.com/celesteabode/",
@@ -307,7 +309,7 @@ export function WebSiteSchema() {
     name: "Celeste Abode",
     alternateName: "Celeste Abode Real Estate Consulting",
     url: "https://www.celesteabode.com",
-    description: "Trusted real estate advisory providing compliant, data-backed property guidance across Delhi NCR. Expert property consultants in Noida, Greater Noida, Gurugram, and Yamuna Expressway.",
+    description: "Independent real estate consulting in Delhi NCR for buyers and investors seeking RERA-safe, data-led property decisions across Noida and Yamuna Expressway.",
     inLanguage: "en-IN",
     publisher: {
       "@type": "Organization",
@@ -347,23 +349,14 @@ export function BrandSchema() {
     "@type": "Brand",
     name: "Celeste Abode",
     alternateName: ["Celeste Abode Real Estate", "Celeste Abode Private Limited"],
-    slogan: "The Convergence of Data Intelligence and Luxury Living",
-    description: "Celeste Abode - Premium luxury real estate advisory brand specializing in real estate investment advisory services, property portfolio advisory, high-value property investment advisory, and personalized real estate advisory in Delhi NCR.",
+    slogan: "Independent real estate advisory services focused on clarity, compliance, and long-term value.",
+    description: "Independent real estate consulting in Delhi NCR for buyers and investors seeking RERA-safe, data-led property decisions across Noida and Yamuna Expressway.",
     logo: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp",
     url: "https://www.celesteabode.com",
     sameAs: [
-      "https://www.facebook.com/celesteabode",
+      "https://www.instagram.com/celesteabode/",
       "https://www.linkedin.com/company/celeste-abode/",
-      "https://twitter.com/celesteabode",
-      "https://www.instagram.com/celesteabode"
     ],
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      reviewCount: "2500",
-      bestRating: "5",
-      worstRating: "1"
-    }
   };
 
   return (

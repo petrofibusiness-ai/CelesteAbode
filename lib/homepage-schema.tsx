@@ -33,7 +33,7 @@ export function HomepageServiceSchema() {
         name: "Ghaziabad",
       },
     ],
-    description: "Strategic property investment advisory with data-driven intelligence, RERA compliance, and bespoke lifestyle curation for high-value investments in NCR region.",
+    description: "Independent real estate consulting in Delhi NCR for buyers and investors seeking RERA-safe, data-led property decisions across Noida and Yamuna Expressway.",
     offers: {
       "@type": "Offer",
       priceRange: "₹50 Lakhs - ₹5 Crores",
@@ -57,7 +57,7 @@ export function HomepageServicesListSchema() {
     "@context": "https://schema.org",
     "@type": "ItemList",
     name: "Celeste Abode Real Estate Services",
-    description: "Comprehensive luxury real estate consulting services in NCR",
+    description: "Independent real estate consulting in Delhi NCR—RERA-safe, data-led property decisions across Noida and Yamuna Expressway.",
     itemListElement: [
       {
         "@type": "ListItem",

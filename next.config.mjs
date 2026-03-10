@@ -166,15 +166,6 @@ const nextConfig = {
           },
         ],
       },
-      {
-        source: '/logoceleste.avif',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=0, must-revalidate',
-          },
-        ],
-      },
       // Admin API routes - NO CACHING (removed to prevent stale data)
       // All admin routes use route-level headers for authoritative control
       // Immutable Asset Caching

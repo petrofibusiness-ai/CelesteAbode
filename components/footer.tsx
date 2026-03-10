@@ -17,7 +17,7 @@ export function Footer() {
           <div className="flex justify-center w-full lg:col-span-1">
             <div className="mb-6">
               <Image
-                src="/logoceleste.avif"
+                src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png"
                 alt="Celeste Abode Logo"
                 width={170}
                 height={156}

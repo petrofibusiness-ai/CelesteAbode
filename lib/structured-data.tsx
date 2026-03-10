@@ -12,11 +12,11 @@ export function OrganizationSchema() {
     url: "https://www.celesteabode.com",
     logo: {
       "@type": "ImageObject",
-      url: "https://www.celesteabode.com/logoceleste.avif",
+      url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
       width: 170,
       height: 156
     },
-    image: "https://www.celesteabode.com/logoceleste.avif",
+    image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
     slogan: "The Convergence of Data Intelligence and Luxury Living",
     description:
       "Independent real estate advisory providing compliant, data-backed property guidance across Delhi NCR. We help buyers, investors, and NRIs make informed property decisions in Noida, Greater Noida, and Yamuna Expressway through RERA compliance, market intelligence, and transparent advisory services.",
@@ -237,82 +237,55 @@ export function FAQPageSchema({
   );
 }
 
-// LocalBusiness Schema
+// LocalBusiness Schema (RealEstateAgent)
 export function LocalBusinessSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
     name: "Celeste Abode",
-    image: "https://www.celesteabode.com/logoceleste.avif",
-    "@id": "https://www.celesteabode.com",
-    url: "https://www.celesteabode.com",
-    telephone: "+91-9818735258",
-    priceRange: "₹50 Lakhs - ₹5 Crores",
-    description: "Celeste Abode - Premium luxury real estate advisory in NCR. Real estate investment advisory services, property portfolio advisory, and high-value property investment advisory. Expert real estate consultants in Noida, Greater Noida, Gurugram, Yamuna Expressway, and Delhi NCR.",
+    image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
+    "@id": "https://www.celesteabode.com/#localbusiness",
+    url: "https://www.celesteabode.com/",
+    telephone: "+91 9818735258",
+    priceRange: "₹",
+    description:
+      "Celeste Abode - Premium luxury real estate advisory in NCR. Real estate investment advisory services, property portfolio advisory, and high-value property investment advisory. Expert real estate consultants in Noida, Greater Noida, Gurugram, Yamuna Expressway, and Delhi NCR.",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "615, 6th Floor, Galaxy Blue Sapphire Plaza",
-      addressLocality: "Sector 4, Greater Noida (West)",
-      addressRegion: "Uttar Pradesh",
+      streetAddress: "615, 6th Floor, Galaxy Blue Sapphire Plaza, Sector 4",
+      addressLocality: "Greater Noida West",
       postalCode: "201309",
       addressCountry: "IN",
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: 28.6076655,
-      longitude: 77.4354885,
+      latitude: 28.607256,
+      longitude: 77.4354391,
     },
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      dayOfWeek: [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ],
       opens: "09:00",
-      closes: "19:00",
+      closes: "18:00",
     },
     areaServed: [
-      {
-        "@type": "City",
-        name: "Noida",
-      },
-      {
-        "@type": "City",
-        name: "Greater Noida",
-      },
-      {
-        "@type": "City",
-        name: "Gurugram",
-      },
-      {
-        "@type": "City",
-        name: "Delhi",
-      },
-      {
-        "@type": "City",
-        name: "Ghaziabad",
-      },
-      {
-        "@type": "City",
-        name: "Yamuna Expressway",
-      },
+      { "@type": "City", name: "Noida" },
+      { "@type": "City", name: "Greater Noida" },
+      { "@type": "City", name: "Gurugram" },
+      { "@type": "City", name: "Delhi" },
+      { "@type": "City", name: "Ghaziabad" },
+      { "@type": "AdministrativeArea", name: "Yamuna Expressway" },
     ],
-    serviceType: [
-      "Luxury Real Estate Advisory",
-      "Real Estate Investment Advisory Services",
-      "Property Portfolio Advisory Services",
-      "Real Estate Transaction Consulting",
-      "End-to-End Property Advisory",
-      "Personalized Real Estate Advisory",
-      "Strategic Property Investment Planning",
-      "Residential Real Estate Advisory",
-      "NRI Real Estate Advisory",
-      "High-Value Property Investment Advisory",
-      "Luxury Real Estate Consulting",
-      "Strategic Property Investment Advisory",
-      "Data-Driven Property Intelligence",
-      "RERA Compliant Property Advisory",
-      "Bespoke Lifestyle Curation",
-      "Investment Security Services",
-      "NRI Property Services",
-      "End-to-End Transaction Security",
+    sameAs: [
+      "https://www.instagram.com/celesteabode/",
+      "https://www.linkedin.com/company/celeste-abode/",
     ],
   };
 
@@ -342,7 +315,7 @@ export function WebSiteSchema() {
       "@id": "https://www.celesteabode.com/#organization",
       logo: {
         "@type": "ImageObject",
-        url: "https://www.celesteabode.com/logoceleste.avif",
+        url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
         width: 170,
         height: 156
       }
@@ -376,7 +349,7 @@ export function BrandSchema() {
     alternateName: ["Celeste Abode Real Estate", "Celeste Abode Private Limited"],
     slogan: "The Convergence of Data Intelligence and Luxury Living",
     description: "Celeste Abode - Premium luxury real estate advisory brand specializing in real estate investment advisory services, property portfolio advisory, high-value property investment advisory, and personalized real estate advisory in Delhi NCR.",
-    logo: "https://www.celesteabode.com/logoceleste.avif",
+    logo: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
     url: "https://www.celesteabode.com",
     sameAs: [
       "https://www.facebook.com/celesteabode",
@@ -593,7 +566,7 @@ export function ArticleSchema({
       "@id": "https://www.celesteabode.com/#organization",
       logo: {
         "@type": "ImageObject",
-        url: "https://www.celesteabode.com/logoceleste.avif",
+        url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
       },
     },
     datePublished: datePublished,
@@ -638,7 +611,7 @@ export function WebPageSchema({
       "@id": `${baseUrl}/#organization`,
       logo: {
         "@type": "ImageObject",
-        url: `${baseUrl}/logoceleste.avif`,
+        url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
       },
     },
     ...(image && {
@@ -687,7 +660,7 @@ export function LocationPageSchema({
       "@id": `${baseUrl}/#organization`,
       logo: {
         "@type": "ImageObject",
-        url: `${baseUrl}/logoceleste.avif`,
+        url: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
       },
     },
     ...(image && {

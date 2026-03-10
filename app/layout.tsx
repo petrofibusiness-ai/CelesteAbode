@@ -212,11 +212,13 @@ export default function RootLayout({
         <meta name="distribution" content="Global" />
         <meta name="rating" content="General" />
         
-        {/* Favicon */}
-        <link rel="icon" href="/logoceleste.ico" type="image/x-icon" />
-        <link rel="shortcut icon" href="/logoceleste.ico" type="image/x-icon" />
-        <link rel="apple-touch-icon" href="/logoceleste.ico" sizes="180x180" />
-        <meta name="msapplication-TileImage" content="/logoceleste.ico" />
+        {/* Favicon from public/favicon_celeste */}
+        <link rel="icon" href="/favicon_celeste/favicon.ico" type="image/x-icon" sizes="any" />
+        <link rel="icon" href="/favicon_celeste/favicon-16x16.png" type="image/png" sizes="16x16" />
+        <link rel="icon" href="/favicon_celeste/favicon-32x32.png" type="image/png" sizes="32x32" />
+        <link rel="apple-touch-icon" href="/favicon_celeste/apple-touch-icon.png" sizes="180x180" />
+        <link rel="manifest" href="/favicon_celeste/site.webmanifest" />
+        <meta name="msapplication-TileImage" content="/favicon_celeste/android-chrome-192x192.png" />
         <meta name="msapplication-TileColor" content="#000000" />
       </head>
       <body className={`${inter.variable} ${poppins.variable} antialiased`} suppressHydrationWarning>

@@ -76,7 +76,7 @@ export default function BlogLayout({
         url="https://www.celesteabode.com/blog"
         publisher={{
           name: "Celeste Abode",
-          logo: "https://www.celesteabode.com/logoceleste.avif",
+          logo: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.png",
         }}
       />
       {children}

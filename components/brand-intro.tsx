@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Section } from "@/components/ui/section";
 import { useEffect, useState } from "react";
+import { ShieldCheck, FileCheck, HandshakeIcon } from "lucide-react";
 
 export function BrandIntro() {
   const [isMobile, setIsMobile] = useState(false);
@@ -11,31 +12,45 @@ export function BrandIntro() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Faster animations on mobile
   const containerDuration = isMobile ? 0.4 : 0.8;
+
+  const proofPoints = [
+    {
+      icon: ShieldCheck,
+      title: "No developer tie-ups",
+      desc: "We are not a channel partner for any builder",
+    },
+    {
+      icon: FileCheck,
+      title: "RERA-verified shortlists only",
+      desc: "Compliance and title checked before recommendation",
+    },
+    {
+      icon: HandshakeIcon,
+      title: "Involved from visit to possession",
+      desc: "We stay involved through booking, documentation, and handover",
+    },
+  ];
 
   return (
     <Section className="pt-20 md:pt-28 pb-16 md:pb-24 bg-background relative overflow-hidden">
-      {/* Subtle architectural blueprint watermark background */}
+      {/* Subtle background */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none brand-intro-bg-pattern" />
-      
-      {/* Decorative gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#CBB27A]/[0.02] to-transparent pointer-events-none" />
-      
+
       <div className="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
-        {/* Eyebrow Tag with decorative accent */}
+        {/* Eyebrow */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-          className="flex items-center justify-center gap-4 mb-8 md:mb-12"
+          className="flex items-center justify-center gap-4 mb-10 md:mb-14"
         >
           <div className="h-px w-12 md:w-16 bg-gradient-to-r from-[#CBB27A] to-transparent" />
           <p className="text-xs md:text-sm tracking-[0.2em] uppercase font-semibold text-[#CBB27A]">
@@ -44,61 +59,66 @@ export function BrandIntro() {
           <div className="h-px w-12 md:w-16 bg-gradient-to-l from-[#CBB27A]/30 to-transparent" />
         </motion.div>
 
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          {/* Left Column - Headline */}
-          <motion.div 
+        {/* Two-column layout */}
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start mb-12 md:mb-16">
+
+          {/* Left Column — H2 */}
+          <motion.div
             className="lg:col-span-5 flex flex-col justify-start"
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: containerDuration, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            {/* Headline with enhanced typography */}
-            <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl leading-[1.2] text-left font-semibold text-[#2B3035] tracking-tight pr-4 lg:pr-8 mb-0">
-              Real Estate Consulting Built for Delhi NCR Property Decisions
+            <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] xl:text-[3.25rem] leading-[1.15] font-semibold text-[#2B3035] tracking-tight">
+              Best Real Estate Consultants in Delhi NCR for Smart Property Investment
             </h2>
           </motion.div>
 
-          {/* Right Column - Body Text */}
-          <div className="lg:col-span-7 flex flex-col">
-            <motion.div 
-              className="space-y-5 md:space-y-6"
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-50px', amount: 0.2 }}
-              transition={{ 
-                duration: containerDuration,
-                ease: [0.25, 0.1, 0.25, 1]
-              }}
-            >
-              {/* First paragraph */}
-              <div className="relative pl-5 md:pl-6 border-l border-[#CBB27A]/40">
-                <p className="text-xs md:text-sm lg:text-base leading-[1.7] text-[#4A4F55] font-normal font-poppins">
-                  Celeste Abode is a <span className="text-[#2B3035] font-medium">trusted real estate consultant</span> in Delhi NCR, built for people who want clarity before committing to a property.
-                </p>
-              </div>
+          {/* Right Column — Two paragraphs */}
+          <motion.div
+            className="lg:col-span-7 flex flex-col gap-6"
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-50px", amount: 0.2 }}
+            transition={{ duration: containerDuration, ease: [0.25, 0.1, 0.25, 1] }}
+          >
+            {/* Paragraph 1 */}
+            <p className="text-sm md:text-[0.95rem] lg:text-base leading-[1.85] text-[#4A4F55] font-normal font-poppins">
+              Most buyers in the NCR commit to a site visit before anyone has checked whether the project has a clean title, a developer who has delivered before, or a price that reflects actual market movement. That is the gap real estate consultants in Noida should be closing, not widening.
+            </p>
 
-              {/* Second paragraph */}
-              <p className="text-xs md:text-sm lg:text-base leading-[1.7] text-[#4A4F55] font-normal font-poppins">
-                In a market driven by pressure and noise, we focus on what actually protects your decision: <span className="text-[#2B3035] font-medium">RERA-compliant projects</span>, <span className="text-[#2B3035] font-medium">data-backed analysis</span>, and <span className="text-[#2B3035] font-medium">deep local understanding</span>. Our role is not to push options, but to help you evaluate what makes sense financially, legally, and long-term.
-              </p>
+            {/* Paragraph 2 */}
+            <p className="text-sm md:text-[0.95rem] lg:text-base leading-[1.85] text-[#4A4F55] font-normal font-poppins">
+              At Celeste Abode, RERA compliance, land title standing, delivery history, and payment plan structure are verified before anything reaches you. A property consultant in Noida who earns through volume will always have a reason to recommend more. We operate differently: if something fails our checks, you hear that first.
+            </p>
+          </motion.div>
 
-              {/* Recommended supporting line */}
-              <p className="text-xs md:text-sm lg:text-base leading-[1.7] text-[#4A4F55] font-normal font-poppins">
-                As a <span className="text-[#2B3035] font-medium">real estate consulting firm</span> in Delhi NCR, Celeste Abode provides <span className="text-[#2B3035] font-medium">unbiased property advisory services</span> focused on <span className="text-[#2B3035] font-medium">long-term value</span> and <span className="text-[#2B3035] font-medium">regulatory clarity</span>.
-              </p>
-
-              {/* Highlight / Callout Box */}
-              <div className="relative bg-[#CBB27A]/5 p-5 md:p-6 rounded-md border-l-2 border-[#CBB27A]/30">
-                <p className="text-xs md:text-sm lg:text-base leading-[1.7] text-[#2B3035] font-normal font-poppins">
-                  From Noida and Greater Noida to the Yamuna Expressway, every recommendation is guided by one principle: <span className="font-medium text-[#CBB27A]">secure decisions today that hold value tomorrow.</span>
-                </p>
-              </div>
-            </motion.div>
-          </div>
         </div>
+
+        {/* Full-width proof strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-10 border-t border-gray-200/80"
+        >
+          {proofPoints.map((point, idx) => (
+            <div key={idx} className="flex items-start gap-3">
+              <point.icon className="w-5 h-5 text-[#CBB27A] flex-shrink-0 mt-0.5" />
+              <div className="flex flex-col gap-1">
+                <span className="text-sm font-semibold text-[#2B3035] font-poppins">
+                  {point.title}
+                </span>
+                <span className="text-xs md:text-sm text-[#6B7280] font-normal font-poppins leading-relaxed">
+                  {point.desc}
+                </span>
+              </div>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </Section>
   );
 }
-

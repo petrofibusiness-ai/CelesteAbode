@@ -76,7 +76,7 @@ export default function CommercialPropertyInNoidaPage() {
           <div className="max-w-7xl mx-auto px-6 lg:grid lg:grid-cols-[1fr_360px] lg:gap-10 lg:pb-32">
             <div className="min-w-0">
               <div className="max-w-4xl">
-                <SeoBlocksRevealController initialVisible={2} step={2} totalCount={7}>
+                <SeoBlocksRevealController initialVisible={1} step={1} totalCount={7}>
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
                       <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">

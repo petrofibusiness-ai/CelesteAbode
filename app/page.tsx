@@ -40,17 +40,13 @@ const TestimonialsSection = dynamic(
   () => import("@/components/testimonials-section").then(mod => ({ default: mod.TestimonialsSection })),
   { ssr: true, loading: () => <div className="min-h-[200px] md:min-h-[400px]" /> } // SSR enabled for social proof
 )
-const VaultTeaser = dynamic(
-  () => import("@/components/vault-teaser").then(mod => ({ default: mod.VaultTeaser })),
-  { ssr: true, loading: () => <div className="min-h-[200px] md:min-h-[400px]" /> } // SSR enabled for SEO
+const HomepageSeoBlocks = dynamic(
+  () => import("@/components/homepage-seo-blocks").then(mod => ({ default: mod.HomepageSeoBlocks })),
+  { ssr: true, loading: () => <div className="min-h-[400px] md:min-h-[600px]" /> } // SSR enabled for SEO content
 )
 const CTASection = dynamic(
   () => import("@/components/cta-section").then(mod => ({ default: mod.CTASection })),
   { ssr: true, loading: () => <div className="min-h-[150px] md:min-h-[200px]" /> } // SSR enabled for conversion content
-)
-const PropertyEvaluationSection = dynamic(
-  () => import("@/components/property-evaluation-section").then(mod => ({ default: mod.PropertyEvaluationSection })),
-  { ssr: true, loading: () => <div className="min-h-[300px] md:min-h-[400px]" /> } // SSR enabled for SEO content
 )
 
 export default function HomePage() {
@@ -87,14 +83,6 @@ export default function HomePage() {
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
           </div>
 
-          {/* Property Evaluation Section */}
-          <PropertyEvaluationSection />
-
-          {/* Aesthetic Line Separator */}
-          <div className="w-full flex justify-center py-8">
-            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-          </div>
-
           {/* First Scroll Section: Why Clients Trust Celeste Abode */}
           <WhyClientsTrustSection />
 
@@ -109,10 +97,14 @@ export default function HomePage() {
           {/* Who We Serve */}
           <WhoWeServe />
 
+          {/* Aesthetic Line Separator */}
+          <div className="w-full flex justify-center py-8">
+            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
+          </div>
 
-          {/* The Celeste Abode Vault */}
-          <VaultTeaser />
-          
+          {/* SEO Content Blocks */}
+          <HomepageSeoBlocks />
+
           {/* Aesthetic Line Separator */}
           <div className="w-full flex justify-center py-8">
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>

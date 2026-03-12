@@ -12,8 +12,8 @@ export function WhyClientsTrustSection() {
     {
       id: "rera-compliant",
       title: "RERA-Compliant Advisory",
-      shortText: "Every property recommendation is aligned with RERA regulations.",
-      fullText: "As a real estate consultant in Delhi NCR, we ensure that all properties are reviewed for RERA registration, developer compliance, project approvals, and regulatory status. This process helps reduce legal risk and provides clients with clarity before making any property decision.",
+      shortText: "RERA registration is the starting point, not the finish line.",
+      fullText: "As a property consultant in Noida, we verify approval status, delivery credibility, and builder compliance history before any project enters our shortlist.",
       icon: Shield,
       gradient: "from-blue-50 to-indigo-50",
       iconColor: "text-[#CBB27A]",
@@ -22,28 +22,28 @@ export function WhyClientsTrustSection() {
     {
       id: "data-backed",
       title: "Data-Led Real Estate Analysis",
-      shortText: "Market data guides every recommendation.",
-      fullText: "Our real estate consulting services rely on structured market analysis, including pricing trends, demand indicators, absorption rates, and location-specific performance data. We study micro-markets across Noida, Greater Noida, Yamuna Expressway, and wider Delhi NCR to support informed, objective property decisions.",
+      shortText: "Circle rates, actual transaction prices, developer timelines, rental yield benchmarks.",
+      fullText: "Every recommendation is built on current micro-market data, not brochure claims or projected returns.",
       icon: BarChart3,
       gradient: "from-emerald-50 to-teal-50",
       iconColor: "text-[#CBB27A]",
       iconBg: "bg-[#CBB27A]/10",
     },
     {
-      id: "legal-verification",
-      title: "Legal Due Diligence",
-      shortText: "Thorough verification of property documentation.",
-      fullText: "Legal review is a core part of our real estate advisory process. We assess title documents, ownership records, encumbrance status, and statutory approvals to help clients avoid future disputes and ensure transactions are based on verified information.",
-      icon: FileCheck,
+      id: "experienced-consultants",
+      title: "Experienced Real Estate Consultants in Noida",
+      shortText: "Over a decade of experience across Noida's key corridors.",
+      fullText: "Our real estate consultants in Noida have worked across the city's key residential and commercial corridors for over a decade. We know which sectors are appreciating, which developers deliver on schedule, and where buyers should be cautious.",
+      icon: Users,
       gradient: "from-purple-50 to-pink-50",
       iconColor: "text-[#CBB27A]",
       iconBg: "bg-[#CBB27A]/10",
     },
     {
-      id: "local-expertise",
-      title: "Local Market Understanding",
-      shortText: "Focused expertise across Delhi NCR micro-markets.",
-      fullText: "As a property consultant with a strong presence in Delhi NCR, we bring area-specific insights into infrastructure growth, connectivity, supply-demand balance, and long-term development plans. This local understanding supports practical recommendations rather than generic market assumptions.",
+      id: "developer-network",
+      title: "Strong Network with Top Developers",
+      shortText: "Direct access to RERA-registered developers across Noida and Greater Noida.",
+      fullText: "Pre-launch pricing, accurate inventory, and payment structures not always visible on aggregator platforms.",
       icon: MapPin,
       gradient: "from-amber-50 to-orange-50",
       iconColor: "text-[#CBB27A]",
@@ -51,20 +51,20 @@ export function WhyClientsTrustSection() {
     },
     {
       id: "transparent-process",
-      title: "Transparent Consulting Process",
-      shortText: "Clear communication without pressure or hidden costs.",
-      fullText: "Our real estate consulting firm follows a transparent engagement model. Clients receive clear explanations, defined advisory scope, and straightforward fee structures. There are no aggressive sales tactics—only information that supports confident decision-making.",
+      title: "Transparent Property Consulting Process",
+      shortText: "No hidden fees. No pressure to close.",
+      fullText: "If a project does not clear our internal checks, we tell you why rather than redirect you toward something that does.",
       icon: CheckCircle,
       gradient: "from-rose-50 to-pink-50",
       iconColor: "text-[#CBB27A]",
       iconBg: "bg-[#CBB27A]/10",
     },
     {
-      id: "client-first",
-      title: "Client-Centered Advisory",
-      shortText: "Recommendations aligned with individual objectives.",
-      fullText: "Our advisory real estate approach begins with understanding your financial goals, investment horizon, and usage requirements. Whether the objective is end-use or investment, recommendations are aligned with suitability—not commissions or inventory push.",
-      icon: Users,
+      id: "end-to-end",
+      title: "End-to-End Property Buying Assistance",
+      shortText: "We stay involved from the first site visit to possession.",
+      fullText: "Agreement review, documentation, loan coordination, and construction milestone tracking are all part of what we do.",
+      icon: FileCheck,
       gradient: "from-cyan-50 to-blue-50",
       iconColor: "text-[#CBB27A]",
       iconBg: "bg-[#CBB27A]/10",
@@ -83,10 +83,10 @@ export function WhyClientsTrustSection() {
           transition={{ duration: 0.8 }}
         >
           <h2 className="heading-bold text-primary mb-6">
-            Why Clients Trust <span className="text-[#CBB27A]">Celeste Abode</span>
+            Why Choose Celeste Abode as Your <span className="text-[#CBB27A]">Real Estate Consultant</span>
           </h2>
           <p className="text-sm md:text-base text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-            As a real estate consultant in Delhi NCR, Celeste Abode is built for people who want clarity before commitment. We guide property decisions with transparency, regulatory discipline, and on-ground understanding, not pressure or volume.
+            There is no shortage of property consultants in Noida. The difference is in what they do before you visit a site. Here is what makes our process different.
           </p>
         </motion.div>
 

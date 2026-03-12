@@ -106,6 +106,67 @@
 ### Hero — full viewport (property-in pages)
 60. **Property-in hero height:** All property-in and location landing hero sections use full viewport height. Dynamic `properties-in/[locationCategory]` hero updated from `min-h-[70vh] sm:min-h-[80vh] lg:min-h-screen` to `min-h-screen` at all breakpoints so the hero image is always full viewport. Static pages (residential/commercial property in Noida, flats for sale in Noida/Greater Noida, flats in Ghaziabad, commercial-and-residential in Lucknow) already used `min-h-screen`.
 
+### Search engine verification
+61. **Bing Webmaster verification:** Meta tag `<meta name="msvalidate.01" content="B8F3AC31F09EF60F080EB603250077D8" />` added to `app/layout.tsx` under Search Engine Verification comment block.
+62. **BingSiteAuth.xml:** Created `public/BingSiteAuth.xml` with Bing verification code for file-based verification method (alternative to meta tag).
+
+### Structured data — alignment & cleanup
+63. **OrganizationSchema:** Phone format updated to `+91 9818735258`; sameAs restricted to Instagram and LinkedIn only (removed Facebook, Twitter); Lucknow added to areaServed.
+64. **LocalBusinessSchema:** Added `addressRegion: "Uttar Pradesh"`; geo coordinates aligned to `28.6076655, 77.4354885` (same as metadata.ts); added `Noida Expressway` and `Lucknow` to areaServed.
+65. **BrandSchema:** sameAs restricted to Instagram and LinkedIn; aggregateRating removed (no verified reviews to display).
+66. **Slogan & description alignment:** All schemas (Organization, WebSite, LocalBusiness, Brand) and `public/llms.txt` updated to use canonical slogan and description matching `app/metadata.ts` and homepage hero copy.
+
+### Homepage refactor — Brand Intro section
+67. **H2 updated:** Changed from "Real Estate Consulting Built for Delhi NCR Property Decisions" to "Best Real Estate Consultants in Delhi NCR for Smart Property Investment".
+68. **Two-column layout:** Left column (lg:col-span-5) contains H2 only; right column (lg:col-span-7) contains two paragraphs. Content reordered — strong opener ("Most buyers in the NCR commit...") moved to first position.
+69. **SEO bolding removed:** All `<span>` keyword bolding removed from body text for cleaner reading.
+70. **CTA removed:** "Book a free consultation" link and ArrowRight icon removed from Brand Intro.
+71. **Proof strip — full width:** 3-item KPI strip (No developer tie-ups, RERA-verified shortlists only, Involved from visit to possession) moved outside two-column grid to span full container width with border-top separator.
+72. **KPI layout:** Title on one line, description on line below (not inline with em-dash); proper vertical alignment with icon.
+
+### Homepage refactor — sections removed
+73. **PropertyEvaluationSection removed:** "How Property Decisions Should Feel" section and component completely removed from homepage (`app/page.tsx` and `components/property-evaluation-section.tsx` deleted).
+74. **VaultTeaser removed:** Celeste Abode Vault teaser section removed from homepage.
+
+### Homepage refactor — SEO blocks section
+75. **New component:** `components/homepage-seo-blocks.tsx` — 5 SEO content blocks placed after Who We Serve (Buyer Types) section.
+76. **Block structure:** Each block has centered H2 (with gold keyword highlight), optional subtext paragraph, and white card with H3 sub-sections and body content.
+77. **Block order:** (1) Trusted Property Consultant in Noida & Delhi NCR, (2) Our Real Estate Consulting Services in Delhi NCR, (3) Best Real Estate Property Consultant in Noida for Buyers & Investors, (4) Explore Properties with Real Estate Consultants in Delhi NCR, (5) How Our Property Consultants Help You Buy the Right Property.
+78. **Progressive expand:** Block 1 always visible; "Read More" reveals one block at a time with blur overlay above button; "Show Less" collapses all blocks back to initial state.
+79. **Button layout:** Equal-width buttons (w-40/w-44); "Read More" on left, "Show Less" on right; subtle hover transitions.
+80. **Blur overlay:** Gradient blur (`bg-gradient-to-t from-background via-background/80 to-transparent`, height 64) positioned above buttons when content is collapsed.
+81. **Fade animation:** New blocks appear with `animate-fadeIn` (0.4s ease-out, translateY 12px → 0) defined in `app/globals.css`.
+82. **Internal linking:** 1–3 internal links per sub-section, naturally embedded within sentences (not at end); links to `/flats-for-sale-in-noida`, `/commercial-property-in-noida`, `/plots-in-noida`, `/residential-property-in-noida`, `/villa-in-noida`, `/properties`, `/advisory-session`, `/real-estate-consulting-services`, `/real-estate-insights`, `/flats-for-sale-in-greater-noida`, `/flats-in-ghaziabad`, `/commercial-and-residential-property-in-lucknow`, `/advisory-philosophy`, `/contact`.
+83. **SEO fix — content in page source:** All 5 blocks always rendered in DOM; visibility controlled via CSS (`opacity-0 max-h-0 overflow-hidden invisible` vs `opacity-100 max-h-[5000px] visible`) instead of conditional rendering. Ensures search engines see all content on first crawl.
+
+### Homepage refactor — Who We Serve (Buyer Types)
+84. **Content updated:** All 6 buyer type descriptions (First-Time Home Buyers, Property Investors, NRIs & Overseas Buyers, Corporate Organisations, Working Professionals, Real Estate Developers) rewritten with full advisory copy emphasizing verification, due diligence, and Celeste Abode's process.
+
+### Homepage refactor — Why Clients Trust section
+85. **H2 updated:** Changed from "Why Clients Trust Celeste Abode" to "Why Choose Celeste Abode as Your Real Estate Consultant".
+86. **Intro updated:** New paragraph emphasizing verification process before site visits.
+87. **Trust pillars updated:** All 6 cards rewritten with new titles and content: (1) RERA Verification First, (2) Independent Advisory, (3) Market Data, Not Assumptions, (4) Full Documentation Support, (5) Post-Booking Involvement, (6) No Pressure, No Pitch.
+
+### Homepage refactor — Value Propositions section
+88. **Description updated:** Changed to "Every number here comes from verified transactions across Noida, Greater Noida, and Delhi NCR. No projections, no estimations."
+
+### Technical SEO documentation
+89. **New file:** `TECHNICAL_SEO_STATIC_PAGES.txt` created — comprehensive record of technical SEO for all static pages (Home, Services, Philosophy, About, Contact, Terms, Privacy, Blog, Properties, Advisory Session, Location pages). Documents meta title/description, canonical, Open Graph, Twitter cards, structured data schemas, and internal linking for each page.
+
+### Read More component refactor — all landing pages
+90. **SeoBlocksRevealController redesigned:** Component completely rewritten to match homepage SEO blocks UX. New features: progressive reveal (one block at a time), blur overlay above buttons, side-by-side Read More / Show Less buttons with equal widths (w-40/w-44), fade animation (`fadeInUp`) for newly revealed blocks.
+91. **Floating pill removed:** Old floating "Close section" pill replaced with inline "Show Less" button next to "Read More". Cleaner, more intuitive UX.
+92. **Button styling:** Both buttons use identical sizing and rounded-full styling. "Show Less" gets gold border styling when at last block; otherwise gray border with gold hover effect.
+93. **All pages updated:** Changed `initialVisible={2} step={2}` to `initialVisible={1} step={1}` on all landing pages for progressive reveal:
+    - `/flats-for-sale-in-noida` (7 blocks)
+    - `/flats-for-sale-in-greater-noida` (7 blocks)
+    - `/residential-property-in-noida` (8 blocks)
+    - `/commercial-property-in-noida` (7 blocks)
+    - `/flats-in-ghaziabad` (10 blocks)
+    - `/commercial-and-residential-property-in-lucknow` (10 blocks)
+    - `/properties-in/[locationCategory]` (dynamic, variable blocks)
+94. **SEO preserved:** All content remains in DOM via CSS visibility control; search engines see all content on first crawl.
+
 ---
 
 ## How to use this doc

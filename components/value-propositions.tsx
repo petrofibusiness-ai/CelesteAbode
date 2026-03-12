@@ -21,7 +21,7 @@ export function ValuePropositions() {
           <span className="text-[#CBB27A]">Speak Volumes</span>
           </h2>
           <p className="text-sm md:text-base text-muted-foreground max-w-3xl mx-auto leading-relaxed font-poppins">
-            As a trusted real estate consultant in Delhi NCR, our work is reflected in long-term client relationships, consistent delivery, and market-specific advisory built on data and process.
+            Every number here comes from verified transactions across Noida, Greater Noida, and Delhi NCR. No projections, no estimations.
           </p>
         </motion.div>
 

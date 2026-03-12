@@ -303,8 +303,8 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
             <section className="py-8 md:py-12 bg-background">
               <div className="max-w-4xl mx-auto px-6">
                 <SeoBlocksRevealController
-                  initialVisible={2}
-                  step={2}
+                  initialVisible={1}
+                  step={1}
                   totalCount={location.blogs.length}
                 >
                   {location.blogs.map((blog, index) => (

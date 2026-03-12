@@ -87,7 +87,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 5,
-    title: "Forest Walk Villa Ghaziabad: Luxury 4BHK Villa Living on NH-24",
+    title: "Forest Walk Villas Ghaziabad: Luxury 4BHK Villa Living on NH-24",
     slug: "forest-walk-villa-ghaziabad-luxury-living-2026",
     excerpt:
       "Discover why Forest Walk Villas on NH24 Ghaziabad is one of the most sought-after places to live in 2026 with unmatched nature, luxury amenities and excellent connectivity.",
@@ -97,10 +97,10 @@ export const blogPosts: BlogPost[] = [
     image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/forest-walk-villa_hero.avif",
     featured: true,
     views: "760",
-    metaTitle: "Forest Walk Villa Ghaziabad: Luxury 4BHK Villa Living on NH-24",
+    metaTitle: "Forest Walk Villa Ghaziabad | Luxury 4BHK Villa Living on NH-24",
     metaDescription: "Explore Forest Walk Villa in Ghaziabad, a luxury 4BHK villa township on NH-24 with premium amenities and green living. Discover pricing and connect with property experts today.",
     ogImage: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/forest-walk-villa_hero.avif",
-    ogImageAlt: "Forest Walk Villa Ghaziabad: Luxury 4BHK Villa Living on NH-24",
+    ogImageAlt: "Forest Walk Villa Ghaziabad | Luxury 4BHK Villa Living on NH-24",
   },
 ];
 

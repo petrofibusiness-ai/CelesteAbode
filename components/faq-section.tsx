@@ -34,7 +34,7 @@ export function FAQSection() {
             <HelpCircle className="w-8 h-8 text-[#CBB27A]" />
           </div>
           <h2 className="heading-bold text-primary mb-4">
-            Frequently Asked <span className="text-[#CBB27A]">Questions</span>
+            Frequently Asked Questions About <span className="text-[#CBB27A]">Real Estate Consultants</span>
           </h2>
           <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed font-poppins">
             Common questions about property decisions, real estate consulting, and navigating the Delhi NCR market with expert guidance.

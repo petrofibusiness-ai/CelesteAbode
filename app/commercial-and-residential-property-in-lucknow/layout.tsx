@@ -1,38 +1,52 @@
 import { Metadata } from "next";
 
-const TITLE = "Invest in Residential and Commercial Property in Lucknow with Expert Real Estate Consultants";
+const TITLE = "Commercial Property for Sale in Lucknow | Best Property Consultant";
 const DESCRIPTION =
-  "Invest in residential and commercial property in Lucknow with expert real estate consultants. Gomti Nagar, Shaheed Path, Hazratganj and more. Verified projects, due diligence, and end-to-end advisory.";
+  "Explore commercial property for sale in Lucknow including shops, offices, and retail spaces. Connect with the best property consultant for verified deals and expert guidance.";
+const PAGE_URL = "https://www.celesteabode.com/commercial-and-residential-property-in-lucknow";
+const HERO_IMAGE = "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/commercial-and-residential-property-in-lucknow/commercial-and-residential-property-in-lucknow.webp";
+const IMAGE_ALT = "Commercial Property for Sale in Lucknow";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   keywords: [
-    "commercial property in Lucknow",
-    "residential property in Lucknow",
-    "property in Lucknow",
     "commercial property for sale in Lucknow",
-    "flats in Lucknow",
-    "apartments in Lucknow",
-    "villas in Lucknow",
-    "real estate consultants in Lucknow",
-    "Celeste Abode",
+    "commercial property Lucknow",
+    "shops for sale Lucknow",
+    "offices for sale Lucknow",
+    "retail spaces Lucknow",
+    "Celeste Abode property consultant",
   ],
   authors: [{ name: "Celeste Abode" }],
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    url: "https://www.celesteabode.com/commercial-and-residential-property-in-lucknow",
+    url: PAGE_URL,
     siteName: "Celeste Abode",
     type: "website",
+    images: [
+      {
+        url: HERO_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: IMAGE_ALT,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
+    images: [
+      {
+        url: HERO_IMAGE,
+        alt: IMAGE_ALT,
+      },
+    ],
   },
   alternates: {
-    canonical: "https://www.celesteabode.com/commercial-and-residential-property-in-lucknow",
+    canonical: PAGE_URL,
   },
   robots: { index: true, follow: true },
 };

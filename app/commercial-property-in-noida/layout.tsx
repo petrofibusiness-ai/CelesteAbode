@@ -1,35 +1,52 @@
 import { Metadata } from "next";
 
-const TITLE = "Buy Commercial Property in Noida – Best Commercial Property for Investment";
+const TITLE = "Commercial Property for Sale in Noida - Best Commercial Property for Investment";
 const DESCRIPTION =
-  "Buy commercial property in Noida with expert consultants. Office space, retail, showrooms & high-ROI commercial investment. Verified listings and end-to-end assistance.";
+  "Find commercial property for sale in Noida with Celeste Abode consultants. Explore offices, retail shops, and premium investment spaces with expert advice.";
+const PAGE_URL = "https://www.celesteabode.com/commercial-property-in-noida";
+const HERO_IMAGE = "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/commercial-property-in-noida/commercial-property-in-noida.webp";
+const IMAGE_ALT = "Commercial Property for Sale in Noida";
 
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   keywords: [
-    "commercial property in Noida",
-    "buy commercial property Noida",
+    "commercial property for sale Noida",
+    "commercial property Noida",
     "office space Noida",
     "retail shops Noida",
     "commercial investment Noida",
-    "Celeste Abode",
+    "Celeste Abode property consultants",
   ],
   authors: [{ name: "Celeste Abode" }],
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
-    url: "https://www.celesteabode.com/commercial-property-in-noida",
+    url: PAGE_URL,
     siteName: "Celeste Abode",
     type: "website",
+    images: [
+      {
+        url: HERO_IMAGE,
+        width: 1200,
+        height: 630,
+        alt: IMAGE_ALT,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
+    images: [
+      {
+        url: HERO_IMAGE,
+        alt: IMAGE_ALT,
+      },
+    ],
   },
   alternates: {
-    canonical: "https://www.celesteabode.com/commercial-property-in-noida",
+    canonical: PAGE_URL,
   },
   robots: { index: true, follow: true },
 };

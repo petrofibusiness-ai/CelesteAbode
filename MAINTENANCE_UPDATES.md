@@ -179,6 +179,25 @@
 101. **Production-ready collapse:** Fixed "Show Less" jarring scroll behavior. Now: (1) collapses content first, (2) waits 350ms for animation, (3) scrolls smoothly to section top with 100px header offset using `window.scrollTo()` instead of `scrollIntoView()`.
 102. **Applied to both:** Fix applied to `SeoBlocksRevealController` (landing pages) and `HomepageSeoBlocks` (homepage).
 
+### Homepage SEO blocks — styling refinements
+103. **H2 font weight:** Changed from `font-bold` (700) to `font-semibold` (600) on all 5 SEO block headings to match Brand Intro section styling.
+104. **Button spacing:** Reduced bottom margin below Read More/Show Less buttons from `mb-12 md:mb-16` (48px/64px) to `mb-3` (12px) for tighter layout.
+
+### Homepage metadata — SEO update
+105. **Meta title:** Changed to "Best Property Consultant in Noida | Real Estate Consultants Delhi NCR".
+106. **Meta description:** Changed to "Celeste Abode is a trusted real estate consultant in Noida offering expert property consulting services across Delhi NCR for residential and commercial investments."
+107. **OG tags:** Updated title, description, url (`https://www.celesteabode.com/`), image (`propertyhero.avif`), and image:alt ("Best Property Consultant in Noida").
+108. **Twitter tags:** Updated title, description, image, and added image:alt ("Best Property Consultant in Noida").
+109. **Keywords:** Updated to focus on "best property consultant Noida", "real estate consultants Delhi NCR", "property consulting services", "residential/commercial property investment".
+
+### Landing pages metadata — SEO update (OG & Twitter images added)
+110. **`/residential-property-in-noida`:** Title: "Residential Property in Noida | Buy Home & Property for Sale". OG/Twitter image: page hero webp, alt: "Property in Noida".
+111. **`/commercial-property-in-noida`:** Title: "Commercial Property for Sale in Noida | Trusted Property Consultants". OG/Twitter image: page hero webp, alt: "Commercial Property for Sale in Noida".
+112. **`/flats-for-sale-in-noida`:** Title: "Buy 2 & 3 BHK Flats for Sale in Noida | Best Property Consultants". OG/Twitter image: page hero webp, alt: "Flats for Sale in Noida - 2 & 3 BHK Apartments".
+113. **`/flats-for-sale-in-greater-noida`:** Title: "Flats for Sale in Greater Noida | Buy 1/2/3 Bhk Flats & Apartments". OG/Twitter image: page hero webp, alt: "Flats for Sale in Greater Noida - 1/2/3 BHK Apartments".
+114. **`/flats-in-ghaziabad`:** Title: "Buy Flats for Sale in Ghaziabad with Best Property Consultants". OG/Twitter image: page hero webp, alt: "Flats for Sale in Ghaziabad".
+115. **`/commercial-and-residential-property-in-lucknow`:** Title: "Commercial Property for Sale in Lucknow | Best Property Consultant". OG/Twitter image: page hero webp, alt: "Commercial Property for Sale in Lucknow".
+
 ---
 
 ## How to use this doc

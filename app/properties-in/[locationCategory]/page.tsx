@@ -300,44 +300,46 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
 
           {/* SEO content blocks: server-rendered HTML only; client controller gets counts (no data payload duplication) */}
           {location.blogs && location.blogs.length > 0 && (
-            <>
-              <SeoBlocksRevealController
-                initialVisible={2}
-                step={2}
-                totalCount={location.blogs.length}
-              >
-                {location.blogs.map((blog, index) => (
-                  <article key={index} data-seo-block>
-                    <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2
-                        className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2"
-                        dangerouslySetInnerHTML={{ __html: blog.title }}
-                      />
-                    </header>
-                    <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden border border-gray-200">
-                      <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
-                        <div
-                          className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0 last:mb-0"
-                          dangerouslySetInnerHTML={{ __html: blog.description }}
+            <section className="py-8 md:py-12 bg-background">
+              <div className="max-w-4xl mx-auto px-6">
+                <SeoBlocksRevealController
+                  initialVisible={2}
+                  step={2}
+                  totalCount={location.blogs.length}
+                >
+                  {location.blogs.map((blog, index) => (
+                    <article key={index} data-seo-block>
+                      <header className="text-center mb-8 md:mb-12 lg:mb-16">
+                        <h2
+                          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2"
+                          dangerouslySetInnerHTML={{ __html: blog.title }}
                         />
+                      </header>
+                      <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden border border-gray-200">
+                        <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
+                          <div
+                            className="prose-editorial text-sm md:text-base text-gray-800 font-poppins mb-6 md:mb-8 max-w-[700px] mx-auto text-left sm:text-justify tracking-normal px-2 sm:px-0 last:mb-0 leading-[1.75]"
+                            dangerouslySetInnerHTML={{ __html: blog.description }}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    {index < location.blogs.length - 1 && (
-                      <div
-                        className="w-full flex justify-center py-8"
-                        data-seo-separator={index}
-                      >
-                        <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent" />
-                      </div>
-                    )}
-                  </article>
-                ))}
-              </SeoBlocksRevealController>
+                      {index < location.blogs.length - 1 && (
+                        <div
+                          className="w-full flex justify-center py-8"
+                          data-seo-separator={index}
+                        >
+                          <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent" />
+                        </div>
+                      )}
+                    </article>
+                  ))}
+                </SeoBlocksRevealController>
+              </div>
 
               <div className="w-full flex justify-center py-2">
                 <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
               </div>
-            </>
+            </section>
           )}
 
           {/* Compare Nearby NCR Markets - from locations_v2 compare_location_1/2/3 */}

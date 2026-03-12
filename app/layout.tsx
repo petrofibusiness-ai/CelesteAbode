@@ -212,6 +212,9 @@ export default function RootLayout({
         <meta name="distribution" content="Global" />
         <meta name="rating" content="General" />
         
+        {/* Search Engine Verification */}
+        <meta name="msvalidate.01" content="B8F3AC31F09EF60F080EB603250077D8" />
+        
         {/* Favicon from public/favicon_celeste */}
         <link rel="icon" href="/favicon_celeste/favicon.ico" type="image/x-icon" sizes="any" />
         <link rel="icon" href="/favicon_celeste/favicon-16x16.png" type="image/png" sizes="16x16" />

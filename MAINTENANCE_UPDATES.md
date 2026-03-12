@@ -167,6 +167,18 @@
     - `/properties-in/[locationCategory]` (dynamic, variable blocks)
 94. **SEO preserved:** All content remains in DOM via CSS visibility control; search engines see all content on first crawl.
 
+### Property-in dynamic pages — card width & styling aligned to homepage
+95. **Container width:** Changed wrapper from `max-w-4xl` to `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8` for dynamic `properties-in/[locationCategory]` pages only.
+96. **Card styling:** Updated to match homepage — `shadow-lg` (from `shadow-xl`), `border-gray-100` (from `border-gray-200`), padding `p-6 sm:p-8 md:p-10 lg:p-12`.
+97. **Content width:** Removed `max-w-[700px] mx-auto` constraint; content now spans full card width with `w-full max-w-none` matching homepage.
+98. **Typography:** Updated to homepage content class — `text-gray-700`, `leading-[1.8]`, full-width paragraphs and H3s via Tailwind child selectors.
+99. **Separator styling:** Changed to match homepage — `w-32 md:w-48 h-px` gold gradient line.
+100. **Static landing pages unchanged:** Pages like `/flats-for-sale-in-noida`, `/residential-property-in-noida`, etc. retain their `max-w-4xl` wrapper and original styling.
+
+### Show Less — smooth scroll fix
+101. **Production-ready collapse:** Fixed "Show Less" jarring scroll behavior. Now: (1) collapses content first, (2) waits 350ms for animation, (3) scrolls smoothly to section top with 100px header offset using `window.scrollTo()` instead of `scrollIntoView()`.
+102. **Applied to both:** Fix applied to `SeoBlocksRevealController` (landing pages) and `HomepageSeoBlocks` (homepage).
+
 ---
 
 ## How to use this doc

@@ -301,34 +301,34 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
           {/* SEO content blocks: server-rendered HTML only; client controller gets counts (no data payload duplication) */}
           {location.blogs && location.blogs.length > 0 && (
             <section className="py-8 md:py-12 bg-background">
-              <div className="max-w-4xl mx-auto px-6">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <SeoBlocksRevealController
                   initialVisible={1}
                   step={1}
                   totalCount={location.blogs.length}
                 >
                   {location.blogs.map((blog, index) => (
-                    <article key={index} data-seo-block>
-                      <header className="text-center mb-8 md:mb-12 lg:mb-16">
+                    <article key={index} data-seo-block className="w-full mb-4 md:mb-6">
+                      <header className="text-center mb-8 md:mb-12">
                         <h2
-                          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2"
+                          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 font-poppins leading-tight"
                           dangerouslySetInnerHTML={{ __html: blog.title }}
                         />
                       </header>
-                      <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden border border-gray-200">
-                        <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
+                      <div className="w-full max-w-none bg-white rounded-2xl md:rounded-3xl shadow-lg overflow-hidden border border-gray-100">
+                        <div className="w-full max-w-none p-6 sm:p-8 md:p-10 lg:p-12">
                           <div
-                            className="prose-editorial text-sm md:text-base text-gray-800 font-poppins mb-6 md:mb-8 max-w-[700px] mx-auto text-left sm:text-justify tracking-normal px-2 sm:px-0 last:mb-0 leading-[1.75]"
+                            className="w-full max-w-none text-sm md:text-base text-gray-700 font-poppins leading-[1.8] [&>p]:w-full [&>p]:max-w-none [&>p]:block [&>p]:mb-6 [&>p:last-child]:mb-0 [&>h3]:w-full [&>h3]:max-w-none [&>h3]:text-lg [&>h3]:md:text-xl [&>h3]:font-semibold [&>h3]:text-foreground [&>h3]:mb-3 [&>h3]:mt-0"
                             dangerouslySetInnerHTML={{ __html: blog.description }}
                           />
                         </div>
                       </div>
                       {index < location.blogs.length - 1 && (
                         <div
-                          className="w-full flex justify-center py-8"
+                          className="w-full flex justify-center py-6 md:py-8"
                           data-seo-separator={index}
                         >
-                          <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent" />
+                          <div className="w-32 md:w-48 h-px bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent" />
                         </div>
                       )}
                     </article>

@@ -112,8 +112,22 @@ export function SeoBlocksRevealController({
   };
 
   const handleCollapse = () => {
-    sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    // First collapse the content
     setVisibleCount(initialVisible);
+    
+    // After collapse animation, scroll to show the first block with header offset
+    setTimeout(() => {
+      if (sectionRef.current) {
+        const headerOffset = 100; // Account for fixed header
+        const elementPosition = sectionRef.current.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    }, 350); // Wait for collapse animation to complete
   };
 
   return (
@@ -136,7 +150,7 @@ export function SeoBlocksRevealController({
         className={`relative py-14 md:py-20 bg-background px-4 sm:px-6 lg:px-8 ${className}`.trim()}
         aria-label="SEO content blocks"
       >
-        <div className="max-w-[1200px] mx-auto space-y-10 md:space-y-12">
+        <div className="max-w-7xl mx-auto space-y-10 md:space-y-12">
           {children}
         </div>
 

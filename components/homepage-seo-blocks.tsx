@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
@@ -33,7 +33,7 @@ function BlurAndButtons({
       />
       
       {/* Buttons */}
-      <div className="w-full flex justify-center gap-4 mb-12 md:mb-16 relative z-10">
+      <div className="w-full flex justify-center gap-4 mb-3 relative z-10">
         {/* Read More button - show if not at last block (LEFT) */}
         {!isLastBlock && (
           <button
@@ -62,6 +62,7 @@ function BlurAndButtons({
 
 export function HomepageSeoBlocks() {
   const [expandedLevel, setExpandedLevel] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const handleExpand = () => {
     if (expandedLevel < TOTAL_BLOCKS - 1) {
@@ -70,7 +71,22 @@ export function HomepageSeoBlocks() {
   };
 
   const handleCollapse = () => {
+    // First collapse the content
     setExpandedLevel(0);
+    
+    // After collapse animation, scroll to show the first block with header offset
+    setTimeout(() => {
+      if (sectionRef.current) {
+        const headerOffset = 100;
+        const elementPosition = sectionRef.current.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: "smooth"
+        });
+      }
+    }, 350);
   };
 
   // CSS classes for showing/hiding blocks while keeping them in DOM for SEO
@@ -82,12 +98,12 @@ export function HomepageSeoBlocks() {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-background w-full">
+    <section ref={sectionRef} className="py-16 md:py-24 bg-background w-full">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Block 1: Trusted Property Consultant - Always Visible */}
         <article className="w-full mb-4 md:mb-6">
           <header className="text-center mb-8 md:mb-12">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 font-poppins leading-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-4 font-poppins leading-tight">
               Trusted <span className="text-[#CBB27A]">Property Consultant</span> in Noida &amp; Delhi NCR
             </h2>
             <p className="text-sm md:text-base text-muted-foreground max-w-4xl mx-auto leading-relaxed">
@@ -127,7 +143,7 @@ export function HomepageSeoBlocks() {
           </div>
           <article className="w-full mb-4 md:mb-6">
             <header className="text-center mb-8 md:mb-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 font-poppins leading-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-4 font-poppins leading-tight">
                 Our <span className="text-[#CBB27A]">Real Estate Consulting Services</span> in Delhi NCR
               </h2>
               <p className="text-sm md:text-base text-muted-foreground max-w-4xl mx-auto leading-relaxed">
@@ -171,7 +187,7 @@ export function HomepageSeoBlocks() {
           </div>
           <article className="w-full mb-4 md:mb-6">
             <header className="text-center mb-8 md:mb-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 font-poppins leading-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-4 font-poppins leading-tight">
                 Best Real Estate <span className="text-[#CBB27A]">Property Consultant</span> in Noida for Buyers &amp; Investors
               </h2>
             </header>
@@ -211,7 +227,7 @@ export function HomepageSeoBlocks() {
           </div>
           <article className="w-full mb-4 md:mb-6">
             <header className="text-center mb-8 md:mb-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 font-poppins leading-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-4 font-poppins leading-tight">
                 Explore Properties with <span className="text-[#CBB27A]">Real Estate Consultants</span> in Delhi NCR
               </h2>
               <p className="text-sm md:text-base text-muted-foreground max-w-4xl mx-auto leading-relaxed">
@@ -255,7 +271,7 @@ export function HomepageSeoBlocks() {
           </div>
           <article className="w-full mb-4 md:mb-6">
             <header className="text-center mb-8 md:mb-12">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 font-poppins leading-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-4 font-poppins leading-tight">
                 How Our <span className="text-[#CBB27A]">Property Consultants</span> Help You Buy the Right Property
               </h2>
               <p className="text-sm md:text-base text-muted-foreground max-w-4xl mx-auto leading-relaxed">
@@ -284,7 +300,7 @@ export function HomepageSeoBlocks() {
           {/* Only Show Less button after last block */}
           {expandedLevel >= 4 && (
             <div className="relative mt-8">
-              <div className="w-full flex justify-center mb-12 md:mb-16 relative z-10">
+              <div className="w-full flex justify-center mb-3 relative z-10">
                 <button
                   onClick={handleCollapse}
                   className="group flex items-center justify-center gap-2 w-40 md:w-44 py-3.5 bg-white border-2 border-[#CBB27A] rounded-full text-foreground font-semibold font-poppins text-sm md:text-base hover:bg-[#CBB27A] hover:text-white transition-all duration-300 shadow-lg hover:shadow-xl"

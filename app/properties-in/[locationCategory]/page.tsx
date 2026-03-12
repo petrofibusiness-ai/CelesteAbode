@@ -243,13 +243,13 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
               <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/40" />
             </div>
 
-            <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-              <h1
-                className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-3 md:mb-4 leading-tight font-poppins text-white not-italic"
+            <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
+              <div
+                className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-3 md:mb-4 leading-tight font-poppins text-white not-italic [&>h1]:text-inherit [&>h1]:font-inherit [&>h1]:leading-inherit [&>h1]:m-0"
                 dangerouslySetInnerHTML={{ __html: location.heroText }}
               />
 
-              <p
+              <div
                 className="text-xs sm:text-sm md:text-base lg:text-lg text-white/95 max-w-2xl mx-auto leading-relaxed font-poppins not-italic"
                 dangerouslySetInnerHTML={{ __html: location.heroSubtext }}
               />
@@ -301,7 +301,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
           {/* SEO content blocks: server-rendered HTML only; client controller gets counts (no data payload duplication) */}
           {location.blogs && location.blogs.length > 0 && (
             <section className="py-8 md:py-12 bg-background">
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
                 <SeoBlocksRevealController
                   initialVisible={1}
                   step={1}

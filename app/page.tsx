@@ -16,6 +16,10 @@ const BrandIntro = dynamic(() => import("@/components/brand-intro").then(mod => 
   ssr: true, // SSR enabled for SEO
   loading: () => <div className="min-h-[200px] md:min-h-[400px]" />
 })
+const KpiCards = dynamic(() => import("@/components/kpi-cards").then(mod => ({ default: mod.KpiCards })), { 
+  ssr: true,
+  loading: () => <div className="min-h-[150px] md:min-h-[200px]" />
+})
 const WhyClientsTrustSection = dynamic(() => import("@/components/why-clients-trust-section").then(mod => ({ default: mod.WhyClientsTrustSection })), { 
   ssr: true,
   loading: () => <div className="min-h-[200px] md:min-h-[300px]" />
@@ -61,6 +65,9 @@ export default function HomePage() {
 
           {/* The Celeste Philosophy */}
           <BrandIntro />
+          
+          {/* KPI Cards - Trust Indicators */}
+          <KpiCards />
           
           {/* Aesthetic Line Separator */}
           <div className="w-full flex justify-center py-8">

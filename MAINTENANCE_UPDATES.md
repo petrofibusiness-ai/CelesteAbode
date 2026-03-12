@@ -215,6 +215,23 @@
 125. **`/blog/forest-walk-villa-ghaziabad-luxury-living-2026`:** "Forest Walk Villa Ghaziabad: Luxury Villa Investment on NH-24"
 126. **Banner consistency:** Removed special-case override for Forest Walk Villa; all blogs now use `post.title` for H1 banner.
 
+### Property-in pages — hero & SEO block width
+127. **Hero content width:** Increased hero text container from `max-w-4xl` to `max-w-5xl` on `properties-in/[locationCategory]` so H1 lines fit properly in two lines.
+128. **SEO block container:** Reduced SEO blocks wrapper from `max-w-7xl` to `max-w-6xl` on property-in dynamic pages to remove excess left/right white space around cards.
+
+### Property-in hero — hydration fix
+129. **Hero markup:** Hero text and subtext wrappers changed from `<h1>` and `<p>` to `<div>` because DB `heroText`/`heroSubtext` already contain `<h1>`/`<p>` tags. Prevents invalid nested headings and hydration mismatch. H1 remains in page source (inside injected HTML).
+
+### Homepage — KPI cards section
+130. **New component:** `components/kpi-cards.tsx` — three trust cards (No developer tie-ups, RERA-verified shortlists only, Involved from visit to possession) with black background, golden gradient icons and titles, gray description text.
+131. **Placement:** KPI cards placed directly after BrandIntro on homepage; reduced BrandIntro bottom padding and KPI section top padding so cards read as the “banner” under the intro.
+132. **Proof strip removed:** The three-item proof strip (icon + title + description) removed from BrandIntro; KPI cards now carry that content in card form.
+133. **Animation:** Desktop animation — left card enters from left (x: -80 → 0), center card scales in (scale 0.92 → 1), right card enters from right (x: 80 → 0). Stagger 0.12s, ease [0.25, 0.1, 0.25, 1].
+
+### Homepage — Brand Intro copy & highlights
+134. **Para 1 (buyer pain):** New copy — “Buying property in the NCR means navigating title irregularities, developers with delayed delivery records, and circle rate revisions… discoveries made after the decision is already done.” No highlights (plain text).
+135. **Para 2 (Celeste positioning):** New copy — “That is exactly what Celeste Abode, your trusted real estate consultant in NCR, was built to prevent…” with verification and “If something fails our checks, you hear that first.” Only two highlights: gold for “Celeste Abode, your trusted real estate consultant in NCR”; black bold for “If something fails our checks, you hear that first.”
+
 ---
 
 ## How to use this doc

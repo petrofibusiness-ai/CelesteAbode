@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Section } from "@/components/ui/section";
 import { useEffect, useState } from "react";
-import { ShieldCheck, FileCheck, HandshakeIcon } from "lucide-react";
 
 export function BrandIntro() {
   const [isMobile, setIsMobile] = useState(false);
@@ -19,26 +18,8 @@ export function BrandIntro() {
 
   const containerDuration = isMobile ? 0.4 : 0.8;
 
-  const proofPoints = [
-    {
-      icon: ShieldCheck,
-      title: "No developer tie-ups",
-      desc: "We are not a channel partner for any builder",
-    },
-    {
-      icon: FileCheck,
-      title: "RERA-verified shortlists only",
-      desc: "Compliance and title checked before recommendation",
-    },
-    {
-      icon: HandshakeIcon,
-      title: "Involved from visit to possession",
-      desc: "We stay involved through booking, documentation, and handover",
-    },
-  ];
-
   return (
-    <Section className="pt-20 md:pt-28 pb-16 md:pb-24 bg-background relative overflow-hidden">
+    <Section className="pt-20 md:pt-28 pb-8 md:pb-10 bg-background relative overflow-hidden">
       {/* Subtle background */}
       <div className="absolute inset-0 opacity-[0.02] pointer-events-none brand-intro-bg-pattern" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#CBB27A]/[0.02] to-transparent pointer-events-none" />
@@ -85,39 +66,16 @@ export function BrandIntro() {
           >
             {/* Paragraph 1 */}
             <p className="text-sm md:text-[0.95rem] lg:text-base leading-[1.85] text-[#4A4F55] font-normal font-poppins">
-              Most buyers in the NCR commit to a site visit before anyone has checked whether the project has a clean title, a developer who has delivered before, or a price that reflects actual market movement. That is the gap real estate consultants in Noida should be closing, not widening.
+              Buying property in the NCR means navigating title irregularities, developers with delayed delivery records, and circle rate revisions that change your registration cost the week you sign. These are not rare exceptions. For most buyers, they are discoveries made after the decision is already done.
             </p>
 
             {/* Paragraph 2 */}
             <p className="text-sm md:text-[0.95rem] lg:text-base leading-[1.85] text-[#4A4F55] font-normal font-poppins">
-              At Celeste Abode, RERA compliance, land title standing, delivery history, and payment plan structure are verified before anything reaches you. A property consultant in Noida who earns through volume will always have a reason to recommend more. We operate differently: <span className="font-semibold text-[#2B3035]">if something fails our checks, you hear that first.</span>
+              That is exactly what <span className="text-[#CBB27A]">Celeste Abode, your trusted real estate consultant in NCR</span>, was built to prevent. As independent real estate consultants in Noida and across Delhi NCR, we verify RERA compliance, land title standing, and developer delivery history before any project reaches your shortlist. Every property consultant in Noida works with inventory. We work with your interest. <span className="font-semibold text-[#2B3035]">If something fails our checks, you hear that first.</span>
             </p>
           </motion.div>
 
         </div>
-
-        {/* Full-width proof strip */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-5 border-t border-gray-200/80"
-        >
-          {proofPoints.map((point, idx) => (
-            <div key={idx} className="flex items-start gap-3">
-              <point.icon className="w-5 h-5 text-[#CBB27A] flex-shrink-0 mt-0.5" />
-              <div className="flex flex-col gap-1">
-                <span className="text-sm font-semibold text-[#2B3035] font-poppins">
-                  {point.title}
-                </span>
-                <span className="text-xs md:text-sm text-[#6B7280] font-normal font-poppins leading-relaxed">
-                  {point.desc}
-                </span>
-              </div>
-            </div>
-          ))}
-        </motion.div>
       </div>
     </Section>
   );

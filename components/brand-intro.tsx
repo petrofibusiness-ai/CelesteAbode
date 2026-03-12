@@ -60,7 +60,7 @@ export function BrandIntro() {
         </motion.div>
 
         {/* Two-column layout */}
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start mb-12 md:mb-16">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start mb-6 md:mb-8">
 
           {/* Left Column — H2 */}
           <motion.div
@@ -90,7 +90,7 @@ export function BrandIntro() {
 
             {/* Paragraph 2 */}
             <p className="text-sm md:text-[0.95rem] lg:text-base leading-[1.85] text-[#4A4F55] font-normal font-poppins">
-              At Celeste Abode, RERA compliance, land title standing, delivery history, and payment plan structure are verified before anything reaches you. A property consultant in Noida who earns through volume will always have a reason to recommend more. We operate differently: if something fails our checks, you hear that first.
+              At Celeste Abode, RERA compliance, land title standing, delivery history, and payment plan structure are verified before anything reaches you. A property consultant in Noida who earns through volume will always have a reason to recommend more. We operate differently: <span className="font-semibold text-[#2B3035]">if something fails our checks, you hear that first.</span>
             </p>
           </motion.div>
 
@@ -102,7 +102,7 @@ export function BrandIntro() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-10 border-t border-gray-200/80"
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-5 border-t border-gray-200/80"
         >
           {proofPoints.map((point, idx) => (
             <div key={idx} className="flex items-start gap-3">

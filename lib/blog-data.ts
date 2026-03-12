@@ -10,12 +10,16 @@ export type BlogPost = {
   featured: boolean;
   views?: string;
   content?: string;
+  metaTitle?: string;
+  metaDescription?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
 };
 
 export const blogPosts: BlogPost[] = [
   {
     id: 1,
-    title: "Is Noida Still a Safe Place to Buy Property in 2026?",
+    title: "Is Investing in Noida Property a Smart Choice in 2026? Expert Guide",
     slug: "is-noida-safe-to-buy-property-2026",
     excerpt:
       "A clear-eyed look at Noida's real estate in 2026: market strength, infrastructure, RERA safety, and how to invest with confidence.",
@@ -25,23 +29,31 @@ export const blogPosts: BlogPost[] = [
     image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/is_noida_still_a_safe_place.png",
     featured: true,
     views: "1.2K",
+    metaTitle: "Is Investing in Noida Property a Smart Choice in 2026? Expert Guide",
+    metaDescription: "Planning to buy property in Noida in 2026? Explore safety, infrastructure growth, and market trends to make a smart investment. Connect with experts today.",
+    ogImage: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/is_noida_still_a_safe_place.png",
+    ogImageAlt: "Is Investing in Noida Property a Smart Choice in 2026",
   },
   {
     id: 2,
-    title: "Yamuna Expressway: The Next Growth Corridor of Delhi NCR",
+    title: "Why Yamuna Expressway is NCR's Next Real Estate Investment Hotspot",
     slug: "yamuna-expressway-growth-corridor-delhi-ncr",
     excerpt:
-      "Why the Yamuna Expressway has become Delhi NCR's most talked-about growth corridor: infrastructure, price momentum, and how to invest wisely.",
+      "Explore why Yamuna Expressway is emerging as Delhi NCR's fastest-growing real estate corridor. Discover investment potential and connect with property experts today.",
     category: "Location Intelligence",
     readTime: "9 min read",
     date: "January 29, 2026",
     image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/yamuna_expressway.png",
     featured: true,
     views: "980",
+    metaTitle: "Why Yamuna Expressway is NCR's Next Real Estate Investment Hotspot",
+    metaDescription: "Explore why Yamuna Expressway is emerging as Delhi NCR's fastest-growing real estate corridor. Discover investment potential and connect with property experts today.",
+    ogImage: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/yamuna_expressway.png",
+    ogImageAlt: "Why Yamuna Expressway is NCR's Next Real Estate Investment Hotspot",
   },
   {
     id: 3,
-    title: "Noida vs Greater Noida: Investment Analysis 2026",
+    title: "Noida or Greater Noida: Which is Better for Property Investment in 2026?",
     slug: "noida-vs-greater-noida-investment-2026",
     excerpt:
       "A clear comparison of Noida and Greater Noida: prices, connectivity, infrastructure, and where to invest for the next 3–5 years.",
@@ -51,10 +63,14 @@ export const blogPosts: BlogPost[] = [
     image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/noida_vs_greater_noida.png",
     featured: true,
     views: "1.1K",
+    metaTitle: "Noida or Greater Noida: Which is Better for Property Investment in 2026?",
+    metaDescription: "Compare Noida and Greater Noida property investment opportunities in 2026. Discover prices, infrastructure growth, and ROI potential before buying property.",
+    ogImage: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/noida_vs_greater_noida.png",
+    ogImageAlt: "Noida or Greater Noida: Which is Better for Property Investment in 2026?",
   },
   {
     id: 4,
-    title: "Jewar Airport and NCR Property: What Buyers Need to Know in 2026",
+    title: "Jewar Airport Impact on NCR Real Estate: Investment Opportunities 2026",
     slug: "jewar-airport-ncr-property-buyers-2026",
     excerpt:
       "The Noida International Airport at Jewar is reshaping NCR real estate. Here's how it affects prices, which micro-markets benefit, and how to invest without overpaying.",
@@ -64,10 +80,14 @@ export const blogPosts: BlogPost[] = [
     image: "/YAMUNA.avif",
     featured: true,
     views: "890",
+    metaTitle: "Jewar Airport Impact on NCR Real Estate: Investment Opportunities 2026",
+    metaDescription: "Discover how Jewar Airport is boosting NCR real estate and creating new investment opportunities. Explore property options and connect with experts today.",
+    ogImage: "/YAMUNA.avif",
+    ogImageAlt: "Jewar Airport Impact on NCR Real Estate: Investment Opportunities 2026",
   },
   {
     id: 5,
-    title: "Forest Walk Villas By Madhusudan Group: Best Luxury Living on NH24 Ghaziabad",
+    title: "Forest Walk Villa Ghaziabad: Luxury 4BHK Villa Living on NH-24",
     slug: "forest-walk-villa-ghaziabad-luxury-living-2026",
     excerpt:
       "Discover why Forest Walk Villas on NH24 Ghaziabad is one of the most sought-after places to live in 2026 with unmatched nature, luxury amenities and excellent connectivity.",
@@ -77,6 +97,10 @@ export const blogPosts: BlogPost[] = [
     image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/forest-walk-villa_hero.avif",
     featured: true,
     views: "760",
+    metaTitle: "Forest Walk Villa Ghaziabad: Luxury 4BHK Villa Living on NH-24",
+    metaDescription: "Explore Forest Walk Villa in Ghaziabad, a luxury 4BHK villa township on NH-24 with premium amenities and green living. Discover pricing and connect with property experts today.",
+    ogImage: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/forest-walk-villa_hero.avif",
+    ogImageAlt: "Forest Walk Villa Ghaziabad: Luxury 4BHK Villa Living on NH-24",
   },
 ];
 

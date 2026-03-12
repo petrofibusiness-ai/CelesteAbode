@@ -198,6 +198,23 @@
 114. **`/flats-in-ghaziabad`:** Title: "Buy Flats for Sale in Ghaziabad with Best Property Consultants". OG/Twitter image: page hero webp, alt: "Flats for Sale in Ghaziabad".
 115. **`/commercial-and-residential-property-in-lucknow`:** Title: "Commercial Property for Sale in Lucknow | Best Property Consultant". OG/Twitter image: page hero webp, alt: "Commercial Property for Sale in Lucknow".
 
+### Brand Intro — styling refinements
+116. **Proof strip margin:** Reduced top margin from ~88-104px to ~44-52px. Changed grid `mb-12 md:mb-16` → `mb-6 md:mb-8` and proof strip `pt-10` → `pt-5`. Items now feel attached to content above.
+117. **Key line highlight:** Added `font-semibold text-[#2B3035]` to "if something fails our checks, you hear that first." — gives reader's eye an entry point and emphasizes key differentiator.
+
+### Blog metadata — SEO update
+118. **Blog listing page (`/blog`):** Title: "Real Estate Blogs | Property Investment Guides & Market Insights". Description updated. OG/Twitter image: propertyhero.avif, alt: "Real Estate Blogs".
+119. **Blog data structure:** Added `metaTitle`, `metaDescription`, `ogImage`, `ogImageAlt` fields to BlogPost type for custom SEO per article.
+120. **`generateMetadata` updated:** Blog pages now use custom meta fields if available, with fallback to title/excerpt.
+
+### Blog titles & banners updated (title = meta title)
+121. **`/blog/is-noida-safe-to-buy-property-2026`:** "Is Investing in Noida Property a Smart Choice in 2026? Expert Guide"
+122. **`/blog/yamuna-expressway-growth-corridor-delhi-ncr`:** "Why Yamuna Expressway is NCR's Next Real Estate Investment Hotspot"
+123. **`/blog/noida-vs-greater-noida-investment-2026`:** "Noida or Greater Noida: Which is Better for Property Investment in 2026?"
+124. **`/blog/jewar-airport-ncr-property-buyers-2026`:** "Jewar Airport Impact on NCR Real Estate: Investment Opportunities 2026"
+125. **`/blog/forest-walk-villa-ghaziabad-luxury-living-2026`:** "Forest Walk Villa Ghaziabad: Luxury Villa Investment on NH-24"
+126. **Banner consistency:** Removed special-case override for Forest Walk Villa; all blogs now use `post.title` for H1 banner.
+
 ---
 
 ## How to use this doc

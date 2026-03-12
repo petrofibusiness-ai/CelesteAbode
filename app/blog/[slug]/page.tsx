@@ -121,24 +121,32 @@ export async function generateMetadata({
     "real estate advisory",
   ];
 
+  // Use custom meta fields if available, otherwise fallback to defaults
+  const metaTitle = post.metaTitle || title;
+  const metaDescription = post.metaDescription || description;
+  const ogImageUrl = post.ogImage 
+    ? (post.ogImage.startsWith("http") ? post.ogImage : `${SITE_URL}${post.ogImage}`)
+    : imageUrl;
+  const ogImageAlt = post.ogImageAlt || post.title;
+
   return {
-    title,
-    description,
+    title: metaTitle,
+    description: metaDescription,
     keywords,
     openGraph: {
-      title: post.title,
-      description,
+      title: metaTitle,
+      description: metaDescription,
       url,
-      images: [{ url: imageUrl, width: 1200, height: 630, alt: post.title }],
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: ogImageAlt }],
       type: "article",
       publishedTime: post.date,
       siteName: "Celeste Abode",
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title,
-      description,
-      images: [imageUrl],
+      title: metaTitle,
+      description: metaDescription,
+      images: [{ url: ogImageUrl, alt: ogImageAlt }],
     },
     alternates: { canonical: url },
     robots: { index: true, follow: true },
@@ -196,9 +204,7 @@ export default async function BlogPostPage({
               <div className="max-w-[95%] xl:max-w-[1800px] mx-auto px-4 w-full pb-12 pt-10 md:pb-16 md:pt-12">
                 <div className="max-w-3xl mx-auto text-center">
                   <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-[1.2] font-poppins mb-5 px-2">
-                    {slug === "forest-walk-villa-ghaziabad-luxury-living-2026"
-                      ? "Forest Walk Villa Ghaziabad: Why This Township Is Selling Out"
-                      : post.title}
+                    {post.title}
                   </h1>
                   <p className="text-lg md:text-xl text-white/85 font-poppins leading-relaxed mb-7 max-w-2xl mx-auto px-2">
                     {post.excerpt}

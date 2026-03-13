@@ -133,30 +133,21 @@ export function PropertySchema({
   status: string;
   url: string;
 }) {
-  // Prepare offers object - only include price if it exists
-  const offers: any = {
-    "@type": "Offer",
-    availability: status === "Ready to Move" ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
-    url: url,
-  };
 
-  // Only add price if it exists and is not empty
-  if (price && price.trim() !== "") {
-    offers.price = price.replace(/[^\d.]/g, "");
-    offers.priceCurrency = priceCurrency;
-  }
-
-  const schema = {
+  // Build base schema
+  const schema: any = {
     "@context": "https://schema.org",
-    "@type": "Product",
+    "@type": "RealEstateListing",
     name: name,
     description: description,
-    image: image.startsWith("http") ? image : `https://www.celesteabode.com${image}`,
+    image: image.startsWith("http")
+      ? image
+      : `https://www.celesteabode.com${image}`,
+    url: url,
     brand: {
       "@type": "Brand",
       name: developer,
     },
-    offers: offers,
     additionalProperty: [
       {
         "@type": "PropertyValue",
@@ -180,7 +171,10 @@ export function PropertySchema({
       {
         "@type": "PropertyValue",
         name: "Unit Types",
-        value: configuration && configuration.length > 0 ? configuration.join(", ") : "Not specified",
+        value:
+          configuration && configuration.length > 0
+            ? configuration.join(", ")
+            : "Not specified",
       },
       {
         "@type": "PropertyValue",
@@ -194,6 +188,20 @@ export function PropertySchema({
       },
     ],
   };
+
+  // Add offers only if price exists
+  if (price && price.trim() !== "") {
+    schema.offers = {
+      "@type": "Offer",
+      price: price.replace(/[^\d.]/g, ""),
+      priceCurrency: priceCurrency,
+      availability:
+        status === "Ready to Move"
+          ? "https://schema.org/InStock"
+          : "https://schema.org/PreOrder",
+      url: url,
+    };
+  }
 
   return (
     <Script

@@ -115,6 +115,7 @@
 64. **LocalBusinessSchema:** Added `addressRegion: "Uttar Pradesh"`; geo coordinates aligned to `28.6076655, 77.4354885` (same as metadata.ts); added `Noida Expressway` and `Lucknow` to areaServed.
 65. **BrandSchema:** sameAs restricted to Instagram and LinkedIn; aggregateRating removed (no verified reviews to display).
 66. **Slogan & description alignment:** All schemas (Organization, WebSite, LocalBusiness, Brand) and `public/llms.txt` updated to use canonical slogan and description matching `app/metadata.ts` and homepage hero copy.
+67. **Shared structured-data helpers:** Centralised all JSON-LD helpers in `lib/structured-data.tsx` (Organization, LocalBusiness, WebSite, Brand, Property, FAQPage, ItemList, CollectionPage, Service, Article, WebPage, LocationPage, Blog) so all pages reuse a single, consistent schema implementation.
 
 ### Homepage refactor — Brand Intro section
 67. **H2 updated:** Changed from "Real Estate Consulting Built for Delhi NCR Property Decisions" to "Best Real Estate Consultants in Delhi NCR for Smart Property Investment".

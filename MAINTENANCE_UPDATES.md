@@ -233,6 +233,11 @@
 134. **Para 1 (buyer pain):** New copy — “Buying property in the NCR means navigating title irregularities, developers with delayed delivery records, and circle rate revisions… discoveries made after the decision is already done.” No highlights (plain text).
 135. **Para 2 (Celeste positioning):** New copy — “That is exactly what Celeste Abode, your trusted real estate consultant in NCR, was built to prevent…” with verification and “If something fails our checks, you hear that first.” Only two highlights: gold for “Celeste Abode, your trusted real estate consultant in NCR”; black bold for “If something fails our checks, you hear that first.”
 
+### Admin panel — property price fields (bigint + validation)
+136. **Price fields replaced:** Single "Price Range" field removed; replaced with **Min Price**, **Max Price**, and **Display Price**. Stored in `properties_v2` as `price_min` (bigint), `price_max` (bigint), and `price_unit` (text). Empty values are persisted as NULL (no empty string for bigint columns).
+137. **Types and validation:** `priceMin` and `priceMax` are typed and handled as **numbers** (bigint) across the app: `types/property.ts`, `lib/supabase-property-mapper.ts`, `lib/validation-schemas.ts`, `lib/validation.ts`, admin POST/PATCH/draft routes, and `lib/structured-data.tsx` (PropertySchema). Display price (`priceUnit`) remains text. API and Zod schemas coerce string input from the client to number where needed.
+138. **Max ≥ min check:** When both min and max are set, **max price must be greater than or equal to min price**. Enforced in: PropertyDataSchema and draft schema (Zod refine), `validatePropertyData` (PATCH), and admin form (client-side validation, error under Max Price, Save disabled until valid). If either value is NULL, the comparison is not applied.
+
 ---
 
 ## How to use this doc

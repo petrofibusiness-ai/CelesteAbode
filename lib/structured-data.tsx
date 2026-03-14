@@ -152,7 +152,7 @@ export function PropertySchema({
     { "@type": "PropertyValue", name: "Status", value: status },
   ];
   if (priceUnit && priceUnit.trim() !== "") {
-    additionalProps.push({ "@type": "PropertyValue", name: "Price", value: priceUnit.trim() });
+    additionalProps.push({ "@type": "PropertyValue", name: "Display Price", value: priceUnit.trim() });
   }
 
   const schema: any = {
@@ -167,14 +167,30 @@ export function PropertySchema({
   };
 
   // Add offers only if priceMin exists (numeric for schema)
-  const numericPrice = priceMin != null && Number.isFinite(priceMin) ? String(priceMin) : "";
-  if (numericPrice !== "") {
+  const min = priceMin ? Number(priceMin) : null;
+  const max = priceMax ? Number(priceMax) : null;
+  
+  if (min && max) {
     schema.offers = {
-      "@type": "Offer",
-      price: numericPrice,
+      "@type": "AggregateOffer",
+      lowPrice: min,
+      highPrice: max,
       priceCurrency: priceCurrency,
       availability:
-        status === "Ready to Move" ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
+        status === "Ready to Move"
+          ? "https://schema.org/InStock"
+          : "https://schema.org/PreOrder",
+      url: url,
+    };
+  } else if (min) {
+    schema.offers = {
+      "@type": "Offer",
+      price: min,
+      priceCurrency: priceCurrency,
+      availability:
+        status === "Ready to Move"
+          ? "https://schema.org/InStock"
+          : "https://schema.org/PreOrder",
       url: url,
     };
   }

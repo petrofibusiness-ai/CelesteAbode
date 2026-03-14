@@ -42,7 +42,9 @@ export interface Property {
     thumbnail: string;
   }>;
   amenities?: string[]; // Optional amenities list
-  price?: string; // Optional price range
+  priceMin?: number | null; // Min price (properties_v2.price_min, bigint)
+  priceMax?: number | null; // Max price (properties_v2.price_max, bigint)
+  priceUnit?: string | null; // Display price (properties_v2.price_unit, text)/ Display price (stored in properties_v2.price_unit)
   seo?: PropertySEO; // Optional SEO fields
   isPublished: boolean; // Whether the property is live
   createdAt?: string;

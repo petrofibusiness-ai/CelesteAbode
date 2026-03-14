@@ -26,11 +26,38 @@ const DraftPropertySchema = z.object({
   configuration: z.array(z.string()).max(50).optional(),
   sizes: z.string().min(1).max(200),
   description: z.string().min(1).max(50000),
-  price: z.string().max(100).optional(),
+  priceMin: z
+    .union([
+      z.number().int().nonnegative(),
+      z.string().transform((s) => {
+        const t = s?.trim();
+        if (t === "" || t == null) return null;
+        const n = parseInt(t.replace(/\D/g, ""), 10);
+        return Number.isNaN(n) ? null : n;
+      }),
+    ])
+    .optional()
+    .nullable(),
+  priceMax: z
+    .union([
+      z.number().int().nonnegative(),
+      z.string().transform((s) => {
+        const t = s?.trim();
+        if (t === "" || t == null) return null;
+        const n = parseInt(t.replace(/\D/g, ""), 10);
+        return Number.isNaN(n) ? null : n;
+      }),
+    ])
+    .optional()
+    .nullable(),
+  priceUnit: z.string().max(200).optional(),
   amenities: z.array(z.string()).min(1).max(100),
   seo: z.record(z.any()).optional(),
   isPublished: z.boolean().default(false),
-});
+}).refine(
+  (data) => data.priceMin == null || data.priceMax == null || data.priceMax >= data.priceMin,
+  { message: "Max price must be greater than or equal to min price", path: ["priceMax"] }
+);
 
 export async function POST(request: NextRequest) {
   const correlationId = crypto.randomUUID();
@@ -136,7 +163,9 @@ export async function POST(request: NextRequest) {
       images: [],
       videos: [],
       amenities: body.amenities.filter((a: string) => a && a.trim() !== ''),
-      price: body.price?.trim() || null,
+      price_min: body.priceMin != null && Number.isFinite(body.priceMin) ? body.priceMin : null,
+      price_max: body.priceMax != null && Number.isFinite(body.priceMax) ? body.priceMax : null,
+      price_unit: body.priceUnit?.trim() || null,
       seo: body.seo || {},
       is_published: false, // Drafts are never published
       created_at: new Date().toISOString(),

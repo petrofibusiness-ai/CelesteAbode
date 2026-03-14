@@ -29,7 +29,9 @@ export interface SupabaseProperty {
     thumbnail: string;
   }> | null;
   amenities?: string[] | null;
-  price?: string | null;
+  price_min?: string | number | null; // bigint in DB may be returned as number or string
+  price_max?: string | number | null;
+  price_unit?: string | null;
   seo?: {
     title?: string;
     description?: string;
@@ -70,7 +72,9 @@ export function supabaseToProperty(supabaseProp: SupabaseProperty): Property {
     images: supabaseProp.images || [],
     videos: supabaseProp.videos || undefined,
     amenities: normalizeAmenities(supabaseProp.amenities),
-    price: supabaseProp.price || undefined,
+    priceMin: supabaseProp.price_min != null ? Number(supabaseProp.price_min) : undefined,
+    priceMax: supabaseProp.price_max != null ? Number(supabaseProp.price_max) : undefined,
+    priceUnit: supabaseProp.price_unit ?? undefined,
     seo: supabaseProp.seo || undefined,
     isPublished: supabaseProp.is_published,
     createdAt: supabaseProp.created_at,
@@ -106,7 +110,14 @@ export function propertyToSupabase(property: Omit<Property, "id" | "createdAt" |
       const normalized = normalizeAmenities(property.amenities);
       return normalized.length > 0 ? normalized : null;
     })(),
-    price: property.price || null,
+    // bigint columns: number | null only (no empty string)
+    price_min: property.priceMin != null && Number.isFinite(property.priceMin) ? property.priceMin : null,
+    price_max: property.priceMax != null && Number.isFinite(property.priceMax) ? property.priceMax : null,
+    price_unit: (() => {
+      const v = property.priceUnit;
+      if (v == null || String(v).trim() === "") return null;
+      return String(v).trim();
+    })(),
     seo: property.seo || null,
     is_published: property.isPublished || false,
   };

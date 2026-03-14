@@ -236,7 +236,9 @@ export async function POST(request: NextRequest) {
       images: Array.isArray(validatedData.images) ? validatedData.images.filter((url: string) => url && url.trim()) : [],
       videos: Array.isArray(validatedData.videos) ? validatedData.videos.filter((v: any) => v && v.src && v.title && v.thumbnail).map((v: any) => ({ title: v.title, src: v.src, thumbnail: v.thumbnail })) : [],
       amenities: Array.isArray(validatedData.amenities) ? validatedData.amenities.filter((a: string) => a && typeof a === 'string' && a.trim() !== '') : [],
-      price: validatedData.price?.trim() || undefined,
+      priceMin: validatedData.priceMin ?? undefined,
+      priceMax: validatedData.priceMax ?? undefined,
+      priceUnit: validatedData.priceUnit?.trim() || undefined,
       seo: validatedData.seo && typeof validatedData.seo === 'object' ? validatedData.seo : {},
       isPublished: validatedData.isPublished === true,
     };

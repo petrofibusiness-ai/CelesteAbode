@@ -110,7 +110,9 @@ export function PropertySchema({
   name,
   description,
   image,
-  price,
+  priceMin,
+  priceMax,
+  priceUnit,
   priceCurrency = "INR",
   address,
   developer,
@@ -123,7 +125,9 @@ export function PropertySchema({
   name: string;
   description: string;
   image: string;
-  price?: string;
+  priceMin?: number | null;
+  priceMax?: number | null;
+  priceUnit?: string | null;
   priceCurrency?: string;
   address: string;
   developer: string;
@@ -135,70 +139,42 @@ export function PropertySchema({
 }) {
 
   // Build base schema
+  const additionalProps: Array<{ "@type": string; name: string; value: string }> = [
+    { "@type": "PropertyValue", name: "Location", value: address },
+    { "@type": "PropertyValue", name: "Developer", value: developer },
+    ...(reraId ? [{ "@type": "PropertyValue" as const, name: "RERA ID", value: reraId }] : []),
+    {
+      "@type": "PropertyValue",
+      name: "Unit Types",
+      value: configuration && configuration.length > 0 ? configuration.join(", ") : "Not specified",
+    },
+    { "@type": "PropertyValue", name: "Area", value: area },
+    { "@type": "PropertyValue", name: "Status", value: status },
+  ];
+  if (priceUnit && priceUnit.trim() !== "") {
+    additionalProps.push({ "@type": "PropertyValue", name: "Price", value: priceUnit.trim() });
+  }
+
   const schema: any = {
     "@context": "https://schema.org",
     "@type": "RealEstateListing",
     name: name,
     description: description,
-    image: image.startsWith("http")
-      ? image
-      : `https://www.celesteabode.com${image}`,
+    image: image.startsWith("http") ? image : `https://www.celesteabode.com${image}`,
     url: url,
-    brand: {
-      "@type": "Brand",
-      name: developer,
-    },
-    additionalProperty: [
-      {
-        "@type": "PropertyValue",
-        name: "Location",
-        value: address,
-      },
-      {
-        "@type": "PropertyValue",
-        name: "Developer",
-        value: developer,
-      },
-      ...(reraId
-        ? [
-            {
-              "@type": "PropertyValue",
-              name: "RERA ID",
-              value: reraId,
-            },
-          ]
-        : []),
-      {
-        "@type": "PropertyValue",
-        name: "Unit Types",
-        value:
-          configuration && configuration.length > 0
-            ? configuration.join(", ")
-            : "Not specified",
-      },
-      {
-        "@type": "PropertyValue",
-        name: "Area",
-        value: area,
-      },
-      {
-        "@type": "PropertyValue",
-        name: "Status",
-        value: status,
-      },
-    ],
+    brand: { "@type": "Brand", name: developer },
+    additionalProperty: additionalProps,
   };
 
-  // Add offers only if price exists
-  if (price && price.trim() !== "") {
+  // Add offers only if priceMin exists (numeric for schema)
+  const numericPrice = priceMin != null && Number.isFinite(priceMin) ? String(priceMin) : "";
+  if (numericPrice !== "") {
     schema.offers = {
       "@type": "Offer",
-      price: price.replace(/[^\d.]/g, ""),
+      price: numericPrice,
       priceCurrency: priceCurrency,
       availability:
-        status === "Ready to Move"
-          ? "https://schema.org/InStock"
-          : "https://schema.org/PreOrder",
+        status === "Ready to Move" ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
       url: url,
     };
   }

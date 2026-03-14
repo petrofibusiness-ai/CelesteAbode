@@ -81,7 +81,31 @@ export const PropertyDataSchema = z.object({
     thumbnail: URLSchema.optional(),
   })).optional().default([]),
   amenities: z.array(z.string().max(500)).optional().default([]),
-  price: z.string().max(500).optional(),
+  priceMin: z
+    .union([
+      z.number().int().nonnegative(),
+      z.string().transform((s) => {
+        const t = s?.trim();
+        if (t === "" || t == null) return undefined;
+        const n = parseInt(t.replace(/\D/g, ""), 10);
+        return Number.isNaN(n) ? undefined : n;
+      }),
+    ])
+    .optional()
+    .nullable(),
+  priceMax: z
+    .union([
+      z.number().int().nonnegative(),
+      z.string().transform((s) => {
+        const t = s?.trim();
+        if (t === "" || t == null) return undefined;
+        const n = parseInt(t.replace(/\D/g, ""), 10);
+        return Number.isNaN(n) ? undefined : n;
+      }),
+    ])
+    .optional()
+    .nullable(),
+  priceUnit: z.string().max(200).optional().nullable(),
   seo: z.object({
     title: z.string().max(500).optional(),
     description: z.string().max(5000).optional(),
@@ -90,7 +114,10 @@ export const PropertyDataSchema = z.object({
     canonical: URLSchema.optional(),
   }).optional(),
   isPublished: z.boolean().default(false),
-});
+}).refine(
+  (data) => data.priceMin == null || data.priceMax == null || data.priceMax >= data.priceMin,
+  { message: "Max price must be greater than or equal to min price", path: ["priceMax"] }
+);
 
 export type PropertyFilter = z.infer<typeof PropertyFilterSchema>;
 export type PropertyData = z.infer<typeof PropertyDataSchema>;

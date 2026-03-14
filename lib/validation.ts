@@ -228,8 +228,29 @@ export function validatePropertyData(body: any): ValidationError[] {
   if (body.possessionDate) {
     errors.push(...validateString(body.possessionDate, 'possessionDate', false, 100));
   }
-  if (body.price) {
-    errors.push(...validateString(body.price, 'price', false, 100));
+  // priceMin, priceMax: optional numbers (bigint in DB); accept number or numeric string
+  const parsePrice = (v: unknown): number | null => {
+    if (v === undefined || v === null || v === "") return null;
+    const n = typeof v === "number" ? v : parseInt(String(v).replace(/\D/g, ""), 10);
+    return Number.isNaN(n) || !Number.isFinite(n) ? null : n;
+  };
+  const priceMinVal = parsePrice(body.priceMin);
+  const priceMaxVal = parsePrice(body.priceMax);
+  if (body.priceMin !== undefined && body.priceMin !== null && body.priceMin !== "") {
+    if (priceMinVal === null) {
+      errors.push({ field: "priceMin", message: "priceMin must be a valid number" });
+    }
+  }
+  if (body.priceMax !== undefined && body.priceMax !== null && body.priceMax !== "") {
+    if (priceMaxVal === null) {
+      errors.push({ field: "priceMax", message: "priceMax must be a valid number" });
+    }
+  }
+  if (priceMinVal !== null && priceMaxVal !== null && priceMaxVal < priceMinVal) {
+    errors.push({ field: "priceMax", message: "Max price must be greater than or equal to min price" });
+  }
+  if (body.priceUnit !== undefined && body.priceUnit !== null && body.priceUnit !== "") {
+    errors.push(...validateString(String(body.priceUnit), "priceUnit", false, 200));
   }
 
   // URL fields

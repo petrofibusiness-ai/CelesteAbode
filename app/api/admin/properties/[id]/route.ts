@@ -329,8 +329,20 @@ export async function PATCH(
       body.amenities = body.amenities.filter((a: string) => a && typeof a === 'string' && a.trim() !== '');
     }
 
+    // Coerce price_min/price_max to number | null (bigint in DB; client may send string)
+    const parsePrice = (v: unknown): number | null => {
+      if (v == null || v === "") return null;
+      const n = typeof v === "number" ? v : parseInt(String(v).replace(/\D/g, ""), 10);
+      return Number.isNaN(n) || !Number.isFinite(n) ? null : n;
+    };
+    const bodyForSupabase = {
+      ...body,
+      priceMin: parsePrice(body.priceMin),
+      priceMax: parsePrice(body.priceMax),
+    };
+
     // Step 7: Update database with final asset state
-    const supabaseProperty = propertyToSupabase(body);
+    const supabaseProperty = propertyToSupabase(bodyForSupabase);
     const updateData = {
       ...supabaseProperty,
       updated_at: new Date().toISOString(),

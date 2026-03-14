@@ -117,7 +117,9 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     images: property?.images || [],
     videos: property?.videos || [],
     amenities: normalizeAmenities(property?.amenities),
-    price: property?.price || "",
+    priceMin: property?.priceMin ?? null,
+    priceMax: property?.priceMax ?? null,
+    priceUnit: property?.priceUnit ?? "",
     seo: property?.seo || {},
     isPublished: property?.isPublished || false,
   });
@@ -564,6 +566,11 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     // Check if hero image exists (either from temp files or existing URL)
     if (!tempFiles.hero && !formData.heroImage) {
       newErrors.heroImage = "Hero image is required";
+    }
+
+    // Max price must be >= min price when both are set
+    if (formData.priceMin != null && formData.priceMax != null && formData.priceMax < formData.priceMin) {
+      newErrors.priceMax = "Max price must be greater than or equal to min price";
     }
 
     // Update progress: 10% after basic validation
@@ -1100,7 +1107,9 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           images: [],
           videos: [],
           amenities: [],
-          price: "",
+          priceMin: null,
+          priceMax: null,
+          priceUnit: "",
           seo: {},
           isPublished: false,
         });
@@ -1202,6 +1211,9 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       );
       if (!localityBelongsToLocation) return false;
     }
+
+    // Max price must be >= min price when both are set
+    if (formData.priceMin != null && formData.priceMax != null && formData.priceMax < formData.priceMin) return false;
     
     return true;
   }, [
@@ -1220,6 +1232,8 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     selectedLocalityId,
     localities,
     tempFiles.hero,
+    formData.priceMin,
+    formData.priceMax,
   ]);
 
   return (
@@ -1560,14 +1574,59 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
             </div>
 
             <div>
-              <Label htmlFor="price" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
-                Price Range
+              <Label htmlFor="priceMin" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Min Price
               </Label>
               <Input
-                id="price"
-                value={formData.price}
-                onChange={(e) => handleChange("price", e.target.value)}
-                placeholder="e.g., ₹2.5 Cr - ₹4 Cr"
+                id="priceMin"
+                type="number"
+                min={0}
+                step={1}
+                value={formData.priceMin != null ? String(formData.priceMin) : ""}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  if (raw === "") return handleChange("priceMin", null);
+                  const n = parseInt(raw.replace(/\D/g, ""), 10);
+                  handleChange("priceMin", Number.isNaN(n) ? null : n);
+                }}
+                placeholder="e.g., 2500000"
+                className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all placeholder:text-gray-400"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              />
+            </div>
+            <div>
+              <Label htmlFor="priceMax" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Max Price
+              </Label>
+              <Input
+                id="priceMax"
+                type="number"
+                min={0}
+                step={1}
+                value={formData.priceMax != null ? String(formData.priceMax) : ""}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  if (raw === "") return handleChange("priceMax", null);
+                  const n = parseInt(raw.replace(/\D/g, ""), 10);
+                  handleChange("priceMax", Number.isNaN(n) ? null : n);
+                }}
+                placeholder="e.g., 5000000"
+                className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all placeholder:text-gray-400"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              />
+              {errors.priceMax && (
+                <p className="text-red-500 text-sm mt-1 font-poppins">{errors.priceMax}</p>
+              )}
+            </div>
+            <div>
+              <Label htmlFor="priceUnit" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Display Price
+              </Label>
+              <Input
+                id="priceUnit"
+                value={formData.priceUnit ?? ""}
+                onChange={(e) => handleChange("priceUnit", e.target.value)}
+                placeholder="e.g., ₹25 Lakh - ₹50 Lakh"
                 className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all placeholder:text-gray-400"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               />

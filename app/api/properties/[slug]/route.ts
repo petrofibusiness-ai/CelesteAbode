@@ -45,7 +45,7 @@ export async function GET(
     // Select only needed columns for better performance
     const queryPromise = supabase
       .from("properties_v2")
-    .select("id, slug, project_name, developer, location, location_id, locality_id, rera_id, project_status, possession_date, configuration, sizes, description, hero_image, hero_image_alt, brochure_url, images, videos, amenities, price, seo, created_at, updated_at")
+    .select("id, slug, project_name, developer, location, location_id, locality_id, rera_id, project_status, possession_date, configuration, sizes, description, hero_image, hero_image_alt, brochure_url, images, videos, amenities, price_min, price_max, price_unit, seo, created_at, updated_at")
       .eq("slug", slug.toLowerCase().trim())
       .eq("is_published", true) // Only published properties
       .single();

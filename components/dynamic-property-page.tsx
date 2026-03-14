@@ -378,7 +378,9 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
         name={property.projectName}
         description={property.description}
         image={property.heroImage}
-        price={property.price}
+        priceMin={property.priceMin}
+        priceMax={property.priceMax}
+        priceUnit={property.priceUnit}
         address={property.location}
         developer={property.developer}
         reraId={property.reraId}

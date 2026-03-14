@@ -120,7 +120,7 @@ export default function PlotsInGreaterNoidaPage() {
   return (
     <>
       <WebPageSchema
-        name="Plots in Greater Noida – Premium Land for Investment & Living | Celeste Abode"
+        name="Plots in Greater Noida – Premium Land for Investment & Living"
         description="Explore verified plots in Greater Noida West, Knowledge Park, and the Yamuna corridor. Compare entry price, infra outlook, and long-term upside before investing."
         url="https://www.celesteabode.com/plots-in-greater-noida"
         image="/premium-residential-plot-with-landscaping.avif"

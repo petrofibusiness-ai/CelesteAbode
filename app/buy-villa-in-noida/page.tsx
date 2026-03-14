@@ -119,7 +119,7 @@ export default function BuyVillaInNoidaPage() {
   return (
     <>
       <WebPageSchema
-        name="Buy Villa in Noida – Premium Homes for Refined Living | Celeste Abode"
+        name="Buy Villa in Noida – Premium Homes for Refined Living"
         description="Planning to buy a villa in Noida? Compare RERA-verified options by sector, budget, and possession timeline—with support on legal checks and negotiations."
         url="https://www.celesteabode.com/buy-villa-in-noida"
         image="/luxury-royal-style-villa-with-grand-entrance.avif"

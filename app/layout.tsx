@@ -39,8 +39,8 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.celesteabode.com"),
   title: {
-    default: "Trusted Real Estate Consultant for Properties in Delhi NCR | Celeste Abode",
-    template: "%s | Celeste Abode",
+    default: "Trusted Real Estate Consultant for Properties in Delhi NCR",
+    template: "%s",
   },
   description:
     "Guiding confident property decisions across Noida, Greater Noida, and Yamuna Expressway through data-backed analysis, RERA discipline, and local market expertise.",
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: "https://www.celesteabode.com",
     siteName: "Celeste Abode",
-    title: "Luxury Real Estate NCR | Investment Advisory | Celeste Abode",
+    title: "Luxury Real Estate NCR | Investment Advisory",
     description:
       "Premium real estate consulting in Noida, Gurugram & Delhi NCR. Data-driven property investment advisory with RERA compliance. Expert guidance for luxury apartments & villas.",
     images: [
@@ -84,7 +84,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Luxury Real Estate NCR | Investment Advisory | Celeste Abode",
+    title: "Luxury Real Estate NCR | Investment Advisory",
     description:
       "Premium real estate consulting in Noida, Gurugram & Delhi NCR. Data-driven property investment advisory with RERA compliance. Expert guidance for luxury apartments & villas.",
     images: ["/propertyhero.avif"],

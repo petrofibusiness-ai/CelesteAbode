@@ -119,7 +119,7 @@ export default function VillaInNoidaExtensionPage() {
   return (
     <>
       <WebPageSchema
-        name="Villa in Noida Extension – Elegant Living & Smart Investment | Celeste Abode"
+        name="Villa in Noida Extension – Elegant Living & Smart Investment"
         description="Discover RERA-verified villas in Noida Extension (Greater Noida West). Compare Techzone and Bisrakh options, pricing bands, and connectivity before you buy."
         url="https://www.celesteabode.com/villa-in-noida-extension"
         image="/luxury-villa-with-garden-and-modern-design.avif"

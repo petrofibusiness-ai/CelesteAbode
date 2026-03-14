@@ -1,13 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ShieldCheck, FileCheck, HandshakeIcon } from "lucide-react";
+import { Target, FileCheck, HandshakeIcon } from "lucide-react";
 
 const kpis = [
   {
-    icon: ShieldCheck,
-    title: "No developer tie-ups",
-    description: "We are not a channel partner for any builder",
+    icon: Target,
+    title: "Your brief. Our standard.",
+    description: "Every shortlist is built around what you need, not what we have",
   },
   {
     icon: FileCheck,
@@ -69,6 +69,23 @@ export function KpiCards() {
             );
           })}
         </div>
+
+        {/* Tagline below cards — decorative */}
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-10 md:mt-12 flex flex-col items-center justify-center"
+        >
+          <div className="h-px w-16 md:w-24 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent mb-4" />
+          <p className="text-center font-poppins text-base md:text-lg lg:text-xl tracking-[0.06em] max-w-xl mx-auto">
+            <span className="bg-gradient-to-r from-[#B8962E] via-[#D4AF37] to-[#B8962E] bg-clip-text text-transparent font-semibold">
+              From the first visit to the final key, we stay with you.
+            </span>
+          </p>
+          <div className="h-px w-16 md:w-24 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent mt-4" />
+        </motion.div>
       </div>
     </section>
   );

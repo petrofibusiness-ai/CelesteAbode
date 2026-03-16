@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Phone, Mail, ChevronDown, Instagram, Linkedin } from "lucide-react";
+import { Menu, X, Mail, ChevronDown, Instagram, Linkedin } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -129,15 +129,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
 
           {/* Desktop Layout - nav centered, Contact button absolute right */}
           <div className="hidden md:block relative w-full h-24">
-            {/* Phone capsule - left side, desktop only: black background, gold border */}
-            <a
-              href="tel:+919818735258"
-              className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center justify-center gap-2 w-[180px] min-w-[180px] h-10 bg-black border-2 border-[#CBB27A] rounded-full px-4 text-[#CBB27A] text-sm font-medium font-poppins hover:text-white/90 transition-colors whitespace-nowrap"
-              aria-label="Call us"
-            >
-              <Phone className="w-4 h-4 shrink-0" />
-              <span>+91 9818735258</span>
-            </a>
+            {/* Left capsule removed (phone number no longer shown in header) */}
             {/* Centered nav (left links + logo + right links) - shifted right */}
             <div className="absolute left-1/2 top-1/2 -translate-x-[calc(50%+2.5rem)] -translate-y-1/2 flex items-center pl-6 pr-6">
               {/* Left Menu Group: Home | Properties | Services */}
@@ -511,15 +503,6 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
 
             {/* Menu Footer */}
             <div className="px-6 py-4 border-t border-white/10 space-y-4">
-              <a
-                href="tel:+919818735258"
-                className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group m-0 font-poppins"
-              >
-                <div className="w-10 h-10 bg-[#CBB27A]/20 rounded-full flex items-center justify-center border border-[#CBB27A]/30 group-hover:bg-[#CBB27A]/30 transition-colors flex-shrink-0">
-                  <Phone className="w-5 h-5 text-[#CBB27A]" />
-                </div>
-                <span className="text-sm font-medium">+91 9818735258</span>
-              </a>
               <a
                 href="mailto:support@celesteabode.com"
                 className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group m-0 font-poppins"

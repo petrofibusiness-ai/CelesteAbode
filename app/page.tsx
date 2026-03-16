@@ -7,6 +7,7 @@ import { HOMEPAGE_FAQS } from "@/lib/homepage-faqs"
 import { AggregateRatingSchema } from "@/lib/homepage-schema"
 import { homepageMetadata } from "@/app/metadata"
 import type { Metadata } from "next"
+import { InstagramEmbedsSection } from "@/components/instagram-embeds-section"
 
 export const metadata: Metadata = homepageMetadata
 
@@ -15,10 +16,6 @@ export const metadata: Metadata = homepageMetadata
 const BrandIntro = dynamic(() => import("@/components/brand-intro").then(mod => ({ default: mod.BrandIntro })), { 
   ssr: true, // SSR enabled for SEO
   loading: () => <div className="min-h-[200px] md:min-h-[400px]" />
-})
-const KpiCards = dynamic(() => import("@/components/kpi-cards").then(mod => ({ default: mod.KpiCards })), { 
-  ssr: true,
-  loading: () => <div className="min-h-[150px] md:min-h-[200px]" />
 })
 const WhyClientsTrustSection = dynamic(() => import("@/components/why-clients-trust-section").then(mod => ({ default: mod.WhyClientsTrustSection })), { 
   ssr: true,
@@ -65,15 +62,12 @@ export default function HomePage() {
 
           {/* The Celeste Philosophy */}
           <BrandIntro />
-          
-          {/* KPI Cards - Trust Indicators */}
-          <KpiCards />
-          
+
           {/* Aesthetic Line Separator */}
           <div className="w-full flex justify-center py-8">
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
           </div>
-          
+
           {/* Trust Elements: Key Metrics - The Mark of Expertise: Our Impact & Results */}
           <ValuePropositions />
 
@@ -120,6 +114,9 @@ export default function HomePage() {
           {/* What Our Clients Say */}
           <TestimonialsSection />
           
+          {/* Instagram */}
+          <InstagramEmbedsSection />
+
           {/* Trusted by Thousands of Families */}
           <CTASection />
         </main>

@@ -45,11 +45,6 @@ const HomepageSeoBlocks = dynamic(
   () => import("@/components/homepage-seo-blocks").then(mod => ({ default: mod.HomepageSeoBlocks })),
   { ssr: true, loading: () => <div className="min-h-[400px] md:min-h-[600px]" /> } // SSR enabled for SEO content
 )
-const CTASection = dynamic(
-  () => import("@/components/cta-section").then(mod => ({ default: mod.CTASection })),
-  { ssr: true, loading: () => <div className="min-h-[150px] md:min-h-[200px]" /> } // SSR enabled for conversion content
-)
-
 export default function HomePage() {
 
   return (
@@ -121,9 +116,6 @@ export default function HomePage() {
 
           {/* Instagram */}
           <InstagramEmbedsSection />
-
-          {/* Trusted by Thousands of Families */}
-          <CTASection />
         </main>
         <Footer />
       </div>

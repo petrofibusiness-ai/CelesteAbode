@@ -938,6 +938,17 @@ body::after {
   display: none;
 }
 
+/* Instagram embed: smooth fade-in when iframe loads (opacity-only, no layout) */
+.instagram-embeds-section .instagram-media iframe {
+  opacity: 0;
+  animation: instagram-embed-fade-in 0.35s ease-out forwards;
+}
+@keyframes instagram-embed-fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
 /* SEO Blocks - Subtle fade in animation */
 @keyframes fadeIn {
   from {

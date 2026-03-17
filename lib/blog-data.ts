@@ -102,6 +102,24 @@ export const blogPosts: BlogPost[] = [
     ogImage: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/forest-walk-villa_hero.avif",
     ogImageAlt: "Forest Walk Villa Ghaziabad | Luxury 4BHK Villa Living on NH-24",
   },
+  {
+    id: 6,
+    title: "Top Upcoming Luxury Real Estate Projects in Noida & Greater Noida for 2026",
+    slug: "upcoming-luxury-projects-noida-greater-noida-2026",
+    excerpt:
+      "A simple, fact‑checked guide to the key upcoming luxury projects in Noida and Greater Noida, how their micro‑markets differ, and what to check before you buy.",
+    category: "Project Shortlist",
+    readTime: "11 min read",
+    date: "March 16, 2026",
+    image: "/hero-.avif",
+    featured: true,
+    views: "0",
+    metaTitle: "Upcoming Luxury Projects in Noida & Greater Noida (2026) | Celeste Abode",
+    metaDescription:
+      "Explore upcoming luxury real estate projects in Noida and Greater Noida, compare key micro‑markets, and see how premium launches stack up for 2026.",
+    ogImage: "/hero-.avif",
+    ogImageAlt: "Upcoming luxury projects in Noida and Greater Noida",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {

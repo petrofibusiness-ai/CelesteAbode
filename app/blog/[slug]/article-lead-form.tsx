@@ -51,10 +51,11 @@ export function ArticleLeadForm() {
   return (
     <div className="bg-gradient-to-br from-[#0f1112] to-[#1a1d1f] rounded-xl p-6 shadow-xl">
       <h3 className="text-lg font-bold text-white mb-2 font-poppins">
-        Get <span className="text-[#CBB27A]">Expert Guidance</span>
+        Talk to a <span className="text-[#CBB27A]">real advisor</span>
       </h3>
       <p className="text-sm text-white/80 mb-5 font-poppins">
-        RERA & property due diligence support
+        Share a few lines about what you&apos;re planning. We&apos;ll respond with clear next steps, project ideas and
+        checks to keep in mind for your situation.
       </p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input

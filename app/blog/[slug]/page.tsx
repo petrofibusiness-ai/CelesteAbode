@@ -14,6 +14,7 @@ import { YamunaExpresswayContent } from "./yamuna-expressway-content";
 import { NoidaVsGreaterNoidaContent } from "./noida-vs-greater-noida-content";
 import { JewarAirportNcrProperty2026Content } from "./jewar-airport-ncr-property-2026-content";
 import { ForestWalkVillaGhaziabadContent } from "./forest-walk-villa-ghaziabad-content";
+import { UpcomingLuxuryProjectsNoidaGreaterNoidaContent } from "./upcoming-luxury-projects-noida-greater-noida-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 
 const ARTICLE_CONTENT: Record<string, ComponentType> = {
@@ -22,6 +23,7 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "noida-vs-greater-noida-investment-2026": NoidaVsGreaterNoidaContent,
   "jewar-airport-ncr-property-buyers-2026": JewarAirportNcrProperty2026Content,
   "forest-walk-villa-ghaziabad-luxury-living-2026": ForestWalkVillaGhaziabadContent,
+  "upcoming-luxury-projects-noida-greater-noida-2026": UpcomingLuxuryProjectsNoidaGreaterNoidaContent,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -194,7 +196,7 @@ export default async function BlogPostPage({
                 src={post.image}
                 alt=""
                 fill
-                className="object-cover object-[center_35%]"
+                className="object-cover object-bottom"
                 priority
                 sizes="100vw"
               />

@@ -288,7 +288,7 @@ export function TestimonialsSection() {
                   scale: isWidgetLoaded ? 1 : 0.98,
                 }}
                 transition={{ duration: 0.5, ease: "easeOut" }}
-                className="elfsight-app-4185bb5e-82e5-45bf-92fc-b41420393094 pb-8 rounded-3xl shadow-lg shadow-primary/15 overflow-hidden"
+                className="elfsight-app-4185bb5e-82e5-45bf-92fc-b41420393094 pb-8"
                 data-elfsight-app-id="4185bb5e-82e5-45bf-92fc-b41420393094"
                 aria-label="Google Reviews Widget for Celeste Abode"
                 style={{ minHeight: isWidgetLoaded ? 'auto' : '500px' }}

@@ -101,6 +101,23 @@ export const metadata: Metadata = {
     "geo.position": "28.6076655;77.4354885",
     "ICBM": "28.6076655, 77.4354885",
   },
+  icons: {
+    icon: [
+      { url: "/favicon_celeste/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon_celeste/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon_celeste/favicon.ico", sizes: "any", type: "image/x-icon" },
+    ],
+    shortcut: "/favicon_celeste/favicon.ico",
+    apple: [
+      { url: "/favicon_celeste/apple-touch-icon.png", sizes: "180x180" },
+    ],
+    other: [
+      {
+        rel: "manifest",
+        url: "/favicon_celeste/site.webmanifest",
+      },
+    ],
+  },
 };
 
 export const viewport: Viewport = {

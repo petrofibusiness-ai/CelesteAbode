@@ -238,6 +238,10 @@
 137. **Types and validation:** `priceMin` and `priceMax` are typed and handled as **numbers** (bigint) across the app: `types/property.ts`, `lib/supabase-property-mapper.ts`, `lib/validation-schemas.ts`, `lib/validation.ts`, admin POST/PATCH/draft routes, and `lib/structured-data.tsx` (PropertySchema). Display price (`priceUnit`) remains text. API and Zod schemas coerce string input from the client to number where needed.
 138. **Max ≥ min check:** When both min and max are set, **max price must be greater than or equal to min price**. Enforced in: PropertyDataSchema and draft schema (Zod refine), `validatePropertyData` (PATCH), and admin form (client-side validation, error under Max Price, Save disabled until valid). If either value is NULL, the comparison is not applied.
 
+### Homepage — Testimonials & Google Reviews widget
+139. **Elfsight reliability:** Simplified Elfsight Google Reviews widget init logic (single, debounced init + proper `elfsight:ready` cleanup) to fix intermittent "widget not showing" issues and added a graceful fallback when reviews fail to load.
+140. **Smoother load:** Updated testimonials section to show a premium loading animation and then fade/slide in the reviews card as one unit so users don’t see the widget building in parts on slower networks.
+
 ---
 
 ## How to use this doc

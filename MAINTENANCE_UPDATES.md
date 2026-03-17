@@ -242,6 +242,19 @@
 139. **Elfsight reliability:** Simplified Elfsight Google Reviews widget init logic (single, debounced init + proper `elfsight:ready` cleanup) to fix intermittent "widget not showing" issues and added a graceful fallback when reviews fail to load.
 140. **Smoother load:** Updated testimonials section to show a premium loading animation and then fade/slide in the reviews card as one unit so users don’t see the widget building in parts on slower networks.
 
+### Homepage — Instagram & header tweaks
+141. **Instagram section:** Added `InstagramEmbedsSection` to the homepage with three Instagram reels displayed side by side on desktop and as a swipeable carousel on mobile. Includes a “Follow us on Instagram” kicker and linked handle `@celesteabode`.
+142. **Instagram styling:** Created luxury-styled cards (rounded, bordered, subtle shadow) for the embeds, using the shared `Carousel` component and a CSS-only fade-in for the iframe so loading looks smooth.
+143. **Header phone cleanup:** Removed the desktop phone capsule and the phone link from the mobile menu footer; the main header CTAs are now navigation and the “Contact Us” capsule on the right.
+144. **Sticky social icons:** Updated the desktop sticky icons so Instagram, Facebook and LinkedIn are in a bottom-left vertical stack; WhatsApp and Call buttons are in a bottom-right vertical stack above the chatbot trigger, with even spacing.
+
+### Blog — Upcoming luxury projects article
+145. **New blog post:** Added `upcoming-luxury-projects-noida-greater-noida-2026` under `/blog`, with metadata configured via `lib/blog-data.ts` and a new content component `UpcomingLuxuryProjectsNoidaGreaterNoidaContent`.
+146. **Content & SEO:** Wrote a 1500–2000 word article in simple language covering Sobha (Noida Extension), Trump Towers Noida, Smart World Elie Saab, CRC Joyous, Eternia Residences, M3M Jacob & Co, Renox Thrive, VVIP Sector 12, VVIP Yamuna Expressway and Irish Platinum. Clear H1/H2/H3 structure, internal links to each live property page, and corridor links for “properties in Noida”, “properties in Greater Noida” and “properties on Yamuna Expressway”.
+147. **In-article hero images:** For each project with a live property page, added a 16:9 hero image block using the same R2 assets (`trump-towers-noida`, `smart-world-es-residencies`, `jacob-and-co`, `crc-joyous`, `renox-thrive`, `eternia-residences`, `vvip`, `irish-platium`, `vvip-yamuna-expressway`), with keyword-based alt text and consistent layout.
+148. **Blog hero image:** Updated the blog hero for this article to use `/hero-.avif` from `public`, aligned bottom within the full-height hero container for consistency with other landing pages.
+149. **Article lead form copy:** Updated `ArticleLeadForm` copy used on all blog posts: heading “Talk to a real advisor” and neutral subtext inviting readers to share what they are planning so advisors can respond with clear next steps, project ideas and checks — suitable for investment, guidance and project-spotlight articles.
+
 ---
 
 ## How to use this doc

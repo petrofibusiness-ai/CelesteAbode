@@ -38,93 +38,85 @@ export function TestimonialsSection() {
 
   // Initialize Elfsight widget after script loads and detect when content is rendered
   useEffect(() => {
-    if (isScriptLoaded && widgetRef.current && typeof window !== 'undefined') {
-      // Function to initialize Elfsight
-      const initializeElfsight = () => {
-        try {
-          // Check if Elfsight is available
-          if (window.Elfsight) {
-            // Try multiple initialization methods
-            if (typeof window.Elfsight.init === 'function') {
-              window.Elfsight.init();
-            }
-            // Also try direct initialization if available
-            if (typeof window.Elfsight.initWidgets === 'function') {
-              window.Elfsight.initWidgets();
-            }
-            // Check if widget container exists in DOM
-            const widgetElement = document.querySelector('.elfsight-app-4185bb5e-82e5-45bf-92fc-b41420393094');
-            if (!widgetElement) {
-              console.warn('Elfsight widget container not found in DOM');
-            }
-          } else {
-            console.warn('Elfsight object not found');
-            return false;
-          }
-          return true;
-        } catch (error) {
-          console.error('Elfsight initialization error:', error);
+    if (!isScriptLoaded || !widgetRef.current || typeof window === "undefined") {
+      return;
+    }
+
+    const WIDGET_SELECTOR = ".elfsight-app-4185bb5e-82e5-45bf-92fc-b41420393094";
+
+    const initializeElfsight = () => {
+      try {
+        if (!window.Elfsight) {
+          console.warn("Elfsight object not found");
           return false;
         }
-      };
 
-      // Function to check if widget content is loaded
-      const checkWidgetLoaded = () => {
-        const widgetElement = document.querySelector('.elfsight-app-4185bb5e-82e5-45bf-92fc-b41420393094') as HTMLElement | null;
-        if (widgetElement) {
-          // Check if widget has actual content (not just empty container)
-          const hasContent = widgetElement.children.length > 0 || 
-                           widgetElement.innerHTML.trim().length > 100 ||
-                           widgetElement.offsetHeight > 50;
-          
-          if (hasContent) {
-            setIsWidgetLoaded(true);
-            return true;
-          }
+        if (typeof window.Elfsight.init === "function") {
+          window.Elfsight.init();
+        } else if (typeof window.Elfsight.initWidgets === "function") {
+          window.Elfsight.initWidgets();
         }
+
+        return true;
+      } catch (error) {
+        console.error("Elfsight initialization error:", error);
         return false;
-      };
+      }
+    };
 
-      // Try immediate initialization
-      let initTimeout = setTimeout(() => {
-        if (!initializeElfsight()) {
-          // Retry after a longer delay if first attempt failed
-          setTimeout(() => {
-            initializeElfsight();
-          }, 500);
-        }
-      }, 300);
+    const checkWidgetLoaded = () => {
+      const widgetElement = document.querySelector(WIDGET_SELECTOR) as HTMLElement | null;
+      if (!widgetElement) return false;
 
-      // Poll for widget content to appear
-      const checkInterval = setInterval(() => {
-        if (checkWidgetLoaded()) {
-          clearInterval(checkInterval);
-        }
-      }, 500);
+      const hasContent =
+        widgetElement.children.length > 0 ||
+        widgetElement.innerHTML.trim().length > 100 ||
+        widgetElement.offsetHeight > 50;
 
-      // Also listen for Elfsight ready event if available
-      if (typeof window !== 'undefined') {
-        window.addEventListener('elfsight:ready', () => {
-          initializeElfsight();
-          setTimeout(() => checkWidgetLoaded(), 1000);
-        });
+      if (hasContent) {
+        // Small delay so the widget can fully render internally
+        window.setTimeout(() => {
+          setIsWidgetLoaded(true);
+        }, 300);
+        return true;
       }
 
-      // Timeout after 10 seconds - assume loaded even if check fails
-      const maxWaitTimeout = setTimeout(() => {
-        setIsWidgetLoaded(true);
-        clearInterval(checkInterval);
-      }, 10000);
+      return false;
+    };
 
-      return () => {
-        clearTimeout(initTimeout);
-        clearInterval(checkInterval);
-        clearTimeout(maxWaitTimeout);
-        if (typeof window !== 'undefined') {
-          window.removeEventListener('elfsight:ready', initializeElfsight);
-        }
-      };
-    }
+    // Single, debounced initialization path
+    const initTimeout = window.setTimeout(() => {
+      initializeElfsight();
+      // Give Elfsight a moment to render, then start checking
+      window.setTimeout(() => {
+        checkWidgetLoaded();
+      }, 500);
+    }, 300);
+
+    // Listen once for Elfsight's own ready event, with a stable handler
+    const handleElfsightReady = () => {
+      initializeElfsight();
+      window.setTimeout(() => {
+        checkWidgetLoaded();
+      }, 500);
+    };
+
+    window.addEventListener("elfsight:ready", handleElfsightReady);
+
+    // Safety timeout: if nothing loaded after 12s, stop showing loader and show fallback
+    const maxWaitTimeout = window.setTimeout(() => {
+      if (!checkWidgetLoaded()) {
+        console.warn("Elfsight widget did not finish loading within expected time");
+        setIsWidgetLoaded(false);
+        setScriptError(true);
+      }
+    }, 12000);
+
+    return () => {
+      window.clearTimeout(initTimeout);
+      window.clearTimeout(maxWaitTimeout);
+      window.removeEventListener("elfsight:ready", handleElfsightReady);
+    };
   }, [isScriptLoaded]);
 
   return (
@@ -154,16 +146,8 @@ export function TestimonialsSection() {
               id="elfsight-platform-script"
               onLoad={() => {
                 setIsScriptLoaded(true);
-                setIsWidgetLoaded(false); // Reset widget loaded state to show loading animation
+                setIsWidgetLoaded(false);
                 setScriptError(false);
-                // Additional initialization after script loads
-                setTimeout(() => {
-                  if (typeof window !== 'undefined' && window.Elfsight) {
-                    if (typeof window.Elfsight.init === 'function') {
-                      window.Elfsight.init();
-                    }
-                  }
-                }, 300);
               }}
               onError={() => {
                 console.error('Failed to load Elfsight platform script');
@@ -297,10 +281,14 @@ export function TestimonialsSection() {
             {isScriptLoaded && !scriptError && (
               <motion.div
                 ref={widgetRef}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: isWidgetLoaded ? 1 : 0, y: isWidgetLoaded ? 0 : 20 }}
-                transition={{ duration: 0.5 }}
-                className="elfsight-app-4185bb5e-82e5-45bf-92fc-b41420393094 pb-8"
+                initial={{ opacity: 0, y: 20, scale: 0.98 }}
+                animate={{
+                  opacity: isWidgetLoaded ? 1 : 0,
+                  y: isWidgetLoaded ? 0 : 20,
+                  scale: isWidgetLoaded ? 1 : 0.98,
+                }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="elfsight-app-4185bb5e-82e5-45bf-92fc-b41420393094 pb-8 rounded-3xl shadow-lg shadow-primary/15 overflow-hidden"
                 data-elfsight-app-id="4185bb5e-82e5-45bf-92fc-b41420393094"
                 aria-label="Google Reviews Widget for Celeste Abode"
                 style={{ minHeight: isWidgetLoaded ? 'auto' : '500px' }}

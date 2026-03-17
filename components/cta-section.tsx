@@ -237,53 +237,6 @@ export function CTASection() {
   return (
     <section className="pt-0 pb-20 bg-background overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full min-w-0">
-        {/* Trust Card */}
-        <motion.div
-          className="bg-white rounded-2xl p-8 shadow-lg mb-12 max-w-3xl mx-auto"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
-          {/* Top Accent Line */}
-          <div className="w-16 h-0.5 bg-[#CBB27A] mx-auto mb-6"></div>
-
-          {/* Trust Content */}
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold text-ink mb-4">
-              Trusted by Thousands of{" "}
-              <span className="text-[#CBB27A]">Families</span>
-            </h2>
-            <p className="text-muted max-w-xl mx-auto font-poppins">
-              Our unwavering commitment to excellence and client satisfaction
-              has made us the preferred choice for discerning real estate
-              investments.
-            </p>
-          </div>
-
-          {/* Trust Points Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="flex items-center gap-3">
-              <Shield className="w-5 h-5 text-[#CBB27A] flex-shrink-0" />
-              <span className="text-sm font-medium text-ink">
-                RERA Compliant
-              </span>
-            </div>
-            <div className="flex items-center gap-3">
-              <CheckCircle className="w-5 h-5 text-[#CBB27A] flex-shrink-0" />
-              <span className="text-sm font-medium text-ink">
-                Legal Verification
-              </span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Users className="w-5 h-5 text-[#CBB27A] flex-shrink-0" />
-              <span className="text-sm font-medium text-ink">
-                Expert Guidance
-              </span>
-            </div>
-          </div>
-        </motion.div>
-
         {/* Frequently Asked Questions */}
         <div className="mb-12">
           <FAQSection />

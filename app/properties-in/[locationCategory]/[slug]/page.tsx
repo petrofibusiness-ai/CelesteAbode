@@ -100,7 +100,11 @@ export async function generateMetadata({
 
   // Validate params
   if (!locationCategory || !slug || locationCategory.trim() === "") {
-    return { title: "Property Not Found" };
+    return {
+      title: "404 Page Not Found | Celeste Abode",
+      description:
+        "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable. Visit our homepage to explore properties and real estate insights.",
+    };
   }
 
   const result = await resolveCanonicalProperty(
@@ -109,7 +113,11 @@ export async function generateMetadata({
   );
 
   if (!result) {
-    return { title: "Property Not Found" };
+    return {
+      title: "404 Page Not Found | Celeste Abode",
+      description:
+        "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable. Visit our homepage to explore properties and real estate insights.",
+    };
   }
 
   const { property, canonicalUrl } = result;

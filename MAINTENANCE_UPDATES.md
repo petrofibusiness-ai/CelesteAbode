@@ -255,6 +255,10 @@
 148. **Blog hero image:** Updated the blog hero for this article to use `/hero-.avif` from `public`, aligned bottom within the full-height hero container for consistency with other landing pages.
 149. **Article lead form copy:** Updated `ArticleLeadForm` copy used on all blog posts: heading “Talk to a real advisor” and neutral subtext inviting readers to share what they are planning so advisors can respond with clear next steps, project ideas and checks — suitable for investment, guidance and project-spotlight articles.
 
+### Technical SEO — favicon + 404 metadata consistency
+150. **SERP favicon fix:** Corrected `site.webmanifest` icon paths to point to `/favicon_celeste/...` assets and added `metadata.icons` in `app/layout.tsx` so crawlers and browsers consistently pick up the site icon (tab, PWA, and Google SERP).
+151. **404 meta consistency:** Standardised “not found” metadata across the site so all 404s return the same title + description as `app/not-found.tsx` (fixed for `properties-in/[locationCategory]`, `properties-in/[locationCategory]/[slug]`, and `blog/[slug]` where missing slugs previously returned “Location/Property/Article Not Found”).
+
 ---
 
 ## How to use this doc

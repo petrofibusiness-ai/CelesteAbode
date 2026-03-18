@@ -102,21 +102,19 @@ export const metadata: Metadata = {
     "ICBM": "28.6076655, 77.4354885",
   },
   icons: {
+    // Keep a root /favicon.ico for crawlers (Google SERP often expects this).
     icon: [
+      { url: "/favicon.ico", sizes: "any", type: "image/x-icon" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      // Back-compat: preserve existing folder paths too.
+      { url: "/favicon_celeste/favicon.ico", sizes: "any", type: "image/x-icon" },
       { url: "/favicon_celeste/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon_celeste/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon_celeste/favicon.ico", sizes: "any", type: "image/x-icon" },
     ],
-    shortcut: "/favicon_celeste/favicon.ico",
-    apple: [
-      { url: "/favicon_celeste/apple-touch-icon.png", sizes: "180x180" },
-    ],
-    other: [
-      {
-        rel: "manifest",
-        url: "/favicon_celeste/site.webmanifest",
-      },
-    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/favicon_celeste/apple-touch-icon.png", sizes: "180x180" }],
+    other: [{ rel: "manifest", url: "/favicon_celeste/site.webmanifest" }],
   },
 };
 
@@ -232,7 +230,11 @@ export default function RootLayout({
         {/* Search Engine Verification */}
         <meta name="msvalidate.01" content="B8F3AC31F09EF60F080EB603250077D8" />
         
-        {/* Favicon from public/favicon_celeste */}
+        {/* Favicons (root favicon helps SERP + crawlers) */}
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
+        <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+        <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+        {/* Back-compat: keep the original folder favicons too */}
         <link rel="icon" href="/favicon_celeste/favicon.ico" type="image/x-icon" sizes="any" />
         <link rel="icon" href="/favicon_celeste/favicon-16x16.png" type="image/png" sizes="16x16" />
         <link rel="icon" href="/favicon_celeste/favicon-32x32.png" type="image/png" sizes="32x32" />

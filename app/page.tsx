@@ -59,7 +59,7 @@ export default function HomePage() {
           {/* Hero section - LCP element - highest priority */}
           <HeroSection />
 
-          {/* The Celeste Philosophy */}
+          {/* Intro */}
           <BrandIntro />
 
           {/* Aesthetic Line Separator */}
@@ -67,23 +67,7 @@ export default function HomePage() {
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
           </div>
 
-          {/* Trust Elements: Key Metrics - The Mark of Expertise: Our Impact & Results */}
-          <ValuePropositions />
-
-          {/* Aesthetic Line Separator */}
-          <div className="w-full flex justify-center py-8">
-            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-          </div>
-          
-          {/* Where We Work - Regional Expertise */}
-          <WhereWeWork />
-
-          {/* Aesthetic Line Separator */}
-          <div className="w-full flex justify-center py-8">
-            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-          </div>
-
-          {/* First Scroll Section: Why Clients Trust Celeste Abode */}
+          {/* Why Choose Celeste Abode */}
           <WhyClientsTrustSection />
 
           {/* Aesthetic Line Separator */}
@@ -91,10 +75,31 @@ export default function HomePage() {
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
           </div>
 
-          {/* Trust Elements: Partner Logos */}
+          {/* Real Estate Advisory Services Across Delhi NCR */}
+          <WhereWeWork />
+
+          {/* Aesthetic Line Separator */}
+          <div className="w-full flex justify-center py-8">
+            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
+          </div>
+
+          {/* Trusted Developers */}
           <BrandCarousel />
 
-          {/* Who We Serve */}
+          {/* Aesthetic Line Separator */}
+          <div className="w-full flex justify-center py-8">
+            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
+          </div>
+
+          {/* Metrics */}
+          <ValuePropositions />
+
+          {/* Aesthetic Line Separator */}
+          <div className="w-full flex justify-center py-8">
+            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
+          </div>
+
+          {/* Buyer Types */}
           <WhoWeServe />
 
           {/* Aesthetic Line Separator */}
@@ -110,7 +115,7 @@ export default function HomePage() {
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
           </div>
           
-          {/* What Our Clients Say */}
+          {/* Reviews */}
           <TestimonialsSection />
 
           {/* Aesthetic Line Separator */}
@@ -118,7 +123,7 @@ export default function HomePage() {
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
           </div>
 
-          {/* Instagram */}
+          {/* Instagram Feed */}
           <InstagramEmbedsSection />
 
           {/* Trusted by Thousands of Families */}

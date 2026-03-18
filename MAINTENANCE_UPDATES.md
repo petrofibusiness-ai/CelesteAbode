@@ -259,6 +259,9 @@
 150. **SERP favicon fix:** Corrected `site.webmanifest` icon paths to point to `/favicon_celeste/...` assets and added `metadata.icons` in `app/layout.tsx` so crawlers and browsers consistently pick up the site icon (tab, PWA, and Google SERP).
 151. **404 meta consistency:** Standardised “not found” metadata across the site so all 404s return the same title + description as `app/not-found.tsx` (fixed for `properties-in/[locationCategory]`, `properties-in/[locationCategory]/[slug]`, and `blog/[slug]` where missing slugs previously returned “Location/Property/Article Not Found”).
 
+### Homepage — section flow reorder
+152. **New structure:** Reordered homepage content flow to match the requested sequence: Hero, Intro, Why Choose Celeste Abode, Real Estate Advisory Services Across Delhi NCR, Trusted Developers, Metrics, Buyer Types, SEO Blocks, Reviews, Instagram Feed, Footer CTA, Footer.
+
 ---
 
 ## How to use this doc

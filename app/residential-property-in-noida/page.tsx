@@ -186,8 +186,15 @@ export default async function ResidentialPropertyInNoidaPage() {
                 <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
                   <div className={CONTENT_BLOCK_CLASS}>
                     <p>
-                      A lot of buyers start the search for residential property in Noida on portals. Three weekends later, they usually feel
-                      more confused than informed. Too many listings. Too little clarity on what actually holds value.
+                      A lot of buyers start the search for{" "}
+                      <Link
+                        href="/properties-in-noida"
+                        className="text-[#CBB27A] font-semibold hover:underline"
+                      >
+                        residential property in Noida
+                      </Link>{" "}
+                      on portals. Three weekends later, they usually feel more confused than informed. Too many listings. Too
+                      little clarity on what actually holds value.
                     </p>
                     <p>
                       Noida, however, is one of the few NCR markets where planning still shows on the ground. Sector layouts make sense. Roads
@@ -204,11 +211,7 @@ export default async function ResidentialPropertyInNoidaPage() {
 
                     <h3>Apartments and Flats in Noida</h3>
                     <p>
-                      Most demand sits in 2 and 3 BHK apartments. Sectors 75, 76, 78, and 137 continue to attract end users because metro access
-                      already exists, not promised. Prices here range between ₹60 lakh and ₹1.5 crore. That band works for families upgrading
-                      from rented housing. Move towards the Expressway and the equation changes. Sectors 128, 150, and 94 carry larger layouts
-                      and stronger developer names. Entry starts closer to ₹2 crore, but what you get in terms of space and planning is noticeably
-                      better.
+                      Most demand sits in <Link href="/flats-for-sale-in-noida" className="text-[#CBB27A] font-semibold hover:underline">2 and 3 BHK flats</Link>. Sectors 75, 76, 78, and 137 continue to attract end users because metro access already exists, not promised. Prices here range between ₹60 lakh and ₹1.5 crore. That band works for families upgrading from rented housing. Move towards the Expressway and the equation changes. Sectors 128, 150, and 94 carry larger layouts and stronger developer names. Entry starts closer to ₹2 crore, but what you get in terms of space and planning is noticeably better.
                     </p>
                     <h3>Independent Houses and Villas in Noida</h3>
                     <p>
@@ -259,7 +262,8 @@ export default async function ResidentialPropertyInNoidaPage() {
                     <h3>End-to-End Home Buying Assistance</h3>
                     <p>
                       The process stretches from first visit to final possession. That includes documentation, loan coordination, and follow-ups
-                      that most buyers do not anticipate. Handled properly, it saves time. Handled poorly, it delays everything.
+                      that most buyers do not anticipate. Handled properly, it saves time. Handled poorly, it delays everything. For a verified
+                      shortlist, <Link href="/contact" className="text-[#CBB27A] font-semibold hover:underline">contact us</Link>.
                     </p>
                   </div>
                 </div>
@@ -280,7 +284,7 @@ export default async function ResidentialPropertyInNoidaPage() {
                   <div className={CONTENT_BLOCK_CLASS}>
                     <p>
                       Budget defines the starting point, not the final decision. What matters more is what that budget actually gets you on the
-                      ground.
+                      ground. For verified options, see <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">property in Noida</Link>.
                     </p>
                     <h3>Affordable Residential Property in Noida</h3>
                     <p>
@@ -317,7 +321,7 @@ export default async function ResidentialPropertyInNoidaPage() {
               <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden border border-gray-200">
                 <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
                   <div className={CONTENT_BLOCK_CLASS}>
-                    <p>Luxury in Noida is no longer defined by brochures. It shows on site.</p>
+                    <p>Luxury in Noida is no longer defined by brochures. It shows on site in <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">luxury property in Noida</Link>.</p>
                     <h3>Luxury Apartments in Prime Noida Sectors</h3>
                     <p>
                       Sector 150 leads demand. Prices range from ₹12,000 to ₹15,000 per sq ft. Open spaces, lower density, and better air
@@ -348,7 +352,13 @@ export default async function ResidentialPropertyInNoidaPage() {
                     <p>A wrong location cannot be fixed later. Buyers often realise this too late.</p>
                     <h3>Residential Property in Noida Extension</h3>
                     <p>
-                      Greater Noida West has stabilised. Prices still remain accessible, but the area now functions as a proper residential zone.
+                      <Link
+                        href="/properties-in-greater-noida"
+                        className="text-[#CBB27A] font-semibold hover:underline"
+                      >
+                        Properties in Greater Noida
+                      </Link>{" "}
+                      have stabilised. Prices still remain accessible, but the area now functions as a proper residential zone.
                       Projects nearing possession hold the strongest value. Delayed inventory still exists, so selection matters.
                     </p>
                     <h3>Residential Property Near Noida Expressway</h3>
@@ -385,6 +395,7 @@ export default async function ResidentialPropertyInNoidaPage() {
                       growth happened before full infrastructure completion. That leaves room for further upside.
                     </p>
                     <p>Prices in parts of Noida have nearly doubled since 2020, and that growth happened before major infrastructure like Jewar Airport becomes fully operational.</p>
+                    <p>Capital-focused options also improve with planning-led corridors; see <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">Greater Noida properties</Link>.</p>
                     <h3>Growing Demand for Residential Housing</h3>
                     <p>
                       Noida&apos;s job market continues to expand. IT parks, offices, and educational institutions bring consistent demand. End-user
@@ -408,7 +419,7 @@ export default async function ResidentialPropertyInNoidaPage() {
                 <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
                   <div className={CONTENT_BLOCK_CLASS}>
                     <p>
-                      Every buyer comes with a different requirement. Budget alone does not define the shortlist.
+                      Every buyer comes with a different requirement. Budget alone does not define the shortlist. Book an <Link href="/advisory-session" className="text-[#CBB27A] font-semibold hover:underline">advisory session</Link> and we map options accordingly.
                     </p>
                     <h3>Understanding Your Home Buying Requirements</h3>
                     <p>
@@ -445,7 +456,7 @@ export default async function ResidentialPropertyInNoidaPage() {
                   <div className={CONTENT_BLOCK_CLASS}>
                     <p>
                       Most buyers do not need more options. They need better judgement. Celeste Abode approaches this as a consultant, not a
-                      broker. That means some projects get filtered out before the buyer even sees them.
+                      broker. That means some projects get filtered out before the buyer even sees them. Learn about our <Link href="/real-estate-consulting-services" className="text-[#CBB27A] font-semibold hover:underline">real estate consulting services</Link>.
                     </p>
                     <h3>Experienced Real Estate Consultants</h3>
                     <p>

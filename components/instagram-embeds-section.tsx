@@ -11,9 +11,9 @@ import {
 } from "@/components/ui/carousel"
 
 const POSTS = [
-  "https://www.instagram.com/reel/DOc3x8tD6kR/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DWEqOcmj4GZ/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DV7tAlxAFjr/?utm_source=ig_embed&utm_campaign=loading",
   "https://www.instagram.com/reel/DVM-jPdgP0X/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DUcDc1XFZ9Y/?utm_source=ig_embed&utm_campaign=loading",
 ] as const
 
 export function InstagramEmbedsSection() {

@@ -107,10 +107,6 @@ export const metadata: Metadata = {
       { url: "/favicon.ico", sizes: "any", type: "image/x-icon" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      // Back-compat: preserve existing folder paths too.
-      { url: "/favicon_celeste/favicon.ico", sizes: "any", type: "image/x-icon" },
-      { url: "/favicon_celeste/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon_celeste/favicon-32x32.png", sizes: "32x32", type: "image/png" },
     ],
     shortcut: "/favicon.ico",
     apple: [{ url: "/favicon_celeste/apple-touch-icon.png", sizes: "180x180" }],
@@ -230,16 +226,7 @@ export default function RootLayout({
         {/* Search Engine Verification */}
         <meta name="msvalidate.01" content="B8F3AC31F09EF60F080EB603250077D8" />
         
-        {/* Favicons (root favicon helps SERP + crawlers) */}
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="any" />
-        <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
-        <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
-        {/* Back-compat: keep the original folder favicons too */}
-        <link rel="icon" href="/favicon_celeste/favicon.ico" type="image/x-icon" sizes="any" />
-        <link rel="icon" href="/favicon_celeste/favicon-16x16.png" type="image/png" sizes="16x16" />
-        <link rel="icon" href="/favicon_celeste/favicon-32x32.png" type="image/png" sizes="32x32" />
-        <link rel="apple-touch-icon" href="/favicon_celeste/apple-touch-icon.png" sizes="180x180" />
-        <link rel="manifest" href="/favicon_celeste/site.webmanifest" />
+        {/* Favicons: rendered by Next.js metadata.icons (single source of truth). */}
         <meta name="msapplication-TileImage" content="/favicon_celeste/android-chrome-192x192.png" />
         <meta name="msapplication-TileColor" content="#000000" />
       </head>

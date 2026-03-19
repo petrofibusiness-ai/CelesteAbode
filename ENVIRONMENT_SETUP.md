@@ -11,7 +11,7 @@ EMAIL_PASS=your-16-character-app-password
 ADMIN_EMAIL=your-email@gmail.com
 
 # Phone Number
-PHONE_NUMBER=+919818735258
+PHONE_NUMBER=+919910906306
 
 # Website Configuration
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
@@ -54,7 +54,7 @@ NEXT_PUBLIC_SITE_NAME=Celeste Abode
 
 ### 3. Phone Number
 - Update PHONE_NUMBER with your business phone number
-- Format: +919818735258 (with country code)
+- Format: +919910906306 (with country code)
 
 ### 4. Website Configuration
 - **NEXT_PUBLIC_SITE_URL**: Your website URL

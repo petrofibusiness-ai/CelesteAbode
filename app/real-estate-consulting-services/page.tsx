@@ -499,7 +499,7 @@ export default function ServicesPage() {
               </OpenConsultationTrigger>
               <div className="w-16 h-px bg-gray-700 rounded-full"></div>
               <a
-                href="https://wa.me/919818735258"
+                href="https://wa.me/919910906306"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex flex-col items-center text-[#000000] hover:text-gray-700 hover:scale-105 transition-all duration-200 cursor-pointer p-2 rounded-lg hover:bg-white/10"
@@ -517,7 +517,7 @@ export default function ServicesPage() {
               </a>
               <div className="w-16 h-px bg-gray-700 rounded-full"></div>
               <a
-                href="https://wa.me/919818735258"
+                href="https://wa.me/919910906306"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex flex-col items-center text-[#000000] hover:text-gray-700 hover:scale-105 transition-all duration-200 cursor-pointer p-2 rounded-lg hover:bg-white/10"
@@ -568,7 +568,7 @@ export default function ServicesPage() {
                     Schedule Consultation
                   </OpenConsultationTrigger>
                   <a
-                    href="https://wa.me/919818735258"
+                    href="https://wa.me/919910906306"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="bg-black text-white px-5 py-2.5 rounded-full font-medium hover:bg-black/90 transition-all duration-200 text-sm w-full sm:w-auto text-center shadow-lg hover:shadow-xl hover:scale-105 active:scale-[0.98]"

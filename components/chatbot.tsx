@@ -212,7 +212,7 @@ export function Chatbot() {
 
      if (option.startsWith("📞 Talk Now")) {
        if (typeof window !== "undefined") {
-         const phoneNumber = (process.env.NEXT_PUBLIC_SALES_PHONE as string) || "+919818735258";
+         const phoneNumber = (process.env.NEXT_PUBLIC_SALES_PHONE as string) || "+919910906306";
          window.location.href = `tel:${phoneNumber}`;
        }
        return;
@@ -227,8 +227,8 @@ export function Chatbot() {
      const digits = value.trim().replace(/\D/g, '');
      
      // Basic format check - must be 10-12 digits
-     // 10 digits: local number (e.g., 9818735258)
-     // 11-12 digits: with country code (e.g., +91 9818735258 = 12 digits, +1 5551234567 = 11 digits)
+     // 10 digits: local number (e.g., 9910906306)
+     // 11-12 digits: with country code (e.g., +91 9910906306 = 12 digits, +1 5551234567 = 11 digits)
      if (digits.length < 10 || digits.length > 12) {
        return false;
      }
@@ -754,7 +754,7 @@ export function Chatbot() {
 
       {/* Right: WhatsApp and Call Buttons - Above Chatbot */}
       <motion.a
-        href="https://wa.me/919818735258"
+        href="https://wa.me/919910906306"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0, opacity: 0 }}
@@ -766,7 +766,7 @@ export function Chatbot() {
         </svg>
       </motion.a>
       <motion.a
-        href="tel:+919818735258"
+        href="tel:+919910906306"
         initial={{ scale: 0, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0, opacity: 0 }}

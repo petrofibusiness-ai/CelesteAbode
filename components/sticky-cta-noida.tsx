@@ -16,11 +16,11 @@ export default function StickyCTANoida() {
         </p>
         <div className="space-y-2">
           <a
-            href="tel:+919818735258"
+            href="tel:+919910906306"
             className="flex items-center gap-2 text-sm font-medium text-[#CBB27A] hover:text-[#CBB27A]/80 transition-colors font-poppins"
           >
             <Phone className="w-4 h-4" />
-            <span>+91 9818735258</span>
+            <span>+91 9910906306</span>
           </a>
           <div className="flex items-center gap-2 text-sm font-medium text-[#CBB27A] font-poppins">
             <Mail className="w-4 h-4" />

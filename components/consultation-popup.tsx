@@ -242,7 +242,7 @@ export function ConsultationPopup({ isOpen, onClose }: ConsultationPopupProps) {
                       className={`w-full px-3 py-2.5 rounded-lg border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#CBB27A] focus:border-transparent text-sm ${
                         phoneError ? "border-red-500" : "border-border"
                       }`}
-                      placeholder="e.g. +91 9818735258"
+                      placeholder="e.g. +91 9910906306"
                     />
                     {phoneError && <p className="mt-1.5 text-sm text-red-600">{phoneError}</p>}
                   </div>
@@ -306,7 +306,7 @@ export function ConsultationPopup({ isOpen, onClose }: ConsultationPopupProps) {
                   <p className="text-center text-xs text-muted-foreground">
                     Prefer to chat?{" "}
                     <a
-                      href="https://wa.me/919818735258"
+                      href="https://wa.me/919910906306"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-[#CBB27A] hover:underline font-medium"

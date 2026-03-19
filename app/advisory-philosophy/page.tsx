@@ -416,7 +416,7 @@ export default function PhilosophyPage() {
                   variant="outline"
                   size="lg"
                   className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 py-2.5 text-base rounded-full w-full sm:w-auto m-0 shrink-0"
-                  onClick={() => (window.location.href = "tel:+919818735258")}
+                  onClick={() => (window.location.href = "tel:+919910906306")}
                 >
                   Talk to Our Expert Now
                 </Button>

@@ -161,7 +161,7 @@ Premium luxury real estate consulting in Noida, Gurugram, and Delhi NCR. Data-dr
 - ✅ Logo: https://www.celesteabode.com/logoceleste.avif
 - ✅ Description: Comprehensive service description
 - ✅ Address: 615, 6th Floor, Galaxy Blue Sapphire Plaza, Sector 4, Greater Noida (West), U.P - 201309
-- ✅ Contact: +91-9818735258
+- ✅ Contact: +91-9910906306
 - ✅ Area Served: Noida, Greater Noida, Gurugram, Delhi, Ghaziabad, Yamuna Expressway, Noida Expressway
 - ✅ Price Range: ₹50 Lakhs - ₹5 Crores
 - ✅ Service Types: 10 service types listed

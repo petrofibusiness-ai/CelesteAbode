@@ -36,8 +36,8 @@ export function LocationContactForm({
     const digits = trimmed.replace(/\D/g, '');
     
     // Basic format check - must be 10-12 digits
-    // 10 digits: local number (e.g., 9818735258)
-    // 11-12 digits: with country code (e.g., +91 9818735258 = 12 digits, +1 5551234567 = 11 digits)
+    // 10 digits: local number (e.g., 9910906306)
+    // 11-12 digits: with country code (e.g., +91 9910906306 = 12 digits, +1 5551234567 = 11 digits)
     if (digits.length < 10 || digits.length > 12) {
       return false;
     }
@@ -45,7 +45,7 @@ export function LocationContactForm({
     // If 11 digits and doesn't start with 0, must start with + (country code required)
     // 11 digits starting with 0 are allowed without + (e.g., 09876543210)
     // 11 digits not starting with 0 need + (e.g., +1 5551234567)
-    // 12 digits always need + (e.g., +91 9818735258)
+    // 12 digits always need + (e.g., +91 9910906306)
     if (digits.length === 11 && !digits.startsWith('0') && !trimmed.startsWith('+')) {
       return false;
     }

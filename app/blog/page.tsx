@@ -369,13 +369,13 @@ export default function BlogPage() {
 
                     <div className="mt-6 pt-6 border-t border-white/10 space-y-3">
                       <a
-                        href="tel:+919818735258"
+                        href="tel:+919910906306"
                         className="flex items-center gap-3 text-white/90 hover:text-[#CBB27A] transition-colors text-sm font-poppins group"
                       >
                         <div className="w-9 h-9 bg-[#CBB27A]/20 rounded-full flex items-center justify-center group-hover:bg-[#CBB27A]/30 transition-colors">
                           <Phone className="w-4 h-4 text-[#CBB27A]" />
                         </div>
-                        <span>+91 9818735258</span>
+                        <span>+91 9910906306</span>
                       </a>
                       <a
                         href="mailto:support@celesteabode.com"

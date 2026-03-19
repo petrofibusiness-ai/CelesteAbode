@@ -814,7 +814,7 @@ robots: {
   },
   "contactPoint": {
     "@type": "ContactPoint",
-    "telephone": "+91-9818735258",
+    "telephone": "+91-9910906306",
     "contactType": "Customer Service",
     "areaServed": ["IN"],
     "availableLanguage": ["English", "Hindi"]
@@ -932,7 +932,7 @@ robots: {
 - **SEO Impact:** Critical for local SEO and Google My Business
 
 **contactPoint: ContactPoint Object**
-- **telephone:** "+91-9818735258"
+- **telephone:** "+91-9910906306"
 - **contactType:** "Customer Service"
 - **areaServed:** ["IN"] (India)
 - **availableLanguage:** ["English", "Hindi"]

@@ -103,11 +103,11 @@ export function ArticleLeadForm() {
       </form>
       <div className="mt-5 pt-5 border-t border-white/10 space-y-3">
         <a
-          href="tel:+919818735258"
+          href="tel:+919910906306"
           className="flex items-center gap-3 text-white/90 hover:text-[#CBB27A] text-sm font-poppins"
         >
           <Phone className="w-4 h-4 shrink-0" />
-          +91 9818735258
+          +91 9910906306
         </a>
         <a
           href="mailto:support@celesteabode.com"

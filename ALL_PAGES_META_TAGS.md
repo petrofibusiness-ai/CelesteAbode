@@ -264,7 +264,7 @@ Contact Us - Real Estate Consultation Noida | Celeste Abode
 
 #### Meta Description
 ```
-Get in touch with Celeste Abode for luxury property consultation in Noida, Greater Noida, and Delhi NCR. Call +91 9818735258 or visit our office in Sector 4, Greater Noida (West). Expert real estate advisors available 24/7.
+Get in touch with Celeste Abode for luxury property consultation in Noida, Greater Noida, and Delhi NCR. Call +91 9910906306 or visit our office in Sector 4, Greater Noida (West). Expert real estate advisors available 24/7.
 ```
 - **Length:** 198 characters
 
@@ -279,7 +279,7 @@ Get in touch with Celeste Abode for luxury property consultation in Noida, Great
 #### Open Graph Tags
 ```html
 <meta property="og:title" content="Contact Us - Real Estate Consultation Noida | Celeste Abode" />
-<meta property="og:description" content="Get in touch for luxury property consultation. Call +91 9818735258 or visit Sector 4, Greater Noida (West)." />
+<meta property="og:description" content="Get in touch for luxury property consultation. Call +91 9910906306 or visit Sector 4, Greater Noida (West)." />
 <meta property="og:url" content="https://www.celesteabode.com/contact" />
 <meta property="og:locale" content="en_IN" />
 <meta property="og:type" content="website" />
@@ -289,7 +289,7 @@ Get in touch with Celeste Abode for luxury property consultation in Noida, Great
 ```html
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="Contact Us - Real Estate Consultation Noida" />
-<meta name="twitter:description" content="Get in touch for luxury property consultation. Call +91 9818735258." />
+<meta name="twitter:description" content="Get in touch for luxury property consultation. Call +91 9910906306." />
 ```
 
 #### Canonical URL

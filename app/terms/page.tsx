@@ -265,7 +265,7 @@ export default function TermsPage() {
                 </p>
                 <div className="bg-muted/30 p-6 rounded-lg">
                   <p><strong>Email:</strong> <ObfuscatedEmailText /></p>
-                  <p><strong>Phone:</strong> +91 9818735258</p>
+                  <p><strong>Phone:</strong> +91 9910906306</p>
                   <p><strong>Address:</strong> Celeste Abode, 615, 6th Floor, Galaxy Blue Sapphire Plaza, Sector 4, Greater Noida (West), U.P - 201309.</p>
                 </div>
               </div>

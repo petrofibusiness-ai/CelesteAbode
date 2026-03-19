@@ -487,7 +487,7 @@ export default function CommercialAndResidentialPropertyInLucknowPage() {
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a
-                  href="tel:+919818735258"
+                  href="tel:+919910906306"
                   className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full font-medium font-poppins border-2 border-white/80 text-white hover:bg-white/10 transition-colors min-w-[240px] sm:min-w-[260px]"
                 >
                   <Phone className="w-5 h-5" />

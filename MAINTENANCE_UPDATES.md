@@ -70,12 +70,12 @@
 36. **Flats FAQs:** All four answers updated to full advisory copy — average price by sector/config (Greater Noida West 2 BHK, mid-Noida, Expressway 3 BHK), best sector by goal (budget/families/investors/premium), investment case (127% rise, fundamentals, zone/developer selection), how to choose (RERA, delivery record, payment milestones, site visit, agreement review, title/approvals, comparables; Celeste Abode checks).
 
 ### Social media integration (sticky + mobile menu)
-37. **Desktop — left-side sticky:** Instagram, LinkedIn, and WhatsApp buttons added as a sticky vertical stack on the **left** side of the viewport, vertically centered (`fixed left-4 sm:left-6 top-1/2 -translate-y-1/2`). Order top to bottom: Instagram (gradient brand colors), LinkedIn (#0A66C2), WhatsApp (#25D366). Links: instagram.com/celesteabode, linkedin.com/company/celeste-abode, wa.me/919818735258. **Hidden on mobile** (`hidden md:flex`).
+37. **Desktop — left-side sticky:** Instagram, LinkedIn, and WhatsApp buttons added as a sticky vertical stack on the **left** side of the viewport, vertically centered (`fixed left-4 sm:left-6 top-1/2 -translate-y-1/2`). Order top to bottom: Instagram (gradient brand colors), LinkedIn (#0A66C2), WhatsApp (#25D366). Links: instagram.com/celesteabode, linkedin.com/company/celeste-abode, wa.me/919910906306. **Hidden on mobile** (`hidden md:flex`).
 38. **Desktop — right-side unchanged:** Call (green, tel link) and Chatbot (Property Advisor) buttons remain sticky on the right corner; no social icons on the right.
 39. **Mobile — in menu bar:** On viewports below `md`, the three social links (Instagram, LinkedIn, WhatsApp) appear **inside the header mobile menu**, directly **below "Contact Us"**, in a **horizontal row** with brand-colored circular icons. Tapping a link opens the target and closes the menu. Implemented in `components/header.tsx` (mobile nav) and `components/chatbot.tsx` (desktop sticky left stack).
 
 ### Header capsules (desktop)
-40. **Phone capsule — left:** Desktop-only capsule on the **left** side of the header: mobile number (+91 9818735258) in a **black background**, **gold border** (`border-2 border-[#CBB27A]`), rounded-full, `tel:` link. Not shown on mobile.
+40. **Phone capsule — left:** Desktop-only capsule on the **left** side of the header: mobile number (+91 9910906306) in a **black background**, **gold border** (`border-2 border-[#CBB27A]`), rounded-full, `tel:` link. Not shown on mobile.
 41. **Capsule width and height:** Both header capsules (phone left, Contact Us right) use the **same width** (`w-[180px] min-w-[180px]`) and **same height** (`h-10` = 40px); content centered with flex. Contact Us capsule remains gold gradient on the right.
 42. **Contact Us capsule — black text:** "Contact Us" label in the right capsule changed from white to **black text** (`text-black`) for contrast on the gold gradient background.
 
@@ -111,7 +111,7 @@
 62. **BingSiteAuth.xml:** Created `public/BingSiteAuth.xml` with Bing verification code for file-based verification method (alternative to meta tag).
 
 ### Structured data — alignment & cleanup
-63. **OrganizationSchema:** Phone format updated to `+91 9818735258`; sameAs restricted to Instagram and LinkedIn only (removed Facebook, Twitter); Lucknow added to areaServed.
+63. **OrganizationSchema:** Phone format updated to `+91 9910906306`; sameAs restricted to Instagram and LinkedIn only (removed Facebook, Twitter); Lucknow added to areaServed.
 64. **LocalBusinessSchema:** Added `addressRegion: "Uttar Pradesh"`; geo coordinates aligned to `28.6076655, 77.4354885` (same as metadata.ts); added `Noida Expressway` and `Lucknow` to areaServed.
 65. **BrandSchema:** sameAs restricted to Instagram and LinkedIn; aggregateRating removed (no verified reviews to display).
 66. **Slogan & description alignment:** All schemas (Organization, WebSite, LocalBusiness, Brand) and `public/llms.txt` updated to use canonical slogan and description matching `app/metadata.ts` and homepage hero copy.

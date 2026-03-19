@@ -646,7 +646,7 @@ Our unwavering commitment to excellence and client satisfaction has made us the 
 - **H2 - Headline:** "Ready to find your masterpiece?"
 - **Description:** "Connect with our expert advisors for personalized guidance and exclusive property insights. We're here to help you make informed decisions about your next real estate investment."
 - **Contact Information:**
-  - **Phone:** +91 9818735258 (clickable tel: link)
+  - **Phone:** +91 9910906306 (clickable tel: link)
   - **Email:** support@celesteabode.com (obfuscated email component)
 
 **Right Column - Contact Form:**
@@ -772,7 +772,7 @@ Best Real Estate Consultant for Properties in Delhi NCR
 
 ## CONTACT INFORMATION
 
-**Phone:** +91 9818735258  
+**Phone:** +91 9910906306  
 **Email:** support@celesteabode.com
 
 ---
@@ -784,7 +784,7 @@ Best Real Estate Consultant for Properties in Delhi NCR
 - Name: Celeste Abode
 - Legal Name: Celeste Abode Private Limited
 - Address: 615, 6th Floor, Galaxy Blue Sapphire Plaza, Sector 4, Greater Noida (West), U.P - 201309, India
-- Phone: +91-9818735258
+- Phone: +91-9910906306
 - Area Served: Noida, Greater Noida, Gurugram, Delhi, Ghaziabad, Yamuna Expressway, Noida Expressway
 
 ### WebSite Schema

@@ -517,7 +517,7 @@ other: {
   },
   "contactPoint": {
     "@type": "ContactPoint",
-    "telephone": "+91-9818735258",
+    "telephone": "+91-9910906306",
     "contactType": "Customer Service",
     "areaServed": ["IN"],
     "availableLanguage": ["English", "Hindi"]
@@ -584,7 +584,7 @@ other: {
   "@type": "RealEstateAgent",
   "name": "Celeste Abode",
   "url": "https://www.celesteabode.com",
-  "telephone": "+91-9818735258",
+  "telephone": "+91-9910906306",
   "priceRange": "₹50 Lakhs - ₹5 Crores",
   "address": {
     "@type": "PostalAddress",

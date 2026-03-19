@@ -32,8 +32,8 @@ export function CTASection() {
     const digits = trimmed.replace(/\D/g, '');
     
     // Basic format check - must be 10-12 digits
-    // 10 digits: local number (e.g., 9818735258)
-    // 11-12 digits: with country code (e.g., +91 9818735258 = 12 digits, +1 5551234567 = 11 digits)
+    // 10 digits: local number (e.g., 9910906306)
+    // 11-12 digits: with country code (e.g., +91 9910906306 = 12 digits, +1 5551234567 = 11 digits)
     if (digits.length < 10 || digits.length > 12) {
       return false;
     }
@@ -41,7 +41,7 @@ export function CTASection() {
     // If 11 digits and doesn't start with 0, must start with + (country code required)
     // 11 digits starting with 0 are allowed without + (e.g., 09876543210)
     // 11 digits not starting with 0 need + (e.g., +1 5551234567)
-    // 12 digits always need + (e.g., +91 9818735258)
+    // 12 digits always need + (e.g., +91 9910906306)
     if (digits.length === 11 && !digits.startsWith('0') && !trimmed.startsWith('+')) {
       return false;
     }
@@ -273,13 +273,13 @@ export function CTASection() {
           {/* Contact Information */}
               <div className="pt-4 space-y-4">
             <a
-              href="tel:+919818735258"
+              href="tel:+919910906306"
                   className="flex items-center gap-3 text-ink hover:text-[#CBB27A] transition-colors group"
             >
                   <div className="w-10 h-10 rounded-full bg-[#CBB27A]/10 flex items-center justify-center group-hover:bg-[#CBB27A]/20 transition-colors">
                     <Phone className="w-5 h-5 text-[#CBB27A]" />
                   </div>
-                  <span className="font-medium">+91 9818735258</span>
+                  <span className="font-medium">+91 9910906306</span>
             </a>
             <div className="flex items-center gap-3 text-ink hover:text-[#CBB27A] transition-colors group">
               <div className="w-10 h-10 rounded-full bg-[#CBB27A]/10 flex items-center justify-center group-hover:bg-[#CBB27A]/20 transition-colors">

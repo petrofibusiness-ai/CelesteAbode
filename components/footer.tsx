@@ -37,7 +37,7 @@ export function Footer() {
               <div className="flex items-center gap-3 group cursor-pointer">
                 <Phone className="w-5 h-5 text-white group-hover:text-[#CBB27A] transition-colors" />
                 <span className="text-sm text-white group-hover:text-[#CBB27A] transition-colors">
-                  +91 9818735258
+                  +91 9910906306
                 </span>
               </div>
               <ObfuscatedEmail
@@ -173,7 +173,7 @@ export function Footer() {
                   <Instagram className="w-4 h-4 text-white group-hover:text-[#CBB27A] transition-colors" />
                 </Link>
                 <Link
-                  href="https://wa.me/919818735258"
+                  href="https://wa.me/919910906306"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-8 h-8 rounded-full flex items-center justify-center hover:scale-110 transition-transform duration-200"

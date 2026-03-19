@@ -529,14 +529,14 @@ export default function VillasInGreaterNoidaPage() {
               {/* Contact Information */}
               <div className="pt-4 space-y-4">
                 <motion.a
-                  href="tel:+919818735258"
+                  href="tel:+919910906306"
                   className="flex items-center gap-3 text-primary hover:text-[#CBB27A] transition-colors group"
                   whileHover={{ x: 5 }}
                 >
                   <div className="w-10 h-10 rounded-full bg-[#CBB27A]/10 flex items-center justify-center group-hover:bg-[#CBB27A]/20 transition-colors">
                     <Phone className="w-5 h-5 text-[#CBB27A]" />
                   </div>
-                  <span className="font-medium">+91 9818735258</span>
+                  <span className="font-medium">+91 9910906306</span>
                 </motion.a>
                 <motion.div 
                   className="flex items-center gap-3 text-primary hover:text-[#CBB27A] transition-colors group"

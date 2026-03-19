@@ -703,7 +703,7 @@ function createConfirmationEmailTemplate(
   };
 
   const title = titles[type] || titles.contact;
-  const phoneNumber = process.env.PHONE_NUMBER || '+91 9818735258';
+  const phoneNumber = process.env.PHONE_NUMBER || '+91 9910906306';
 
   return `
     <!DOCTYPE html>

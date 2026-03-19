@@ -13,8 +13,8 @@ function isValidPhoneNumber(phone: string): boolean {
   const digits = phone.trim().replace(/\D/g, '');
   
   // Basic format check - must be 10-12 digits
-  // 10 digits: local number (e.g., 9818735258)
-  // 11-12 digits: with country code (e.g., +91 9818735258 = 12 digits, +1 5551234567 = 11 digits)
+  // 10 digits: local number (e.g., 9910906306)
+  // 11-12 digits: with country code (e.g., +91 9910906306 = 12 digits, +1 5551234567 = 11 digits)
   if (digits.length < 10 || digits.length > 12) {
     return false;
   }

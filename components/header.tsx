@@ -487,7 +487,7 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
                   <Linkedin className="w-5 h-5" />
                 </a>
                 <a
-                  href="https://wa.me/919818735258"
+                  href="https://wa.me/919910906306"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-11 h-11 rounded-full bg-[#25D366] text-white flex items-center justify-center hover:bg-[#20bd5a] transition-colors"

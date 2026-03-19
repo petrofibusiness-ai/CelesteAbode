@@ -110,7 +110,7 @@ robots: {
 **Implementation:**
 - ✅ Organization name, URL, logo
 - ✅ Complete address (615, 6th Floor, Galaxy Blue Sapphire Plaza, Sector 4, Greater Noida (West), U.P - 201309)
-- ✅ Contact point with phone (+91-9818735258)
+- ✅ Contact point with phone (+91-9910906306)
 - ✅ Social media profiles (Facebook, LinkedIn, Twitter, Instagram)
 - ✅ Area served (Noida, Greater Noida, Gurugram, Delhi, Ghaziabad, Yamuna Expressway, Noida Expressway)
 - ✅ Price range (₹50 Lakhs - ₹5 Crores)
@@ -359,7 +359,7 @@ Crawl-delay: 1
 - Country: India
 
 **Contact:**
-- Phone: +91-9818735258
+- Phone: +91-9910906306
 - Email: support@celesteabode.com
 
 **Business Hours:**

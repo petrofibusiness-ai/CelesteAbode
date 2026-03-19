@@ -50,8 +50,8 @@ export default function ContactPage() {
     const digits = trimmed.replace(/\D/g, '');
     
     // Basic format check - must be 10-12 digits
-    // 10 digits: local number (e.g., 9818735258)
-    // 11-12 digits: with country code (e.g., +91 9818735258 = 12 digits, +1 5551234567 = 11 digits)
+    // 10 digits: local number (e.g., 9910906306)
+    // 11-12 digits: with country code (e.g., +91 9910906306 = 12 digits, +1 5551234567 = 11 digits)
     if (digits.length < 10 || digits.length > 12) {
       return false;
     }
@@ -59,7 +59,7 @@ export default function ContactPage() {
     // If 11 digits and doesn't start with 0, must start with + (country code required)
     // 11 digits starting with 0 are allowed without + (e.g., 09876543210)
     // 11 digits not starting with 0 need + (e.g., +1 5551234567)
-    // 12 digits always need + (e.g., +91 9818735258)
+    // 12 digits always need + (e.g., +91 9910906306)
     if (digits.length === 11 && !digits.startsWith('0') && !trimmed.startsWith('+')) {
       return false;
     }
@@ -553,7 +553,7 @@ export default function ContactPage() {
                               Phone
                             </h3>
                             <p className="text-primary font-semibold mb-1 text-sm">
-                              +91 9818735258
+                              +91 9910906306
                             </p>
                             <p className="text-xs text-muted-foreground">
                               Available 24/7 for urgent inquiries
@@ -669,7 +669,7 @@ export default function ContactPage() {
                           className="w-full h-12 justify-center gap-3 font-medium bg-[#2b3035] hover:bg-black text-white transition-all duration-300 rounded-xl text-sm"
                           asChild
                         >
-                          <a href="tel:+919818735258">
+                          <a href="tel:+919910906306">
                             <Phone className="w-4 h-4" />
                             Call Now
                         </a>
@@ -685,7 +685,7 @@ export default function ContactPage() {
                           asChild
                       >
                         <a
-                          href="https://wa.me/919818735258"
+                          href="https://wa.me/919910906306"
                           target="_blank"
                           rel="noopener noreferrer"
                         >

@@ -23,11 +23,10 @@ const PROPERTY_TYPES = [
 
 const BUDGETS = [
   { value: "", label: "Your Budget" },
-  { value: "50L to 1 Cr", label: "50L to 1 Cr" },
-  { value: "1 Cr to 1.5 Cr", label: "1 Cr to 1.5 Cr" },
-  { value: "1.5 Cr to 2.5 Cr", label: "1.5 Cr to 2.5 Cr" },
-  { value: "2.5 Cr to 5 Cr", label: "2.5 Cr to 5 Cr" },
-  { value: "5 Cr+", label: "5 Cr+" },
+  { value: "1 Cr to 5 Cr", label: "1 Cr to 5 Cr" },
+  { value: "5 Cr to 8 Cr", label: "5 Cr to 8 Cr" },
+  { value: "8 Cr to 15 Cr", label: "8 Cr to 15 Cr" },
+  { value: "15 Cr+", label: "15 Cr+" },
 ];
 
 const TIMELINES = [

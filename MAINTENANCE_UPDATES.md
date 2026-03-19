@@ -262,6 +262,10 @@
 ### Homepage — section flow reorder
 152. **New structure:** Reordered homepage content flow to match the requested sequence: Hero, Intro, Why Choose Celeste Abode, Real Estate Advisory Services Across Delhi NCR, Trusted Developers, Metrics, Buyer Types, SEO Blocks, Reviews, Instagram Feed, Footer CTA, Footer.
 
+### Development maintenance — global contact number migration
+153. **Phone update across stack:** Replaced old contact number with `9910906306` throughout frontend and backend touchpoints, including `tel:` links, WhatsApp links (`wa.me`), contact/forms UI, schema/contact metadata, service defaults, environment setup references, and maintenance/SEO docs; post-update verification confirmed no old number instances remained.
+154. **Sticky CTA budget bands updated:** Revised `Your Budget` dropdown ranges in `ResidentialStickyForm` and `CommercialStickyForm` for newly developed SEO landing pages to premium inventory-aligned brackets: `1 Cr to 5 Cr`, `5 Cr to 8 Cr`, `8 Cr to 15 Cr`, and `15 Cr+`.
+
 ---
 
 ## How to use this doc

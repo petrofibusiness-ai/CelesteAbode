@@ -162,6 +162,12 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
       .order("created_at", { ascending: false })
       .limit(6);
 
+  const { count: totalPropertiesCount } = await supabase
+    .from("properties_v2")
+    .select("id", { count: "exact", head: true })
+    .eq("location_id", location.id)
+    .eq("is_published", true);
+
   if (error) {
     console.error("Error fetching properties for location:", error);
   }
@@ -282,6 +288,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
                 <NoidaPropertiesGrid 
                   initialProperties={properties} 
                   location={location.slug}
+                  initialTotalCount={totalPropertiesCount ?? properties.length}
                 />
               ) : (
                 <div className="flex flex-col items-center justify-center py-16 bg-gray-50 rounded-2xl">

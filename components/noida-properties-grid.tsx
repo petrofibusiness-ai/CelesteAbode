@@ -18,14 +18,16 @@ interface FilterState {
 interface NoidaPropertiesGridProps {
   initialProperties: Property[];
   location: string;
+  initialTotalCount?: number;
   /** Lock to one property type (e.g. "residential" for apartments + villas only). Omit for all types. */
   defaultPropertyType?: string;
 }
 
 const PROPERTIES_PER_PAGE = 6;
 
-export function NoidaPropertiesGrid({ initialProperties, location, defaultPropertyType }: NoidaPropertiesGridProps) {
+export function NoidaPropertiesGrid({ initialProperties, location, initialTotalCount = initialProperties.length, defaultPropertyType }: NoidaPropertiesGridProps) {
   const [properties, setProperties] = useState<Property[]>(initialProperties);
+  const [totalCount, setTotalCount] = useState<number>(initialTotalCount);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(initialProperties.length === PROPERTIES_PER_PAGE);
@@ -87,6 +89,7 @@ export function NoidaPropertiesGrid({ initialProperties, location, defaultProper
         // Append for pagination
         setProperties((prev) => [...prev, ...fetchedProperties]);
       }
+      setTotalCount(typeof data.totalCount === "number" ? data.totalCount : fetchedProperties.length);
 
       setCurrentOffset(offset + fetchedProperties.length);
       setHasMore(data.hasMore === true && fetchedProperties.length === PROPERTIES_PER_PAGE);
@@ -214,10 +217,15 @@ export function NoidaPropertiesGrid({ initialProperties, location, defaultProper
         </div>
       )}
 
-      {/* View More Button */}
+      {/* View More + result count: count centred above the button (same column) */}
       {hasMore && !isLoading && !isLoadingMore && (
-        <div className="flex justify-center mt-12">
+        <div className="flex flex-col items-center mt-12 gap-3 px-4">
+          <p className="text-sm md:text-base text-gray-600 font-poppins text-center">
+            Showing <span className="font-semibold text-foreground">{properties.length}</span> out of{" "}
+            <span className="font-semibold text-foreground">{totalCount}</span> properties
+          </p>
           <button
+            type="button"
             onClick={loadMoreProperties}
             disabled={isLoadingMore}
             className="px-8 py-4 bg-black text-white rounded-full font-semibold hover:bg-black/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 font-poppins flex items-center gap-2"
@@ -227,13 +235,27 @@ export function NoidaPropertiesGrid({ initialProperties, location, defaultProper
         </div>
       )}
 
-      {/* Loading More Indicator */}
+      {/* Loading More Indicator — count stays centred above the loading row */}
       {isLoadingMore && (
-        <div className="flex justify-center mt-8">
+        <div className="flex flex-col items-center mt-8 gap-3 px-4">
+          <p className="text-sm md:text-base text-gray-600 font-poppins text-center">
+            Showing <span className="font-semibold text-foreground">{properties.length}</span> out of{" "}
+            <span className="font-semibold text-foreground">{totalCount}</span> properties
+          </p>
           <div className="flex items-center gap-3">
             <Loader2 className="w-5 h-5 text-[#CBB27A] animate-spin" />
             <p className="text-gray-600 font-poppins">Loading more properties...</p>
           </div>
+        </div>
+      )}
+
+      {/* No more pages — count only, centred under grid */}
+      {!isLoading && !hasMore && !isLoadingMore && (
+        <div className="flex justify-center mt-12 px-4">
+          <p className="text-sm md:text-base text-gray-600 font-poppins text-center">
+            Showing <span className="font-semibold text-foreground">{properties.length}</span> out of{" "}
+            <span className="font-semibold text-foreground">{totalCount}</span> properties
+          </p>
         </div>
       )}
     </>

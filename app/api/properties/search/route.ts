@@ -117,6 +117,12 @@ export async function GET(request: NextRequest) {
       .eq("location_id", locationData.id) // MANDATORY: Location filter using location_id
       .eq("is_published", true); // Only published properties
 
+    let countQuery = supabase
+      .from("properties_v2")
+      .select("id, configuration", { count: "exact" })
+      .eq("location_id", locationData.id)
+      .eq("is_published", true);
+
     // Apply locality filter if provided (optional, but must belong to the location)
     if (localityFilters.length > 0) {
       // Fetch locality IDs from localities table using slugs
@@ -129,6 +135,7 @@ export async function GET(request: NextRequest) {
       if (localitiesData && localitiesData.length > 0) {
         const localityIds = localitiesData.map(loc => loc.id);
         query = query.in("locality_id", localityIds);
+        countQuery = countQuery.in("locality_id", localityIds);
       } else {
         // If no valid localities found, return empty results
         return NextResponse.json(
@@ -144,6 +151,7 @@ export async function GET(request: NextRequest) {
             limit,
             offset,
             total: 0,
+            totalCount: 0,
           },
           {
             headers: {
@@ -161,10 +169,12 @@ export async function GET(request: NextRequest) {
     if (propertyTypeFilter && propertyTypeFilter !== "all") {
       if (propertyTypeFilter === "residential") {
         query = query.in("property_type", ["Apartment/Flats", "Villas"]);
+        countQuery = countQuery.in("property_type", ["Apartment/Flats", "Villas"]);
       } else {
         const propertyTypeEnum = mapPropertyTypeFilter(propertyTypeFilter);
         if (propertyTypeEnum && isValidPropertyType(propertyTypeEnum)) {
           query = query.eq("property_type", propertyTypeEnum);
+          countQuery = countQuery.eq("property_type", propertyTypeEnum);
         } else {
           return NextResponse.json(
             { error: "Invalid property type" },
@@ -179,6 +189,7 @@ export async function GET(request: NextRequest) {
       const projectStatusEnum = mapProjectStatusFilter(projectStatusFilter);
       if (projectStatusEnum && isValidProjectStatus(projectStatusEnum)) {
         query = query.eq("project_status", projectStatusEnum);
+        countQuery = countQuery.eq("project_status", projectStatusEnum);
       } else {
         return NextResponse.json(
           { error: "Invalid project status" },
@@ -199,7 +210,10 @@ export async function GET(request: NextRequest) {
       setTimeout(() => reject(new Error("Query timeout")), QUERY_TIMEOUT)
     );
 
-    const { data, error } = await Promise.race([query, timeoutPromise]);
+    const [{ data, error }, { data: countData, error: countError }] = await Promise.all([
+      Promise.race([query, timeoutPromise]),
+      Promise.race([countQuery, timeoutPromise]),
+    ]) as any;
 
     if (error) {
       console.error("Supabase error:", error);
@@ -207,6 +221,9 @@ export async function GET(request: NextRequest) {
         { error: "Failed to fetch properties", details: error.message },
         { status: 500 }
       );
+    }
+    if (countError) {
+      console.error("Supabase count query error:", countError);
     }
 
     // Filter by configuration if needed (array overlap - property must contain at least one selected config)
@@ -226,6 +243,20 @@ export async function GET(request: NextRequest) {
           // Check if property's configuration array contains any of the selected configurations
           return validConfigurations.some(config => propertyConfigs.includes(config));
         });
+      }
+    }
+
+    let totalCount = typeof countData?.length === "number" ? countData.length : 0;
+    if (configurationFilters.length > 0) {
+      const validConfigurations = configurationFilters
+        .map(mapConfigurationFilter)
+        .filter((config): config is string => config !== null && isValidConfiguration(config));
+
+      if (validConfigurations.length > 0) {
+        totalCount = (countData || []).filter((property: any) => {
+          if (!property.configuration || property.configuration.length === 0) return false;
+          return validConfigurations.some((config) => property.configuration.includes(config));
+        }).length;
       }
     }
 
@@ -252,6 +283,7 @@ export async function GET(request: NextRequest) {
         limit,
         offset,
         total: propertiesWithLocation.length,
+        totalCount,
         hasMore
       },
       {

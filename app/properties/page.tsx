@@ -47,6 +47,7 @@ export default function ProjectsPage() {
     configuration: [],
   });
   const [properties, setProperties] = useState<Property[]>([]);
+  const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -119,7 +120,10 @@ export default function ProjectsPage() {
         }
         const data = await response.json();
         const fetchedProperties = data.properties || [];
-        
+        setTotalCount(
+          typeof data.totalCount === "number" ? data.totalCount : fetchedProperties.length
+        );
+
         if (isLoadMore) {
           // Append for pagination
           setProperties((prev) => [...prev, ...fetchedProperties]);
@@ -166,7 +170,8 @@ export default function ProjectsPage() {
             const data = await response.json();
             return {
               properties: data.properties || [],
-              hasMore: data.hasMore === true
+              hasMore: data.hasMore === true,
+              totalCount: typeof data.totalCount === "number" ? data.totalCount : 0,
             };
           } catch (error) {
             if (error instanceof Error && error.name === 'AbortError') {
@@ -204,7 +209,15 @@ export default function ProjectsPage() {
         });
         
         const uniqueProperties = Array.from(uniquePropertiesMap.values());
-        
+
+        const totalSum = results
+          .filter(
+            (result): result is { properties: Property[]; hasMore: boolean; totalCount: number } =>
+              result !== null
+          )
+          .reduce((sum, r) => sum + (r.totalCount ?? 0), 0);
+        setTotalCount(totalSum);
+
         if (isLoadMore) {
           // Append for pagination
           setProperties((prev) => {
@@ -235,6 +248,7 @@ export default function ProjectsPage() {
       if (!isLoadMore) {
         setFetchError(error instanceof Error ? error.message : "Failed to fetch properties. Please try again.");
         setProperties([]);
+        setTotalCount(0);
       }
     } finally {
       // Only update loading state if this request wasn't cancelled
@@ -467,33 +481,43 @@ export default function ProjectsPage() {
                   ))}
                 </div>
 
-                {/* View More Properties Button - Pagination */}
+                {/* View More + count: centred, count above button (same as location pages) */}
                 {hasMore && !isLoading && !isLoadingMore && (
-                  <div className="flex justify-center mt-12">
+                  <div className="flex flex-col items-center mt-12 gap-3 px-4">
+                    <p className="text-sm md:text-base text-gray-600 font-poppins text-center">
+                      Showing <span className="font-semibold text-foreground">{properties.length}</span> out of{" "}
+                      <span className="font-semibold text-foreground">{totalCount}</span> properties
+                    </p>
                     <Button
+                      type="button"
                       onClick={loadMoreProperties}
                       disabled={isLoadingMore}
                       className="px-8 py-4 bg-black text-white rounded-full font-semibold hover:bg-black/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 font-poppins flex items-center gap-2"
                     >
-                      {isLoadingMore ? (
-                        <>
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                          <span>Loading...</span>
-                        </>
-                      ) : (
-                        <span>View More Properties</span>
-                      )}
+                      <span>View More Properties</span>
                     </Button>
                   </div>
                 )}
 
-                {/* Loading More Indicator */}
                 {isLoadingMore && (
-                  <div className="flex justify-center mt-8">
+                  <div className="flex flex-col items-center mt-8 gap-3 px-4">
+                    <p className="text-sm md:text-base text-gray-600 font-poppins text-center">
+                      Showing <span className="font-semibold text-foreground">{properties.length}</span> out of{" "}
+                      <span className="font-semibold text-foreground">{totalCount}</span> properties
+                    </p>
                     <div className="flex items-center gap-3">
                       <Loader2 className="w-5 h-5 text-[#CBB27A] animate-spin" />
                       <p className="text-gray-600 font-poppins">Loading more properties...</p>
                     </div>
+                  </div>
+                )}
+
+                {!hasMore && !isLoadingMore && (
+                  <div className="flex justify-center mt-12 px-4">
+                    <p className="text-sm md:text-base text-gray-600 font-poppins text-center">
+                      Showing <span className="font-semibold text-foreground">{properties.length}</span> out of{" "}
+                      <span className="font-semibold text-foreground">{totalCount}</span> properties
+                    </p>
                   </div>
                 )}
               </>

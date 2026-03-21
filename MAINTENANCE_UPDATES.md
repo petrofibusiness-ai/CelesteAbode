@@ -274,6 +274,10 @@
 155. **Result count:** Dynamic `properties-in/[locationCategory]` pages show **“Showing X out of Y properties”** above the grid; `Y` comes from server-side total count on first load and from `/api/properties/search` `totalCount` when filters or pagination change.
 156. **Placement:** The count line is **centred** in the same column as “View More Properties” — **above** the button (and above the “loading more” row while paginating); when there is no “View More”, it stays **centred** under the grid only.
 
+### Main properties listing (`/properties`)
+157. **Result count:** The `/properties` page uses the same **“Showing X out of Y properties”** pattern as location pages (centred above “View More”, with loading-more and no-more states). `Y` comes from `/api/properties/all` `totalCount` when browsing all locations, or the **sum** of each `/api/properties/search` `totalCount` when multiple locations are selected.
+158. **API:** `GET /api/properties/all` returns **`totalCount`** (exact count for current filters) alongside `properties`; supports **`residential`** property type the same way as search (apartments + villas).
+
 ---
 
 ## How to use this doc

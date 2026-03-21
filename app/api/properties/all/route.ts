@@ -73,25 +73,37 @@ export async function GET(request: NextRequest) {
     const limit = Math.min(100, Math.max(1, parseInt(searchParams.get('limit') || '50', 10))); // Default 50, max 100
     const offset = Math.max(0, parseInt(searchParams.get('offset') || '0', 10));
 
-    // Build query - start with base filters
+    // Build query - start with base filters (mirror filters on countQuery for totalCount)
     let query = supabase
       .from("properties_v2")
     .select("id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, configuration, hero_image, hero_image_alt, is_published, created_at, updated_at")
       .eq("is_published", true); // Only published properties
 
+    let countQuery = supabase
+      .from("properties_v2")
+      .select("*", { count: "exact", head: true })
+      .eq("is_published", true);
+
     // Apply property type filter
-    if (propertyTypeFilter) {
-      const mappedType = mapPropertyTypeFilter(propertyTypeFilter);
-      if (mappedType && isValidPropertyType(mappedType)) {
-        query = query.eq("property_type", mappedType);
+    if (propertyTypeFilter && propertyTypeFilter !== "all") {
+      if (propertyTypeFilter === "residential") {
+        query = query.in("property_type", ["Apartment/Flats", "Villas"]);
+        countQuery = countQuery.in("property_type", ["Apartment/Flats", "Villas"]);
+      } else {
+        const mappedType = mapPropertyTypeFilter(propertyTypeFilter);
+        if (mappedType && isValidPropertyType(mappedType)) {
+          query = query.eq("property_type", mappedType);
+          countQuery = countQuery.eq("property_type", mappedType);
+        }
       }
     }
 
     // Apply project status filter
-    if (projectStatusFilter) {
+    if (projectStatusFilter && projectStatusFilter !== "all") {
       const mappedStatus = mapProjectStatusFilter(projectStatusFilter);
       if (mappedStatus && isValidProjectStatus(mappedStatus)) {
         query = query.eq("project_status", mappedStatus);
+        countQuery = countQuery.eq("project_status", mappedStatus);
       }
     }
 
@@ -106,6 +118,7 @@ export async function GET(request: NextRequest) {
         // Use .in() for multiple configuration values
         // This will exclude NULL configurations (Commercial properties)
         query = query.not("configuration", "is", null).in("configuration", mappedConfigs);
+        countQuery = countQuery.not("configuration", "is", null).in("configuration", mappedConfigs);
       }
     }
 
@@ -115,13 +128,16 @@ export async function GET(request: NextRequest) {
       .order("created_at", { ascending: false })
       .range(offset, offset + limit); // Fetch limit + 1
 
-    // Execute query with timeout
-    const queryPromise = query;
-    const timeoutPromise = new Promise<never>((_, reject) =>
-      setTimeout(() => reject(new Error("Query timeout")), QUERY_TIMEOUT)
-    );
+    // Execute query + count in parallel (each with its own timeout)
+    const mkTimeout = () =>
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("Query timeout")), QUERY_TIMEOUT)
+      );
 
-    const { data, error } = await Promise.race([queryPromise, timeoutPromise]);
+    const [{ data, error }, { count: countResult, error: countError }] = await Promise.all([
+      Promise.race([query, mkTimeout()]),
+      Promise.race([countQuery, mkTimeout()]),
+    ]);
 
     if (error) {
       console.error("Supabase error:", error);
@@ -129,6 +145,9 @@ export async function GET(request: NextRequest) {
         { error: "Failed to fetch properties", details: error.message },
         { status: 500 }
       );
+    }
+    if (countError) {
+      console.error("Supabase count error:", countError);
     }
 
     // Check if there are more properties (if we got limit + 1, there are more)
@@ -141,10 +160,16 @@ export async function GET(request: NextRequest) {
     // Add locationSlug to all properties
     const propertiesWithLocation = await addLocationSlugToProperties(mappedProperties, supabase);
 
+    const totalCount =
+      typeof countResult === "number" && countResult >= 0
+        ? countResult
+        : propertiesWithLocation.length;
+
     return NextResponse.json(
       { 
         properties: propertiesWithLocation,
         total: propertiesWithLocation.length,
+        totalCount,
         hasMore,
         limit,
         offset

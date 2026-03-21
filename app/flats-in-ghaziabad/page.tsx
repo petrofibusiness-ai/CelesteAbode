@@ -10,6 +10,12 @@ import { ConsultationSidebar } from "@/components/consultation-sidebar";
 import { OpenConsultationTrigger } from "@/components/open-consultation-trigger";
 import type { FAQ } from "@/types/location";
 
+/**
+ * On-page target phrases (user brief; /flats-in-ghaziabad). Present in `<p>` / FAQ body:
+ * flats in Ghaziabad · flat for sale in indirapuram ghaziabad ·
+ * 3 bhk flats in indirapuram ghaziabad · flat in ghaziabad for sale
+ */
+
 const SITE_URL = "https://www.celesteabode.com";
 const PAGE_URL = `${SITE_URL}/flats-in-ghaziabad`;
 

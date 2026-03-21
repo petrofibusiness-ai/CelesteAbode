@@ -16,6 +16,12 @@ import { ConsultationSidebar } from "@/components/consultation-sidebar";
 import { OpenConsultationTrigger } from "@/components/open-consultation-trigger";
 import type { FAQ } from "@/types/location";
 
+/**
+ * On-page target phrases (user brief; /residential-property-in-noida). Woven into `<p>` / FAQ body:
+ * residential property in Noida · buy home in Noida · buying house in Noida ·
+ * property for sale in Noida · buy property in Noida · luxury property in Noida · best property in Noida
+ */
+
 const SITE_URL = "https://www.celesteabode.com";
 const PAGE_URL = `${SITE_URL}/residential-property-in-noida`;
 
@@ -243,8 +249,8 @@ export default async function ResidentialPropertyInNoidaPage() {
                 <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
                   <div className={CONTENT_BLOCK_CLASS}>
                     <p>
-                      Most buyers underestimate the process. Shortlisting takes time. Site visits take longer. Paperwork takes the longest.
-                      Trying to manage all of this alone often leads to rushed decisions.
+                      Most buyers underestimate the process when they buy home in Noida. Shortlisting takes time. Site visits take longer.
+                      Paperwork takes the longest. Trying to manage all of this alone often leads to rushed decisions.
                     </p>
                     <h3>Expert Guidance for Buying a House in Noida</h3>
                     <p>
@@ -284,7 +290,12 @@ export default async function ResidentialPropertyInNoidaPage() {
                   <div className={CONTENT_BLOCK_CLASS}>
                     <p>
                       Budget defines the starting point, not the final decision. What matters more is what that budget actually gets you on the
-                      ground. For verified options, see <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">property in Noida</Link>.
+                      ground. Every property for sale in Noida should be read against carpet, approvals, and builder delivery record, not only
+                      the rate. For verified options, see{" "}
+                      <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
+                        property in Noida
+                      </Link>
+                      .
                     </p>
                     <h3>Affordable Residential Property in Noida</h3>
                     <p>

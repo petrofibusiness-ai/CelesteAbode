@@ -15,9 +15,6 @@ export const metadata: Metadata = {
     "flat for sale in indirapuram ghaziabad",
     "3 bhk flats in indirapuram ghaziabad",
     "flat in ghaziabad for sale",
-    "flats in Vaishali Ghaziabad",
-    "flats in Vasundhara Ghaziabad",
-    "Celeste Abode property consultants",
   ],
   authors: [{ name: "Celeste Abode" }],
   openGraph: {

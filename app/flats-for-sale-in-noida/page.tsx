@@ -16,6 +16,12 @@ import { ConsultationSidebar } from "@/components/consultation-sidebar";
 import { OpenConsultationTrigger } from "@/components/open-consultation-trigger";
 import type { FAQ } from "@/types/location";
 
+/**
+ * On-page target phrases (user brief; /flats-for-sale-in-noida). Present in `<p>` / FAQ body:
+ * flats in Noida · buy flat in Noida · flats for sale in Noida ·
+ * 2 bhk flat in Noida · 3 bhk flats in Noida · 3bhk flat in Noida
+ */
+
 const SITE_URL = "https://www.celesteabode.com";
 const PAGE_URL = `${SITE_URL}/flats-for-sale-in-noida`;
 

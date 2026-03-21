@@ -12,10 +12,11 @@ export const metadata: Metadata = {
   keywords: [
     "residential property in Noida",
     "buy home in Noida",
-    "property for sale Noida",
-    "apartments in Noida",
-    "villas in Noida",
-    "Celeste Abode property consultants",
+    "buying house in Noida",
+    "property for sale in Noida",
+    "buy property in Noida",
+    "luxury property in Noida",
+    "best property in Noida",
   ],
   authors: [{ name: "Celeste Abode" }],
   openGraph: {

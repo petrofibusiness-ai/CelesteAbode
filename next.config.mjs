@@ -1,5 +1,12 @@
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // When a parent folder has another lockfile, Next may infer the wrong root; pin the app directory.
+  outputFileTracingRoot: path.join(__dirname),
   // Production: Enable strict checks (disable only if absolutely necessary)
   eslint: {
     ignoreDuringBuilds: process.env.NODE_ENV !== 'production',

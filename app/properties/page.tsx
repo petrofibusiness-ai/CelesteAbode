@@ -38,6 +38,13 @@ interface FilterState {
   configuration: string[];
 }
 
+/** One batch from `/api/properties/search` for a single location (multi-location fetch). */
+interface LocationSearchBatch {
+  properties: Property[];
+  hasMore: boolean;
+  totalCount: number;
+}
+
 export default function ProjectsPage() {
   const searchParams = useSearchParams();
   const [filters, setFilters] = useState<FilterState>({
@@ -168,11 +175,12 @@ export default function ProjectsPage() {
               return null; // Return null for failed requests, continue with others
             }
             const data = await response.json();
-            return {
+            const batch: LocationSearchBatch = {
               properties: data.properties || [],
               hasMore: data.hasMore === true,
               totalCount: typeof data.totalCount === "number" ? data.totalCount : 0,
             };
+            return batch;
           } catch (error) {
             if (error instanceof Error && error.name === 'AbortError') {
               return null; // Request was cancelled
@@ -190,9 +198,9 @@ export default function ProjectsPage() {
         }
 
         // Combine all results and remove duplicates based on property ID
-        const allProperties = results
-          .filter((result): result is { properties: Property[]; hasMore: boolean } => result !== null)
-          .flatMap(result => result.properties);
+        const allProperties = results.flatMap((result) =>
+          result !== null ? result.properties : []
+        );
         
         // Check if any location has more properties
         const anyHasMore = results.some(result => result !== null && result.hasMore);
@@ -210,12 +218,10 @@ export default function ProjectsPage() {
         
         const uniqueProperties = Array.from(uniquePropertiesMap.values());
 
-        const totalSum = results
-          .filter(
-            (result): result is { properties: Property[]; hasMore: boolean; totalCount: number } =>
-              result !== null
-          )
-          .reduce((sum, r) => sum + (r.totalCount ?? 0), 0);
+        const totalSum = results.reduce((sum, result) => {
+          if (result === null) return sum;
+          return sum + result.totalCount;
+        }, 0);
         setTotalCount(totalSum);
 
         if (isLoadMore) {

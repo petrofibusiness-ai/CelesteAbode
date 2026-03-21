@@ -16,13 +16,35 @@ import { ConsultationSidebar } from "@/components/consultation-sidebar";
 import { OpenConsultationTrigger } from "@/components/open-consultation-trigger";
 import type { FAQ } from "@/types/location";
 
+/**
+ * On-page target phrases (user brief; celeste prompt). Present in `<p>` / FAQ body:
+ * flats in Greater Noida · 3 bhk flats in Greater Noida · flats for sale in Greater Noida ·
+ * buy flat in Greater Noida · 2 bhk flat in Greater Noida · one bhk flat in Greater Noida ·
+ * apartments in Greater Noida · studio apartment in Greater Noida
+ */
+
 const SITE_URL = "https://www.celesteabode.com";
 const PAGE_URL = `${SITE_URL}/flats-for-sale-in-greater-noida`;
 
+const FAQ_LINK =
+  "color:#CBB27A;font-weight:600;text-decoration:underline;text-underline-offset:2px";
+
 const GREATER_NOIDA_FLATS_FAQS: FAQ[] = [
-  { id: "gn-flats-faq-1", question: "What is the Average Price of Flats in Greater Noida?", answer: "Flats in Greater Noida vary significantly by zone and configuration. A one BHK flat in Greater Noida West starts around Rs 25 to 35 lakh. A 2 BHK flat in Greater Noida runs Rs 40 to 75 lakh depending on sector and developer. 3 BHK flats in Greater Noida West from credible developers like Gaurs, ATS, and Mahagun sit between Rs 80 lakh and Rs 1.5 crore. Studio apartments in Greater Noida and Yamuna Expressway zones start from Rs 18 lakh, primarily targeting investors. Apartments in Greater Noida along the Yamuna Expressway corridor carry a premium over West zone pricing, driven by Jewar Airport proximity." },
-  { id: "gn-flats-faq-2", question: "Which Area is Best to Buy Flats in Greater Noida?", answer: "Greater Noida West suits buyers who want the best value per sq ft in NCR right now. Infrastructure has matured, metro connectivity is incoming, and social amenities are in place. The Yamuna Expressway corridor suits investors with a 5 to 7 year horizon — Jewar Airport, Film City, and YEIDA's expanding institutional footprint are the demand drivers. Alpha and Beta sectors suit buyers who want established GNIDA-developed zones with clean land titles, developed roads, and stable resale liquidity. Each zone has a different risk-return profile. Flats for sale in Greater Noida in the right zone for your objective outperform flats in the wrong zone at any price point." },
-  { id: "gn-flats-faq-3", question: "Is Greater Noida Good for Property Investment?", answer: "Yes, with zone selection doing most of the work. Buy flat in Greater Noida in an established sector with confirmed infrastructure and the fundamentals are strong: values have risen approximately 127% between 2020 and 2025, rental demand in Greater Noida West grew over 20% quarter-on-quarter in Q2 2025, and Jewar Airport is under active construction with a confirmed Phase 1 timeline. The qualification is that not every part of Greater Noida is at the same stage. Peripheral zones with unconfirmed connectivity timelines carry a different risk profile from developed sectors where the infrastructure is already working. Celeste Abode assesses both categories on their actual merits before advising." },
+  {
+    id: "gn-flats-faq-1",
+    question: "What is the Average Price of Flats in Greater Noida?",
+    answer: `We do not quote one average. West, GNIDA, Knowledge Park, and the expressway belt price differently. Carpet, builder, and ready versus under construction change the ticket. Use the grid above, then our <a href="/properties-in-greater-noida" style="${FAQ_LINK}">Greater Noida catalogue</a>. Call us to read it with your brief.`,
+  },
+  {
+    id: "gn-flats-faq-2",
+    question: "Which Area is Best to Buy Flats in Greater Noida?",
+    answer: `Choose by commute, schools, and how long you will stay. West has the most mid-segment depth; Alpha and Beta are settled; Knowledge Park follows students and offices; the expressway side needs a longer Jewar hold. Same budget in Noida? Check <a href="/properties-in-noida" style="${FAQ_LINK}">property in Noida</a>.`,
+  },
+  {
+    id: "gn-flats-faq-3",
+    question: "Is Greater Noida Good for Property Investment?",
+    answer: `Yes, when the project file is clean. We check RERA, title, and past delivery before we discuss exit or yield. Rent tracks jobs; Jewar shapes the expressway story in 2026. Read <a href="/residential-property-in-noida" style="${FAQ_LINK}">residential property in Noida</a> or <a href="/contact" style="${FAQ_LINK}">contact us</a> for a shortlist.`,
+  },
 ];
 
 const CONTENT_BLOCK_CLASS =
@@ -101,7 +123,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                   Flats for Sale in Greater Noida
                 </span>
                 <span className="block text-base sm:text-lg md:text-2xl lg:text-3xl">
-                  — Buy Apartments in Greater Noida
+                  Buy Apartments in Greater Noida
                 </span>
               </h1>
             </div>
@@ -150,10 +172,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent" />
           </div>
 
-          <div className="max-w-7xl mx-auto px-6 lg:grid lg:grid-cols-[360px_1fr] lg:gap-10 lg:pb-32">
-            <aside className="hidden lg:block order-first">
-              <ConsultationSidebar variant="residential" headline="Exploring flats in Greater Noida?" subtext="West zone, Expressway, or GNIDA sectors. Tell us what you need and we'll do the groundwork first." />
-            </aside>
+          <div className="max-w-7xl mx-auto px-6 lg:grid lg:grid-cols-[1fr_360px] lg:gap-10 lg:pb-32">
             <div className="min-w-0">
               <div className="max-w-4xl">
                 <SeoBlocksRevealController initialVisible={1} step={1} totalCount={7}>
@@ -166,8 +185,16 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                     <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden border border-gray-200">
                       <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
                         <div className={CONTENT_BLOCK_CLASS}>
-                          <p>1.65 lakh flats. That is how many units across Noida and Greater Noida remain stalled or significantly delayed, worth Rs 1.18 lakh crore collectively. Any consultant who does not mention this upfront when talking about flats for sale in Greater Noida is not someone you should be taking advice from. The market has real upside. It also has real risk. At Celeste Abode, we help buyers navigate both sides, not just the brochure version.</p>
-                          <p>Greater Noida is not uniform. Pari Chowk, Greater Noida West, Knowledge Park, and the Yamuna Expressway corridor each follow different price trajectories and carry different risk profiles. A buyer comparing flats in Greater Noida across all four zones without understanding these distinctions will consistently make the wrong shortlist. That is the first thing we fix when a client comes to us.</p>
+                          <p>
+                            NCR still carries a large backlog of delayed or stressed inventory. You will not see that risk spelled out on a glossy brochure. Flats for sale in Greater Noida can be a strong buy. They can also be a bad ticket if the project story ignores title, RERA behaviour, and builder execution. We start there. If you want inventory we have already filtered, begin with{" "}
+                            <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
+                              properties in Greater Noida
+                            </Link>{" "}
+                            on our site, then ask us to narrow it.
+                          </p>
+                          <p>
+                            Flats in Greater Noida do not price on a single curve. Pari Chowk, Greater Noida West, Knowledge Park, and the Yamuna Expressway belt behave like four different markets. Price bands, commute, and tenant demand do not line up. Buyers who mix them in one shortlist usually pick the wrong flat for the right budget. The same budget buys a different life in West versus a GNIDA sector versus an expressway pocket. We map the trade-offs first, then show options that fit how you actually live or invest.
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -186,11 +213,25 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                       <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
                         <div className={CONTENT_BLOCK_CLASS}>
                           <h3>Gated Community Apartments</h3>
-                          <p>Not all gated communities are what they claim to be. Gaur City, ACE City, and Eldeco Residency Greens are functional, with working RWAs and maintained common areas. Several others in the same price range are gated in name only. Registry disputes, incomplete amenity blocks, and builder dues pending with GNIDA are still open in multiple societies. Before choosing gated community apartments in Greater Noida, we walk through the OC status, RWA health, and builder dues position on every option we present.</p>
+                          <p>
+                            Apartments in Greater Noida need the same society check whether the brochure looks premium or not. A gate and a guard booth do not equal a healthy society. Some large townships run clean RWAs and maintain common areas. Others fight registry delays, half-finished clubs, or GNIDA dues that freeze peace of mind. Before we pitch gated community apartments in Greater Noida, we check OC status, RWA health, and how dues are clearing. We also walk the society when it helps, because a sales office story and a lived-in block can differ. If the society is messy on paper, we say it out loud.
+                          </p>
                           <h3>Luxury Apartments in Greater Noida</h3>
-                          <p>The luxury segment here is newer than in Gurgaon but it is growing fast. Godrej Majesty in Sector 12 runs Rs 3.47 to 5.82 crore. Sobha Aurum in Sector 36 starts at Rs 1.26 crore. For buyers who have only looked at Golf Course Road, the per-square-foot quality difference has narrowed considerably. What Greater Noida still offers is the same specification at a 20 to 30 percent lower price point. Luxury apartments in Greater Noida are not a compromise. They are a different price-to-quality calculation.</p>
+                          <p>
+                            The premium lane here is younger than Gurugram, but the product has tightened fast. You can find serious specifications in select GNIDA and expressway-adjacent projects without paying the same per-square-foot premium as core South Delhi or Golf Course addresses. Finish, ceiling height, and club programming still vary sharply by builder, so we compare live inventory rather than logos. Luxury apartments in Greater Noida still need the same filter: builder track record first, brochure render second. For larger formats outside pure apartments, compare with{" "}
+                            <Link href="/villas-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
+                              villas in Greater Noida
+                            </Link>{" "}
+                            if you need land and privacy.
+                          </p>
                           <h3>Affordable Housing Flats</h3>
-                          <p>Sectors 1 and 4 in Greater Noida West, Chi, and Omicron carry the strongest affordable supply. Gaur City 4th Avenue has occupied 2 BHK units at Rs 1.04 crore with a functioning society and metro proximity. For buyers who dismissed affordable flats for sale in Greater Noida as a category for buyers who have no other option, these sectors have moved well past that profile. The residents who live there chose it.</p>
+                          <p>
+                            Greater Noida West, Chi, and Omicron still carry the bulk of mid and affordable supply. Metro is on the ground in parts, schools and retail are stronger than five years ago, and many societies are fully occupied. Affordable flats for sale in Greater Noida are not a consolation prize when the shortlist is built on execution, not hype. If you want a parallel price read in a tighter Noida market, scan{" "}
+                            <Link href="/flats-for-sale-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
+                              flats for sale in Noida
+                            </Link>{" "}
+                            and compare ticket size for the same brief.
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -208,11 +249,21 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                     <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden border border-gray-200">
                       <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
                         <div className={CONTENT_BLOCK_CLASS}>
-                          <p>Five years ago this was not a real product category here. Knowledge Park zones and the Pari Chowk belt have changed that. A studio apartment in Greater Noida near the university corridor or IT stretch serves a tenant profile that does not exist in most residential sectors: working professionals and students who need a functional unit and will pay steady rent year-round regardless of season. For investors running a pure yield strategy, that consistency matters more than the headline rental number.</p>
+                          <p>
+                            Studios were a niche idea here a few years ago. Knowledge Park and the Pari Chowk belt changed that. A studio apartment in Greater Noida near colleges or office catchments rents to students and young professionals who pay through the year. You still need to check society rules on short lets, parking, and power backup because those details decide real cash flow. For yield-led buyers, boring occupancy often beats a flashy rent quote that lasts one season.
+                          </p>
                           <h3>Compact Studio Apartments for Investment</h3>
-                          <p>Units in the 434 to 650 sq ft range are trading between Rs 35 lakhs and Rs 65 lakhs. Rental yields on a well-located studio apartment in Greater Noida run 6 to 8 percent. A mid-segment 2 BHK in the same city typically delivers 3 to 5 percent. That yield gap is not small. Yield-focused buyers who default to a 2 BHK out of habit are often leaving real money on the table without having run the comparison.</p>
+                          <p>
+                            Small formats can print higher yield than a mid 2 BHK if the location feeds steady tenants. Run the math on maintenance, society charges, and downtime before you celebrate a headline number. A studio apartment in Greater Noida only works if those costs stay predictable across semesters and job cycles. Ask who pays for power backup, water, and lift maintenance when the unit sits tenanted twelve months a year. If you want a wider expressway-linked pipeline, also glance at{" "}
+                            <Link href="/properties-in-yamuna-expressway" className="text-[#CBB27A] font-semibold hover:underline">
+                              Yamuna Expressway properties
+                            </Link>{" "}
+                            where ticket sizes and tenant stories differ.
+                          </p>
                           <h3>Studio Apartments Near Commercial Hubs</h3>
-                          <p>Sharda, Galgotias, and Amity together bring over 80,000 students within a 5 km radius of Knowledge Park. Add the IT employment along the expressway and you have two separate demand streams feeding the same zones. Flats in Greater Noida near Knowledge Park 1, 2, and 3 hold occupancy rates that do not drop in the off-season. That is a structural feature of the location, not a temporary trend driven by one employer or one institution.</p>
+                          <p>
+                            Universities and office hubs near Knowledge Park create demand that does not vanish in summer. Add IT jobs along the corridor and you get two tenant streams feeding the same micro-markets. That is structural, not a one-year fad tied to a single employer.
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -230,8 +281,16 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                     <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl overflow-hidden border border-gray-200">
                       <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
                         <div className={CONTENT_BLOCK_CLASS}>
-                          <p>The 1 BHK case is undervalued by most buyers. A one bhk flat in Greater Noida in Sectors Chi or Omicron starts at Rs 28 to 45 lakhs, draws from a wider tenant pool than a 2 BHK, and delivers better gross yield per rupee invested. The 2 BHK market has the highest transaction volume. A 2 bhk flat in Greater Noida runs Rs 75 lakhs to Rs 1.4 crore depending on the sector, with monthly rents between Rs 15,000 and Rs 22,000. For families, this is usually the first configuration that makes daily life workable.</p>
-                          <p>3 bhk flats in Greater Noida appreciated 146 percent between 2019 and 2024. That is a factual data point, not a sales pitch. Mid-segment 3 BHK starts at Rs 1.05 crore and goes to Rs 5.82 crore at the premium end. The more useful comparison is against Noida: a 1,400 sq ft 3 BHK in Nimbus Express Park View II is Rs 1.25 crore, where a comparable Sector 150 unit costs 35 to 40 percent more. For families who need actual space to live in, Greater Noida makes that comparison straightforwardly.</p>
+                          <p>
+                            Many buyers skip 1 BHK inventory because it feels small on paper. In Chi, Omicron, and parts of West, a compact one bhk flat in Greater Noida can still rent well when the society is stable and the commute works. The 2 BHK bucket still moves the most volume because families want balance between space and EMI. A typical 2 bhk flat in Greater Noida in a finished society often rents faster than a larger unit in a weak location. Monthly rent shifts by sector, finish, and distance to work. In several West and Knowledge Park pockets, well-finished 2 BHK homes still land in a mid-teens to low-twenties thousand band, but we anchor every conversation on live comps rather than a static chart.
+                          </p>
+                          <p>
+                            3 bhk flats in Greater Noida have seen strong multi-year appreciation in pockets where infrastructure and builder delivery actually landed. Past performance is not a guarantee, yet the space-per-rupee argument against several Noida sectors stays relevant in 2026 when you hold the ticket size constant. Cross-check similar configurations on{" "}
+                            <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
+                              property in Noida
+                            </Link>{" "}
+                            before you decide where the extra crore truly buys you comfort on flats in Greater Noida that pass the same carpet and title checks.
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -250,9 +309,17 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                       <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
                         <div className={CONTENT_BLOCK_CLASS}>
                           <h3>Flats in Greater Noida West</h3>
-                          <p>173 percent appreciation over ten years. 24 percent in the last twelve months. Greater Noida West has earned its position as the highest-volume mid-segment zone in the region. Social infrastructure that was a genuine complaint five years ago has caught up. Flats in Greater Noida West, specifically in Sectors 1, 4, and Techzone 4, now sit near functional schools, hospitals, retail, and the Aqua Metro line. The location argument that used to require a long list of caveats is significantly shorter now.</p>
+                          <p>
+                            West still prints the highest mid-segment volume in the broader NCR story. Social infrastructure has caught up in many pockets, Aqua Metro is a real commute tool for thousands of families, and resale chatter is easier than in fringe pockets that are still half-farm. Schools, clinics, and daily retail are stronger than they were half a decade ago, which matters when you actually move in. Flats in Greater Noida West still need project-level diligence. Volume alone does not remove builder risk.
+                          </p>
                           <h3>Flats Near Yamuna Expressway</h3>
-                          <p>This is a medium-term thesis, and buyers should know that going in. Jewar Airport is confirmed and progressing. YEIDA mixed-use corridor is active. The Namo Bharat Rapid Rail is approved. None of these are operational today. Buyers who decide to buy flat in Greater Noida near the expressway should plan for a 5 to 7 year horizon, not 2. Eldeco Whispers in Sector 22D runs Rs 92 lakhs to Rs 3.31 crore. Gaur Chrysalis starts at Rs 1.53 crore. The entry price still has headroom before the airport re-rates this corridor.</p>
+                          <p>
+                            Treat this belt as a thesis, not a weekend impulse. Flats for sale in Greater Noida along the expressway still need the same RERA and builder checks as anywhere else. Jewar Phase 1 is moving toward commercial flights in 2026, YEIDA keeps adding institutional weight, and rapid rail links are part of the long arc. Film City and logistics clusters add employment stories that take years to mature, so your underwriting should match that clock. You still need a holding period that respects construction timelines and tenant build-up. Buyers who want expressway-linked options without guessing society health should start with{" "}
+                            <Link href="/properties-in-yamuna-expressway" className="text-[#CBB27A] font-semibold hover:underline">
+                              curated Yamuna Expressway listings
+                            </Link>{" "}
+                            and a clear exit plan.
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -271,11 +338,29 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                       <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
                         <div className={CONTENT_BLOCK_CLASS}>
                           <h3>Excellent Connectivity with Noida and Delhi</h3>
-                          <p>Five expressways and a metro line, all live today. The Noida-Greater Noida Expressway, DND flyway, Eastern Peripheral Expressway, Yamuna Expressway, and Aqua Metro are operational infrastructure, not planned corridors. Buyers evaluating apartments in Greater Noida are not betting on connectivity arriving in 2028. They are using a road and metro network that already exists, which is a meaningfully different risk profile from what most people assume about this city.</p>
+                          <p>
+                            You already drive the Noida Greater Noida Expressway, DND, Eastern Peripheral, and Yamuna Expressway for real work trips. Aqua Metro is live for large resident clusters. Apartments in Greater Noida along these corridors still need project-level checks, but the roads are real. That matters because you are not buying a map sketch. You are buying a commute that exists today. If Delhi access is non-negotiable, pair this page with how we explain end-user trade-offs inside{" "}
+                            <Link href="/residential-property-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
+                              residential property in Noida
+                            </Link>{" "}
+                            so you compare apples with apples.
+                          </p>
                           <h3>Rapid Infrastructure Development</h3>
-                          <p>The FAR relaxation debate is worth addressing directly. UP scrapping ground coverage limits will increase future supply density. Buyers who bought for pure resale flip should think carefully. Buyers who want a home to live in, or investors holding 7-plus years with rental income along the way, are largely unaffected. The fundamentals supporting flats for sale in Greater Noida, employment, university demand, and confirmed infrastructure, remain intact regardless of what the FAR policy says.</p>
+                          <p>
+                            Policy noise around FAR and ground coverage will add density over time. Flippers hate that. Long-hold buyers who care about rent and loan comfort can live with it if the project itself is clean. Jobs, students, and visible roads still anchor flats for sale in Greater Noida even when headlines swing. If you need land-led options instead of apartments, scan{" "}
+                            <Link href="/plots-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
+                              plots in Greater Noida
+                            </Link>{" "}
+                            for a different risk profile before you force a flat ticket.
+                          </p>
                           <h3>High Property Appreciation Potential</h3>
-                          <p>Rs 3,340 per sq ft in 2020. Rs 7,411 in 2026. Jewar Airport has not started operations yet. The Namo Bharat rail is still ahead. The Aqua Metro extension is still completing. Buyers entering the market for flats in Greater Noida now are doing so before the most significant infrastructure triggers this corridor carries have actually landed. That is not guaranteed appreciation. But the timing argument for entry is stronger here than in a market where every trigger has already been priced in.</p>
+                          <p>
+                            2026 is not 2020 pricing, yet several triggers on the expressway side are still rolling into real operations rather than poster talk. Larger 3 BHK layouts in Greater Noida still attract families who want space without jumping to Gurugram tickets, but entry timing only helps when the project file is clean. Jewar Phase 1 is approaching commercial flights this year. Rapid rail and metro extensions keep tightening the belt. That does not promise a straight line up. It does mean buyers who verify flats in Greater Noida projects now are not late to every story. If you want the philosophy before the shortlist, read{" "}
+                            <Link href="/advisory-philosophy" className="text-[#CBB27A] font-semibold hover:underline">
+                              our advisory philosophy
+                            </Link>
+                            .
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -294,11 +379,29 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                       <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
                         <div className={CONTENT_BLOCK_CLASS}>
                           <h3>Experienced Real Estate Consultants</h3>
-                          <p>Most buyers who contact us have already done two weekends of portal research and left more confused. Outdated listings, incorrect pricing, builder sales teams who called five times. We start differently. When you choose to buy flat in Greater Noida through Celeste Abode, the first conversation is about your situation: budget including stamp duty, possession timeline, how much execution risk you can carry. The shortlist comes after that.</p>
+                          <p>
+                            Portals gave you ten tabs, three wrong prices, and four sales calls. We reset the room. You tell us stamp-duty-ready budget, possession pressure, and how much delay you can stomach. Then we build a shortlist. Book an{" "}
+                            <Link href="/advisory-session" className="text-[#CBB27A] font-semibold hover:underline">
+                              advisory session
+                            </Link>{" "}
+                            if you want that conversation on calendar instead of chat threads.
+                          </p>
                           <h3>Verified Property Listings</h3>
-                          <p>Greater Noida has a documented history of delayed registries, stalled projects, and builder dues pending with GNIDA that hold up OC issuance. That history does not disappear because a project has a fresh RERA number. Every listing for flats in Greater Noida that we present has cleared our RERA check, land title review, GNIDA approval status, and developer delivery track record. If something has open complaints, we say so before showing it.</p>
+                          <p>
+                            GNIDA history includes delayed registries and builder dues that block OC even when the tower looks ready. A fresh RERA filing does not erase that. Every flats in Greater Noida pick we share clears title, approvals, and delivery behaviour first. If a file is messy, you hear it early. See how we work across formats on{" "}
+                            <Link href="/real-estate-consulting-services" className="text-[#CBB27A] font-semibold hover:underline">
+                              real estate consulting services
+                            </Link>
+                            .
+                          </p>
                           <h3>Complete Buying Assistance</h3>
-                          <p>Site visit to possession, we stay involved. Home loan coordination, documentation, builder follow-up, registration. A buyer picking up a one bhk flat in Greater Noida as a first investment gets the same support as a family buying a Rs 3 crore apartment. The ticket size does not change how we work. That is the standard we hold ourselves to across every transaction involving apartments in Greater Noida.</p>
+                          <p>
+                            Site visits, loan coordination, agreement review, builder follow-up, registration. Small ticket or large ticket, the checklist stays intact. When you buy flat in Greater Noida with us, you get the same documentation discipline whether it is a first home or a portfolio add. When you are ready,{" "}
+                            <Link href="/contact" className="text-[#CBB27A] font-semibold hover:underline">
+                              contact us
+                            </Link>{" "}
+                            with your brief and we will reply with next steps, not a catalogue dump.
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -324,6 +427,10 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                 </div>
               </section>
             </div>
+
+            <aside className="hidden lg:block">
+              <ConsultationSidebar variant="residential" headline="Exploring flats in Greater Noida?" subtext="West zone, Expressway, or GNIDA sectors. Tell us what you need and we'll do the groundwork first." />
+            </aside>
           </div>
 
           <section className="py-16 md:py-24 bg-gradient-to-br from-[#0f1112] to-gray-900">
@@ -332,7 +439,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                 Ready to Buy a Flat in Greater Noida?
               </h2>
               <p className="text-white/85 leading-relaxed font-poppins mb-8">
-                Get a shortlist of verified flats, site visit support, and documentation review. No hard sell—just clarity.
+                Get a shortlist of verified flats, site visit support, and documentation review. No hard sell. Just clarity.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <a

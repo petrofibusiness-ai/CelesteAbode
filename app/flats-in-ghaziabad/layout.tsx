@@ -11,9 +11,10 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
   keywords: [
-    "flats for sale in Ghaziabad",
     "flats in Ghaziabad",
-    "flat in Indirapuram Ghaziabad",
+    "flat for sale in indirapuram ghaziabad",
+    "3 bhk flats in indirapuram ghaziabad",
+    "flat in ghaziabad for sale",
     "flats in Vaishali Ghaziabad",
     "flats in Vasundhara Ghaziabad",
     "Celeste Abode property consultants",

@@ -183,11 +183,8 @@ export default async function FlatsForSaleInNoidaPage() {
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent" />
           </div>
 
-          {/* Two-column: sidebar LEFT, content RIGHT */}
-          <div className="max-w-7xl mx-auto px-6 lg:grid lg:grid-cols-[360px_1fr] lg:gap-10 lg:pb-32">
-            <aside className="hidden lg:block order-first">
-              <ConsultationSidebar variant="residential" headline="Not sure what's actually worth seeing?" subtext="Share your budget and we'll bring you only the flats worth your time." />
-            </aside>
+          {/* Two-column: main content LEFT, consultation sidebar RIGHT */}
+          <div className="max-w-7xl mx-auto px-6 lg:grid lg:grid-cols-[1fr_360px] lg:gap-10 lg:pb-32">
             <div className="min-w-0">
               <div className="max-w-4xl">
                 <SeoBlocksRevealController initialVisible={1} step={1} totalCount={7}>
@@ -363,6 +360,10 @@ export default async function FlatsForSaleInNoidaPage() {
                 </div>
               </section>
             </div>
+
+            <aside className="hidden lg:block">
+              <ConsultationSidebar variant="residential" headline="Not sure what's actually worth seeing?" subtext="Share your budget and we'll bring you only the flats worth your time." />
+            </aside>
           </div>
 
           <section className="py-16 md:py-24 bg-gradient-to-br from-[#0f1112] to-gray-900">

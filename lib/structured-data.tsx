@@ -205,6 +205,14 @@ export function PropertySchema({
   );
 }
 
+/** Strip HTML from FAQ answers so JSON-LD stays plain text (answers may contain <a> for on-page UI). */
+function faqAnswerPlainText(html: string): string {
+  return html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 // FAQPage Schema (JSON-LD only – do not duplicate with microdata on same page)
 export function FAQPageSchema({
   faqs,
@@ -222,7 +230,7 @@ export function FAQPageSchema({
       name: faq.question.trim(),
       acceptedAnswer: {
         "@type": "Answer",
-        text: faq.answer.trim(),
+        text: faqAnswerPlainText(faq.answer.trim()),
       },
     })),
   };

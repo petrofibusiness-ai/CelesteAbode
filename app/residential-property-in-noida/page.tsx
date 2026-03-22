@@ -15,6 +15,7 @@ import LocationFAQs from "@/components/location-faqs";
 import { ConsultationSidebar } from "@/components/consultation-sidebar";
 import { OpenConsultationTrigger } from "@/components/open-consultation-trigger";
 import type { FAQ } from "@/types/location";
+import { PROPERTY_SEARCH_ANCHOR_ID } from "@/lib/scroll-listings";
 
 /**
  * On-page target phrases (user brief; /residential-property-in-noida). Woven into `<p>` / FAQ body:
@@ -67,8 +68,10 @@ export default async function ResidentialPropertyInNoidaPage() {
   let properties: (Property & { locationSlug: string })[] = [];
   let localities: Array<{ value: string; label: string }> = [];
 
+  let totalPropertiesCount: number | null = null;
+
   if (noidaLocation?.id) {
-    const [{ data: localitiesData }, { data: propertiesData }] = await Promise.all([
+    const [{ data: localitiesData }, { data: propertiesData }, { count }] = await Promise.all([
       fetchLocalitiesByLocationId(noidaLocation.id).then((list) => ({ data: list })),
       supabase
         .from("properties_v2")
@@ -78,8 +81,15 @@ export default async function ResidentialPropertyInNoidaPage() {
         .eq("is_published", true)
         .order("created_at", { ascending: false })
         .limit(6),
+      supabase
+        .from("properties_v2")
+        .select("id", { count: "exact", head: true })
+        .eq("location_id", noidaLocation.id)
+        .in("property_type", ["Apartment/Flats", "Villas"])
+        .eq("is_published", true),
     ]);
 
+    totalPropertiesCount = count;
     localities = Array.isArray(localitiesData) ? localitiesData : [];
     properties = (propertiesData || []).map((prop: any) => {
       const p = supabaseToProperty(prop);
@@ -140,16 +150,23 @@ export default async function ResidentialPropertyInNoidaPage() {
             <div className="max-w-7xl mx-auto px-6">
               {noidaLocation?.id && (
                 <>
-                  <LocationPropertyFilters
-                    location="noida"
-                    localities={localities}
-                    hidePropertyType
-                    defaultPropertyType="residential"
-                  />
+                  <div
+                    id={PROPERTY_SEARCH_ANCHOR_ID}
+                    className="scroll-mt-24 md:scroll-mt-28"
+                    aria-label="Search and filter properties"
+                  >
+                    <LocationPropertyFilters
+                      location="noida"
+                      localities={localities}
+                      hidePropertyType
+                      defaultPropertyType="residential"
+                    />
+                  </div>
                   {properties.length > 0 ? (
                     <NoidaPropertiesGrid
                       initialProperties={properties}
                       location="noida"
+                      initialTotalCount={totalPropertiesCount ?? properties.length}
                       defaultPropertyType="residential"
                     />
                   ) : (

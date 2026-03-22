@@ -1,13 +1,21 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { Phone } from "lucide-react";
+import { Phone, Building2 } from "lucide-react";
+import { Property } from "@/types/property";
+import { getSupabaseAdminClient } from "@/lib/supabase-server";
+import { supabaseToProperty } from "@/lib/supabase-property-mapper";
+import { fetchLocalitiesByLocationId } from "@/lib/fetch-localities";
+import { NoidaPropertiesGrid } from "@/components/noida-properties-grid";
+import { LocationPropertyFilters } from "@/components/location-property-filters";
 import { BreadcrumbSchema, WebPageSchema, FAQPageSchema } from "@/lib/structured-data";
 import { SeoBlocksRevealController } from "@/components/seo-blocks-reveal-controller";
 import LocationFAQs from "@/components/location-faqs";
 import { ConsultationSidebar } from "@/components/consultation-sidebar";
 import { OpenConsultationTrigger } from "@/components/open-consultation-trigger";
 import type { FAQ } from "@/types/location";
+import { PROPERTY_SEARCH_ANCHOR_ID } from "@/lib/scroll-listings";
 
 const SITE_URL = "https://www.celesteabode.com";
 const PAGE_URL = `${SITE_URL}/commercial-property-in-noida`;
@@ -24,7 +32,47 @@ const CONTENT_BLOCK_CLASS =
   "leading-[1.75] " +
   "[&_h3]:text-base [&_h3]:sm:text-lg [&_h3]:font-bold [&_h3]:text-gray-900 [&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:first:mt-0 [&_p]:mb-4 [&_p]:last:mb-0";
 
-export default function CommercialPropertyInNoidaPage() {
+export default async function CommercialPropertyInNoidaPage() {
+  const supabase = getSupabaseAdminClient();
+
+  const { data: noidaLocation } = await supabase
+    .from("locations_v2")
+    .select("id, slug")
+    .eq("slug", "noida")
+    .eq("is_published", true)
+    .single();
+
+  let properties: (Property & { locationSlug: string })[] = [];
+  let localities: Array<{ value: string; label: string }> = [];
+  let totalPropertiesCount: number | null = null;
+
+  if (noidaLocation?.id) {
+    const [{ data: localitiesData }, { data: propertiesData }, { count }] = await Promise.all([
+      fetchLocalitiesByLocationId(noidaLocation.id).then((list) => ({ data: list })),
+      supabase
+        .from("properties_v2")
+        .select("id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, configuration, hero_image, hero_image_alt, is_published, created_at, updated_at")
+        .eq("location_id", noidaLocation.id)
+        .eq("property_type", "Commercial")
+        .eq("is_published", true)
+        .order("created_at", { ascending: false })
+        .limit(6),
+      supabase
+        .from("properties_v2")
+        .select("id", { count: "exact", head: true })
+        .eq("location_id", noidaLocation.id)
+        .eq("property_type", "Commercial")
+        .eq("is_published", true),
+    ]);
+
+    totalPropertiesCount = count;
+    localities = Array.isArray(localitiesData) ? localitiesData : [];
+    properties = (propertiesData || []).map((prop: any) => {
+      const p = supabaseToProperty(prop);
+      return { ...p, locationSlug: noidaLocation.slug } as Property & { locationSlug: string };
+    });
+  }
+
   const breadcrumbItems = [
     { name: "Home", url: SITE_URL },
     { name: "Properties", url: `${SITE_URL}/properties` },
@@ -69,6 +117,56 @@ export default function CommercialPropertyInNoidaPage() {
                   – Buy the Best Commercial Property for Investment
                 </span>
               </h1>
+            </div>
+          </section>
+
+          <div className="w-full flex justify-center py-2">
+            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent" />
+          </div>
+
+          <section id="properties" className="py-8 md:py-12 bg-background relative">
+            <div className="max-w-7xl mx-auto px-6">
+              {noidaLocation?.id && (
+                <>
+                  <div
+                    id={PROPERTY_SEARCH_ANCHOR_ID}
+                    className="scroll-mt-24 md:scroll-mt-28"
+                    aria-label="Search and filter properties"
+                  >
+                    <LocationPropertyFilters
+                      location="noida"
+                      localities={localities}
+                      hidePropertyType
+                      defaultPropertyType="commercial"
+                    />
+                  </div>
+                  {properties.length > 0 ? (
+                    <NoidaPropertiesGrid
+                      initialProperties={properties}
+                      location="noida"
+                      initialTotalCount={totalPropertiesCount ?? properties.length}
+                      defaultPropertyType="commercial"
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center justify-center py-16 bg-gray-50 rounded-2xl">
+                      <Building2 className="w-16 h-16 text-gray-400 mb-4" />
+                      <p className="text-lg text-gray-600 mb-6 font-poppins text-center">
+                        No commercial listings in Noida at the moment. Browse all{" "}
+                        <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
+                          properties in Noida
+                        </Link>{" "}
+                        or check back soon.
+                      </p>
+                      <Link
+                        href="/properties-in-noida"
+                        className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white rounded-full font-medium hover:bg-black/90 transition-colors"
+                      >
+                        View All Noida Properties
+                      </Link>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           </section>
 

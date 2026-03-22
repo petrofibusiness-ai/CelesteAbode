@@ -15,6 +15,7 @@ import LocationFAQs from "@/components/location-faqs";
 import { ConsultationSidebar } from "@/components/consultation-sidebar";
 import { OpenConsultationTrigger } from "@/components/open-consultation-trigger";
 import type { FAQ } from "@/types/location";
+import { PROPERTY_SEARCH_ANCHOR_ID } from "@/lib/scroll-listings";
 
 /**
  * On-page target phrases (user brief; celeste prompt). Present in `<p>` / FAQ body:
@@ -65,8 +66,10 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
   let properties: (Property & { locationSlug: string })[] = [];
   let localities: Array<{ value: string; label: string }> = [];
 
+  let totalPropertiesCount: number | null = null;
+
   if (gnLocation?.id) {
-    const [{ data: localitiesData }, { data: propertiesData }] = await Promise.all([
+    const [{ data: localitiesData }, { data: propertiesData }, { count }] = await Promise.all([
       fetchLocalitiesByLocationId(gnLocation.id).then((list) => ({ data: list })),
       supabase
         .from("properties_v2")
@@ -76,8 +79,15 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
         .eq("is_published", true)
         .order("created_at", { ascending: false })
         .limit(6),
+      supabase
+        .from("properties_v2")
+        .select("id", { count: "exact", head: true })
+        .eq("location_id", gnLocation.id)
+        .eq("property_type", "Apartment/Flats")
+        .eq("is_published", true),
     ]);
 
+    totalPropertiesCount = count;
     localities = Array.isArray(localitiesData) ? localitiesData : [];
     properties = (propertiesData || []).map((prop: any) => {
       const p = supabaseToProperty(prop);
@@ -136,16 +146,23 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
             <div className="max-w-7xl mx-auto px-6">
               {gnLocation?.id && (
                 <>
-                  <LocationPropertyFilters
-                    location="greater-noida"
-                    localities={localities}
-                    hidePropertyType
-                    defaultPropertyType="apartments"
-                  />
+                  <div
+                    id={PROPERTY_SEARCH_ANCHOR_ID}
+                    className="scroll-mt-24 md:scroll-mt-28"
+                    aria-label="Search and filter properties"
+                  >
+                    <LocationPropertyFilters
+                      location="greater-noida"
+                      localities={localities}
+                      hidePropertyType
+                      defaultPropertyType="apartments"
+                    />
+                  </div>
                   {properties.length > 0 ? (
                     <NoidaPropertiesGrid
                       initialProperties={properties}
                       location="greater-noida"
+                      initialTotalCount={totalPropertiesCount ?? properties.length}
                       defaultPropertyType="apartments"
                     />
                   ) : (

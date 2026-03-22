@@ -278,6 +278,23 @@
 157. **Result count:** The `/properties` page uses the same **“Showing X out of Y properties”** pattern as location pages (centred above “View More”, with loading-more and no-more states). `Y` comes from `/api/properties/all` `totalCount` when browsing all locations, or the **sum** of each `/api/properties/search` `totalCount` when multiple locations are selected.
 158. **API:** `GET /api/properties/all` returns **`totalCount`** (exact count for current filters) alongside `properties`; supports **`residential`** property type the same way as search (apartments + villas).
 
+### Listings — numbered pagination & scroll (public site)
+159. **`/properties`:** Replaced infinite **“View More”** with **numbered pagination** (6 per page), matching location listing UX: **`PropertyGridPagination`** (Back / Next, page numbers, ellipses), **Framer Motion** grid transition, **page-change overlay** while fetching, **`offset`/`limit`** on `/api/properties/all` and multi-location search. **Removed** the “Showing X out of Y” line under the grid.
+160. **Scroll on page change:** After changing page, the view **scrolls to the search/filters block** (not only the grid). Shared anchor id **`property-search-anchor`** with `scroll-mt-24 md:scroll-mt-28`; helper **`scrollPropertySearchSectionIntoView()`** in `lib/scroll-listings.ts` (double `requestAnimationFrame` + `scrollIntoView` smooth). Filters + heading on `/properties` wrapped in that anchor.
+161. **`properties-in/[locationCategory]`:** **`LocationPropertyFilters`** wrapped in the same **`property-search-anchor`** wrapper so **`NoidaPropertiesGrid`** pagination scroll matches `/properties`.
+
+### Admin — properties list pagination
+162. **`/admin/properties`:** **Numbered pagination** (20 per page) using existing **`GET /api/admin/properties?page=&limit=`**; **`PropertyGridPagination`** below the card grid; **full-page loader** on first load, **overlay spinner** on page change; header subtitle shows **total count** and “20 per page”; refresh / delete / publish **re-fetch current page**; auto-clamp page if last item on a page is deleted.
+
+### SEO landing pages — same listing stack as `properties-in`
+163. **Grid parity:** These pages now use **`LocationPropertyFilters`** + **`NoidaPropertiesGrid`** with the same pattern as dynamic location pages: **`PROPERTY_SEARCH_ANCHOR_ID`** around filters, **`initialTotalCount`** from a parallel Supabase **exact count** (where applicable), first **6** rows SSR + client paging via **`/api/properties/search`**:
+    - `/residential-property-in-noida` (residential: apartments + villas)
+    - `/flats-for-sale-in-noida` (apartments only)
+    - `/flats-for-sale-in-greater-noida` (apartments only)
+164. **`/commercial-property-in-noida`:** Page is now **`async`** with a **property listing section** after the hero (commercial only: DB `property_type = Commercial`), filters **`hidePropertyType`** + **`defaultPropertyType="commercial"`**, anchor + grid + empty state linking to **`/properties-in-noida`**.
+165. **`/commercial-and-residential-property-in-lucknow`:** Page is **`async`** with listing for **Lucknow** (all published types); **property type filter visible** (no `hidePropertyType`); empty state links to **`/properties-in-lucknow`**.
+166. **`/flats-in-ghaziabad`:** Page is **`async`** with **Ghaziabad** apartments-only listing (same pattern as other flats pages); empty state links to **`/properties-in-ghaziabad`**.
+
 ---
 
 ## How to use this doc

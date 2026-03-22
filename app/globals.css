@@ -964,3 +964,20 @@ body::after {
 .animate-fadeIn {
   animation: fadeIn 0.4s ease-out forwards;
 }
+
+/* Property page sticky inquiry: keep dark surfaces (Tailwind + WebKit autofill) */
+.property-inquiry-dark-card input:-webkit-autofill,
+.property-inquiry-dark-card input:-webkit-autofill:hover,
+.property-inquiry-dark-card input:-webkit-autofill:focus,
+.property-inquiry-dark-card textarea:-webkit-autofill,
+.property-inquiry-dark-card textarea:-webkit-autofill:hover,
+.property-inquiry-dark-card textarea:-webkit-autofill:focus,
+.property-inquiry-dark-card select:-webkit-autofill,
+.property-inquiry-dark-card select:-webkit-autofill:hover,
+.property-inquiry-dark-card select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #f5f5f5;
+  caret-color: #f5f5f5;
+  box-shadow: 0 0 0 1000px #161616 inset;
+  -webkit-box-shadow: 0 0 0 1000px #161616 inset;
+  transition: background-color 99999s ease-out 0s;
+}

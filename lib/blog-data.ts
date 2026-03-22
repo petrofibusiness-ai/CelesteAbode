@@ -14,6 +14,8 @@ export type BlogPost = {
   metaDescription?: string;
   ogImage?: string;
   ogImageAlt?: string;
+  /** Taller hero (full viewport) for flagship project stories */
+  heroFullscreen?: boolean;
 };
 
 export const blogPosts: BlogPost[] = [
@@ -120,6 +122,28 @@ export const blogPosts: BlogPost[] = [
     ogImage: "/hero-.avif",
     ogImageAlt: "Upcoming luxury projects in Noida and Greater Noida",
   },
+  {
+    id: 7,
+    title: "Sobha Rivana Greater Noida West: RERA, Price, Floor Plans & Location (Sector 1)",
+    slug: "sobha-rivana-greater-noida-west-rera-sector-1",
+    excerpt:
+      "Sobha Rivana, Sector 1 Greater Noida West: on UP RERA. Snapshot first, then filing, roads, layouts, price, and the paper you settle before you pay.",
+    category: "Project Spotlight",
+    readTime: "9 min read",
+    date: "March 22, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-entrance.jpg",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle:
+      "Sobha Rivana Greater Noida West | RERA, Price, 2/3/4 BHK Floor Plans, Sector 1 Location",
+    metaDescription:
+      "Sobha Rivana Greater Noida West (Sector 1, Noida Extension): official UP RERA registration, 2/3/4 BHK sizes, indicative price per sq ft, towers and units, possession timeline, amenities, connectivity, and buyer checklist. Advisory by Celeste Abode.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-entrance.jpg",
+    ogImageAlt: "Sobha Rivana Greater Noida West Sector 1 apartments RERA",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -127,5 +151,21 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
 }
 
 export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
-  return blogPosts.filter((p) => p.slug !== currentSlug).slice(0, limit);
+  const others = blogPosts.filter((p) => p.slug !== currentSlug);
+  if (currentSlug === "sobha-rivana-greater-noida-west-rera-sector-1") {
+    const prioritySlugs = [
+      "upcoming-luxury-projects-noida-greater-noida-2026",
+      "noida-vs-greater-noida-investment-2026",
+      "jewar-airport-ncr-property-buyers-2026",
+      "yamuna-expressway-growth-corridor-delhi-ncr",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  return others.slice(0, limit);
 }

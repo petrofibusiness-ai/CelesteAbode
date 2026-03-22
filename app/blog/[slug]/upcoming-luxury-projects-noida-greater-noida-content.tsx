@@ -257,20 +257,21 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
           {/* Sobha, Noida Extension */}
           <article id="sobha-noida-extension">
             <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">
-              Sobha, Noida Extension – brand entry into the Greater Noida West belt
+              Sobha Rivana, Sector 1 Greater Noida West – Sobha&apos;s NCR scale play
             </h3>
             <p className="mb-4">
-              Sobha&apos;s upcoming launch in the Noida Extension or Greater Noida West belt is important because it brings a
-              Bengaluru‑based national brand into a corridor that has so far been dominated by local and Delhi‑NCR
-              focused developers. While exact plans can evolve, buyers can usually expect a strong focus on
-              construction quality, landscaping and community design, given Sobha&apos;s track record in other cities.
+              <Link
+                href="/blog/sobha-rivana-greater-noida-west-rera-sector-1"
+                className="text-[#CBB27A] font-semibold hover:underline"
+              >
+                Sobha Rivana
+              </Link>{" "}
+              is now on UP RERA (registration UPRERAPRJ313638/03/2026, dated 20 March 2026) in Sector 1, Noida Extension. It
+              brings a listed, Bengaluru‑origin builder into a belt long dominated by NCR‑first names. Expect large
+              formats, heavy landscaping, and a full construction cycle before you plan a move. The play is mid‑to‑large
+              configurations, strong finish discipline, and whether the society stack can carry thousands of units without
+              fraying after possession.
             </p>
-            <ul className="list-disc pl-6 space-y-2 mb-3">
-              <li>Planned in the Noida Extension micro‑market with improving social infrastructure</li>
-              <li>Likely focus on mid‑to‑large configurations suitable for families</li>
-              <li>Brand strength and build quality as the main attractions</li>
-              <li>Potential to reset benchmarks for finish and community feel in the belt</li>
-            </ul>
             <p>
               For many buyers, this will sit on the same shortlist as other premium Greater Noida West launches you will
               find under{" "}

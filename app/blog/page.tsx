@@ -125,6 +125,7 @@ export default function BlogPage() {
                                   fill
                                   className="object-cover group-hover:scale-105 transition-transform"
                                   sizes="80px"
+                                  unoptimized={post.image.startsWith("http")}
                                 />
                               </div>
                               <div className="min-w-0 flex-1">
@@ -177,6 +178,7 @@ export default function BlogPage() {
                               alt={post.title}
                               fill
                               className="object-cover group-hover:scale-105 transition-transform duration-500"
+                              unoptimized={post.image.startsWith("http")}
                             />
                             <div className="absolute top-4 left-4">
                               <span className="inline-block px-3 py-1.5 bg-[#CBB27A] text-white text-xs font-semibold rounded-full">
@@ -241,6 +243,7 @@ export default function BlogPage() {
                               alt={post.title}
                               fill
                               className="object-cover group-hover:scale-105 transition-transform duration-500"
+                              unoptimized={post.image.startsWith("http")}
                             />
                             <div className="absolute top-3 left-3">
                               <span className="inline-block px-2.5 py-1 bg-[#CBB27A] text-white text-xs font-semibold rounded-full">

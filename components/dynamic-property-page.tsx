@@ -27,6 +27,185 @@ import {
 import { AmenityIcon } from "@/lib/amenity-icons";
 import { getPropertyAbsoluteUrl } from "@/lib/property-url";
 
+interface PropertyStickyInquiryCardProps {
+  projectNamePlain: string;
+  configurationOptions: string[];
+  stickyFormData: { name: string; phone: string; configuration: string };
+  stickyPhoneError: string;
+  stickyIsSubmitted: boolean;
+  stickyIsSubmitting: boolean;
+  onStickyFormFieldChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+  onStickyPhoneChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onStickyPhoneKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onStickySubmit: (e: React.FormEvent) => void;
+  isValidPhoneFn: (value: string) => boolean;
+  idPrefix: string;
+  className?: string;
+}
+
+function PropertyStickyInquiryCard({
+  projectNamePlain,
+  configurationOptions,
+  stickyFormData,
+  stickyPhoneError,
+  stickyIsSubmitted,
+  stickyIsSubmitting,
+  onStickyFormFieldChange,
+  onStickyPhoneChange,
+  onStickyPhoneKeyDown,
+  onStickySubmit,
+  isValidPhoneFn,
+  idPrefix,
+  className = "",
+}: PropertyStickyInquiryCardProps) {
+  const configRequired = configurationOptions.length > 0;
+  const fieldShell =
+    "w-full rounded-xl border border-white/20 bg-[#161616] px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/35 transition-shadow";
+  return (
+    <div
+      className={`property-inquiry-dark-card rounded-2xl border border-[#CBB27A]/40 p-5 sm:p-6 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.55)] ring-1 ring-white/10 [color-scheme:dark] ${className}`}
+      style={{
+        fontFamily: "Poppins, sans-serif",
+        background: "linear-gradient(165deg, #0f0f0f 0%, #030303 42%, #141414 100%)",
+      }}
+    >
+      {stickyIsSubmitted ? (
+        <div className="text-center py-2">
+          <div className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-[#CBB27A]/20 mb-3">
+            <MessageSquare className="w-5 h-5 text-[#CBB27A]" />
+          </div>
+          <p className="text-sm font-semibold text-white">You&apos;re all set</p>
+          <p className="text-xs text-gray-400 mt-1 leading-relaxed">
+            A Celeste advisor will call you soon to chat about{" "}
+            <span className="font-medium text-[#CBB27A]">{projectNamePlain}</span>.
+          </p>
+        </div>
+      ) : (
+        <form onSubmit={onStickySubmit} className="space-y-4">
+          <div>
+            <p className="text-xs text-gray-400 leading-relaxed mb-2">
+              Have a question on pricing, floor plans, or a site visit? We&apos;ll call you back with answers tailored to{" "}
+              <span className="font-medium text-gray-200">{projectNamePlain}</span>.
+            </p>
+            <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
+              Get a personal callback
+            </h3>
+          </div>
+
+          <div>
+            <label
+              htmlFor={`${idPrefix}-property`}
+              className="block text-[11px] font-semibold text-[#CBB27A]/90 uppercase tracking-wide mb-1"
+            >
+              You&apos;re looking at
+            </label>
+            <textarea
+              id={`${idPrefix}-property`}
+              readOnly
+              tabIndex={-1}
+              aria-label={`Property: ${projectNamePlain}`}
+              title={projectNamePlain}
+              value=""
+              placeholder={projectNamePlain}
+              rows={2}
+              className="w-full min-h-[3.25rem] rounded-xl border border-[#CBB27A]/35 bg-[#1a170f] px-3 py-2.5 text-sm font-medium text-white cursor-default resize-none focus:outline-none focus:ring-0 placeholder:text-white placeholder:font-medium"
+            />
+          </div>
+
+          <div className="w-full space-y-3">
+            <div className="w-full">
+              <label
+                htmlFor={`${idPrefix}-name`}
+                className="block text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1"
+              >
+                Name
+              </label>
+              <input
+                type="text"
+                id={`${idPrefix}-name`}
+                name="name"
+                value={stickyFormData.name}
+                onChange={onStickyFormFieldChange}
+                required
+                autoComplete="name"
+                className={fieldShell}
+                placeholder="How we should address you"
+              />
+            </div>
+            <div className="w-full">
+              <label
+                htmlFor={`${idPrefix}-phone`}
+                className="block text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1"
+              >
+                Phone
+              </label>
+              <input
+                type="tel"
+                id={`${idPrefix}-phone`}
+                name="phone"
+                value={stickyFormData.phone}
+                onChange={onStickyPhoneChange}
+                onKeyDown={onStickyPhoneKeyDown}
+                inputMode="tel"
+                pattern="[0-9+\s\-()]*"
+                required
+                autoComplete="tel"
+                className={`${fieldShell} ${
+                  stickyPhoneError ? "border-red-400/80 focus:border-red-400 focus:ring-red-400/30" : ""
+                }`}
+                placeholder="Number we can reach you on"
+              />
+            </div>
+          </div>
+          {stickyPhoneError ? (
+            <p className="text-xs text-red-400 -mt-2">{stickyPhoneError}</p>
+          ) : null}
+
+          {configRequired ? (
+            <div className="w-full">
+              <label
+                htmlFor={`${idPrefix}-configuration`}
+                className="block text-[11px] font-semibold text-gray-400 uppercase tracking-wide mb-1"
+              >
+                Configuration
+              </label>
+              <select
+                id={`${idPrefix}-configuration`}
+                name="configuration"
+                value={stickyFormData.configuration}
+                onChange={onStickyFormFieldChange}
+                required
+                className={`${fieldShell} cursor-pointer pr-3`}
+              >
+                <option value="">Select configuration</option>
+                {configurationOptions.map((c) => (
+                  <option key={c} value={c}>
+                    {c}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : null}
+
+          <button
+            type="submit"
+            disabled={
+              stickyIsSubmitting ||
+              !stickyFormData.name.trim() ||
+              !stickyFormData.phone.trim() ||
+              !isValidPhoneFn(stickyFormData.phone) ||
+              (configRequired && !stickyFormData.configuration.trim())
+            }
+            className="w-full rounded-xl bg-[#CBB27A] py-2.5 text-sm font-semibold text-black shadow-lg transition hover:bg-[#d4c068] focus:outline-none focus:ring-2 focus:ring-[#CBB27A] focus:ring-offset-2 focus:ring-offset-[#0a0a0a] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {stickyIsSubmitting ? "Sending…" : "Request a callback"}
+          </button>
+        </form>
+      )}
+    </div>
+  );
+}
+
 interface DynamicPropertyPageProps {
   property: Property;
   /** Canonical full URL for this property page (e.g. https://www.celesteabode.com/properties-in-ghaziabad/forest-walk-villa). Use for schema and breadcrumbs so they match the actual URL. */
@@ -44,9 +223,17 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
     name: "",
     phone: "",
   });
+  const [stickyFormData, setStickyFormData] = useState({
+    name: "",
+    phone: "",
+    configuration: "",
+  });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [phoneError, setPhoneError] = useState("");
+  const [stickyIsSubmitted, setStickyIsSubmitted] = useState(false);
+  const [stickyIsSubmitting, setStickyIsSubmitting] = useState(false);
+  const [stickyPhoneError, setStickyPhoneError] = useState("");
 
   // Get site URL for client-side component
   const siteUrl = typeof window !== 'undefined' 
@@ -354,6 +541,105 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
     }
   };
 
+  const handleStickyPhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const filteredValue = value.replace(/[^0-9+\s\-()]/g, "");
+    setStickyFormData((prev) => ({ ...prev, phone: filteredValue }));
+    if (filteredValue.trim() && !isValidPhone(filteredValue)) {
+      const digits = filteredValue.trim().replace(/\D/g, "");
+      if (digits.length === 11 && !digits.startsWith("0") && !filteredValue.trim().startsWith("+")) {
+        setStickyPhoneError("11-digit numbers (not starting with 0) must start with + (country code required)");
+      } else if (digits.length === 12 && !filteredValue.trim().startsWith("+")) {
+        setStickyPhoneError("12-digit numbers must start with + (country code required)");
+      } else {
+        setStickyPhoneError("Please enter a valid phone number");
+      }
+    } else {
+      setStickyPhoneError("");
+    }
+  };
+
+  const handleStickyFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    if (e.target.name === "phone") return;
+    setStickyFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleStickyFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStickyIsSubmitting(true);
+    setStickyPhoneError("");
+    if (!stickyFormData.phone.trim()) {
+      setStickyPhoneError("Phone number is required");
+      setStickyIsSubmitting(false);
+      return;
+    }
+    if (!isValidPhone(stickyFormData.phone)) {
+      const digits = stickyFormData.phone.trim().replace(/\D/g, "");
+      if (digits.length === 11 && !digits.startsWith("0") && !stickyFormData.phone.trim().startsWith("+")) {
+        setStickyPhoneError("11-digit numbers (not starting with 0) must start with + (country code required)");
+      } else if (digits.length === 12 && !stickyFormData.phone.trim().startsWith("+")) {
+        setStickyPhoneError("12-digit numbers must start with + (country code required)");
+      } else {
+        setStickyPhoneError("Please enter a valid phone number");
+      }
+      setStickyIsSubmitting(false);
+      return;
+    }
+    try {
+      const nameParts = stickyFormData.name.trim().split(" ");
+      const firstName = nameParts[0] || stickyFormData.name;
+      const lastName = nameParts.slice(1).join(" ") || "Not Provided";
+      const configNote = stickyFormData.configuration.trim()
+        ? ` Configuration of interest: ${stickyFormData.configuration.trim()}.`
+        : "";
+      const messageBody = `Property inquiry for ${property.projectName} - ${property.location}.${configNote}`;
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          phone: stickyFormData.phone.trim(),
+          message: messageBody,
+          formSource: "property-page-sticky-sidebar",
+          propertyTitle: property.projectName,
+          propertyLocation: property.location,
+          propertySlug: property.slug,
+          unitConfiguration: stickyFormData.configuration.trim() || undefined,
+        }),
+      });
+      if (response.ok) {
+        setStickyIsSubmitted(true);
+        setStickyFormData({ name: "", phone: "", configuration: "" });
+        setStickyPhoneError("");
+        setTimeout(() => setStickyIsSubmitted(false), 5000);
+      } else {
+        const errorData = await response.json().catch(() => ({ error: "Failed to submit form" }));
+        console.error("Form submission error:", errorData.error);
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+    } finally {
+      setStickyIsSubmitting(false);
+    }
+  };
+
+  const projectNamePlain = useMemo(
+    () =>
+      property.projectName
+        .replace(/<[^>]*>/g, " ")
+        .replace(/&nbsp;/gi, " ")
+        .replace(/\s+/g, " ")
+        .trim() || "this project",
+    [property.projectName]
+  );
+
+  const stickyConfigurationOptions = useMemo(() => {
+    const list = property.configuration;
+    if (!list?.length) return [];
+    return list.filter((c) => c.trim() !== "");
+  }, [property.configuration]);
+
   // Load amenities dynamically from database - Maximum 8 amenities
   const amenitiesToShow = useMemo(() => {
     if (!property.amenities || !Array.isArray(property.amenities)) {
@@ -538,9 +824,12 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
         {/* Main Content */}
         <main>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-6 sm:py-8 md:py-16">
+            {/* Description + CTA + gallery: grid ends before amenities so sticky sidebar releases there */}
+            <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(288px,380px)] lg:gap-x-10 xl:gap-x-14 lg:items-start">
+              <div className="min-w-0">
             {/* Description Section */}
             <section className="mb-12 sm:mb-16 md:mb-24">
-              <div className="max-w-4xl mx-auto">
+              <div className="max-w-4xl lg:mr-auto">
                 <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#CBB27A]/10 rounded-full flex items-center justify-center flex-shrink-0">
                     <Eye className="w-5 h-5 sm:w-6 sm:h-6 text-[#CBB27A]" />
@@ -573,8 +862,25 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
               </div>
             </section>
 
+            <div id="property-inquiry-mobile" className="lg:hidden mb-10 scroll-mt-28">
+              <PropertyStickyInquiryCard
+                projectNamePlain={projectNamePlain}
+                configurationOptions={stickyConfigurationOptions}
+                stickyFormData={stickyFormData}
+                stickyPhoneError={stickyPhoneError}
+                stickyIsSubmitted={stickyIsSubmitted}
+                stickyIsSubmitting={stickyIsSubmitting}
+                onStickyFormFieldChange={handleStickyFormChange}
+                onStickyPhoneChange={handleStickyPhoneChange}
+                onStickyPhoneKeyDown={handlePhoneKeyDown}
+                onStickySubmit={handleStickyFormSubmit}
+                isValidPhoneFn={isValidPhone}
+                idPrefix="property-inquiry-m"
+              />
+            </div>
+
             {/* CTA Buttons - After About Section */}
-            <div className="max-w-7xl mx-auto px-4 md:px-12 mb-16 md:mb-24">
+            <div className="mb-16 md:mb-24 max-w-4xl lg:mr-auto">
               <div className="text-center mb-8">
                 <p
                   className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-2xl mx-auto"
@@ -600,8 +906,17 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
                 )}
                 <Button
                   onClick={() => {
-                    const footerCTA = document.getElementById('footer-cta');
-                    footerCTA?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    const desktop = document.getElementById("property-inquiry-sidebar");
+                    const mobile = document.getElementById("property-inquiry-mobile");
+                    const target =
+                      typeof window !== "undefined" && window.matchMedia("(min-width: 1024px)").matches
+                        ? desktop
+                        : mobile;
+                    if (target) {
+                      target.scrollIntoView({ behavior: "smooth", block: "center" });
+                      return;
+                    }
+                    document.getElementById("footer-cta")?.scrollIntoView({ behavior: "smooth", block: "start" });
                   }}
                   variant="outline"
                   className="border-2 border-black hover:border-gray-900 bg-transparent hover:bg-black/5 text-black hover:text-gray-900 font-bold py-3 px-6 rounded-xl text-sm md:text-base transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 group h-auto w-full sm:w-auto"
@@ -617,7 +932,7 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
             {/* Project Gallery - Media Carousel */}
             {mediaItems.length > 0 && (
               <section className="mb-12 sm:mb-16 md:mb-24">
-                <div className="max-w-4xl mx-auto">
+                <div className="max-w-4xl lg:mr-auto">
                   <div className="mb-6 sm:mb-8">
                     <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
                       <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#CBB27A]/10 rounded-full flex items-center justify-center flex-shrink-0">
@@ -798,6 +1113,28 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
                 </div>
               </section>
             )}
+              </div>
+
+              <aside
+                id="property-inquiry-sidebar"
+                className="hidden lg:block self-start lg:sticky lg:top-24 xl:top-28 z-20 w-full max-w-[380px] justify-self-end scroll-mt-28"
+              >
+                <PropertyStickyInquiryCard
+                  projectNamePlain={projectNamePlain}
+                  configurationOptions={stickyConfigurationOptions}
+                  stickyFormData={stickyFormData}
+                  stickyPhoneError={stickyPhoneError}
+                  stickyIsSubmitted={stickyIsSubmitted}
+                  stickyIsSubmitting={stickyIsSubmitting}
+                  onStickyFormFieldChange={handleStickyFormChange}
+                  onStickyPhoneChange={handleStickyPhoneChange}
+                  onStickyPhoneKeyDown={handlePhoneKeyDown}
+                  onStickySubmit={handleStickyFormSubmit}
+                  isValidPhoneFn={isValidPhone}
+                  idPrefix="property-inquiry-d"
+                />
+              </aside>
+            </div>
 
             {/* Amenities - 6-8 items */}
             {amenitiesToShow.length > 0 && (

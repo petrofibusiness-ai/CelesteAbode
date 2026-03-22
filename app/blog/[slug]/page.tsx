@@ -6,8 +6,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { blogPosts, getPostBySlug, getRelatedPosts } from "@/lib/blog-data";
-import { ArticleSchema } from "@/lib/structured-data";
-import { BreadcrumbSchema } from "@/lib/structured-data";
+import { ArticleSchema, BreadcrumbSchema, FAQPageSchema } from "@/lib/structured-data";
 import { ArticleLeadForm } from "./article-lead-form";
 import { NoidaSafe2026Content } from "./noida-safe-2026-content";
 import { YamunaExpresswayContent } from "./yamuna-expressway-content";
@@ -15,6 +14,10 @@ import { NoidaVsGreaterNoidaContent } from "./noida-vs-greater-noida-content";
 import { JewarAirportNcrProperty2026Content } from "./jewar-airport-ncr-property-2026-content";
 import { ForestWalkVillaGhaziabadContent } from "./forest-walk-villa-ghaziabad-content";
 import { UpcomingLuxuryProjectsNoidaGreaterNoidaContent } from "./upcoming-luxury-projects-noida-greater-noida-content";
+import {
+  SobhaRivanaGreaterNoidaWestContent,
+  sobhaRivanaFaqSchemaItems,
+} from "./sobha-rivana-greater-noida-west-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 
 const ARTICLE_CONTENT: Record<string, ComponentType> = {
@@ -24,6 +27,7 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "jewar-airport-ncr-property-buyers-2026": JewarAirportNcrProperty2026Content,
   "forest-walk-villa-ghaziabad-luxury-living-2026": ForestWalkVillaGhaziabadContent,
   "upcoming-luxury-projects-noida-greater-noida-2026": UpcomingLuxuryProjectsNoidaGreaterNoidaContent,
+  "sobha-rivana-greater-noida-west-rera-sector-1": SobhaRivanaGreaterNoidaWestContent,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -47,9 +51,11 @@ export async function generateMetadata({
     };
   }
 
-  const title = post.slug === "forest-walk-villa-ghaziabad-luxury-living-2026"
-    ? post.title
-    : `${post.title} - Blog`;
+  const title =
+    post.slug === "forest-walk-villa-ghaziabad-luxury-living-2026" ||
+    post.slug === "sobha-rivana-greater-noida-west-rera-sector-1"
+      ? post.title
+      : `${post.title} - Blog`;
   const description = post.excerpt;
   const url = `${SITE_URL}/blog/${post.slug}`;
   const imageUrl = post.image.startsWith("http") ? post.image : `${SITE_URL}${post.image}`;
@@ -118,6 +124,27 @@ export async function generateMetadata({
       "SRSD Buildcon Forest Walk",
       "Ghaziabad villa township",
       "properties in Ghaziabad",
+      "Celeste Abode",
+    ],
+    "sobha-rivana-greater-noida-west-rera-sector-1": [
+      "Sobha Rivana",
+      "Sobha Rivana Greater Noida",
+      "Sobha Rivana Greater Noida West",
+      "Sobha Rivana Sector 1",
+      "Sobha Rivana Noida Extension",
+      "Sobha Rivana RERA",
+      "Sobha Rivana RERA number",
+      "Sobha Rivana price",
+      "Sobha Rivana price per sq ft",
+      "Sobha Rivana floor plan",
+      "Sobha Rivana 2 BHK",
+      "Sobha Rivana 3 BHK",
+      "Sobha Rivana 4 BHK",
+      "Sobha Rivana possession",
+      "Sobha Rivana location",
+      "Sobha Rivana amenities",
+      "Sobha Limited Rivana",
+      "luxury apartments Greater Noida West",
       "Celeste Abode",
     ],
   };
@@ -190,6 +217,9 @@ export default async function BlogPostPage({
         datePublished={post.date}
         url={`${SITE_URL}/blog/${post.slug}`}
       />
+      {slug === "sobha-rivana-greater-noida-west-rera-sector-1" ? (
+        <FAQPageSchema faqs={sobhaRivanaFaqSchemaItems} />
+      ) : null}
 
       <div className="min-h-screen bg-background">
         <Header />
@@ -197,14 +227,25 @@ export default async function BlogPostPage({
         <main className="pt-0">
           {/* Hero – image starts from top (behind fixed header) */}
           <header className="relative bg-[#0f1112]">
-            <div className="relative h-[75vh] min-h-[480px] max-h-[840px]">
+            <div
+              className={
+                post.heroFullscreen
+                  ? "relative min-h-screen min-h-[100svh]"
+                  : "relative h-[75vh] min-h-[480px] max-h-[840px]"
+              }
+            >
               <Image
                 src={post.image}
-                alt=""
+                alt={post.ogImageAlt || post.title}
                 fill
-                className="object-cover object-bottom"
+                className={
+                  post.slug === "sobha-rivana-greater-noida-west-rera-sector-1"
+                    ? "object-cover object-center"
+                    : "object-cover object-bottom"
+                }
                 priority
                 sizes="100vw"
+                unoptimized={post.image.startsWith("http")}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/40" />
               {/* Hero content overlay on image */}
@@ -262,6 +303,7 @@ export default async function BlogPostPage({
                                   fill
                                   className="object-cover group-hover:scale-105 transition-transform"
                                   sizes="80px"
+                                  unoptimized={r.image.startsWith("http")}
                                 />
                               </div>
                               <div className="min-w-0 flex-1">

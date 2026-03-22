@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Building2, Plus, Edit, Trash2, Eye, EyeOff, Loader2, ExternalLink, RefreshCw } from "lucide-react";
@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Property } from "@/types/property";
 import { toast } from "sonner";
 import { getPropertyUrl } from "@/lib/property-url";
+import { PropertyGridPagination } from "@/components/property-grid-pagination";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -18,6 +19,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+
+const ADMIN_PROPERTIES_PER_PAGE = 20;
 
 export default function PropertiesPage() {
   const router = useRouter();
@@ -30,12 +33,16 @@ export default function PropertiesPage() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [propertyToDelete, setPropertyToDelete] = useState<{ id: string; name: string } | null>(null);
   const [csrfToken, setCsrfToken] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [listLoading, setListLoading] = useState(false);
+  const isFirstListLoad = useRef(true);
 
-  // Handle authentication errors
-  const handleAuthError = () => {
+  const handleAuthError = useCallback(() => {
     toast.error("Session expired. Please log in again.");
     router.push("/admin/login");
-  };
+  }, [router]);
 
   useEffect(() => {
     // Clear cache on page refresh
@@ -69,58 +76,99 @@ export default function PropertiesPage() {
     fetchCSRFToken();
   }, []);
 
+  const loadProperties = useCallback(
+    async (page: number, options?: { forceRefresh?: boolean; showRefreshToast?: boolean }) => {
+      const forceRefresh = options?.forceRefresh ?? false;
+      const showRefreshToast = options?.showRefreshToast ?? false;
+
+      try {
+        if (isFirstListLoad.current) {
+          setLoading(true);
+        } else {
+          setListLoading(true);
+        }
+        setError("");
+
+        const cacheTimestamp = sessionStorage.getItem("properties-cache-timestamp");
+        const now = Date.now();
+        const CACHE_DURATION = 5 * 60 * 1000;
+        const isFreshLoad =
+          forceRefresh || !cacheTimestamp || now - parseInt(cacheTimestamp, 10) > CACHE_DURATION;
+
+        const params = new URLSearchParams();
+        params.set("page", String(page));
+        params.set("limit", String(ADMIN_PROPERTIES_PER_PAGE));
+        if (isFreshLoad) {
+          params.set("t", String(now));
+        }
+
+        const response = await fetch(`/api/admin/properties?${params.toString()}`, {
+          credentials: "include",
+          cache: "no-store",
+        });
+
+        if (response.status === 401) {
+          handleAuthError();
+          return;
+        }
+
+        if (!response.ok) throw new Error("Failed to fetch properties");
+        const data = await response.json();
+
+        const pag = data.pagination as
+          | { page: number; limit: number; total: number; totalPages: number }
+          | undefined;
+        const list = (data.properties || []) as Property[];
+        const tp = Math.max(1, pag?.totalPages ?? 1);
+        const total = typeof pag?.total === "number" ? pag.total : list.length;
+
+        // If this page is past the last (e.g. after delete), jump to last page
+        if (page > tp && tp >= 1 && total > 0) {
+          setCurrentPage(tp);
+          return;
+        }
+
+        // Empty page but rows still exist elsewhere (e.g. deleted last item on page 2)
+        if (list.length === 0 && total > 0 && page > 1) {
+          setCurrentPage(page - 1);
+          return;
+        }
+
+        setProperties(list);
+        setTotalPages(tp);
+        setTotalCount(total);
+        setCurrentPage(Math.min(page, tp));
+
+        sessionStorage.setItem("properties-cache-timestamp", now.toString());
+
+        if (showRefreshToast) {
+          toast.success("Properties refreshed successfully");
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
+        isFirstListLoad.current = false;
+        setLoading(false);
+        setListLoading(false);
+        setRefreshing(false);
+      }
+    },
+    [handleAuthError]
+  );
+
   useEffect(() => {
-    fetchProperties();
-  }, []);
-
-  const fetchProperties = async (forceRefresh: boolean = false) => {
-    try {
-      setLoading(true);
-      
-      // Check if this is a fresh page load (no cache timestamp)
-      const cacheTimestamp = sessionStorage.getItem('properties-cache-timestamp');
-      const now = Date.now();
-      const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
-      
-      // Force fresh data if:
-      // 1. Manual refresh triggered
-      // 2. No cache timestamp (first load or after refresh)
-      // 3. Cache has expired
-      const isFreshLoad = forceRefresh || !cacheTimestamp || (now - parseInt(cacheTimestamp)) > CACHE_DURATION;
-      const cacheParam = isFreshLoad ? `?t=${now}` : '';
-      
-      const response = await fetch(`/api/admin/properties${cacheParam}`, {
-        credentials: 'include', // Send authentication cookies
-        cache: 'no-store', // Bypass browser cache
-      });
-      
-      // Handle 401 Unauthorized
-      if (response.status === 401) {
-        handleAuthError();
-        return;
-      }
-      
-      if (!response.ok) throw new Error("Failed to fetch properties");
-      const data = await response.json();
-      setProperties(data.properties || []);
-      
-      // Update cache timestamp on successful fetch
-      sessionStorage.setItem('properties-cache-timestamp', now.toString());
-
-      if (forceRefresh) {
-        toast.success("Properties refreshed successfully");
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  };
+    loadProperties(currentPage);
+  }, [currentPage, loadProperties]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
-    await fetchProperties(true);
+    await loadProperties(currentPage, { forceRefresh: true, showRefreshToast: true });
+  };
+
+  const handleAdminPageChange = (page: number) => {
+    if (page < 1 || page > totalPages || page === currentPage || listLoading) return;
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleDeleteClick = (id: string, name: string) => {
@@ -165,7 +213,7 @@ export default function PropertiesPage() {
         `Property deleted successfully${deletedCount > 0 ? ` (${deletedCount} assets removed)` : ""}`,
         { duration: 4000 }
       );
-      fetchProperties();
+      await loadProperties(currentPage, { forceRefresh: true });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to delete property");
     } finally {
@@ -210,7 +258,7 @@ export default function PropertiesPage() {
       }
 
       toast.success(`Property ${!currentStatus ? "published" : "unpublished"} successfully`);
-      fetchProperties(true); // Force refresh to get updated data
+      await loadProperties(currentPage, { forceRefresh: true });
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Failed to update property");
     } finally {
@@ -245,6 +293,11 @@ export default function PropertiesPage() {
               </h1>
               <p className="text-sm sm:text-base text-gray-600 mt-1" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Manage all your property listings
+                {totalCount > 0 ? (
+                  <span className="block text-xs text-gray-500 mt-1 font-normal">
+                    {totalCount} total · {ADMIN_PROPERTIES_PER_PAGE} per page
+                  </span>
+                ) : null}
               </p>
             </div>
           </div>
@@ -252,7 +305,7 @@ export default function PropertiesPage() {
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <Button
             onClick={handleRefresh}
-            disabled={refreshing || loading}
+            disabled={refreshing || loading || listLoading}
             className="h-12 w-12 p-0 rounded-xl bg-white border-2 border-black/30 hover:border-black shadow-lg hover:shadow-xl transition-all duration-300 flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
             title="Refresh properties"
             style={{ fontFamily: "Poppins, sans-serif" }}
@@ -288,7 +341,7 @@ export default function PropertiesPage() {
       )}
 
       {/* Properties List */}
-      {properties.length === 0 ? (
+      {totalCount === 0 && !listLoading ? (
         <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-12 sm:p-16 text-center relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#CBB27A]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
           <div className="relative z-10">
@@ -310,7 +363,20 @@ export default function PropertiesPage() {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <>
+        <div className="relative min-h-[200px]">
+          {listLoading && (
+            <div
+              className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-white/70 backdrop-blur-[1px]"
+              aria-busy="true"
+              aria-label="Loading properties"
+            >
+              <Loader2 className="w-10 h-10 text-[#CBB27A] animate-spin" />
+            </div>
+          )}
+          <div
+            className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ${listLoading ? "opacity-60 pointer-events-none" : ""}`}
+          >
           {properties.map((property) => (
             <div
               key={property.id}
@@ -434,7 +500,19 @@ export default function PropertiesPage() {
               </div>
             </div>
           ))}
+          </div>
         </div>
+
+        {totalPages > 1 && (
+          <PropertyGridPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handleAdminPageChange}
+            isLoading={listLoading}
+            className="mt-8"
+          />
+        )}
+        </>
       )}
 
       {/* Delete Confirmation Dialog */}

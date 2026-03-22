@@ -4,7 +4,10 @@ import Image from "next/image";
 
 export function ServicesHeroSection() {
   return (
-    <section className="relative bg-background pt-0 md:pt-24 md:min-h-screen md:flex md:items-center md:justify-center">
+    <section
+      className="relative bg-background pt-0 md:pt-24 md:min-h-screen md:flex md:items-center md:justify-center"
+      data-site-hero
+    >
       <div className="w-full md:max-w-7xl md:mx-auto md:px-6 md:w-full">
         <div className="relative overflow-hidden w-full min-h-screen md:min-h-0 md:h-[500px] lg:h-[580px] xl:h-[620px] md:rounded-3xl md:shadow-2xl md:bg-white">
           <Image

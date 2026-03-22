@@ -65,7 +65,10 @@ export default function CommercialAndResidentialPropertyInLucknowPage() {
       <div className="min-h-screen bg-background">
         <Header alwaysBlack />
         <main>
-          <section className="relative min-h-screen flex items-center justify-center">
+          <section
+            className="relative min-h-screen flex items-center justify-center"
+            data-site-hero
+          >
             <div className="absolute inset-0">
               <Image
                 src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/commercial-and-residential-property-in-lucknow/commercial-and-residential-property-in-lucknow.webp"

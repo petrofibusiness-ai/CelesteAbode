@@ -74,7 +74,10 @@ export default function BlogPage() {
       <Header />
       <main className="pt-24">
         {/* Hero Section */}
-        <section className="relative py-16 md:py-20 bg-gradient-to-b from-[#0f1112] to-background overflow-hidden">
+        <section
+          className="relative py-16 md:py-20 bg-gradient-to-b from-[#0f1112] to-background overflow-hidden"
+          data-site-hero
+        >
           <div className="absolute inset-0 bg-[url('/propertyhero.avif')] opacity-5 bg-cover bg-center" />
           <div className="relative max-w-[95%] xl:max-w-[1800px] mx-auto text-center">
             <motion.div

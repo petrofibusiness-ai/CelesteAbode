@@ -82,32 +82,34 @@ export default function AdvisorySessionPage() {
       <div className="min-h-screen bg-background">
         <Header />
         <main className="pt-24 pb-16">
-          <div className="max-w-2xl mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center"
-            >
-              <div className="w-20 h-20 bg-[#CBB27A] rounded-full flex items-center justify-center mx-auto mb-8">
-                <CheckCircle className="w-10 h-10 text-white" />
-              </div>
-              <h1 className="text-3xl font-bold text-foreground mb-4">
-                Request Submitted Successfully
-              </h1>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                Thank you for your interest in our advisory services. Our expert
-                team will review your requirements and contact you within 24
-                hours to schedule your personalized consultation.
-              </p>
-              <Button
-                onClick={() => (window.location.href = "/")}
-                className="bg-primary hover:bg-primary/90 text-white px-8 py-3 text-base rounded-full"
+          <section data-site-hero>
+            <div className="max-w-2xl mx-auto px-6">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="text-center"
               >
-                Return to Home
-              </Button>
-            </motion.div>
-          </div>
+                <div className="w-20 h-20 bg-[#CBB27A] rounded-full flex items-center justify-center mx-auto mb-8">
+                  <CheckCircle className="w-10 h-10 text-white" />
+                </div>
+                <h1 className="text-3xl font-bold text-foreground mb-4">
+                  Request Submitted Successfully
+                </h1>
+                <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+                  Thank you for your interest in our advisory services. Our expert
+                  team will review your requirements and contact you within 24
+                  hours to schedule your personalized consultation.
+                </p>
+                <Button
+                  onClick={() => (window.location.href = "/")}
+                  className="bg-primary hover:bg-primary/90 text-white px-8 py-3 text-base rounded-full"
+                >
+                  Return to Home
+                </Button>
+              </motion.div>
+            </div>
+          </section>
         </main>
         <Footer />
       </div>
@@ -126,40 +128,44 @@ export default function AdvisorySessionPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-24 pb-16">
-        <div className="max-w-2xl mx-auto px-6">
-          {/* Back Button */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4 }}
-            className="mb-8"
-          >
-            <Button
-              variant="ghost"
-              onClick={() => window.history.back()}
-              className="text-muted-foreground hover:text-foreground p-0"
+        <section data-site-hero>
+          <div className="max-w-2xl mx-auto px-6">
+            {/* Back Button */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.4 }}
+              className="mb-8"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
-            </Button>
-          </motion.div>
+              <Button
+                variant="ghost"
+                onClick={() => window.history.back()}
+                className="text-muted-foreground hover:text-foreground p-0"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
+            </motion.div>
 
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h1 className="heading-bold text-primary mb-4">
-              Request Advisory Session
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Share your property goals and we'll create a personalized
-              consultation tailored to your needs.
-            </p>
-          </motion.div>
+            {/* Header */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-12"
+            >
+              <h1 className="heading-bold text-primary mb-4">
+                Request Advisory Session
+              </h1>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Share your property goals and we'll create a personalized
+                consultation tailored to your needs.
+              </p>
+            </motion.div>
+          </div>
+        </section>
 
+        <div className="max-w-2xl mx-auto px-6">
           {/* Form */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}

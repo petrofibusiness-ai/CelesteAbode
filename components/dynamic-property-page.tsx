@@ -679,7 +679,7 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
         <Header />
 
         {/* Hero Section */}
-        <section className="relative h-screen overflow-hidden">
+        <section className="relative h-screen overflow-hidden" data-site-hero>
           {property.heroImage ? (
             <Image
               src={property.heroImage}

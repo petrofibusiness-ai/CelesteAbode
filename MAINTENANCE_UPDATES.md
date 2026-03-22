@@ -271,16 +271,12 @@
 154. **Sticky CTA budget bands updated:** Revised `Your Budget` dropdown ranges in `ResidentialStickyForm` and `CommercialStickyForm` for newly developed SEO landing pages to premium inventory-aligned brackets: `1 Cr to 5 Cr`, `5 Cr to 8 Cr`, `8 Cr to 15 Cr`, and `15 Cr+`.
 
 ### Properties-in location pages — listing count & layout
-155. **Listing totals:** Location listing pages still use `totalCount` from the server / search API for **page math** (no “Showing X of Y” line under the grid).
-156. **Pagination:** Numbered **Back / pages / Next** sits **below** the property grid (see §159–160).
+155. **Result count:** Dynamic `properties-in/[locationCategory]` pages show **“Showing X out of Y properties”** above the grid; `Y` comes from server-side total count on first load and from `/api/properties/search` `totalCount` when filters or pagination change.
+156. **Placement:** The count line is **centred** in the same column as “View More Properties” — **above** the button (and above the “loading more” row while paginating); when there is no “View More”, it stays **centred** under the grid only.
 
 ### Main properties listing (`/properties`)
-157. **Totals:** `/properties` uses `/api/properties/all` `totalCount` or the **sum** of per-location `totalCount` for pagination only (no range line under the grid).
+157. **Result count:** The `/properties` page uses the same **“Showing X out of Y properties”** pattern as location pages (centred above “View More”, with loading-more and no-more states). `Y` comes from `/api/properties/all` `totalCount` when browsing all locations, or the **sum** of each `/api/properties/search` `totalCount` when multiple locations are selected.
 158. **API:** `GET /api/properties/all` returns **`totalCount`** (exact count for current filters) alongside `properties`; supports **`residential`** property type the same way as search (apartments + villas).
-
-### Property listing pagination (numbered pages)
-159. **View More removed:** `/properties` and `properties-in/[locationCategory]` listing grids now use **numbered pagination** (Back / page numbers / Next) with **6 properties per page**, same placement as the old “View More” block. Active page uses gold highlight; Back/Next disabled on first/last page.
-160. **UX:** `components/property-grid-pagination.tsx` shared control; page changes use **client fetch** with `offset = (page - 1) * 6`, optional **Framer Motion** fade on the grid, and a **light overlay spinner** during page loads (full-screen loader only on filter/search). Multi-location `/properties` still merges per-location API results, sorts by `createdAt`, then **slices to 6** for display (global ordering is approximate without a combined API).
 
 ---
 

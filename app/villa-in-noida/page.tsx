@@ -125,7 +125,10 @@ export default function VillaInNoidaPage() {
     <div className="min-h-screen bg-background">
       <Header />
       <main className="pt-0 pb-16">
-        <section className="relative min-h-[55vh] md:min-h-[60vh] flex items-center justify-center">
+        <section
+          className="relative min-h-[55vh] md:min-h-[60vh] flex items-center justify-center"
+          data-site-hero
+        >
           <div className="absolute inset-0">
             <Image src="/luxury-villa-exterior-modern-architecture.avif" alt="Villas in Noida" fill priority className="object-cover object-center" sizes="100vw" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/50 to-black/40" />

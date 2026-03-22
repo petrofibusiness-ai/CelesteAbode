@@ -23,7 +23,7 @@ export default function TermsPage() {
       <Header />
       <main className="pt-24">
         {/* Hero */}
-        <Section className="pt-32">
+        <Section className="pt-32" data-site-hero>
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="text-4xl md:text-5xl tracking-tight text-primary mb-6">
               Terms of Service

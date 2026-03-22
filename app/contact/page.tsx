@@ -294,7 +294,7 @@ export default function ContactPage() {
       <Header />
       <main className="pt-0">
         {/* Hero Section */}
-        <section className="relative pt-46 pb-16 bg-background">
+        <section className="relative pt-46 pb-16 bg-background" data-site-hero>
           <div className="max-w-4xl mx-auto px-6 text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}

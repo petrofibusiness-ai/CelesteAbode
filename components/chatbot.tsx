@@ -1,38 +1,38 @@
- "use client";
+"use client";
 
- import { useState, useEffect, useRef } from "react";
- import { X, Send, MessageCircle, ChevronRight, ExternalLink, Phone, Instagram, Linkedin } from "lucide-react";
- import { Button } from "@/components/ui/button";
- import { Input } from "@/components/ui/input";
- import { motion, AnimatePresence } from "framer-motion";
- import Link from "next/link";
- import { usePathname } from "next/navigation";
+import { useState, useEffect, useRef } from "react";
+import { X, Send, MessageCircle, ChevronRight, ExternalLink, Phone, Instagram, Linkedin } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
- interface ChatMessage {
-   type: "bot" | "user";
-   content: string;
-   options?: string[];
-   timestamp: Date;
- }
+interface ChatMessage {
+  type: "bot" | "user";
+  content: string;
+  options?: string[];
+  timestamp: Date;
+}
 
- interface ChatbotData {
-   userIntent?: string;
-   propertyType?: string;
-   preferredLocation?: string;
-   budgetRange?: string;
-   bhkPreference?: string;
-   commercialUse?: string;
-   timeline?: string;
-   leadScore?: "HOT" | "WARM" | "COLD";
-   wantsVirtualTour?: boolean;
-   wantsPriceComparison?: boolean;
-   wantsBestProjects?: boolean;
-   wantsExpertCall?: boolean;
-   userName?: string;
-   phoneNumber?: string;
+interface ChatbotData {
+  userIntent?: string;
+  propertyType?: string;
+  preferredLocation?: string;
+  budgetRange?: string;
+  bhkPreference?: string;
+  commercialUse?: string;
+  timeline?: string;
+  leadScore?: "HOT" | "WARM" | "COLD";
+  wantsVirtualTour?: boolean;
+  wantsPriceComparison?: boolean;
+  wantsBestProjects?: boolean;
+  wantsExpertCall?: boolean;
+  userName?: string;
+  phoneNumber?: string;
   contactPreference?: "WhatsApp only" | "Email + WhatsApp" | "WhatsApp & Call" | "Email";
-   email?: string;
- }
+  email?: string;
+}
 
 export function Chatbot() {
   const pathname = usePathname();
@@ -41,14 +41,16 @@ export function Chatbot() {
   const isAdminRoute = pathname?.startsWith("/admin");
 
   const [isOpen, setIsOpen] = useState(false);
-   const [messages, setMessages] = useState<ChatMessage[]>([]);
-   const [currentStep, setCurrentStep] = useState(0);
-   const [data, setData] = useState<ChatbotData>({});
-   const [isSubmitting, setIsSubmitting] = useState(false);
-   const [inputValue, setInputValue] = useState("");
-   const [phoneError, setPhoneError] = useState(false);
-   const messagesEndRef = useRef<HTMLDivElement>(null);
-   const inputRef = useRef<HTMLInputElement>(null);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [currentStep, setCurrentStep] = useState(0);
+  const [data, setData] = useState<ChatbotData>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [inputValue, setInputValue] = useState("");
+  const [phoneError, setPhoneError] = useState(false);
+  /** Left IG/FB/LinkedIn: on pages with [data-site-hero], stay hidden until user scrolls and the stack no longer overlaps a laid-out hero */
+  const [showLeftSocial, setShowLeftSocial] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -57,6 +59,99 @@ export function Chatbot() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Left social: pages with [data-site-hero] — never show on first paint (avoids 0×0 hero rects before images/layout).
+  // Only show after the user has scrolled and the icon zone no longer overlaps a real hero rect.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    let cancelled = false;
+    let rafId = 0;
+    /** Reset each navigation; icons stay off until user scrolls on hero pages */
+    const hasScrolledRef = { current: false };
+
+    const ICON_ZONE_RIGHT = 130; // px from left edge (covers left-6 + 56px buttons + shadow)
+    const ICON_ZONE_BOTTOM_PAD = 28; // matches bottom-6 + breathing room
+    const ICON_STACK_EST_HEIGHT = 300; // 3× ~56px buttons + gaps (sm)
+    const MIN_HERO_DIM = 8; // below this, getBoundingClientRect is not layout-stable yet — treat as overlapping
+
+    const markScrolledIfNeeded = () => {
+      if (window.scrollY > 2) hasScrolledRef.current = true;
+    };
+
+    const update = () => {
+      if (cancelled) return;
+      markScrolledIfNeeded();
+
+      const heroes = document.querySelectorAll("[data-site-hero]");
+      if (heroes.length === 0) {
+        setShowLeftSocial(true);
+        return;
+      }
+
+      const h = window.innerHeight;
+      const zoneTop = h - ICON_STACK_EST_HEIGHT - ICON_ZONE_BOTTOM_PAD;
+      const zoneBottom = h;
+      const zoneLeft = 0;
+      const zoneRight = ICON_ZONE_RIGHT;
+
+      let overlapsAny = false;
+      heroes.forEach((el) => {
+        const hr = el.getBoundingClientRect();
+        if (hr.height < MIN_HERO_DIM || hr.width < MIN_HERO_DIM) {
+          overlapsAny = true;
+          return;
+        }
+        const overlaps =
+          hr.bottom > zoneTop &&
+          hr.top < zoneBottom &&
+          hr.right > zoneLeft &&
+          hr.left < zoneRight;
+        if (overlaps) overlapsAny = true;
+      });
+
+      setShowLeftSocial(!overlapsAny && hasScrolledRef.current);
+    };
+
+    const scheduleUpdate = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(update);
+    };
+
+    const ro = new ResizeObserver(() => scheduleUpdate());
+
+    const observeHeroes = () => {
+      ro.disconnect();
+      document.querySelectorAll("[data-site-hero]").forEach((el) => {
+        ro.observe(el);
+      });
+    };
+
+    observeHeroes();
+    scheduleUpdate();
+    // Next.js may swap route content after this effect runs; re-bind observers next frame.
+    requestAnimationFrame(() => {
+      if (cancelled) return;
+      observeHeroes();
+      scheduleUpdate();
+    });
+
+    const onScroll = () => {
+      markScrolledIfNeeded();
+      scheduleUpdate();
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", scheduleUpdate, { passive: true });
+
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(rafId);
+      ro.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", scheduleUpdate);
+    };
+  }, [pathname]);
 
   // Clear phone error when step changes away from phone input
   useEffect(() => {
@@ -706,12 +801,18 @@ export function Chatbot() {
 
   return (
     <>
-      {/* Left: Instagram, Facebook, LinkedIn - sticky in bottom-left corner (hidden on mobile) */}
+      {/* Left: Instagram, Facebook, LinkedIn — on hero pages: hidden until scroll + icon zone clear of hero (hidden on mobile) */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="hidden md:flex fixed left-4 sm:left-6 bottom-4 sm:bottom-6 z-[9999] flex-col gap-3 sm:gap-4"
+        initial={false}
+        animate={{
+          opacity: showLeftSocial ? 1 : 0,
+          x: showLeftSocial ? 0 : -12,
+        }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        className={`hidden md:flex fixed left-4 sm:left-6 bottom-4 sm:bottom-6 z-[9999] flex-col gap-3 sm:gap-4 ${
+          showLeftSocial ? "" : "pointer-events-none"
+        }`}
+        aria-hidden={!showLeftSocial}
       >
         <a
           href="https://www.instagram.com/celesteabode/"

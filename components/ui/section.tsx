@@ -1,9 +1,8 @@
-import { ReactNode } from "react";
+import { ReactNode, ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/utils";
 
-interface SectionProps {
+interface SectionProps extends ComponentPropsWithoutRef<"section"> {
   children: ReactNode;
-  className?: string;
   intro?: {
     kicker?: string;
     title: string;
@@ -11,9 +10,9 @@ interface SectionProps {
   };
 }
 
-export function Section({ children, className, intro }: SectionProps) {
+export function Section({ children, className, intro, ...props }: SectionProps) {
   return (
-    <section className={cn("py-12 md:py-16", className)}>
+    <section className={cn("py-12 md:py-16", className)} {...props}>
       <div className="max-w-screen-xl mx-auto px-6">
         {intro && (
           <div className="text-center mb-12">

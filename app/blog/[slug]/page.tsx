@@ -226,7 +226,7 @@ export default async function BlogPostPage({
 
         <main className="pt-0">
           {/* Hero – image starts from top (behind fixed header) */}
-          <header className="relative bg-[#0f1112]">
+          <header className="relative bg-[#0f1112]" data-site-hero>
             <div
               className={
                 post.heroFullscreen

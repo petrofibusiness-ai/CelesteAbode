@@ -128,7 +128,10 @@ export default function VillaInNoidaExtensionPage() {
       <Header />
       <main className="pt-0 pb-16">
         {/* Hero with image */}
-        <section className="relative min-h-[55vh] md:min-h-[60vh] flex items-center justify-center">
+        <section
+          className="relative min-h-[55vh] md:min-h-[60vh] flex items-center justify-center"
+          data-site-hero
+        >
           <div className="absolute inset-0">
             <Image
               src="/luxury-villa-with-garden-and-modern-design.avif"

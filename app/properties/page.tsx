@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Header } from "@/components/header";
@@ -30,6 +31,17 @@ import {
 import { BreadcrumbSchema, ItemListSchema, CollectionPageSchema } from "@/lib/structured-data";
 import { getPropertyUrl } from "@/lib/property-url";
 import { Property } from "@/types/property";
+import { PropertyGridPagination } from "@/components/property-grid-pagination";
+import {
+  PROPERTY_SEARCH_ANCHOR_ID,
+  scrollPropertySearchSectionIntoView,
+} from "@/lib/scroll-listings";
+
+function sortPropertiesByDateDesc(a: Property, b: Property): number {
+  const ta = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+  const tb = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+  return tb - ta;
+}
 
 interface FilterState {
   location: string[]; // Changed to array for multiple selections
@@ -56,45 +68,41 @@ export default function ProjectsPage() {
   const [properties, setProperties] = useState<Property[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [isPagingLoading, setIsPagingLoading] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-  const [hasMore, setHasMore] = useState(false);
-  const [currentOffset, setCurrentOffset] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isGeneralFormOpen, setIsGeneralFormOpen] = useState(false);
   const [isSeoExpanded, setIsSeoExpanded] = useState(false);
   const [isCtaContentExpanded, setIsCtaContentExpanded] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+  const skipListingsScrollOnMount = useRef(true);
 
   const PROPERTIES_PER_PAGE = 6;
 
-  // Fetch properties from backend API with pagination support
-  const fetchProperties = useCallback(async (filterState: FilterState, offset: number = 0, isLoadMore: boolean = false) => {
-    // Cancel any ongoing request (only for new searches, not pagination)
-    if (!isLoadMore && abortControllerRef.current) {
+  // Fetch one page (6 items). mode "filter" = new search; "page" = change page only (softer loading).
+  const fetchProperties = useCallback(async (filterState: FilterState, page: number, mode: "filter" | "page" = "filter") => {
+    if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
 
-    // Create new AbortController for this request
     const abortController = new AbortController();
     abortControllerRef.current = abortController;
 
-    // Set loading state based on whether it's pagination or new search
-    if (isLoadMore) {
-      setIsLoadingMore(true);
+    const offset = (page - 1) * PROPERTIES_PER_PAGE;
+
+    if (mode === "page") {
+      setIsPagingLoading(true);
     } else {
       setIsLoading(true);
       setFetchError(null);
-      // Clear properties immediately when starting a new search
       setProperties([]);
       setIsInitialLoad(false);
-      setCurrentOffset(0);
-      // Notify filters component that loading has started
-      window.dispatchEvent(new CustomEvent('properties-page-loading', { detail: true }));
+      setCurrentPage(1);
+      window.dispatchEvent(new CustomEvent("properties-page-loading", { detail: true }));
     }
-    
+
     try {
-      // If no locations selected (empty array), fetch all properties
       if (filterState.location.length === 0) {
         const params = new URLSearchParams();
         params.append("limit", PROPERTIES_PER_PAGE.toString());
@@ -105,20 +113,18 @@ export default function ProjectsPage() {
         if (filterState.projectStatus && filterState.projectStatus !== "all") {
           params.append("projectStatus", filterState.projectStatus);
         }
-        // Don't send configuration filter for Commercial properties
         if (filterState.propertyType !== "commercial") {
           filterState.configuration.forEach((config) => {
             params.append("configuration", config);
           });
         }
 
-        // Use the all-properties endpoint with abort signal
         const response = await fetch(`/api/properties/all?${params.toString()}`, {
           signal: abortController.signal,
         });
-        
+
         if (abortController.signal.aborted) {
-          return; // Request was cancelled, don't update state
+          return;
         }
 
         if (!response.ok) {
@@ -130,19 +136,9 @@ export default function ProjectsPage() {
         setTotalCount(
           typeof data.totalCount === "number" ? data.totalCount : fetchedProperties.length
         );
-
-        if (isLoadMore) {
-          // Append for pagination
-          setProperties((prev) => [...prev, ...fetchedProperties]);
-        } else {
-          // Replace for new search
-          setProperties(fetchedProperties);
-        }
-        
-        setCurrentOffset(offset + fetchedProperties.length);
-        setHasMore(data.hasMore === true && fetchedProperties.length === PROPERTIES_PER_PAGE);
+        setProperties(fetchedProperties);
+        setCurrentPage(page);
       } else {
-        // Fetch properties for all selected locations in parallel
         const fetchPromises = filterState.location.map(async (locationSlug) => {
           const params = new URLSearchParams();
           params.append("location", locationSlug);
@@ -154,7 +150,6 @@ export default function ProjectsPage() {
           if (filterState.projectStatus && filterState.projectStatus !== "all") {
             params.append("projectStatus", filterState.projectStatus);
           }
-          // Don't send configuration filter for Commercial properties
           if (filterState.propertyType !== "commercial") {
             filterState.configuration.forEach((config) => {
               params.append("configuration", config);
@@ -165,14 +160,14 @@ export default function ProjectsPage() {
             const response = await fetch(`/api/properties/search?${params.toString()}`, {
               signal: abortController.signal,
             });
-            
+
             if (abortController.signal.aborted) {
-              return null; // Request was cancelled
+              return null;
             }
 
             if (!response.ok) {
               console.error(`Failed to fetch properties for ${locationSlug}:`, response.statusText);
-              return null; // Return null for failed requests, continue with others
+              return null;
             }
             const data = await response.json();
             const batch: LocationSearchBatch = {
@@ -182,112 +177,92 @@ export default function ProjectsPage() {
             };
             return batch;
           } catch (error) {
-            if (error instanceof Error && error.name === 'AbortError') {
-              return null; // Request was cancelled
+            if (error instanceof Error && error.name === "AbortError") {
+              return null;
             }
             console.error(`Error fetching properties for ${locationSlug}:`, error);
-            return null; // Return null for errors, continue with other locations
+            return null;
           }
         });
 
-        // Wait for all location fetches to complete (in parallel)
         const results = await Promise.all(fetchPromises);
-        
+
         if (abortController.signal.aborted) {
-          return; // Request was cancelled, don't update state
+          return;
         }
 
-        // Combine all results and remove duplicates based on property ID
-        const allProperties = results.flatMap((result) =>
-          result !== null ? result.properties : []
-        );
-        
-        // Check if any location has more properties
-        const anyHasMore = results.some(result => result !== null && result.hasMore);
-        
-        // Remove duplicates based on property ID (more efficient using Map)
-        // Filter out properties without IDs and handle duplicates
+        const allProperties = results.flatMap((result) => (result !== null ? result.properties : []));
+
         const uniquePropertiesMap = new Map<string, Property>();
         allProperties.forEach((property) => {
-          if (property.id) {
-            if (!uniquePropertiesMap.has(property.id)) {
-              uniquePropertiesMap.set(property.id, property);
-            }
+          if (property.id && !uniquePropertiesMap.has(property.id)) {
+            uniquePropertiesMap.set(property.id, property);
           }
         });
-        
-        const uniqueProperties = Array.from(uniquePropertiesMap.values());
+
+        const mergedSorted = Array.from(uniquePropertiesMap.values()).sort(sortPropertiesByDateDesc);
+        const pageSlice = mergedSorted.slice(0, PROPERTIES_PER_PAGE);
 
         const totalSum = results.reduce((sum, result) => {
           if (result === null) return sum;
           return sum + result.totalCount;
         }, 0);
         setTotalCount(totalSum);
-
-        if (isLoadMore) {
-          // Append for pagination
-          setProperties((prev) => {
-            const combined = [...prev, ...uniqueProperties];
-            // Remove duplicates again in case of overlap
-            const finalMap = new Map<string, Property>();
-            combined.forEach((property) => {
-              if (property.id && !finalMap.has(property.id)) {
-                finalMap.set(property.id, property);
-              }
-            });
-            return Array.from(finalMap.values());
-          });
-        } else {
-          // Replace for new search
-          setProperties(uniqueProperties);
-        }
-        
-        setCurrentOffset(offset + uniqueProperties.length);
-        setHasMore(anyHasMore && uniqueProperties.length >= PROPERTIES_PER_PAGE);
+        setProperties(pageSlice);
+        setCurrentPage(page);
       }
     } catch (error) {
-      if (error instanceof Error && error.name === 'AbortError') {
-        // Request was cancelled, don't update state or show error
+      if (error instanceof Error && error.name === "AbortError") {
         return;
       }
       console.error("Error fetching properties:", error);
-      if (!isLoadMore) {
+      if (mode === "filter") {
         setFetchError(error instanceof Error ? error.message : "Failed to fetch properties. Please try again.");
         setProperties([]);
         setTotalCount(0);
       }
     } finally {
-      // Only update loading state if this request wasn't cancelled
       if (!abortController.signal.aborted) {
-        if (isLoadMore) {
-          setIsLoadingMore(false);
+        if (mode === "page") {
+          setIsPagingLoading(false);
         } else {
           setIsLoading(false);
-          // Notify filters component that loading has finished
-          window.dispatchEvent(new CustomEvent('properties-page-loading', { detail: false }));
+          window.dispatchEvent(new CustomEvent("properties-page-loading", { detail: false }));
         }
       }
     }
   }, []);
 
+  const totalPages = Math.max(1, Math.ceil(totalCount / PROPERTIES_PER_PAGE));
+
   // Handle search from PropertyFilters component (only when search button is clicked)
   const handleFilterChange = (newFilters: FilterState) => {
     setFilters(newFilters);
-    fetchProperties(newFilters, 0, false);
+    fetchProperties(newFilters, 1, "filter");
   };
 
-  // Load more properties (pagination)
-  const loadMoreProperties = useCallback(async () => {
-    if (isLoadingMore || !hasMore) return;
-    await fetchProperties(filters, currentOffset, true);
-  }, [filters, currentOffset, hasMore, isLoadingMore, fetchProperties]);
+  const handlePageChange = useCallback(
+    (page: number) => {
+      if (page < 1 || page > totalPages || page === currentPage || isLoading || isPagingLoading) return;
+      fetchProperties(filters, page, "page");
+    },
+    [filters, currentPage, totalPages, isLoading, isPagingLoading, fetchProperties]
+  );
+
+  useEffect(() => {
+    if (skipListingsScrollOnMount.current) {
+      skipListingsScrollOnMount.current = false;
+      return;
+    }
+    scrollPropertySearchSectionIntoView();
+  }, [currentPage]);
 
   // Listen for search button click from PropertyFilters component (via custom event)
   useEffect(() => {
     const handleFilterChange = (event: CustomEvent<FilterState>) => {
       const newFilters = event.detail;
       setFilters(newFilters);
-      fetchProperties(newFilters, 0, false);
+      fetchProperties(newFilters, 1, "filter");
     };
 
     window.addEventListener('properties-filter-change', handleFilterChange as EventListener);
@@ -315,12 +290,12 @@ export default function ProjectsPage() {
       if (locationArray.length > 0) {
         const newFilters = { ...filters, location: locationArray };
         setFilters(newFilters);
-        fetchProperties(newFilters, 0, false);
+        fetchProperties(newFilters, 1, "filter");
         setIsInitialLoad(false);
       }
     } else if (isInitialLoad) {
       // No URL param and initial load - fetch all properties
-      fetchProperties(filters, 0, false);
+      fetchProperties(filters, 1, "filter");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
@@ -398,17 +373,23 @@ export default function ProjectsPage() {
           <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
         </div>
 
-        {/* Filters Section Heading */}
-        <section className="pt-10 pb-2 bg-background">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center font-poppins">
-              Explore Properties Based on Your Investment Priorities
+        <div
+          id={PROPERTY_SEARCH_ANCHOR_ID}
+          className="scroll-mt-24 md:scroll-mt-28"
+          aria-label="Search and filter properties"
+        >
+          {/* Filters Section Heading */}
+          <section className="pt-10 pb-2 bg-background">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground text-center font-poppins">
+                Explore Properties Based on Your Investment Priorities
               </h2>
             </div>
-        </section>
+          </section>
 
-        {/* Property Filters Section */}
-        <PropertyFilters />
+          {/* Property Filters Section */}
+          <PropertyFilters />
+        </div>
 
         {/* Aesthetic Line Separator */}
         <div className="w-full flex justify-center py-4">
@@ -434,7 +415,7 @@ export default function ProjectsPage() {
                 <Button
                   onClick={() => {
                     setFetchError(null);
-                    fetchProperties(filters, 0, false);
+                    fetchProperties(filters, 1, "filter");
                   }}
                   className="mt-4 px-6 py-3 bg-black text-white rounded-full font-semibold hover:bg-black/90 transition-all"
                 >
@@ -443,88 +424,79 @@ export default function ProjectsPage() {
               </div>
             ) : properties.length > 0 ? (
               <>
-                <div id="itemlist" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="Properties">
-                  {properties.map((property) => (
-                    <Card
-                      key={property.id}
-                      className="border-0 bg-card overflow-hidden hover:shadow-2xl transition-all duration-500 group cursor-pointer p-0 transform hover:-translate-y-2 hover:scale-[1.02]"
-                      onClick={() => handleViewDetails(property)}
-                      role="listitem"
-                      itemScope
-                      itemType="https://schema.org/Product"
+                <div className="relative min-h-[200px]">
+                  {isPagingLoading && (
+                    <div
+                      className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-background/60 backdrop-blur-[1px]"
+                      aria-busy="true"
+                      aria-label="Loading page"
                     >
-                      <div className="relative w-full h-80 rounded-xl overflow-hidden">
-                        <Image
-                          src={property.heroImage}
-                          alt={property.heroImageAlt || `${property.projectName} - ${property.location}`}
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                          quality={90}
-                          loading="lazy"
-                          itemProp="image"
-                        />
+                      <Loader2 className="w-10 h-10 text-[#CBB27A] animate-spin" />
+                    </div>
+                  )}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={currentPage}
+                      id="itemlist"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: isPagingLoading ? 0.55 : 1, y: 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.22, ease: "easeOut" }}
+                      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                      role="list"
+                      aria-label="Properties"
+                    >
+                      {properties.map((property) => (
+                        <Card
+                          key={property.id}
+                          className="border-0 bg-card overflow-hidden hover:shadow-2xl transition-all duration-500 group cursor-pointer p-0 transform hover:-translate-y-2 hover:scale-[1.02]"
+                          onClick={() => handleViewDetails(property)}
+                          role="listitem"
+                          itemScope
+                          itemType="https://schema.org/Product"
+                        >
+                          <div className="relative w-full h-80 rounded-xl overflow-hidden">
+                            <Image
+                              src={property.heroImage}
+                              alt={property.heroImageAlt || `${property.projectName} - ${property.location}`}
+                              fill
+                              className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              quality={90}
+                              loading="lazy"
+                              itemProp="image"
+                            />
 
-                        {/* Overlay for text */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent transition-opacity duration-500 group-hover:from-black/95 group-hover:via-black/30"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent transition-opacity duration-500 group-hover:from-black/95 group-hover:via-black/30"></div>
 
-                        {/* Location and Name at bottom */}
-                        <div className="absolute bottom-3 left-3 right-3 transition-transform duration-300 group-hover:translate-y-[-4px]">
-                          <div className="flex items-center gap-2 text-white mb-1">
-                            <MapPin className="w-3 h-3 transition-transform duration-300 group-hover:scale-110" />
-                            <span className="text-xs font-medium text-white">
-                              {property.location}
-                            </span>
+                            <div className="absolute bottom-3 left-3 right-3 transition-transform duration-300 group-hover:translate-y-[-4px]">
+                              <div className="flex items-center gap-2 text-white mb-1">
+                                <MapPin className="w-3 h-3 transition-transform duration-300 group-hover:scale-110" />
+                                <span className="text-xs font-medium text-white">{property.location}</span>
+                              </div>
+                              <h3 className="text-lg font-bold text-white leading-tight" itemProp="name">
+                                {property.projectName}
+                              </h3>
+                              <meta
+                                itemProp="description"
+                                content={property.description || `${property.projectName} in ${property.location}`}
+                              />
+                              <meta itemProp="brand" content={property.developer || "Verified Developer"} />
+                            </div>
                           </div>
-                          <h3 className="text-lg font-bold text-white leading-tight" itemProp="name">
-                            {property.projectName}
-                          </h3>
-                          <meta itemProp="description" content={property.description || `${property.projectName} in ${property.location}`} />
-                          <meta itemProp="brand" content={property.developer || "Verified Developer"} />
-                        </div>
-                      </div>
-                    </Card>
-                  ))}
+                        </Card>
+                      ))}
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
 
-                {/* View More + count: centred, count above button (same as location pages) */}
-                {hasMore && !isLoading && !isLoadingMore && (
-                  <div className="flex flex-col items-center mt-12 gap-3 px-4">
-                    <p className="text-sm md:text-base text-gray-600 font-poppins text-center">
-                      Showing <span className="font-semibold text-foreground">{properties.length}</span> out of{" "}
-                      <span className="font-semibold text-foreground">{totalCount}</span> properties
-                    </p>
-                    <Button
-                      type="button"
-                      onClick={loadMoreProperties}
-                      disabled={isLoadingMore}
-                      className="px-8 py-4 bg-black text-white rounded-full font-semibold hover:bg-black/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 font-poppins flex items-center gap-2"
-                    >
-                      <span>View More Properties</span>
-                    </Button>
-                  </div>
-                )}
-
-                {isLoadingMore && (
-                  <div className="flex flex-col items-center mt-8 gap-3 px-4">
-                    <p className="text-sm md:text-base text-gray-600 font-poppins text-center">
-                      Showing <span className="font-semibold text-foreground">{properties.length}</span> out of{" "}
-                      <span className="font-semibold text-foreground">{totalCount}</span> properties
-                    </p>
-                    <div className="flex items-center gap-3">
-                      <Loader2 className="w-5 h-5 text-[#CBB27A] animate-spin" />
-                      <p className="text-gray-600 font-poppins">Loading more properties...</p>
-                    </div>
-                  </div>
-                )}
-
-                {!hasMore && !isLoadingMore && (
-                  <div className="flex justify-center mt-12 px-4">
-                    <p className="text-sm md:text-base text-gray-600 font-poppins text-center">
-                      Showing <span className="font-semibold text-foreground">{properties.length}</span> out of{" "}
-                      <span className="font-semibold text-foreground">{totalCount}</span> properties
-                    </p>
-                  </div>
+                {totalPages > 1 && (
+                  <PropertyGridPagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                    isLoading={isPagingLoading}
+                  />
                 )}
               </>
             ) : !isInitialLoad && filters.location.length > 0 ? (

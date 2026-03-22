@@ -19,6 +19,7 @@ import { WhyInvestSection } from "@/components/why-invest-section";
 import LocationFAQs from "@/components/location-faqs";
 import { SeoBlocksRevealController } from "@/components/seo-blocks-reveal-controller";
 import { FAQPageSchema, BreadcrumbSchema, LocationPageSchema } from "@/lib/structured-data";
+import { PROPERTY_SEARCH_ANCHOR_ID } from "@/lib/scroll-listings";
 
 interface PageProps {
   params: Promise<{
@@ -278,11 +279,17 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
                 />
               </div>
 
-              {/* Property Filters Section */}
-              <LocationPropertyFilters
-                location={location.slug}
-                localities={localities}
-              />
+              {/* Property Filters Section — anchor for pagination scroll */}
+              <div
+                id={PROPERTY_SEARCH_ANCHOR_ID}
+                className="scroll-mt-24 md:scroll-mt-28"
+                aria-label="Search and filter properties"
+              >
+                <LocationPropertyFilters
+                  location={location.slug}
+                  localities={localities}
+                />
+              </div>
 
               {properties.length > 0 ? (
                 <NoidaPropertiesGrid 

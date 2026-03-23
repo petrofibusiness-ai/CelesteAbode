@@ -107,20 +107,20 @@ export function HomepageSeoBlocks() {
               Trusted <span className="text-[#CBB27A]">Property Consultant</span> in Noida &amp; Delhi NCR
             </h2>
             <p className="text-sm md:text-base text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              Advisory built around your decision, not our inventory. Whether you are buying to live, to invest, or to diversify, the approach is the same: verification first, recommendation second.
+              Buyers usually come to us after too many calls, too many listings, and too much confusion. We keep it simple. First we understand your goal. Then we verify projects. Then we shortlist.
             </p>
           </header>
           <div className="w-full max-w-none bg-white rounded-2xl md:rounded-3xl shadow-lg overflow-hidden border border-gray-100">
             <div className="w-full max-w-none p-6 sm:p-8 md:p-10 lg:p-12">
               <div className={CONTENT_CLASS}>
                 <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3 mt-0">Residential Property Consulting</h3>
-                <p className="mb-6">End-users and investors in the NCR need completely different shortlists. A family buying near a school zone in Sector 93 has different priorities than an investor targeting 6% rental yield in Greater Noida West. Our real estate consultants in Noida build each brief from scratch, verify the shortlist for RERA status and developer track record, and only then schedule site visits. Whether you are looking at <Link href="/flats-for-sale-in-noida" className="text-[#CBB27A] font-medium hover:underline">flats in Noida</Link> or options across the Expressway, nothing in the list has been pushed by a developer. Everything has been checked by us.</p>
+                <p className="mb-6">A self-use buyer and an investor should not get the same advice. Our real estate consultants in Noida start with your budget, possession target, and location comfort. After that, we shortlist only projects that clear legal and developer checks. If you are comparing <Link href="/flats-for-sale-in-noida" className="text-[#CBB27A] font-medium hover:underline">flats for sale in Noida</Link>, we focus on fit, not noise. Most buyers looking for property consultants in Delhi NCR are not asking for more options, they are asking for better options.</p>
                 
                 <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Commercial Property Advisory</h3>
-                <p className="mb-6"><Link href="/commercial-property-in-noida" className="text-[#CBB27A] font-medium hover:underline">Commercial real estate in Noida</Link> rewards buyers who understand occupier demand, not just floor area. Sector 62 and Sector 132 have active corporate leasing. Pre-leased office assets in Gomti Nagar, Lucknow carry 5 to 7% net yields. As a property consultant in Noida with commercial experience, we verify occupancy certificates, review existing lease terms, and assess vacancy probability before recommending anything. Yield figures on paper and yield figures after vacancy are two very different numbers.</p>
+                <p className="mb-6">Commercial decisions fail when buyers chase only brochure yield. As a property consultant in Noida, we check tenant demand, lease terms, vacancy risk, and compliance before we discuss returns. If you are exploring <Link href="/commercial-property-in-noida" className="text-[#CBB27A] font-medium hover:underline">commercial property in Noida</Link>, we compare each zone on active leasing data. Buyers who work with a real estate consultant in Delhi NCR usually stay for this level of screening.</p>
                 
                 <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Luxury Property Investment Guidance</h3>
-                <p className="mb-0">Luxury demand in the NCR grew 28% year-on-year in Q1 2025. Projects in Sector 150, Sector 94, and the Yamuna Expressway corridor are drawing high-net-worth buyers who expect more than a premium price tag. They expect verified fundamentals: developer pedigree, actual possession track record, and resale liquidity data. Our consultants apply the same due diligence rigour to a <Link href="/villa-in-noida" className="text-[#CBB27A] font-medium hover:underline">luxury villa brief</Link> as to a Rs 60 lakh flat. The numbers are bigger. The checks have to be too.</p>
+                <p className="mb-0">Luxury buying needs calm decisions and clean facts. We look at location strength, builder history, execution quality, and resale depth. Our real estate consultants in Noida apply these checks even for a <Link href="/villa-in-noida" className="text-[#CBB27A] font-medium hover:underline">luxury villa in Noida</Link>. If you want a trusted property consultant in Noida and Delhi NCR, this is what matters most.</p>
               </div>
             </div>
           </div>
@@ -136,7 +136,7 @@ export function HomepageSeoBlocks() {
           />
         )}
 
-        {/* Block 2: Our Real Estate Consulting Services - Always in DOM */}
+        {/* Block 2: Best Real Estate Property Consultant - Always in DOM */}
         <div className={getBlockVisibility(1)}>
           <div className="w-full flex justify-center py-6 md:py-8">
             <div className="w-32 md:w-48 h-px bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent" />
@@ -144,26 +144,25 @@ export function HomepageSeoBlocks() {
           <article className="w-full mb-4 md:mb-6">
             <header className="text-center mb-8 md:mb-12">
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-4 font-poppins leading-tight">
-                Our <span className="text-[#CBB27A]">Real Estate Consulting Services</span> in Delhi NCR
+                Best Real Estate <span className="text-[#CBB27A]">Property Consultant</span> in Noida for Buyers &amp; Investors
               </h2>
               <p className="text-sm md:text-base text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-                Each service below is delivered by real estate consultants in Noida with direct on-ground market experience. The brief drives the process. Verification steps are not skipped regardless of transaction size or timeline pressure.
+                Good consulting reduces mistakes early. You should know why a project fits, what can go wrong, and what your backup option is.
               </p>
             </header>
             <div className="w-full max-w-none bg-white rounded-2xl md:rounded-3xl shadow-lg overflow-hidden border border-gray-100">
               <div className="w-full max-w-none p-6 sm:p-8 md:p-10 lg:p-12">
                 <div className={CONTENT_CLASS}>
-                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3 mt-0">Property Investment Consulting</h3>
-                  <p className="mb-6">Micro-market selection, developer vetting, yield modelling, and capital appreciation analysis across Noida, Greater Noida, and the Yamuna Expressway. Whether you are evaluating <Link href="/plots-in-noida" className="text-[#CBB27A] font-medium hover:underline">plots in Noida</Link> or apartment inventory, a property consultant with investment-focused experience separates projects with real appreciation fundamentals from those riding short-term launch momentum. We map that difference clearly for every investment brief, so the decision is based on data, not marketing.</p>
+                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3 mt-0">Personalized Property Consultation</h3>
+                  <p className="mb-6">No brief is standard. We map income flow, down payment comfort, commute, and possession timeline before we share recommendations. Our real estate consultants in Noida keep the advice personal and practical. If you are comparing property consultants in Delhi NCR, this is the depth you should expect. You can begin with an <Link href="/advisory-session" className="text-[#CBB27A] font-medium hover:underline">advisory session</Link> and review one focused shortlist.</p>
                   
-                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Residential Property Buying Assistance</h3>
-                  <p className="mb-6">From the first consultation to possession: site visit coordination, agreement review, documentation support, home loan processing, and construction milestone tracking. Buyers exploring <Link href="/residential-property-in-noida" className="text-[#CBB27A] font-medium hover:underline">residential property in Noida</Link> who expect that advisory to end at booking will find something different here. The problems in most real estate transactions surface between signing and handover. That is exactly when our involvement is most active.</p>
+                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Verified Property Listings</h3>
+                  <p className="mb-6">Every shortlist passes internal checks on RERA data, title trail, approvals, and delivery track record. That is the main difference between advisory and random listing feeds. Buyers comparing real estate consulting firms in Delhi NCR often realize this step saves both time and money. You can review our <Link href="/properties" className="text-[#CBB27A] font-medium hover:underline">verified property listings</Link> and then narrow down by your risk profile.</p>
                   
-                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Commercial Property Consulting</h3>
-                  <p className="mb-6">Office spaces, retail units, pre-leased assets, and industrial plots across NCR. Our real estate consultants in Noida evaluate occupancy certificates, lease terms, tenant covenant strength, and yield sustainability before recommending any commercial asset. Buyers who want a structured comparison of commercial yield versus residential appreciation receive exactly that, built on verified numbers rather than promotional return projections.</p>
+                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Market Research &amp; Price Analysis</h3>
+                  <p className="mb-0">As a property consultant in Noida, we track active pricing, inventory pressure, and launch-to-delivery timelines. Asking rates and deal rates can differ a lot in fast corridors. We use this gap to plan negotiation and entry timing. Our <Link href="/real-estate-insights" className="text-[#CBB27A] font-medium hover:underline">market research</Link> follows the same method used in client advisory calls.</p>
                   
-                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Real Estate Portfolio Advisory</h3>
-                  <p className="mb-0">For investors with existing NCR holdings or those building a portfolio from scratch. We assess concentration risk, rebalance across asset types, and identify reinvestment opportunities based on current market conditions. Our <Link href="/real-estate-consulting-services" className="text-[#CBB27A] font-medium hover:underline">consulting services</Link> go beyond transactional brokerage to provide that structured review, including an honest assessment of holdings that may have underperformed.</p>
+                  
                 </div>
               </div>
             </div>
@@ -180,7 +179,7 @@ export function HomepageSeoBlocks() {
           )}
         </div>
 
-        {/* Block 3: Best Real Estate Property Consultant - Always in DOM */}
+        {/* Block 3: Our Real Estate Consulting Services - Always in DOM */}
         <div className={getBlockVisibility(2)}>
           <div className="w-full flex justify-center py-6 md:py-8">
             <div className="w-32 md:w-48 h-px bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent" />
@@ -188,22 +187,25 @@ export function HomepageSeoBlocks() {
           <article className="w-full mb-4 md:mb-6">
             <header className="text-center mb-8 md:mb-12">
               <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-4 font-poppins leading-tight">
-                Best Real Estate <span className="text-[#CBB27A]">Property Consultant</span> in Noida for Buyers &amp; Investors
+                Our <span className="text-[#CBB27A]">Real Estate Consulting Services</span> in Delhi NCR
               </h2>
             </header>
             <div className="w-full max-w-none bg-white rounded-2xl md:rounded-3xl shadow-lg overflow-hidden border border-gray-100">
               <div className="w-full max-w-none p-6 sm:p-8 md:p-10 lg:p-12">
                 <div className={CONTENT_CLASS}>
-                  <p className="mb-6">Buyers searching for a property consultant near me in the Noida and Greater Noida market are usually dealing with one problem: too many options, no clear way to separate the credible from the commission-driven. The answer is not more options. It is fewer, better-checked ones. A shortlist filtered for legal standing and developer track record, like the one in our <Link href="/properties" className="text-[#CBB27A] font-medium hover:underline">verified property listings</Link>, is a different thing from a list of available inventory.</p>
+                  <p className="mb-6">The same method should work for end-use and investment, with only the filters changing. That is why buyers working with a property consultant in Noida ask for support beyond discovery, they want legal clarity, pricing logic, and booking support.</p>
                   
-                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Personalised Property Consultation</h3>
-                  <p className="mb-6">Every brief is different. Before any shortlist is built, we establish what the buyer is actually solving for: budget ceiling, cash flow position, possession urgency, preferred geography, and whether the priority is end-use or investment return. Buyers who arrive with a specific project or sector already in mind can <Link href="/advisory-session" className="text-[#CBB27A] font-medium hover:underline">book a consultation</Link> to assess that against their real financial profile. Sometimes it fits. Sometimes the data says otherwise, and we say so before anyone walks a site.</p>
+                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Property Investment Consulting</h3>
+                  <p className="mb-6">Investment advice starts with exit horizon, rental goal, and risk limit. Our real estate consultants in Noida compare Noida, Greater Noida, Ghaziabad, and Lucknow by demand strength, not by launch buzz. If you are evaluating land-led options, start with <Link href="/plots-in-noida" className="text-[#CBB27A] font-medium hover:underline">plots in Noida</Link> and then compare corridor-by-corridor upside.</p>
                   
-                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Verified Property Listings</h3>
-                  <p className="mb-6">Every project our real estate consultants in Noida recommend has been through an internal check: RERA registration, land title verification, NOC status, developer financial standing, and delivery history on previous phases. A project can be RERA-registered and still carry complications. Encumbered land, financing drawn against the plot, or a developer with two delayed phases on record are all things that do not appear in a listing. They only appear if someone looked for them.</p>
+                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Residential Property Buying Assistance</h3>
+                  <p className="mb-6">From shortlist to possession, we support site planning, comparison, agreement review, and lender coordination. Buyers looking for a best real estate property consultant in Noida often discover that most friction starts after token booking. We stay involved in that stage so cost and timeline surprises stay low. You can begin with <Link href="/residential-property-in-noida" className="text-[#CBB27A] font-medium hover:underline">residential property in Noida</Link> and expand only when the value case is clear.</p>
                   
-                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Market Research &amp; Price Analysis</h3>
-                  <p className="mb-0">Listed prices and actual transaction values can differ by 15 to 30% in the NCR. A property consultant in Noida who tracks current micro-market data prevents buyers from committing at the wrong price point or being caught by stamp duty recalculations after circle rate revisions. Our <Link href="/real-estate-insights" className="text-[#CBB27A] font-medium hover:underline">market insights</Link> cover transacted rates, developer cost positions, unsold inventory levels, and infrastructure delivery timelines across each corridor so that pricing conversations are grounded in current reality.</p>
+                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Commercial Property Consulting</h3>
+                  <p className="mb-6">Commercial support includes lease screening, tenant quality review, vacancy modeling, and compliance checks. As a property consultant in Noida, we look at downside first and return second. Buyers evaluating <Link href="/commercial-property-in-noida" className="text-[#CBB27A] font-medium hover:underline">commercial assets in Noida</Link> get a clean side-by-side of risk, yield, and liquidity.</p>
+
+                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Real Estate Portfolio Advisory</h3>
+                  <p className="mb-0">Portfolio advisory helps investors avoid overexposure to one location or one builder. The service covers concentration review, timing, and reallocation ideas. You can explore details on our <Link href="/real-estate-consulting-services" className="text-[#CBB27A] font-medium hover:underline">real estate consulting services</Link> page.</p>
                 </div>
               </div>
             </div>
@@ -231,23 +233,23 @@ export function HomepageSeoBlocks() {
                 Explore Properties with <span className="text-[#CBB27A]">Real Estate Consultants</span> in Delhi NCR
               </h2>
               <p className="text-sm md:text-base text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-                Each corridor in the NCR has its own demand cycle, pricing behaviour, and infrastructure drivers. Our real estate consultants in Noida track each market independently. Here is what the current data shows.
+                Every corridor moves on its own cycle. Price, rental demand, and delivery quality can change sharply from one zone to another.
               </p>
             </header>
             <div className="w-full max-w-none bg-white rounded-2xl md:rounded-3xl shadow-lg overflow-hidden border border-gray-100">
               <div className="w-full max-w-none p-6 sm:p-8 md:p-10 lg:p-12">
                 <div className={CONTENT_CLASS}>
                   <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3 mt-0">Property in Noida</h3>
-                  <p className="mb-6">Sector 150 leads the <Link href="/flats-for-sale-in-noida" className="text-[#CBB27A] font-medium hover:underline">Noida property market</Link> at 43% year-on-year appreciation. Sector 94 for ultra-luxury. Expressway corridor for mid-segment growth. Average premium sector prices: Rs 7,500 to Rs 12,000 per sq ft. NCR inventory overhang at 7 months, its lowest in years.</p>
+                  <p className="mb-6">Noida offers broad inventory, from entry apartments to premium towers and villas. The better pockets combine access, social infrastructure, and stable end-user demand. If you are comparing options, start with <Link href="/properties-in-noida" className="text-[#CBB27A] font-medium hover:underline">property in Noida</Link> and score each option on commute, ticket size, and delivery risk.</p>
                   
                   <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Property in Greater Noida</h3>
-                  <p className="mb-6"><Link href="/flats-for-sale-in-greater-noida" className="text-[#CBB27A] font-medium hover:underline">Greater Noida West</Link> averaging Rs 8,450 per sq ft with 24% year-on-year growth. 62% of combined NCR transactions in Q3 2024. Alpha/Beta circle rates revised to Rs 36,000 per sq metre in 2025. GNIDA belt resale plots: Rs 40,000 to Rs 75,000 per sq metre.</p>
+                  <p className="mb-6">Greater Noida and Greater Noida West attract buyers who want value with growth potential. Infrastructure expansion supports demand, but project quality still varies. For active options, review <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-medium hover:underline">property in Greater Noida</Link> and prioritize builders with clean handover records.</p>
                   
                   <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Property in Ghaziabad</h3>
-                  <p className="mb-6">Indirapuram: Rs 9,950 per sq ft, 73% appreciation FY21 to FY25. Vaishali: Rs 9,650 per sq ft, 30.4% year-on-year growth. Vasundhara: Rs 7,900 per sq ft, 81% over 3 years. The FNG corridor is driving sustained demand across the <Link href="/flats-in-ghaziabad" className="text-[#CBB27A] font-medium hover:underline">Ghaziabad belt</Link>.</p>
+                  <p className="mb-6">Ghaziabad suits buyers who want metro-linked housing with strong Delhi access. Still, each pocket performs differently. Compare possession reliability and resale depth, not just launch price. Browse <Link href="/properties-in-ghaziabad" className="text-[#CBB27A] font-medium hover:underline">property in Ghaziabad</Link> and shortlist areas with stable user demand.</p>
                   
                   <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Property in Lucknow</h3>
-                  <p className="mb-0">The <Link href="/commercial-and-residential-property-in-lucknow" className="text-[#CBB27A] font-medium hover:underline">Lucknow market</Link> is growing at 12% CAGR. Gomti Nagar: Rs 9,577 per sq ft, 64.8% appreciation over 10 years. Circle rates revised to Rs 70,000 per sq metre in August 2025. Faizabad Road: 3.4% rental yield. Sultanpur Road: strongest mid-term appreciation at a lower entry point.</p>
+                  <p className="mb-0">Lucknow works for buyers who want a different risk-return profile than core NCR. Demand remains healthy in corridors where jobs and infrastructure move together. Explore <Link href="/properties-in-lucknow" className="text-[#CBB27A] font-medium hover:underline">property in Lucknow</Link> and compare options by budget and holding period.</p>
                 </div>
               </div>
             </div>
@@ -275,23 +277,23 @@ export function HomepageSeoBlocks() {
                 How Our <span className="text-[#CBB27A]">Property Consultants</span> Help You Buy the Right Property
               </h2>
               <p className="text-sm md:text-base text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-                A property consultant near me should do more than show you options. The process that separates a useful consultant from a channel partner is what happens before the site visit and after the booking. Here is how ours works.
+                A strong consultant should do more than show you options. The real difference from a channel partner is what happens before the site visit and after the booking. Here is how ours works.
               </p>
             </header>
             <div className="w-full max-w-none bg-white rounded-2xl md:rounded-3xl shadow-lg overflow-hidden border border-gray-100">
               <div className="w-full max-w-none p-6 sm:p-8 md:p-10 lg:p-12">
                 <div className={CONTENT_CLASS}>
                   <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3 mt-0">Understanding Your Investment Goals</h3>
-                  <p className="mb-6">The first conversation covers what you are actually solving for: end-use, rental income, capital appreciation, or a combination. Budget, timeline, geography, and risk tolerance all feed into how the shortlist gets built. This <Link href="/advisory-philosophy" className="text-[#CBB27A] font-medium hover:underline">advisory philosophy</Link> means we assess every project against your actual profile. When the numbers say it is the wrong fit, we say so before you waste a day on a site visit.</p>
+                  <p className="mb-6">We start with your real goal, end-use, rental income, appreciation, or a mix. Budget, timeline, and risk comfort shape the shortlist from the start. Our <Link href="/advisory-philosophy" className="text-[#CBB27A] font-medium hover:underline">advisory philosophy</Link> is simple, if a project does not fit, we say no early.</p>
                   
                   <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Shortlisting the Best Property Options</h3>
-                  <p className="mb-6">Our real estate consultants in Noida build every shortlist against our internal verification process: RERA status, land title, developer delivery record, payment plan structure, and construction stage. What reaches you has already been filtered for legal and financial risk. The shortlist a buyer receives, whether for <Link href="/flats-for-sale-in-greater-noida" className="text-[#CBB27A] font-medium hover:underline">flats in Greater Noida</Link> or elsewhere, is not a list of what is available. It is a list of what is actually worth considering.</p>
+                  <p className="mb-6">Our real estate consultants in Noida filter each shortlist through RERA checks, title review, delivery history, payment structure, and construction stage. What reaches you is already risk-screened. Whether you are viewing <Link href="/flats-for-sale-in-greater-noida" className="text-[#CBB27A] font-medium hover:underline">flats in Greater Noida</Link> or Noida options, the aim is decision clarity.</p>
                   
                   <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Site Visits &amp; Project Evaluation</h3>
-                  <p className="mb-6">A property consultant in Noida should brief buyers before every visit, not during it. We cover what to look for: construction stage against RERA schedule, actual carpet area versus super built-up claims, and whether the developer&apos;s answers at the site align with what is filed. After the visit, observations are compared against the builder-buyer agreement before any booking conversation starts.</p>
+                  <p className="mb-6">A property consultant in Noida should brief you before each visit. We check construction stage against RERA timelines, carpet area clarity, and whether site claims match filed records. After the visit, we compare observations with agreement terms before any booking move.</p>
                   
                   <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">Complete Booking &amp; Documentation Support</h3>
-                  <p className="mb-0">Agreement review, home loan coordination, sub-registrar scheduling, and documentation prep. A property consultant who stays involved through this stage prevents the problems most buyers find too late. Construction milestone tracking continues to possession. That post-booking period is where the advisory relationship earns its real value. Ready to start? <Link href="/contact" className="text-[#CBB27A] font-medium hover:underline">Get in touch</Link>.</p>
+                  <p className="mb-0">This stage includes agreement review, loan coordination, registration support, and post-booking follow-up. Most buyers face the highest stress here, not at discovery. A property consultant in Noida who stays involved can prevent avoidable delay and cost. If you want a review of your current plan, <Link href="/contact" className="text-[#CBB27A] font-medium hover:underline">contact us</Link>.</p>
                 </div>
               </div>
             </div>

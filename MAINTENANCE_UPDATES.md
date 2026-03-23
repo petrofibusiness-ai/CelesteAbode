@@ -295,6 +295,16 @@
 165. **`/commercial-and-residential-property-in-lucknow`:** Page is **`async`** with listing for **Lucknow** (all published types); **property type filter visible** (no `hidePropertyType`); empty state links to **`/properties-in-lucknow`**.
 166. **`/flats-in-ghaziabad`:** Page is **`async`** with **Ghaziabad** apartments-only listing (same pattern as other flats pages); empty state links to **`/properties-in-ghaziabad`**.
 
+### Homepage content quality pass (SEO + readability)
+167. **Homepage SEO blocks rewritten:** `components/homepage-seo-blocks.tsx` content refreshed to follow Celeste advisory writing standards (cleaner readability, tighter relevance, natural internal linking from sitemap routes) while keeping the 5-block progressive reveal UX intact.
+168. **H2/H3 structure alignment:** Block content aligned to the requested heading architecture for consultant-focused homepage SEO sections, with no structural change to the component layout.
+169. **FAQ separation fixed:** Removed FAQ copy from homepage SEO blocks and kept FAQ only in the dedicated data source `lib/homepage-faqs.ts` to avoid duplication and keep schema/content ownership clear.
+170. **Homepage FAQs updated:** Rewrote `HOMEPAGE_FAQS` answers in simpler advisory language, reduced fluff, and improved semantic fit with homepage intent.
+171. **Keyword cleanup:** Removed spam-prone “near me” phrasing from homepage FAQs and key homepage sections; replaced with cleaner Noida/Delhi NCR variants where needed.
+172. **Who We Serve content polish:** `components/who-we-serve.tsx` copy refined for sentence clarity and flow without changing H2/H3, section meaning, or card structure.
+173. **Why Choose section polish:** `components/why-clients-trust-section.tsx` micro-edits improved readability and reduced repetitive phrasing without changing headings, tone, or message.
+174. **Spam check pass:** Verified no “near me” terms remain in homepage SEO blocks, homepage FAQs, and homepage audience/trust cards after cleanup.
+
 ---
 
 ## How to use this doc

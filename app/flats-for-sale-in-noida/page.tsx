@@ -168,12 +168,12 @@ export default async function FlatsForSaleInNoidaPage() {
                     className="scroll-mt-24 md:scroll-mt-28"
                     aria-label="Search and filter properties"
                   >
-                    <LocationPropertyFilters
-                      location="noida"
-                      localities={localities}
-                      hidePropertyType
-                      defaultPropertyType="apartments"
-                    />
+                  <LocationPropertyFilters
+                    location="noida"
+                    localities={localities}
+                    hidePropertyType
+                    defaultPropertyType="apartments"
+                  />
                   </div>
                   {properties.length > 0 ? (
                     <NoidaPropertiesGrid

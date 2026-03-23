@@ -64,14 +64,16 @@ export function BrandIntro() {
             viewport={{ once: true, margin: "-50px", amount: 0.2 }}
             transition={{ duration: containerDuration, ease: [0.25, 0.1, 0.25, 1] }}
           >
-            {/* Paragraph 1 */}
             <p className="text-sm md:text-[0.95rem] lg:text-base leading-[1.85] text-[#4A4F55] font-normal font-poppins">
-              Buying property in the NCR means navigating title irregularities, developers with delayed delivery records, and circle rate revisions that change your registration cost the week you sign. These are not rare exceptions. For most buyers, they are discoveries made after the decision is already done.
+              Buying property in NCR is not hard because of too few choices. It is hard because too many choices make it difficult to know what is actually worth your time and money.
             </p>
 
-            {/* Paragraph 2 */}
             <p className="text-sm md:text-[0.95rem] lg:text-base leading-[1.85] text-[#4A4F55] font-normal font-poppins">
-              That is exactly what <span className="text-[#CBB27A]">Celeste Abode, your trusted real estate consultant in NCR</span>, was built to prevent. As independent real estate consultants in Noida and across Delhi NCR, we verify RERA compliance, land title standing, and developer delivery history before any project reaches your shortlist. Every property consultant in Noida works with inventory. We work with your interest. <span className="font-semibold text-[#2B3035]">If something fails our checks, you hear that first.</span>
+              <span className="text-[#CBB27A]">Celeste Abode</span> is built for buyers who want straight answers, not more noise. As a <span className="font-medium text-[#2B3035]">property consultant in Noida</span>, we do the groundwork before you see anything, legal checks, builder history, and delivery record. What reaches you has already been reviewed closely. Then we match it to your budget and timeline, and help you compare options honestly.
+            </p>
+
+            <p className="text-sm md:text-[0.95rem] lg:text-base leading-[1.85] text-[#4A4F55] font-normal font-poppins">
+              <span className="font-semibold text-[#2B3035]">From first shortlist to final handover, we walk with you till the keys are in your hand.</span>
             </p>
           </motion.div>
 

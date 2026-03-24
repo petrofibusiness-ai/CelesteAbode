@@ -22,11 +22,12 @@ const SOBHA_IMAGES = {
   interior:
     "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-interior.avif",
   map: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/map.jpeg",
+  land: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/land.jpeg",
   clubhouse:
     "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-clubhouse.avif",
 } as const;
 
-/** R2 + AVIF: skip optimizer to avoid blank frames. Map variant uses intrinsic width/height so the frame matches the asset. */
+/** R2 + AVIF: skip optimizer to avoid blank frames. Map/land variants use intrinsic width/height so the frame matches the asset. */
 function ArticleFigure({
   src,
   alt,
@@ -36,8 +37,8 @@ function ArticleFigure({
   src: string;
   alt: string;
   fit?: "cover" | "contain";
-  /** Map images: scale to column width with natural aspect (no fixed 16:9 box). */
-  variant?: "default" | "map";
+  /** Map/land: scale to column width with natural aspect (no fixed 16:9 box). */
+  variant?: "default" | "map" | "land";
 }) {
   if (variant === "map") {
     /* Intrinsic 1024×1536 (map.jpeg); match ratio so layout space matches the asset (avoids grey bands). */
@@ -49,6 +50,25 @@ function ArticleFigure({
             alt={alt}
             width={1024}
             height={1536}
+            unoptimized
+            className="block h-auto w-full max-w-full"
+            sizes="(max-width: 1024px) 100vw, min(100%, 800px)"
+          />
+        </div>
+      </figure>
+    );
+  }
+
+  if (variant === "land") {
+    /* Intrinsic 1600×894 (land.jpeg) */
+    return (
+      <figure className="my-8 rounded-2xl overflow-hidden border border-gray-200 bg-neutral-100 shadow-sm">
+        <div className="relative w-full">
+          <Image
+            src={src}
+            alt={alt}
+            width={1600}
+            height={894}
             unoptimized
             className="block h-auto w-full max-w-full"
             sizes="(max-width: 1024px) 100vw, min(100%, 800px)"
@@ -308,6 +328,11 @@ export function SobhaRivanaGreaterNoidaWestContent() {
       </section>
 
       <section id="sobha-rivana-floor-plans" className="scroll-mt-28 mb-14">
+        <ArticleFigure
+          src={SOBHA_IMAGES.land}
+          alt="Sobha Rivana land parcel and site context, Greater Noida West Sector 1"
+          variant="land"
+        />
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-5 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
           Floor plans and unit mix: 2 BHK, 3 BHK, 4 BHK

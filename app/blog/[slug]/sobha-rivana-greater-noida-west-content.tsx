@@ -100,7 +100,7 @@ function ArticleFigure({
 
 const PAGE_TOC: { href: string; title: string; blurb: string }[] = [
   { href: "#sobha-rivana-project-table", title: "Snapshot table", blurb: "Entrance photo and core facts." },
-  { href: "#sobha-rivana-developer", title: "Sobha Limited", blurb: "The builder behind Rivana." },
+  { href: "#sobha-rivana-developer", title: "Sobha Limited", blurb: "The developer behind Rivana." },
   { href: "#sobha-rivana-rera", title: "UP RERA", blurb: "Registration and where to read more." },
   { href: "#sobha-rivana-location", title: "Location", blurb: "Sector 1, Greater Noida West, and connectivity." },
   { href: "#sobha-rivana-floor-plans", title: "Floor plans & sizes", blurb: "2, 3, 4 BHK and floor plates." },
@@ -222,18 +222,31 @@ function SpecTable() {
 export function SobhaRivanaGreaterNoidaWestContent() {
   return (
     <div className="blog-article font-poppins">
-      <nav className="mb-10 rounded-xl border border-gray-100 bg-gray-50/60 px-5 py-5" aria-label="On this page">
-        <p className="text-xs font-bold uppercase tracking-wider text-[#CBB27A] mb-4">On this page</p>
-        <ul className="space-y-0 list-none m-0 p-0 divide-y divide-gray-200/80">
+      <nav
+        className="mb-6 overflow-hidden rounded-lg border border-gray-200 text-left font-poppins"
+        aria-label="On this page"
+      >
+        <div className="border-b border-gray-200 bg-gray-50 px-3 py-2 md:px-4 md:py-2.5">
+          <p className="m-0 text-[0.65rem] font-bold uppercase tracking-wider text-[#CBB27A]">On this page</p>
+        </div>
+        {/* gap-px + bg on grid = hairline row/column rules; one col mobile, two cols md+ (same as desktop rhythm) */}
+        <ul
+          role="list"
+          className="m-0 grid list-none grid-cols-1 gap-px border-0 bg-gray-200 p-0 md:grid-cols-2"
+        >
           {PAGE_TOC.map((item) => (
-            <li key={item.href} className="py-3 first:pt-0">
-              <a
-                href={item.href}
-                className="block text-sm font-semibold text-gray-900 hover:text-[#CBB27A] transition-colors"
-              >
-                {item.title}
-              </a>
-              <p className="text-xs text-gray-500 mt-1 leading-snug m-0">{item.blurb}</p>
+            <li key={item.href} className="min-w-0 bg-gray-50">
+              <div className="flex h-full flex-col px-3 py-2.5 md:px-4 md:py-3">
+                <a
+                  href={item.href}
+                  className="m-0 block w-full max-w-full p-0 text-left text-xs font-semibold leading-snug text-gray-900 no-underline hover:text-[#CBB27A] hover:underline hover:underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#CBB27A] sm:text-sm"
+                >
+                  {item.title}
+                </a>
+                <span className="mt-1 block w-full max-w-full text-left text-[0.65rem] leading-snug text-gray-500 sm:text-xs">
+                  {item.blurb}
+                </span>
+              </div>
             </li>
           ))}
         </ul>
@@ -250,13 +263,16 @@ export function SobhaRivanaGreaterNoidaWestContent() {
       <section id="sobha-rivana-developer" className="scroll-mt-28 mb-14">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-5 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          Sobha Limited: the builder behind Rivana
+          Sobha Limited: the developer behind Rivana
         </h2>
         <p className="text-gray-700 leading-relaxed mb-5">
-          Sobha Limited is a listed real estate developer with a long track record in India. The group is known for
-          controlling much of its value chain in house, from key inputs to construction discipline, so quality and
-          finishing are part of the brand promise. In Bengaluru and other markets, Sobha projects are often spoken about
-          alongside premium apartments and plotted communities with strong attention to detail.
+          Sobha Limited is a publicly listed real estate developer with over 25 years of experience. Founded in 1995, it
+          has delivered more than 120 million sq. ft. across India. What sets Sobha apart is its backward integration
+          model. It controls everything from raw materials to final construction, ensuring consistent quality.
+        </p>
+        <p className="text-gray-700 leading-relaxed mb-5">
+          Headquartered in Bengaluru, Sobha operates in 13+ cities. Its projects are known for strong construction
+          quality, clean finishes, and consistent delivery, making it a trusted name in the premium housing segment.
         </p>
         <p className="text-gray-700 leading-relaxed mb-5">
           Rivana is Sobha&apos;s push into the Noida Extension story at scale: multiple towers, a large land parcel, and
@@ -275,7 +291,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
 
       <ArticleFigure
         src={SOBHA_IMAGES.map}
-        alt="Sobha Limited since 1995: pan-India presence, 581 developments, 230+ prestigious awards, full backward integration, 1,456 quality checks before handover, and landmark project scale in Sobha brand marketing art."
+        alt="Sobha Limited since 1995: pan-India presence, 550+ landmark projects, 230+ prestigious awards, full backward integration, 1,456 quality checks before handover, and landmark project scale in Sobha brand marketing art."
         variant="map"
       />
 

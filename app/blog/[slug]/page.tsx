@@ -249,21 +249,21 @@ export default async function BlogPostPage({
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/40" />
               {/* Hero content overlay on image */}
               <div className="absolute inset-0 flex flex-col justify-end">
-              <div className="max-w-[95%] xl:max-w-[1800px] mx-auto px-4 w-full pb-12 pt-10 md:pb-16 md:pt-12">
+              <div className="max-w-[95%] xl:max-w-[1800px] mx-auto w-full px-3 pb-8 pt-6 sm:px-4 sm:pb-12 sm:pt-10 md:pb-16 md:pt-12">
                 <div className="max-w-3xl mx-auto text-center">
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white leading-[1.2] font-poppins mb-5 px-2">
+                  <h1 className="px-1 text-[1.65rem] font-bold leading-snug text-white font-poppins sm:px-2 sm:text-4xl sm:leading-[1.2] md:text-5xl mb-3 sm:mb-5">
                     {post.title}
                   </h1>
-                  <p className="text-lg md:text-xl text-white/85 font-poppins leading-relaxed mb-7 max-w-2xl mx-auto px-2">
+                  <p className="px-1 text-base leading-relaxed text-white/85 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl mb-5 max-w-2xl mx-auto">
                     {post.excerpt}
                   </p>
-                  <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-poppins text-white/70">
-                    <span className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4 text-[#CBB27A]/90" />
+                  <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-xs font-poppins text-white/70 sm:gap-x-6 sm:gap-y-2 sm:text-sm">
+                    <span className="flex items-center gap-1.5 sm:gap-2">
+                      <Calendar className="size-3.5 shrink-0 text-[#CBB27A]/90 sm:size-4" />
                       {post.date}
                     </span>
-                    <span className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-[#CBB27A]/90" />
+                    <span className="flex items-center gap-1.5 sm:gap-2">
+                      <Clock className="size-3.5 shrink-0 text-[#CBB27A]/90 sm:size-4" />
                       {post.readTime}
                     </span>
                   </div>

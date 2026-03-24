@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { SobhaRivanaFaqAccordion } from "./sobha-rivana-faq-accordion";
 
-/** As on UP RERA public listings; match the live certificate before you pay. */
+/** As on UP RERA public listings; verify on the portal if the number changes. */
 export const SOBHA_RIVANA_RERA_FULL = "UPRERAPRJ313638/03/2026";
 
 const SOBHA_IMAGES = {
@@ -21,23 +21,43 @@ const SOBHA_IMAGES = {
     "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-entrance.jpg",
   interior:
     "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-interior.avif",
-  map: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-map.avif",
-  typicalFloorPlate:
-    "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-typical-floor-plate.avif",
+  map: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/map.jpeg",
   clubhouse:
     "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-clubhouse.avif",
 } as const;
 
-/** R2 + AVIF: skip optimizer to avoid blank frames. Use `contain` for maps and CAD so nothing crops away. */
+/** R2 + AVIF: skip optimizer to avoid blank frames. Map variant uses intrinsic width/height so the frame matches the asset. */
 function ArticleFigure({
   src,
   alt,
   fit = "cover",
+  variant = "default",
 }: {
   src: string;
   alt: string;
   fit?: "cover" | "contain";
+  /** Map images: scale to column width with natural aspect (no fixed 16:9 box). */
+  variant?: "default" | "map";
 }) {
+  if (variant === "map") {
+    /* Intrinsic 1024×1536 (map.jpeg); match ratio so layout space matches the asset (avoids grey bands). */
+    return (
+      <figure className="my-8 rounded-2xl overflow-hidden border border-gray-200 bg-neutral-100 shadow-sm">
+        <div className="relative w-full">
+          <Image
+            src={src}
+            alt={alt}
+            width={1024}
+            height={1536}
+            unoptimized
+            className="block h-auto w-full max-w-full"
+            sizes="(max-width: 1024px) 100vw, min(100%, 800px)"
+          />
+        </div>
+      </figure>
+    );
+  }
+
   return (
     <figure className="my-8 rounded-2xl overflow-hidden border border-gray-200 bg-neutral-100 shadow-sm">
       <div className="relative w-full min-h-[220px] aspect-video sm:min-h-[260px]">
@@ -59,45 +79,51 @@ function ArticleFigure({
 }
 
 const PAGE_TOC: { href: string; title: string; blurb: string }[] = [
-  { href: "#sobha-rivana-project-table", title: "Snapshot table", blurb: "Entrance photo, then core facts." },
-  { href: "#sobha-rivana-rera", title: "RERA & documents", blurb: "What to pull from up-rera.in." },
-  { href: "#sobha-rivana-location", title: "Location", blurb: "Sector 1 and how the week moves." },
+  { href: "#sobha-rivana-project-table", title: "Snapshot table", blurb: "Entrance photo and core facts." },
+  { href: "#sobha-rivana-developer", title: "Sobha Limited", blurb: "The builder behind Rivana." },
+  { href: "#sobha-rivana-rera", title: "UP RERA", blurb: "Registration and where to read more." },
+  { href: "#sobha-rivana-location", title: "Location", blurb: "Sector 1, Greater Noida West, and connectivity." },
   { href: "#sobha-rivana-floor-plans", title: "Floor plans & sizes", blurb: "2, 3, 4 BHK and floor plates." },
-  { href: "#sobha-rivana-amenities", title: "Amenities", blurb: "Quick visual pass, not a promise list." },
-  { href: "#sobha-rivana-price", title: "Price & payment", blurb: "Bands, slabs, and cash flow." },
-  { href: "#faq-sobha-rivana", title: "FAQs", blurb: "Tap for short answers." },
+  { href: "#sobha-rivana-amenities", title: "Amenities", blurb: "Club, greens, and everyday comfort." },
+  { href: "#sobha-rivana-price", title: "Price & payment", blurb: "Indicative bands and planning." },
+  { href: "#faq-sobha-rivana", title: "FAQs", blurb: "Common questions." },
 ];
 
 const FAQ_ITEMS: { question: string; answer: string }[] = [
   {
-    question: "What is Sobha Rivana’s UP RERA registration number?",
+    question: "What is Sobha Rivana's UP RERA registration number?",
     answer:
-      "Listings show UPRERAPRJ313638/03/2026, with registration on 20 March 2026. Before you pay a booking amount, open the project on up-rera.in, download the registration certificate, and confirm the alphanumeric string matches. Banks and lawyers will ask for that exact text.",
+      "The project is listed as UPRERAPRJ313638/03/2026, with registration on 20 March 2026.",
   },
   {
     question: "Where is Sobha Rivana located?",
     answer:
-      "Sector 1, Greater Noida West, the stretch people still call Noida Extension. Daily life here is Gaur Chowk, the Noida-Greater Noida links, and Techzone traffic. Drive your actual school and office routes at rush hour. Maps lie kindly. Clocks do not.",
+      "Sector 1, Greater Noida West, often called Noida Extension. Daily life is shaped by Gaur Chowk, the Noida and Greater Noida link roads, and Techzone. We always suggest driving your own office and school routes at the hours you actually use them.",
   },
   {
     question: "What apartment types does Sobha Rivana offer?",
     answer:
-      "The launch is built around two-, three-, and four-bedroom apartments. Sizes shift by tower and floor; the sales matrix and your eventual allotment sketch are the only sources that matter. Brochure bands are a starting point, not a contract.",
+      "The focus is on two-, three-, and four-bedroom apartments. Sizes vary by tower and floor, so the live sales matrix and floor plans are the best guide when you shortlist.",
   },
   {
     question: "How much does Sobha Rivana cost per square foot?",
     answer:
-      "Early 2026 channel talk often lands in a band near thirteen to fifteen thousand rupees per square foot before PLC, parking, and GST. Inventory and demand move that number weekly. Your formal cost sheet from the builder desk and your bank’s valuation should match before you commit.",
+      "In early 2026, market chatter often lands around ₹13,000 to ₹15,000 per sq ft before PLC, parking, and GST, but this moves with inventory. Your builder's cost sheet and your bank's view should line up before you commit.",
   },
   {
     question: "When can buyers expect possession at Sobha Rivana?",
     answer:
-      "Marketing often points to an end-of-decade window, with December 2029 appearing in several public notes. That line must match your agreement and the project period on RERA. If those three sources disagree, stop and reconcile them in writing.",
+      "Marketing sometimes mentions an end-of-decade window, with December 2029 in some notes. Treat your agreement and the project timeline on RERA as the final word, and ask us if you want help comparing that with other options.",
   },
   {
-    question: "Besides RERA, what should I double-check?",
+    question: "What is the indicative starting price for Sobha Rivana?",
     answer:
-      "Payment schedule tied to construction milestones, cancellation and refund clauses, parking and PLC in rupees (not in assumed numbers), and sanctioned drawings for the tower you are buying. Anything that exists only on a render or in a voice note stays outside your risk budget until it is on paper.",
+      "Launch conversations often start near ₹2.25 crore for select formats, before PLC, floor rise, parking, and taxes. Some buyers enter through an expression of interest with a token and KYC. We help you read the sheet in plain language.",
+  },
+  {
+    question: "How can Celeste Abode help if I am considering Rivana?",
+    answer:
+      "We are property consultants in Delhi NCR. We shortlist with you, compare Rivana with other luxury and mid-premium options in Noida and Greater Noida, coordinate site visits, and walk through paperwork and payment structure so you are not doing this alone.",
   },
 ];
 
@@ -151,9 +177,6 @@ function SpecTable() {
         <h2 className="text-sm font-bold uppercase tracking-[0.12em] text-[#CBB27A] font-poppins">
           Sobha Rivana: project at a glance
         </h2>
-        <p className="text-white/60 text-xs mt-1 font-poppins leading-relaxed">
-          Core identifiers only. Sizes, towers, ticket, and possession sit in your RERA download and agreement, not in this row.
-        </p>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm font-poppins border-collapse min-w-[300px]">
@@ -196,17 +219,6 @@ export function SobhaRivanaGreaterNoidaWestContent() {
         </ul>
       </nav>
 
-      <p className="text-lg md:text-xl text-gray-800 leading-relaxed mb-5">
-        For a few weeks now, the lunch-table question in Greater Noida West has been the same: have you seen what Sobha
-        is doing in Sector 1? The answer used to be hearsay. Then the file landed on UP RERA. That changes the
-        conversation from &quot;sounds big&quot; to &quot;show me the registration, the plan, and the payment line I
-        actually sign.&quot;
-      </p>
-      <p className="text-base text-gray-700 leading-relaxed mb-6">
-        We wrote this for buyers who do not want a sales deck. They want a calm walkthrough of the project, the belt it
-        sits in, and the checks that still sit on their side of the table.
-      </p>
-
       <section id="sobha-rivana-project-table" className="scroll-mt-28 mb-14">
         <ArticleFigure
           src={SOBHA_IMAGES.entrance}
@@ -215,34 +227,58 @@ export function SobhaRivanaGreaterNoidaWestContent() {
         <SpecTable />
       </section>
 
+      <section id="sobha-rivana-developer" className="scroll-mt-28 mb-14">
+        <h2 className="text-xl md:text-2xl font-bold text-foreground mb-5 flex items-center gap-3">
+          <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
+          Sobha Limited: the builder behind Rivana
+        </h2>
+        <p className="text-gray-700 leading-relaxed mb-5">
+          Sobha Limited is a listed real estate developer with a long track record in India. The group is known for
+          controlling much of its value chain in house, from key inputs to construction discipline, so quality and
+          finishing are part of the brand promise. In Bengaluru and other markets, Sobha projects are often spoken about
+          alongside premium apartments and plotted communities with strong attention to detail.
+        </p>
+        <p className="text-gray-700 leading-relaxed mb-5">
+          Rivana is Sobha&apos;s push into the Noida Extension story at scale: multiple towers, a large land parcel, and
+          a full amenity vision aimed at families who want a step up from typical local launches. That does not remove
+          the usual NCR questions on commute, schools, and hold period. It does mean you are looking at a developer that
+          has built its name on delivery and product, not only on brochures.
+        </p>
+        <p className="text-gray-700 leading-relaxed">
+          When you work with Celeste Abode, we place Rivana next to other credible names on our{" "}
+          <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
+            properties in Greater Noida
+          </Link>{" "}
+          page and help you see where it wins for your budget and where another project might fit better.
+        </p>
+      </section>
+
+      <ArticleFigure
+        src={SOBHA_IMAGES.map}
+        alt="Sobha since 1995—Rivana location map, Greater Noida West."
+        variant="map"
+      />
+
       <section id="sobha-rivana-rera" className="scroll-mt-28 mb-14">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-5 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          Sobha Rivana on UP RERA: what to pull from the portal
+          UP RERA registration
         </h2>
         <p className="text-gray-700 leading-relaxed mb-5">
-          The registration number in the table (<strong>{SOBHA_RIVANA_RERA_FULL}</strong>) is the handle your banker and
-          counsel will expect. It is tied to <strong>20 March 2026</strong> on the public register. Treat that date as the
-          moment marketing had to fit inside a regulated frame, not as the day all risk vanished.
+          Rivana is registered on UP RERA as <strong>{SOBHA_RIVANA_RERA_FULL}</strong>, with a listing date of{" "}
+          <strong>20 March 2026</strong>. That is one anchor among many. We still read location, product, and price with
+          you as a whole picture, the way we do for every serious buyer in NCR.
         </p>
         <p className="text-gray-700 leading-relaxed mb-4">
-          On{" "}
+          Listing paperwork lives on{" "}
           <a href="https://up-rera.in" target="_blank" rel="noopener noreferrer" className="text-[#CBB27A] font-semibold hover:underline">
             up-rera.in
           </a>
-          , search by project name and download, in one sitting:
-        </p>
-        <ul className="list-disc pl-5 space-y-2 text-gray-700 leading-relaxed mb-6">
-          <li>The registration certificate (check the QR resolves to the same project).</li>
-          <li>Sanctioned plans or extracts linked to the phase you are discussing.</li>
-          <li>Any annexure that lists towers, unit types, or declared common areas.</li>
-        </ul>
-        <p className="text-gray-700 leading-relaxed">
-          New to this side of NCR? Read{" "}
+          . If you are new to this side of the region, our{" "}
           <Link href="/blog/noida-vs-greater-noida-investment-2026" className="text-[#CBB27A] font-semibold hover:underline">
             Noida versus Greater Noida
           </Link>{" "}
-          next. Rivana trades on a different pitch than a Sector 18 walk-up.
+          note is a friendly starting point.
         </p>
       </section>
 
@@ -252,37 +288,23 @@ export function SobhaRivanaGreaterNoidaWestContent() {
           Sobha Rivana location: Sector 1, Greater Noida West
         </h2>
         <p className="text-gray-700 leading-relaxed mb-5">
-          Sector 1 sits inside Greater Noida West, the grid buyers still call Noida Extension. The story here is not a
-          single landmark. It is how your week actually moves.
+          Sector 1 sits inside Greater Noida West, the belt most people still call Noida Extension. It is a dense
+          residential grid with strong buyer interest and steady new supply. FNG, NH 24, and Pari Chowk sit at different
+          driving distances depending on where you start. Noida International Airport at Jewar is relevant for a longer
+          horizon. What matters most is whether this belt fits your office, schools, and family rhythm.
         </p>
         <ul className="list-disc pl-5 space-y-2 text-gray-700 leading-relaxed mb-6">
-          <li>Gaur Chowk and the Noida-Greater Noida links set the tone for peak-hour stress.</li>
-          <li>Techzone and Knowledge Park catchments feed part of the tenant and owner pool.</li>
-          <li>Jewar and YEIDA matter for a multi-year thesis, not for Tuesday evening pickup timing.</li>
+          <li>Gaur Chowk and the Noida and Greater Noida links shape everyday traffic patterns.</li>
+          <li>Techzone and Knowledge Park bring working professionals and rental demand.</li>
+          <li>Schools, hospitals, and metro connectivity are part of the story. We help you weigh them against other
+            micro-markets such as{" "}
+            <Link href="/flats-for-sale-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
+              flats for sale in Noida
+            </Link>
+            .
+          </li>
+          <li>Jewar and YEIDA are useful for a long-term NCR view alongside your day-to-day commute.</li>
         </ul>
-        <p className="text-gray-700 leading-relaxed mb-4">
-          For airport context:{" "}
-          <Link href="/blog/jewar-airport-ncr-property-buyers-2026" className="text-[#CBB27A] font-semibold hover:underline">
-            Jewar and NCR property
-          </Link>
-          . For expressway land versus ready apartments:{" "}
-          <Link
-            href="/blog/yamuna-expressway-growth-corridor-delhi-ncr"
-            className="text-[#CBB27A] font-semibold hover:underline"
-          >
-            Yamuna Expressway growth
-          </Link>
-          . For inventory you can visit now:{" "}
-          <Link href="/flats-for-sale-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
-            flats for sale in Greater Noida
-          </Link>
-          .
-        </p>
-        <ArticleFigure
-          src={SOBHA_IMAGES.map}
-          alt="Sobha Rivana location map: Greater Noida West, Gaur Chowk and link roads"
-          fit="contain"
-        />
       </section>
 
       <section id="sobha-rivana-floor-plans" className="scroll-mt-28 mb-14">
@@ -291,28 +313,22 @@ export function SobhaRivanaGreaterNoidaWestContent() {
           Floor plans and unit mix: 2 BHK, 3 BHK, 4 BHK
         </h2>
         <p className="text-gray-700 leading-relaxed mb-5">
-          Rivana is Sobha&apos;s large-format play in NCR: two-bedroom plans for a cleaner entry ticket, three-bedroom
-          plans for the bulk of upgrading families, four-bedroom plans for buyers who want depth, storage, and fewer
-          compromises on room sizes.
+          Rivana is pitched as a full-size Sobha offering in NCR: two-, three-, and four-bedroom apartments with generous
+          room sizes by local standards. Early market notes often mention bands near 1,300 sq ft for two-bedroom homes,
+          about 1,600 to 1,850 sq ft for three-bedroom plans, and about 2,200 to 2,500 sq ft for four-bedroom plans. Exact
+          numbers change by
+          tower and floor, so we always align with the live floor plate when we shortlist with you.
         </p>
-        <ul className="list-disc pl-5 space-y-2 text-gray-700 leading-relaxed mb-6">
-          <li>Ask for the live floor plate for the tower you like. Cores, lifts, and units per floor change the feel.</li>
-          <li>Match marketing areas to the RERA unit schedule before you argue over &quot;carpet.&quot;</li>
-          <li>If you are comparing launches, start with{" "}
-            <Link
-              href="/blog/upcoming-luxury-projects-noida-greater-noida-2026"
-              className="text-[#CBB27A] font-semibold hover:underline"
-            >
-              upcoming luxury projects in Noida and Greater Noida
-            </Link>
-            .
-          </li>
-        </ul>
-        <ArticleFigure
-          src={SOBHA_IMAGES.typicalFloorPlate}
-          alt="Sobha Rivana typical floor plate and unit layout diagram"
-          fit="contain"
-        />
+        <p className="text-gray-700 leading-relaxed mb-6">
+          If you are comparing launches, start with{" "}
+          <Link
+            href="/blog/upcoming-luxury-projects-noida-greater-noida-2026"
+            className="text-[#CBB27A] font-semibold hover:underline"
+          >
+            upcoming luxury projects in Noida and Greater Noida
+          </Link>
+          .
+        </p>
         <ArticleFigure
           src={SOBHA_IMAGES.interior}
           alt="Sobha Rivana sample apartment interior, living and specification reference"
@@ -326,12 +342,15 @@ export function SobhaRivanaGreaterNoidaWestContent() {
           Amenities at a glance
         </h2>
         <p className="text-gray-700 leading-relaxed mb-2 text-sm md:text-base">
-          Line read only. Final labels sit on sanctioned recreational drawings and your lawyer&apos;s file copy.
+          The marketing story for Rivana includes a large clubhouse, river-themed landscaping, sports and wellness spaces,
+          and layered security. That matches how Sobha typically positions its premium communities. When you visit with
+          us, we focus on what matters to your family: open space, everyday convenience, and how the maintenance load will
+          feel after you move in.
         </p>
         <AmenitiesLineGrid />
         <p className="text-gray-700 leading-relaxed text-sm md:text-base">
-          If a feature does not show on a plan RERA links to, keep it out of your mental &quot;included&quot; list until
-          it does. Post-possession, maintenance funds what survives, not adjectives.
+          Final specifications follow the builder&apos;s sanctioned plans and your agreement. We help you read them in
+          context, the same way we do for other luxury projects on our radar.
         </p>
         <ArticleFigure
           src={SOBHA_IMAGES.clubhouse}
@@ -343,56 +362,32 @@ export function SobhaRivanaGreaterNoidaWestContent() {
       <section id="sobha-rivana-price" className="scroll-mt-28 mb-14">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-5 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          Price, payment rhythm, and the bank&apos;s view
+          Price, payment plans, and the bank&apos;s view
         </h2>
         <p className="text-gray-700 leading-relaxed mb-4">
-          Conversations in early 2026 often cite a band near thirteen to fifteen thousand rupees per square foot on
-          fresh Sobha Rivana inventory, before PLC, parking, corpus, and GST. Use that only to frame questions.
+          Early conversations often open near <strong>₹2.25 crore</strong> for select two- and three-bedroom formats,
+          with larger plans scaling up. Channel talk in early 2026 also mentions a band near ₹13,000 to ₹15,000 per sq ft
+          before PLC, parking, corpus, and GST. Some buyers enter through an expression of interest
+          with a token and KYC. We sit with you on the builder&apos;s cost sheet so the numbers make sense before you move
+          forward.
         </p>
         <ul className="list-disc pl-5 space-y-2 text-gray-700 leading-relaxed mb-6">
-          <li>Demand a written cost sheet that matches the tower, floor, and unit you are holding.</li>
-          <li>Line up each payment slab with construction milestones on the RERA filing.</li>
-          <li>Stress-test a six- to nine-month slip. If that breaks cash flow, say so before you block.</li>
+          <li>We recommend a written cost sheet for the exact tower, floor, and unit you prefer.</li>
+          <li>Payment slabs should line up with construction progress and your comfort on cash flow.</li>
+          <li>If you want a neutral read on how Rivana compares with other premium options, start with{" "}
+            <Link href="/real-estate-consulting-services" className="text-[#CBB27A] font-semibold hover:underline">
+              our consulting services
+            </Link>
+            .
+          </li>
         </ul>
         <p className="text-gray-700 leading-relaxed">
-          Want help sequencing this?{" "}
+          Prefer a focused call?{" "}
           <Link href="/advisory-session" className="text-[#CBB27A] font-semibold hover:underline">
             Book an advisory session
           </Link>{" "}
-          or see{" "}
-          <Link href="/real-estate-consulting-services" className="text-[#CBB27A] font-semibold hover:underline">
-            how we consult
-          </Link>
-          .
+          with Celeste Abode.
         </p>
-      </section>
-
-      <section className="mb-14 rounded-2xl border border-gray-200 bg-[#0f1112] text-white p-8 md:p-10">
-        <h2 className="text-lg md:text-xl font-bold font-poppins mb-3 text-white">
-          Shortlisting Sobha Rivana with us
-        </h2>
-        <p className="text-white/80 leading-relaxed mb-6 text-sm md:text-base">
-          We keep a no-list as well as a yes-list. If Rivana fits your hold period and risk, we say so. If another tower
-          in the belt clears your checks better, we say that too. Browse{" "}
-          <Link href="/properties" className="text-[#CBB27A] font-semibold hover:underline">
-            inventory we stand behind
-          </Link>
-          , then talk to the desk.
-        </p>
-        <div className="flex flex-wrap gap-4">
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center rounded-lg bg-[#CBB27A] text-[#0f1112] font-semibold px-6 py-3 text-sm hover:bg-[#b9a56f] transition-colors"
-          >
-            Contact Celeste Abode
-          </Link>
-          <Link
-            href="/real-estate-consulting-services"
-            className="inline-flex items-center justify-center rounded-lg border border-white/25 text-white font-semibold px-6 py-3 text-sm hover:bg-white/10 transition-colors"
-          >
-            Consulting scope
-          </Link>
-        </div>
       </section>
 
       <section id="faq-sobha-rivana" className="scroll-mt-28 mb-6">
@@ -400,9 +395,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
           Frequently asked questions
         </h2>
-        <p className="text-sm text-gray-600 mb-6 max-w-2xl">
-          Tap to expand. Same Q&amp;A is in FAQ schema for Google.
-        </p>
+        <p className="text-sm text-gray-600 mb-6 max-w-2xl">Tap a question to read the answer.</p>
         <SobhaRivanaFaqAccordion items={FAQ_ITEMS} />
       </section>
 
@@ -411,17 +404,17 @@ export function SobhaRivanaGreaterNoidaWestContent() {
         aria-label="Call to action"
       >
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-3 font-poppins">
-          Want a second read on your Rivana offer?
+          Talk to Celeste Abode about Sobha Rivana
         </h2>
         <p className="text-gray-600 max-w-lg mx-auto mb-6 text-sm md:text-base leading-relaxed">
-          Send tower, configuration, and the sheet you were given. We reply with what lines up with RERA, what does not,
-          and what belongs with your banker or lawyer, not with sales.
+          Share what you are looking for: budget, configuration, and whether Rivana is one of several names on your list.
+          We respond as your property consultant in Delhi NCR, with clear next steps and no pressure.
         </p>
         <Link
           href="/contact"
           className="inline-flex items-center justify-center rounded-lg bg-[#CBB27A] text-[#0f1112] font-semibold px-8 py-3.5 text-sm md:text-base hover:bg-[#b9a56f] transition-colors"
         >
-          Message the desk
+          Contact Celeste Abode
         </Link>
       </section>
     </div>

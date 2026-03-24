@@ -69,6 +69,14 @@ export default function BlogPage() {
     parseFloat(b.views || "0") - parseFloat(a.views || "0")
   ).slice(0, 4);
 
+  // Featured articles: newest first (by `date` string)
+  const featuredArticles = [...blogPosts]
+    .filter((post) => post.featured)
+    .sort(
+      (a, b) =>
+        new Date(b.date).getTime() - new Date(a.date).getTime(),
+    );
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -166,7 +174,7 @@ export default function BlogPage() {
                   </div>
 
                   <div className="space-y-6">
-                    {blogPosts.filter(post => post.featured).map((post, index) => (
+                    {featuredArticles.map((post, index) => (
                       <motion.article
                         key={post.id}
                         initial={{ opacity: 0, y: 20 }}

@@ -270,19 +270,21 @@ export function LocalBusinessSchema() {
       latitude: 28.6076655,
       longitude: 77.4354885,
     },
-    openingHoursSpecification: {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
-      opens: "09:00",
-      closes: "18:00",
-    },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: [
+          "Monday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday",
+        ],
+        opens: "09:30",
+        closes: "18:30",
+      },
+    ],
     areaServed: [
       { "@type": "City", name: "Noida" },
       { "@type": "City", name: "Greater Noida" },

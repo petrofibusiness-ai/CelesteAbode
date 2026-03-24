@@ -624,10 +624,10 @@ export default function ContactPage() {
                               Business Hours
                             </h3>
                             <p className="text-primary font-semibold mb-1 text-sm">
-                              Monday - Saturday: 9:00 AM - 7:00 PM
+                              Open daily from 9:30 AM to 6:30 PM
                             </p>
                             <p className="text-xs text-muted-foreground">
-                              Sunday: By appointment only
+                              Tuesdays available by appointment only
                             </p>
                           </div>
                         </div>

@@ -58,7 +58,8 @@ export async function generateMetadata({
       : `${post.title} - Blog`;
   const description = post.excerpt;
   const url = `${SITE_URL}/blog/${post.slug}`;
-  const imageUrl = post.image.startsWith("http") ? post.image : `${SITE_URL}${post.image}`;
+  /** Absolute URL for the hero image; also used for Open Graph and Twitter cards so previews match the page. */
+  const heroImageUrl = post.image.startsWith("http") ? post.image : `${SITE_URL}${post.image}`;
 
   const keywordsBySlug: Record<string, string[]> = {
     "is-noida-safe-to-buy-property-2026": [
@@ -159,9 +160,7 @@ export async function generateMetadata({
   // Use custom meta fields if available, otherwise fallback to defaults
   const metaTitle = post.metaTitle || title;
   const metaDescription = post.metaDescription || description;
-  const ogImageUrl = post.ogImage 
-    ? (post.ogImage.startsWith("http") ? post.ogImage : `${SITE_URL}${post.ogImage}`)
-    : imageUrl;
+  const ogImageUrl = heroImageUrl;
   const ogImageAlt = post.ogImageAlt || post.title;
 
   return {

@@ -127,7 +127,7 @@ export const blogPosts: BlogPost[] = [
     title: "Sobha Rivana Greater Noida West: RERA, Price, Floor Plans & Location (Sector 1)",
     slug: "sobha-rivana-greater-noida-west-rera-sector-1",
     excerpt:
-      "Sobha Rivana, Sector 1 Greater Noida West: on UP RERA. Snapshot first, then filing, roads, layouts, price, and the paper you settle before you pay.",
+      "Sobha Limited's flagship launch in Sector 1, Greater Noida West. We unpack UP RERA, connectivity, 2/3/4 BHK, amenities, and the price band buyers are hearing in early 2026.",
     category: "Project Spotlight",
     readTime: "9 min read",
     date: "March 22, 2026",
@@ -139,7 +139,7 @@ export const blogPosts: BlogPost[] = [
     metaTitle:
       "Sobha Rivana Greater Noida West | RERA, Price, 2/3/4 BHK Floor Plans, Sector 1 Location",
     metaDescription:
-      "Sobha Rivana Greater Noida West (Sector 1, Noida Extension): official UP RERA registration, 2/3/4 BHK sizes, indicative price per sq ft, towers and units, possession timeline, amenities, connectivity, and buyer checklist. Advisory by Celeste Abode.",
+      "Sobha Rivana Greater Noida West (Sector 1): Sobha Limited's premium launch, 2/3/4 BHK, location and amenities, indicative price, UP RERA registration, and how Celeste Abode helps you shortlist and buy with clarity across Delhi NCR.",
     ogImage:
       "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-entrance.jpg",
     ogImageAlt: "Sobha Rivana Greater Noida West Sector 1 apartments RERA",

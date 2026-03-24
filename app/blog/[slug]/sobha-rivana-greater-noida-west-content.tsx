@@ -275,7 +275,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
 
       <ArticleFigure
         src={SOBHA_IMAGES.map}
-        alt="Sobha since 1995—Rivana location map, Greater Noida West."
+        alt="Sobha Limited since 1995: pan-India presence, 581 developments, 230+ prestigious awards, full backward integration, 1,456 quality checks before handover, and landmark project scale in Sobha brand marketing art."
         variant="map"
       />
 
@@ -330,7 +330,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
       <section id="sobha-rivana-floor-plans" className="scroll-mt-28 mb-14">
         <ArticleFigure
           src={SOBHA_IMAGES.land}
-          alt="Sobha Rivana land parcel and site context, Greater Noida West Sector 1"
+          alt="Greater Noida West site for Sobha Rivana: land parcel with the project area marked where Sobha will build."
           variant="land"
         />
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-5 flex items-center gap-3">

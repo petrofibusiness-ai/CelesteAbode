@@ -1,4 +1,3 @@
-import { Section } from "@/components/ui/section";
 import { Card, CardContent } from "@/components/ui/card";
 import { Header } from "@/components/header";
 import { OpenConsultationTrigger } from "@/components/open-consultation-trigger";
@@ -186,9 +185,9 @@ export default function ServicesPage() {
           </div>
         </div>
 
-        {/* Modular Service Grid */}
-        <Section className="py-16 md:py-20">
-          <div className="max-w-7xl mx-auto px-4 lg:px-8">
+        {/* Modular Service Grid — single horizontal padding on mobile so cards use more width */}
+        <section className="py-16 md:py-20">
+          <div className="max-w-7xl mx-auto max-sm:px-3 sm:px-10 lg:px-14">
             {/* Section Heading */}
             <div className="text-center mb-12 md:mb-16">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
@@ -319,24 +318,24 @@ export default function ServicesPage() {
               </ScheduleConsultationCardWrapper>
             </div>
 
-            {/* Integrated Visual Banner */}
-            <div className="my-16">
-              <div className="relative overflow-hidden rounded-2xl shadow-2xl w-full h-[500px] bg-muted">
+            {/* Integrated Visual Banner — max-sm only: align width with service cards; desktop full content width like before */}
+            <div className="my-16 w-full max-sm:w-[calc(100%-2rem)] max-sm:mx-auto">
+              <div className="relative overflow-hidden rounded-2xl shadow-2xl w-full min-h-[280px] h-[clamp(420px,68vh,580px)] md:h-[500px] md:min-h-0 bg-muted">
                 <Image
                   src="/premium-apartment-interior-living-room.avif"
                   alt="Every Decision Backed by Evidence. Every Outcome Designed for You."
                   fill
                   loading="lazy"
-                  className="object-cover"
+                  className="object-cover object-center"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
                   quality={85}
                   placeholder="blur"
                   blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-12 text-center">
+                <div className="absolute inset-0 px-4 py-6 sm:px-6 sm:py-8 md:p-12 text-center flex flex-col justify-center items-center min-h-0">
                   <h2
-                    className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight"
+                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6 leading-tight"
                     style={{
                       textShadow: "0 2px 4px rgba(0,0,0,0.5)",
                       letterSpacing: "-0.02em",
@@ -351,7 +350,7 @@ export default function ServicesPage() {
                       <span className="text-[#CBB27A]">Designed For You</span>
                     </div>
                   </h2>
-                  <p className="text-white/90 text-base md:text-lg max-w-2xl mx-auto" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.5)" }}>
+                  <p className="text-white/90 text-sm sm:text-base md:text-lg max-w-2xl mx-auto" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.5)" }}>
                     Our real estate consulting and advisory services are built on data-backed insights, structured processes, and client-first decision-making.
                   </p>
                 </div>
@@ -477,7 +476,7 @@ export default function ServicesPage() {
               </ScheduleConsultationCardWrapper>
             </div>
           </div>
-        </Section>
+        </section>
 
         {/* Sticky Right-Side CTA Banner */}
         <div className="fixed right-0 top-1/2 transform -translate-y-1/2 z-50 hidden lg:block">
@@ -538,15 +537,16 @@ export default function ServicesPage() {
         </div>
 
         {/* Footer CTA Section */}
-        <Section className="py-16 md:py-20">
-          <div className="max-w-7xl mx-auto px-4 lg:px-8">
-            <div className="relative overflow-hidden rounded-2xl shadow-2xl w-full h-[500px] bg-muted">
+        <section className="py-16 md:py-20">
+          <div className="max-w-7xl mx-auto max-sm:px-3 sm:px-10 lg:px-14">
+            <div className="w-full max-sm:w-[calc(100%-2rem)] max-sm:mx-auto">
+            <div className="relative overflow-hidden rounded-2xl shadow-2xl w-full min-h-[280px] h-[clamp(440px,72vh,600px)] md:h-[500px] md:min-h-0 bg-muted">
               <Image
                 src="/residential-plot-with-landscaping.avif"
                 alt="Ready to Connect with Delhi NCR's Trusted Real Estate Consultant - Professional Property Advisory Services"
                 fill
                 loading="lazy"
-                className="object-cover object-[center_60%] scale-110"
+                className="object-cover object-[center_60%] max-md:scale-100 md:scale-110"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
                 quality={85}
                 placeholder="blur"
@@ -554,12 +554,12 @@ export default function ServicesPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12 text-center">
-                <h2 className="text-2xl md:text-5xl font-bold text-white mb-4 md:mb-6 leading-tight">
+              <div className="absolute inset-0 px-4 py-6 sm:px-6 sm:py-8 md:p-12 text-center flex flex-col justify-center items-center min-h-0">
+                <h2 className="text-xl sm:text-2xl md:text-5xl font-bold text-white mb-3 md:mb-6 leading-tight">
                   Ready to Connect with Delhi NCR's{" "}
                   <span className="text-[#CBB27A]">Trusted Real Estate Consultant</span>?
                 </h2>
-                <p className="text-base md:text-xl text-white/90 mb-6 md:mb-8 max-w-2xl md:max-w-3xl mx-auto leading-relaxed">
+                <p className="text-sm sm:text-base md:text-xl text-white/90 mb-5 md:mb-8 max-w-2xl md:max-w-3xl mx-auto leading-relaxed">
                   Experience comprehensive real estate consulting services that deliver
                   confident property decisions with expert real estate advisory guidance.
                 </p>
@@ -578,8 +578,9 @@ export default function ServicesPage() {
                 </div>
               </div>
             </div>
+            </div>
           </div>
-        </Section>
+        </section>
       </main>
       <Footer />
     </div>

@@ -263,7 +263,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
       <section id="sobha-rivana-developer" className="scroll-mt-28 mb-14">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-5 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          Sobha Limited: the developer behind Rivana
+          Sobha Limited: The developer behind Rivana
         </h2>
         <p className="text-gray-700 leading-relaxed mb-5">
           Sobha Limited is a publicly listed real estate developer with over 25 years of experience. Founded in 1995, it

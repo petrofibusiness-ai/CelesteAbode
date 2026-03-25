@@ -274,7 +274,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
           Project Overview
         </h2>
         <p className="text-gray-700 leading-relaxed mb-5">
-          Rivana is a large residential project by Sobha in Sector 1, Greater Noida West, planned across a significant
+          Rivana is a premium residential project by Sobha in Sector 1, Greater Noida West, planned across a significant
           land parcel with multiple towers and a full set of lifestyle amenities. The development focuses on efficient
           layouts, open spaces, and a structured community setup suited for end users looking to upgrade within the micro
           market.

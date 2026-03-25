@@ -482,7 +482,8 @@ export default function ServicesPage() {
         <div className="fixed right-0 top-1/2 transform -translate-y-1/2 z-50 hidden lg:block">
           <div className="bg-[#CBB27A] text-white p-4 rounded-lg shadow-2xl max-w-[110px]">
             <div className="flex flex-col items-center space-y-4">
-              <OpenConsultationTrigger
+              <Link
+                href="/request-a-free-consultation"
                 className="flex flex-col items-center text-[#000000] hover:text-gray-700 hover:scale-105 transition-all duration-200 cursor-pointer p-2 rounded-lg hover:bg-white/10 border-0 bg-transparent w-full"
               >
                 <svg
@@ -495,7 +496,7 @@ export default function ServicesPage() {
                 <span className="text-xs font-semibold text-center">
                   Schedule a Consultation
                 </span>
-              </OpenConsultationTrigger>
+              </Link>
               <div className="w-16 h-px bg-gray-700 rounded-full"></div>
               <a
                 href="https://wa.me/919910906306"

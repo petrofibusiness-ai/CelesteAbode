@@ -401,7 +401,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                           <h3>Experienced Real Estate Consultants</h3>
                           <p>
                             Portals gave you ten tabs, three wrong prices, and four sales calls. We reset the room. You tell us stamp-duty-ready budget, possession pressure, and how much delay you can stomach. Then we build a shortlist. Book an{" "}
-                            <Link href="/advisory-session" className="text-[#CBB27A] font-semibold hover:underline">
+                            <Link href="/request-a-free-consultation" className="text-[#CBB27A] font-semibold hover:underline">
                               advisory session
                             </Link>{" "}
                             if you want that conversation on calendar instead of chat threads.

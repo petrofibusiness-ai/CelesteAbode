@@ -59,7 +59,7 @@ export function HomepageAboutPanelBody() {
           <h4 className="text-base md:text-lg font-semibold text-foreground mb-3 mt-0">Personalized Property Consultation</h4>
           <p className="mb-6">
             No brief is standard. We map income flow, down payment comfort, commute, and possession timeline before we share recommendations. Our real estate consultants in Noida keep the advice personal and practical. If you are comparing property consultants in Delhi NCR, this is the depth you should expect. You can begin with an{" "}
-            <Link href="/advisory-session" className="text-[#CBB27A] font-medium hover:underline">
+            <Link href="/request-a-free-consultation" className="text-[#CBB27A] font-medium hover:underline">
               advisory session
             </Link>{" "}
             and review one focused shortlist.

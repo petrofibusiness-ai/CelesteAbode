@@ -450,7 +450,11 @@ export default async function ResidentialPropertyInNoidaPage() {
                 <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
                   <div className={CONTENT_BLOCK_CLASS}>
                     <p>
-                      Every buyer comes with a different requirement. Budget alone does not define the shortlist. Book an <Link href="/advisory-session" className="text-[#CBB27A] font-semibold hover:underline">advisory session</Link> and we map options accordingly.
+                      Every buyer comes with a different requirement. Budget alone does not define the shortlist. Book an{" "}
+                      <Link href="/request-a-free-consultation" className="text-[#CBB27A] font-semibold hover:underline">
+                        advisory session
+                      </Link>{" "}
+                      and we map options accordingly.
                     </p>
                     <h3>Understanding Your Home Buying Requirements</h3>
                     <p>

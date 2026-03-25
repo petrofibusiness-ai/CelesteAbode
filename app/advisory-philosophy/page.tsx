@@ -408,7 +408,7 @@ export default function PhilosophyPage() {
                 <Button
                   size="lg"
                   className="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 text-base rounded-full w-full sm:w-auto m-0 shrink-0"
-                  onClick={() => (window.location.href = "/advisory-session")}
+                  onClick={() => (window.location.href = "/request-a-free-consultation")}
                 >
                   Request Advisory Session
                 </Button>

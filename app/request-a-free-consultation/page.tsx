@@ -22,7 +22,7 @@ import { motion } from "framer-motion";
 import { CheckCircle, Clock, Loader2, Mail, MapPin, Phone, Send } from "lucide-react";
 
 /** NCR residential hero (same asset family as residential-property-in-noida). */
-const ADVISORY_SIDE_BG =
+const FREE_CONSULTATION_SIDE_BG =
   "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/residential-property-in-noida/residential-property-in-noida.webp";
 
 const fieldClass =
@@ -31,7 +31,7 @@ const fieldClass =
 const selectTriggerClass =
   "h-11 w-full rounded-xl border-2 border-primary/15 bg-white shadow-sm focus:border-[#CBB27A] focus:ring-2 focus:ring-[#CBB27A]/20 data-[placeholder]:text-muted-foreground/45";
 
-export default function AdvisorySessionPage() {
+export default function RequestAFreeConsultationPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -88,7 +88,10 @@ export default function AdvisorySessionPage() {
         <BreadcrumbSchema
           items={[
             { name: "Home", url: "https://www.celesteabode.com" },
-            { name: "Advisory Session", url: "https://www.celesteabode.com/advisory-session" },
+            {
+              name: "Free Consultation",
+              url: "https://www.celesteabode.com/request-a-free-consultation",
+            },
           ]}
         />
         <div className="min-h-screen bg-background">
@@ -109,8 +112,8 @@ export default function AdvisorySessionPage() {
                     Request Submitted Successfully
                   </h1>
                   <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                    Thank you for your interest in our advisory services. Our expert team will review your requirements
-                    and contact you within 24 hours to schedule your personalized consultation.
+                    Thank you for your request. Our expert team will review your requirements and contact you within
+                    24 hours to schedule your personalized free consultation.
                   </p>
                   <Button
                     onClick={() => (window.location.href = "/")}
@@ -133,13 +136,19 @@ export default function AdvisorySessionPage() {
       <BreadcrumbSchema
         items={[
           { name: "Home", url: "https://www.celesteabode.com" },
-          { name: "Advisory Session", url: "https://www.celesteabode.com/advisory-session" },
+          {
+            name: "Free Consultation",
+            url: "https://www.celesteabode.com/request-a-free-consultation",
+          },
         ]}
       />
       <div className="min-h-screen bg-background">
         <Header />
         <main className="pt-24 sm:pt-28 pb-16">
-          <section className="border-b border-primary/5 bg-gradient-to-b from-background to-primary/[0.02]" data-site-hero>
+          <section
+            className="border-b border-primary/5 bg-gradient-to-b from-background to-primary/[0.02]"
+            data-site-hero
+          >
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -148,7 +157,7 @@ export default function AdvisorySessionPage() {
                 className="text-center lg:text-left pt-8 sm:pt-12 md:pt-16 pb-10 md:pb-12"
               >
                 <h1 className="heading-bold text-primary mb-4 text-3xl sm:text-4xl md:text-[2.25rem] leading-tight">
-                  Request Advisory Session
+                  Request a Free Consultation
                 </h1>
                 <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl lg:max-w-xl">
                   Share your property goals and we&apos;ll create a personalized consultation tailored to your needs.
@@ -164,14 +173,18 @@ export default function AdvisorySessionPage() {
                   transition={{ duration: 0.5, delay: 0.05 }}
                 >
                   <div className="rounded-2xl border border-primary/10 bg-white/80 p-6 shadow-sm shrink-0">
-                    <h2 className="text-lg font-bold text-primary mb-4 font-poppins">Contact us</h2>
+                    <h2 className="text-lg font-bold text-primary mb-4 font-poppins">
+                      Contact us
+                    </h2>
                     <ul className="space-y-5 text-sm">
                       <li className="flex gap-3">
                         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#CBB27A]/15">
                           <Phone className="h-5 w-5 text-[#CBB27A]" aria-hidden />
                         </span>
                         <div>
-                          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Phone</p>
+                          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                            Phone
+                          </p>
                           <p className="font-semibold text-foreground mt-0.5">+91 9910906306</p>
                         </div>
                       </li>
@@ -180,7 +193,9 @@ export default function AdvisorySessionPage() {
                           <Mail className="h-5 w-5 text-primary" aria-hidden />
                         </span>
                         <div className="min-w-0">
-                          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Email</p>
+                          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                            Email
+                          </p>
                           <p className="mt-0.5 break-all">
                             <ObfuscatedEmail variant="text" showIcon={false} className="text-sm font-medium" />
                           </p>
@@ -191,7 +206,9 @@ export default function AdvisorySessionPage() {
                           <Clock className="h-5 w-5 text-primary" aria-hidden />
                         </span>
                         <div>
-                          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Hours</p>
+                          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                            Hours
+                          </p>
                           <p className="text-muted-foreground mt-0.5">Open daily 9:30 AM – 6:30 PM</p>
                         </div>
                       </li>
@@ -200,7 +217,9 @@ export default function AdvisorySessionPage() {
                           <MapPin className="h-5 w-5 text-[#CBB27A]" aria-hidden />
                         </span>
                         <div>
-                          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Office</p>
+                          <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                            Office
+                          </p>
                           <p className="text-muted-foreground mt-0.5 leading-snug text-xs sm:text-sm">
                             615, 6th Floor, Galaxy Blue Sapphire Plaza, Sector 4, Greater Noida (West), U.P. 201309
                           </p>
@@ -211,7 +230,7 @@ export default function AdvisorySessionPage() {
 
                   <div className="relative isolate min-h-[220px] overflow-hidden rounded-2xl border border-primary/10 shadow-sm lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
                     <Image
-                      src={ADVISORY_SIDE_BG}
+                      src={FREE_CONSULTATION_SIDE_BG}
                       alt=""
                       fill
                       className="object-cover object-center"
@@ -392,7 +411,7 @@ export default function AdvisorySessionPage() {
                             ) : (
                               <>
                                 <Send className="w-4 h-4 mr-2" aria-hidden />
-                                Request advisory session
+                                Request a free consultation
                               </>
                             )}
                           </Button>
@@ -410,3 +429,4 @@ export default function AdvisorySessionPage() {
     </>
   );
 }
+

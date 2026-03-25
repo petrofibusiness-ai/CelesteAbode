@@ -439,7 +439,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
         </ul>
         <p className="text-gray-700 leading-relaxed">
           Prefer a focused call?{" "}
-          <Link href="/advisory-session" className="text-[#CBB27A] font-semibold hover:underline">
+          <Link href="/request-a-free-consultation" className="text-[#CBB27A] font-semibold hover:underline">
             Book an advisory session
           </Link>{" "}
           with Celeste Abode.

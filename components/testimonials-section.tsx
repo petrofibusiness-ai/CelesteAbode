@@ -1,6 +1,17 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 export function TestimonialsSection() {
+  // Elfsight mutates the widget DOM as soon as its platform script runs.
+  // If we render the widget on the server, the client can hydrate a different DOM -> hydration mismatch.
+  // Render it only after mount to keep server/client HTML identical.
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <section
       className="pt-6 pb-12 bg-gradient-to-br from-background to-secondary/5"
@@ -20,11 +31,15 @@ export function TestimonialsSection() {
 
         {/* Elfsight Google Reviews | CELESTE ABODE */}
         <div className="pb-8">
-          <script src="https://elfsightcdn.com/platform.js" async></script>
-          <div
-            className="elfsight-app-4185bb5e-82e5-45bf-92fc-b41420393094"
-            data-elfsight-app-lazy
-          />
+          {mounted && (
+            <>
+              <script src="https://elfsightcdn.com/platform.js" async></script>
+              <div
+                className="elfsight-app-4185bb5e-82e5-45bf-92fc-b41420393094"
+                data-elfsight-app-lazy
+              />
+            </>
+          )}
         </div>
       </div>
     </section>

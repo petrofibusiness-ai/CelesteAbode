@@ -334,7 +334,7 @@ export default async function FlatsInGhaziabadPage() {
                           <h3>Personalised Property Consultation</h3>
                           <p>
                             We ask for all-in budget, possession date, and how much delay you can carry. Then we build three to five names, not fifty tabs. Book an{" "}
-                            <Link href="/advisory-session" className="text-[#CBB27A] font-semibold hover:underline">
+                            <Link href="/request-a-free-consultation" className="text-[#CBB27A] font-semibold hover:underline">
                               advisory session
                             </Link>{" "}
                             if you want that on the calendar.

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Request a Free Consultation - Personalized Property Consultation",
+  title: "Request a Free Property Consultation | Celeste Abode Delhi NCR",
   description:
-    "Request a 1:1 free consultation to discuss budget, location options, builder risk, and investment strategy across Noida, Greater Noida, and Yamuna Expressway.",
+    "Book a free 1:1 property consultation with Celeste Abode. Get expert advice on budget, location, builder risk, and investment strategy across Noida, Greater Noida, and Yamuna Expressway.",
   keywords: [
     "book property advisory session",
     "real estate consultation booking",
@@ -12,9 +12,9 @@ export const metadata: Metadata = {
     "investment strategy consultation NCR",
   ],
   openGraph: {
-    title: "Request a Free Consultation - Personalized Property Consultation",
+    title: "Request a Free Property Consultation | Celeste Abode Delhi NCR",
     description:
-      "Request a 1:1 free consultation to discuss budget, location options, builder risk, and investment strategy across Noida, Greater Noida, and Yamuna Expressway.",
+      "Book a free 1:1 property consultation with Celeste Abode. Get expert advice on budget, location, builder risk, and investment strategy across Noida, Greater Noida, and Yamuna Expressway.",
     url: "https://www.celesteabode.com/request-a-free-consultation",
     siteName: "Celeste Abode",
     locale: "en_IN",
@@ -22,9 +22,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary",
-    title: "Request a Free Consultation - Personalized Property Consultation",
+    title: "Request a Free Property Consultation | Celeste Abode Delhi NCR",
     description:
-      "Request a 1:1 free consultation to align budget, micro-market options, and risk before you invest.",
+      "Book a free 1:1 property consultation with Celeste Abode. Get expert advice on budget, location, builder risk, and investment strategy across Noida, Greater Noida, and Yamuna Expressway.",
   },
   alternates: {
     canonical: "https://www.celesteabode.com/request-a-free-consultation",

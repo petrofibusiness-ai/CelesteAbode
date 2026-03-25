@@ -128,12 +128,12 @@ export function InstagramEmbedsSection() {
               {/* Arrows should not reduce slide/card width (absolute overlay instead of flex columns) */}
               <CarouselPrevious
                 type="button"
-                className="left-1 !-left-0 top-1/2 -translate-y-1/2 size-10 touch-manipulation bg-white/95 shadow-md hover:bg-white border-[color:var(--line)] z-50"
+                className="left-1 !-left-0 top-1/2 -translate-y-1/2 size-10 touch-manipulation bg-white/95 shadow-md hover:bg-white border-[color:var(--line)] z-10"
               />
 
               <CarouselNext
                 type="button"
-                className="right-1 !-right-0 top-1/2 -translate-y-1/2 size-10 touch-manipulation bg-white/95 shadow-md hover:bg-white border-[color:var(--line)] z-50"
+                className="right-1 !-right-0 top-1/2 -translate-y-1/2 size-10 touch-manipulation bg-white/95 shadow-md hover:bg-white border-[color:var(--line)] z-10"
               />
 
               <CarouselContent className="-ml-2 md:-ml-4">

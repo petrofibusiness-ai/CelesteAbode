@@ -1,10 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { useHomepageAboutPanel } from "@/components/homepage-about-panel";
 
 export function ValuePropositions() {
+  const { openAboutPanel } = useHomepageAboutPanel();
+
   return (
     <section className="py-16 md:py-20 bg-background">
       <div className="max-w-screen-xl mx-auto px-6">
@@ -107,14 +109,15 @@ export function ValuePropositions() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-center mt-8 md:mt-12"
         >
-          <Link
-            href="/properties"
+          <button
+            type="button"
+            onClick={openAboutPanel}
             className="inline-flex items-center gap-2 px-6 py-3 text-base font-medium rounded-full bg-black text-white md:border-2 md:border-black md:bg-transparent md:text-[#000000] active:bg-black active:text-white md:hover:bg-black md:hover:text-white transition-all duration-300 active:scale-105 md:hover:scale-105 active:shadow-lg md:hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
-            aria-label="Explore our properties"
+            aria-label="Read more about us"
           >
-            Explore Our Properties
+            Read more about us
             <ArrowRight className="w-5 h-5" />
-          </Link>
+          </button>
         </motion.div>
       </div>
     </section>

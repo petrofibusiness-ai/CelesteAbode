@@ -18,6 +18,9 @@ export type BlogPost = {
   heroFullscreen?: boolean;
 };
 
+/** Canonical `/blog/...` path for the Sobha Rivana article (single source for internal links). */
+export const SOBHA_RIVANA_BLOG_PATH = "/blog/sobha-rivana-sector-1-greater-noida-west" as const;
+
 export const blogPosts: BlogPost[] = [
   {
     id: 1,

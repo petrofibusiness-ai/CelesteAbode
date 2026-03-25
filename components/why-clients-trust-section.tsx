@@ -4,9 +4,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Shield, CheckCircle, BarChart3, MapPin, FileCheck, Users, ChevronDown, ArrowRight } from "lucide-react";
+import { HomepageReadSidePanel } from "@/components/homepage-read-side-panel";
 
 export function WhyClientsTrustSection() {
-  const [expandedCard, setExpandedCard] = useState<string | null>(null);
+  const [activePillarId, setActivePillarId] = useState<string | null>(null);
 
   const trustPillars = [
     {
@@ -71,8 +72,23 @@ export function WhyClientsTrustSection() {
     },
   ];
 
+  const activePillar = activePillarId
+    ? trustPillars.find((p) => p.id === activePillarId)
+    : null;
+
   return (
     <section className="py-20 bg-background">
+      <HomepageReadSidePanel
+        open={!!activePillar}
+        onClose={() => setActivePillarId(null)}
+        title={activePillar?.title ?? ""}
+        titleId="why-clients-trust-panel-title"
+      >
+        {activePillar ? (
+          <p className="text-[#4A4F55] leading-relaxed text-justify">{activePillar.fullText}</p>
+        ) : null}
+      </HomepageReadSidePanel>
+
       <div className="max-w-7xl mx-auto px-6">
         {/* Section Header */}
         <motion.div
@@ -94,7 +110,6 @@ export function WhyClientsTrustSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {trustPillars.map((pillar, index) => {
             const Icon = pillar.icon;
-            const isExpanded = expandedCard === pillar.id;
 
             return (
             <motion.div
@@ -129,23 +144,18 @@ export function WhyClientsTrustSection() {
                       {pillar.shortText}
                     </p>
 
-                    {/* Expandable content - always in DOM for crawlers; visibility toggled for UX */}
-                    <div className={`pt-4 border-t border-gray-200 mt-4 ${isExpanded ? "block" : "hidden"}`}>
-                      <p className="text-sm text-[#4A4F55] leading-relaxed text-justify">
-                        {pillar.fullText}
-                      </p>
-                    </div>
+                    {/* Full text kept for page source / SEO; side panel is the visual read experience */}
+                    <p className="sr-only">{pillar.fullText}</p>
 
-                    {/* Read More Button - Always at bottom */}
+                    {/* Read More */}
                     <div className="mt-auto pt-4">
                       <button
-                        onClick={() => setExpandedCard(isExpanded ? null : pillar.id)}
+                        type="button"
+                        onClick={() => setActivePillarId(pillar.id)}
                         className="inline-flex items-center gap-2 text-sm font-medium text-[#CBB27A] hover:text-[#B8A068] transition-colors"
                       >
-                        {isExpanded ? "Read Less" : "Read More"}
-                        <ChevronDown
-                          className={`w-4 h-4 transition-transform ${isExpanded ? "rotate-180" : ""}`}
-                        />
+                        Read More
+                        <ChevronDown className="w-4 h-4" />
                       </button>
                     </div>
                 </div>

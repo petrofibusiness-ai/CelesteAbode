@@ -217,6 +217,12 @@ const nextConfig = {
       { source: '/services', destination: '/real-estate-consulting-services', permanent: true },
       { source: '/philosophy', destination: '/advisory-philosophy', permanent: true },
       { source: '/vault', destination: '/real-estate-insights', permanent: true },
+      // Blog: Sobha Rivana slug rename
+      {
+        source: '/blog/sobha-rivana-greater-noida-west-rera-sector-1',
+        destination: '/blog/sobha-rivana-sector-1-greater-noida-west',
+        permanent: true,
+      },
       // Redirect main projects page to properties page
       {
         source: '/projects',

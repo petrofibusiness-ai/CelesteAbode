@@ -8,6 +8,7 @@ import { AggregateRatingSchema } from "@/lib/homepage-schema"
 import { homepageMetadata } from "@/app/metadata"
 import type { Metadata } from "next"
 import { InstagramEmbedsSection } from "@/components/instagram-embeds-section"
+import { HomepageAboutPanelProvider } from "@/components/homepage-about-panel"
 
 export const metadata: Metadata = homepageMetadata
 
@@ -27,10 +28,6 @@ const BrandCarousel = dynamic(() => import("@/components/brand-carousel").then(m
 })
 const ValuePropositions = dynamic(() => import("@/components/value-propositions").then(mod => ({ default: mod.ValuePropositions })), { 
   ssr: true, // SSR enabled for SEO
-  loading: () => <div className="min-h-[200px] md:min-h-[300px]" />
-})
-const WhoWeServe = dynamic(() => import("@/components/who-we-serve").then(mod => ({ default: mod.WhoWeServe })), { 
-  ssr: true,
   loading: () => <div className="min-h-[200px] md:min-h-[300px]" />
 })
 const WhereWeWork = dynamic(
@@ -53,6 +50,7 @@ export default function HomePage() {
 
   return (
     <>
+      <HomepageAboutPanelProvider>
       <div className="min-h-screen bg-background">
         <Header />
         <main>
@@ -99,21 +97,8 @@ export default function HomePage() {
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
           </div>
 
-          {/* Buyer Types */}
-          <WhoWeServe />
-
-          {/* Aesthetic Line Separator */}
-          <div className="w-full flex justify-center py-8">
-            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-          </div>
-
-          {/* SEO Content Blocks */}
+          {/* SEO Content Blocks (hidden HTML for crawlers; no extra separator — avoids double line after metrics) */}
           <HomepageSeoBlocks />
-
-          {/* Aesthetic Line Separator */}
-          <div className="w-full flex justify-center py-8">
-            <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent"></div>
-          </div>
           
           {/* Reviews */}
           <TestimonialsSection />
@@ -131,6 +116,8 @@ export default function HomePage() {
         </main>
         <Footer />
       </div>
+      </HomepageAboutPanelProvider>
+
       {/* Structured data - load after page content */}
       <OrganizationSchema />
       <WebSiteSchema />

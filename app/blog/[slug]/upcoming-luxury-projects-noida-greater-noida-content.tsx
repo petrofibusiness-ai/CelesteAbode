@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { SOBHA_RIVANA_BLOG_PATH } from "@/lib/blog-data";
 
 export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
   return (
@@ -261,7 +262,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
             </h3>
             <p className="mb-4">
               <Link
-                href="/blog/sobha-rivana-sector-1-greater-noida-west"
+                href={SOBHA_RIVANA_BLOG_PATH}
                 className="text-[#CBB27A] font-semibold hover:underline"
               >
                 Sobha Rivana

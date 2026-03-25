@@ -125,14 +125,14 @@ export const blogPosts: BlogPost[] = [
   {
     id: 7,
     title: "Sobha Rivana Greater Noida West: RERA, Price, Floor Plans & Location (Sector 1)",
-    slug: "sobha-rivana-greater-noida-west-rera-sector-1",
+    slug: "sobha-rivana-sector-1-greater-noida-west",
     excerpt:
       "Sobha Limited's flagship launch in Sector 1, Greater Noida West. We unpack UP RERA, connectivity, 2/3/4 BHK, amenities, and the price band buyers are hearing in early 2026.",
     category: "Project Spotlight",
     readTime: "9 min read",
     date: "March 22, 2026",
     image:
-      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-entrance.jpg",
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/Elevation-Evening-View.webp",
     featured: true,
     views: "0",
     heroFullscreen: true,
@@ -141,7 +141,7 @@ export const blogPosts: BlogPost[] = [
     metaDescription:
       "Sobha Rivana Greater Noida West (Sector 1): Sobha Limited's premium launch, 2/3/4 BHK, location and amenities, indicative price, UP RERA registration, and how Celeste Abode helps you shortlist and buy with clarity across Delhi NCR.",
     ogImage:
-      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-entrance.jpg",
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/Elevation-Evening-View.webp",
     ogImageAlt: "Sobha Rivana Greater Noida West Sector 1 apartments RERA",
   },
 ];
@@ -152,7 +152,7 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
 
 export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   const others = blogPosts.filter((p) => p.slug !== currentSlug);
-  if (currentSlug === "sobha-rivana-greater-noida-west-rera-sector-1") {
+  if (currentSlug === "sobha-rivana-sector-1-greater-noida-west") {
     const prioritySlugs = [
       "upcoming-luxury-projects-noida-greater-noida-2026",
       "noida-vs-greater-noida-investment-2026",

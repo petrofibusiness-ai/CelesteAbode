@@ -261,7 +261,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
             </h3>
             <p className="mb-4">
               <Link
-                href="/blog/sobha-rivana-greater-noida-west-rera-sector-1"
+                href="/blog/sobha-rivana-sector-1-greater-noida-west"
                 className="text-[#CBB27A] font-semibold hover:underline"
               >
                 Sobha Rivana

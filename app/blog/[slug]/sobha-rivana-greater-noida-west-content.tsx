@@ -98,15 +98,15 @@ function ArticleFigure({
   );
 }
 
-const PAGE_TOC: { href: string; title: string; blurb: string }[] = [
-  { href: "#sobha-rivana-project-table", title: "Snapshot table", blurb: "Entrance photo and core facts." },
-  { href: "#sobha-rivana-developer", title: "Sobha Limited", blurb: "The developer behind Rivana." },
-  { href: "#sobha-rivana-rera", title: "UP RERA", blurb: "Registration and where to read more." },
-  { href: "#sobha-rivana-location", title: "Location", blurb: "Sector 1, Greater Noida West, and connectivity." },
-  { href: "#sobha-rivana-floor-plans", title: "Floor plans & sizes", blurb: "2, 3, 4 BHK and floor plates." },
-  { href: "#sobha-rivana-amenities", title: "Amenities", blurb: "Club, greens, and everyday comfort." },
-  { href: "#sobha-rivana-price", title: "Price & payment", blurb: "Indicative bands and planning." },
-  { href: "#faq-sobha-rivana", title: "FAQs", blurb: "Common questions." },
+const PAGE_TOC: { href: string; title: string }[] = [
+  { href: "#sobha-rivana-project-table", title: "Snapshot (Quick Facts)" },
+  { href: "#sobha-rivana-project-overview", title: "Project Overview" },
+  { href: "#sobha-rivana-developer", title: "Developer Background" },
+  { href: "#sobha-rivana-rera", title: "RERA Status" },
+  { href: "#sobha-rivana-location", title: "Location Review" },
+  { href: "#sobha-rivana-floor-plans", title: "Layouts and Sizes" },
+  { href: "#sobha-rivana-amenities", title: "Amenities and Open Spaces" },
+  { href: "#sobha-rivana-price", title: "Pricing and Payment Plans" },
 ];
 
 const FAQ_ITEMS: { question: string; answer: string }[] = [
@@ -243,9 +243,6 @@ export function SobhaRivanaGreaterNoidaWestContent() {
                 >
                   {item.title}
                 </a>
-                <span className="mt-1 block w-full max-w-full text-left text-[0.65rem] leading-snug text-gray-500 sm:text-xs">
-                  {item.blurb}
-                </span>
               </div>
             </li>
           ))}
@@ -253,11 +250,35 @@ export function SobhaRivanaGreaterNoidaWestContent() {
       </nav>
 
       <section id="sobha-rivana-project-table" className="scroll-mt-28 mb-14">
-        <ArticleFigure
-          src={SOBHA_IMAGES.entrance}
-          alt="Sobha Rivana entrance and arrival view, Sector 1 Greater Noida West"
-        />
+        <figure className="my-8 rounded-2xl overflow-hidden border border-gray-200 bg-black shadow-sm">
+          <div className="relative w-full aspect-[16/8.6] leading-none">
+            <video
+              src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/Video%20Project_cropped.mp4"
+              className="absolute inset-0 block h-full w-full scale-[1.08] object-cover object-center"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+            >
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </figure>
         <SpecTable />
+      </section>
+
+      <section id="sobha-rivana-project-overview" className="scroll-mt-28 mb-14">
+        <h2 className="text-xl md:text-2xl font-bold text-foreground mb-5 flex items-center gap-3">
+          <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
+          Project Overview
+        </h2>
+        <p className="text-gray-700 leading-relaxed mb-5">
+          Rivana is a large residential project by Sobha in Sector 1, Greater Noida West, planned across a significant
+          land parcel with multiple towers and a full set of lifestyle amenities. The development focuses on efficient
+          layouts, open spaces, and a structured community setup suited for end users looking to upgrade within the micro
+          market.
+        </p>
       </section>
 
       <section id="sobha-rivana-developer" className="scroll-mt-28 mb-14">
@@ -273,12 +294,6 @@ export function SobhaRivanaGreaterNoidaWestContent() {
         <p className="text-gray-700 leading-relaxed mb-5">
           Headquartered in Bengaluru, Sobha operates in 13+ cities. Its projects are known for strong construction
           quality, clean finishes, and consistent delivery, making it a trusted name in the premium housing segment.
-        </p>
-        <p className="text-gray-700 leading-relaxed mb-5">
-          Rivana is Sobha&apos;s push into the Noida Extension story at scale: multiple towers, a large land parcel, and
-          a full amenity vision aimed at families who want a step up from typical local launches. That does not remove
-          the usual NCR questions on commute, schools, and hold period. It does mean you are looking at a developer that
-          has built its name on delivery and product, not only on brochures.
         </p>
         <p className="text-gray-700 leading-relaxed">
           When you work with Celeste Abode, we place Rivana next to other credible names on our{" "}

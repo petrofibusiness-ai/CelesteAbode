@@ -27,7 +27,7 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "jewar-airport-ncr-property-buyers-2026": JewarAirportNcrProperty2026Content,
   "forest-walk-villa-ghaziabad-luxury-living-2026": ForestWalkVillaGhaziabadContent,
   "upcoming-luxury-projects-noida-greater-noida-2026": UpcomingLuxuryProjectsNoidaGreaterNoidaContent,
-  "sobha-rivana-greater-noida-west-rera-sector-1": SobhaRivanaGreaterNoidaWestContent,
+  "sobha-rivana-sector-1-greater-noida-west": SobhaRivanaGreaterNoidaWestContent,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -53,7 +53,7 @@ export async function generateMetadata({
 
   const title =
     post.slug === "forest-walk-villa-ghaziabad-luxury-living-2026" ||
-    post.slug === "sobha-rivana-greater-noida-west-rera-sector-1"
+    post.slug === "sobha-rivana-sector-1-greater-noida-west"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -127,7 +127,7 @@ export async function generateMetadata({
       "properties in Ghaziabad",
       "Celeste Abode",
     ],
-    "sobha-rivana-greater-noida-west-rera-sector-1": [
+    "sobha-rivana-sector-1-greater-noida-west": [
       "Sobha Rivana",
       "Sobha Rivana Greater Noida",
       "Sobha Rivana Greater Noida West",
@@ -198,6 +198,12 @@ export default async function BlogPostPage({
 
   const related = getRelatedPosts(slug, 4);
   const ArticleContent = ARTICLE_CONTENT[slug];
+  const isSobhaRivana = slug === "sobha-rivana-sector-1-greater-noida-west";
+  const heroTitle = isSobhaRivana ? "Sobha Rivana, Greater Noida West" : post.title;
+  const heroEyebrow = isSobhaRivana ? "Project Spotlight | Sector 1, Greater Noida West" : post.category;
+  const heroSubtext = isSobhaRivana
+    ? "RERA details, pricing, floor plans, and location insights. Everything you need to evaluate before you decide."
+    : post.excerpt;
 
   const breadcrumbItems = [
     { name: "Home", url: `${SITE_URL}/` },
@@ -216,7 +222,7 @@ export default async function BlogPostPage({
         datePublished={post.date}
         url={`${SITE_URL}/blog/${post.slug}`}
       />
-      {slug === "sobha-rivana-greater-noida-west-rera-sector-1" ? (
+      {slug === "sobha-rivana-sector-1-greater-noida-west" ? (
         <FAQPageSchema faqs={sobhaRivanaFaqSchemaItems} />
       ) : null}
 
@@ -238,7 +244,7 @@ export default async function BlogPostPage({
                 alt={post.ogImageAlt || post.title}
                 fill
                 className={
-                  post.slug === "sobha-rivana-greater-noida-west-rera-sector-1"
+                  post.slug === "sobha-rivana-sector-1-greater-noida-west"
                     ? "object-cover object-center"
                     : "object-cover object-bottom"
                 }
@@ -248,27 +254,48 @@ export default async function BlogPostPage({
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/40" />
               {/* Hero content overlay on image */}
-              <div className="absolute inset-0 flex flex-col justify-end">
-              <div className="max-w-[95%] xl:max-w-[1800px] mx-auto w-full px-3 pb-8 pt-6 sm:px-4 sm:pb-12 sm:pt-10 md:pb-16 md:pt-12">
-                <div className="max-w-3xl mx-auto text-center">
-                  <h1 className="px-1 text-[1.65rem] font-bold leading-snug text-white font-poppins sm:px-2 sm:text-4xl sm:leading-[1.2] md:text-5xl mb-3 sm:mb-5">
-                    {post.title}
-                  </h1>
-                  <p className="px-1 text-base leading-relaxed text-white/85 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl mb-5 max-w-2xl mx-auto">
-                    {post.excerpt}
-                  </p>
-                  <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-xs font-poppins text-white/70 sm:gap-x-6 sm:gap-y-2 sm:text-sm">
-                    <span className="flex items-center gap-1.5 sm:gap-2">
-                      <Calendar className="size-3.5 shrink-0 text-[#CBB27A]/90 sm:size-4" />
-                      {post.date}
-                    </span>
-                    <span className="flex items-center gap-1.5 sm:gap-2">
-                      <Clock className="size-3.5 shrink-0 text-[#CBB27A]/90 sm:size-4" />
-                      {post.readTime}
-                    </span>
+              <div className="absolute inset-0 flex items-end">
+                <div className="max-w-[95%] xl:max-w-[1800px] mx-auto w-full px-3 pb-8 pt-6 sm:px-4 sm:pb-12 sm:pt-10 md:pb-16 md:pt-12">
+                  <div
+                    className={
+                      isSobhaRivana
+                        ? "max-w-3xl mx-auto rounded-2xl border border-white/20 bg-black/30 px-4 py-4 backdrop-blur-[2px] sm:px-6 sm:py-6 md:backdrop-blur-sm"
+                        : "max-w-3xl mx-auto text-center"
+                    }
+                  >
+                    <p
+                      className={
+                        isSobhaRivana
+                          ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
+                          : "mb-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
+                      }
+                    >
+                      {heroEyebrow}
+                    </p>
+                    <h1 className="px-1 text-[1.5rem] font-semibold leading-snug tracking-tight text-white font-poppins sm:px-2 sm:text-4xl sm:leading-[1.15] md:text-5xl mb-3 sm:mb-5">
+                      {heroTitle}
+                    </h1>
+                    <p
+                      className={
+                        isSobhaRivana
+                          ? "mx-auto mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
+                          : "mx-auto mb-5 max-w-2xl px-1 text-base leading-relaxed text-white/85 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
+                      }
+                    >
+                      {heroSubtext}
+                    </p>
+                    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-xs font-poppins text-white/75 sm:gap-x-6 sm:gap-y-2 sm:text-sm">
+                      <span className="flex items-center gap-1.5 sm:gap-2">
+                        <Calendar className="size-3.5 shrink-0 text-[#CBB27A]/95 sm:size-4" />
+                        {post.date}
+                      </span>
+                      <span className="flex items-center gap-1.5 sm:gap-2">
+                        <Clock className="size-3.5 shrink-0 text-[#CBB27A]/95 sm:size-4" />
+                        {post.readTime}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
               </div>
             </div>
           </header>

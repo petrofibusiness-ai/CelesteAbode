@@ -220,7 +220,12 @@ const nextConfig = {
       // Blog: Sobha Rivana slug rename
       {
         source: '/blog/sobha-rivana-greater-noida-west-rera-sector-1',
-        destination: '/blog/sobha-rivana-sector-1-greater-noida-west',
+        destination: '/blog/sobha-rivana-greater-noida-west',
+        permanent: true,
+      },
+      {
+        source: '/blog/sobha-rivana-sector-1-greater-noida-west',
+        destination: '/blog/sobha-rivana-greater-noida-west',
         permanent: true,
       },
       // Redirect main projects page to properties page

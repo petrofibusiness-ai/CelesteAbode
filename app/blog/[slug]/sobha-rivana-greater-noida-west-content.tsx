@@ -250,21 +250,10 @@ export function SobhaRivanaGreaterNoidaWestContent() {
       </nav>
 
       <section id="sobha-rivana-project-table" className="scroll-mt-28 mb-14">
-        <figure className="my-8 rounded-2xl overflow-hidden border border-gray-200 bg-black shadow-sm">
-          <div className="relative w-full aspect-[16/8.6] leading-none">
-            <video
-              src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/Video%20Project_cropped.mp4"
-              className="absolute inset-0 block h-full w-full scale-[1.08] object-cover object-center"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-            >
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </figure>
+        <ArticleFigure
+          src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/Elevation-Evening-View.webp"
+          alt="Sobha Rivana Greater Noida West premium elevation and arrival view"
+        />
         <SpecTable />
       </section>
 

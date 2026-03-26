@@ -19,7 +19,7 @@ export type BlogPost = {
 };
 
 /** Canonical `/blog/...` path for the Sobha Rivana article (single source for internal links). */
-export const SOBHA_RIVANA_BLOG_PATH = "/blog/sobha-rivana-sector-1-greater-noida-west" as const;
+export const SOBHA_RIVANA_BLOG_PATH = "/blog/sobha-rivana-greater-noida-west" as const;
 
 export const blogPosts: BlogPost[] = [
   {
@@ -131,7 +131,7 @@ export const blogPosts: BlogPost[] = [
   {
     id: 7,
     title: "Sobha Rivana Greater Noida West: RERA, Price, Floor Plans & Location (Sector 1)",
-    slug: "sobha-rivana-sector-1-greater-noida-west",
+    slug: "sobha-rivana-greater-noida-west",
     excerpt:
       "Sobha Limited's flagship launch in Sector 1, Greater Noida West. We unpack UP RERA, connectivity, 2/3/4 BHK, amenities, and the price band buyers are hearing in early 2026.",
     category: "Project Spotlight",
@@ -142,10 +142,9 @@ export const blogPosts: BlogPost[] = [
     featured: true,
     views: "0",
     heroFullscreen: true,
-    metaTitle:
-      "Sobha Rivana Greater Noida West | RERA, Price, 2/3/4 BHK Floor Plans, Sector 1 Location",
+    metaTitle: "Sobha Rivana Greater Noida West | RERA, Price, 2/3/4 BHK Floor Plans",
     metaDescription:
-      "Sobha Rivana Greater Noida West (Sector 1): Sobha Limited's premium launch, 2/3/4 BHK, location and amenities, indicative price, UP RERA registration, and how Celeste Abode helps you shortlist and buy with clarity across Delhi NCR.",
+      "Discover Sobha Rivana, a new luxury residential launch by SOBHA Group in Sector 1 Greater Noida West with premium apartments, modern amenities, and prime location.",
     ogImage:
       "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/Elevation-Evening-View.webp",
     ogImageAlt: "Sobha Rivana Greater Noida West Sector 1 apartments RERA",
@@ -158,7 +157,7 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
 
 export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   const others = blogPosts.filter((p) => p.slug !== currentSlug);
-  if (currentSlug === "sobha-rivana-sector-1-greater-noida-west") {
+  if (currentSlug === "sobha-rivana-greater-noida-west") {
     const prioritySlugs = [
       "upcoming-luxury-projects-noida-greater-noida-2026",
       "noida-vs-greater-noida-investment-2026",

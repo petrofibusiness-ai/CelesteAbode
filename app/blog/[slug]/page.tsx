@@ -27,7 +27,7 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "jewar-airport-ncr-property-buyers-2026": JewarAirportNcrProperty2026Content,
   "forest-walk-villa-ghaziabad-luxury-living-2026": ForestWalkVillaGhaziabadContent,
   "upcoming-luxury-projects-noida-greater-noida-2026": UpcomingLuxuryProjectsNoidaGreaterNoidaContent,
-  "sobha-rivana-sector-1-greater-noida-west": SobhaRivanaGreaterNoidaWestContent,
+  "sobha-rivana-greater-noida-west": SobhaRivanaGreaterNoidaWestContent,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -53,7 +53,7 @@ export async function generateMetadata({
 
   const title =
     post.slug === "forest-walk-villa-ghaziabad-luxury-living-2026" ||
-    post.slug === "sobha-rivana-sector-1-greater-noida-west"
+    post.slug === "sobha-rivana-greater-noida-west"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -127,7 +127,7 @@ export async function generateMetadata({
       "properties in Ghaziabad",
       "Celeste Abode",
     ],
-    "sobha-rivana-sector-1-greater-noida-west": [
+    "sobha-rivana-greater-noida-west": [
       "Sobha Rivana",
       "Sobha Rivana Greater Noida",
       "Sobha Rivana Greater Noida West",
@@ -198,7 +198,7 @@ export default async function BlogPostPage({
 
   const related = getRelatedPosts(slug, 4);
   const ArticleContent = ARTICLE_CONTENT[slug];
-  const isSobhaRivana = slug === "sobha-rivana-sector-1-greater-noida-west";
+  const isSobhaRivana = slug === "sobha-rivana-greater-noida-west";
   const isNoidaVsGreaterNoida = slug === "noida-vs-greater-noida-investment-2026";
   const isUpcomingLuxury = slug === "upcoming-luxury-projects-noida-greater-noida-2026";
   const isForestWalk = slug === "forest-walk-villa-ghaziabad-luxury-living-2026";
@@ -236,7 +236,7 @@ export default async function BlogPostPage({
         datePublished={post.date}
         url={`${SITE_URL}/blog/${post.slug}`}
       />
-      {slug === "sobha-rivana-sector-1-greater-noida-west" ? (
+      {slug === "sobha-rivana-greater-noida-west" ? (
         <FAQPageSchema faqs={sobhaRivanaFaqSchemaItems} />
       ) : null}
 

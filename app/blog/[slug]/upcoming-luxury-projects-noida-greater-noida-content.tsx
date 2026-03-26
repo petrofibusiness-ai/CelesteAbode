@@ -37,17 +37,10 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
         </ol>
       </nav>
 
-      {/* Lead */}
-      <p className="text-xl md:text-2xl text-gray-700 leading-relaxed mb-12 border-l-4 border-[#CBB27A] pl-6">
-        Many of our clients today do not ask whether Noida or Greater Noida are good enough. They ask which luxury
-        projects in these areas are worth a serious visit. Wider roads, better metro reach and a steady flow of new
-        offices have changed how people look at this part of NCR. At the same time, developers and global brands are
-        bringing in projects that are very different from older, crowded townships.
-      </p>
       <p className="text-base md:text-lg text-gray-700 leading-relaxed mb-6">
-        This article is a simple starting point if you are shortlisting premium projects in Noida and Greater Noida. It
-        does not try to cover every launch. Instead, it focuses on a few well known names and what type of home or
-        investment each one is better suited for.
+        Planning to buy a premium home in 2026? This shortlist helps you compare faster. It covers luxury projects in
+        Noida and premium projects in Greater Noida in plain language. Use it to pick what fits your budget, lifestyle,
+        and timeline.
       </p>
 
       {/* Section 1 */}
@@ -58,13 +51,11 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-            When people walk into our office and say they want a luxury flat in Noida or a premium project in Greater
-            Noida West, they are usually trying to balance three things: space, daily comfort and long term value. These
-            areas can give more square feet for the same money than central Delhi or Gurugram, but not every tower on a
-            brochure feels truly high end when you visit the site.
+            Most NCR buyers want three things. Better space, better lifestyle, and long-term value. Noida and Greater
+            Noida both offer strong options. But projects can feel very different on site.
           </p>
           <p>
-            The projects below are ones that often come up in real conversations with buyers who are exploring{" "}
+            The projects below are names that regularly come up when buyers explore{" "}
             <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
               luxury projects in Noida
             </Link>{" "}
@@ -72,8 +63,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
             <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
               premium properties in Greater Noida
             </Link>
-            . The idea is to give you a clear, readable view of what each project stands for, rather than a long list of
-            features.
+            . The goal is simple. Clear comparison, no noise, and no brochure fluff.
           </p>
         </div>
       </section>
@@ -95,7 +85,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
                 <Image
                   src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/trump-towers-noida/ttn_hero_image.jpeg"
-                  alt="Trump Towers Noida ultra luxury residences in Sector 94"
+                  alt="Ultra luxury premium residences at Trump Towers Noida in Sector 94"
                   fill
                   className="object-cover object-top"
                   sizes="100vw"
@@ -109,10 +99,9 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               >
                 Trump Towers Noida
               </Link>{" "}
-              is one of the most talked about ultra luxury launches in the region. Planned in a prime
-              sector on the Noida–Delhi border, it brings the Trump brand&apos;s design language and services to NCR.
-              Large four and five bedroom residences, private lift access and hotel‑style amenities make it a clear
-              choice for buyers who want a statement home rather than only a practical apartment.
+              is one of the most discussed ultra luxury launches in NCR. It sits near the Noida-Delhi edge in a prime
+              sector. The project offers large 4 and 5 BHK homes, private lift access, and hotel-style amenities. It is
+              a strong fit for buyers who want a statement address.
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-3">
               <li>Iconic twin towers with a focused number of residences</li>
@@ -121,9 +110,8 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               <li>Strong Delhi and Noida connectivity via expressways and bridges</li>
             </ul>
             <p className="mb-2">
-              For someone looking at the very top end of the market, Trump Towers is usually compared with select Delhi
-              and Gurugram addresses rather than mid‑segment Noida apartments. It suits buyers who are comfortable with
-              a longer holding period and want brand equity as much as real estate value.
+              At the top end, buyers compare this with select addresses in Delhi and Gurugram, not mid-segment towers in
+              Noida. It suits people who value both brand recall and long-term real estate value.
             </p>
             <p>
               If you want to see how it sits against other high‑end options in the corridor, you can start with{" "}
@@ -131,7 +119,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
                 href="/properties-in-noida/trump-towers-noida"
                 className="text-[#CBB27A] font-semibold hover:underline"
               >
-                Trump Towers Noida details
+                Trump Towers Noida
               </Link>{" "}
               and then compare it with similar{" "}
               <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
@@ -150,7 +138,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
                 <Image
                   src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/smart-world-es-residencies/smart-world-es-residencies_hero.jpeg"
-                  alt="Smart World Elie Saab branded residences in Sector 98 Noida Expressway"
+                  alt="Premium luxury branded residences at Smart World Elie Saab in Sector 98 Noida Expressway"
                   fill
                   className="object-cover object-top"
                   sizes="100vw"
@@ -164,10 +152,9 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               >
                 Smart World Elie Saab Residences
               </Link>{" "}
-              in Sector 98 is a branded residence concept on the Noida Expressway corridor. The
-              project is being developed with design inputs from Elie Saab, the global fashion and interiors brand,
-              which shows up in the lobby, residence layouts and common areas. The focus is on low‑density living, large
-              three and four bedroom layouts and a strong clubhouse experience.
+              in Sector 98 is a branded residence concept on the Noida Expressway corridor. Elie Saab design inputs are
+              visible in lobbies, layouts, and common areas. The focus is low-density living, larger 3 and 4 BHK homes,
+              and a strong clubhouse experience.
             </p>
             <ul className="list-disc pl-6 space-y-2 mb-3">
               <li>Expressway‑side location with strong visibility and views</li>
@@ -205,7 +192,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
                 <Image
                   src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/jacob-and-co/jacob-and-co_hero.webp"
-                  alt="Jacob &amp; Co. Residences luxury apartments on Noida Expressway"
+                  alt="Premium luxury apartments at Jacob and Co Residences on Noida Expressway"
                   fill
                   className="object-cover object-top"
                   sizes="100vw"
@@ -260,6 +247,17 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
             <h3 className="text-lg md:text-xl font-semibold text-foreground mb-3">
               Sobha Rivana, Sector 1 Greater Noida West – Sobha&apos;s NCR scale play
             </h3>
+            <div className="relative w-full mt-3 mb-5 rounded-2xl overflow-hidden bg-gray-100">
+              <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
+                <Image
+                  src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/Elevation-Evening-View.webp"
+                  alt="Sobha Rivana premium luxury residential tower elevation in Greater Noida West"
+                  fill
+                  className="object-cover object-center"
+                  sizes="100vw"
+                />
+              </div>
+            </div>
             <p className="mb-4">
               <Link
                 href={SOBHA_RIVANA_BLOG_PATH}
@@ -267,19 +265,17 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               >
                 Sobha Rivana
               </Link>{" "}
-              is now on UP RERA (registration UPRERAPRJ313638/03/2026, dated 20 March 2026) in Sector 1, Noida Extension. It
-              brings a listed, Bengaluru‑origin builder into a belt long dominated by NCR‑first names. Expect large
-              formats, heavy landscaping, and a full construction cycle before you plan a move. The play is mid‑to‑large
-              configurations, strong finish discipline, and whether the society stack can carry thousands of units without
-              fraying after possession.
+              is now on UP RERA (UPRERAPRJ313638/03/2026) in Sector 1, Greater Noida West. It is one of the most watched
+              premium launches in the micro market because buyers see Sobha as a quality-focused developer. The project
+              is expected to attract families looking for larger homes, cleaner finish, and a full lifestyle setup.
             </p>
             <p>
-              For many buyers, this will sit on the same shortlist as other premium Greater Noida West launches you will
-              find under{" "}
+              For many NCR buyers, Sobha Rivana sits in the same shortlist as other premium Greater Noida West options
+              under{" "}
               <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
                 premium properties in Greater Noida
               </Link>
-              , especially if they want a mix of brand comfort and better space per rupee compared to central Noida.
+              , especially when they want strong brand comfort with better space value than central Noida.
             </p>
           </article>
 
@@ -292,7 +288,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
                 <Image
                   src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/eternia-residences/eternia-residences_hero.avif"
-                  alt="Eternia Residences ultra premium apartments in TechZone 4 Greater Noida West"
+                  alt="Ultra premium luxury apartments at Eternia Residences in TechZone 4 Greater Noida West"
                   fill
                   className="object-cover object-top"
                   sizes="100vw"
@@ -318,18 +314,18 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               <li>Premium clubhouse and landscaped internal areas</li>
             </ul>
             <p>
-              You can explore more details under our{" "}
+              You can review{" "}
               <Link
                 href="/properties-in-greater-noida/eternia-residences"
                 className="text-[#CBB27A] font-semibold hover:underline"
               >
-                Eternia Residences premium apartments
+                Eternia Residences
               </Link>{" "}
               and compare it with other{" "}
               <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
                 premium properties in Greater Noida
               </Link>{" "}
-              on the same page.
+              in the same budget band.
             </p>
           </article>
 
@@ -342,7 +338,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
                 <Image
                   src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/crc-joyous/crc-joyous_hero_1773349307870.png"
-                  alt="CRC Joyous premium 2, 3 and 4 BHK apartments in Techzone IV Greater Noida West"
+                  alt="Premium luxury residences at CRC Joyous in Techzone IV Greater Noida West"
                   fill
                   className="object-cover object-top"
                   sizes="100vw"
@@ -388,7 +384,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
                 <Image
                   src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/renox-thrive/renox-thrive_hero.avif"
-                  alt="Renox Thrive premium 3 and 4 BHK residences in Sector 10 Greater Noida West"
+                  alt="Premium luxury 3 and 4 BHK residences at Renox Thrive in Sector 10 Greater Noida West"
                   fill
                   className="object-cover object-top"
                   sizes="100vw"
@@ -434,7 +430,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
                 <Image
                   src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/vvip/vvip_hero.avif"
-                  alt="VVIP Sector 12 luxury apartments in Greater Noida West"
+                  alt="Premium luxury apartments at VVIP Sector 12 in Greater Noida West"
                   fill
                   className="object-cover object-top"
                   sizes="100vw"
@@ -479,7 +475,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
                 <Image
                   src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/vvip-yamuna-expressway/vvip-yamuna-expressway_hero_1773782719789.png"
-                  alt="VVIP Yamuna Expressway luxury apartments near Noida International Airport"
+                  alt="Premium luxury apartments in VVIP Yamuna Expressway project near Noida International Airport"
                   fill
                   className="object-cover object-top"
                   sizes="100vw"
@@ -533,7 +529,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
                 <Image
                   src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/irish-platium/irish-platium_hero.avif"
-                  alt="Irish Platinum premium 3 and 4 BHK apartments in Sector 51 Greater Noida West"
+                  alt="Premium luxury 3 and 4 BHK apartments at Irish Platinum in Sector 51 Greater Noida West"
                   fill
                   className="object-cover object-top"
                   sizes="100vw"
@@ -558,12 +554,12 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               <li>Good match for families who want an active, community‑driven lifestyle</li>
             </ul>
             <p>
-              You can explore more about this and similar projects through our{" "}
+              You can compare this with similar launches through{" "}
               <Link
                 href="/properties-in-greater-noida/irish-platinum"
                 className="text-[#CBB27A] font-semibold hover:underline"
               >
-                Irish Platinum project page
+                Irish Platinum
               </Link>{" "}
               and neighbouring{" "}
               <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
@@ -583,8 +579,8 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-            A good luxury purchase is rarely about chasing a single name or offer. It is about matching your budget, use
-            case and time horizon with the right corridor and project. A simple way to think about it is:
+            A good luxury purchase is not about chasing one name. Match your budget, use case, and time horizon to the
+            right corridor and project. Use this simple process:
           </p>
           <ul className="list-disc pl-6 space-y-2">
             <li>Start with corridor: Noida Expressway, central Noida, Greater Noida West or Yamuna Expressway</li>
@@ -597,9 +593,8 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
             <li>Ask specific questions on handover timelines, maintenance charges and future phases</li>
           </ul>
           <p>
-            At Celeste Abode, we stay with you from the first site visit till you hold the keys in your hand. We help
-            you compare real options, check the paperwork, speak to the right people on site, and make sure you are
-            comfortable at every step. If you want a clear, human view of{" "}
+            At Celeste Abode, we stay with you from first visit to handover. We help you compare real options, check
+            key paperwork, and speak to the right people on site. If you want a clear, human view of{" "}
             <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
               Noida luxury projects
             </Link>{" "}
@@ -607,8 +602,8 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
             <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
               premium properties in Greater Noida
             </Link>
-            , you can fill the enquiry form on this page or reach us through the contact section, and we&apos;ll build a
-            short, practical plan around your budget and your idea of home.
+            , you can fill the enquiry form on this page. We will build a short practical plan around your budget and
+            your idea of home.
           </p>
         </div>
       </section>

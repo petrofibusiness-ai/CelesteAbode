@@ -68,6 +68,7 @@ export const blogPosts: BlogPost[] = [
     image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/noida_vs_greater_noida.png",
     featured: true,
     views: "1.1K",
+    heroFullscreen: true,
     metaTitle: "Noida or Greater Noida: Which is Better for Property Investment in 2026?",
     metaDescription: "Compare Noida and Greater Noida property investment opportunities in 2026. Discover prices, infrastructure growth, and ROI potential before buying property.",
     ogImage: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/noida_vs_greater_noida.png",

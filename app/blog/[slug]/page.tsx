@@ -199,8 +199,17 @@ export default async function BlogPostPage({
   const related = getRelatedPosts(slug, 4);
   const ArticleContent = ARTICLE_CONTENT[slug];
   const isSobhaRivana = slug === "sobha-rivana-sector-1-greater-noida-west";
+  const isNoidaVsGreaterNoida = slug === "noida-vs-greater-noida-investment-2026";
+  const isUpcomingLuxury = slug === "upcoming-luxury-projects-noida-greater-noida-2026";
+  const usePremiumHero = isSobhaRivana || isNoidaVsGreaterNoida || isUpcomingLuxury;
   const heroTitle = isSobhaRivana ? "Sobha Rivana, Greater Noida West" : post.title;
-  const heroEyebrow = isSobhaRivana ? "Project Spotlight | Sector 1, Greater Noida West" : post.category;
+  const heroEyebrow = isSobhaRivana
+    ? "Project Spotlight | Sector 1, Greater Noida West"
+    : isNoidaVsGreaterNoida
+      ? "Market Comparison | Delhi NCR 2026"
+      : isUpcomingLuxury
+        ? "Luxury Watchlist | Noida and Greater Noida 2026"
+      : post.category;
   const heroSubtext = isSobhaRivana
     ? "RERA details, pricing, floor plans, and location insights. Everything you need to evaluate before you decide."
     : post.excerpt;
@@ -258,14 +267,14 @@ export default async function BlogPostPage({
                 <div className="max-w-[95%] xl:max-w-[1800px] mx-auto w-full px-3 pb-8 pt-6 sm:px-4 sm:pb-12 sm:pt-10 md:pb-16 md:pt-12">
                   <div
                     className={
-                      isSobhaRivana
+                      usePremiumHero
                         ? "max-w-3xl mx-auto rounded-2xl border border-white/20 bg-black/30 px-4 py-4 backdrop-blur-[2px] sm:px-6 sm:py-6 md:backdrop-blur-sm"
                         : "max-w-3xl mx-auto text-center"
                     }
                   >
                     <p
                       className={
-                        isSobhaRivana
+                        usePremiumHero
                           ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                           : "mb-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                       }
@@ -277,7 +286,7 @@ export default async function BlogPostPage({
                     </h1>
                     <p
                       className={
-                        isSobhaRivana
+                        usePremiumHero
                           ? "mx-auto mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
                           : "mx-auto mb-5 max-w-2xl px-1 text-base leading-relaxed text-white/85 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
                       }

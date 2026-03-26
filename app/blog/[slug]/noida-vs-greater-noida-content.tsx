@@ -101,12 +101,17 @@ export function NoidaVsGreaterNoidaContent() {
           <p>
             Noida still carries a premium in many established sectors because demand is deeper for ready connectivity and
             near-term rental potential. If your goal is faster liquidity, Noida can be stronger. If your goal is better
-            value per square foot and patient capital appreciation, Greater Noida can be compelling in 2026.
+            value per square foot and patient capital appreciation, Greater Noida can be compelling in 2026. If you want
+            to compare options directly, start with{" "}
+            <Link href="/flats-for-sale-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
+              flats for sale in Noida
+            </Link>
+            .
           </p>
           <ul className="mt-6 space-y-3 pl-6 border-l-2 border-[#CBB27A]/30">
-            <li>Noida usually gives stronger rental depth and faster resale movement</li>
-            <li>Greater Noida usually gives better unit size and lower entry ticket</li>
-            <li>A 3 to 5 year horizon works best if you are buying in emerging sectors</li>
+            <li>Noida usually gives better rental demand and quicker resale</li>
+            <li>Greater Noida usually gives more space at a lower starting budget</li>
+            <li>A 3 to 5 year hold is safer in emerging sectors</li>
           </ul>
         </div>
       </section>
@@ -128,7 +133,11 @@ export function NoidaVsGreaterNoidaContent() {
             Practical rule for buyers. Check metro distance, road approach quality, and office or school travel time at
             your actual commute hour. On paper, many addresses look similar. On weekdays, the difference is obvious.
             This is where experienced property consultants in Noida and real estate consultants in Noida who also track
-            Greater Noida can save you from expensive location mistakes.
+            Greater Noida can save you from expensive location mistakes. For direct comparison, you can also review{" "}
+            <Link href="/flats-for-sale-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
+              flats for sale in Greater Noida
+            </Link>
+            .
           </p>
         </div>
         <div className="relative w-full mt-6 rounded-2xl overflow-hidden bg-gray-100 border border-gray-200">
@@ -213,7 +222,7 @@ export function NoidaVsGreaterNoidaContent() {
       <div className="my-16 p-8 rounded-2xl bg-gradient-to-br from-[#0f1112] to-[#1a1d1f] text-white">
         <div className="flex items-center gap-3 mb-4">
           <Scale className="w-6 h-6 text-[#CBB27A] shrink-0" />
-          <h3 className="text-lg font-bold font-poppins">Key takeaway</h3>
+          <h3 className="text-lg font-bold font-poppins text-white">Key takeaway</h3>
         </div>
         <p className="text-white/90 leading-relaxed font-poppins">
           Noida is stronger for maturity and immediate convenience. Greater Noida is stronger for value and room to

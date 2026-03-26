@@ -1,5 +1,11 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Plane } from "lucide-react";
+
+const JEWAR_VISUAL_1 =
+  "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/yamuna_expressway.png";
+const JEWAR_VISUAL_2 =
+  "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/noida_vs_greater_noida.png";
 
 export function JewarAirportNcrProperty2026Content() {
   return (
@@ -19,12 +25,12 @@ export function JewarAirportNcrProperty2026Content() {
           </li>
           <li>
             <a href="#who-benefits-most" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              2. Which micro-markets benefit most
+              2. Jewar airport impact on Noida and Greater Noida micro-markets
             </a>
           </li>
           <li>
             <a href="#price-reality" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              3. Price reality: what has already moved
+              3. Jewar airport property price trend in 2026
             </a>
           </li>
           <li>
@@ -34,14 +40,16 @@ export function JewarAirportNcrProperty2026Content() {
           </li>
           <li>
             <a href="#next-steps" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              5. Practical next steps for buyers
+              5. How to buy property near Jewar airport safely
             </a>
           </li>
         </ol>
       </nav>
 
       <p className="text-xl md:text-2xl text-gray-700 leading-relaxed mb-12 border-l-4 border-[#CBB27A] pl-6">
-        The Noida International Airport at Jewar is no longer a blueprint—it is a reality. As one of India&apos;s largest greenfield airports, it has already begun to reshape how investors and homebuyers think about property near Jewar and the wider Delhi NCR belt. The right question in 2026 is not &quot;will the airport matter?&quot; but where it already shows up in prices, which locations offer the best risk-adjusted upside, and how to avoid paying a premium for hype. This article cuts through the noise with a clear, evidence-based view of Jewar airport impact on NCR real estate and what you should do next.
+        Jewar airport is now a real on-ground trigger for NCR property decisions. But smart buyers know one thing. Not
+        every project near the airport is a smart buy. This guide explains where demand is real, where pricing is already
+        stretched, and how to avoid overpaying in 2026.
       </p>
 
       <section id="why-jewar-matters" className="scroll-mt-24 mb-16">
@@ -51,30 +59,58 @@ export function JewarAirportNcrProperty2026Content() {
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-            Large infrastructure projects do two things: they create jobs and connectivity, and they change how people value land. The Jewar airport does both. It serves the western NCR corridor—Noida, Greater Noida, Yamuna Expressway, and beyond—reducing dependence on Delhi&apos;s Indira Gandhi International Airport for both travel and cargo. That has direct implications for real estate near Jewar: demand from aviation-linked employment, hospitality, logistics, and from homebuyers who want faster access to the airport without living in central Delhi.
+            Large infrastructure changes land demand in phases. First comes attention. Then road and utility upgrades.
+            Then end-user movement. Jewar airport is now in the phase where serious buying decisions are tied to
+            connectivity reality, not launch posters.
           </p>
           <p>
-            The important nuance is that &quot;airport impact&quot; is not uniform. Proximity to the airport site matters for certain asset types (e.g. logistics, hospitality), but for residential property in NCR, what often matters more is being on a corridor that connects to the airport—such as the Yamuna Expressway—and having other drivers of demand (metro, workplaces, social infrastructure) already in place. So when we talk about Jewar airport property impact, we are really talking about a combination of direct proximity and corridor-based demand. For a deeper look at the Yamuna Expressway as a growth corridor, read our <Link href="/blog/yamuna-expressway-growth-corridor-delhi-ncr" className="text-[#CBB27A] font-semibold hover:underline">Yamuna Expressway guide</Link> and explore <Link href="/properties-in-yamuna-expressway" className="text-[#CBB27A] font-semibold hover:underline">Yamuna Expressway properties</Link>.
+            The airport effect is not equal across NCR. Residential upside depends more on corridor quality than direct
+            map distance. That is why Yamuna Expressway, select Greater Noida nodes, and connected Noida sectors are
+            being tracked closely by informed buyers.
           </p>
         </div>
       </section>
 
+      <div className="my-8 rounded-2xl overflow-hidden border border-gray-100 shadow-lg">
+        <div className="relative aspect-[16/9] w-full">
+          <Image
+            src={JEWAR_VISUAL_1}
+            alt="Yamuna Expressway corridor visual linked to Jewar airport growth impact"
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 896px"
+            unoptimized={JEWAR_VISUAL_1.includes("r2.dev")}
+          />
+        </div>
+      </div>
+
       <section id="who-benefits-most" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          2. Which micro-markets benefit most
+          2. Jewar airport impact on Noida and Greater Noida micro-markets
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-            Not every location in NCR gains equally from Jewar airport. The micro-markets that tend to benefit first are those that (a) sit on or near the main access routes to the airport, (b) already have some built-up infrastructure and liquidity, and (c) have a pipeline of RERA-registered projects so buyers can transact with confidence. In practice, that puts the spotlight on select sectors along the Yamuna Expressway, parts of Greater Noida with good road connectivity to Jewar, and certain nodes in Noida that feed into the same corridor.
+            Not every location in NCR gains equally from Jewar airport. The first beneficiaries are usually zones with
+            strong road access, active project supply, and credible builder presence. That keeps exit options healthier.
           </p>
           <p>
-            Greater Noida and the Yamuna Expressway belt have seen the strongest narrative shift because they are the closest to the airport and are under a single planning authority (YEIDA and Greater Noida Authority). That does not mean every project there is a buy; it means that when you shortlist property near Jewar airport, you should prioritise sectors with visible infrastructure (roads, utilities, metro plans) and established developers with a delivery track record. Comparing Noida vs Greater Noida for investment can help you weigh maturity versus growth—see our <Link href="/blog/noida-vs-greater-noida-investment-2026" className="text-[#CBB27A] font-semibold hover:underline">Noida vs Greater Noida analysis</Link> and <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">Greater Noida properties</Link> for options.
+            Greater Noida and Yamuna Expressway continue to attract early cycle buyers. But you still need to filter
+            sharply. Use sectors with visible infra execution, not just future promises. Compare growth potential with
+            maturity using our{" "}
+            <Link href="/blog/noida-vs-greater-noida-investment-2026" className="text-[#CBB27A] font-semibold hover:underline">
+              Noida vs Greater Noida analysis
+            </Link>{" "}
+            and current{" "}
+            <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
+              property in Greater Noida
+            </Link>
+            .
           </p>
           <ul className="mt-6 space-y-3 pl-6 border-l-2 border-[#CBB27A]/30">
-            <li>Yamuna Expressway sectors with committed metro or road upgrades</li>
-            <li>Greater Noida West and nodes with direct connectivity to Jewar</li>
-            <li>Noida Extension and Noida sectors that feed into the airport corridor</li>
+            <li>Yamuna Expressway sectors with visible road and utility upgrades</li>
+            <li>Greater Noida sectors with practical access to airport corridors</li>
+            <li>Noida sectors that connect efficiently into these routes</li>
           </ul>
         </div>
       </section>
@@ -82,17 +118,40 @@ export function JewarAirportNcrProperty2026Content() {
       <section id="price-reality" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          3. Price reality: what has already moved
+          3. Jewar airport property price trend in 2026
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-            By 2026, a portion of the &quot;Jewar premium&quot; is already baked into prices in the corridors closest to the airport. That is normal: markets discount known catalysts. What it means for you is that you should not assume that buying &quot;near Jewar&quot; automatically guarantees outsized returns from here—you need to distinguish between (1) locations where the airport story is already reflected in valuations and (2) pockets where connectivity or development is still improving and may see a second leg of re-rating.
+            By 2026, part of the Jewar premium is already priced in across high-visibility corridors. This is normal.
+            Markets move early on known catalysts. So avoid blanket assumptions like "near airport equals high return."
           </p>
           <p>
-            Data from the last few years shows that property prices along the Yamuna Expressway and in parts of Greater Noida have seen meaningful appreciation, partly due to the airport and partly due to broader NCR demand and limited supply in established Noida sectors. Going forward, the focus should be on RERA-compliant projects, builder credibility, and exact location (exit, distance to metro or highway) rather than on the generic &quot;Jewar story&quot;. For a safety-first view of buying in the broader region, our article on <Link href="/blog/is-noida-safe-to-buy-property-2026" className="text-[#CBB27A] font-semibold hover:underline">whether Noida is still safe to buy in 2026</Link> and our <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">Noida properties</Link> list can help you compare.
+            A practical way forward is simple. Focus on RERA-compliant projects, builder delivery quality, and exact
+            location efficiency. For balance, compare airport-led bets with mature sectors via{" "}
+            <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
+              property in Noida
+            </Link>{" "}
+            and our safety-focused{" "}
+            <Link href="/blog/is-noida-safe-to-buy-property-2026" className="text-[#CBB27A] font-semibold hover:underline">
+              Noida 2026 guide
+            </Link>
+            .
           </p>
         </div>
       </section>
+
+      <div className="my-8 rounded-2xl overflow-hidden border border-gray-100 shadow-lg">
+        <div className="relative aspect-[16/9] w-full">
+          <Image
+            src={JEWAR_VISUAL_2}
+            alt="Noida and Greater Noida comparison visual for airport-led investment planning"
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 896px"
+            unoptimized={JEWAR_VISUAL_2.includes("r2.dev")}
+          />
+        </div>
+      </div>
 
       <section id="avoiding-hype" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
@@ -101,10 +160,16 @@ export function JewarAirportNcrProperty2026Content() {
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-            Developers often market projects as &quot;minutes from Jewar Airport&quot; or &quot;airport corridor.&quot; Your job is to verify (a) actual drive time and road quality, (b) whether the project is RERA-registered, and (c) how the price compares to similar projects in the same or neighbouring micro-markets. If a project is priced significantly above comparable options with no clear differentiator except airport distance, treat it with caution.
+            Developers use airport-led messaging heavily. Your job is to verify actual travel time, road quality, and
+            RERA status before paying token amounts.
           </p>
           <p>
-            A disciplined approach: fix your budget and end-use (self-use, rental, or investment). Shortlist 3–5 RERA-registered projects in micro-markets that have real connectivity and infrastructure visibility. Compare per-sq-ft and total cost, builder delivery history, and buyer reviews. Use the airport as one factor in the mix, not the only reason to buy. Our <Link href="/real-estate-insights" className="text-[#CBB27A] font-semibold hover:underline">Vault</Link> explains RERA and key property terms in plain language, and our <Link href="/real-estate-consulting-services" className="text-[#CBB27A] font-semibold hover:underline">consulting services</Link> can help you evaluate specific projects and locations.
+            Use a disciplined process. Fix your budget. Shortlist 3 to 5 RERA projects. Compare full cost, delivery
+            history, and location quality. Use airport impact as one factor, not the only factor. If needed, our{" "}
+            <Link href="/real-estate-consulting-services" className="text-[#CBB27A] font-semibold hover:underline">
+              consulting services
+            </Link>{" "}
+            can help you run this comparison cleanly.
           </p>
         </div>
       </section>
@@ -112,14 +177,24 @@ export function JewarAirportNcrProperty2026Content() {
       <section id="next-steps" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          5. Practical next steps for buyers
+          5. How to buy property near Jewar airport safely
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-            If you are considering property near Jewar airport or anywhere on the western NCR corridor, start by (1) confirming your budget and financing, (2) listing 2–3 micro-markets that fit (e.g. Yamuna Expressway, Greater Noida West), (3) verifying RERA registration and builder track record for shortlisted projects, and (4) visiting the site and the surrounding area to assess current connectivity and future plans. Do not let &quot;airport proximity&quot; override basics: legal safety, delivery risk, and price relative to comparable options.
+            If you are considering property near Jewar airport, keep the process simple. Confirm budget and loan range.
+            Shortlist micro-markets. Verify RERA and builder track record. Visit the site in real traffic hours. Compare
+            with similar alternatives before booking.
           </p>
           <p>
-            At Celeste Abode, we help buyers and investors evaluate Jewar airport impact on NCR property and choose projects that balance growth potential with compliance and transparency. You can browse our curated <Link href="/properties" className="text-[#CBB27A] font-semibold hover:underline">residential and investment properties</Link> across Noida, Greater Noida, and the Yamuna Expressway, or <Link href="/contact" className="text-[#CBB27A] font-semibold hover:underline">contact us</Link> for a structured discussion about your goals and the best next step.
+            At Celeste Abode, we help buyers compare growth potential with legal clarity and location quality. Browse{" "}
+            <Link href="/properties-in-yamuna-expressway" className="text-[#CBB27A] font-semibold hover:underline">
+              properties on Yamuna Expressway
+            </Link>{" "}
+            or{" "}
+            <Link href="/request-a-free-consultation" className="text-[#CBB27A] font-semibold hover:underline">
+              book a free consultation
+            </Link>{" "}
+            for a structured next-step plan.
           </p>
         </div>
       </section>
@@ -127,10 +202,12 @@ export function JewarAirportNcrProperty2026Content() {
       <div className="my-16 p-8 rounded-2xl bg-gradient-to-br from-[#0f1112] to-[#1a1d1f] text-white">
         <div className="flex items-center gap-3 mb-4">
           <Plane className="w-6 h-6 text-[#CBB27A] shrink-0" />
-          <h3 className="text-lg font-bold font-poppins">Key takeaway</h3>
+          <h3 className="text-lg font-bold font-poppins text-white">Key takeaway</h3>
         </div>
         <p className="text-white/90 leading-relaxed font-poppins">
-Jewar Airport is reshaping NCR real estate, but the best opportunities are in micro-markets with real connectivity and RERA-registered projects—not in every project that claims &quot;airport proximity.&quot; Focus on Yamuna Expressway and Greater Noida nodes with visible infrastructure, compare prices and builder track records, and use the airport as one input in your decision, not the only one.
+          Jewar airport is a real growth trigger, but returns are location-specific. The safer route is to pick
+          RERA-registered projects in corridors with visible infrastructure and practical demand. Compare, verify, then
+          decide.
         </p>
       </div>
     </div>

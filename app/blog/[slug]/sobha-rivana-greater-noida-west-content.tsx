@@ -100,13 +100,13 @@ function ArticleFigure({
 
 const PAGE_TOC: { href: string; title: string }[] = [
   { href: "#sobha-rivana-project-table", title: "Snapshot (Quick Facts)" },
-  { href: "#sobha-rivana-project-overview", title: "Project Overview" },
-  { href: "#sobha-rivana-developer", title: "Developer Background" },
-  { href: "#sobha-rivana-rera", title: "RERA Status" },
-  { href: "#sobha-rivana-location", title: "Location Review" },
-  { href: "#sobha-rivana-floor-plans", title: "Layouts and Sizes" },
-  { href: "#sobha-rivana-amenities", title: "Amenities and Open Spaces" },
-  { href: "#sobha-rivana-price", title: "Pricing and Payment Plans" },
+  { href: "#sobha-rivana-project-overview", title: "Sobha Rivana Project Overview" },
+  { href: "#sobha-rivana-developer", title: "Sobha Rivana Developer Background" },
+  { href: "#sobha-rivana-rera", title: "Sobha Rivana RERA Status" },
+  { href: "#sobha-rivana-location", title: "Sobha Rivana Location Review" },
+  { href: "#sobha-rivana-floor-plans", title: "Sobha Rivana Layouts and Sizes" },
+  { href: "#sobha-rivana-amenities", title: "Sobha Rivana Amenities and Open Spaces" },
+  { href: "#sobha-rivana-price", title: "Sobha Rivana Pricing and Payment Plans" },
 ];
 
 const FAQ_ITEMS: { question: string; answer: string }[] = [
@@ -128,7 +128,7 @@ const FAQ_ITEMS: { question: string; answer: string }[] = [
   {
     question: "How much does Sobha Rivana cost per square foot?",
     answer:
-      "In early 2026, market chatter often lands around ₹13,000 to ₹15,000 per sq ft before PLC, parking, and GST, but this moves with inventory. Your builder's cost sheet and your bank's view should line up before you commit.",
+      "In early 2026, market chatter often lands around ₹13,000 to ₹15,000 per sq ft before PLC, parking, and GST, but this moves with available units and release phases. Your builder's cost sheet and your bank's view should line up before you commit.",
   },
   {
     question: "When can buyers expect possession at Sobha Rivana?",
@@ -260,7 +260,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
       <section id="sobha-rivana-project-overview" className="scroll-mt-28 mb-14">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-5 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          Project Overview
+          Sobha Rivana project overview in Greater Noida West
         </h2>
         <p className="text-gray-700 leading-relaxed mb-5">
           Sobha Rivana is a premium residential project by Sobha in Sector 1, Greater Noida West, planned across a significant
@@ -302,7 +302,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
       <section id="sobha-rivana-rera" className="scroll-mt-28 mb-14">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-5 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          UP RERA registration
+          Sobha Rivana UP RERA registration and status
         </h2>
         <p className="text-gray-700 leading-relaxed mb-5">
           Sobha Rivana is registered on UP RERA as <strong>{SOBHA_RIVANA_RERA_FULL}</strong>, with a listing date of{" "}
@@ -384,7 +384,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
       <section id="sobha-rivana-amenities" className="scroll-mt-28 mb-14">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-4 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          Amenities at a glance
+          Sobha Rivana amenities, clubhouse, and open spaces
         </h2>
         <p className="text-gray-700 leading-relaxed mb-2 text-sm md:text-base">
           The marketing story for Sobha Rivana includes a large clubhouse, river-themed landscaping, sports and wellness spaces,
@@ -407,7 +407,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
       <section id="sobha-rivana-price" className="scroll-mt-28 mb-14">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-5 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          Price, payment plans, and the bank&apos;s view
+          Sobha Rivana price, payment plans, and bank eligibility view
         </h2>
         <p className="text-gray-700 leading-relaxed mb-4">
           Early conversations often open near <strong>₹2.25 crore</strong> for select two- and three-bedroom formats,
@@ -438,7 +438,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
       <section id="faq-sobha-rivana" className="scroll-mt-28 mb-6">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-2 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          Frequently asked questions
+          Sobha Rivana FAQs for buyers in 2026
         </h2>
         <p className="text-sm text-gray-600 mb-6 max-w-2xl">Tap a question to read the answer.</p>
         <SobhaRivanaFaqAccordion items={FAQ_ITEMS} />

@@ -23,27 +23,27 @@ export function NoidaSafe2026Content() {
         <ol className="space-y-3 text-sm text-gray-700">
           <li>
             <a href="#why-the-question-matters" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              1. Why the question matters in 2026
+              1. Is investing in Noida property safe in 2026
             </a>
           </li>
           <li>
             <a href="#market-reality" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              2. The market reality: demand, prices, and sentiment
+              2. Noida property market reality: demand, prices, and sentiment
             </a>
           </li>
           <li>
             <a href="#infrastructure-safety" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              3. Infrastructure and legal safety nets
+              3. Noida infrastructure and legal safety checks
             </a>
           </li>
           <li>
             <a href="#where-to-buy-safely" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              4. Where to buy safely: micro-markets that work
+              4. Best Noida micro-markets for safer property buying
             </a>
           </li>
           <li>
             <a href="#practical-steps" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              5. Practical steps before you invest
+              5. Property buying checklist before investing in Noida
             </a>
           </li>
         </ol>
@@ -59,7 +59,7 @@ export function NoidaSafe2026Content() {
       <section id="why-the-question-matters" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          1. Why the question matters in 2026
+          1. Is investing in Noida property safe in 2026
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
@@ -78,13 +78,13 @@ export function NoidaSafe2026Content() {
       <section id="market-reality" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          2. The market reality: demand, prices, and sentiment
+          2. Noida property market reality: demand, prices, and sentiment
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
             Noida continues to see active demand in 2026, especially in sectors with stronger connectivity and better
             social infrastructure. Most buyer action remains in practical end-user formats, especially 2 and 3 BHK
-            inventory. This is a healthy signal because demand is usage-led, not only speculative.
+            homes. This is a healthy signal because demand is usage-led, not only speculative.
           </p>
           <p>
             The key is not only Noida vs non-Noida. It is sector quality within Noida. If you want broader comparison,
@@ -118,7 +118,7 @@ export function NoidaSafe2026Content() {
       <section id="infrastructure-safety" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          3. Infrastructure and legal safety nets
+          3. Noida infrastructure and legal safety checks
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
@@ -155,7 +155,7 @@ export function NoidaSafe2026Content() {
       <section id="where-to-buy-safely" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          4. Where to buy safely: micro-markets that work
+          4. Best Noida micro-markets for safer property buying
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
@@ -194,7 +194,7 @@ export function NoidaSafe2026Content() {
       <section id="practical-steps" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          5. Practical steps before you invest
+          5. Property buying checklist before investing in Noida
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>

@@ -16,7 +16,7 @@ export function NoidaVsGreaterNoidaContent() {
         <ol className="space-y-3 text-sm text-gray-700">
           <li>
             <a href="#why-compare" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              1. Why this comparison matters in 2026
+              1. Noida vs Greater Noida property comparison in 2026
             </a>
           </li>
           <li>
@@ -26,7 +26,7 @@ export function NoidaVsGreaterNoidaContent() {
           </li>
           <li>
             <a href="#connectivity" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              3. Connectivity, infra, and daily livability
+              3. Connectivity for property in Noida vs Greater Noida
             </a>
           </li>
           <li>
@@ -36,7 +36,7 @@ export function NoidaVsGreaterNoidaContent() {
           </li>
           <li>
             <a href="#how-to-decide" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              5. How to shortlist without confusion
+              5. How to shortlist property in Noida or Greater Noida
             </a>
           </li>
         </ol>
@@ -54,13 +54,13 @@ export function NoidaVsGreaterNoidaContent() {
       <section id="why-compare" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          1. Why this comparison matters in 2026
+          1. Noida vs Greater Noida property comparison in 2026
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
             People often mix these two markets into one story. On ground, they behave differently. Noida is more mature,
             with better established sectors, stronger office micro markets, and faster rental absorption. Greater Noida
-            and property in Greater Noida West offer larger inventory, more room for planned growth, and better space
+            and property in Greater Noida West offer more project options, more room for planned growth, and better space
             value at many price points.
           </p>
           <p>
@@ -120,7 +120,7 @@ export function NoidaVsGreaterNoidaContent() {
       <section id="connectivity" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          3. Connectivity, infra, and daily livability
+          3. Connectivity for property in Noida vs Greater Noida
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
@@ -168,7 +168,7 @@ export function NoidaVsGreaterNoidaContent() {
           <p>
             Choose Greater Noida if you want more space for the same budget. It is also a good fit if you are okay with
             a longer hold and want a newer community setup. Many first-time premium buyers and upgraders prefer property
-            in Greater Noida West because inventory choice is wider.
+            in Greater Noida West because project choice is wider.
           </p>
           <p>
             If you are searching for the best real estate company in Noida or the best property consultant in Greater
@@ -194,7 +194,7 @@ export function NoidaVsGreaterNoidaContent() {
       <section id="how-to-decide" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          5. How to shortlist without confusion
+          5. How to shortlist property in Noida or Greater Noida
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>

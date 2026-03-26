@@ -39,7 +39,7 @@ export function ForestWalkVillaGhaziabadContent() {
           </li>
           <li>
             <a href="#amenities-lifestyle" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              4. Lifestyle and build quality
+              4. Forest Walk Villa amenities, lifestyle, and build quality
             </a>
           </li>
           <li>
@@ -49,12 +49,12 @@ export function ForestWalkVillaGhaziabadContent() {
           </li>
           <li>
             <a href="#who-its-for" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              6. Who this project fits best
+              6. Who should buy Forest Walk Villa in Ghaziabad
             </a>
           </li>
           <li>
             <a href="#next-steps" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              7. What to do next
+              7. Next steps to buy Forest Walk Villa safely
             </a>
           </li>
         </ol>
@@ -93,7 +93,7 @@ export function ForestWalkVillaGhaziabadContent() {
           <p>
             It also gets attention because the project has a clear RERA trail and a known developer setup. For buyers
             comparing <Link href="/properties-in-ghaziabad" className="text-[#CBB27A] font-semibold hover:underline">villas in Ghaziabad</Link>{" "}
-            against Noida or Greater Noida, this location can offer a different value equation with better villa inventory.
+            against Noida or Greater Noida, this location can offer a different value equation with better villa options.
           </p>
         </div>
       </section>
@@ -176,7 +176,7 @@ export function ForestWalkVillaGhaziabadContent() {
       <section id="amenities-lifestyle" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          4. Lifestyle and build quality
+          4. Forest Walk Villa amenities, lifestyle, and build quality
         </h2>
         <div className="my-8 rounded-2xl overflow-hidden border border-gray-100 shadow-lg">
           <div className="relative aspect-[16/9] w-full">
@@ -198,7 +198,7 @@ export function ForestWalkVillaGhaziabadContent() {
           </p>
           <p>
             Inside the villas, the focus is on premium finishes and practical liveability. Buyers who want larger homes
-            with private zones often prefer this format over high-rise inventory in the same budget band.
+            with private zones often prefer this format over high-rise apartments in the same budget band.
           </p>
         </div>
       </section>
@@ -228,7 +228,7 @@ export function ForestWalkVillaGhaziabadContent() {
           </p>
           <p>
             RERA verification remains non-negotiable. Confirm registration details, stage timelines, and payment-linked
-            obligations before signing. For live inventory and current pricing flow, see{" "}
+            obligations before signing. For live project availability and current pricing flow, see{" "}
             <Link href="/properties-in-ghaziabad/forest-walk-villa" className="text-[#CBB27A] font-semibold hover:underline">
               Forest Walk Villa in Ghaziabad
             </Link>
@@ -240,7 +240,7 @@ export function ForestWalkVillaGhaziabadContent() {
       <section id="who-its-for" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          6. Who this project fits best
+          6. Who should buy Forest Walk Villa in Ghaziabad
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
@@ -261,7 +261,7 @@ export function ForestWalkVillaGhaziabadContent() {
       <section id="next-steps" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          7. What to do next
+          7. Next steps to buy Forest Walk Villa safely
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>

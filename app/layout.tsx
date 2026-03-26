@@ -102,15 +102,15 @@ export const metadata: Metadata = {
     "ICBM": "28.6076655, 77.4354885",
   },
   icons: {
-    // Use the latest favicon pack placed in /public.
+    // Use the favicon pack from /public/favicon (2).
     icon: [
-      { url: "/favicon.ico", sizes: "any", type: "image/x-icon" },
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/favicon%20(2)/favicon.ico", sizes: "any", type: "image/x-icon" },
+      { url: "/favicon%20(2)/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon%20(2)/favicon-96x96.png", sizes: "96x96", type: "image/png" },
     ],
-    shortcut: "/favicon.ico",
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
-    other: [{ rel: "manifest", url: "/site.webmanifest" }],
+    shortcut: "/favicon%20(2)/favicon.ico",
+    apple: [{ url: "/favicon%20(2)/apple-touch-icon.png", sizes: "180x180" }],
+    other: [{ rel: "manifest", url: "/favicon%20(2)/site.webmanifest" }],
   },
 };
 
@@ -227,7 +227,7 @@ export default function RootLayout({
         <meta name="msvalidate.01" content="B8F3AC31F09EF60F080EB603250077D8" />
         
         {/* Favicons: rendered by Next.js metadata.icons (single source of truth). */}
-        <meta name="msapplication-TileImage" content="/web-app-manifest-192x192.png" />
+        <meta name="msapplication-TileImage" content="/favicon%20(2)/web-app-manifest-192x192.png" />
         <meta name="msapplication-TileColor" content="#000000" />
       </head>
       <body className={`${inter.variable} ${poppins.variable} antialiased`} suppressHydrationWarning>

@@ -31,7 +31,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
           </li>
           <li>
             <a href="#how-to-shortlist" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              4. How to shortlist the right luxury project
+              4. How to shortlist luxury projects in Noida and Greater Noida
             </a>
           </li>
         </ol>
@@ -575,7 +575,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
       <section id="how-to-shortlist" className="scroll-mt-24 mb-4 md:mb-8">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          5. How to shortlist the right luxury project
+          5. How to shortlist luxury projects in Noida and Greater Noida
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>

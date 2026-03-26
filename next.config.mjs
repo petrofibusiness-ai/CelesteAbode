@@ -173,6 +173,15 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/hero-video.mp4',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=2592000, s-maxage=2592000',
+          },
+        ],
+      },
       // Admin API routes - NO CACHING (removed to prevent stale data)
       // All admin routes use route-level headers for authoritative control
       // Immutable Asset Caching
@@ -210,6 +219,15 @@ const nextConfig = {
   // experimental: {
   //   optimizeCss: true,
   // },
+  // Keep hero media under same origin so app-level cache headers apply.
+  async rewrites() {
+    return [
+      {
+        source: '/hero-video.mp4',
+        destination: 'https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/HEROVIDEO%20%281%29.mp4',
+      },
+    ];
+  },
   // Redirects from /projects to /properties and numeric project URLs to slug-based URLs
   async redirects() {
     return [

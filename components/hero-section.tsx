@@ -39,7 +39,7 @@ export function HeroSection() {
             className="hidden md:block absolute inset-0 w-full h-full object-cover object-center"
           >
             <source
-              src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/HEROVIDEO%20(1).mp4"
+              src="/hero-video.mp4"
               type="video/mp4"
             />
           </video>

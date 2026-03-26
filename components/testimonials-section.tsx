@@ -1,19 +1,40 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function TestimonialsSection() {
-  // Elfsight mutates the widget DOM as soon as its platform script runs.
-  // If we render the widget on the server, the client can hydrate a different DOM -> hydration mismatch.
-  // Render it only after mount to keep server/client HTML identical.
-  const [mounted, setMounted] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [shouldRenderWidget, setShouldRenderWidget] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
+    const el = sectionRef.current;
+    if (!el) return;
+
+    // Defer Elfsight execution until the widget area is near the viewport.
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const first = entries[0];
+        if (!first) return;
+        if (first.isIntersecting) {
+          setShouldRenderWidget(true);
+          observer.disconnect();
+        }
+      },
+      {
+        root: null,
+        // Load a bit before it becomes visible so users don't see layout popping.
+        rootMargin: "300px 0px",
+        threshold: 0.01,
+      }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   return (
     <section
+      ref={sectionRef}
       className="pt-6 pb-12 bg-gradient-to-br from-background to-secondary/5"
     >
       <div className="max-w-7xl mx-auto px-6 pb-8">
@@ -31,7 +52,7 @@ export function TestimonialsSection() {
 
         {/* Elfsight Google Reviews | CELESTE ABODE */}
         <div className="pb-8">
-          {mounted && (
+          {shouldRenderWidget ? (
             <>
               <script src="https://elfsightcdn.com/platform.js" async></script>
               <div
@@ -39,6 +60,9 @@ export function TestimonialsSection() {
                 data-elfsight-app-lazy
               />
             </>
+          ) : (
+            // Keep layout stable until Elfsight loads (no custom loader animations).
+            <div className="min-h-[320px]" />
           )}
         </div>
       </div>

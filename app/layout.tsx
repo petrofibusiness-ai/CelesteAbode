@@ -130,10 +130,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* Preconnect only. Skip fonts.googleapis.com / fonts.gstatic.com — next/font (Inter, Poppins) adds them. */}
-        <link rel="preconnect" href="https://elfsightcdn.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://www.celesteabode.com" />
+        {/* Keep connection hints minimal to avoid unused-preconnect overhead. */}
         
         {/* Preload critical LCP image - highest priority - earliest possible - Mobile optimized */}
         <link rel="preload" href="/propertyhero.avif" as="image" type="image/avif" fetchPriority="high" />

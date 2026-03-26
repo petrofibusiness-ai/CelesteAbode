@@ -304,6 +304,25 @@
 172. **Who We Serve content polish:** `components/who-we-serve.tsx` copy refined for sentence clarity and flow without changing H2/H3, section meaning, or card structure.
 173. **Why Choose section polish:** `components/why-clients-trust-section.tsx` micro-edits improved readability and reduced repetitive phrasing without changing headings, tone, or message.
 174. **Spam check pass:** Verified no “near me” terms remain in homepage SEO blocks, homepage FAQs, and homepage audience/trust cards after cleanup.
+175. **Instagram embeds expanded:** `components/instagram-embeds-section.tsx` upgraded from 3 embeds to a 10-item Instagram feed with updated permalink set; uses a single carousel flow for homepage display.
+176. **Instagram desktop behavior:** Carousel now shows 3 cards at once on large screens (`lg:basis-1/3`) and slides through the full list while preserving existing card styling.
+177. **Instagram mobile behavior:** Mobile cards widened by removing small-screen width clamps and restoring arrows without consuming layout width (controls positioned as overlay).
+178. **Instagram stability fixes:** Improved embed rendering reliability via `instgrm.Embeds.process()` re-processing + carousel re-init hooks; switched list keys to index+url to prevent duplicate-key runtime warnings when repeated URLs are intentionally used.
+179. **Instagram feed order updates:** Multiple client-requested reorder/replacement passes completed; current list order and duplicates now match the final approved sequence in `POSTS`.
+180. **Blog copy correction:** In `app/blog/[slug]/sobha-rivana-greater-noida-west-content.tsx`, changed “Rivana is a large residential project...” to “Rivana is a premium residential project...”.
+181. **Homepage SEO heading hierarchy repair:** In `components/homepage-about-panel-body.tsx`, restored semantic structure to **main section headings as H2** and **nested item headings as H3**; removed unintended H4 usage.
+182. **Homepage SEO heading visual differentiation:** Increased main H2 size (`text-xl md:text-2xl`) so primary section headings are clearly distinguishable from H3 sub-headings.
+183. **Homepage testimonials widget rebuild:** Replaced prior Google Reviews implementation in `components/testimonials-section.tsx` with a clean Elfsight embed-only version (removed custom observer/init/retry/error/loading animation logic).
+184. **Elfsight hydration fix:** Prevented homepage hydration mismatch by rendering the Elfsight script/container only after client mount in `TestimonialsSection`, so SSR HTML stays stable before widget DOM mutation.
+185. **Hero CTA update:** In `components/hero-section.tsx`, secondary CTA changed to **“Book a Free Consultation”** and now routes to `/request-a-free-consultation` (previously `/contact`/advisory flow labels).
+186. **Hero CTA width parity:** Matched both homepage hero pills to identical fixed width on all breakpoints (`min-w-[220px]`) and added `whitespace-nowrap` so mobile and desktop widths remain consistent.
+187. **Services sticky CTA redirect:** On `/real-estate-consulting-services`, right-side sticky “Schedule a Consultation” action now links to `/request-a-free-consultation` instead of opening consultation modal.
+188. **Consultation route migration:** Added new page route `/request-a-free-consultation` with full metadata/layout and replaced page copy CTA label to **“Request a Free Consultation”**.
+189. **Advisory route removal:** Deleted old frontend route files `app/advisory-session/page.tsx` and `app/advisory-session/layout.tsx` and removed the empty folder; old advisory page URL no longer serves a page component.
+190. **Internal link migration:** Updated key internal references from `/advisory-session` to `/request-a-free-consultation` across homepage hero, services sticky CTA, advisory philosophy CTA, and selected SEO/blog internal links.
+191. **Consultation metadata refresh:** Updated consultation page metadata title/description + OG/Twitter values in `app/request-a-free-consultation/layout.tsx` for stronger SEO intent and clearer Delhi NCR targeting.
+192. **Sitemap update:** Replaced advisory session URL with `/request-a-free-consultation` in both generated sitemap source (`app/sitemap.ts`) and static `sitemap.txt`.
+193. **Instagram arrow layering fix:** In `components/instagram-embeds-section.tsx`, reduced carousel arrow z-index (`z-50` → `z-10`) to stop arrows overlapping the fixed header during upward scroll.
 
 ---
 

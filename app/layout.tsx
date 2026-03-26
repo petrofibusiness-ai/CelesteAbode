@@ -102,15 +102,15 @@ export const metadata: Metadata = {
     "ICBM": "28.6076655, 77.4354885",
   },
   icons: {
-    // Keep a root /favicon.ico for crawlers (Google SERP often expects this).
+    // Use the latest favicon pack placed in /public.
     icon: [
       { url: "/favicon.ico", sizes: "any", type: "image/x-icon" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
     ],
     shortcut: "/favicon.ico",
-    apple: [{ url: "/favicon_celeste/apple-touch-icon.png", sizes: "180x180" }],
-    other: [{ rel: "manifest", url: "/favicon_celeste/site.webmanifest" }],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    other: [{ rel: "manifest", url: "/site.webmanifest" }],
   },
 };
 
@@ -227,7 +227,7 @@ export default function RootLayout({
         <meta name="msvalidate.01" content="B8F3AC31F09EF60F080EB603250077D8" />
         
         {/* Favicons: rendered by Next.js metadata.icons (single source of truth). */}
-        <meta name="msapplication-TileImage" content="/favicon_celeste/android-chrome-192x192.png" />
+        <meta name="msapplication-TileImage" content="/web-app-manifest-192x192.png" />
         <meta name="msapplication-TileColor" content="#000000" />
       </head>
       <body className={`${inter.variable} ${poppins.variable} antialiased`} suppressHydrationWarning>

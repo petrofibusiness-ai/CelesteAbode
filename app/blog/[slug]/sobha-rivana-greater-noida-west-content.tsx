@@ -141,9 +141,9 @@ const FAQ_ITEMS: { question: string; answer: string }[] = [
       "Launch conversations often start near ₹2.25 crore for select formats, before PLC, floor rise, parking, and taxes. Some buyers enter through an expression of interest with a token and KYC. We help you read the sheet in plain language.",
   },
   {
-    question: "How can Celeste Abode help if I am considering Rivana?",
+    question: "How can Celeste Abode help if I am considering Sobha Rivana?",
     answer:
-      "We are property consultants in Delhi NCR. We shortlist with you, compare Rivana with other luxury and mid-premium options in Noida and Greater Noida, coordinate site visits, and walk through paperwork and payment structure so you are not doing this alone.",
+      "We are property consultants in Delhi NCR. We shortlist with you, compare Sobha Rivana with other luxury and mid-premium options in Noida and Greater Noida, coordinate site visits, and walk through paperwork and payment structure so you are not doing this alone.",
   },
 ];
 
@@ -274,7 +274,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
           Project Overview
         </h2>
         <p className="text-gray-700 leading-relaxed mb-5">
-          Rivana is a premium residential project by Sobha in Sector 1, Greater Noida West, planned across a significant
+          Sobha Rivana is a premium residential project by Sobha in Sector 1, Greater Noida West, planned across a significant
           land parcel with multiple towers and a full set of lifestyle amenities. The development focuses on efficient
           layouts, open spaces, and a structured community setup suited for end users looking to upgrade within the micro
           market.
@@ -284,7 +284,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
       <section id="sobha-rivana-developer" className="scroll-mt-28 mb-14">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-5 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          Sobha Limited: The developer behind Rivana
+          Sobha Limited: The developer behind Sobha Rivana
         </h2>
         <p className="text-gray-700 leading-relaxed mb-5">
           Sobha Limited is a publicly listed real estate developer with over 25 years of experience. Founded in 1995, it
@@ -296,7 +296,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
           quality, clean finishes, and consistent delivery, making it a trusted name in the premium housing segment.
         </p>
         <p className="text-gray-700 leading-relaxed">
-          When you work with Celeste Abode, we place Rivana next to other credible names on our{" "}
+          When you work with Celeste Abode, we place Sobha Rivana next to other credible names on our{" "}
           <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
             properties in Greater Noida
           </Link>{" "}
@@ -316,7 +316,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
           UP RERA registration
         </h2>
         <p className="text-gray-700 leading-relaxed mb-5">
-          Rivana is registered on UP RERA as <strong>{SOBHA_RIVANA_RERA_FULL}</strong>, with a listing date of{" "}
+          Sobha Rivana is registered on UP RERA as <strong>{SOBHA_RIVANA_RERA_FULL}</strong>, with a listing date of{" "}
           <strong>20 March 2026</strong>. That is one anchor among many. We still read location, product, and price with
           you as a whole picture, the way we do for every serious buyer in NCR.
         </p>
@@ -369,7 +369,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
           Floor plans and unit mix: 2 BHK, 3 BHK, 4 BHK
         </h2>
         <p className="text-gray-700 leading-relaxed mb-5">
-          Rivana is pitched as a full-size Sobha offering in NCR: two-, three-, and four-bedroom apartments with generous
+          Sobha Rivana is pitched as a full-size Sobha offering in NCR: two-, three-, and four-bedroom apartments with generous
           room sizes by local standards. Early market notes often mention bands near 1,300 sq ft for two-bedroom homes,
           about 1,600 to 1,850 sq ft for three-bedroom plans, and about 2,200 to 2,500 sq ft for four-bedroom plans. Exact
           numbers change by
@@ -398,7 +398,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
           Amenities at a glance
         </h2>
         <p className="text-gray-700 leading-relaxed mb-2 text-sm md:text-base">
-          The marketing story for Rivana includes a large clubhouse, river-themed landscaping, sports and wellness spaces,
+          The marketing story for Sobha Rivana includes a large clubhouse, river-themed landscaping, sports and wellness spaces,
           and layered security. That matches how Sobha typically positions its premium communities. When you visit with
           us, we focus on what matters to your family: open space, everyday convenience, and how the maintenance load will
           feel after you move in.
@@ -430,7 +430,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
         <ul className="list-disc pl-5 space-y-2 text-gray-700 leading-relaxed mb-6">
           <li>We recommend a written cost sheet for the exact tower, floor, and unit you prefer.</li>
           <li>Payment slabs should line up with construction progress and your comfort on cash flow.</li>
-          <li>If you want a neutral read on how Rivana compares with other premium options, start with{" "}
+          <li>If you want a neutral read on how Sobha Rivana compares with other premium options, start with{" "}
             <Link href="/real-estate-consulting-services" className="text-[#CBB27A] font-semibold hover:underline">
               our consulting services
             </Link>
@@ -463,7 +463,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
           Talk to Celeste Abode about Sobha Rivana
         </h2>
         <p className="text-gray-600 max-w-lg mx-auto mb-6 text-sm md:text-base leading-relaxed">
-          Share what you are looking for: budget, configuration, and whether Rivana is one of several names on your list.
+          Share what you are looking for: budget, configuration, and whether Sobha Rivana is one of several names on your list.
           We respond as your property consultant in Delhi NCR, with clear next steps and no pressure.
         </p>
         <Link

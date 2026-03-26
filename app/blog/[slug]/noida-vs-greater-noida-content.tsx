@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Scale } from "lucide-react";
 
 export function NoidaVsGreaterNoidaContent() {
@@ -15,27 +16,27 @@ export function NoidaVsGreaterNoidaContent() {
         <ol className="space-y-3 text-sm text-gray-700">
           <li>
             <a href="#why-compare" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              1. Why Noida vs Greater Noida matters in 2026
+              1. Why this comparison matters in 2026
             </a>
           </li>
           <li>
             <a href="#prices" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              2. Property prices: Noida vs Greater Noida
+              2. Price reality in Noida and Greater Noida
             </a>
           </li>
           <li>
             <a href="#connectivity" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              3. Connectivity and infrastructure
+              3. Connectivity, infra, and daily livability
             </a>
           </li>
           <li>
             <a href="#who-for-whom" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              4. Who should choose Noida, who Greater Noida
+              4. Who should pick Noida, who should pick Greater Noida
             </a>
           </li>
           <li>
             <a href="#how-to-decide" className="hover:text-[#CBB27A] transition-colors block py-0.5">
-              5. How to decide and where to look
+              5. How to shortlist without confusion
             </a>
           </li>
         </ol>
@@ -43,22 +44,45 @@ export function NoidaVsGreaterNoidaContent() {
 
       {/* Lead */}
       <p className="text-xl md:text-2xl text-gray-700 leading-relaxed mb-12 border-l-4 border-[#CBB27A] pl-6">
-Noida vs Greater Noida is one of the most common questions we hear from buyers and investors in Delhi NCR. Both sit in the same broad belt, share the Jewar airport and metro story, but differ sharply on price, maturity, and risk. In 2026, Noida offers stronger connectivity and a more developed market; Greater Noida offers lower entry prices and a larger share of new supply. There is no single &quot;better&quot; choice, only the right fit for your budget, timeline, and goals. Here is a clear, evidence-based Noida vs Greater Noida investment analysis so you can decide with confidence.
+        If you are comparing property in Noida and property in Greater Noida, you are asking the right question. In
+        2026, both markets are active, both have serious launches, and both can work for end use or investment. The
+        better location depends on your budget, commute, hold period, and risk comfort. This guide is written to help
+        you decide with clarity, not pressure.
       </p>
 
       {/* Section 1 */}
       <section id="why-compare" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          1. Why Noida vs Greater Noida matters in 2026
+          1. Why this comparison matters in 2026
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-Noida and Greater Noida are separate planning areas under different authorities (Noida Authority and Greater Noida Authority), but they sit next to each other and share mega infrastructure: the Noida International Airport at Jewar, the Yamuna Expressway, and metro extensions. That shared story often blurs the line in buyers&apos; minds. In reality, Noida is more mature, with higher prices and better-established connectivity; Greater Noida is still expanding, with more affordable prices and a larger pipeline of new projects.
+            People often mix these two markets into one story. On ground, they behave differently. Noida is more mature,
+            with better established sectors, stronger office micro markets, and faster rental absorption. Greater Noida
+            and property in Greater Noida West offer larger inventory, more room for planned growth, and better space
+            value at many price points.
           </p>
           <p>
-            Comparing them head to head helps you match your budget and horizon to the right market. If you need a ready-to-move option with strong metro access and rental demand, <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">properties in Noida</Link> may fit better. If you are okay with a 3–5 year horizon and want more square footage for your budget, <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">Greater Noida properties</Link> often make more sense. For a broader view of NCR corridors, see our take on the <Link href="/blog/yamuna-expressway-growth-corridor-delhi-ncr" className="text-[#CBB27A] font-semibold hover:underline">Yamuna Expressway growth corridor</Link> and our <Link href="/properties" className="text-[#CBB27A] font-semibold hover:underline">curated properties</Link> across Noida and Greater Noida.
+            For buyers, this is exactly where a reliable real estate company in Noida or a consultant team that works
+            across both cities adds value. At Celeste Abode, we compare live options side by side so you can choose
+            based on fit, not market noise. You can start by reviewing{" "}
+            <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
+              property in Noida
+            </Link>{" "}
+            and then move to Greater Noida options once your budget band is clear.
           </p>
+        </div>
+        <div className="relative w-full mt-6 rounded-2xl overflow-hidden bg-gray-100 border border-gray-200">
+          <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
+            <Image
+              src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/Elevation-Evening-View.webp"
+              alt="Premium residential towers in Greater Noida West representing current 2026 housing demand"
+              fill
+              className="object-cover object-center"
+              sizes="100vw"
+            />
+          </div>
         </div>
       </section>
 
@@ -66,19 +90,23 @@ Noida and Greater Noida are separate planning areas under different authorities 
       <section id="prices" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          2. Property prices: Noida vs Greater Noida
+          2. Price reality in Noida and Greater Noida
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-Greater Noida is typically more affordable than Noida on a per-sq-ft basis. Prices in Greater Noida have risen sharply over the past few years but still sit below established Noida sectors. That gap reflects maturity: Noida has better metro coverage, more developed social infrastructure, and a stronger rental market, so it commands a premium.
+            In most comparisons, property for sale in Greater Noida starts at a lower entry point than similar
+            configurations in Noida. This is why families upgrading from compact homes often shortlist property in Greater
+            Noida West first. You usually get more area and sometimes better lifestyle amenities within the same budget.
           </p>
           <p>
-            For property investment, the implication is clear. If your budget is fixed, Greater Noida often gives you more area or a better unit configuration. If you prioritise liquidity and rental yield in the near term, Noida&apos;s established sectors can be safer. Always factor in all-in cost: stamp duty, registration, GST, and maintenance. Our <Link href="/real-estate-insights" className="text-[#CBB27A] font-semibold hover:underline">Vault</Link> explains key real estate terms, and our <Link href="/blog/is-noida-safe-to-buy-property-2026" className="text-[#CBB27A] font-semibold hover:underline">Noida safety guide</Link> covers how to buy with confidence in this belt.
+            Noida still carries a premium in many established sectors because demand is deeper for ready connectivity and
+            near-term rental potential. If your goal is faster liquidity, Noida can be stronger. If your goal is better
+            value per square foot and patient capital appreciation, Greater Noida can be compelling in 2026.
           </p>
           <ul className="mt-6 space-y-3 pl-6 border-l-2 border-[#CBB27A]/30">
-            <li>Greater Noida: lower per-sq-ft price, more new supply, value for budget</li>
-            <li>Noida: higher price, stronger connectivity and rental demand</li>
-            <li>Holding period of 3–5 years often aligns well with infrastructure rollout in both</li>
+            <li>Noida usually gives stronger rental depth and faster resale movement</li>
+            <li>Greater Noida usually gives better unit size and lower entry ticket</li>
+            <li>A 3 to 5 year horizon works best if you are buying in emerging sectors</li>
           </ul>
         </div>
       </section>
@@ -87,15 +115,32 @@ Greater Noida is typically more affordable than Noida on a per-sq-ft basis. Pric
       <section id="connectivity" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          3. Connectivity and infrastructure
+          3. Connectivity, infra, and daily livability
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-            Both Noida and Greater Noida benefit from the same mega projects: the Noida International Airport at Jewar, the Yamuna Expressway, and the Aqua Line metro extension (with stations in both Noida and Greater Noida). Where they differ is how much of that is already on the ground. Noida has more metro stations in operation, better road connectivity to Delhi and Noida Expressway, and more developed commercial and social infrastructure. Greater Noida is catching up: new metro stations, expressway links, and the airport will shrink the gap over the next few years.
+            Both cities benefit from the same large regional drivers, especially airport-led momentum and corridor
+            infrastructure. The difference is execution stage. Noida has more operating nodes today. Greater Noida is
+            still improving lane by lane and sector by sector, and many pockets are already much better than they were
+            two years ago.
           </p>
           <p>
-            When you compare Noida vs Greater Noida, look at the exact sector: distance from metro, access to the expressway, and proximity to the airport corridor. Sectors that are already well connected tend to be less risky and more liquid; emerging sectors in Greater Noida can offer higher upside but need a longer horizon. For options along the western growth axis, explore <Link href="/properties-in-yamuna-expressway" className="text-[#CBB27A] font-semibold hover:underline">Yamuna Expressway properties</Link> as well, since they form part of the same story.
+            Practical rule for buyers. Check metro distance, road approach quality, and office or school travel time at
+            your actual commute hour. On paper, many addresses look similar. On weekdays, the difference is obvious.
+            This is where experienced property consultants in Noida and real estate consultants in Noida who also track
+            Greater Noida can save you from expensive location mistakes.
           </p>
+        </div>
+        <div className="relative w-full mt-6 rounded-2xl overflow-hidden bg-gray-100 border border-gray-200">
+          <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
+            <Image
+              src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/smart-world-es-residencies/smart-world-es-residencies_hero.jpeg"
+              alt="Smart World luxury residences in Noida region used for premium market comparison"
+              fill
+              className="object-cover object-center"
+              sizes="100vw"
+            />
+          </div>
         </div>
       </section>
 
@@ -103,30 +148,63 @@ Greater Noida is typically more affordable than Noida on a per-sq-ft basis. Pric
       <section id="who-for-whom" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          4. Who should choose Noida, who Greater Noida
+          4. Who should pick Noida, who should pick Greater Noida
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-Noida tends to suit buyers who want ready or near-ready connectivity, a stronger rental market, and are okay paying a premium for it. End-users who need to commute daily to Delhi or Noida offices, and investors who want quicker liquidity and rental income, often lean toward Noida. Established sectors along the Noida Expressway and near metro stations are the usual picks.
+            Choose Noida if you want a ready market. Daily life is easier here for many buyers because roads, offices,
+            schools, and retail are already better established. Noida also suits people who want stronger rental demand
+            and quicker resale movement.
           </p>
           <p>
-Greater Noida tends to suit buyers who have a 3–5 year horizon, want more space or a better configuration for the same budget, and are comfortable with infrastructure that is still rolling out. First-time buyers, investors looking for capital appreciation, and those betting on the airport and metro story often find Greater Noida attractive. Greater Noida also accounts for a large share of NCR&apos;s new residential supply, so you get more project choices and often better pricing if you do your homework and stick to RERA-registered projects.
+            Choose Greater Noida if you want more space for the same budget. It is also a good fit if you are okay with
+            a longer hold and want a newer community setup. Many first-time premium buyers and upgraders prefer property
+            in Greater Noida West because inventory choice is wider.
+          </p>
+          <p>
+            If you are searching for the best real estate company in Noida or the best property consultant in Greater
+            Noida, Celeste Abode can help you decide with clarity. We compare both markets in simple terms and build a
+            practical shortlist based on your budget, timeline, and goals.
           </p>
         </div>
       </section>
+
+      <div className="relative w-full mt-6 mb-8 rounded-2xl overflow-hidden bg-gray-100 border border-gray-200">
+        <div className="relative w-full" style={{ aspectRatio: "16/9" }}>
+          <Image
+            src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/jacob-and-co/jacob-and-co_hero.webp"
+            alt="Premium branded residential tower image representing upscale NCR property options"
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+        </div>
+      </div>
 
       {/* Section 5 */}
       <section id="how-to-decide" className="scroll-mt-24 mb-16">
         <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          5. How to decide and where to look
+          5. How to shortlist without confusion
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-            Start with your budget, timeline, and purpose (self-use vs investment). Then shortlist a few sectors in both Noida and Greater Noida. Compare exact locations (metro distance, expressway access), developer track record, and RERA status. Prefer projects that are either ready or have a clear, near-term completion timeline. Avoid choosing on price alone; factor in connectivity, delivery risk, and liquidity.
+            Start with three inputs only. Total budget, move-in timeline, and use case. Then shortlist three projects each
+            in Noida and Greater Noida. Compare unit efficiency, all-in cost, legal clarity, and travel practicality.
+            This method removes emotional bias very quickly.
           </p>
           <p>
-            Working with a real estate advisor who knows both markets can help you compare like-for-like and avoid costly mistakes. Our <Link href="/real-estate-consulting-services" className="text-[#CBB27A] font-semibold hover:underline">real estate consulting services</Link> include project evaluation and due diligence for Noida and Greater Noida. You can browse <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">Noida properties</Link> and <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">Greater Noida properties</Link> on our site, and <Link href="/contact" className="text-[#CBB27A] font-semibold hover:underline">contact us</Link> for a structured comparison or site visit. For how we approach selection and client interests, read our <Link href="/advisory-philosophy" className="text-[#CBB27A] font-semibold hover:underline">advisory philosophy</Link>.
+            Celeste Abode works as your strategic real estate advisor, not a pressure channel. If you are evaluating property in
+            Noida, property for sale in Greater Noida, or both, our team can structure visits, compare payment plans,
+            and flag risk points in plain language. You can start with{" "}
+            <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
+              property in Noida
+            </Link>
+            . If your requirement is more space and newer communities, review{" "}
+            <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
+              property in Greater Noida
+            </Link>
+            .
           </p>
         </div>
       </section>
@@ -138,14 +216,30 @@ Greater Noida tends to suit buyers who have a 3–5 year horizon, want more spac
           <h3 className="text-lg font-bold font-poppins">Key takeaway</h3>
         </div>
         <p className="text-white/90 leading-relaxed font-poppins">
-Noida vs Greater Noida is not about one being better than the other. Noida offers maturity, connectivity, and liquidity at a higher price; Greater Noida offers affordability and growth potential with a longer horizon. Match your budget, timeline, and goals to the right market, stick to RERA-registered projects, and you can invest in either with confidence.
+          Noida is stronger for maturity and immediate convenience. Greater Noida is stronger for value and room to
+          upgrade. The right decision is personal. If you want a serious, no friction comparison with real data and site
+          level inputs, we will help you choose with confidence.
         </p>
       </div>
 
-      {/* Closing with CTA */}
-      <p className="text-lg text-gray-700 leading-relaxed mb-6">
-        At Celeste Abode, we help buyers and investors compare Noida and Greater Noida and choose the right project. For handpicked <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">Noida properties</Link> and <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">Greater Noida properties</Link>, or a confidential discussion about your budget and goals, <Link href="/contact" className="text-[#CBB27A] font-semibold hover:underline">contact us</Link>.
-      </p>
+      <section
+        className="mt-14 mb-6 md:mb-8 rounded-2xl bg-gradient-to-br from-[#CBB27A]/12 via-background to-background border border-[#CBB27A]/25 p-8 md:p-10 text-center"
+        aria-label="Call to action"
+      >
+        <h2 className="text-xl md:text-2xl font-bold text-foreground mb-3 font-poppins">
+          Let Celeste Abode help you choose between Noida and Greater Noida
+        </h2>
+        <p className="text-gray-600 max-w-xl mx-auto mb-6 text-sm md:text-base leading-relaxed">
+          Share your budget, timeline, and preference. Our real estate consultants will prepare a focused shortlist with
+          clear trade-offs so you can move ahead with confidence and zero pressure.
+        </p>
+        <Link
+          href="/request-a-free-consultation"
+          className="inline-flex items-center justify-center rounded-lg bg-[#CBB27A] text-[#0f1112] font-semibold px-8 py-3.5 text-sm md:text-base hover:bg-[#b9a56f] transition-colors"
+        >
+          Book a free consultation
+        </Link>
+      </section>
     </div>
   );
 }

@@ -103,6 +103,7 @@ export const blogPosts: BlogPost[] = [
     image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/forest-walk-villa_hero.avif",
     featured: true,
     views: "760",
+    heroFullscreen: true,
     metaTitle: "Forest Walk Villa Ghaziabad | Luxury 4BHK Villa Living on NH-24",
     metaDescription: "Explore Forest Walk Villa in Ghaziabad, a luxury 4BHK villa township on NH-24 with premium amenities and green living. Discover pricing and connect with property experts today.",
     ogImage: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/forest-walk-villa_hero.avif",
@@ -120,6 +121,7 @@ export const blogPosts: BlogPost[] = [
     image: "/hero-.avif",
     featured: true,
     views: "0",
+    heroFullscreen: true,
     metaTitle: "Upcoming Luxury Projects in Noida & Greater Noida (2026) | Celeste Abode",
     metaDescription:
       "Explore upcoming luxury real estate projects in Noida and Greater Noida, compare key micro‑markets, and see how premium launches stack up for 2026.",

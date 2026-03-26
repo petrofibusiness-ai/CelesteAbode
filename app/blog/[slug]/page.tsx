@@ -201,7 +201,8 @@ export default async function BlogPostPage({
   const isSobhaRivana = slug === "sobha-rivana-sector-1-greater-noida-west";
   const isNoidaVsGreaterNoida = slug === "noida-vs-greater-noida-investment-2026";
   const isUpcomingLuxury = slug === "upcoming-luxury-projects-noida-greater-noida-2026";
-  const usePremiumHero = isSobhaRivana || isNoidaVsGreaterNoida || isUpcomingLuxury;
+  const isForestWalk = slug === "forest-walk-villa-ghaziabad-luxury-living-2026";
+  const usePremiumHero = true;
   const heroTitle = isSobhaRivana ? "Sobha Rivana, Greater Noida West" : post.title;
   const heroEyebrow = isSobhaRivana
     ? "Project Spotlight | Sector 1, Greater Noida West"
@@ -209,9 +210,13 @@ export default async function BlogPostPage({
       ? "Market Comparison | Delhi NCR 2026"
       : isUpcomingLuxury
         ? "Luxury Watchlist | Noida and Greater Noida 2026"
+      : isForestWalk
+        ? "Project Spotlight | NH-24 Ghaziabad"
       : post.category;
   const heroSubtext = isSobhaRivana
     ? "RERA details, pricing, floor plans, and location insights. Everything you need to evaluate before you decide."
+    : isForestWalk
+      ? "Discover Why buyers are shifting to Forest Walk Villa on NH-24 and what makes this project stand out in 2026."
     : post.excerpt;
 
   const breadcrumbItems = [
@@ -242,21 +247,13 @@ export default async function BlogPostPage({
           {/* Hero – image starts from top (behind fixed header) */}
           <header className="relative bg-[#0f1112]" data-site-hero>
             <div
-              className={
-                post.heroFullscreen
-                  ? "relative min-h-screen min-h-[100svh]"
-                  : "relative h-[75vh] min-h-[480px] max-h-[840px]"
-              }
+              className="relative min-h-screen min-h-[100svh]"
             >
               <Image
                 src={post.image}
                 alt={post.ogImageAlt || post.title}
                 fill
-                className={
-                  post.slug === "sobha-rivana-sector-1-greater-noida-west"
-                    ? "object-cover object-center"
-                    : "object-cover object-bottom"
-                }
+                className="object-cover object-center"
                 priority
                 sizes="100vw"
                 unoptimized={post.image.startsWith("http")}
@@ -264,7 +261,7 @@ export default async function BlogPostPage({
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/40" />
               {/* Hero content overlay on image */}
               <div className="absolute inset-0 flex items-end">
-                <div className="max-w-[95%] xl:max-w-[1800px] mx-auto w-full px-3 pb-8 pt-6 sm:px-4 sm:pb-12 sm:pt-10 md:pb-16 md:pt-12">
+                <div className="max-w-[95%] xl:max-w-[1800px] mx-auto w-full px-3 pb-14 pt-6 sm:px-4 sm:pb-12 sm:pt-10 md:pb-16 md:pt-12">
                   <div
                     className={
                       usePremiumHero

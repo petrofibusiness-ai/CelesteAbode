@@ -1,5 +1,13 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ShieldCheck } from "lucide-react";
+
+const NOIDA_VISUAL_1 =
+  "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/noida_vs_greater_noida.png";
+const NOIDA_VISUAL_2 =
+  "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/jacob-and-co/jacob-and-co_hero.webp";
+const NOIDA_VISUAL_3 =
+  "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/eternia-residences/eternia-residences_hero.avif";
 
 export function NoidaSafe2026Content() {
   return (
@@ -43,7 +51,8 @@ export function NoidaSafe2026Content() {
 
       {/* Lead */}
       <p className="text-xl md:text-2xl text-gray-700 leading-relaxed mb-12 border-l-4 border-[#CBB27A] pl-6">
-        If you are asking whether Noida is still a safe place to buy property in 2026, you are not alone. Prices have moved, infrastructure has expanded, and the city has cemented its place as one of NCR&apos;s most talked-about markets. The short answer: yes, Noida can be a safe and rewarding place to buy in 2026, provided you focus on the right locations, stick to RERA-registered projects, and do your homework. Here is a clear, evidence-based look at why that is, and how to invest with confidence.
+        Is investing in property in Noida a smart choice in 2026? In most cases, yes. But only if your location, project,
+        and paperwork checks are right. This guide keeps things simple and practical for NCR buyers.
       </p>
 
       {/* Section 1 */}
@@ -54,10 +63,13 @@ export function NoidaSafe2026Content() {
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-            A few years ago, Noida was often in the news for delayed projects and buyer grievances. Today, the narrative has shifted. Stronger regulation, completed infrastructure, and a more disciplined market have changed how investors and end-users view property in Noida. When we say &quot;safe,&quot; we mean two things: legal and title safety (your money and ownership are protected) and market safety (the location and project have real demand and growth potential). Both matter for a sound real estate investment in Noida.
+            The word safe has two parts in real estate. Legal safety and market safety. Legal safety means documents,
+            title flow, and RERA status are clean. Market safety means people actually want to live or rent there, so
+            demand stays real.
           </p>
           <p>
-            In 2026, buyers are not just asking &quot;is it safe?&quot; but &quot;where in Noida is it safest, and what should I check?&quot; That mindset is exactly right. Exploring <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">properties in Noida</Link> with a focus on RERA compliance, connectivity, and builder track record puts you in a much stronger position than buying on impulse or on price alone.
+            In 2026, serious buyers ask better questions. Which sectors are liquid? Which builders have delivery records?
+            Which projects are RERA-registered and easy to exit later? That approach is what keeps your decision strong.
           </p>
         </div>
       </section>
@@ -70,13 +82,37 @@ export function NoidaSafe2026Content() {
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-            Recent data paints a clear picture. In 2025, Noida saw buyer demand rise and property prices move up quarter on quarter, with strong year-on-year growth. Mid-sized apartments and 3 BHK configurations continued to drive a large share of demand, reflecting real end-user and investor interest rather than speculation alone. That does not mean every pocket of Noida is equally safe or equally rewarding; it means the overall market has momentum and that well-chosen residential projects in Noida can still offer both safety and upside.
+            Noida continues to see active demand in 2026, especially in sectors with stronger connectivity and better
+            social infrastructure. Most buyer action remains in practical end-user formats, especially 2 and 3 BHK
+            inventory. This is a healthy signal because demand is usage-led, not only speculative.
           </p>
           <p>
-            Areas with metro connectivity and those near key expressways have typically seen better price stability and faster appreciation. So when you think &quot;is Noida safe to buy in 2026?&quot;, part of the answer lies in <em>which</em> Noida: sectors and corridors with proven demand and upcoming or existing infrastructure tend to be safer bets. If you are open to neighbouring growth corridors, <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">Greater Noida properties</Link> and <Link href="/properties-in-yamuna-expressway" className="text-[#CBB27A] font-semibold hover:underline">Yamuna Expressway projects</Link> also form part of the same story: planned development, RERA oversight, and improving connectivity.
+            The key is not only Noida vs non-Noida. It is sector quality within Noida. If you want broader comparison,
+            review{" "}
+            <Link href="/blog/noida-vs-greater-noida-investment-2026" className="text-[#CBB27A] font-semibold hover:underline">
+              Noida vs Greater Noida
+            </Link>{" "}
+            and then compare with live{" "}
+            <Link href="/flats-for-sale-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
+              flats for sale in Noida
+            </Link>
+            .
           </p>
         </div>
       </section>
+
+      <div className="my-8 rounded-2xl overflow-hidden border border-gray-100 shadow-lg">
+        <div className="relative aspect-[16/9] w-full">
+          <Image
+            src={NOIDA_VISUAL_1}
+            alt="Noida and Greater Noida skyline comparison for 2026 property investment"
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 896px"
+            unoptimized={NOIDA_VISUAL_1.includes("r2.dev")}
+          />
+        </div>
+      </div>
 
       {/* Section 3 */}
       <section id="infrastructure-safety" className="scroll-mt-24 mb-16">
@@ -86,19 +122,34 @@ export function NoidaSafe2026Content() {
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-Infrastructure directly affects both liveability and resale value. Noida&apos;s metro network has expanded, and the Noida International Airport at Jewar has brought a long-term catalyst for the entire western NCR belt. Proximity to metro stations and major roads has consistently correlated with better price performance and rental demand. So from a &quot;safe to buy&quot; lens, favour locations that are already well connected or have committed, visible infrastructure in the pipeline.
+            Infrastructure drives both comfort and resale. Metro access, expressway links, and office catchments matter
+            more than brochure promises. Sectors with better access usually see stronger rental pull and better liquidity.
           </p>
           <p>
-            On the legal side, RERA has been a game-changer. Projects registered with UP RERA must comply with disclosure norms, use of escrow accounts, and delivery timelines. Buying in a RERA-registered project significantly reduces the risk of fund diversion and indefinite delays. Always verify registration on the official UP RERA portal and cross-check project details (carpet area, possession date, and payment schedule) before you sign. For a deeper understanding of how RERA protects you, our <Link href="/real-estate-insights" className="text-[#CBB27A] font-semibold hover:underline">Vault</Link> covers key real estate and legal concepts in simple terms.
+            On the legal side, use one non-negotiable filter. UP RERA registration. Verify project status, possession
+            disclosures, and payment structure before booking. This one step reduces risk sharply for most buyers.
           </p>
           <ul className="mt-6 space-y-3 pl-6 border-l-2 border-[#CBB27A]/30">
-            <li>Stick to RERA-registered projects and verify status on the UP RERA portal</li>
-            <li>Prefer projects near metro or major expressways for demand and liquidity</li>
-            <li>Check builder delivery track record and existing buyer feedback</li>
-            <li>Budget for all-in cost: stamp duty, registration, GST, and maintenance</li>
+            <li>Use only RERA-registered projects and verify details before token payment</li>
+            <li>Prefer sectors with metro or expressway strength for resale and rental safety</li>
+            <li>Check builder handover record for the last few delivered projects</li>
+            <li>Plan all-in budget, not just BSP: taxes, registration, and maintenance matter</li>
           </ul>
         </div>
       </section>
+
+      <div className="my-8 rounded-2xl overflow-hidden border border-gray-100 shadow-lg">
+        <div className="relative aspect-[16/9] w-full">
+          <Image
+            src={NOIDA_VISUAL_2}
+            alt="Premium branded residential tower visual for Noida region demand context"
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 896px"
+            unoptimized={NOIDA_VISUAL_2.includes("r2.dev")}
+          />
+        </div>
+      </div>
 
       {/* Section 4 */}
       <section id="where-to-buy-safely" className="scroll-mt-24 mb-16">
@@ -108,13 +159,36 @@ Infrastructure directly affects both liveability and resale value. Noida&apos;s 
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-            &quot;Is Noida safe to buy property in 2026?&quot; is best answered at the micro-market level. Established sectors with metro access, reputed developers, and a mix of residential and commercial activity tend to be safer and more liquid. Noida Extension and Greater Noida West have seen sustained interest because of affordability, connectivity, and a pipeline of completed and ongoing residential projects. The idea is not to chase the cheapest option, but to find a project that balances legal safety, location, and builder credibility.
+            The safest decisions usually come from stronger micro-markets, not random discount-led launches. Established
+            Noida sectors with transport depth and active end-user demand are usually easier to hold and exit.
           </p>
           <p>
-            Browsing a curated set of options helps. At Celeste Abode, we focus on handpicked <Link href="/properties" className="text-[#CBB27A] font-semibold hover:underline">residential and investment properties</Link> across Noida, Greater Noida, and the Yamuna Expressway, so you can compare projects that meet our baseline on RERA, documentation, and delivery. That does not replace your own due diligence, but it narrows the field to options worth serious consideration.
+            If you are comparing options across corridors, start with{" "}
+            <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
+              property in Noida
+            </Link>{" "}
+            first, then match it with{" "}
+            <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
+              property in Greater Noida
+            </Link>{" "}
+            for value checks. For buyers who prefer guided filtering, Celeste Abode works as a real estate company in
+            Noida with consultant-led shortlisting.
           </p>
         </div>
       </section>
+
+      <div className="my-8 rounded-2xl overflow-hidden border border-gray-100 shadow-lg">
+        <div className="relative aspect-[16/9] w-full">
+          <Image
+            src={NOIDA_VISUAL_3}
+            alt="Premium residential project visual from Greater Noida for corridor comparison"
+            fill
+            className="object-cover"
+            sizes="(max-width: 1024px) 100vw, 896px"
+            unoptimized={NOIDA_VISUAL_3.includes("r2.dev")}
+          />
+        </div>
+      </div>
 
       {/* Section 5 */}
       <section id="practical-steps" className="scroll-mt-24 mb-16">
@@ -124,10 +198,20 @@ Infrastructure directly affects both liveability and resale value. Noida&apos;s 
         </h2>
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
-            Before you decide that Noida is safe for you to buy in 2026, run through a short checklist. (1) Confirm RERA registration and match the portal details with the builder&apos;s brochure and agreement. (2) Visit the site and the surrounding area to assess connectivity and future development. (3) Read the builder-buyer agreement carefully, especially clauses on possession date, delay penalties, and dispute resolution. (4) Prefer payment linked to construction milestones rather than heavy upfront payments. (5) Keep all communications, receipts, and documents in one place.
+            Before you invest, run a short checklist. Confirm RERA details. Visit the site at real commute hours. Read
+            the agreement and payment milestones. Check maintenance assumptions. Keep all written communication on record.
           </p>
           <p>
-            Working with a real estate advisor who understands Noida and Greater Noida can help you verify projects, compare options, and navigate documentation. Our <Link href="/real-estate-consulting-services" className="text-[#CBB27A] font-semibold hover:underline">real estate consulting services</Link> include project evaluation, RERA verification, and end-to-end support so you can invest with clarity. You can also read our <Link href="/advisory-philosophy" className="text-[#CBB27A] font-semibold hover:underline">advisory philosophy</Link> to see how we approach property selection and client interests.
+            If you are searching for the best real estate company in Noida, focus on consultant quality, not sales pitch.
+            Celeste Abode supports project evaluation, RERA checks, and shortlist planning through our{" "}
+            <Link href="/real-estate-consulting-services" className="text-[#CBB27A] font-semibold hover:underline">
+              real estate consulting services
+            </Link>
+            . You can also book a{" "}
+            <Link href="/request-a-free-consultation" className="text-[#CBB27A] font-semibold hover:underline">
+              free consultation
+            </Link>{" "}
+            for your budget range.
           </p>
         </div>
       </section>
@@ -136,16 +220,26 @@ Infrastructure directly affects both liveability and resale value. Noida&apos;s 
       <div className="my-16 p-8 rounded-2xl bg-gradient-to-br from-[#0f1112] to-[#1a1d1f] text-white">
         <div className="flex items-center gap-3 mb-4">
           <ShieldCheck className="w-6 h-6 text-[#CBB27A] shrink-0" />
-          <h3 className="text-lg font-bold font-poppins">Key takeaway</h3>
+          <h3 className="text-lg font-bold font-poppins text-white">Key takeaway</h3>
         </div>
         <p className="text-white/90 leading-relaxed font-poppins">
-Noida can still be a safe place to buy property in 2026 if you focus on RERA-registered projects, proven or upcoming infrastructure, and builders with a solid delivery record. Do your verification, choose the right micro-market, and consider professional advice so your investment is both secure and aligned with your goals.
+          Property in Noida can be a smart choice in 2026 when you combine legal checks with location logic. Pick
+          RERA-registered projects, verify documents, and shortlist by real demand corridors. That is how safe buying is
+          done in NCR.
         </p>
       </div>
 
       {/* Closing with CTA */}
       <p className="text-lg text-gray-700 leading-relaxed mb-6">
-        At Celeste Abode, we help buyers and investors evaluate property in Noida and across NCR for safety, legality, and growth potential. If you want a structured view of projects that meet our standards, explore our <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">Noida properties</Link> or <Link href="/contact" className="text-[#CBB27A] font-semibold hover:underline">contact us</Link> for a confidential conversation about your next move.
+        If you are evaluating property in Noida and want a clear, no-pressure shortlist, start with{" "}
+        <Link href="/properties-in-noida" className="text-[#CBB27A] font-semibold hover:underline">
+          Noida properties
+        </Link>{" "}
+        and then{" "}
+        <Link href="/request-a-free-consultation" className="text-[#CBB27A] font-semibold hover:underline">
+          book a free consultation
+        </Link>
+        .
       </p>
     </div>
   );

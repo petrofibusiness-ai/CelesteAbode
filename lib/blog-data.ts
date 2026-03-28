@@ -18,8 +18,12 @@ export type BlogPost = {
   heroFullscreen?: boolean;
 };
 
-/** Canonical `/blog/...` path for the Sobha Rivana article (single source for internal links). */
+/** Canonical URL path for the Sobha Rivana article (use this constant when linking from other pages). */
 export const SOBHA_RIVANA_BLOG_PATH = "/blog/sobha-rivana-greater-noida-west" as const;
+
+/** Sobha Rivana elevation / arrival hero (replaces legacy entrance.jpg everywhere). */
+export const SOBHA_RIVANA_HERO_IMAGE =
+  "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/Elevation-Evening-View.webp" as const;
 
 export const blogPosts: BlogPost[] = [
   {
@@ -137,17 +141,38 @@ export const blogPosts: BlogPost[] = [
     category: "Project Spotlight",
     readTime: "9 min read",
     date: "March 22, 2026",
-    image:
-      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/Elevation-Evening-View.webp",
+    image: SOBHA_RIVANA_HERO_IMAGE,
     featured: true,
     views: "0",
     heroFullscreen: true,
     metaTitle: "Sobha Rivana Greater Noida West | RERA, Price, 2/3/4 BHK Floor Plans",
     metaDescription:
       "Discover Sobha Rivana, a new luxury residential launch by SOBHA Group in Sector 1 Greater Noida West with premium apartments, modern amenities, and prime location.",
-    ogImage:
-      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/Elevation-Evening-View.webp",
+    ogImage: SOBHA_RIVANA_HERO_IMAGE,
     ogImageAlt: "Sobha Rivana Greater Noida West Sector 1 apartments RERA",
+  },
+  {
+    id: 8,
+    title: "3BHK Flats in Greater Noida – Top Projects, Best Prices & Smart Investment Picks",
+    slug: "3bhk-flats-in-greater-noida",
+    excerpt:
+      "Discover handpicked 3 BHK apartments across Greater Noida's best locations. Compare pricing, builders, and availability before booking your site visit.",
+    category: "Buyer Guide",
+    readTime: "12 min read",
+    date: "March 28, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/metro_or_night_view.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle:
+      "Buy 3BHK Flats in Greater Noida – Compare Prices, Top Projects & Book your site visit today",
+    metaDescription:
+      "Looking to buy a 3 BHK flat in Greater Noida? Compare top projects, prices, and book your site visit now.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/metro_or_night_view.webp",
+    ogImageAlt:
+      "Greater Noida NCR at night with metro and city lights—3 BHK flats and connectivity",
   },
 ];
 
@@ -157,6 +182,21 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
 
 export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   const others = blogPosts.filter((p) => p.slug !== currentSlug);
+  if (currentSlug === "3bhk-flats-in-greater-noida") {
+    const prioritySlugs = [
+      "noida-vs-greater-noida-investment-2026",
+      "upcoming-luxury-projects-noida-greater-noida-2026",
+      "sobha-rivana-greater-noida-west",
+      "jewar-airport-ncr-property-buyers-2026",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
   if (currentSlug === "sobha-rivana-greater-noida-west") {
     const prioritySlugs = [
       "upcoming-luxury-projects-noida-greater-noida-2026",

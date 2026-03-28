@@ -147,7 +147,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
             </div>
             <p className="mb-4">
               <Link
-                href="/properties-in-noida/smart-world-es-residencies"
+                href="/properties-in-noida/smart-world-elie-saab-residencies"
                 className="text-[#CBB27A] font-semibold hover:underline"
               >
                 Smart World Elie Saab Residences
@@ -170,7 +170,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
             <p>
               If you are shortlisting expressway projects, it makes sense to compare{" "}
               <Link
-                href="/properties-in-noida/smart-world-es-residencies"
+                href="/properties-in-noida/smart-world-elie-saab-residencies"
                 className="text-[#CBB27A] font-semibold hover:underline"
               >
                 Smart World Elie Saab Residences
@@ -265,7 +265,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
               >
                 Sobha Rivana
               </Link>{" "}
-              is now on UP RERA (UPRERAPRJ313638/03/2026) in Sector 1, Greater Noida West. It is one of the most watched
+              is now on UP RERA (UPRERAPRJ313638) in Sector 1, Greater Noida West. It is one of the most watched
               premium launches in the micro market because buyers see Sobha as a quality-focused developer. The project
               is expected to attract families looking for larger homes, cleaner finish, and a full lifestyle setup.
             </p>

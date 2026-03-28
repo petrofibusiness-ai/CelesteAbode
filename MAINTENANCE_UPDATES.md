@@ -324,6 +324,17 @@
 192. **Sitemap update:** Replaced advisory session URL with `/request-a-free-consultation` in both generated sitemap source (`app/sitemap.ts`) and static `sitemap.txt`.
 193. **Instagram arrow layering fix:** In `components/instagram-embeds-section.tsx`, reduced carousel arrow z-index (`z-50` → `z-10`) to stop arrows overlapping the fixed header during upward scroll.
 
+### Blog — 3 BHK Greater Noida article (`/blog/3bhk-flats-in-greater-noida`)
+194. **Single project carousel:** Removed **`GreaterNoidaHomesCarousel`** (horizontal image cards + per-card CTAs) from the article. Only **`ThreeBhkDetailCardsCarousel`** remains under **“Top 3 BHK Flats in Greater Noida West”**. File **`app/blog/[slug]/greater-noida-homes-carousel.tsx`** is still required for **`blogCarouselBreakout`**, imported by the detail carousel.
+195. **Mid-page CTA trim:** Removed **`ConversionStrip`** (“Next step”) directly **above** the Price trends section; one **`ConversionStrip`** still appears before FAQs.
+196. **Detail carousel — layout & snap:** One centered card at a time on mobile and desktop; width uses **`min(42rem, min(100%, calc(100dvw - 5.25rem)))`** below **`md`** so breakout width does not force edge-to-edge cards; responsive **`md`/`lg`** widths unchanged in intent; reduced strip gaps; **leading/trailing flex spacers** with **`scroll-snap-align: none`** so first/last slides center and clear overlay arrows; **`syncActive` / arrow `scroll`** key off **`article`** elements only (viewport-center logic); **`useLayoutEffect`** recenters the first slide after mount.
+197. **Detail carousel — controls:** Overlay chevrons on all breakpoints; compact circular hit target (**`h-6 w-6`**, **`md:h-7 md:w-7`**) with **`size-5`** Lucide icons; slight horizontal translate for “outside” placement; buttons rendered **after** the scroll strip for correct stacking; dedicated mobile bottom chevron row removed.
+198. **Detail carousel — height:** Card shell heights raised (e.g. **`min(45rem, 94dvh)`** / **`sm` ~40.5rem** / **`md` ~43.5rem**).
+199. **Canonical property URLs & redirects (`next.config.mjs`):** **`/properties-in-greater-noida/kviraj-mayfair-residency`** → **`/properties-in-greater-noida/kviraaj-mayfair-residency`**; **`/properties-in-noida/smart-world-es-residencies`** → **`/properties-in-noida/smart-world-elie-saab-residencies`** (aligned with **`sitemap.txt`**).
+200. **3 BHK article project list (`three-bhk-flats-greater-noida-2026-content.tsx`):** **`GN_3BHK_PROPERTY_BLOCKS`** — Kviraaj Mayfair **`href`** uses **`kviraaj-mayfair-residency`**; hero image R2 path under **`kviraj-mayfair-residency/images/...mayfair-5.png`** (CDN folder spelling unchanged). Display order: Sobha → Kviraaj → Eternia → RG Pleiaddes → remaining projects. **`upcoming-luxury-projects-noida-greater-noida-content.tsx`** internal links use **`smart-world-elie-saab-residencies`**.
+201. **SEO (`lib/blog-data.ts`):** Slug **`3bhk-flats-in-greater-noida`** — **`metaDescription`**: “Looking to buy a 3 BHK flat in Greater Noida? Compare top projects, prices, and book your site visit now.”
+202. **Blog slug redirect:** **`/blog/three-bhk-flats-greater-noida-2026`** → **`/blog/3bhk-flats-in-greater-noida`** (permanent) in **`next.config.mjs`**.
+
 ---
 
 ## How to use this doc

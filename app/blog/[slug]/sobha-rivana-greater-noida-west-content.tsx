@@ -11,14 +11,13 @@ import {
   Shield,
   Footprints,
 } from "lucide-react";
+import { SOBHA_RIVANA_HERO_IMAGE } from "@/lib/blog-data";
 import { SobhaRivanaFaqAccordion } from "./sobha-rivana-faq-accordion";
 
-/** As on UP RERA public listings; verify on the portal if the number changes. */
-export const SOBHA_RIVANA_RERA_FULL = "UPRERAPRJ313638/03/2026";
+/** UP RERA project registration id (no date suffix); verify on the portal if the number changes. */
+export const SOBHA_RIVANA_RERA_FULL = "UPRERAPRJ313638";
 
 const SOBHA_IMAGES = {
-  entrance:
-    "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-entrance.jpg",
   interior:
     "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-interior.avif",
   map: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/map.jpeg",
@@ -113,7 +112,7 @@ const FAQ_ITEMS: { question: string; answer: string }[] = [
   {
     question: "What is Sobha Rivana's UP RERA registration number?",
     answer:
-      "The project is listed as UPRERAPRJ313638/03/2026, with registration on 20 March 2026.",
+      "The project is listed as UPRERAPRJ313638, with registration on 20 March 2026.",
   },
   {
     question: "Where is Sobha Rivana located?",
@@ -128,7 +127,7 @@ const FAQ_ITEMS: { question: string; answer: string }[] = [
   {
     question: "How much does Sobha Rivana cost per square foot?",
     answer:
-      "In early 2026, market chatter often lands around ₹13,000 to ₹15,000 per sq ft before PLC, parking, and GST, but this moves with available units and release phases. Your builder's cost sheet and your bank's view should line up before you commit.",
+      "In early 2026, most quoted Sobha Rivana stacks sit around ₹13,000 to ₹15,000 per sq ft before PLC, parking, and GST, and the exact number moves with inventory and release phase. When you shortlist a unit, line up the builder sheet, your loan view, and the all-in before you book.",
   },
   {
     question: "When can buyers expect possession at Sobha Rivana?",
@@ -136,7 +135,7 @@ const FAQ_ITEMS: { question: string; answer: string }[] = [
       "Marketing sometimes mentions an end-of-decade window, with December 2029 in some notes. Treat your agreement and the project timeline on RERA as the final word, and ask us if you want help comparing that with other options.",
   },
   {
-    question: "What is the indicative starting price for Sobha Rivana?",
+    question: "What is the starting price range for Sobha Rivana?",
     answer:
       "Launch conversations often start near ₹2.25 crore for select formats, before PLC, floor rise, parking, and taxes. Some buyers enter through an expression of interest with a token and KYC. We help you read the sheet in plain language.",
   },
@@ -251,7 +250,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
 
       <section id="sobha-rivana-project-table" className="scroll-mt-28 mb-14">
         <ArticleFigure
-          src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/Elevation-Evening-View.webp"
+          src={SOBHA_RIVANA_HERO_IMAGE}
           alt="Sobha Rivana Greater Noida West premium elevation and arrival view"
         />
         <SpecTable />
@@ -411,7 +410,7 @@ export function SobhaRivanaGreaterNoidaWestContent() {
         </h2>
         <p className="text-gray-700 leading-relaxed mb-4">
           Early conversations often open near <strong>₹2.25 crore</strong> for select two- and three-bedroom formats,
-          with larger plans scaling up. Channel talk in early 2026 also mentions a band near ₹13,000 to ₹15,000 per sq ft
+          with larger plans scaling up. Typical quotes in early 2026 also land near ₹13,000 to ₹15,000 per sq ft
           before PLC, parking, corpus, and GST. Some buyers enter through an expression of interest
           with a token and KYC. We sit with you on the builder&apos;s cost sheet so the numbers make sense before you move
           forward.

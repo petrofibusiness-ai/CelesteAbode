@@ -246,6 +246,23 @@ const nextConfig = {
         destination: '/blog/sobha-rivana-greater-noida-west',
         permanent: true,
       },
+      {
+        source: '/blog/three-bhk-flats-greater-noida-2026',
+        destination: '/blog/3bhk-flats-in-greater-noida',
+        permanent: true,
+      },
+      // Property slug: canonical spelling is kviraaj (double A)
+      {
+        source: '/properties-in-greater-noida/kviraj-mayfair-residency',
+        destination: '/properties-in-greater-noida/kviraaj-mayfair-residency',
+        permanent: true,
+      },
+      // Smart World Elie Saab: short slug → canonical (matches sitemap)
+      {
+        source: '/properties-in-noida/smart-world-es-residencies',
+        destination: '/properties-in-noida/smart-world-elie-saab-residencies',
+        permanent: true,
+      },
       // Redirect main projects page to properties page
       {
         source: '/projects',

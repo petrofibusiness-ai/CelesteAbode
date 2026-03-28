@@ -106,7 +106,7 @@ export function ForestWalkVillaGhaziabadContent() {
         <div className="space-y-5 text-gray-700 leading-relaxed">
           <p>
             Forest Walk Villa is developed by SRSD Buildcon Venture LLP under the Madhusudhan Group umbrella. The
-            project is registered on UP RERA as <strong>UPRERAPRJ658961/08/2025</strong>, which gives buyers a formal
+            project is registered on UP RERA as <strong>UPRERAPRJ658961</strong>, which gives buyers a formal
             regulatory reference before they commit.
           </p>
           <p>
@@ -120,7 +120,7 @@ export function ForestWalkVillaGhaziabadContent() {
           </p>
           <ul className="mt-6 space-y-3 pl-6 border-l-2 border-[#CBB27A]/30">
             <li>About 52 acres of planned township area</li>
-            <li>UP RERA registered: UPRERAPRJ658961/08/2025</li>
+            <li>UP RERA registered: UPRERAPRJ658961</li>
             <li>Around 97 duplex villas in the current project communication</li>
             <li>Premium duplex formats built for end-use families</li>
             <li>Lifestyle positioning with premium interiors and private outdoor zones</li>

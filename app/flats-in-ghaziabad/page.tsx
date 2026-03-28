@@ -271,7 +271,7 @@ export default async function FlatsInGhaziabadPage() {
                         <div className={CONTENT_BLOCK_CLASS}>
                           <h3>Expert Guidance for Buying Flats in Ghaziabad</h3>
                           <p>
-                            This city has a history of stuck phases. A fresh RERA number does not erase old delivery habits. We read approvals, builder past phases, and site pace before we add a name to your list.
+                            Ghaziabad has seen stuck phases before, so we pair RERA data with approvals, how the builder delivered past phases, and live site pace before a project joins your shortlist.
                           </p>
                           <h3>Access to Verified Flats and Residential Projects</h3>
                           <p>

@@ -206,7 +206,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                       <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
                         <div className={CONTENT_BLOCK_CLASS}>
                           <p>
-                            NCR still carries a large backlog of delayed or stressed inventory. You will not see that risk spelled out on a glossy brochure. Flats for sale in Greater Noida can be a strong buy. They can also be a bad ticket if the project story ignores title, RERA behaviour, and builder execution. We start there. If you want inventory we have already filtered, begin with{" "}
+                            NCR still mixes delayed inventory with strong, well-run projects. Flats for sale in Greater Noida work when title, RERA track record, and builder execution line up with your budget and possession clock. We shortlist with those checks first. If you want inventory we have already filtered, begin with{" "}
                             <Link href="/properties-in-greater-noida" className="text-[#CBB27A] font-semibold hover:underline">
                               properties in Greater Noida
                             </Link>{" "}
@@ -408,7 +408,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                           </p>
                           <h3>Verified Property Listings</h3>
                           <p>
-                            GNIDA history includes delayed registries and builder dues that block OC even when the tower looks ready. A fresh RERA filing does not erase that. Every flats in Greater Noida pick we share clears title, approvals, and delivery behaviour first. If a file is messy, you hear it early. See how we work across formats on{" "}
+                            GNIDA history includes registries and builder dues that can delay OC even when a tower looks ready, so we cross-check title, approvals, and delivery behaviour on every flats in Greater Noida pick before it reaches your list. See how we work across formats on{" "}
                             <Link href="/real-estate-consulting-services" className="text-[#CBB27A] font-semibold hover:underline">
                               real estate consulting services
                             </Link>

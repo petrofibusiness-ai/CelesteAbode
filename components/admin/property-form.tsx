@@ -1486,7 +1486,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                 id="reraId"
                 value={formData.reraId}
                 onChange={(e) => handleChange("reraId", e.target.value)}
-                placeholder="e.g., UPRERAPRJ658961/08/2025"
+                placeholder="e.g., UPRERAPRJ658961"
                 className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all placeholder:text-gray-400"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               />

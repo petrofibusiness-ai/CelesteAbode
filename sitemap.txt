@@ -205,7 +205,7 @@ This XML file does not appear to have any style information associated with it. 
 <priority>0.7</priority>
 </url>
 <url>
-<loc>https://www.celesteabode.com/properties-in-greater-noida/kviraj-mayfair-residency</loc>
+<loc>https://www.celesteabode.com/properties-in-greater-noida/kviraaj-mayfair-residency</loc>
 <lastmod>2026-03-19T18:07:27.189Z</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.7</priority>

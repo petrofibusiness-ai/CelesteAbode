@@ -18,7 +18,12 @@ import {
   SobhaRivanaGreaterNoidaWestContent,
   sobhaRivanaFaqSchemaItems,
 } from "./sobha-rivana-greater-noida-west-content";
+import {
+  ThreeBhkFlatsGreaterNoida2026Content,
+  threeBhkGreaterNoidaWestFaqSchemaItems,
+} from "./three-bhk-flats-greater-noida-2026-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "is-noida-safe-to-buy-property-2026": NoidaSafe2026Content,
@@ -28,6 +33,7 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "forest-walk-villa-ghaziabad-luxury-living-2026": ForestWalkVillaGhaziabadContent,
   "upcoming-luxury-projects-noida-greater-noida-2026": UpcomingLuxuryProjectsNoidaGreaterNoidaContent,
   "sobha-rivana-greater-noida-west": SobhaRivanaGreaterNoidaWestContent,
+  "3bhk-flats-in-greater-noida": ThreeBhkFlatsGreaterNoida2026Content,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -53,7 +59,8 @@ export async function generateMetadata({
 
   const title =
     post.slug === "forest-walk-villa-ghaziabad-luxury-living-2026" ||
-    post.slug === "sobha-rivana-greater-noida-west"
+    post.slug === "sobha-rivana-greater-noida-west" ||
+    post.slug === "3bhk-flats-in-greater-noida"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -125,6 +132,18 @@ export async function generateMetadata({
       "SRSD Buildcon Forest Walk",
       "Ghaziabad villa township",
       "properties in Ghaziabad",
+      "Celeste Abode",
+    ],
+    "3bhk-flats-in-greater-noida": [
+      "3 BHK flats in Greater Noida West",
+      "3 BHK flat for sale in Greater Noida West",
+      "3BHK in Greater Noida West",
+      "Noida Extension 3 BHK",
+      "Greater Noida West apartments",
+      "3 BHK Techzone 4",
+      "Sector 1 Greater Noida West",
+      "flats for sale Greater Noida West",
+      "Jewar airport Greater Noida West",
       "Celeste Abode",
     ],
     "sobha-rivana-greater-noida-west": [
@@ -199,6 +218,7 @@ export default async function BlogPostPage({
   const related = getRelatedPosts(slug, 4);
   const ArticleContent = ARTICLE_CONTENT[slug];
   const isSobhaRivana = slug === "sobha-rivana-greater-noida-west";
+  const isThreeBhkGreaterNoida = slug === "3bhk-flats-in-greater-noida";
   const isNoidaVsGreaterNoida = slug === "noida-vs-greater-noida-investment-2026";
   const isUpcomingLuxury = slug === "upcoming-luxury-projects-noida-greater-noida-2026";
   const isForestWalk = slug === "forest-walk-villa-ghaziabad-luxury-living-2026";
@@ -206,7 +226,9 @@ export default async function BlogPostPage({
   const heroTitle = isSobhaRivana ? "Sobha Rivana, Greater Noida West" : post.title;
   const heroEyebrow = isSobhaRivana
     ? "Project Spotlight | Sector 1, Greater Noida West"
-    : isNoidaVsGreaterNoida
+    : isThreeBhkGreaterNoida
+      ? "Greater Noida West & Noida Extension | 2026"
+      : isNoidaVsGreaterNoida
       ? "Market Comparison | Delhi NCR 2026"
       : isUpcomingLuxury
         ? "Luxury Watchlist | Noida and Greater Noida 2026"
@@ -215,6 +237,8 @@ export default async function BlogPostPage({
       : post.category;
   const heroSubtext = isSobhaRivana
     ? "RERA details, pricing, floor plans, and location insights. Everything you need to evaluate before you decide."
+    : isThreeBhkGreaterNoida
+      ? "Discover handpicked 3 BHK apartments across Greater Noida's best locations. Compare pricing, builders, and availability before booking your site visit."
     : isForestWalk
       ? "Discover Why buyers are shifting to Forest Walk Villa on NH-24 and what makes this project stand out in 2026."
     : post.excerpt;
@@ -238,6 +262,9 @@ export default async function BlogPostPage({
       />
       {slug === "sobha-rivana-greater-noida-west" ? (
         <FAQPageSchema faqs={sobhaRivanaFaqSchemaItems} />
+      ) : null}
+      {slug === "3bhk-flats-in-greater-noida" ? (
+        <FAQPageSchema faqs={threeBhkGreaterNoidaWestFaqSchemaItems} />
       ) : null}
 
       <div className="min-h-screen bg-background">
@@ -263,17 +290,20 @@ export default async function BlogPostPage({
               <div className="absolute inset-0 flex items-end">
                 <div className="max-w-[95%] xl:max-w-[1800px] mx-auto w-full px-3 pb-14 pt-6 sm:px-4 sm:pb-12 sm:pt-10 md:pb-16 md:pt-12">
                   <div
-                    className={
+                    className={cn(
                       usePremiumHero
                         ? "max-w-3xl mx-auto rounded-2xl border border-white/20 bg-black/30 px-4 py-4 backdrop-blur-[2px] sm:px-6 sm:py-6 md:backdrop-blur-sm"
-                        : "max-w-3xl mx-auto text-center"
-                    }
+                        : "max-w-3xl mx-auto text-center",
+                      isThreeBhkGreaterNoida && "text-left"
+                    )}
                   >
                     <p
                       className={
-                        usePremiumHero
+                        usePremiumHero && !isThreeBhkGreaterNoida
                           ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
-                          : "mb-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
+                          : isThreeBhkGreaterNoida
+                            ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
+                            : "mb-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                       }
                     >
                       {heroEyebrow}
@@ -283,14 +313,39 @@ export default async function BlogPostPage({
                     </h1>
                     <p
                       className={
-                        usePremiumHero
-                          ? "mx-auto mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
-                          : "mx-auto mb-5 max-w-2xl px-1 text-base leading-relaxed text-white/85 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
+                        isThreeBhkGreaterNoida
+                          ? "mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
+                          : usePremiumHero
+                            ? "mx-auto mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
+                            : "mx-auto mb-5 max-w-2xl px-1 text-base leading-relaxed text-white/85 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
                       }
                     >
                       {heroSubtext}
                     </p>
-                    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-xs font-poppins text-white/75 sm:gap-x-6 sm:gap-y-2 sm:text-sm">
+                    {isThreeBhkGreaterNoida ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <div className="inline-grid w-max max-w-full grid-cols-1 justify-items-stretch gap-3 self-end sm:flex sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-end">
+                          <Link
+                            href="/properties-in-greater-noida"
+                            className="inline-flex w-full min-w-0 items-center justify-center rounded-lg bg-[#CBB27A] px-5 py-2.5 text-center text-sm font-semibold text-[#0f1112] transition-colors hover:bg-[#b9a56f] font-poppins sm:inline-flex sm:w-auto"
+                          >
+                            View available projects
+                          </Link>
+                          <Link
+                            href="/request-a-free-consultation"
+                            className="inline-flex w-full min-w-0 items-center justify-center rounded-lg border border-white/35 bg-white/10 px-5 py-2.5 text-center text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/15 font-poppins sm:inline-flex sm:w-auto"
+                          >
+                            Book a free consultation
+                          </Link>
+                        </div>
+                      </div>
+                    ) : null}
+                    <div
+                      className={cn(
+                        "flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs font-poppins text-white/75 sm:gap-x-6 sm:gap-y-2 sm:text-sm",
+                        isThreeBhkGreaterNoida ? "justify-end px-1 sm:px-2" : "justify-center"
+                      )}
+                    >
                       <span className="flex items-center gap-1.5 sm:gap-2">
                         <Calendar className="size-3.5 shrink-0 text-[#CBB27A]/95 sm:size-4" />
                         {post.date}

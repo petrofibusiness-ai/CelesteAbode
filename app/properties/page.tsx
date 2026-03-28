@@ -516,7 +516,7 @@ export default function ProjectsPage() {
                 {/* Heading Section */}
                 <header className="text-center mb-8 md:mb-12 lg:mb-16">
                   <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
-                    Beyond Brochures: How to Evaluate Properties in <span className="text-[#CBB27A]">Delhi NCR</span>
+                    How to Evaluate Properties in <span className="text-[#CBB27A]">Delhi NCR</span>
                   </h2>
                 </header>
 
@@ -525,7 +525,11 @@ export default function ProjectsPage() {
                   <div className="p-4 sm:p-6 md:p-12 lg:p-16 xl:p-20">
                     <div className="w-full max-w-none">
                       <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">
-                        When searching for properties in <strong>Delhi NCR</strong>, you'll encounter countless projects across <strong>Noida</strong>, <strong>Greater Noida</strong>, <strong>Yamuna Expressway</strong>, <strong>Ghaziabad</strong>, and other growth corridors. Each developer claims their project is the best investment opportunity or perfect for end-use living. However, the reality is more nuanced than what brochures suggest. Not every property works for every buyer, and what matters isn't the glossy presentation, but the underlying factors that determine long-term value and suitability.
+                        Searching <strong>Delhi NCR</strong> surfaces countless projects across <strong>Noida</strong>,{" "}
+                        <strong>Greater Noida</strong>, <strong>Yamuna Expressway</strong>, <strong>Ghaziabad</strong>, and
+                        neighbouring belts. The shortlist that holds up pairs developer track record and delivery history with
+                        infrastructure you can use today, pricing that fits your budget, and a layout that matches your
+                        commute and hold period.
                       </p>
 
                       <p className="text-xs sm:text-sm md:text-base text-gray-800 leading-normal sm:leading-relaxed font-poppins mb-6 md:mb-8 max-w-none text-left sm:text-justify tracking-normal px-2 sm:px-0">

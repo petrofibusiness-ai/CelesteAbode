@@ -708,13 +708,9 @@ body::after {
       padding: 12px 16px;
     }
 
-    /* Increase spacing between interactive elements */
-    button + button,
-    a + a,
-    button + a,
-    a + button {
-      margin-left: 8px;
-    }
+    /* Spacing between adjacent controls: prefer gap on the parent (flex/grid).
+       Avoid a + a / button + button margin here — it adds unwanted left offset when
+       links or buttons stack vertically (e.g. hero CTAs). */
 
     /* Improve text readability on mobile */
     body {

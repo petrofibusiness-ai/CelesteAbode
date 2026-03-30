@@ -74,6 +74,12 @@ export function middleware(request: NextRequest) {
     response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
   }
 
+  // Private internal inventory (no login) — do not index or cache publicly
+  if (pathname === '/ca-internal-inventory-v1' || pathname.startsWith('/ca-internal-inventory-v1/')) {
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
+    response.headers.set('Cache-Control', 'private, no-store, must-revalidate');
+  }
+
   // HSTS (HTTP Strict Transport Security) - only in production
   if (process.env.NODE_ENV === 'production') {
     response.headers.set(

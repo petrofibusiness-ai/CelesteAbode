@@ -16,6 +16,9 @@ export default function robots(): MetadataRoute.Robots {
           '/admin/',      // Admin panel - private
           '/api/',        // API routes - not for indexing
           '/_next/',      // Next.js internal files
+          '/ca-internal-inventory-v1',
+          '/property-listings',
+          '/properties-listings',
         ],
       },
       {
@@ -28,6 +31,9 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/admin/',
           '/api/',
+          '/ca-internal-inventory-v1',
+          '/property-listings',
+          '/properties-listings',
         ],
       },
       {
@@ -40,6 +46,9 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/admin/',
           '/api/',
+          '/ca-internal-inventory-v1',
+          '/property-listings',
+          '/properties-listings',
         ],
       },
       {
@@ -52,6 +61,9 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/admin/',
           '/api/',
+          '/ca-internal-inventory-v1',
+          '/property-listings',
+          '/properties-listings',
         ],
       },
       {
@@ -64,6 +76,9 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [
           '/admin/',
           '/api/',
+          '/ca-internal-inventory-v1',
+          '/property-listings',
+          '/properties-listings',
         ],
       },
     ],

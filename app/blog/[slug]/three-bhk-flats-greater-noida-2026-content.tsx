@@ -337,6 +337,19 @@ export function ThreeBhkFlatsGreaterNoida2026Content() {
         </div>
       </section>
 
+      <figure className="mb-14 overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-lg">
+        <div className="relative aspect-[4/3] w-full md:aspect-[5/4]">
+          <Image
+            src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/metro_or_night_view.webp"
+            alt="Metro and Greater Noida area at night—connectivity across the NCR belt"
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, min(896px, 100vw)"
+            unoptimized
+          />
+        </div>
+      </figure>
+
       <section className="mb-14 scroll-mt-24" id="best-locations-3bhk" aria-labelledby="locations-heading">
         <h2 id="locations-heading" className="text-xl md:text-2xl font-bold text-foreground mb-4 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
@@ -385,8 +398,8 @@ export function ThreeBhkFlatsGreaterNoida2026Content() {
       <figure className="mb-14 overflow-hidden rounded-2xl border border-gray-200 bg-gray-100 shadow-lg">
         <div className="relative aspect-[4/3] w-full md:aspect-[5/4]">
           <Image
-            src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/metro_or_night_view.webp"
-            alt="Metro and Greater Noida area at night—connectivity across the NCR belt"
+            src={SOBHA_RIVANA_HERO_IMAGE}
+            alt="Premium residential tower elevation in Greater Noida West"
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, min(896px, 100vw)"

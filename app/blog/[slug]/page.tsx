@@ -184,7 +184,11 @@ export async function generateMetadata({
   // Use custom meta fields if available, otherwise fallback to defaults
   const metaTitle = post.metaTitle || title;
   const metaDescription = post.metaDescription || description;
-  const ogImageUrl = heroImageUrl;
+  const ogImageUrl = post.ogImage
+    ? post.ogImage.startsWith("http")
+      ? post.ogImage
+      : `${SITE_URL}${post.ogImage}`
+    : heroImageUrl;
   const ogImageAlt = post.ogImageAlt || post.title;
 
   return {

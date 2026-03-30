@@ -25,6 +25,9 @@ export const SOBHA_RIVANA_BLOG_PATH = "/blog/sobha-rivana-greater-noida-west" as
 export const SOBHA_RIVANA_HERO_IMAGE =
   "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/Elevation-Evening-View.webp" as const;
 
+/** UP RERA project registration id; verify on up-rera.in if the listing updates. */
+export const SOBHA_RIVANA_RERA_FULL = "UPRERAPRJ313638" as const;
+
 export const blogPosts: BlogPost[] = [
   {
     id: 1,
@@ -153,7 +156,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 8,
-    title: "3BHK Flats in Greater Noida – Top Projects, Best Prices & Smart Investment Picks",
+    title: "3 BHK Flats in Greater Noida – Top Projects, Best Prices & Smart Investment Picks",
     slug: "3bhk-flats-in-greater-noida",
     excerpt:
       "Discover handpicked 3 BHK apartments across Greater Noida's best locations. Compare pricing, builders, and availability before booking your site visit.",
@@ -166,7 +169,7 @@ export const blogPosts: BlogPost[] = [
     views: "0",
     heroFullscreen: true,
     metaTitle:
-      "Buy 3BHK Flats in Greater Noida – Compare Prices, Top Projects & Book your site visit today",
+      "Buy 3 BHK Flats in Greater Noida – Compare Prices, Top Projects & Book your site visit today",
     metaDescription:
       "Looking to buy a 3 BHK flat in Greater Noida? Compare top projects, prices, and book your site visit now.",
     ogImage:

@@ -108,6 +108,26 @@ const nextConfig = {
           },
         ],
       },
+      // Hard deindex for legacy Sobha Rivana slugs that permanently redirect.
+      // Redirect responses don't render HTML, so use X-Robots-Tag instead of meta robots.
+      {
+        source: '/blog/sobha-rivana-greater-noida-west-rera-sector-1',
+        headers: [
+          {
+            key: 'X-Robots-Tag',
+            value: 'noindex, follow',
+          },
+        ],
+      },
+      {
+        source: '/blog/sobha-rivana-sector-1-greater-noida-west',
+        headers: [
+          {
+            key: 'X-Robots-Tag',
+            value: 'noindex, follow',
+          },
+        ],
+      },
       // Admin panel - enhanced security headers
       {
         source: '/admin/:path*',

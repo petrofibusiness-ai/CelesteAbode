@@ -11,11 +11,10 @@ import {
   Shield,
   Footprints,
 } from "lucide-react";
-import { SOBHA_RIVANA_HERO_IMAGE } from "@/lib/blog-data";
+import { SOBHA_RIVANA_HERO_IMAGE, SOBHA_RIVANA_RERA_FULL } from "@/lib/blog-data";
 import { SobhaRivanaFaqAccordion } from "./sobha-rivana-faq-accordion";
 
-/** UP RERA project registration id (no date suffix); verify on the portal if the number changes. */
-export const SOBHA_RIVANA_RERA_FULL = "UPRERAPRJ313638";
+export { SOBHA_RIVANA_RERA_FULL };
 
 const SOBHA_IMAGES = {
   interior:

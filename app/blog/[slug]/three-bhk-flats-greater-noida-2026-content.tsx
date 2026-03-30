@@ -276,6 +276,17 @@ export function ThreeBhkFlatsGreaterNoida2026Content() {
         top projects, location trade-offs.
       </p>
 
+      <section className="mb-14 scroll-mt-24" id="top-3bhk-flats" aria-labelledby="top-flats-heading">
+        <h2 id="top-flats-heading" className="text-xl md:text-2xl font-bold text-foreground mb-3 flex items-center gap-3">
+          <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
+          Top 3 BHK Flats in Greater Noida
+        </h2>
+        <p className="text-gray-600 text-sm md:text-base mb-8 leading-relaxed">
+          Compare pricing, location, and availability across the most in-demand projects before booking your site visit.
+        </p>
+        <ThreeBhkDetailCardsCarousel cards={GN_3BHK_PROPERTY_BLOCKS} />
+      </section>
+
       <section className="mb-10 scroll-mt-24" id="quick-snapshot" aria-labelledby="quick-snapshot-heading">
         <h2 id="quick-snapshot-heading" className="text-xl md:text-2xl font-bold text-foreground mb-4 flex items-center gap-3">
           <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
@@ -324,17 +335,6 @@ export function ThreeBhkFlatsGreaterNoida2026Content() {
             </p>
           </div>
         </div>
-      </section>
-
-      <section className="mb-14 scroll-mt-24" id="top-3bhk-flats" aria-labelledby="top-flats-heading">
-        <h2 id="top-flats-heading" className="text-xl md:text-2xl font-bold text-foreground mb-3 flex items-center gap-3">
-          <span className="w-1 h-7 bg-[#CBB27A] rounded-full shrink-0" />
-          Top 3 BHK Flats in Greater Noida
-        </h2>
-        <p className="text-gray-600 text-sm md:text-base mb-8 leading-relaxed">
-          Compare pricing, location, and availability across the most in-demand projects before booking your site visit.
-        </p>
-        <ThreeBhkDetailCardsCarousel cards={GN_3BHK_PROPERTY_BLOCKS} />
       </section>
 
       <section className="mb-14 scroll-mt-24" id="best-locations-3bhk" aria-labelledby="locations-heading">

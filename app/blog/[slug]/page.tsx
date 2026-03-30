@@ -65,6 +65,11 @@ export async function generateMetadata({
       : `${post.title} - Blog`;
   const description = post.excerpt;
   const url = `${SITE_URL}/blog/${post.slug}`;
+  const canonicalPath =
+    post.slug === "sobha-rivana-greater-noida-west"
+      ? "/blog/sobha-rivana-greater-noida-west"
+      : `/blog/${post.slug}`;
+  const canonicalUrl = `${SITE_URL}${canonicalPath}`;
   /** Absolute URL for the hero image; also used for Open Graph and Twitter cards so previews match the page. */
   const heroImageUrl = post.image.startsWith("http") ? post.image : `${SITE_URL}${post.image}`;
 
@@ -201,7 +206,7 @@ export async function generateMetadata({
       description: metaDescription,
       images: [{ url: ogImageUrl, alt: ogImageAlt }],
     },
-    alternates: { canonical: url },
+    alternates: { canonical: canonicalUrl },
     robots: { index: true, follow: true },
   };
 }
@@ -238,7 +243,7 @@ export default async function BlogPostPage({
   const heroSubtext = isSobhaRivana
     ? "RERA details, pricing, floor plans, and location insights. Everything you need to evaluate before you decide."
     : isThreeBhkGreaterNoida
-      ? "Discover handpicked 3 BHK apartments across Greater Noida's best locations. Compare pricing, builders, and availability before booking your site visit."
+      ? "Shortlist luxury 3 BHK homes in Greater Noida with accurate pricing, verified inventory, and fast-track site visits."
     : isForestWalk
       ? "Discover Why buyers are shifting to Forest Walk Villa on NH-24 and what makes this project stand out in 2026."
     : post.excerpt;

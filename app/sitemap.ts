@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { getSupabaseAdminClient } from '@/lib/supabase-server';
 import { blogPosts } from '@/lib/blog-data';
+import { PRIVATE_PROPERTY_LISTING_PATH } from '@/lib/private-property-listing-route';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.celesteabode.com';
 
@@ -240,6 +241,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     new Map(allPages.map(page => [page.url, page])).values()
   );
 
-  return uniquePages;
+  const inventoryUrlPrefix = `${SITE_URL.replace(/\/$/, '')}${PRIVATE_PROPERTY_LISTING_PATH}`;
+  return uniquePages.filter(
+    (page) =>
+      !page.url.startsWith(inventoryUrlPrefix) &&
+      !page.url.includes('/ca-internal-inventory')
+  );
 }
 

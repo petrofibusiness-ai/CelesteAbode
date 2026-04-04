@@ -573,6 +573,14 @@ function createAdvisoryEmailTemplate(params: EmailSubmissionParams, type: 'advis
   const title = type === 'advisory-session' ? 'Advisory Session Request' : 'Consultation Request';
   
   const budgetLabels: { [key: string]: string } = {
+    // Consultation / advisory (₹ Cr, min ₹1 Cr)
+    '1-1.5-cr': '₹1 Cr – ₹1.5 Cr',
+    '1.5-2-cr': '₹1.5 Cr – ₹2 Cr',
+    '2-3-cr': '₹2 Cr – ₹3 Cr',
+    '3-5-cr': '₹3 Cr – ₹5 Cr',
+    '5-10-cr': '₹5 Cr – ₹10 Cr',
+    '10-cr-plus': '₹10 Cr+',
+    // Legacy (property lead form & older submissions)
     'under-50': 'Under ₹50 Lakhs',
     '50-100': '₹50 Lakhs - ₹1 Crore',
     '100-200': '₹1 Crore - ₹2 Crore',

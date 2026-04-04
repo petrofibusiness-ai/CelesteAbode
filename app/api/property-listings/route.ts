@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 import { buildPropertyListingHighlights } from "@/lib/property-listing-highlights";
+import { normalizeAmenities } from "@/lib/amenity-normalize";
 import type { PropertyListingItem } from "@/types/property-listing";
 import { isUuid } from "@/lib/uuid";
 import { sanitizeProjectNameSearch } from "@/lib/property-listing-search";
@@ -30,6 +31,7 @@ interface ListingRow {
 }
 
 function rowToItem(row: ListingRow, locationSlug: string): PropertyListingItem {
+  const amenities = normalizeAmenities(row.amenities);
   return {
     id: row.id,
     slug: row.slug,
@@ -44,6 +46,7 @@ function rowToItem(row: ListingRow, locationSlug: string): PropertyListingItem {
     priceMax: row.price_max != null ? Number(row.price_max) : null,
     priceUnit: row.price_unit ?? undefined,
     sizes: row.sizes ?? "",
+    amenities,
     highlights: buildPropertyListingHighlights({
       amenities: row.amenities,
       sizes: undefined,
@@ -51,6 +54,25 @@ function rowToItem(row: ListingRow, locationSlug: string): PropertyListingItem {
     }),
     locationSlug,
   };
+}
+
+/** Limit ILIKE metacharacters in free-text size search. */
+function sanitizeSizesSearch(raw: string): string {
+  return raw.trim().replace(/[%_\\]/g, " ").replace(/\s+/g, " ").slice(0, 120);
+}
+
+const PRICE_FILTER_FULL_MIN = 0;
+const PRICE_FILTER_FULL_MAX = 200_000_000;
+
+function parsePriceBound(v: string | null): number | undefined {
+  if (v == null || v === "") return undefined;
+  const n = Math.round(Number(v));
+  if (!Number.isFinite(n) || n < 0) return undefined;
+  return Math.min(n, 9_999_999_999_999);
+}
+
+function isFullPriceRange(min: number, max: number): boolean {
+  return min <= PRICE_FILTER_FULL_MIN && max >= PRICE_FILTER_FULL_MAX;
 }
 
 async function locationSlugMapForRows(
@@ -154,6 +176,33 @@ export async function GET(request: NextRequest) {
       const pattern = `%${q}%`;
       query = query.ilike("project_name", pattern);
       countQuery = countQuery.ilike("project_name", pattern);
+    }
+
+    const fMin = parsePriceBound(searchParams.get("priceMin"));
+    const fMax = parsePriceBound(searchParams.get("priceMax"));
+    const priceMinEff = fMin ?? PRICE_FILTER_FULL_MIN;
+    const priceMaxEff = fMax ?? PRICE_FILTER_FULL_MAX;
+    if (!isFullPriceRange(priceMinEff, priceMaxEff)) {
+      const lo = Math.min(priceMinEff, priceMaxEff);
+      const hi = Math.max(priceMinEff, priceMaxEff);
+      const orMin = `price_min.is.null,price_min.lte.${hi}`;
+      const orMax = `price_max.is.null,price_max.gte.${lo}`;
+      const orHasPrice = "price_min.not.is.null,price_max.not.is.null";
+      query = query.or(orMin).or(orMax).or(orHasPrice);
+      countQuery = countQuery.or(orMin).or(orMax).or(orHasPrice);
+    }
+
+    const sizesQ = sanitizeSizesSearch(searchParams.get("sizesQ") ?? "");
+    if (sizesQ.length > 0) {
+      const pattern = `%${sizesQ}%`;
+      query = query.ilike("sizes", pattern);
+      countQuery = countQuery.ilike("sizes", pattern);
+    }
+
+    const propertyType = searchParams.get("propertyType")?.trim().slice(0, 120) ?? "";
+    if (propertyType) {
+      query = query.eq("property_type", propertyType);
+      countQuery = countQuery.eq("property_type", propertyType);
     }
 
     query = query.order("created_at", { ascending: false }).range(offset, offset + limit - 1);

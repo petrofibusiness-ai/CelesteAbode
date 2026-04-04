@@ -76,7 +76,10 @@ export function middleware(request: NextRequest) {
 
   // Private internal inventory (no login) — do not index or cache publicly
   if (pathname === '/ca-internal-inventory-v1' || pathname.startsWith('/ca-internal-inventory-v1/')) {
-    response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive, nosnippet');
+    response.headers.set(
+      'X-Robots-Tag',
+      'noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate'
+    );
     response.headers.set('Cache-Control', 'private, no-store, must-revalidate');
   }
 

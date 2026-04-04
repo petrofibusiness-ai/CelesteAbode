@@ -307,7 +307,7 @@ export default function RequestAFreeConsultationPage() {
                           </div>
                           <div className="space-y-2">
                             <Label htmlFor="budget" className="text-sm font-semibold text-foreground">
-                              Budget range *
+                              Budget range (₹ Cr) *
                             </Label>
                             <Select
                               value={formData.budget}
@@ -317,11 +317,12 @@ export default function RequestAFreeConsultationPage() {
                                 <SelectValue placeholder="Select range" />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="under-50">Under ₹50 lakhs</SelectItem>
-                                <SelectItem value="50-100">₹50 lakhs – ₹1 crore</SelectItem>
-                                <SelectItem value="100-200">₹1 crore – ₹2 crore</SelectItem>
-                                <SelectItem value="200-500">₹2 crore – ₹5 crore</SelectItem>
-                                <SelectItem value="500-plus">₹5 crore+</SelectItem>
+                                <SelectItem value="1-1.5-cr">₹1 Cr – ₹1.5 Cr</SelectItem>
+                                <SelectItem value="1.5-2-cr">₹1.5 Cr – ₹2 Cr</SelectItem>
+                                <SelectItem value="2-3-cr">₹2 Cr – ₹3 Cr</SelectItem>
+                                <SelectItem value="3-5-cr">₹3 Cr – ₹5 Cr</SelectItem>
+                                <SelectItem value="5-10-cr">₹5 Cr – ₹10 Cr</SelectItem>
+                                <SelectItem value="10-cr-plus">₹10 Cr+</SelectItem>
                               </SelectContent>
                             </Select>
                           </div>

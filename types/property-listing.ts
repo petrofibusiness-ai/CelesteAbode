@@ -17,6 +17,8 @@ export interface PropertyListingItem {
   priceUnit?: string | null;
   /** Full sizes line from properties_v2.sizes */
   sizes: string;
+  /** Normalized amenity labels for display (full list, not card-truncated). */
+  amenities: string[];
   highlights: string[];
   locationSlug: string;
 }

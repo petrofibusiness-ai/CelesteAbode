@@ -222,7 +222,7 @@ function PropertyListingTableRow({
             type="button"
             onClick={handleSave}
             disabled={saving}
-            title="Save price and sizes to the database (requires edit key and server config)"
+            title="Save this row’s price and sizes"
             className="inline-flex min-h-9 w-full items-center justify-center gap-1 rounded-lg border border-[#CBB27A] bg-[#CBB27A]/10 px-2 font-poppins text-xs font-semibold text-foreground transition hover:bg-[#CBB27A]/20 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {saving ? (

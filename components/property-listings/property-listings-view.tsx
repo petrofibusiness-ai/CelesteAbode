@@ -13,7 +13,7 @@ import type {
   PropertyListingLocationOption,
   PropertyListingLocalityOption,
 } from "@/types/property-listing";
-import { ChevronDown, SlidersHorizontal, Search, Lock, Unlock, Loader2 } from "lucide-react";
+import { ChevronDown, SlidersHorizontal, Search, Unlock, Loader2 } from "lucide-react";
 import {
   PROPERTY_SEARCH_ANCHOR_ID,
   scrollPropertySearchSectionIntoView,
@@ -342,34 +342,33 @@ export function PropertyListingsView() {
               Property inventory
             </h1>
             <p className="mt-3 max-w-2xl font-poppins text-sm text-muted-foreground sm:text-base md:text-lg">
-              Filter by city, area, price band, size text, type, and project name. Table view with
-              amenities and inline price/size edits when unlocked.
+              Filter by city, area, price, size, type, and project name. Each row shows amenities; use
+              Save on a row after you change price or sizes.
             </p>
 
             <div className="mt-6 rounded-2xl border border-border/60 bg-[#FAFAF8]/90 p-4 shadow-sm sm:p-5">
               {editModeAvailable ? (
                 <>
-                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex items-center gap-2 font-poppins text-sm font-semibold text-foreground">
-                      <Lock className="h-4 w-4 shrink-0 text-[#CBB27A]" aria-hidden />
-                      Save to database (per row)
-                    </div>
+                  <p className="font-poppins text-sm font-medium text-foreground">
+                    Enter your key to unlock price and sizes, then press Save on each row you change.
+                  </p>
+                  <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     {editKey ? (
                       <button
                         type="button"
                         onClick={lockEditing}
-                        className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-border px-4 font-poppins text-sm font-medium text-foreground transition hover:bg-muted"
+                        className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-border px-4 font-poppins text-sm font-medium text-foreground transition hover:bg-muted sm:w-auto"
                       >
                         <Unlock className="h-4 w-4" aria-hidden />
-                        Lock editing
+                        Lock
                       </button>
                     ) : (
-                      <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
+                      <div className="flex w-full flex-col gap-2 sm:flex-row sm:items-center">
                         <input
                           type="password"
                           value={keyInput}
                           onChange={(e) => setKeyInput(e.target.value)}
-                          placeholder="Edit key"
+                          placeholder="Key"
                           autoComplete="off"
                           className="min-h-11 w-full min-w-0 rounded-xl border border-border bg-white px-4 font-poppins text-sm outline-none focus:border-[#CBB27A] focus:ring-2 focus:ring-[#CBB27A]/20 sm:min-w-[220px]"
                         />
@@ -383,16 +382,16 @@ export function PropertyListingsView() {
                       </div>
                     )}
                   </div>
-                  <p className="mt-2 font-poppins text-xs text-muted-foreground">
-                    Price and size fields are always editable below; unlock to enable Save. The key stays
-                    in this browser until you lock.
-                  </p>
+                  {editKey ? (
+                    <p className="mt-2 font-poppins text-xs text-muted-foreground">
+                      You’re unlocked on this device until you lock.
+                    </p>
+                  ) : null}
                 </>
               ) : (
                 <p className="font-poppins text-sm text-muted-foreground">
-                  Price and size fields are editable in the table. To persist changes, set{" "}
-                  <span className="font-mono text-xs">PROPERTY_LISTINGS_EDIT_SECRET</span> in the
-                  server environment and reload; then unlock with that key.
+                  Saving changes isn’t available on this site right now. Ask whoever runs it if you need
+                  to update prices or sizes.
                 </p>
               )}
             </div>

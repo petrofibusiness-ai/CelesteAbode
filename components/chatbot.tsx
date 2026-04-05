@@ -39,6 +39,9 @@ export function Chatbot() {
 
   // Hide chatbot on admin pages - check before hooks
   const isAdminRoute = pathname?.startsWith("/admin");
+  /** Internal ops inventory: no fixed left socials or right WhatsApp / call / chat FABs. */
+  const isInternalInventoryRoute =
+    pathname === "/ca-internal-inventory-v1" || pathname?.startsWith("/ca-internal-inventory-v1/");
   /** Demo fullscreen hero: hide fixed left IG/FB/LinkedIn stack (not the spec pills). */
   const hideLeftSocialIcons =
     pathname === "/demo-property" || pathname?.startsWith("/demo-property/");
@@ -802,8 +805,8 @@ export function Chatbot() {
      setPhoneError(false);
    };
 
-  // Hide chatbot on admin pages
-  if (isAdminRoute) {
+  // Hide chatbot on admin + internal inventory (clean dashboard, no side floats)
+  if (isAdminRoute || isInternalInventoryRoute) {
     return null;
   }
 

@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Download, Loader2, CheckCircle2, X } from "lucide-react";
+import { Download, Loader2, CheckCircle2 } from "lucide-react";
 
 interface BrochureDownloadDialogProps {
   isOpen: boolean;
@@ -378,7 +378,7 @@ export function BrochureDownloadDialog({
                   htmlFor="email"
                   className="text-sm font-semibold text-gray-700"
                 >
-                  Email Address *
+                  Email address <span className="font-normal text-gray-500">(optional)</span>
                 </Label>
                 <Input
                   id="email"
@@ -386,8 +386,7 @@ export function BrochureDownloadDialog({
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
-                  placeholder="Enter your email address"
+                  placeholder="Enter your email if you’d like updates"
                   className="h-12 border-2 border-gray-200 focus:border-black focus:ring-black rounded-lg"
                   disabled={isSubmitting}
                 />
@@ -400,26 +399,16 @@ export function BrochureDownloadDialog({
               </div>
             )}
 
-            <div className="flex flex-col sm:flex-row gap-3 pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleClose}
-                disabled={isSubmitting}
-                className="flex-1 h-12 border-2 border-gray-200 hover:bg-gray-50"
-              >
-                Cancel
-              </Button>
+            <div className="pt-4 text-center">
               <Button
                 type="submit"
                 disabled={
-                  isSubmitting || 
-                  !formData.name.trim() || 
-                  !formData.phone.trim() || 
-                  !isValidPhone(formData.phone) ||
-                  !formData.email.trim()
+                  isSubmitting ||
+                  !formData.name.trim() ||
+                  !formData.phone.trim() ||
+                  !isValidPhone(formData.phone)
                 }
-                className="flex-1 h-12 bg-black hover:bg-gray-900 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="inline-flex h-12 min-w-[220px] px-10 bg-black hover:bg-gray-900 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
                   <>

@@ -4,7 +4,6 @@ import {
   Activity,
   ArrowUpRight,
   Building2,
-  Compass,
   Dumbbell,
   Droplets,
   Footprints,
@@ -176,7 +175,7 @@ export function SobhaRivanaDemoPage() {
       <div className="min-h-screen bg-white text-gray-900 antialiased">
         <Header />
 
-        <main className="pb-8 pt-24">
+        <main className="pb-8 pt-0">
           <SobhaRivanaHero />
 
           <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 md:px-12 md:py-16">
@@ -185,6 +184,29 @@ export function SobhaRivanaDemoPage() {
                 <div className="mb-10 scroll-mt-28 lg:hidden">
                   <SobhaRivanaStickySidebar idPrefix="mob" />
                 </div>
+
+                <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="snapshot-h2">
+                  <DemoSectionHeading
+                    id="snapshot-h2"
+                    icon={Home}
+                    title="Project snapshot"
+                  />
+                  <ul className="grid max-w-4xl gap-3 sm:grid-cols-2 lg:mr-auto" role="list">
+                    {HIGHLIGHTS.map((item) => (
+                      <li
+                        key={item}
+                        className="flex gap-3 rounded-xl border border-gray-200 bg-white px-4 py-4 text-left text-sm font-semibold leading-snug text-gray-900 shadow-sm"
+                        style={{ fontFamily: "Poppins, sans-serif" }}
+                      >
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#CBB27A]" aria-hidden />
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-6 max-w-4xl text-left text-xs text-gray-500">
+                    *Indicative starting points — your advisor walks you through the full quote, including PLC, floor rise, parking, and GST.
+                  </p>
+                </section>
 
                 <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="why-sobha-h2">
                   <DemoSectionHeading id="why-sobha-h2" icon={Building2} title="Why SOBHA?" />
@@ -244,43 +266,8 @@ export function SobhaRivanaDemoPage() {
                   </div>
                 </section>
 
-                <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="map-h2">
-                  <DemoSectionHeading
-                    id="map-h2"
-                    icon={MapPin}
-                    title="Location"
-                    subtitle="Sector 1, Greater Noida West (Noida Extension) — see how Rivana sits relative to your office, schools, and weekend routes."
-                  />
-                  <div className="max-w-5xl lg:mr-auto">
-                    <SobhaRivanaMapEmbed />
-                  </div>
-                </section>
-
-                <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="snapshot-h2">
-                  <DemoSectionHeading
-                    id="snapshot-h2"
-                    icon={Home}
-                    title="Project snapshot"
-                  />
-                  <ul className="grid max-w-4xl gap-3 sm:grid-cols-2 lg:mr-auto" role="list">
-                    {HIGHLIGHTS.map((item) => (
-                      <li
-                        key={item}
-                        className="flex gap-3 rounded-xl border border-gray-200 bg-white px-4 py-4 text-left text-sm font-semibold leading-snug text-gray-900 shadow-sm"
-                        style={{ fontFamily: "Poppins, sans-serif" }}
-                      >
-                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#CBB27A]" aria-hidden />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="mt-6 max-w-4xl text-left text-xs text-gray-500">
-                    *Indicative starting points — your advisor walks you through the full quote, including PLC, floor rise, parking, and GST.
-                  </p>
-                </section>
-
                 <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="location-advantage-h2">
-                  <DemoSectionHeading id="location-advantage-h2" icon={Compass} title="Location Advantage" />
+                  <DemoSectionHeading id="location-advantage-h2" icon={MapPin} title="Location Advantage" />
                   <ul
                     className="grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:mr-auto"
                     role="list"
@@ -305,6 +292,9 @@ export function SobhaRivanaDemoPage() {
                       </li>
                     ))}
                   </ul>
+                  <div className="mt-10 max-w-5xl lg:mr-auto sm:mt-12">
+                    <SobhaRivanaMapEmbed />
+                  </div>
                 </section>
 
                 <section className="mb-4 sm:mb-8" aria-labelledby="ncr-h2">
@@ -336,7 +326,7 @@ export function SobhaRivanaDemoPage() {
 
               <aside
                 id="demo-property-sidebar"
-                className="mt-10 hidden scroll-mt-28 self-start lg:sticky lg:top-28 lg:mt-0 lg:block xl:top-32"
+                className="mt-10 hidden scroll-mt-28 self-start lg:sticky lg:top-24 lg:mt-0 lg:block xl:top-28"
               >
                 <SobhaRivanaStickySidebar idPrefix="desk" />
               </aside>

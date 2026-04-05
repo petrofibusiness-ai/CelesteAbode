@@ -6,10 +6,18 @@ import type { FormSubmissionData } from './email-client';
 // Use email-client.ts for client-side functions
 
 export interface EmailSubmissionParams {
-  formType: 'contact' | 'segmented-entry' | 'viewing' | 'advisory-session' | 'consultation' | 'chatbot';
+  formType:
+    | 'contact'
+    | 'segmented-entry'
+    | 'viewing'
+    | 'advisory-session'
+    | 'consultation'
+    | 'chatbot'
+    | 'brochure-download';
   firstName: string;
   lastName: string;
-  email: string;
+  /** Optional for chatbot and brochure-download. */
+  email?: string;
   phone: string;
   message?: string;
   // Segmented entry specific
@@ -245,7 +253,11 @@ function createContactEmailTemplate(params: EmailSubmissionParams): string {
             </tr>
             <tr>
               <td style="padding: 8px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #333;">Email:</td>
-              <td style="padding: 8px 0; border-bottom: 1px solid #eee; color: #666;"><a href="mailto:${params.email}">${params.email}</a></td>
+              <td style="padding: 8px 0; border-bottom: 1px solid #eee; color: #666;">${
+                params.email?.trim()
+                  ? `<a href="mailto:${sanitizeInput(params.email)}">${sanitizeInput(params.email)}</a>`
+                  : "Not provided"
+              }</td>
             </tr>
             <tr>
               <td style="padding: 8px 0; border-bottom: 1px solid #eee; font-weight: bold; color: #333;">Phone:</td>
@@ -763,6 +775,7 @@ function createConfirmationEmailTemplate(
 export async function sendFormSubmissionEmail(params: EmailSubmissionParams): Promise<EmailResult> {
   try {
     const isChatbot = params.formType === 'chatbot';
+    const isBrochureDownload = params.formType === "brochure-download";
 
     // Validate required fields
     if (!params.firstName || !params.phone) {
@@ -772,24 +785,25 @@ export async function sendFormSubmissionEmail(params: EmailSubmissionParams): Pr
       };
     }
     
-    // lastName is required for non-chatbot forms, optional for chatbot (can be "N/A")
-    if (!isChatbot && !params.lastName) {
+    // lastName is required for non-chatbot forms, optional for chatbot and brochure-download
+    if (!isChatbot && !isBrochureDownload && !params.lastName) {
       return {
         success: false,
         error: 'Missing required field: lastName',
       };
     }
     
-    // email is required for non-chatbot forms, optional for chatbot
-    if (!isChatbot && !params.email) {
+    // email is required for standard forms, optional for chatbot and brochure-download
+    if (!isChatbot && !isBrochureDownload && !params.email?.trim()) {
       return {
         success: false,
         error: 'Missing required field: email',
       };
     }
 
-    // Validate email format (for non-chatbot flows, where client email is required)
-    if (!isChatbot && !validateEmail(params.email)) {
+    // Validate email format when provided
+    const emailTrimmed = params.email?.trim() ?? "";
+    if (emailTrimmed && !validateEmail(emailTrimmed)) {
       return {
         success: false,
         error: 'Invalid email format',
@@ -817,12 +831,16 @@ export async function sendFormSubmissionEmail(params: EmailSubmissionParams): Pr
     // Get email content based on form type
     let emailContent: string;
     let subject: string;
-    const fullName = `${params.firstName} ${params.lastName}`;
+    const fullName = `${params.firstName} ${params.lastName || ""}`.trim();
 
     switch (params.formType) {
       case 'contact':
         emailContent = createContactEmailTemplate(params);
         subject = `New Contact Form Submission - ${fullName}`;
+        break;
+      case "brochure-download":
+        emailContent = createContactEmailTemplate(params);
+        subject = `Brochure download - ${fullName}`;
         break;
       case 'segmented-entry':
         emailContent = createSegmentedEntryEmailTemplate(params);
@@ -860,8 +878,8 @@ export async function sendFormSubmissionEmail(params: EmailSubmissionParams): Pr
     const replyToAddress =
       isChatbot && params.chatbotClientEmail && validateEmail(params.chatbotClientEmail)
         ? params.chatbotClientEmail
-        : params.email && validateEmail(params.email)
-        ? params.email
+        : emailTrimmed && validateEmail(emailTrimmed)
+        ? emailTrimmed
         : emailUser;
 
     const adminResult = await sendEmailWithRetry({

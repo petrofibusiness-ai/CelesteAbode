@@ -26,7 +26,7 @@ export function SobhaRivanaFooterCta() {
           <div className="absolute bottom-10 right-10 h-64 w-64 rounded-full bg-[#CBB27A] blur-3xl" />
         </div>
         <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 md:px-12">
-          <div className="max-w-2xl text-left">
+          <div className="mx-auto max-w-2xl text-center sm:max-w-3xl">
             <h2
               className="text-2xl font-bold leading-tight text-white sm:text-3xl md:text-4xl"
               style={{ fontFamily: "Poppins, sans-serif" }}
@@ -41,7 +41,7 @@ export function SobhaRivanaFooterCta() {
               Download the brochure or book time with us — we coordinate site visits, decode the builder
               sheet with you, and place Rivana in context against other NCR options that match your brief.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
               <button
                 type="button"
                 onClick={() => setOpen(true)}

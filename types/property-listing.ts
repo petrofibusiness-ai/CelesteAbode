@@ -1,5 +1,35 @@
 /**
+ * One ops line = project (from properties_v2) + configuration + size + price (Cr).
+ * `configuration` lives only in `property_listing_configurations` (what you quote on calls).
+ */
+export interface PropertyInventoryRow {
+  /** Set by GET /api/property-listings: serial for this project on the current page (global across all pages). */
+  propertySerial?: number;
+  /** line id (`property_listing_configurations.id`) */
+  id: string;
+  propertyId: string;
+  slug: string;
+  projectName: string;
+  locationLabel: string;
+  locationId: string | null;
+  localityId: string | null;
+  heroImage: string;
+  heroImageAlt?: string;
+  /** Ops dashboard: tower count (digits only in UI). From `properties_v2.inventory_towers`. */
+  inventoryTowers?: string;
+  /** Ops dashboard: free-text possession line. From `properties_v2.possession_date`. */
+  possessionDate?: string;
+  /** e.g. 2 BHK, 3 BHK + Study — ops text */
+  configuration: string;
+  sizeSqft: string;
+  priceCr: string;
+  sortOrder: number;
+  locationSlug: string;
+}
+
+/**
  * Lightweight DTO for public property listing cards (no full Property payload).
+ * @deprecated Inventory UI uses {@link PropertyInventoryRow}; kept for legacy format helpers.
  */
 export interface PropertyListingItem {
   id: string;

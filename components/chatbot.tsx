@@ -36,9 +36,12 @@ interface ChatbotData {
 
 export function Chatbot() {
   const pathname = usePathname();
-  
+
   // Hide chatbot on admin pages - check before hooks
   const isAdminRoute = pathname?.startsWith("/admin");
+  /** Demo fullscreen hero: hide fixed left IG/FB/LinkedIn stack (not the spec pills). */
+  const hideLeftSocialIcons =
+    pathname === "/demo-property" || pathname?.startsWith("/demo-property/");
 
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -82,6 +85,11 @@ export function Chatbot() {
     const update = () => {
       if (cancelled) return;
       markScrolledIfNeeded();
+
+      if (hideLeftSocialIcons) {
+        setShowLeftSocial(false);
+        return;
+      }
 
       const heroes = document.querySelectorAll("[data-site-hero]");
       if (heroes.length === 0) {
@@ -151,7 +159,7 @@ export function Chatbot() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", scheduleUpdate);
     };
-  }, [pathname]);
+  }, [pathname, hideLeftSocialIcons]);
 
   // Clear phone error when step changes away from phone input
   useEffect(() => {
@@ -801,57 +809,59 @@ export function Chatbot() {
 
   return (
     <>
-      {/* Left: Instagram, Facebook, LinkedIn — on hero pages: hidden until scroll + icon zone clear of hero (hidden on mobile) */}
-      <motion.div
-        initial={false}
-        animate={{
-          opacity: showLeftSocial ? 1 : 0,
-          x: showLeftSocial ? 0 : -12,
-        }}
-        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className={`hidden md:flex fixed left-4 sm:left-6 bottom-4 sm:bottom-6 z-[9999] flex-col gap-3 sm:gap-4 ${
-          showLeftSocial ? "" : "pointer-events-none"
-        }`}
-        aria-hidden={!showLeftSocial}
-      >
-        <a
-          href="https://www.instagram.com/celesteabode/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#F77737] hover:opacity-90 text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
-          aria-label="Instagram"
+      {/* Left: Instagram, Facebook, LinkedIn — hidden on demo-property; elsewhere hidden on mobile / until clear of [data-site-hero] */}
+      {!hideLeftSocialIcons ? (
+        <motion.div
+          initial={false}
+          animate={{
+            opacity: showLeftSocial ? 1 : 0,
+            x: showLeftSocial ? 0 : -12,
+          }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+          className={`hidden md:flex fixed left-4 sm:left-6 bottom-4 sm:bottom-6 z-[9999] flex-col gap-3 sm:gap-4 ${
+            showLeftSocial ? "" : "pointer-events-none"
+          }`}
+          aria-hidden={!showLeftSocial}
         >
-          <Instagram className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-        </a>
-        <a
-          href="https://www.facebook.com/people/Celeste-Abode/61579337236985/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-[#1877F2] hover:bg-[#0F5DC8] text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
-          aria-label="Facebook"
-        >
-          <svg
-            className="w-5 h-5 sm:w-6 sm:h-6"
-            viewBox="0 0 24 24"
-            aria-hidden
-            focusable="false"
+          <a
+            href="https://www.instagram.com/celesteabode/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#F77737] hover:opacity-90 text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
+            aria-label="Instagram"
           >
-            <path
-              fill="currentColor"
-              d="M22.675 0H1.325C.593 0 0 .593 0 1.326v21.348C0 23.407.593 24 1.325 24h11.495v-9.294H9.847v-3.622h2.973V8.413c0-2.943 1.796-4.55 4.416-4.55 1.255 0 2.333.093 2.646.135v3.07h-1.817c-1.426 0-1.7.678-1.7 1.671v2.191h3.397l-.442 3.622h-2.955V24h5.797C23.407 24 24 23.407 24 22.674V1.326C24 .593 23.407 0 22.675 0z"
-            />
-          </svg>
-        </a>
-        <a
-          href="https://www.linkedin.com/company/celeste-abode/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-[#0A66C2] hover:bg-[#004182] text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
-          aria-label="LinkedIn"
-        >
-          <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
-        </a>
-      </motion.div>
+            <Instagram className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+          </a>
+          <a
+            href="https://www.facebook.com/people/Celeste-Abode/61579337236985/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#1877F2] hover:bg-[#0F5DC8] text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
+            aria-label="Facebook"
+          >
+            <svg
+              className="w-5 h-5 sm:w-6 sm:h-6"
+              viewBox="0 0 24 24"
+              aria-hidden
+              focusable="false"
+            >
+              <path
+                fill="currentColor"
+                d="M22.675 0H1.325C.593 0 0 .593 0 1.326v21.348C0 23.407.593 24 1.325 24h11.495v-9.294H9.847v-3.622h2.973V8.413c0-2.943 1.796-4.55 4.416-4.55 1.255 0 2.333.093 2.646.135v3.07h-1.817c-1.426 0-1.7.678-1.7 1.671v2.191h3.397l-.442 3.622h-2.955V24h5.797C23.407 24 24 23.407 24 22.674V1.326C24 .593 23.407 0 22.675 0z"
+              />
+            </svg>
+          </a>
+          <a
+            href="https://www.linkedin.com/company/celeste-abode/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-[#0A66C2] hover:bg-[#004182] text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
+            aria-label="LinkedIn"
+          >
+            <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
+          </a>
+        </motion.div>
+      ) : null}
 
       {/* Right: WhatsApp and Call Buttons - Above Chatbot */}
       <motion.a

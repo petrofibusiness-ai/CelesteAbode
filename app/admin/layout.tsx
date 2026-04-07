@@ -75,17 +75,15 @@ export default function AdminLayout({
 
         const data = await res.json().catch(() => ({}));
         const email = (data?.user?.email || "").toString().toLowerCase();
-        const isLeadsDashboardOnly = email !== SUPPORT_ADMIN_EMAIL;
+        const isLeadsOnly = email !== SUPPORT_ADMIN_EMAIL;
 
         setIsAuthenticated(true);
         setUserEmail(email || null);
 
         if (
-          isLeadsDashboardOnly &&
-          pathname !== "/admin" &&
-          pathname !== "/admin/leads"
+          isLeadsOnly && pathname !== "/admin/leads"
         ) {
-          router.replace("/admin");
+          router.replace("/admin/leads");
         }
       })
       .catch(() => {
@@ -121,14 +119,14 @@ export default function AdminLayout({
     return null;
   }
 
-  const isLeadsDashboardOnlyUser = Boolean(
+  const isLeadsOnlyUser = Boolean(
     userEmail && userEmail !== SUPPORT_ADMIN_EMAIL
   );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
       <div className="flex flex-col md:flex-row">
-        <AdminSidebar leadsOnly={isLeadsDashboardOnlyUser} />
+        <AdminSidebar leadsOnly={isLeadsOnlyUser} />
         <main className="flex-1 md:ml-64 w-full pt-16 md:pt-0" style={{ paddingTop: '4rem' }}>
           {children}
         </main>
@@ -137,4 +135,5 @@ export default function AdminLayout({
     </div>
   );
 }
+
 

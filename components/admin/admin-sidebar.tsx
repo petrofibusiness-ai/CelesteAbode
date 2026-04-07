@@ -37,10 +37,7 @@ export default function AdminSidebar({ leadsOnly = false }: AdminSidebarProps) {
   };
 
   const navItems = leadsOnly
-    ? [
-        { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-        { href: "/admin/leads", label: "Leads", icon: Mail },
-      ]
+    ? [{ href: "/admin/leads", label: "Leads", icon: Mail }]
     : [
         { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
         { href: "/admin/leads", label: "Leads", icon: Mail },
@@ -179,4 +176,5 @@ export default function AdminSidebar({ leadsOnly = false }: AdminSidebarProps) {
     </>
   );
 }
+
 

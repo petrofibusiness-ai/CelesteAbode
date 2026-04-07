@@ -1,8 +1,41 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
+const SUPPORT_ADMIN_EMAIL = 'support@celesteabode.com';
+
+function getEmailFromJwt(token: string | undefined): string | null {
+  if (!token) return null;
+  const parts = token.split('.');
+  if (parts.length < 2) return null;
+  try {
+    const b64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+    const padded = b64.padEnd(Math.ceil(b64.length / 4) * 4, '=');
+    const json = atob(padded);
+    const payload = JSON.parse(json) as {
+      email?: string;
+    };
+    return typeof payload.email === 'string' ? payload.email.toLowerCase() : null;
+  } catch {
+    return null;
+  }
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Server-side admin route gate:
+  // - unauthenticated users -> /admin/login
+  // - non-support users -> only /admin/leads
+  if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
+    const token = request.cookies.get('sb-access-token')?.value;
+    const email = getEmailFromJwt(token);
+    if (!email) {
+      return NextResponse.redirect(new URL('/admin/login', request.url));
+    }
+    if (email !== SUPPORT_ADMIN_EMAIL && pathname !== '/admin/leads') {
+      return NextResponse.redirect(new URL('/admin/leads', request.url));
+    }
+  }
 
   // REWRITE: Convert hyphenated public URL to internal route format
   // Public: /properties-in-{locationCategory}/{slug} (property page)

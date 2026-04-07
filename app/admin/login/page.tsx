@@ -10,6 +10,8 @@ import { Lock, Mail, Building2, Loader2 } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
+const SUPPORT_ADMIN_EMAIL = "support@celesteabode.com";
+
 export default function AdminLoginPage() {
   const router = useRouter();
   const [username, setUsername] = useState("");
@@ -36,8 +38,9 @@ export default function AdminLoginPage() {
         return;
       }
 
-      // Redirect to admin dashboard
-      router.push("/admin");
+      const email = (data?.user?.email || "").toString().toLowerCase();
+      const target = email === SUPPORT_ADMIN_EMAIL ? "/admin" : "/admin";
+      router.push(target);
       router.refresh();
     } catch (err) {
       setError("An error occurred. Please try again.");

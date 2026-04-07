@@ -6,6 +6,8 @@ import { Building2 } from "lucide-react";
 import AdminSidebar from "@/components/admin/admin-sidebar";
 import { Toaster } from "@/components/ui/sonner";
 
+const SUPPORT_ADMIN_EMAIL = "support@celesteabode.com";
+
 export default function AdminLayout({
   children,
 }: {
@@ -14,6 +16,7 @@ export default function AdminLayout({
   const router = useRouter();
   const pathname = usePathname();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
     // CRITICAL SECURITY: Add noindex meta tags to prevent search engine indexing
@@ -62,16 +65,32 @@ export default function AdminLayout({
 
     // Check session
     fetch("/api/admin/auth/session")
-      .then((res) => {
-        if (res.ok) {
-          setIsAuthenticated(true);
-        } else {
+      .then(async (res) => {
+        if (!res.ok) {
           setIsAuthenticated(false);
+          setUserEmail(null);
           router.push("/admin/login");
+          return;
+        }
+
+        const data = await res.json().catch(() => ({}));
+        const email = (data?.user?.email || "").toString().toLowerCase();
+        const isLeadsDashboardOnly = email !== SUPPORT_ADMIN_EMAIL;
+
+        setIsAuthenticated(true);
+        setUserEmail(email || null);
+
+        if (
+          isLeadsDashboardOnly &&
+          pathname !== "/admin" &&
+          pathname !== "/admin/leads"
+        ) {
+          router.replace("/admin");
         }
       })
       .catch(() => {
         setIsAuthenticated(false);
+        setUserEmail(null);
         router.push("/admin/login");
       });
   }, [pathname, router]);
@@ -102,10 +121,14 @@ export default function AdminLayout({
     return null;
   }
 
+  const isLeadsDashboardOnlyUser = Boolean(
+    userEmail && userEmail !== SUPPORT_ADMIN_EMAIL
+  );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
       <div className="flex flex-col md:flex-row">
-        <AdminSidebar />
+        <AdminSidebar leadsOnly={isLeadsDashboardOnlyUser} />
         <main className="flex-1 md:ml-64 w-full pt-16 md:pt-0" style={{ paddingTop: '4rem' }}>
           {children}
         </main>

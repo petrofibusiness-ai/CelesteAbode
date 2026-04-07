@@ -8,8 +8,6 @@ import {
   Building2, 
   LogOut, 
   Plus,
-  Settings,
-  FileText,
   Menu,
   X,
   MapPin,
@@ -19,7 +17,11 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function AdminSidebar() {
+interface AdminSidebarProps {
+  leadsOnly?: boolean;
+}
+
+export default function AdminSidebar({ leadsOnly = false }: AdminSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -34,14 +36,19 @@ export default function AdminSidebar() {
     }
   };
 
-  const navItems = [
-    { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-    { href: "/admin/leads", label: "Leads", icon: Mail },
-    { href: "/admin/locations", label: "Locations", icon: MapPin },
-    { href: "/admin/locations/new", label: "New Location", icon: Plus },
-    { href: "/admin/properties", label: "Properties", icon: Building2 },
-    { href: "/admin/properties/new", label: "New Property", icon: Plus },
-  ];
+  const navItems = leadsOnly
+    ? [
+        { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+        { href: "/admin/leads", label: "Leads", icon: Mail },
+      ]
+    : [
+        { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+        { href: "/admin/leads", label: "Leads", icon: Mail },
+        { href: "/admin/locations", label: "Locations", icon: MapPin },
+        { href: "/admin/locations/new", label: "New Location", icon: Plus },
+        { href: "/admin/properties", label: "Properties", icon: Building2 },
+        { href: "/admin/properties/new", label: "New Property", icon: Plus },
+      ];
 
   // Close mobile menu when route changes
   useEffect(() => {

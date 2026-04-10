@@ -335,6 +335,35 @@
 201. **SEO (`lib/blog-data.ts`):** Slug **`3bhk-flats-in-greater-noida`** — **`metaDescription`**: “Looking to buy a 3 BHK flat in Greater Noida? Compare top projects, prices, and book your site visit now.”
 202. **Blog slug redirect:** **`/blog/three-bhk-flats-greater-noida-2026`** → **`/blog/3bhk-flats-in-greater-noida`** (permanent) in **`next.config.mjs`**.
 
+### Blog — Sobha Rivana: canonical, legacy URLs, internal linking
+203. **Post canonical (`app/blog/[slug]/page.tsx`):** `canonicalUrl` = **`${SITE_URL}${canonicalPath}`** (uses env `NEXT_PUBLIC_SITE_URL`, default `https://www.celesteabode.com`). For slug **`sobha-rivana-greater-noida-west`**, **`canonicalPath`** is pinned to **`/blog/sobha-rivana-greater-noida-west`** so the canonical slug never drifts; other posts use **`/blog/${post.slug}`**.
+204. **Legacy Sobha blog URLs (`next.config.mjs`):** **`redirects()`** with **`permanent: true`** — **`/blog/sobha-rivana-greater-noida-west-rera-sector-1`** and **`/blog/sobha-rivana-sector-1-greater-noida-west`** → **`/blog/sobha-rivana-greater-noida-west`**. **`headers()`** on those two sources adds **`X-Robots-Tag: noindex, follow`** (redirect responses cannot emit HTML `<meta name="robots">`).
+205. **Canonical internal path:** **`SOBHA_RIVANA_BLOG_PATH`** in **`lib/blog-data.ts`** = **`/blog/sobha-rivana-greater-noida-west`**. Article links use this constant (e.g. 3 BHK guide carousel **`href`**, upcoming luxury projects blog card) — no hardcoded legacy slugs in app code.
+
+### Blog — 3 BHK Greater Noida article (further updates)
+206. **Section order (`three-bhk-flats-greater-noida-2026-content.tsx`):** **“Top 3 BHK Flats in Greater Noida”** (detail carousel) moved **above** **“Quick snapshot: 3 BHK apartments in Greater Noida (2026)”**.
+207. **Listing metadata (`lib/blog-data.ts`):** Post **`3bhk-flats-in-greater-noida`** — **`title`** and **`metaTitle`** use spaced spelling **“3 BHK”** (not **“3BHK”**); complements existing **`metaDescription`** / **`ogImage`** / **`ogImageAlt`** entries for this slug.
+208. **Hero subtext (`app/blog/[slug]/page.tsx`):** For slug **`3bhk-flats-in-greater-noida`**, hero overlay subtext: *“Shortlist luxury 3 BHK homes in Greater Noida with accurate pricing, verified inventory, and fast-track site visits.”*
+209. **Open Graph & Twitter image (`app/blog/[slug]/page.tsx` `generateMetadata`):** If **`post.ogImage`** is set, OG/Twitter **`images`** use it (absolute URL or **`${SITE_URL}${post.ogImage}`**); otherwise fallback to hero **`post.image`**. Ensures the 3 BHK article (and any post with **`ogImage`**) uses the intended share image.
+210. **Article imagery (`three-bhk-flats-greater-noida-2026-content.tsx`):** Full-width **`figure`** after **Quick snapshot** (Greater Noida night / metro R2 **`metro_or_night_view.webp`**). Second **`figure`** after **Best locations for 3 BHK flats in Greater Noida** (**`SOBHA_RIVANA_HERO_IMAGE`**). Former standalone metro figure before price trends removed to avoid duplication.
+
+### Request a free consultation — budget field
+211. **Budget dropdown (`app/request-a-free-consultation/page.tsx`):** Label **“Budget range (₹ Cr) *”**; options start at **₹1 Cr** only — **₹1 Cr – ₹1.5 Cr**, **₹1.5 Cr – ₹2 Cr**, **₹2 Cr – ₹3 Cr**, **₹3 Cr – ₹5 Cr**, **₹5 Cr – ₹10 Cr**, **₹10 Cr+** (value keys e.g. **`1-1.5-cr`**, **`10-cr-plus`**). **`lib/email-service.ts`** **`budgetLabels`** maps these keys for consultation/advisory emails; **legacy** lakhs/crore keys kept for **`property-lead-form`** and older submissions.
+
+### Demo property — Sobha Rivana layout preview (`/demo-property`)
+212. **Purpose:** Internal **layout / UX reference** for a high-converting project page — **Sobha Rivana** story, hero + gallery, highlights, map embed, sticky sidebar enquiry, footer CTA. Implemented as **`app/demo-property/page.tsx`** → **`components/demo-property/sobha-rivana-demo-page.tsx`** (+ **`sobha-rivana-hero`**, **`-gallery`**, **`-sticky-sidebar`**, **`-demo-actions`**, **`-footer-cta`**). **Not** wired as a live CMS property detail URL.
+213. **Discoverability:** **`metadata.robots: { index: false, follow: false }`**; canonical + Open Graph set for **`/demo-property`**. URL is **not** included in **`app/sitemap.ts`** (demo only).
+
+### Admin panel — scope, access, role-based UI, and cross-references
+214. **Already logged in this doc:** **#137–138** — **`priceMin` / `priceMax`** as numbers (bigint path), validation, admin form + API; **#162** — **`/admin/properties`** numbered pagination (20 per page), loaders, re-fetch behaviour.
+215. **Route map (`app/admin/`):** **`/admin/login`**; **`/admin`** dashboard; **`/admin/leads`**; **`/admin/locations`**, **`/admin/locations/new`**, **`/admin/locations/[slug]/edit`**; **`/admin/properties`**, **`/admin/properties/new`**, **`/admin/properties/[id]/edit`**. Session check via **`GET /api/admin/auth/session`**; unauthenticated users are sent to login.
+216. **Role model (two tiers, email-based):** **`SUPPORT_ADMIN_EMAIL`** = **`support@celesteabode.com`** is defined in **`middleware.ts`**, **`app/admin/layout.tsx`**, and **`app/admin/login/page.tsx`**. That account = **full admin** (all routes + full sidebar). **Any other** logged-in admin user = **leads-only** (Leads UI only).
+217. **Server-side UI gate (`middleware.ts`):** For paths under **`/admin`** except **`/admin/login`**, reads **`sb-access-token`** cookie, decodes JWT payload for **`email`**. No email → redirect **`/admin/login`**. Email ≠ support → allow only **`/admin/leads`**; any other admin path → redirect **`/admin/leads`**. (Middleware **`matcher`** excludes **`/api`**; this gate applies to **admin pages**, not to API route matching.)
+218. **Client-side UI (`app/admin/layout.tsx`):** After session fetch, same rule: non-support users are **`router.replace('/admin/leads')`** if **`pathname !== '/admin/leads'`**. **`AdminSidebar`** receives **`leadsOnly`** when **`userEmail !== SUPPORT_ADMIN_EMAIL`** — nav shows **Leads** only (no Dashboard, Locations, Properties).
+219. **Post-login redirect (`app/admin/login/page.tsx`):** On successful login, **`router.push`** → **`/admin`** if email matches support, else **`/admin/leads`** (aligned with middleware + layout).
+220. **API auth (`lib/admin-auth-guard.ts`, per-route `getCurrentUser`):** Admin API handlers require an authenticated user (401 if missing). **Role checks are not duplicated on every API route** — restriction for leads-only staff is enforced primarily on **admin UI navigation** via middleware + layout. **`/api/admin/leads`** accepts any authenticated admin; other admin APIs similarly gate on “logged in”, not on support email, unless added later.
+221. **Anti-indexing:** **`middleware.ts`** adds **`X-Robots-Tag: noindex, nofollow, noarchive, nosnippet`** and **`Cache-Control: no-store…`** for **`/admin`** page responses (middleware **`matcher`** does not run on **`/api/*`**). **`app/admin/layout.tsx`** injects **`noindex, nofollow`** / **`googlebot`** meta client-side on the authenticated admin shell (**`/admin/login`** excluded).
+
 ---
 
 ## How to use this doc

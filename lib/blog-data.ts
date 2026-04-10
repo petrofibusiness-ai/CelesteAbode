@@ -168,10 +168,9 @@ export const blogPosts: BlogPost[] = [
     featured: true,
     views: "0",
     heroFullscreen: true,
-    metaTitle:
-      "Buy 3 BHK Flats in Greater Noida – Compare Prices, Top Projects & Book your site visit today",
+    metaTitle: "3BHK Flats in Greater Noida | Price, Projects & Investment Guide",
     metaDescription:
-      "Looking to buy a 3 BHK flat in Greater Noida? Compare top projects, prices, and book your site visit now.",
+      "Explore 3BHK flats in Greater Noida West with price trends, top projects, best sectors, investment guide, and availability in Noida Extension & Greater Noida West.",
     ogImage:
       "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/metro_or_night_view.webp",
     ogImageAlt:

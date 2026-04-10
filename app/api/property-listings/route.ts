@@ -1,83 +1,78 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
-import { buildPropertyListingHighlights } from "@/lib/property-listing-highlights";
-import { normalizeAmenities } from "@/lib/amenity-normalize";
-import type { PropertyListingItem } from "@/types/property-listing";
-import { isUuid } from "@/lib/uuid";
-import { sanitizeProjectNameSearch } from "@/lib/property-listing-search";
+import type { PropertyInventoryRow } from "@/types/property-listing";
 
 const QUERY_TIMEOUT = 10000;
+/** Max lines fetched before grouping by property (safety cap). */
+const FETCH_LINES_CAP = 15_000;
+const DEFAULT_PER_PAGE = 10;
 
-/** Only columns needed for cards + filters; no SELECT * */
-const LISTING_SELECT =
-  "id, slug, project_name, location, location_id, locality_id, property_type, hero_image, hero_image_alt, price_min, price_max, price_unit, sizes, amenities, created_at";
-
-interface ListingRow {
-  id: string;
+/** Row shape from view `property_inventory_dashboard_rows` (snake_case). */
+interface DashboardViewRow {
+  line_id: string;
+  property_id: string;
+  size_sqft: string | null;
+  configuration_label: string | null;
+  price_cr: string | null;
+  sort_order: number | null;
   slug: string;
   project_name: string;
-  location: string;
+  location_label: string;
   location_id: string | null;
   locality_id: string | null;
-  property_type: string | null;
   hero_image: string;
   hero_image_alt: string | null;
-  price_min: string | number | null;
-  price_max: string | number | null;
-  price_unit: string | null;
-  sizes: string;
-  amenities: string[] | null;
+  possession_date: string | null;
+  inventory_towers: string | null;
+  property_created_at: string;
 }
 
-function rowToItem(row: ListingRow, locationSlug: string): PropertyListingItem {
-  const amenities = normalizeAmenities(row.amenities);
+function rowToInventoryItem(
+  row: DashboardViewRow,
+  locationSlug: string,
+  propertySerial: number
+): PropertyInventoryRow {
   return {
-    id: row.id,
+    propertySerial,
+    id: row.line_id,
+    propertyId: row.property_id,
     slug: row.slug,
     projectName: row.project_name,
-    locationLabel: row.location,
+    locationLabel: row.location_label,
     locationId: row.location_id,
     localityId: row.locality_id,
-    propertyType: row.property_type,
     heroImage: row.hero_image,
     heroImageAlt: row.hero_image_alt ?? undefined,
-    priceMin: row.price_min != null ? Number(row.price_min) : null,
-    priceMax: row.price_max != null ? Number(row.price_max) : null,
-    priceUnit: row.price_unit ?? undefined,
-    sizes: row.sizes ?? "",
-    amenities,
-    highlights: buildPropertyListingHighlights({
-      amenities: row.amenities,
-      sizes: undefined,
-      propertyType: row.property_type ?? undefined,
-    }),
+    inventoryTowers: row.inventory_towers ?? "",
+    possessionDate: row.possession_date ?? "",
+    configuration: row.configuration_label ?? "",
+    sizeSqft: row.size_sqft ?? "",
+    priceCr: row.price_cr ?? "",
+    sortOrder: row.sort_order ?? 0,
     locationSlug,
   };
 }
 
-/** Limit ILIKE metacharacters in free-text size search. */
-function sanitizeSizesSearch(raw: string): string {
-  return raw.trim().replace(/[%_\\]/g, " ").replace(/\s+/g, " ").slice(0, 120);
-}
-
-const PRICE_FILTER_FULL_MIN = 0;
-const PRICE_FILTER_FULL_MAX = 200_000_000;
-
-function parsePriceBound(v: string | null): number | undefined {
-  if (v == null || v === "") return undefined;
-  const n = Math.round(Number(v));
-  if (!Number.isFinite(n) || n < 0) return undefined;
-  return Math.min(n, 9_999_999_999_999);
-}
-
-function isFullPriceRange(min: number, max: number): boolean {
-  return min <= PRICE_FILTER_FULL_MIN && max >= PRICE_FILTER_FULL_MAX;
+/** Preserve API row order: first row of each property defines property sequence. */
+function groupRowsByPropertyInOrder(rows: DashboardViewRow[]): DashboardViewRow[][] {
+  const order: string[] = [];
+  const map = new Map<string, DashboardViewRow[]>();
+  for (const r of rows) {
+    let bucket = map.get(r.property_id);
+    if (!bucket) {
+      bucket = [];
+      map.set(r.property_id, bucket);
+      order.push(r.property_id);
+    }
+    bucket.push(r);
+  }
+  return order.map((id) => map.get(id)!);
 }
 
 async function locationSlugMapForRows(
   supabase: ReturnType<typeof getSupabaseAdminClient>,
-  rows: ListingRow[]
+  rows: DashboardViewRow[]
 ): Promise<Map<string, string>> {
   const ids = [...new Set(rows.map((r) => r.location_id).filter((id): id is string => Boolean(id)))];
   const map = new Map<string, string>();
@@ -106,147 +101,73 @@ export async function GET(request: NextRequest) {
 
     const supabase = getSupabaseAdminClient();
     const searchParams = request.nextUrl.searchParams;
+    const perPage = Math.min(50, Math.max(1, parseInt(searchParams.get("perPage") || String(DEFAULT_PER_PAGE), 10)));
+    const requestedPage = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
 
-    let locationId = searchParams.get("locationId");
-    const localityId = searchParams.get("localityId");
-    const qRaw = searchParams.get("q") ?? searchParams.get("search") ?? "";
-    const q = sanitizeProjectNameSearch(qRaw);
-
-    if (locationId && !isUuid(locationId)) {
-      return NextResponse.json({ error: "Invalid locationId" }, { status: 400 });
-    }
-    if (localityId && !isUuid(localityId)) {
-      return NextResponse.json({ error: "Invalid localityId" }, { status: 400 });
-    }
-
-    if (localityId && !locationId) {
-      const { data: locRow, error: locErr } = await supabase
-        .from("localities")
-        .select("location_id")
-        .eq("id", localityId)
-        .eq("is_published", true)
-        .maybeSingle();
-
-      if (locErr || !locRow?.location_id) {
-        return NextResponse.json({ error: "Locality not found" }, { status: 404 });
-      }
-      locationId = locRow.location_id;
-    }
-
-    if (locationId && localityId) {
-      const { data: verify } = await supabase
-        .from("localities")
-        .select("id")
-        .eq("id", localityId)
-        .eq("location_id", locationId)
-        .eq("is_published", true)
-        .maybeSingle();
-
-      if (!verify) {
-        return NextResponse.json(
-          { error: "Locality does not belong to the selected location" },
-          { status: 400 }
-        );
-      }
-    }
-
-    const limit = Math.min(50, Math.max(1, parseInt(searchParams.get("limit") || "12", 10)));
-    const offset = Math.max(0, parseInt(searchParams.get("offset") || "0", 10));
-
-    let query = supabase
-      .from("properties_v2")
-      .select(LISTING_SELECT)
-      .eq("is_published", true);
-
-    let countQuery = supabase
-      .from("properties_v2")
-      .select("id", { count: "exact", head: true })
-      .eq("is_published", true);
-
-    if (locationId) {
-      query = query.eq("location_id", locationId);
-      countQuery = countQuery.eq("location_id", locationId);
-    }
-    if (localityId) {
-      query = query.eq("locality_id", localityId);
-      countQuery = countQuery.eq("locality_id", localityId);
-    }
-
-    if (q) {
-      const pattern = `%${q}%`;
-      query = query.ilike("project_name", pattern);
-      countQuery = countQuery.ilike("project_name", pattern);
-    }
-
-    const fMin = parsePriceBound(searchParams.get("priceMin"));
-    const fMax = parsePriceBound(searchParams.get("priceMax"));
-    const priceMinEff = fMin ?? PRICE_FILTER_FULL_MIN;
-    const priceMaxEff = fMax ?? PRICE_FILTER_FULL_MAX;
-    if (!isFullPriceRange(priceMinEff, priceMaxEff)) {
-      const lo = Math.min(priceMinEff, priceMaxEff);
-      const hi = Math.max(priceMinEff, priceMaxEff);
-      const orMin = `price_min.is.null,price_min.lte.${hi}`;
-      const orMax = `price_max.is.null,price_max.gte.${lo}`;
-      const orHasPrice = "price_min.not.is.null,price_max.not.is.null";
-      query = query.or(orMin).or(orMax).or(orHasPrice);
-      countQuery = countQuery.or(orMin).or(orMax).or(orHasPrice);
-    }
-
-    const sizesQ = sanitizeSizesSearch(searchParams.get("sizesQ") ?? "");
-    if (sizesQ.length > 0) {
-      const pattern = `%${sizesQ}%`;
-      query = query.ilike("sizes", pattern);
-      countQuery = countQuery.ilike("sizes", pattern);
-    }
-
-    const propertyType = searchParams.get("propertyType")?.trim().slice(0, 120) ?? "";
-    if (propertyType) {
-      query = query.eq("property_type", propertyType);
-      countQuery = countQuery.eq("property_type", propertyType);
-    }
-
-    query = query.order("created_at", { ascending: false }).range(offset, offset + limit - 1);
+    const ordered = supabase
+      .from("property_inventory_dashboard_rows")
+      .select("*")
+      .order("property_created_at", { ascending: false })
+      .order("property_id", { ascending: true })
+      .order("sort_order", { ascending: true })
+      .order("line_id", { ascending: true })
+      .limit(FETCH_LINES_CAP);
 
     const mkTimeout = () =>
       new Promise<never>((_, reject) =>
         setTimeout(() => reject(new Error("Query timeout")), QUERY_TIMEOUT)
       );
 
-    const [{ data, error }, { count: countResult, error: countError }] = await Promise.all([
-      Promise.race([query, mkTimeout()]),
-      Promise.race([countQuery, mkTimeout()]),
-    ]);
+    const { data, error } = await Promise.race([ordered, mkTimeout()]);
 
     if (error) {
       console.error("property-listings query error:", error);
+      const hint =
+        /property_inventory_dashboard_rows|property_listing_configurations/i.test(error.message || "")
+          ? " Run sql/property_listing_configurations.sql in Supabase if this is the first deploy."
+          : "";
       return NextResponse.json(
-        { error: "Failed to fetch properties", details: error.message },
+        { error: "Failed to fetch inventory rows", details: error.message + hint },
         { status: 500 }
       );
     }
-    if (countError) {
-      console.error("property-listings count error:", countError);
+
+    const rows = (data || []) as DashboardViewRow[];
+    const groups = groupRowsByPropertyInOrder(rows);
+    const totalProperties = groups.length;
+    const totalPages = Math.max(1, Math.ceil(totalProperties / perPage));
+    const page = Math.min(requestedPage, totalPages);
+    const start = (page - 1) * perPage;
+    const pageGroups = groups.slice(start, start + perPage);
+
+    const pageRowsFlat = pageGroups.flat();
+    const slugByLocationId = await locationSlugMapForRows(supabase, pageRowsFlat);
+
+    const items: PropertyInventoryRow[] = [];
+    let serial = start + 1;
+    for (const group of pageGroups) {
+      const propertySerial = serial;
+      serial += 1;
+      for (const row of group) {
+        items.push(
+          rowToInventoryItem(
+            row,
+            (row.location_id && slugByLocationId.get(row.location_id)) || "",
+            propertySerial
+          )
+        );
+      }
     }
-
-    const rows = (data || []) as ListingRow[];
-    const slugByLocationId = await locationSlugMapForRows(supabase, rows);
-
-    const items: PropertyListingItem[] = rows.map((row) =>
-      rowToItem(row, (row.location_id && slugByLocationId.get(row.location_id)) || "")
-    );
-
-    const totalCount =
-      typeof countResult === "number" && countResult >= 0 ? countResult : items.length;
-    const hasMore = offset + items.length < totalCount;
 
     return NextResponse.json(
       {
         items,
-        totalCount,
-        hasMore,
-        limit,
-        offset,
-        resolvedLocationId: locationId,
+        pagination: {
+          page,
+          perPage,
+          totalProperties,
+          totalPages,
+        },
         editModeAvailable: Boolean(process.env.PROPERTY_LISTINGS_EDIT_SECRET?.trim()),
       },
       {

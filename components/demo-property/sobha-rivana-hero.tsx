@@ -1,11 +1,16 @@
 "use client";
 
-import Link from "next/link";
 import type { ReactNode } from "react";
+import { Cormorant_Garamond } from "next/font/google";
 import { Award, Building2, IndianRupee, MapPin, ShieldCheck } from "lucide-react";
 import { SOBHA_RIVANA_HERO_IMAGE, SOBHA_RIVANA_RERA_FULL } from "@/lib/blog-data";
 import { SobhaRivanaGallery, type DemoGallerySlide } from "./sobha-rivana-gallery";
-import { SobhaRivanaDemoActions } from "./sobha-rivana-demo-actions";
+
+const heroPropertyDisplay = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  display: "swap",
+});
 
 export const HERO_CAROUSEL_SLIDES: DemoGallerySlide[] = [
   {
@@ -31,7 +36,7 @@ export const HERO_CAROUSEL_SLIDES: DemoGallerySlide[] = [
   },
 ];
 
-function SpecTile({
+function SpecPill({
   icon,
   label,
   children,
@@ -41,13 +46,13 @@ function SpecTile({
   children: ReactNode;
 }) {
   return (
-    <div className="flex flex-col rounded-xl border border-gray-200 bg-white p-3 shadow-sm sm:p-4">
-      <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-[#CBB27A]/15 ring-1 ring-[#CBB27A]/25">
-        <span className="text-[#CBB27A]">{icon}</span>
+    <div className="flex flex-col rounded-xl border border-white/20 bg-black/35 px-3 py-2.5 shadow-lg backdrop-blur-md sm:rounded-2xl sm:px-4 sm:py-3">
+      <div className="mb-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-[#CBB27A]/25 text-[#CBB27A] ring-1 ring-[#CBB27A]/35 sm:h-9 sm:w-9">
+        {icon}
       </div>
-      <p className="text-[10px] font-bold uppercase tracking-wider text-gray-500">{label}</p>
+      <p className="text-[9px] font-bold uppercase tracking-wider text-white/70">{label}</p>
       <div
-        className="mt-1 text-sm font-bold leading-snug text-gray-900 sm:text-base"
+        className="mt-0.5 text-xs font-bold leading-snug text-white sm:text-sm"
         style={{ fontFamily: "Poppins, sans-serif" }}
       >
         {children}
@@ -59,63 +64,62 @@ function SpecTile({
 export function SobhaRivanaHero() {
   return (
     <section
-      className="border-b border-gray-200 bg-white lg:min-h-[calc(100svh-6rem)]"
+      className="relative min-h-svh w-full overflow-hidden bg-black"
       aria-labelledby="demo-hero-h1"
     >
-      <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6 md:px-12 lg:flex-row lg:items-stretch lg:gap-8 lg:py-8">
-        <div className="flex min-h-[min(48vh,400px)] flex-1 flex-col overflow-hidden rounded-2xl bg-black shadow-2xl lg:min-h-[min(520px,calc(100svh-8rem))]">
-          <SobhaRivanaGallery
-            slides={HERO_CAROUSEL_SLIDES}
-            theme="dark"
-            fillParent
-            bare
-            className="min-h-0 flex-1"
-          />
-        </div>
+      <div className="absolute inset-0">
+        <SobhaRivanaGallery
+          slides={HERO_CAROUSEL_SLIDES}
+          theme="dark"
+          bare
+          fullscreenHero
+        />
+      </div>
 
-        <div className="flex w-full shrink-0 flex-col justify-between gap-5 lg:w-[min(100%,380px)]">
-          <div className="text-left">
-            <p className="text-xs text-gray-600">
-              <Link href="/" className="hover:text-[#CBB27A]">
-                Home
-              </Link>
-              <span className="mx-1.5 text-gray-300">/</span>
-              <span className="text-gray-700">Sobha Rivana</span>
-            </p>
+      <div className="pointer-events-none relative z-10 flex min-h-svh flex-col">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+        <div className="relative flex min-h-0 flex-1 flex-col px-4 pb-10 pt-24 sm:px-6 sm:pb-12 sm:pt-28 md:px-10 lg:px-14">
+          <div className="max-w-4xl text-left pointer-events-auto">
             <h1
               id="demo-hero-h1"
-              className="mt-3 text-3xl font-black tracking-tight text-gray-900 sm:text-4xl"
-              style={{ fontFamily: "Poppins, sans-serif" }}
+              className={`${heroPropertyDisplay.className} text-[2rem] font-semibold uppercase leading-[1.05] tracking-[0.12em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-5xl sm:tracking-[0.16em] md:text-6xl md:tracking-[0.18em]`}
             >
               Sobha Rivana
             </h1>
             <div className="mt-3 flex items-start gap-2">
               <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-[#CBB27A]" aria-hidden />
-              <p className="text-sm font-semibold text-gray-800 sm:text-base" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <p
+                className="text-sm font-semibold text-white/95 drop-shadow sm:text-lg"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
                 Sector 1, Greater Noida West · 2, 3 &amp; 4 BHK
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 sm:gap-3">
-            <SpecTile label="RERA" icon={<ShieldCheck className="h-4 w-4" aria-hidden />}>
-              {SOBHA_RIVANA_RERA_FULL}
-            </SpecTile>
-            <SpecTile label="Configuration" icon={<Building2 className="h-4 w-4" aria-hidden />}>
-              2 / 3 / 4 BHK
-            </SpecTile>
-            <SpecTile label="Price" icon={<IndianRupee className="h-4 w-4" aria-hidden />}>
-              On request
-              <span className="mt-0.5 block text-[11px] font-normal text-gray-600">
-                ~₹2.25 Cr* indicative
-              </span>
-            </SpecTile>
-            <SpecTile label="Developer" icon={<Award className="h-4 w-4" aria-hidden />}>
-              Sobha Ltd.
-            </SpecTile>
+          <div className="mt-auto flex w-full justify-start pt-10 sm:pt-12 pointer-events-auto">
+            <div className="grid w-full max-w-[min(100%,20rem)] grid-cols-2 gap-2 sm:max-w-2xl sm:grid-cols-4 sm:gap-3">
+              <SpecPill label="RERA" icon={<ShieldCheck className="h-4 w-4" aria-hidden />}>
+                <span className="line-clamp-3 text-[11px] leading-tight sm:line-clamp-none sm:text-xs">
+                  {SOBHA_RIVANA_RERA_FULL}
+                </span>
+              </SpecPill>
+              <SpecPill label="Configuration" icon={<Building2 className="h-4 w-4" aria-hidden />}>
+                2 / 3 / 4 BHK
+              </SpecPill>
+              <SpecPill label="Price" icon={<IndianRupee className="h-4 w-4" aria-hidden />}>
+                On request
+                <span className="mt-0.5 block text-[10px] font-normal text-white/75">
+                  ~₹2.25 Cr* indicative
+                </span>
+              </SpecPill>
+              <SpecPill label="Developer" icon={<Award className="h-4 w-4" aria-hidden />}>
+                Sobha Ltd.
+              </SpecPill>
+            </div>
           </div>
-
-          <SobhaRivanaDemoActions variant="hero" />
         </div>
       </div>
     </section>

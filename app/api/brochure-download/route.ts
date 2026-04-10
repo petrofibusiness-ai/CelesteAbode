@@ -68,8 +68,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { name, phone, email, propertyName, propertySlug, brochureUrl } = body;
     
-    // Validate required fields
-    if (!name || !phone || !email || !propertyName) {
+    // Validate required fields (email optional)
+    if (!name || !phone || !propertyName) {
       return NextResponse.json(
         { error: 'Missing required fields' },
         { status: 400 }
@@ -78,10 +78,9 @@ export async function POST(request: NextRequest) {
 
     // Sanitize inputs
     const sanitizedPhone = sanitizeInput(String(phone));
-    const sanitizedEmail = sanitizeInput(String(email));
+    const rawEmail = email != null && String(email).trim() !== "" ? sanitizeInput(String(email)) : "";
 
-    // Validate email format
-    if (!isValidEmail(sanitizedEmail)) {
+    if (rawEmail && !isValidEmail(rawEmail)) {
       return NextResponse.json(
         { error: 'Invalid email format' },
         { status: 400 }
@@ -108,7 +107,7 @@ export async function POST(request: NextRequest) {
     const leadResult = await storeLead({
       firstName: firstName,
       lastName: lastName,
-      email: sanitizedEmail.trim().toLowerCase(),
+      ...(rawEmail ? { email: rawEmail.trim().toLowerCase() } : {}),
       phone: sanitizedPhone.trim(),
       formType: 'contact',
       formSource: propertyName ? `property-brochure-download:${propertyName}` : 'property-brochure-download',
@@ -129,10 +128,10 @@ export async function POST(request: NextRequest) {
 
     // Send email notification
     const emailResult = await sendFormSubmissionEmail({
-      formType: 'contact', // Using contact form type for brochure downloads
+      formType: "brochure-download",
       firstName: firstName,
-      lastName: lastName,
-      email: sanitizedEmail.trim().toLowerCase(),
+      lastName: lastName || "",
+      ...(rawEmail ? { email: rawEmail.trim().toLowerCase() } : {}),
       phone: sanitizedPhone.trim(),
       message: `Brochure download request for ${propertyName}`,
     });

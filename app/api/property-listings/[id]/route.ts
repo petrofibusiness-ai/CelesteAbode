@@ -1,17 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
+import { isPropertyListingsEditAuthorized } from "@/lib/property-listings-edit-auth";
 import { isUuid } from "@/lib/uuid";
-
-function getEditSecret(request: NextRequest): string | null {
-  const env = process.env.PROPERTY_LISTINGS_EDIT_SECRET?.trim();
-  if (!env) return null;
-  const header = request.headers.get("x-ca-property-listings-edit-key")?.trim();
-  const auth = request.headers.get("authorization");
-  const bearer =
-    auth?.startsWith("Bearer ") ? auth.slice(7).trim() : null;
-  const token = header || bearer;
-  return token === env ? env : null;
-}
 
 function parseBody(body: unknown): {
   priceMin: number | null;
@@ -55,14 +45,13 @@ export async function PATCH(
   context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const secretOk = getEditSecret(request);
     if (!process.env.PROPERTY_LISTINGS_EDIT_SECRET?.trim()) {
       return NextResponse.json(
         { error: "Editing is not configured (PROPERTY_LISTINGS_EDIT_SECRET)" },
         { status: 503 }
       );
     }
-    if (!secretOk) {
+    if (!isPropertyListingsEditAuthorized(request)) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 

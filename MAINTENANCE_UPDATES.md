@@ -1,374 +1,333 @@
-# Website Maintenance & Updates Log
+# Website development summary
 
-*Monthly log of website updates for client handover. Add new entries under the latest month; keep pointers crisp and development-focused.*
+**For:** Celeste Abode  
+**Purpose:** Plain-language record of **what was built or changed**, **on which parts of the site**, and **how much surface area** was involved. Numbers and page names are intentional so you can judge scope and effort without reading code.
+
+---
+
+## Site size at a glance (from `sitemap.txt` + `app/` folder)
+
+### Counts (quick reference)
+
+| Category | Count |
+|----------|------:|
+| Static pages (listed in `sitemap.txt`) | **22** |
+| Blog article URLs (in `sitemap.txt`) | **8** |
+| Location hub URLs (in `sitemap.txt`) | **5** |
+| Property detail URLs (in `sitemap.txt`) | **27** |
+| **Subtotal — public URLs in `sitemap.txt`** | **62** |
+| Public pages built in code but **not** in `sitemap.txt` | **2** |
+| Admin panel screens | **9** |
+| **Total — every page URL in the product** | **73** |
+
+*How the total is calculated:* 62 + 2 + 9 = **73** (indexed public pages + two omitted public URLs + staff-only admin routes). *Sitemap source:* `sitemap.txt`, last export **10 April 2026** (`lastmod` in file).
+
+**What `sitemap.txt` is:** the list of **public URLs** we ask Google to index, generated from the live site (database + blog data). The sections below spell out **which URL is which**—**static** means one fixed address per designed page; **dynamic** means many addresses sharing the same layout (articles, cities, projects).
+
+---
+
+### A. Static pages (fixed URLs in `sitemap.txt`)
+
+**Count: 22 URLs**
+
+These are **not** driven by a database row for “which slug exists.” Each URL is its own designed page (copy and layout live in code). They are “static” in the sense that the **path never changes**—only the content inside may be edited over time.
+
+| # | URL path | Role (plain English) |
+|---|----------|----------------------|
+| 1 | `/` | Homepage |
+| 2 | `/properties` | Main property catalogue (filters + listings) |
+| 3 | `/blog` | Blog index (list of articles) |
+| 4 | `/request-a-free-consultation` | Book a consultation |
+| 5 | `/contact` | Contact |
+| 6 | `/advisory-philosophy` | Advisory philosophy |
+| 7 | `/real-estate-consulting-services` | Consulting services |
+| 8 | `/real-estate-insights` | Insights hub |
+| 9–12 | `/villa-in-noida`, `/villas-in-greater-noida`, `/villa-in-noida-extension`, `/buy-villa-in-noida` | Villa-focused landings |
+| 13–14 | `/plots-in-noida`, `/plots-in-greater-noida` | Plot-focused landings |
+| 15–20 | `/residential-property-in-noida`, `/commercial-property-in-noida`, `/flats-for-sale-in-noida`, `/flats-for-sale-in-greater-noida`, `/flats-in-ghaziabad`, `/commercial-and-residential-property-in-lucknow` | Flagship city / intent landings |
+| 21–22 | `/privacy-policy`, `/terms` | Legal |
+
+---
+
+### B. Dynamic pages (many URLs, few templates) — still listed in `sitemap.txt`
+
+**Count: 40 URLs** (each line in the sitemap is still one address a user can open)
+
+**How to read this for a client:** the **design** is reused; the **address** is different for each article, city, or project. When you add a blog post, location, or property in admin (or in blog data), a **new URL** can appear after the next sitemap generation.
+
+#### B1. Blog articles — **8 URLs** (one template: article layout)
+
+| URL path |
+|----------|
+| `/blog/is-noida-safe-to-buy-property-2026` |
+| `/blog/yamuna-expressway-growth-corridor-delhi-ncr` |
+| `/blog/noida-vs-greater-noida-investment-2026` |
+| `/blog/jewar-airport-ncr-property-buyers-2026` |
+| `/blog/forest-walk-villa-ghaziabad-luxury-living-2026` |
+| `/blog/upcoming-luxury-projects-noida-greater-noida-2026` |
+| `/blog/sobha-rivana-greater-noida-west` |
+| `/blog/3bhk-flats-in-greater-noida` |
+
+#### B2. Location hub pages — **5 URLs** (one template: “properties in this city/region”)
+
+| URL path |
+|----------|
+| `/properties-in-noida` |
+| `/properties-in-greater-noida` |
+| `/properties-in-yamuna-expressway` |
+| `/properties-in-ghaziabad` |
+| `/properties-in-lucknow` |
+
+#### B3. Property detail pages — **27 URLs** (one template: single project)
+
+Same pattern for all: `/properties-in-{area}/{project-slug}`.
+
+**By area (from this `sitemap.txt`):**
+
+- **Greater Noida:** 19 project URLs  
+- **Noida:** 5 project URLs  
+- **Yamuna Expressway:** 2 project URLs  
+- **Ghaziabad:** 1 project URL  
+
+The exact slugs match your **published** inventory at export time; open `sitemap.txt` in the project for the full list of links.
+
+---
+
+### C. Public pages in the codebase but **not** in `sitemap.txt`
+
+These folders exist under `app/` with a real `page.tsx`, but they are **deliberately omitted** from the public sitemap (see `app/sitemap.ts` filters). Visitors can still open the URL if they have the link.
+
+| URL path | Folder in project | Why it is not in the sitemap |
+|----------|-------------------|------------------------------|
+| `/demo-property` | `app/demo-property/` | Internal **layout demo** (Sobha-style preview). Marked **noindex** so it does not compete with real project pages in search. |
+| `/ca-internal-inventory-v1` | `app/ca-internal-inventory-v1/` | **Internal / private** listing experience; excluded from the same public sitemap rules as other private inventory paths. |
+
+---
+
+### D. Admin panel (never part of the public sitemap)
+
+**Count: 9 screens** — all under `app/admin/`. Only staff use these; they are not customer marketing URLs.
+
+| URL path | Folder |
+|----------|--------|
+| `/admin/login` | `app/admin/login/` |
+| `/admin` | `app/admin/` |
+| `/admin/leads` | `app/admin/leads/` |
+| `/admin/locations` | `app/admin/locations/` |
+| `/admin/locations/new` | `app/admin/locations/new/` |
+| `/admin/locations/{slug}/edit` | `app/admin/locations/[slug]/edit/` |
+| `/admin/properties` | `app/admin/properties/` |
+| `/admin/properties/new` | `app/admin/properties/new/` |
+| `/admin/properties/{id}/edit` | `app/admin/properties/[id]/edit/` |
+
+`{slug}` and `{id}` mean “whatever location or property you opened”—same idea as dynamic public pages, but **password-protected**.
+
+---
+
+### E. How this maps to code (short technical summary)
+
+- **36** files named `page.tsx` under `app/` = **36 route entry points** in the app.
+- **Public customer routes:** **24** fixed-path pages + **3** dynamic **templates** (`blog/[slug]`, `properties-in/[locationCategory]`, `properties-in/[locationCategory]/[slug]`) that create **many** URLs.
+- **Sitemap today:** **62** public URLs = **22** static + **40** dynamic listings (8 + 5 + 27).
+- **Outside sitemap:** **2** public URLs (`demo-property`, `ca-internal-inventory-v1`) + **9** admin URLs → **73** distinct URLs in total (same as the **Counts** table at the top of this section).
+
+When you **publish** a new location, blog post, or property, regenerate or redeploy so **`sitemap.txt`** (or the live `/sitemap.xml`) stays aligned with what Google should crawl.
+
+---
+
+## How to read this
+
+- Work is grouped by **site area** and split across **February 2026** and **March 2026**.
+- **“Effort” here means breadth:** number of pages, sections, forms, SEO surfaces, and admin behaviors touched—not billable hours.
+
+---
+
+## February 2026
+
+### Location and buyer landing pages (large build)
+
+This month was primarily **six new public URL experiences**, each with custom copy, layout, SEO setup (page title, description, canonical URL, sharing previews, FAQ markup for Google), footer link under Locations, and sitemap entry.
+
+| Page (visitor path) | What was delivered |
+|---------------------|-------------------|
+| **Residential property in Noida** | Full-height hero; **live listings** filtered to **residential only** (apartments + villas) with the same filter/grid pattern as other location hubs; **eight** long-form advisory sections in expandable cards; **four** FAQs; desktop **sticky callback** column on the right; callback form fields: name, phone, property type (2 / 3 / 4+ BHK, villa, plot), budget band, timeline. |
+| **Commercial property in Noida** | Full-height hero; **seven** advisory sections + **four** FAQs; **no** listing grid in this first pass (content-led commercial story); same two-column + sticky **commercial** callback form (office / retail / mixed-use / other, budget, timeline). |
+| **Flats for sale in Noida** | Hero + **apartments-only** listings (filters + grid); **seven** advisory sections; **four** FAQs; sticky residential callback; full SEO + nav wiring. |
+| **Flats for sale in Greater Noida** | Same structural depth as Noida flats: hero, **apartments-only** grid, **seven** sections, **three** FAQs, sticky sidebar, SEO + footer + sitemap. |
+| **Flats in Ghaziabad** | Hero; **ten** advisory sections (including Indirapuram-focused narrative); **four** FAQs; two-column layout with sticky sidebar; initially **content-first** (listing section completed in March). |
+| **Commercial & residential property in Lucknow** | Combined story for both asset types; **ten** sections; **four** FAQs; sticky sidebar; **content-first** in this month (city listing block completed in March). |
+
+**Shared behavior across these pages:** long sections use **step-by-step “read more”** (so pages do not feel like a wall of text); gold visual separators between sections; a **dark call-to-action strip** at the bottom of each (“ready to buy” / “talk to advisor” style, page-specific). Listing pages use the **same search and pagination plumbing** as your dynamic “properties in [area]” pages where applicable.
+
+**Property search API** was extended so “residential” correctly means **apartments + villas only**, matching the residential Noida page.
+
+---
+
+### Homepage (structural and content overhaul)
+
+- **Opening story (Brand intro):** Main heading rewritten to lead with **“Best Real Estate Consultants in Delhi NCR for Smart Property Investment”**; two-column layout (headline left, body right); opening paragraph reordered for stronger hook; **keyword bolding removed** from body for cleaner reading; **removed** the old “Book a free consultation” link from this block.
+- **Removed two full sections entirely:** the **“How Property Decisions Should Feel”** block and the **Vault teaser**—so the homepage is shorter and more focused on consulting and listings.
+- **New expandable “SEO blocks” region** (five separate articles-in-miniature), placed **after** “Who we serve”: (1) trusted consultant in Noida & NCR, (2) consulting services, (3) consultant for buyers & investors, (4) exploring properties with consultants, (5) how you help buyers choose. Each has a centered heading, optional intro line, and a white content card with sub-headings. **Internal links** were woven in (dozens of links across the five blocks to flats, residential/commercial pages, plots, villas, services, blog, contact, philosophy, etc.). **All five blocks stay in the page for Google**; visibility is controlled so users see one new block at a time.
+- **Who we serve:** all **six** buyer cards (first-time buyers, investors, NRIs, corporates, professionals, developers) got **full rewrites**—same cards, deeper advisory copy.
+- **Why choose Celeste Abode:** heading changed to **“Why Choose Celeste Abode as Your Real Estate Consultant”**; new intro; all **six** trust pillars rewritten (RERA-first, independence, data, documentation, post-booking, no pressure).
+- **Metrics line** under the numbers section updated to state clearly that figures come from **verified transactions**, not estimates.
+
+---
+
+### Header, logo, and social (sitewide chrome)
+
+- **Logo:** single canonical logo URL used across **header, footer, blog shell, and structured data**; old local logo asset retired sitewide.
+- **Desktop:** **three** sticky social buttons (**Instagram, LinkedIn, WhatsApp**) fixed on the **left**; **call** and **chatbot** stay on the **right**. **Mobile:** the same three networks appear **inside the menu** in a row under Contact Us.
+- **Desktop header:** **phone capsule** (black background, gold border) on the **left**; **Contact Us** capsule on the **right**—**same width and height**; Contact Us label switched to **black text** on gold for readability.
+
+---
+
+### Search engines and business profile data
+
+- **Bing:** both a **meta-tag** verification and a **`BingSiteAuth.xml` file** were added so you can verify the site in Bing Webmaster Tools.
+- **Google-style JSON-LD:** business type set to **real estate agent**; **logo URL**, **full office address** (Galaxy Blue Sapphire Plaza, Sector 4, Greater Noida West), **map coordinates**, **Mon–Sat hours**, **phone in +91 format**, **Instagram + LinkedIn** only in “sameAs”, **price range hint**, **service areas** (Noida, Greater Noida, Gurugram, Delhi, Ghaziabad, Yamuna Expressway, plus later **Lucknow** and **Noida Expressway** alignment).
+- **Organization / brand / website** schemas were **aligned** so slogan and descriptions match your main site metadata and hero messaging; **duplicate or unverifiable review stars** removed from brand schema.
+- **Central library** for all structured-data helpers was consolidated so **every page type** (home, blog, property, location, FAQs, etc.) pulls from **one consistent implementation**—less drift, easier future edits.
+
+---
+
+### Blog and long-form content
+
+- **Blog index (`/blog`):** new **browser tab title** and **description**; sharing image and alt text set for when the blog link is pasted on social apps.
+- **Per-article SEO fields** were added to the content model (`metaTitle`, `metaDescription`, `ogImage`, `ogImageAlt`) so important posts can override defaults.
+- **Five existing articles** got **new public titles** and metadata aligned to those titles (topics: **Noida investment in 2026**, **Yamuna Expressway corridor**, **Noida vs Greater Noida**, **Jewar airport impact**, **Forest Walk Villa Ghaziabad**). Banner titles were unified to use the article title consistently.
+- **One new flagship article** was published: **upcoming luxury projects in Noida & Greater Noida (2026)**—roughly **1,500–2,000 words**, with **named projects** (e.g. Sobha, Trump Towers Noida, Smart World Elie Saab, CRC Joyous, Eternia, M3M Jacob & Co, Renox Thrive, VVIP, Irish Platinum, and others per your list), **internal links** to each live property URL where the project exists on the site, and **in-article hero images** for those projects. Article hero image treatment was aligned with other landing pages.
+- **Article footer lead form** copy updated **for all posts** that use it: heading **“Talk to a real advisor”** with neutral subtext inviting the reader to describe plans so your team can respond with next steps.
+
+---
+
+### Dynamic “properties in [location]” pages
+
+- **Result transparency:** above the grid, visitors now see **“Showing X out of Y properties”**, with **Y** coming from the real total (updates when filters or pagination change).
+
+---
+
+### Admin (internal) and global contact
+
+- **Property editor:** replaced a single vague “price range” with **three fields**—**minimum price**, **maximum price**, and **display price text**—stored cleanly in the database; **numbers** validated end-to-end; rule added: **max cannot be less than min** when both are set.
+- **Contact number migration:** old number replaced with **9910906306** across **visible UI** (tel links, WhatsApp `wa.me` links, forms, headers/footers), **email and schema metadata**, and **internal setup docs**—verified so no stale number remained.
+- **Sticky landing-page forms:** budget dropdown options on new SEO landings were reset to **premium-aligned bands** (e.g. **1–5 Cr, 5–8 Cr, 8–15 Cr, 15 Cr+**).
 
 ---
 
 ## March 2026
 
-*This month's work focused on a new residential-property landing page, improved content UX, and a sticky consultation sidebar to convert readers without breaking the flow.*
+### Location and buyer pages (depth, parity, and polish)
 
-### Flats for Sale in Greater Noida page
-43. **New page:** `/flats-for-sale-in-greater-noida` — same structure as flats-in-Noida: hero (H1 "Flats for Sale in Greater Noida" + subline "Buy Apartments in Greater Noida"), listing (filters + grid, apartments only), gold line, two-column layout with sticky consultation sidebar on the **right** (`lg:grid-cols-[1fr_360px]`; main column first, aside second).
-44. **Content:** 7 SEO blocks — Explore best flats, Apartments for modern living (gated / luxury / affordable), Buy studio apartment (compact for investment, near commercial hubs), BHK flat (1 BHK, 2 & 3 BHK), Top locations (Greater Noida West, Yamuna Expressway), Why buy flats (connectivity, infrastructure, appreciation), Why Celeste Abode (consultants, verified listings, buying assistance); expand/collapse and gold separators; 3 FAQs with full advisory copy; dark CTA "Ready to Buy a Flat in Greater Noida?"
-45. **SEO & nav:** Layout metadata, canonical, Open Graph, Twitter; BreadcrumbSchema, WebPageSchema, FAQPageSchema; sitemap entry (monthly, 0.8); footer "Flats for Sale in Greater Noida" under Locations.
-46. **Content refresh (readability & 2026 facts):** Rewrote SEO blocks and FAQs for Hemingway-style clarity, advisory tone (per internal SEO prompt), internal links (`/properties-in-greater-noida`, `/flats-for-sale-in-noida`, `/properties-in-noida`, `/properties-in-yamuna-expressway`, `/residential-property-in-noida`, `/villas-in-greater-noida`, `/plots-in-greater-noida`, `/advisory-philosophy`, `/advisory-session`, `/real-estate-consulting-services`, `/contact`). Removed stale dated stats (e.g. Q2 2025, fixed multi-year % claims); Jewar Phase 1 framed as moving toward commercial flights in 2026; dropped unverified inventory rupee figures. Hero subline no em dash. Footer CTA copy: period instead of em dash before "Just clarity."
+**A. “Read more” experience rebuilt to match the homepage**
 
-### Flats in Ghaziabad page
-47. **Content refresh (align with Greater Noida flats strategy):** `/flats-in-ghaziabad` — removed `prose-editorial`; hero subline without em dash; two-column layout with sticky consultation sidebar on the **right** (`lg:grid-cols-[1fr_360px]`); **10 SEO blocks** retained (original H2 outline restored: *Our Real Estate Consulting Services for Flat Buyers*, *Why Celeste Abode Are Trusted Property Consultants in Ghaziabad*, *Benefits of Choosing Professional Property Dealers in Ghaziabad*); short sentences for Hemingway-style readability; target phrases in body and FAQs: *flats in Ghaziabad*, *flat in Ghaziabad for sale*, *flat for sale in indirapuram ghaziabad*, *3 bhk flats in indirapuram ghaziabad*; internal links as before; **3 FAQs** with gold-styled HTML anchors; `layout.tsx` meta `keywords` updated.
+The expandable section controller was **rewritten** (not a small CSS tweak). Changes applied to **all** of these URLs **plus** the dynamic **`/properties-in/[location]`** template:
 
-### New page & SEO
-1. **New page:** `/residential-property-in-noida` — dedicated landing for buying residential property in Noida (apartments, villas, luxury).
-2. **Sitemap:** New URL added with monthly change frequency and priority 0.8.
-3. **Structured data:** BreadcrumbSchema, WebPageSchema, and FAQPageSchema implemented for the page.
-4. **Meta & share:** Canonical URL, Open Graph, and Twitter cards set in layout; meta title and description aligned with H1 and intro.
-5. **Footer:** "Residential Property in Noida" link added under the Locations column.
+- `/flats-for-sale-in-noida` (**7** content blocks)  
+- `/flats-for-sale-in-greater-noida` (**7**)  
+- `/residential-property-in-noida` (**8**)  
+- `/commercial-property-in-noida` (**7**)  
+- `/flats-in-ghaziabad` (**10**)  
+- `/commercial-and-residential-property-in-lucknow` (**10**)  
+- Dynamic location pages (variable block count)
 
-### Hero & above-the-fold
-6. **Hero:** Full-viewport hero image; H1 only (no sub-paragraph); single gold highlight on "Residential Property in Noida" for clarity.
-7. **Listings:** Residential-only listings (apartments + villas) via API filter; filters and grid placed directly under hero with no extra heading or paragraph.
-8. **API:** Search endpoint updated to support `propertyType=residential` (apartments and villas only).
+**Behavior:** only **one** new block opens per click (was batched before); **paired “Read more” / “Show less”** controls with equal sizing; blur fade above the buttons; **smooth scroll** after collapse so the viewport does not jump (also applied to homepage SEO blocks). Search engines still see **full text** in the page.
 
-### Content blocks & typography
-9. **Content blocks:** 8 SEO sections, each with a centred H2 and one white card; one key phrase per H2 highlighted in gold.
-10. **Typography:** Line-height 1.75, max text width 700px, gold drop cap on the first paragraph of each card; content centred within the card.
-11. **Card width:** Content cards constrained to `max-w-4xl` for a tighter, editorial feel.
-12. **Separators:** Gold gradient lines only between revealed blocks (hidden until those blocks are visible); no line after the FAQ section.
+**B. Dynamic location pages visually aligned with homepage**
 
-### Expand/collapse UX
-13. **Read more:** "Read more" expands blocks in steps; separators appear only for revealed content.
-14. **Floating close:** Sticky "Close section" pill (gold, glass style) at bottom-center of viewport when expanded — always visible for quick exit.
-15. **On close:** Auto-scroll to the top of the content section when closing, so the user is not left mid-page; inline "Read less" button removed in favour of the floating pill.
+For **`/properties-in/[location]`** only: wider content container, card shadow and border matched to homepage cards, padding tiers on cards, paragraph line-height and color matched, gold divider width matched. **Static** landings (flats/residential/commercial URLs above) **kept** their tighter editorial width on purpose.
 
-### Two-column layout & consultation sidebar (desktop)
-16. **Two-column layout:** Main content (SEO blocks + FAQ) on the left; consultation sidebar on the right (360px), desktop only.
-17. **Sticky sidebar:** "Tell Us What You Need. We'll Do the Rest." card with subtext: consultants shortlist, verify, and walk you through every option before you visit a single site. Sticks from the "Explore…" H2 down to the last FAQ (stops before footer CTA).
-18. **Spacing:** Sidebar uses `top-28`, `max-h-[calc(100vh-8rem)]`, and `my-2` so it does not sit under the header when sticky and the card fits in the viewport with spacing from top and bottom; scrolls inside the card if needed.
-19. **FAQ:** Same pattern as property-in pages (centred heading + LocationFAQs); 4 Q&As with schema for rich results.
+**C. Hero and imagery**
 
-### Components & code
-20. **LocationPropertyFilters:** Optional `hidePropertyType` and `defaultPropertyType` for residential-only pages.
-21. **NoidaPropertiesGrid:** Optional `defaultPropertyType` to lock the grid to residential.
-22. **SeoBlocksRevealController:** Separators hidden until blocks are revealed; floating Close pill; scroll-to-top on close.
-23. **ConsultationSidebar:** New component for the sticky consultation card (headline, short copy, LocationContactForm replaced by ResidentialStickyForm).
-24. **ResidentialStickyForm:** Custom sticky form — Name, Phone, Property Type (2 BHK / 3 BHK / 4 BHK+ / Villa / Plot), Your Budget (50L–5 Cr+), Timeline (Ready now / 6 months / 1 year / Researching). Submit: "Request a Callback"; line below: "One call. No obligation." Submits to `/api/location-contact` with message built from dropdowns; success state shows thank-you with 12–24 hour callback note.
+- **Six** static landings received **new cloud-hosted hero images** (webp) with matching **sharing image** metadata: Greater Noida flats, Noida flats, residential Noida, commercial Noida, Ghaziabad flats, Lucknow combined page.
+- **All** property-in and location heroes moved to **full screen height** on every screen size (including dynamic location pages).
 
-### Sidebar variant & headline update
-25. **ConsultationSidebar variant:** Optional prop `variant="residential" | "commercial"`; when commercial, renders CommercialStickyForm and commercial subtext; default remains residential.
-26. **Sidebar headlines:** Residential: "Get a Verified Shortlist—No Guesswork." Commercial: "Commercial Advice. No Pitch, No Pressure." (replaced single "Tell Us What You Need…" line.)
+**D. Listing sections brought up to the same standard as “properties in …”**
 
-### Commercial property page (no listing)
-27. **New page:** `/commercial-property-in-noida` — hero with H1 (gold "Commercial Property in Noida"), 7 SEO blocks (Explore best commercial, Expert consultants, For every business need, Top locations, Why invest, How experts help, Why Celeste Abode), 4 FAQs, dark CTA ("Talk to a Commercial Advisor"). No property grid; same two-column layout and expand/collapse as residential.
-28. **CommercialStickyForm:** Name, Phone, Property Type (Office Space / Retail & Showroom / Mixed-use / Other), Budget, Timeline; same "Request a Callback" / "One call. No obligation."; posts to `/api/location-contact`; used on commercial page via sidebar variant.
-29. **Commercial SEO & nav:** Layout metadata, canonical, Open Graph, Twitter; BreadcrumbSchema, WebPageSchema, FAQPageSchema; sitemap entry (monthly, 0.8); footer "Commercial Property in Noida" under Locations.
+- **Commercial property in Noida:** after the hero, a **commercial-only** listing block (filters + grid + empty state linking to Noida properties hub).
+- **Commercial & residential Lucknow:** **Lucknow-scoped** listings with **property type filter visible**; empty state points to Lucknow hub.
+- **Flats in Ghaziabad:** **Ghaziabad apartments-only** grid with the same pattern as other flats pages; empty state points to Ghaziabad hub.
+- **Residential Noida, flats Noida, flats Greater Noida:** listing stack already live—March work included **count parity**, server-side totals, and anchor placement for filters/grid consistency.
 
-### FAQ content updates
-30. **Residential FAQs:** All four answers updated to full advisory copy — Noida good for most NCR buyers (location qualifier), price band Rs 4,500–15,000 per sq ft and mid-segment detail, sector choice by buyer type (150 / 75–78 / Greater Noida West), safe purchase steps (RERA, delivery record, agreement review, mutation; Celeste Abode role).
-31. **Commercial FAQs:** All four answers updated to full advisory copy — yield vs residential and vacant-risk qualifier, price by asset/zone (Expressway office, retail, Noida Extension entry), location by objective (Expressway / 62 & 18 / Extension), safe purchase (RERA, plan/use category, builder clauses, actual occupancy; Celeste Abode role).
+**E. Page-specific SEO titles and social cards**
 
-### Flats for sale in Noida page
-32. **New page:** `/flats-for-sale-in-noida` — same structure as residential: hero (H1 "Flats for Sale in Noida — Buy the Best Flats in Noida"), then listing (filters + grid), then content. Listing shows flats only via `defaultPropertyType="apartments"` (Apartment/Flats); hidePropertyType; initial fetch and search API filter to apartments only.
-33. **Sidebar on right:** Two-column layout uses `lg:grid-cols-[1fr_360px]` with main content first and ConsultationSidebar in the second column (right), matching residential/commercial property pages. Sticky form variant="residential".
-34. **Content:** 7 SEO blocks (Find best flats for modern living, Buy with expert consultants, 2 BHK for sale, 3 BHK for sale, Top locations, Why buy flats in Noida, Why Celeste Abode); expand/collapse and gold separators as on residential; 4 FAQs with FAQPageSchema; dark CTA "Ready to Buy a Flat in Noida?"
-35. **Flats SEO & nav:** Layout metadata, canonical, Open Graph, Twitter; BreadcrumbSchema, WebPageSchema, FAQPageSchema; sitemap entry (monthly, 0.8); footer "Flats for Sale in Noida" under Locations.
-36. **Flats FAQs:** All four answers updated to full advisory copy — average price by sector/config (Greater Noida West 2 BHK, mid-Noida, Expressway 3 BHK), best sector by goal (budget/families/investors/premium), investment case (127% rise, fundamentals, zone/developer selection), how to choose (RERA, delivery record, payment milestones, site visit, agreement review, title/approvals, comparables; Celeste Abode checks).
+Dedicated **tab titles** and **Open Graph / Twitter** image+alt were set for: residential Noida, commercial Noida, Noida flats, Greater Noida flats, Ghaziabad flats, Lucknow combined page—so each link preview is **unique** and accurate when shared.
 
-### Social media integration (sticky + mobile menu)
-37. **Desktop — left-side sticky:** Instagram, LinkedIn, and WhatsApp buttons added as a sticky vertical stack on the **left** side of the viewport, vertically centered (`fixed left-4 sm:left-6 top-1/2 -translate-y-1/2`). Order top to bottom: Instagram (gradient brand colors), LinkedIn (#0A66C2), WhatsApp (#25D366). Links: instagram.com/celesteabode, linkedin.com/company/celeste-abode, wa.me/919910906306. **Hidden on mobile** (`hidden md:flex`).
-38. **Desktop — right-side unchanged:** Call (green, tel link) and Chatbot (Property Advisor) buttons remain sticky on the right corner; no social icons on the right.
-39. **Mobile — in menu bar:** On viewports below `md`, the three social links (Instagram, LinkedIn, WhatsApp) appear **inside the header mobile menu**, directly **below "Contact Us"**, in a **horizontal row** with brand-colored circular icons. Tapping a link opens the target and closes the menu. Implemented in `components/header.tsx` (mobile nav) and `components/chatbot.tsx` (desktop sticky left stack).
+**F. Copy and facts refresh**
 
-### Header capsules (desktop)
-40. **Phone capsule — left:** Desktop-only capsule on the **left** side of the header: mobile number (+91 9910906306) in a **black background**, **gold border** (`border-2 border-[#CBB27A]`), rounded-full, `tel:` link. Not shown on mobile.
-41. **Capsule width and height:** Both header capsules (phone left, Contact Us right) use the **same width** (`w-[180px] min-w-[180px]`) and **same height** (`h-10` = 40px); content centered with flex. Contact Us capsule remains gold gradient on the right.
-42. **Contact Us capsule — black text:** "Contact Us" label in the right capsule changed from white to **black text** (`text-black`) for contrast on the gold gradient background.
+- **Greater Noida flats** and **Ghaziabad flats:** advisory sections and FAQs rewritten for **clearer sentences**, **internal links** to related hubs, removal of **outdated dated stats**; airport framing updated for **2026**; footer and microcopy cleaned (e.g. punctuation consistency).
+- **FAQ sets** on residential, commercial, and Noida flats pages were expanded or replaced with **full advisory answers** (pricing bands, sector choice, investment framing, safe-buying checklist, and how Celeste Abode fits in).
 
-### Flats in Ghaziabad page
-46. **New page:** `/flats-in-ghaziabad` — hero (H1 "Flats in Ghaziabad"), no listing grid, content-only SEO landing with two-column layout on desktop: main content on the left, sticky consultation sidebar on the right.
-47. **Content:** 10 SEO blocks covering flats in Ghaziabad for modern living, why work with consultants, Indirapuram-focused section (ready-to-move, 3 BHK, amenities), services for flat buyers, top locations (Indirapuram, Vaishali, Vasundhara), how Celeste Abode helps, why Celeste is trusted, and benefits of professional property dealers; 4 FAQs with full advisory answers; dark CTA.
-48. **SEO & nav:** Layout metadata, canonical, Open Graph, Twitter; BreadcrumbSchema, WebPageSchema, FAQPageSchema; sitemap entry (monthly, 0.8); footer "Flats in Ghaziabad" link under Locations.
+**G. Dynamic location page fixes**
 
-### Commercial and Residential Property in Lucknow page
-49. **New page:** `/commercial-and-residential-property-in-lucknow` — hero (H1 "Invest in Residential and Commercial Property in Lucknow" / second line "with Expert Real Estate Consultants"), no listing grid, content-only SEO landing; two-column layout on desktop with main content on the left and sticky consultation sidebar on the right.
-50. **Content:** 10 SEO blocks covering combined residential + commercial narrative: why invest in Lucknow, residential formats (flats, villas, premium projects), commercial formats (office, retail, pre-leased), consulting services, how Celeste Abode helps, and benefits of working with consultants; 4 FAQs with full advisory answers; dark CTA.
-51. **SEO & nav:** Layout metadata, canonical, Open Graph, Twitter; BreadcrumbSchema, WebPageSchema, FAQPageSchema; sitemap entry (monthly, 0.8); footer "Commercial & Residential Property in Lucknow" link under Locations.
-
-### Logo & assets (R2)
-52. **Logo:** Site logo switched to R2 URL `https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/logocelesteabode.webp`; all references updated (header, footer, blog layout, structured data). Local `public/logoceleste.avif` removed; obsolete Cache-Control header for `/logoceleste.avif` removed from `next.config.mjs`.
-
-### Structured data (LocalBusiness / RealEstateAgent)
-53. **LocalBusinessSchema:** Updated to RealEstateAgent with direct logo URL, address (Galaxy Blue Sapphire Plaza, Sector 4, Greater Noida West), geo (28.607256, 77.4354391), opening hours Mon–Sat 09:00–18:00, sameAs (Instagram, LinkedIn), priceRange "₹". Description and areaServed (Noida, Greater Noida, Gurugram, Delhi, Ghaziabad, Yamuna Expressway) retained.
-
-### Hero images — location landing pages (R2 webp)
-54. **Flats for Sale in Greater Noida:** Hero image (and WebPageSchema image) set to R2 webp: `flat-for-sale-in-greater-noida/flat-for-sale-in-greater-noida.webp`. Replaces local `/GREATER NOIDA.avif`.
-55. **Flats for Sale in Noida:** Hero and schema image set to R2 webp: `flat-for-sale-in-noida/flat-for-sale-in-noida.webp`. Replaces local `/NOIDA.avif`.
-56. **Residential Property in Noida:** Hero and schema image set to R2 webp: `residential-property-in-noida/residential-property-in-noida.webp`. Replaces local `/NOIDA.avif`.
-57. **Commercial Property in Noida:** Hero and schema image set to R2 webp: `commercial-property-in-noida/commercial-property-in-noida.webp`. Replaces local `/NOIDA.avif`.
-58. **Flats in Ghaziabad:** Hero and WebPageSchema image set to R2 webp: `flats-in-ghaziabad/flats-in-ghaziabad.webp`. Replaces local `/GHAZIABAD.avif`.
-59. **Commercial and Residential Property in Lucknow:** Hero and WebPageSchema image set to R2 webp: `commercial-and-residential-property-in-lucknow/commercial-and-residential-property-in-lucknow.webp`. Replaces local `/LUCKNOW.avif`.
-
-### Hero — full viewport (property-in pages)
-60. **Property-in hero height:** All property-in and location landing hero sections use full viewport height. Dynamic `properties-in/[locationCategory]` hero updated from `min-h-[70vh] sm:min-h-[80vh] lg:min-h-screen` to `min-h-screen` at all breakpoints so the hero image is always full viewport. Static pages (residential/commercial property in Noida, flats for sale in Noida/Greater Noida, flats in Ghaziabad, commercial-and-residential in Lucknow) already used `min-h-screen`.
-
-### Search engine verification
-61. **Bing Webmaster verification:** Meta tag `<meta name="msvalidate.01" content="B8F3AC31F09EF60F080EB603250077D8" />` added to `app/layout.tsx` under Search Engine Verification comment block.
-62. **BingSiteAuth.xml:** Created `public/BingSiteAuth.xml` with Bing verification code for file-based verification method (alternative to meta tag).
-
-### Structured data — alignment & cleanup
-63. **OrganizationSchema:** Phone format updated to `+91 9910906306`; sameAs restricted to Instagram and LinkedIn only (removed Facebook, Twitter); Lucknow added to areaServed.
-64. **LocalBusinessSchema:** Added `addressRegion: "Uttar Pradesh"`; geo coordinates aligned to `28.6076655, 77.4354885` (same as metadata.ts); added `Noida Expressway` and `Lucknow` to areaServed.
-65. **BrandSchema:** sameAs restricted to Instagram and LinkedIn; aggregateRating removed (no verified reviews to display).
-66. **Slogan & description alignment:** All schemas (Organization, WebSite, LocalBusiness, Brand) and `public/llms.txt` updated to use canonical slogan and description matching `app/metadata.ts` and homepage hero copy.
-67. **Shared structured-data helpers:** Centralised all JSON-LD helpers in `lib/structured-data.tsx` (Organization, LocalBusiness, WebSite, Brand, Property, FAQPage, ItemList, CollectionPage, Service, Article, WebPage, LocationPage, Blog) so all pages reuse a single, consistent schema implementation.
-
-### Homepage refactor — Brand Intro section
-67. **H2 updated:** Changed from "Real Estate Consulting Built for Delhi NCR Property Decisions" to "Best Real Estate Consultants in Delhi NCR for Smart Property Investment".
-68. **Two-column layout:** Left column (lg:col-span-5) contains H2 only; right column (lg:col-span-7) contains two paragraphs. Content reordered — strong opener ("Most buyers in the NCR commit...") moved to first position.
-69. **SEO bolding removed:** All `<span>` keyword bolding removed from body text for cleaner reading.
-70. **CTA removed:** "Book a free consultation" link and ArrowRight icon removed from Brand Intro.
-71. **Proof strip — full width:** 3-item KPI strip (No developer tie-ups, RERA-verified shortlists only, Involved from visit to possession) moved outside two-column grid to span full container width with border-top separator.
-72. **KPI layout:** Title on one line, description on line below (not inline with em-dash); proper vertical alignment with icon.
-
-### Homepage refactor — sections removed
-73. **PropertyEvaluationSection removed:** "How Property Decisions Should Feel" section and component completely removed from homepage (`app/page.tsx` and `components/property-evaluation-section.tsx` deleted).
-74. **VaultTeaser removed:** Celeste Abode Vault teaser section removed from homepage.
-
-### Homepage refactor — SEO blocks section
-75. **New component:** `components/homepage-seo-blocks.tsx` — 5 SEO content blocks placed after Who We Serve (Buyer Types) section.
-76. **Block structure:** Each block has centered H2 (with gold keyword highlight), optional subtext paragraph, and white card with H3 sub-sections and body content.
-77. **Block order:** (1) Trusted Property Consultant in Noida & Delhi NCR, (2) Our Real Estate Consulting Services in Delhi NCR, (3) Best Real Estate Property Consultant in Noida for Buyers & Investors, (4) Explore Properties with Real Estate Consultants in Delhi NCR, (5) How Our Property Consultants Help You Buy the Right Property.
-78. **Progressive expand:** Block 1 always visible; "Read More" reveals one block at a time with blur overlay above button; "Show Less" collapses all blocks back to initial state.
-79. **Button layout:** Equal-width buttons (w-40/w-44); "Read More" on left, "Show Less" on right; subtle hover transitions.
-80. **Blur overlay:** Gradient blur (`bg-gradient-to-t from-background via-background/80 to-transparent`, height 64) positioned above buttons when content is collapsed.
-81. **Fade animation:** New blocks appear with `animate-fadeIn` (0.4s ease-out, translateY 12px → 0) defined in `app/globals.css`.
-82. **Internal linking:** 1–3 internal links per sub-section, naturally embedded within sentences (not at end); links to `/flats-for-sale-in-noida`, `/commercial-property-in-noida`, `/plots-in-noida`, `/residential-property-in-noida`, `/villa-in-noida`, `/properties`, `/advisory-session`, `/real-estate-consulting-services`, `/real-estate-insights`, `/flats-for-sale-in-greater-noida`, `/flats-in-ghaziabad`, `/commercial-and-residential-property-in-lucknow`, `/advisory-philosophy`, `/contact`.
-83. **SEO fix — content in page source:** All 5 blocks always rendered in DOM; visibility controlled via CSS (`opacity-0 max-h-0 overflow-hidden invisible` vs `opacity-100 max-h-[5000px] visible`) instead of conditional rendering. Ensures search engines see all content on first crawl.
-
-### Homepage refactor — Who We Serve (Buyer Types)
-84. **Content updated:** All 6 buyer type descriptions (First-Time Home Buyers, Property Investors, NRIs & Overseas Buyers, Corporate Organisations, Working Professionals, Real Estate Developers) rewritten with full advisory copy emphasizing verification, due diligence, and Celeste Abode's process.
-
-### Homepage refactor — Why Clients Trust section
-85. **H2 updated:** Changed from "Why Clients Trust Celeste Abode" to "Why Choose Celeste Abode as Your Real Estate Consultant".
-86. **Intro updated:** New paragraph emphasizing verification process before site visits.
-87. **Trust pillars updated:** All 6 cards rewritten with new titles and content: (1) RERA Verification First, (2) Independent Advisory, (3) Market Data, Not Assumptions, (4) Full Documentation Support, (5) Post-Booking Involvement, (6) No Pressure, No Pitch.
-
-### Homepage refactor — Value Propositions section
-88. **Description updated:** Changed to "Every number here comes from verified transactions across Noida, Greater Noida, and Delhi NCR. No projections, no estimations."
-
-### Technical SEO documentation
-89. **New file:** `TECHNICAL_SEO_STATIC_PAGES.txt` created — comprehensive record of technical SEO for all static pages (Home, Services, Philosophy, About, Contact, Terms, Privacy, Blog, Properties, Advisory Session, Location pages). Documents meta title/description, canonical, Open Graph, Twitter cards, structured data schemas, and internal linking for each page.
-
-### Read More component refactor — all landing pages
-90. **SeoBlocksRevealController redesigned:** Component completely rewritten to match homepage SEO blocks UX. New features: progressive reveal (one block at a time), blur overlay above buttons, side-by-side Read More / Show Less buttons with equal widths (w-40/w-44), fade animation (`fadeInUp`) for newly revealed blocks.
-91. **Floating pill removed:** Old floating "Close section" pill replaced with inline "Show Less" button next to "Read More". Cleaner, more intuitive UX.
-92. **Button styling:** Both buttons use identical sizing and rounded-full styling. "Show Less" gets gold border styling when at last block; otherwise gray border with gold hover effect.
-93. **All pages updated:** Changed `initialVisible={2} step={2}` to `initialVisible={1} step={1}` on all landing pages for progressive reveal:
-    - `/flats-for-sale-in-noida` (7 blocks)
-    - `/flats-for-sale-in-greater-noida` (7 blocks)
-    - `/residential-property-in-noida` (8 blocks)
-    - `/commercial-property-in-noida` (7 blocks)
-    - `/flats-in-ghaziabad` (10 blocks)
-    - `/commercial-and-residential-property-in-lucknow` (10 blocks)
-    - `/properties-in/[locationCategory]` (dynamic, variable blocks)
-94. **SEO preserved:** All content remains in DOM via CSS visibility control; search engines see all content on first crawl.
-
-### Property-in dynamic pages — card width & styling aligned to homepage
-95. **Container width:** Changed wrapper from `max-w-4xl` to `max-w-7xl mx-auto px-4 sm:px-6 lg:px-8` for dynamic `properties-in/[locationCategory]` pages only.
-96. **Card styling:** Updated to match homepage — `shadow-lg` (from `shadow-xl`), `border-gray-100` (from `border-gray-200`), padding `p-6 sm:p-8 md:p-10 lg:p-12`.
-97. **Content width:** Removed `max-w-[700px] mx-auto` constraint; content now spans full card width with `w-full max-w-none` matching homepage.
-98. **Typography:** Updated to homepage content class — `text-gray-700`, `leading-[1.8]`, full-width paragraphs and H3s via Tailwind child selectors.
-99. **Separator styling:** Changed to match homepage — `w-32 md:w-48 h-px` gold gradient line.
-100. **Static landing pages unchanged:** Pages like `/flats-for-sale-in-noida`, `/residential-property-in-noida`, etc. retain their `max-w-4xl` wrapper and original styling.
-
-### Show Less — smooth scroll fix
-101. **Production-ready collapse:** Fixed "Show Less" jarring scroll behavior. Now: (1) collapses content first, (2) waits 350ms for animation, (3) scrolls smoothly to section top with 100px header offset using `window.scrollTo()` instead of `scrollIntoView()`.
-102. **Applied to both:** Fix applied to `SeoBlocksRevealController` (landing pages) and `HomepageSeoBlocks` (homepage).
-
-### Homepage SEO blocks — styling refinements
-103. **H2 font weight:** Changed from `font-bold` (700) to `font-semibold` (600) on all 5 SEO block headings to match Brand Intro section styling.
-104. **Button spacing:** Reduced bottom margin below Read More/Show Less buttons from `mb-12 md:mb-16` (48px/64px) to `mb-3` (12px) for tighter layout.
-
-### Homepage metadata — SEO update
-105. **Meta title:** Changed to "Best Property Consultant in Noida | Real Estate Consultants Delhi NCR".
-106. **Meta description:** Changed to "Celeste Abode is a trusted real estate consultant in Noida offering expert property consulting services across Delhi NCR for residential and commercial investments."
-107. **OG tags:** Updated title, description, url (`https://www.celesteabode.com/`), image (`propertyhero.avif`), and image:alt ("Best Property Consultant in Noida").
-108. **Twitter tags:** Updated title, description, image, and added image:alt ("Best Property Consultant in Noida").
-109. **Keywords:** Updated to focus on "best property consultant Noida", "real estate consultants Delhi NCR", "property consulting services", "residential/commercial property investment".
-
-### Landing pages metadata — SEO update (OG & Twitter images added)
-110. **`/residential-property-in-noida`:** Title: "Residential Property in Noida | Buy Home & Property for Sale". OG/Twitter image: page hero webp, alt: "Property in Noida".
-111. **`/commercial-property-in-noida`:** Title: "Commercial Property for Sale in Noida | Trusted Property Consultants". OG/Twitter image: page hero webp, alt: "Commercial Property for Sale in Noida".
-112. **`/flats-for-sale-in-noida`:** Title: "Buy 2 & 3 BHK Flats for Sale in Noida | Best Property Consultants". OG/Twitter image: page hero webp, alt: "Flats for Sale in Noida - 2 & 3 BHK Apartments".
-113. **`/flats-for-sale-in-greater-noida`:** Title: "Flats for Sale in Greater Noida | Buy 1/2/3 Bhk Flats & Apartments". OG/Twitter image: page hero webp, alt: "Flats for Sale in Greater Noida - 1/2/3 BHK Apartments".
-114. **`/flats-in-ghaziabad`:** Title: "Buy Flats for Sale in Ghaziabad with Best Property Consultants". OG/Twitter image: page hero webp, alt: "Flats for Sale in Ghaziabad".
-115. **`/commercial-and-residential-property-in-lucknow`:** Title: "Commercial Property for Sale in Lucknow | Best Property Consultant". OG/Twitter image: page hero webp, alt: "Commercial Property for Sale in Lucknow".
-
-### Brand Intro — styling refinements
-116. **Proof strip margin:** Reduced top margin from ~88-104px to ~44-52px. Changed grid `mb-12 md:mb-16` → `mb-6 md:mb-8` and proof strip `pt-10` → `pt-5`. Items now feel attached to content above.
-117. **Key line highlight:** Added `font-semibold text-[#2B3035]` to "if something fails our checks, you hear that first." — gives reader's eye an entry point and emphasizes key differentiator.
-
-### Blog metadata — SEO update
-118. **Blog listing page (`/blog`):** Title: "Real Estate Blogs | Property Investment Guides & Market Insights". Description updated. OG/Twitter image: propertyhero.avif, alt: "Real Estate Blogs".
-119. **Blog data structure:** Added `metaTitle`, `metaDescription`, `ogImage`, `ogImageAlt` fields to BlogPost type for custom SEO per article.
-120. **`generateMetadata` updated:** Blog pages now use custom meta fields if available, with fallback to title/excerpt.
-
-### Blog titles & banners updated (title = meta title)
-121. **`/blog/is-noida-safe-to-buy-property-2026`:** "Is Investing in Noida Property a Smart Choice in 2026? Expert Guide"
-122. **`/blog/yamuna-expressway-growth-corridor-delhi-ncr`:** "Why Yamuna Expressway is NCR's Next Real Estate Investment Hotspot"
-123. **`/blog/noida-vs-greater-noida-investment-2026`:** "Noida or Greater Noida: Which is Better for Property Investment in 2026?"
-124. **`/blog/jewar-airport-ncr-property-buyers-2026`:** "Jewar Airport Impact on NCR Real Estate: Investment Opportunities 2026"
-125. **`/blog/forest-walk-villa-ghaziabad-luxury-living-2026`:** "Forest Walk Villa Ghaziabad: Luxury Villa Investment on NH-24"
-126. **Banner consistency:** Removed special-case override for Forest Walk Villa; all blogs now use `post.title` for H1 banner.
-
-### Property-in pages — hero & SEO block width
-127. **Hero content width:** Increased hero text container from `max-w-4xl` to `max-w-5xl` on `properties-in/[locationCategory]` so H1 lines fit properly in two lines.
-128. **SEO block container:** Reduced SEO blocks wrapper from `max-w-7xl` to `max-w-6xl` on property-in dynamic pages to remove excess left/right white space around cards.
-
-### Property-in hero — hydration fix
-129. **Hero markup:** Hero text and subtext wrappers changed from `<h1>` and `<p>` to `<div>` because DB `heroText`/`heroSubtext` already contain `<h1>`/`<p>` tags. Prevents invalid nested headings and hydration mismatch. H1 remains in page source (inside injected HTML).
-
-### Homepage — KPI cards section
-130. **New component:** `components/kpi-cards.tsx` — three trust cards (No developer tie-ups, RERA-verified shortlists only, Involved from visit to possession) with black background, golden gradient icons and titles, gray description text.
-131. **Placement:** KPI cards placed directly after BrandIntro on homepage; reduced BrandIntro bottom padding and KPI section top padding so cards read as the “banner” under the intro.
-132. **Proof strip removed:** The three-item proof strip (icon + title + description) removed from BrandIntro; KPI cards now carry that content in card form.
-133. **Animation:** Desktop animation — left card enters from left (x: -80 → 0), center card scales in (scale 0.92 → 1), right card enters from right (x: 80 → 0). Stagger 0.12s, ease [0.25, 0.1, 0.25, 1].
-
-### Homepage — Brand Intro copy & highlights
-134. **Para 1 (buyer pain):** New copy — “Buying property in the NCR means navigating title irregularities, developers with delayed delivery records, and circle rate revisions… discoveries made after the decision is already done.” No highlights (plain text).
-135. **Para 2 (Celeste positioning):** New copy — “That is exactly what Celeste Abode, your trusted real estate consultant in NCR, was built to prevent…” with verification and “If something fails our checks, you hear that first.” Only two highlights: gold for “Celeste Abode, your trusted real estate consultant in NCR”; black bold for “If something fails our checks, you hear that first.”
-
-### Admin panel — property price fields (bigint + validation)
-136. **Price fields replaced:** Single "Price Range" field removed; replaced with **Min Price**, **Max Price**, and **Display Price**. Stored in `properties_v2` as `price_min` (bigint), `price_max` (bigint), and `price_unit` (text). Empty values are persisted as NULL (no empty string for bigint columns).
-137. **Types and validation:** `priceMin` and `priceMax` are typed and handled as **numbers** (bigint) across the app: `types/property.ts`, `lib/supabase-property-mapper.ts`, `lib/validation-schemas.ts`, `lib/validation.ts`, admin POST/PATCH/draft routes, and `lib/structured-data.tsx` (PropertySchema). Display price (`priceUnit`) remains text. API and Zod schemas coerce string input from the client to number where needed.
-138. **Max ≥ min check:** When both min and max are set, **max price must be greater than or equal to min price**. Enforced in: PropertyDataSchema and draft schema (Zod refine), `validatePropertyData` (PATCH), and admin form (client-side validation, error under Max Price, Save disabled until valid). If either value is NULL, the comparison is not applied.
-
-### Homepage — Testimonials & Google Reviews widget
-139. **Elfsight reliability:** Simplified Elfsight Google Reviews widget init logic (single, debounced init + proper `elfsight:ready` cleanup) to fix intermittent "widget not showing" issues and added a graceful fallback when reviews fail to load.
-140. **Smoother load:** Updated testimonials section to show a premium loading animation and then fade/slide in the reviews card as one unit so users don’t see the widget building in parts on slower networks.
-
-### Homepage — Instagram & header tweaks
-141. **Instagram section:** Added `InstagramEmbedsSection` to the homepage with three Instagram reels displayed side by side on desktop and as a swipeable carousel on mobile. Includes a “Follow us on Instagram” kicker and linked handle `@celesteabode`.
-142. **Instagram styling:** Created luxury-styled cards (rounded, bordered, subtle shadow) for the embeds, using the shared `Carousel` component and a CSS-only fade-in for the iframe so loading looks smooth.
-143. **Header phone cleanup:** Removed the desktop phone capsule and the phone link from the mobile menu footer; the main header CTAs are now navigation and the “Contact Us” capsule on the right.
-144. **Sticky social icons:** Updated the desktop sticky icons so Instagram, Facebook and LinkedIn are in a bottom-left vertical stack; WhatsApp and Call buttons are in a bottom-right vertical stack above the chatbot trigger, with even spacing.
-
-### Blog — Upcoming luxury projects article
-145. **New blog post:** Added `upcoming-luxury-projects-noida-greater-noida-2026` under `/blog`, with metadata configured via `lib/blog-data.ts` and a new content component `UpcomingLuxuryProjectsNoidaGreaterNoidaContent`.
-146. **Content & SEO:** Wrote a 1500–2000 word article in simple language covering Sobha (Noida Extension), Trump Towers Noida, Smart World Elie Saab, CRC Joyous, Eternia Residences, M3M Jacob & Co, Renox Thrive, VVIP Sector 12, VVIP Yamuna Expressway and Irish Platinum. Clear H1/H2/H3 structure, internal links to each live property page, and corridor links for “properties in Noida”, “properties in Greater Noida” and “properties on Yamuna Expressway”.
-147. **In-article hero images:** For each project with a live property page, added a 16:9 hero image block using the same R2 assets (`trump-towers-noida`, `smart-world-es-residencies`, `jacob-and-co`, `crc-joyous`, `renox-thrive`, `eternia-residences`, `vvip`, `irish-platium`, `vvip-yamuna-expressway`), with keyword-based alt text and consistent layout.
-148. **Blog hero image:** Updated the blog hero for this article to use `/hero-.avif` from `public`, aligned bottom within the full-height hero container for consistency with other landing pages.
-149. **Article lead form copy:** Updated `ArticleLeadForm` copy used on all blog posts: heading “Talk to a real advisor” and neutral subtext inviting readers to share what they are planning so advisors can respond with clear next steps, project ideas and checks — suitable for investment, guidance and project-spotlight articles.
-
-### Technical SEO — favicon + 404 metadata consistency
-150. **SERP favicon fix:** Corrected `site.webmanifest` icon paths to point to `/favicon_celeste/...` assets and added `metadata.icons` in `app/layout.tsx` so crawlers and browsers consistently pick up the site icon (tab, PWA, and Google SERP).
-151. **404 meta consistency:** Standardised “not found” metadata across the site so all 404s return the same title + description as `app/not-found.tsx` (fixed for `properties-in/[locationCategory]`, `properties-in/[locationCategory]/[slug]`, and `blog/[slug]` where missing slugs previously returned “Location/Property/Article Not Found”).
-
-### Homepage — section flow reorder
-152. **New structure:** Reordered homepage content flow to match the requested sequence: Hero, Intro, Why Choose Celeste Abode, Real Estate Advisory Services Across Delhi NCR, Trusted Developers, Metrics, Buyer Types, SEO Blocks, Reviews, Instagram Feed, Footer CTA, Footer.
-
-### Development maintenance — global contact number migration
-153. **Phone update across stack:** Replaced old contact number with `9910906306` throughout frontend and backend touchpoints, including `tel:` links, WhatsApp links (`wa.me`), contact/forms UI, schema/contact metadata, service defaults, environment setup references, and maintenance/SEO docs; post-update verification confirmed no old number instances remained.
-154. **Sticky CTA budget bands updated:** Revised `Your Budget` dropdown ranges in `ResidentialStickyForm` and `CommercialStickyForm` for newly developed SEO landing pages to premium inventory-aligned brackets: `1 Cr to 5 Cr`, `5 Cr to 8 Cr`, `8 Cr to 15 Cr`, and `15 Cr+`.
-
-### Properties-in location pages — listing count & layout
-155. **Result count:** Dynamic `properties-in/[locationCategory]` pages show **“Showing X out of Y properties”** above the grid; `Y` comes from server-side total count on first load and from `/api/properties/search` `totalCount` when filters or pagination change.
-156. **Placement:** The count line is **centred** in the same column as “View More Properties” — **above** the button (and above the “loading more” row while paginating); when there is no “View More”, it stays **centred** under the grid only.
-
-### Main properties listing (`/properties`)
-157. **Result count:** The `/properties` page uses the same **“Showing X out of Y properties”** pattern as location pages (centred above “View More”, with loading-more and no-more states). `Y` comes from `/api/properties/all` `totalCount` when browsing all locations, or the **sum** of each `/api/properties/search` `totalCount` when multiple locations are selected.
-158. **API:** `GET /api/properties/all` returns **`totalCount`** (exact count for current filters) alongside `properties`; supports **`residential`** property type the same way as search (apartments + villas).
-
-### Listings — numbered pagination & scroll (public site)
-159. **`/properties`:** Replaced infinite **“View More”** with **numbered pagination** (6 per page), matching location listing UX: **`PropertyGridPagination`** (Back / Next, page numbers, ellipses), **Framer Motion** grid transition, **page-change overlay** while fetching, **`offset`/`limit`** on `/api/properties/all` and multi-location search. **Removed** the “Showing X out of Y” line under the grid.
-160. **Scroll on page change:** After changing page, the view **scrolls to the search/filters block** (not only the grid). Shared anchor id **`property-search-anchor`** with `scroll-mt-24 md:scroll-mt-28`; helper **`scrollPropertySearchSectionIntoView()`** in `lib/scroll-listings.ts` (double `requestAnimationFrame` + `scrollIntoView` smooth). Filters + heading on `/properties` wrapped in that anchor.
-161. **`properties-in/[locationCategory]`:** **`LocationPropertyFilters`** wrapped in the same **`property-search-anchor`** wrapper so **`NoidaPropertiesGrid`** pagination scroll matches `/properties`.
-
-### Admin — properties list pagination
-162. **`/admin/properties`:** **Numbered pagination** (20 per page) using existing **`GET /api/admin/properties?page=&limit=`**; **`PropertyGridPagination`** below the card grid; **full-page loader** on first load, **overlay spinner** on page change; header subtitle shows **total count** and “20 per page”; refresh / delete / publish **re-fetch current page**; auto-clamp page if last item on a page is deleted.
-
-### SEO landing pages — same listing stack as `properties-in`
-163. **Grid parity:** These pages now use **`LocationPropertyFilters`** + **`NoidaPropertiesGrid`** with the same pattern as dynamic location pages: **`PROPERTY_SEARCH_ANCHOR_ID`** around filters, **`initialTotalCount`** from a parallel Supabase **exact count** (where applicable), first **6** rows SSR + client paging via **`/api/properties/search`**:
-    - `/residential-property-in-noida` (residential: apartments + villas)
-    - `/flats-for-sale-in-noida` (apartments only)
-    - `/flats-for-sale-in-greater-noida` (apartments only)
-164. **`/commercial-property-in-noida`:** Page is now **`async`** with a **property listing section** after the hero (commercial only: DB `property_type = Commercial`), filters **`hidePropertyType`** + **`defaultPropertyType="commercial"`**, anchor + grid + empty state linking to **`/properties-in-noida`**.
-165. **`/commercial-and-residential-property-in-lucknow`:** Page is **`async`** with listing for **Lucknow** (all published types); **property type filter visible** (no `hidePropertyType`); empty state links to **`/properties-in-lucknow`**.
-166. **`/flats-in-ghaziabad`:** Page is **`async`** with **Ghaziabad** apartments-only listing (same pattern as other flats pages); empty state links to **`/properties-in-ghaziabad`**.
-
-### Homepage content quality pass (SEO + readability)
-167. **Homepage SEO blocks rewritten:** `components/homepage-seo-blocks.tsx` content refreshed to follow Celeste advisory writing standards (cleaner readability, tighter relevance, natural internal linking from sitemap routes) while keeping the 5-block progressive reveal UX intact.
-168. **H2/H3 structure alignment:** Block content aligned to the requested heading architecture for consultant-focused homepage SEO sections, with no structural change to the component layout.
-169. **FAQ separation fixed:** Removed FAQ copy from homepage SEO blocks and kept FAQ only in the dedicated data source `lib/homepage-faqs.ts` to avoid duplication and keep schema/content ownership clear.
-170. **Homepage FAQs updated:** Rewrote `HOMEPAGE_FAQS` answers in simpler advisory language, reduced fluff, and improved semantic fit with homepage intent.
-171. **Keyword cleanup:** Removed spam-prone “near me” phrasing from homepage FAQs and key homepage sections; replaced with cleaner Noida/Delhi NCR variants where needed.
-172. **Who We Serve content polish:** `components/who-we-serve.tsx` copy refined for sentence clarity and flow without changing H2/H3, section meaning, or card structure.
-173. **Why Choose section polish:** `components/why-clients-trust-section.tsx` micro-edits improved readability and reduced repetitive phrasing without changing headings, tone, or message.
-174. **Spam check pass:** Verified no “near me” terms remain in homepage SEO blocks, homepage FAQs, and homepage audience/trust cards after cleanup.
-175. **Instagram embeds expanded:** `components/instagram-embeds-section.tsx` upgraded from 3 embeds to a 10-item Instagram feed with updated permalink set; uses a single carousel flow for homepage display.
-176. **Instagram desktop behavior:** Carousel now shows 3 cards at once on large screens (`lg:basis-1/3`) and slides through the full list while preserving existing card styling.
-177. **Instagram mobile behavior:** Mobile cards widened by removing small-screen width clamps and restoring arrows without consuming layout width (controls positioned as overlay).
-178. **Instagram stability fixes:** Improved embed rendering reliability via `instgrm.Embeds.process()` re-processing + carousel re-init hooks; switched list keys to index+url to prevent duplicate-key runtime warnings when repeated URLs are intentionally used.
-179. **Instagram feed order updates:** Multiple client-requested reorder/replacement passes completed; current list order and duplicates now match the final approved sequence in `POSTS`.
-180. **Blog copy correction:** In `app/blog/[slug]/sobha-rivana-greater-noida-west-content.tsx`, changed “Rivana is a large residential project...” to “Rivana is a premium residential project...”.
-181. **Homepage SEO heading hierarchy repair:** In `components/homepage-about-panel-body.tsx`, restored semantic structure to **main section headings as H2** and **nested item headings as H3**; removed unintended H4 usage.
-182. **Homepage SEO heading visual differentiation:** Increased main H2 size (`text-xl md:text-2xl`) so primary section headings are clearly distinguishable from H3 sub-headings.
-183. **Homepage testimonials widget rebuild:** Replaced prior Google Reviews implementation in `components/testimonials-section.tsx` with a clean Elfsight embed-only version (removed custom observer/init/retry/error/loading animation logic).
-184. **Elfsight hydration fix:** Prevented homepage hydration mismatch by rendering the Elfsight script/container only after client mount in `TestimonialsSection`, so SSR HTML stays stable before widget DOM mutation.
-185. **Hero CTA update:** In `components/hero-section.tsx`, secondary CTA changed to **“Book a Free Consultation”** and now routes to `/request-a-free-consultation` (previously `/contact`/advisory flow labels).
-186. **Hero CTA width parity:** Matched both homepage hero pills to identical fixed width on all breakpoints (`min-w-[220px]`) and added `whitespace-nowrap` so mobile and desktop widths remain consistent.
-187. **Services sticky CTA redirect:** On `/real-estate-consulting-services`, right-side sticky “Schedule a Consultation” action now links to `/request-a-free-consultation` instead of opening consultation modal.
-188. **Consultation route migration:** Added new page route `/request-a-free-consultation` with full metadata/layout and replaced page copy CTA label to **“Request a Free Consultation”**.
-189. **Advisory route removal:** Deleted old frontend route files `app/advisory-session/page.tsx` and `app/advisory-session/layout.tsx` and removed the empty folder; old advisory page URL no longer serves a page component.
-190. **Internal link migration:** Updated key internal references from `/advisory-session` to `/request-a-free-consultation` across homepage hero, services sticky CTA, advisory philosophy CTA, and selected SEO/blog internal links.
-191. **Consultation metadata refresh:** Updated consultation page metadata title/description + OG/Twitter values in `app/request-a-free-consultation/layout.tsx` for stronger SEO intent and clearer Delhi NCR targeting.
-192. **Sitemap update:** Replaced advisory session URL with `/request-a-free-consultation` in both generated sitemap source (`app/sitemap.ts`) and static `sitemap.txt`.
-193. **Instagram arrow layering fix:** In `components/instagram-embeds-section.tsx`, reduced carousel arrow z-index (`z-50` → `z-10`) to stop arrows overlapping the fixed header during upward scroll.
-
-### Blog — 3 BHK Greater Noida article (`/blog/3bhk-flats-in-greater-noida`)
-194. **Single project carousel:** Removed **`GreaterNoidaHomesCarousel`** (horizontal image cards + per-card CTAs) from the article. Only **`ThreeBhkDetailCardsCarousel`** remains under **“Top 3 BHK Flats in Greater Noida West”**. File **`app/blog/[slug]/greater-noida-homes-carousel.tsx`** is still required for **`blogCarouselBreakout`**, imported by the detail carousel.
-195. **Mid-page CTA trim:** Removed **`ConversionStrip`** (“Next step”) directly **above** the Price trends section; one **`ConversionStrip`** still appears before FAQs.
-196. **Detail carousel — layout & snap:** One centered card at a time on mobile and desktop; width uses **`min(42rem, min(100%, calc(100dvw - 5.25rem)))`** below **`md`** so breakout width does not force edge-to-edge cards; responsive **`md`/`lg`** widths unchanged in intent; reduced strip gaps; **leading/trailing flex spacers** with **`scroll-snap-align: none`** so first/last slides center and clear overlay arrows; **`syncActive` / arrow `scroll`** key off **`article`** elements only (viewport-center logic); **`useLayoutEffect`** recenters the first slide after mount.
-197. **Detail carousel — controls:** Overlay chevrons on all breakpoints; compact circular hit target (**`h-6 w-6`**, **`md:h-7 md:w-7`**) with **`size-5`** Lucide icons; slight horizontal translate for “outside” placement; buttons rendered **after** the scroll strip for correct stacking; dedicated mobile bottom chevron row removed.
-198. **Detail carousel — height:** Card shell heights raised (e.g. **`min(45rem, 94dvh)`** / **`sm` ~40.5rem** / **`md` ~43.5rem**).
-199. **Canonical property URLs & redirects (`next.config.mjs`):** **`/properties-in-greater-noida/kviraj-mayfair-residency`** → **`/properties-in-greater-noida/kviraaj-mayfair-residency`**; **`/properties-in-noida/smart-world-es-residencies`** → **`/properties-in-noida/smart-world-elie-saab-residencies`** (aligned with **`sitemap.txt`**).
-200. **3 BHK article project list (`three-bhk-flats-greater-noida-2026-content.tsx`):** **`GN_3BHK_PROPERTY_BLOCKS`** — Kviraaj Mayfair **`href`** uses **`kviraaj-mayfair-residency`**; hero image R2 path under **`kviraj-mayfair-residency/images/...mayfair-5.png`** (CDN folder spelling unchanged). Display order: Sobha → Kviraaj → Eternia → RG Pleiaddes → remaining projects. **`upcoming-luxury-projects-noida-greater-noida-content.tsx`** internal links use **`smart-world-elie-saab-residencies`**.
-201. **SEO (`lib/blog-data.ts`):** Slug **`3bhk-flats-in-greater-noida`** — **`metaDescription`**: “Looking to buy a 3 BHK flat in Greater Noida? Compare top projects, prices, and book your site visit now.”
-202. **Blog slug redirect:** **`/blog/three-bhk-flats-greater-noida-2026`** → **`/blog/3bhk-flats-in-greater-noida`** (permanent) in **`next.config.mjs`**.
-
-### Blog — Sobha Rivana: canonical, legacy URLs, internal linking
-203. **Post canonical (`app/blog/[slug]/page.tsx`):** `canonicalUrl` = **`${SITE_URL}${canonicalPath}`** (uses env `NEXT_PUBLIC_SITE_URL`, default `https://www.celesteabode.com`). For slug **`sobha-rivana-greater-noida-west`**, **`canonicalPath`** is pinned to **`/blog/sobha-rivana-greater-noida-west`** so the canonical slug never drifts; other posts use **`/blog/${post.slug}`**.
-204. **Legacy Sobha blog URLs (`next.config.mjs`):** **`redirects()`** with **`permanent: true`** — **`/blog/sobha-rivana-greater-noida-west-rera-sector-1`** and **`/blog/sobha-rivana-sector-1-greater-noida-west`** → **`/blog/sobha-rivana-greater-noida-west`**. **`headers()`** on those two sources adds **`X-Robots-Tag: noindex, follow`** (redirect responses cannot emit HTML `<meta name="robots">`).
-205. **Canonical internal path:** **`SOBHA_RIVANA_BLOG_PATH`** in **`lib/blog-data.ts`** = **`/blog/sobha-rivana-greater-noida-west`**. Article links use this constant (e.g. 3 BHK guide carousel **`href`**, upcoming luxury projects blog card) — no hardcoded legacy slugs in app code.
-
-### Blog — 3 BHK Greater Noida article (further updates)
-206. **Section order (`three-bhk-flats-greater-noida-2026-content.tsx`):** **“Top 3 BHK Flats in Greater Noida”** (detail carousel) moved **above** **“Quick snapshot: 3 BHK apartments in Greater Noida (2026)”**.
-207. **Listing metadata (`lib/blog-data.ts`):** Post **`3bhk-flats-in-greater-noida`** — **`title`** and **`metaTitle`** use spaced spelling **“3 BHK”** (not **“3BHK”**); complements existing **`metaDescription`** / **`ogImage`** / **`ogImageAlt`** entries for this slug.
-208. **Hero subtext (`app/blog/[slug]/page.tsx`):** For slug **`3bhk-flats-in-greater-noida`**, hero overlay subtext: *“Shortlist luxury 3 BHK homes in Greater Noida with accurate pricing, verified inventory, and fast-track site visits.”*
-209. **Open Graph & Twitter image (`app/blog/[slug]/page.tsx` `generateMetadata`):** If **`post.ogImage`** is set, OG/Twitter **`images`** use it (absolute URL or **`${SITE_URL}${post.ogImage}`**); otherwise fallback to hero **`post.image`**. Ensures the 3 BHK article (and any post with **`ogImage`**) uses the intended share image.
-210. **Article imagery (`three-bhk-flats-greater-noida-2026-content.tsx`):** Full-width **`figure`** after **Quick snapshot** (Greater Noida night / metro R2 **`metro_or_night_view.webp`**). Second **`figure`** after **Best locations for 3 BHK flats in Greater Noida** (**`SOBHA_RIVANA_HERO_IMAGE`**). Former standalone metro figure before price trends removed to avoid duplication.
-
-### Request a free consultation — budget field
-211. **Budget dropdown (`app/request-a-free-consultation/page.tsx`):** Label **“Budget range (₹ Cr) *”**; options start at **₹1 Cr** only — **₹1 Cr – ₹1.5 Cr**, **₹1.5 Cr – ₹2 Cr**, **₹2 Cr – ₹3 Cr**, **₹3 Cr – ₹5 Cr**, **₹5 Cr – ₹10 Cr**, **₹10 Cr+** (value keys e.g. **`1-1.5-cr`**, **`10-cr-plus`**). **`lib/email-service.ts`** **`budgetLabels`** maps these keys for consultation/advisory emails; **legacy** lakhs/crore keys kept for **`property-lead-form`** and older submissions.
-
-### Demo property — Sobha Rivana layout preview (`/demo-property`)
-212. **Purpose:** Internal **layout / UX reference** for a high-converting project page — **Sobha Rivana** story, hero + gallery, highlights, map embed, sticky sidebar enquiry, footer CTA. Implemented as **`app/demo-property/page.tsx`** → **`components/demo-property/sobha-rivana-demo-page.tsx`** (+ **`sobha-rivana-hero`**, **`-gallery`**, **`-sticky-sidebar`**, **`-demo-actions`**, **`-footer-cta`**). **Not** wired as a live CMS property detail URL.
-213. **Discoverability:** **`metadata.robots: { index: false, follow: false }`**; canonical + Open Graph set for **`/demo-property`**. URL is **not** included in **`app/sitemap.ts`** (demo only).
-
-### Admin panel — scope, access, role-based UI, and cross-references
-214. **Already logged in this doc:** **#137–138** — **`priceMin` / `priceMax`** as numbers (bigint path), validation, admin form + API; **#162** — **`/admin/properties`** numbered pagination (20 per page), loaders, re-fetch behaviour.
-215. **Route map (`app/admin/`):** **`/admin/login`**; **`/admin`** dashboard; **`/admin/leads`**; **`/admin/locations`**, **`/admin/locations/new`**, **`/admin/locations/[slug]/edit`**; **`/admin/properties`**, **`/admin/properties/new`**, **`/admin/properties/[id]/edit`**. Session check via **`GET /api/admin/auth/session`**; unauthenticated users are sent to login.
-216. **Role model (two tiers, email-based):** **`SUPPORT_ADMIN_EMAIL`** = **`support@celesteabode.com`** is defined in **`middleware.ts`**, **`app/admin/layout.tsx`**, and **`app/admin/login/page.tsx`**. That account = **full admin** (all routes + full sidebar). **Any other** logged-in admin user = **leads-only** (Leads UI only).
-217. **Server-side UI gate (`middleware.ts`):** For paths under **`/admin`** except **`/admin/login`**, reads **`sb-access-token`** cookie, decodes JWT payload for **`email`**. No email → redirect **`/admin/login`**. Email ≠ support → allow only **`/admin/leads`**; any other admin path → redirect **`/admin/leads`**. (Middleware **`matcher`** excludes **`/api`**; this gate applies to **admin pages**, not to API route matching.)
-218. **Client-side UI (`app/admin/layout.tsx`):** After session fetch, same rule: non-support users are **`router.replace('/admin/leads')`** if **`pathname !== '/admin/leads'`**. **`AdminSidebar`** receives **`leadsOnly`** when **`userEmail !== SUPPORT_ADMIN_EMAIL`** — nav shows **Leads** only (no Dashboard, Locations, Properties).
-219. **Post-login redirect (`app/admin/login/page.tsx`):** On successful login, **`router.push`** → **`/admin`** if email matches support, else **`/admin/leads`** (aligned with middleware + layout).
-220. **API auth (`lib/admin-auth-guard.ts`, per-route `getCurrentUser`):** Admin API handlers require an authenticated user (401 if missing). **Role checks are not duplicated on every API route** — restriction for leads-only staff is enforced primarily on **admin UI navigation** via middleware + layout. **`/api/admin/leads`** accepts any authenticated admin; other admin APIs similarly gate on “logged in”, not on support email, unless added later.
-221. **Anti-indexing:** **`middleware.ts`** adds **`X-Robots-Tag: noindex, nofollow, noarchive, nosnippet`** and **`Cache-Control: no-store…`** for **`/admin`** page responses (middleware **`matcher`** does not run on **`/api/*`**). **`app/admin/layout.tsx`** injects **`noindex, nofollow`** / **`googlebot`** meta client-side on the authenticated admin shell (**`/admin/login`** excluded).
+- **Hero text** layout widened so long headlines wrap cleanly on two lines.
+- **SEO block container** width tuned to reduce excess side margins.
+- **Technical fix:** hero HTML structure adjusted so **headings are valid** for both users and Google (removed nested-heading issues that could cause display glitches).
 
 ---
 
-## How to use this doc
+### Homepage (motion, social proof, Instagram, routing)
 
-- **Each month:** Add a new `## Month YYYY` section at the top (above the previous month).
-- **One line per change:** Short, actionable; no long paragraphs.
-- **Group by type:** e.g. New page & SEO, Hero & above-the-fold, Content blocks, UX, Layout, Components.
-- **Client-ready:** Focus on what changed from a user/product perspective; avoid internal ticket IDs unless the client uses them.
+- **Trust KPIs** moved from a thin strip into a **three-card band** (black background, gold icons): no developer tie-ups, RERA-verified shortlists, involved through possession—with **desktop motion** (cards enter from left/center/right).
+- **Brand intro** copy refined again; **one key sentence** given stronger emphasis (“if something fails our checks, you hear that first”).
+- **Google reviews widget:** initialization simplified and stabilized; **loading state** improved so the block appears as one smooth unit instead of “assembling” on slow networks; later **rebuilt** to a lean embed-only version; **hydration fix** so server and browser HTML stay in sync (avoids flicker/errors).
+- **Instagram:** section added, then expanded from **three** embeds to a **ten-reel** carousel; desktop shows **three at a time**; mobile layout and arrows refined; **embed reliability** improved (re-processing when slides change); **carousel arrows** z-index fixed so they do not slide **under** the fixed header.
+- **Final section order:** Hero → brand intro → why choose → advisory services → trusted developers → metrics → buyer types → five SEO blocks → testimonials → Instagram → footer CTA → footer.
+- **Sitewide consultation URL:** new page **`/request-a-free-consultation`**; **old `/advisory-session` route removed**; **hero CTA**, services sticky button, philosophy links, sitemap, and **`sitemap.txt`** updated; consultation page **metadata** refreshed for Delhi NCR intent. Secondary hero button label set to **“Book a Free Consultation”** with **matching pill widths** on mobile and desktop.
+- **Quality pass:** homepage SEO block text rewritten; **FAQs** deduplicated (removed from inside SEO blocks, owned in one data file); **homepage FAQ answers** shortened and clarified; **“near me” spam phrases** removed; **Who we serve** and **Why choose** sections got line-level polish; **heading levels** repaired for accessibility and SEO hierarchy.
+
+---
+
+### Main property catalogue (`/properties`)
+
+- Replaced infinite **“load more”** with **numbered pagination** (**6 properties per page**), page numbers with ellipses, animated grid transition, and a **loading overlay** while fetching.
+- On page change, the browser **scrolls to the filter/search area** (not only the grid) so context is preserved.
+- **API** extended to return accurate **total counts** for filtered views, including **residential** filtering.
+
+---
+
+### Admin panel (scale and permissions)
+
+- **`/admin/properties`:** **numbered pages** of **20** properties; header shows **total count**; full-page load first visit, **spinner overlay** on page change; after delete/publish/refresh, **current page reloads**; if the last item on a page is deleted, page index **clamps** so you never land on an empty page.
+- **Two access tiers:** **`support@celesteabode.com`** = full admin (dashboard, locations, properties, leads). **Any other** logged-in admin = **leads only**—middleware and layout **redirect** them away from properties/locations; sidebar **hides** those items.
+- **Search engine exclusion:** admin HTML responses get **noindex** headers/meta so internal tools do not rank in Google.
+
+---
+
+### Blog (heavy article surgery)
+
+- **3 BHK Greater Noida guide (`/blog/3bhk-flats-in-greater-noida`):** removed redundant carousel; **one** main project carousel redesigned (centered slides, snap scroll, overlay arrows on all breakpoints, taller cards, spacing); **section order** changed so the project carousel sits **above** the quick snapshot; **mid-page CTA** trimmed to avoid repetition; **new imagery** (e.g. city/metro figure, Sobha-related figure) placed after key sections; **meta title** spelling fixed to **“3 BHK”**; **hero subline** customized; **share images** use per-post OG image when set; **permanent redirect** from old slug **`/blog/three-bhk-flats-greater-noida-2026`**; **property URL fixes** and **redirect rules** in site config for mismatched slugs (e.g. Kviraaj Mayfair, Smart World Elie Saab naming).
+- **Sobha Rivana article:** **one canonical URL** enforced; **two legacy blog URLs** permanently redirect to it with **noindex on the old URLs** so Google consolidates signals; **internal links** site-wide pointed at the canonical path.
+
+---
+
+### Consultation page and small sitewide SEO hygiene
+
+- **`/request-a-free-consultation`:** budget control rebuilt as **crore-only** choices from **₹1 Cr** upward (**six** bands up to **₹10 Cr+**); labels flow through to **notification emails**; legacy keys kept only where old forms still need them.
+- **Favicon / manifest paths** fixed so browser tabs and Google’s result icon stay consistent.
+- **404 pages** for missing property/location/blog slugs now share **consistent titles and descriptions** instead of conflicting “not found” wording.
+
+---
+
+### Internal demo (not marketing)
+
+- **`/demo-property`:** full **Sobha Rivana–style** layout trial (hero, gallery, highlights, map, sticky enquiry, footer CTA)—**robots: noindex**, **not** in public sitemap. For **internal** sales/design reference only.
+
+---
+
+## Quick map: where to look on the live site
+
+| You care about… | Where it lives |
+|-----------------|----------------|
+| Six flagship landings (Noida residential/commercial, flats Noida/GN, Ghaziabad, Lucknow) | Dedicated URLs + Locations footer |
+| Homepage story, SEO blocks, reviews, Instagram | `/` |
+| All listings browsing | `/properties` and `/properties-in/...` |
+| Long articles | `/blog` and individual post URLs |
+| Lead capture | Sticky sidebars on landings, article forms, `/request-a-free-consultation` |
+| Team operations | `/admin` (role-based) |
+
+---
+
+## Note for your team
+
+This document is **client-facing**: it describes **deliverables and surfaces**, not source files. Keep a separate **developer changelog** if you need line-by-line history.

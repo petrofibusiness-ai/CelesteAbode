@@ -46,15 +46,15 @@ ALTER TABLE property_listing_configurations ENABLE ROW LEVEL SECURITY;
 COMMENT ON TABLE property_listing_configurations IS
   'Ops: sub-rows per project — configuration label, super area, price in Cr. API uses service role.';
 
--- Dashboard API reads this (published projects only).
+-- Dashboard API: all published projects; LEFT JOIN so projects with zero config lines still appear.
 CREATE VIEW property_inventory_dashboard_rows AS
 SELECT
   c.id AS line_id,
-  c.property_id,
+  p.id AS property_id,
   c.configuration AS configuration_label,
   c.size_sqft,
   c.price_cr,
-  c.sort_order,
+  COALESCE(c.sort_order, 0) AS sort_order,
   c.created_at AS line_created_at,
   p.slug,
   p.project_name,
@@ -66,12 +66,12 @@ SELECT
   p.possession_date,
   p.inventory_towers,
   p.created_at AS property_created_at
-FROM property_listing_configurations c
-INNER JOIN properties_v2 p ON p.id = c.property_id
+FROM properties_v2 p
+LEFT JOIN property_listing_configurations c ON c.property_id = p.id
 WHERE p.is_published = true;
 
 COMMENT ON VIEW property_inventory_dashboard_rows IS
-  'Flattened ops lines for GET /api/property-listings (no filters).';
+  'Flattened ops lines for GET /api/property-listings; published projects only; line_id null when no PLC rows.';
 
 -- One blank line per published project so the team can fill Excel-style sub-rows.
 INSERT INTO property_listing_configurations (property_id, configuration, size_sqft, price_cr, sort_order)

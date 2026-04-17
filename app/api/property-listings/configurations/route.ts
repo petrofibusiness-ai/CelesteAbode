@@ -14,7 +14,7 @@ const MAX_CONFIG = 200;
 
 /** Matches `property_inventory_dashboard_rows` select shape. */
 interface DashboardViewRow {
-  line_id: string;
+  line_id: string | null;
   property_id: string;
   size_sqft: string | null;
   configuration_label: string | null;
@@ -34,7 +34,7 @@ interface DashboardViewRow {
 
 function rowToInventoryItem(row: DashboardViewRow, locationSlug: string): PropertyInventoryRow {
   return {
-    id: row.line_id,
+    ...(row.line_id ? { id: row.line_id } : {}),
     propertyId: row.property_id,
     slug: row.slug,
     projectName: row.project_name,

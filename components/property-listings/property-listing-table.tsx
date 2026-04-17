@@ -46,7 +46,7 @@ function groupContiguousByPropertyId(items: PropertyInventoryRow[]): PropertyInv
 function sortLines(lines: PropertyInventoryRow[]): PropertyInventoryRow[] {
   return [...lines].sort((a, b) => {
     if (a.sortOrder !== b.sortOrder) return a.sortOrder - b.sortOrder;
-    return a.id.localeCompare(b.id);
+    return (a.id ?? "").localeCompare(b.id ?? "");
   });
 }
 
@@ -114,7 +114,8 @@ function PropertyInventoryCard({
     () =>
       JSON.stringify(
         sorted.map((l) => ({
-          id: l.id,
+          id: l.id ?? null,
+          pid: l.propertyId,
           s: l.sizeSqft,
           c: l.configuration,
           p: l.priceCr,
@@ -146,7 +147,7 @@ function PropertyInventoryCard({
 
   useEffect(() => {
     const base: DraftRow[] = sorted.map((l, i) => ({
-      key: l.id,
+      key: l.id ?? `np-${l.propertyId}`,
       id: l.id,
       sizeSqft: sanitizeInventoryDigitsInput(l.sizeSqft ?? ""),
       configuration: (l.configuration ?? "").trim() || presetConfiguration(i),

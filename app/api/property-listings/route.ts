@@ -11,7 +11,7 @@ const MAX_SEARCH_Q = 200;
 
 /** Row shape from view `property_inventory_dashboard_rows` (snake_case). */
 interface DashboardViewRow {
-  line_id: string;
+  line_id: string | null;
   property_id: string;
   size_sqft: string | null;
   configuration_label: string | null;
@@ -36,7 +36,7 @@ function rowToInventoryItem(
 ): PropertyInventoryRow {
   return {
     propertySerial,
-    id: row.line_id,
+    ...(row.line_id ? { id: row.line_id } : {}),
     propertyId: row.property_id,
     slug: row.slug,
     projectName: row.project_name,

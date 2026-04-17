@@ -5,8 +5,8 @@
 export interface PropertyInventoryRow {
   /** Set by GET /api/property-listings: serial for this project on the current page (global across all pages). */
   propertySerial?: number;
-  /** line id (`property_listing_configurations.id`) */
-  id: string;
+  /** line id (`property_listing_configurations.id`); omitted when the project has no config rows yet */
+  id?: string;
   propertyId: string;
   slug: string;
   projectName: string;

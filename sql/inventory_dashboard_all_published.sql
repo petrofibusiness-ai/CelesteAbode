@@ -1,8 +1,6 @@
--- Incremental: run if you already applied property_listing_configurations.sql before
--- possession_date + inventory_towers were added to the dashboard view.
+-- Incremental: list ALL published properties on the inventory dashboard, even when
+-- they have zero rows in property_listing_configurations (line_id will be NULL).
 -- Safe to run multiple times.
-
-ALTER TABLE properties_v2 ADD COLUMN IF NOT EXISTS inventory_towers TEXT NOT NULL DEFAULT '';
 
 DROP VIEW IF EXISTS property_inventory_dashboard_rows;
 

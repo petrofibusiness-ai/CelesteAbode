@@ -118,13 +118,13 @@ The dashboard reads most display fields from the view join; writes for header:
 
 Flattened read model for the GET API:
 
-- **FROM** `property_listing_configurations` **c**
-- **INNER JOIN** `properties_v2` **p** ON `c.property_id = p.id`
+- **FROM** `properties_v2` **p**
+- **LEFT JOIN** `property_listing_configurations` **c** ON `c.property_id = p.id`
 - **WHERE** `p.is_published = true`
 
-Selected columns include line fields (`line_id` = `c.id`, `configuration_label`, `size_sqft`, `price_cr`, `sort_order`, …) and property fields (`slug`, `project_name`, `location` as `location_label`, `hero_image`, `possession_date`, `inventory_towers`, `property_created_at`, …).
+Selected columns include line fields (`line_id` = `c.id`, **null when the project has no configuration rows yet**), `property_id` = `p.id`, `configuration_label`, `size_sqft`, `price_cr`, `sort_order`, … and property fields (`slug`, `project_name`, `location` as `location_label`, `hero_image`, `possession_date`, `inventory_towers`, `property_created_at`, …).
 
-**Important:** A published project **only appears** in the dashboard if it has **at least one** row in `property_listing_configurations`. The seed/repair SQL inserts a blank line for published projects missing rows.
+**Important:** Every **published** project appears at least once (one row with `line_id` null if there are no PLC rows). The seed/repair SQL can still insert a blank `property_listing_configurations` row for projects with zero rows so edits use real UUID line ids sooner.
 
 ### 4.4 Table: `locations_v2`
 
@@ -138,7 +138,8 @@ After fetching dashboard rows, `GET /api/property-listings` loads `locations_v2.
 |------|-------------|
 | `sql/property_listing_configurations.sql` | **Clean install:** drops/recreates table + view, adds `inventory_towers` on `properties_v2`, seeds blank lines for published properties. **Destructive** to existing `property_listing_configurations` data. |
 | `sql/inventory_dashboard_header_migration.sql` | **Incremental:** if an older DB already had inventory without `inventory_towers` / view columns — adds column and recreates the view. |
-| `sql/inventory_repair_missing_configuration_rows.sql` | **Repair:** `INSERT` one empty configuration row per published property that has **zero** rows (restores visibility in the UI after accidental deletes). Idempotent. |
+| `sql/inventory_dashboard_all_published.sql` | **Incremental:** recreates the dashboard view so **all published** `properties_v2` rows appear (LEFT JOIN PLC; `line_id` null when no lines). |
+| `sql/inventory_repair_missing_configuration_rows.sql` | **Repair:** `INSERT` one empty configuration row per published property that has **zero** rows (optional; UI/API already handle null `line_id`). Idempotent. |
 
 After schema changes in Supabase, reload the API schema if PostgREST does not see new tables/columns immediately.
 

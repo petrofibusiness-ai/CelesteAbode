@@ -7,7 +7,10 @@ import { Loader2, Pencil, Plus } from "lucide-react";
 import type { PropertyInventoryRow } from "@/types/property-listing";
 import { CONFIGURATIONS } from "@/lib/property-enums";
 import { propertyListingsEditFetchHeaders } from "@/lib/property-listings-edit-headers";
-import { sanitizeInventoryDigitsInput } from "@/lib/property-listings-price";
+import {
+  sanitizeInventoryDigitsInput,
+  sanitizeInventoryPriceCrInput,
+} from "@/lib/property-listings-price";
 import { getPropertyUrl } from "@/lib/property-url";
 
 export interface PropertyListingTableProps {
@@ -138,7 +141,7 @@ function PropertyInventoryCard({
       id: l.id,
       sizeSqft: sanitizeInventoryDigitsInput(l.sizeSqft ?? ""),
       configuration: (l.configuration ?? "").trim() || presetConfiguration(i),
-      priceCr: sanitizeInventoryDigitsInput(l.priceCr ?? ""),
+      priceCr: sanitizeInventoryPriceCrInput(l.priceCr ?? ""),
     }));
     const minTrailing = Math.max(2, 6 - base.length);
     const blanks: DraftRow[] = [];
@@ -287,7 +290,11 @@ function PropertyInventoryCard({
   const updateDraft = useCallback(
     (key: string, field: "configuration" | "priceCr" | "sizeSqft", value: string) => {
       const nextValue =
-        field === "priceCr" || field === "sizeSqft" ? sanitizeInventoryDigitsInput(value) : value;
+        field === "priceCr"
+          ? sanitizeInventoryPriceCrInput(value)
+          : field === "sizeSqft"
+            ? sanitizeInventoryDigitsInput(value)
+            : value;
       setDraftRows((rows) => {
         const next = rows.map((r) => (r.key === key ? { ...r, [field]: nextValue } : r));
         return ensureTrailingBlankRows(next, first.propertyId, blankSeqRef);

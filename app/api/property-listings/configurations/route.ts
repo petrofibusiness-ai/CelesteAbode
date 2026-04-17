@@ -3,11 +3,14 @@ import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { isPropertyListingsEditAuthorized } from "@/lib/property-listings-edit-auth";
 import { isUuid } from "@/lib/uuid";
 import type { PropertyInventoryRow } from "@/types/property-listing";
-import { isValidInventoryDigitsOrEmpty, isValidInventoryPriceDigits } from "@/lib/property-listings-price";
+import {
+  isValidInventoryDigitsOrEmpty,
+  isValidInventoryPriceText,
+  MAX_INVENTORY_PRICE_CR_LENGTH,
+} from "@/lib/property-listings-price";
 
 const MAX_SIZE = 2000;
 const MAX_CONFIG = 200;
-const MAX_PRICE = 120;
 
 /** Matches `property_inventory_dashboard_rows` select shape. */
 interface DashboardViewRow {
@@ -82,7 +85,9 @@ export async function POST(request: NextRequest) {
     const sizeSqft =
       typeof o?.sizeSqft === "string" ? o.sizeSqft.slice(0, MAX_SIZE) : String(o?.sizeSqft ?? "").slice(0, MAX_SIZE);
     const priceCr =
-      typeof o?.priceCr === "string" ? o.priceCr.slice(0, MAX_PRICE) : String(o?.priceCr ?? "").slice(0, MAX_PRICE);
+      typeof o?.priceCr === "string"
+        ? o.priceCr.slice(0, MAX_INVENTORY_PRICE_CR_LENGTH)
+        : String(o?.priceCr ?? "").slice(0, MAX_INVENTORY_PRICE_CR_LENGTH);
 
     if (!isUuid(propertyId)) {
       return NextResponse.json({ error: "Invalid propertyId" }, { status: 400 });
@@ -91,8 +96,11 @@ export async function POST(request: NextRequest) {
     if (!priceCr.trim()) {
       return NextResponse.json({ error: "Price is required" }, { status: 400 });
     }
-    if (!isValidInventoryPriceDigits(priceCr)) {
-      return NextResponse.json({ error: "Price must be digits only" }, { status: 400 });
+    if (!isValidInventoryPriceText(priceCr)) {
+      return NextResponse.json(
+        { error: `Price must be non-empty and at most ${MAX_INVENTORY_PRICE_CR_LENGTH} characters` },
+        { status: 400 }
+      );
     }
     if (!isValidInventoryDigitsOrEmpty(sizeSqft)) {
       return NextResponse.json({ error: "Size must be digits only when set" }, { status: 400 });

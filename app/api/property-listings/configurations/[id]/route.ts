@@ -2,7 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { isPropertyListingsEditAuthorized } from "@/lib/property-listings-edit-auth";
 import { isUuid } from "@/lib/uuid";
-import { isValidInventoryDigitsOrEmpty, isValidInventoryPriceDigits } from "@/lib/property-listings-price";
+import {
+  isValidInventoryDigitsOrEmpty,
+  isValidInventoryPriceText,
+  MAX_INVENTORY_PRICE_CR_LENGTH,
+} from "@/lib/property-listings-price";
 
 const MAX_FIELD = 2000;
 
@@ -18,7 +22,9 @@ function parseBody(body: unknown): { sizeSqft: string; configuration: string; pr
           .trim()
           .slice(0, 200);
   const priceCr =
-    typeof o.priceCr === "string" ? o.priceCr.slice(0, 120) : String(o.priceCr ?? "").slice(0, 120);
+    typeof o.priceCr === "string"
+      ? o.priceCr.slice(0, MAX_INVENTORY_PRICE_CR_LENGTH)
+      : String(o.priceCr ?? "").slice(0, MAX_INVENTORY_PRICE_CR_LENGTH);
   return { sizeSqft, configuration, priceCr };
 }
 
@@ -57,8 +63,11 @@ export async function PATCH(
     if (!parsed.priceCr.trim()) {
       return NextResponse.json({ error: "Price is required" }, { status: 400 });
     }
-    if (!isValidInventoryPriceDigits(parsed.priceCr)) {
-      return NextResponse.json({ error: "Price must be digits only" }, { status: 400 });
+    if (!isValidInventoryPriceText(parsed.priceCr)) {
+      return NextResponse.json(
+        { error: `Price must be non-empty and at most ${MAX_INVENTORY_PRICE_CR_LENGTH} characters` },
+        { status: 400 }
+      );
     }
     if (!isValidInventoryDigitsOrEmpty(parsed.sizeSqft)) {
       return NextResponse.json({ error: "Size must be digits only when set" }, { status: 400 });

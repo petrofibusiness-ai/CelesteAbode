@@ -1,14 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { PropertyListingTable } from "@/components/property-listings/property-listing-table";
 import { PropertyListingsSkeleton } from "@/components/property-listings/property-listings-skeleton";
 import { PropertyGridPagination } from "@/components/property-grid-pagination";
 import type { PropertyInventoryRow } from "@/types/property-listing";
-import { Unlock, Loader2 } from "lucide-react";
+import { Unlock, Loader2, Search } from "lucide-react";
 
 const SESSION_EDIT_KEY = "ca_private_pl_edit_key";
 const PER_PAGE = 10;
+const MAX_SEARCH_Q = 200;
 
 export function PropertyListingsView() {
   const [items, setItems] = useState<PropertyInventoryRow[]>([]);
@@ -24,7 +25,22 @@ export function PropertyListingsView() {
   const [editModeAvailable, setEditModeAvailable] = useState(false);
   const [editKey, setEditKey] = useState<string | null>(null);
   const [keyInput, setKeyInput] = useState("");
+  const [searchDraft, setSearchDraft] = useState("");
+  const [committedSearch, setCommittedSearch] = useState("");
   const abortRef = useRef<AbortController | null>(null);
+
+  const buildListQueryString = useCallback(
+    (pageNum: number, q: string) => {
+      const qs = new URLSearchParams({
+        page: String(pageNum),
+        perPage: String(PER_PAGE),
+      });
+      const trimmed = q.trim().slice(0, MAX_SEARCH_Q);
+      if (trimmed) qs.set("q", trimmed);
+      return qs.toString();
+    },
+    []
+  );
 
   useEffect(() => {
     try {
@@ -44,7 +60,7 @@ export function PropertyListingsView() {
 
     (async () => {
       try {
-        const qs = new URLSearchParams({ page: String(page), perPage: String(PER_PAGE) });
+        const qs = buildListQueryString(page, committedSearch);
         const res = await fetch(`/api/property-listings?${qs}`, { signal: ac.signal });
         if (!res.ok) {
           const body = await res.json().catch(() => ({}));
@@ -82,11 +98,11 @@ export function PropertyListingsView() {
     })();
 
     return () => ac.abort();
-  }, [page]);
+  }, [page, committedSearch, buildListQueryString]);
 
   const reloadInventory = useCallback(async () => {
     try {
-      const qs = new URLSearchParams({ page: String(page), perPage: String(PER_PAGE) });
+      const qs = buildListQueryString(page, committedSearch);
       const res = await fetch(`/api/property-listings?${qs}`);
       if (!res.ok) return;
       const data = await res.json();
@@ -111,7 +127,7 @@ export function PropertyListingsView() {
     } catch {
       /* ignore */
     }
-  }, [page]);
+  }, [page, committedSearch, buildListQueryString]);
 
   const unlockEditing = () => {
     const k = keyInput.trim();
@@ -140,6 +156,20 @@ export function PropertyListingsView() {
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
+  };
+
+  const handleSearchSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const next = searchDraft.trim().slice(0, MAX_SEARCH_Q);
+    setSearchDraft(next);
+    setCommittedSearch(next);
+    setPage(1);
+  };
+
+  const clearSearch = () => {
+    setSearchDraft("");
+    setCommittedSearch("");
+    setPage(1);
   };
 
   return (
@@ -204,6 +234,61 @@ export function PropertyListingsView() {
                 </p>
               )}
             </div>
+
+            <form
+              onSubmit={handleSearchSubmit}
+              className="mx-auto mt-8 w-full max-w-3xl"
+              role="search"
+              aria-label="Search property inventory"
+            >
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-3">
+                <div className="relative min-h-[2.75rem] min-w-0 flex-1">
+                  <Search
+                    className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground sm:left-3.5"
+                    aria-hidden
+                  />
+                  <input
+                    type="search"
+                    enterKeyHint="search"
+                    value={searchDraft}
+                    onChange={(e) => setSearchDraft(e.target.value.slice(0, MAX_SEARCH_Q))}
+                    placeholder="Project, location, slug, configuration, size, price…"
+                    className="h-11 w-full min-w-0 rounded-md border border-black bg-white py-2 pl-10 pr-3 font-poppins text-sm text-foreground outline-none transition placeholder:text-muted-foreground/80 focus:border-black focus:ring-2 focus:ring-black/15 sm:h-12 sm:pl-11 sm:text-[0.9375rem]"
+                    aria-label="Search inventory"
+                    autoComplete="off"
+                    autoCorrect="off"
+                    spellCheck={false}
+                  />
+                </div>
+                <div className="flex w-full shrink-0 flex-col gap-2 sm:w-auto sm:flex-row sm:items-stretch sm:gap-2">
+                  <button
+                    type="submit"
+                    className="inline-flex h-11 min-h-[2.75rem] w-full items-center justify-center rounded-md border border-black bg-neutral-900 px-5 font-poppins text-sm font-medium text-white shadow-sm transition hover:bg-neutral-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black sm:h-12 sm:min-w-[7.5rem] sm:w-auto"
+                  >
+                    Search
+                  </button>
+                  {committedSearch ? (
+                    <button
+                      type="button"
+                      onClick={clearSearch}
+                      className="inline-flex h-11 min-h-[2.75rem] w-full items-center justify-center rounded-md border border-black bg-white px-5 font-poppins text-sm font-medium text-foreground transition hover:bg-neutral-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black sm:h-12 sm:min-w-[6.5rem] sm:w-auto"
+                    >
+                      Clear
+                    </button>
+                  ) : null}
+                </div>
+              </div>
+              {committedSearch ? (
+                <p className="mt-2 text-center font-poppins text-xs text-muted-foreground sm:text-left">
+                  Filter: <span className="font-medium text-foreground">&ldquo;{committedSearch}&rdquo;</span>
+                  {!listLoading
+                    ? pagination.totalProperties === 0
+                      ? " — no matches"
+                      : ` — ${pagination.totalProperties} project${pagination.totalProperties === 1 ? "" : "s"}`
+                    : null}
+                </p>
+              ) : null}
+            </form>
           </div>
         </section>
 

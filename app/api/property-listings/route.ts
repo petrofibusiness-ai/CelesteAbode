@@ -7,6 +7,7 @@ const QUERY_TIMEOUT = 10000;
 /** Max lines fetched before grouping by property (safety cap). */
 const FETCH_LINES_CAP = 15_000;
 const DEFAULT_PER_PAGE = 10;
+const MAX_SEARCH_Q = 200;
 
 /** Row shape from view `property_inventory_dashboard_rows` (snake_case). */
 interface DashboardViewRow {
@@ -70,6 +71,32 @@ function groupRowsByPropertyInOrder(rows: DashboardViewRow[]): DashboardViewRow[
   return order.map((id) => map.get(id)!);
 }
 
+function normalizeSearchQ(raw: string | null): string {
+  if (!raw || typeof raw !== "string") return "";
+  return raw.trim().slice(0, MAX_SEARCH_Q);
+}
+
+/** Keep whole projects when any line or header field matches (case-insensitive substring). */
+function propertyGroupMatchesQuery(group: DashboardViewRow[], qLower: string): boolean {
+  if (!qLower) return true;
+  return group.some((row) => {
+    const hay = [
+      row.project_name,
+      row.location_label,
+      row.slug,
+      row.configuration_label,
+      row.size_sqft,
+      row.price_cr,
+      row.inventory_towers,
+      row.possession_date,
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+    return hay.includes(qLower);
+  });
+}
+
 async function locationSlugMapForRows(
   supabase: ReturnType<typeof getSupabaseAdminClient>,
   rows: DashboardViewRow[]
@@ -103,6 +130,8 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const perPage = Math.min(50, Math.max(1, parseInt(searchParams.get("perPage") || String(DEFAULT_PER_PAGE), 10)));
     const requestedPage = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
+    const searchQ = normalizeSearchQ(searchParams.get("q"));
+    const searchQLower = searchQ.toLowerCase();
 
     const ordered = supabase
       .from("property_inventory_dashboard_rows")
@@ -134,11 +163,15 @@ export async function GET(request: NextRequest) {
 
     const rows = (data || []) as DashboardViewRow[];
     const groups = groupRowsByPropertyInOrder(rows);
-    const totalProperties = groups.length;
+    const groupsFiltered =
+      searchQLower.length > 0
+        ? groups.filter((g) => propertyGroupMatchesQuery(g, searchQLower))
+        : groups;
+    const totalProperties = groupsFiltered.length;
     const totalPages = Math.max(1, Math.ceil(totalProperties / perPage));
     const page = Math.min(requestedPage, totalPages);
     const start = (page - 1) * perPage;
-    const pageGroups = groups.slice(start, start + perPage);
+    const pageGroups = groupsFiltered.slice(start, start + perPage);
 
     const pageRowsFlat = pageGroups.flat();
     const slugByLocationId = await locationSlugMapForRows(supabase, pageRowsFlat);

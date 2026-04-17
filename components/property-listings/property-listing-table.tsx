@@ -1,9 +1,10 @@
 "use client";
 
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
-import { Loader2, Pencil, Plus } from "lucide-react";
+import { Loader2, Pencil, Plus, Trash2 } from "lucide-react";
 import type { PropertyInventoryRow } from "@/types/property-listing";
 import { CONFIGURATIONS } from "@/lib/property-enums";
 import { propertyListingsEditFetchHeaders } from "@/lib/property-listings-edit-headers";
@@ -129,6 +130,14 @@ function PropertyInventoryCard({
   const [headerPossession, setHeaderPossession] = useState("");
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [deleteModal, setDeleteModal] = useState<
+    | null
+    | { mode: "api"; id: string; summary: string }
+    | { mode: "draft"; key: string; summary: string }
+  >(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const cancelDeleteBtnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setHeaderTowers(sanitizeInventoryDigitsInput(first.inventoryTowers ?? ""));
@@ -169,6 +178,40 @@ function PropertyInventoryCard({
 
   const editKeyRef = useRef(editKey);
   editKeyRef.current = editKey;
+
+  const closeDeleteModal = useCallback(() => {
+    if (deleteLoading) return;
+    setDeleteModal(null);
+    setDeleteError(null);
+  }, [deleteLoading]);
+
+  useEffect(() => {
+    if (!deleteModal) return;
+    document.body.style.overflow = "hidden";
+    const t = window.setTimeout(() => cancelDeleteBtnRef.current?.focus(), 0);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeDeleteModal();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.clearTimeout(t);
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [deleteModal, closeDeleteModal]);
+
+  const openDeleteConfirm = useCallback(
+    (row: DraftRow) => {
+      if (!unlocked || saving || deleteLoading) return;
+      setDeleteError(null);
+      const parts = [row.configuration.trim(), row.sizeSqft.trim() ? `${row.sizeSqft} sq ft` : "", row.priceCr.trim()]
+        .filter(Boolean);
+      const summary = parts.length ? parts.join(" · ") : "Empty line";
+      if (row.id) setDeleteModal({ mode: "api", id: row.id, summary });
+      else setDeleteModal({ mode: "draft", key: row.key, summary });
+    },
+    [unlocked, saving, deleteLoading]
+  );
 
   const patchPropertyHeader = useCallback(
     async (body: { inventoryTowers: string; possessionDate: string }) => {
@@ -231,6 +274,29 @@ function PropertyInventoryCard({
       throw new Error(typeof errBody.error === "string" ? errBody.error : "Could not remove row");
     }
   }, []);
+
+  const confirmDelete = useCallback(async () => {
+    if (!deleteModal) return;
+    setDeleteError(null);
+    if (deleteModal.mode === "draft") {
+      setDraftRows((rows) => {
+        const filtered = rows.filter((r) => r.key !== deleteModal.key);
+        return ensureTrailingBlankRows(filtered, first.propertyId, blankSeqRef);
+      });
+      setDeleteModal(null);
+      return;
+    }
+    setDeleteLoading(true);
+    try {
+      await deleteRow(deleteModal.id);
+      setDeleteModal(null);
+      await onInventoryReload();
+    } catch (e) {
+      setDeleteError(e instanceof Error ? e.message : "Could not delete");
+    } finally {
+      setDeleteLoading(false);
+    }
+  }, [deleteModal, deleteRow, first.propertyId, onInventoryReload]);
 
   const handleSaveAll = useCallback(async () => {
     if (!unlocked) return;
@@ -456,11 +522,12 @@ function PropertyInventoryCard({
           </p>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[32rem] table-fixed border-collapse text-left">
+          <table className="w-full min-w-[36rem] table-fixed border-collapse text-left sm:min-w-[40rem]">
             <colgroup>
-              <col className="w-[34%] sm:w-[32%]" />
-              <col className="w-[26%] sm:w-[24%]" />
-              <col className="w-[24%] sm:w-[22%]" />
+              <col className="w-[26%] sm:w-[28%]" />
+              <col className="w-[18%] sm:w-[18%]" />
+              <col className="w-[22%] sm:w-[22%]" />
+              <col className="w-[3.5rem] sm:w-20" />
             </colgroup>
             <thead>
               <tr className="border-b border-black/20 bg-white">
@@ -472,6 +539,10 @@ function PropertyInventoryCard({
                 </th>
                 <th className="px-4 py-2.5 font-poppins text-[0.65rem] font-semibold uppercase tracking-wide text-muted-foreground sm:px-5">
                   Price (Cr)
+                </th>
+                <th className="px-2 py-2.5 text-center font-poppins text-[0.65rem] font-semibold uppercase tracking-wide text-muted-foreground sm:px-3">
+                  <span className="sr-only">Delete configuration</span>
+                  <Trash2 className="mx-auto h-3.5 w-3.5 text-muted-foreground opacity-80" aria-hidden />
                 </th>
               </tr>
             </thead>
@@ -525,16 +596,25 @@ function PropertyInventoryCard({
                     <input
                       id={`plc-pr-${row.key}`}
                       type="text"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
                       value={row.priceCr}
                       onChange={(e) => updateDraft(row.key, "priceCr", e.target.value)}
                       disabled={!unlocked}
-                      placeholder="Digits only"
-                      title="Numbers only"
-                      className={`${inputClass} tabular-nums`}
+                      placeholder="e.g. 2.5 Cr"
+                      className={inputClass}
                       autoComplete="off"
                     />
+                  </td>
+                  <td className="px-2 py-2 align-middle text-center sm:px-3">
+                    <button
+                      type="button"
+                      onClick={() => openDeleteConfirm(row)}
+                      disabled={!unlocked || saving || deleteLoading}
+                      title={unlocked ? "Delete this configuration" : "Unlock to edit"}
+                      className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-black/80 bg-white text-destructive transition hover:bg-destructive/5 disabled:cursor-not-allowed disabled:opacity-40 sm:h-9 sm:w-9"
+                      aria-label={`Delete configuration: ${row.configuration || "line"}`}
+                    >
+                      <Trash2 className="h-4 w-4 shrink-0" aria-hidden />
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -542,6 +622,91 @@ function PropertyInventoryCard({
           </table>
         </div>
       </div>
+
+      {typeof document !== "undefined" && deleteModal
+        ? createPortal(
+            <div className="fixed inset-0 z-[200] flex flex-col justify-end sm:items-center sm:justify-center sm:p-3 md:p-4">
+              <button
+                type="button"
+                className="absolute inset-0 z-0 bg-black/60 backdrop-blur-[1px] transition-opacity"
+                aria-label="Dismiss dialog"
+                onClick={closeDeleteModal}
+                disabled={deleteLoading}
+              />
+              <div
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="plc-delete-title"
+                className="relative z-[1] flex max-h-[min(92dvh,100%)] w-full max-w-lg flex-col overflow-hidden rounded-t-2xl border border-black bg-white shadow-2xl sm:max-h-[min(88dvh,36rem)] sm:rounded-2xl"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="max-h-[inherit] overflow-y-auto overscroll-contain px-4 pb-5 pt-5 sm:px-6 sm:pb-6 sm:pt-6">
+                  <h3
+                    id="plc-delete-title"
+                    className="font-poppins text-lg font-semibold leading-snug text-foreground sm:text-xl"
+                  >
+                    Delete configuration?
+                  </h3>
+                  <p className="mt-2 font-poppins text-sm leading-relaxed text-muted-foreground sm:text-[0.9375rem]">
+                    {deleteModal.mode === "api" ? (
+                      <>
+                        This removes the line for{" "}
+                        <span className="font-medium text-foreground [overflow-wrap:anywhere]">
+                          {deleteModal.summary}
+                        </span>
+                        . If it is the only line for this project, it will be cleared instead so the project stays in
+                        the list.
+                      </>
+                    ) : (
+                      <>
+                        Remove the unsaved row{" "}
+                        <span className="font-medium text-foreground [overflow-wrap:anywhere]">
+                          {deleteModal.summary}
+                        </span>{" "}
+                        from this card. Nothing is saved until you press Save.
+                      </>
+                    )}
+                  </p>
+                  {deleteError ? (
+                    <p
+                      role="alert"
+                      className="mt-3 rounded-md border border-destructive/40 bg-destructive/5 px-3 py-2 font-poppins text-sm text-destructive"
+                    >
+                      {deleteError}
+                    </p>
+                  ) : null}
+                  <div className="mt-6 flex flex-col-reverse gap-2 sm:mt-8 sm:flex-row sm:justify-end sm:gap-3">
+                    <button
+                      ref={cancelDeleteBtnRef}
+                      type="button"
+                      onClick={closeDeleteModal}
+                      disabled={deleteLoading}
+                      className="inline-flex h-11 min-h-[2.75rem] w-full shrink-0 items-center justify-center rounded-md border border-black bg-white px-4 font-poppins text-sm font-medium text-foreground transition hover:bg-neutral-50 disabled:opacity-50 sm:h-10 sm:w-auto sm:min-w-[6.5rem]"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => void confirmDelete()}
+                      disabled={deleteLoading}
+                      className="inline-flex h-11 min-h-[2.75rem] w-full shrink-0 items-center justify-center rounded-md border border-destructive bg-destructive px-4 font-poppins text-sm font-semibold text-destructive-foreground shadow-sm transition hover:bg-destructive/90 disabled:opacity-50 sm:h-10 sm:w-auto sm:min-w-[7.5rem]"
+                    >
+                      {deleteLoading ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 shrink-0 animate-spin" aria-hidden />
+                          Deleting…
+                        </>
+                      ) : (
+                        "Delete"
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>,
+            document.body
+          )
+        : null}
     </article>
   );
 }

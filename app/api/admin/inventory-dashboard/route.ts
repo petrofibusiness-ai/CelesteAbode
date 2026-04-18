@@ -1,42 +1,43 @@
 import { NextRequest, NextResponse } from "next/server";
+import { requireAdminAuth } from "@/lib/admin-auth-guard";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
-import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 import {
   buildPagedInventoryItems,
-  DEFAULT_INVENTORY_PER_PAGE,
   fetchInventoryDashboardRows,
   filterPropertyGroups,
   groupRowsByPropertyInOrder,
   locationSlugMapForRows,
   normalizeSearchQ,
+  type InventoryLineFilter,
 } from "@/lib/inventory-dashboard-rows";
 
-const QUERY_TIMEOUT = 10000;
-const DEFAULT_PER_PAGE = DEFAULT_INVENTORY_PER_PAGE;
+const QUERY_TIMEOUT = 15000;
+const DEFAULT_PER_PAGE = 15;
+const MAX_PER_PAGE = 80;
+
+function parseLineFilter(raw: string | null): InventoryLineFilter {
+  if (raw === "with_lines" || raw === "no_lines") return raw;
+  return "all";
+}
 
 export async function GET(request: NextRequest) {
   try {
-    const rateLimitId = getRateLimitIdentifier(request);
-    const rateLimit = checkRateLimit(rateLimitId, RATE_LIMITS.PUBLIC);
-    if (!rateLimit.success) {
-      return NextResponse.json(
-        { error: rateLimit.error },
-        {
-          status: 429,
-          headers: {
-            "X-RateLimit-Remaining": rateLimit.remaining.toString(),
-            "X-RateLimit-Reset": new Date(rateLimit.resetTime).toISOString(),
-          },
-        }
-      );
+    const auth = await requireAdminAuth(request);
+    if (!auth.authenticated) {
+      return auth.response!;
     }
 
     const supabase = getSupabaseAdminClient();
     const searchParams = request.nextUrl.searchParams;
-    const perPage = Math.min(50, Math.max(1, parseInt(searchParams.get("perPage") || String(DEFAULT_PER_PAGE), 10)));
+    const perPage = Math.min(
+      MAX_PER_PAGE,
+      Math.max(1, parseInt(searchParams.get("perPage") || String(DEFAULT_PER_PAGE), 10))
+    );
     const requestedPage = Math.max(1, parseInt(searchParams.get("page") || "1", 10));
     const searchQ = normalizeSearchQ(searchParams.get("q"));
     const searchQLower = searchQ.toLowerCase();
+    const locationId = (searchParams.get("locationId") || "").trim() || null;
+    const lineFilter = parseLineFilter(searchParams.get("lineFilter"));
 
     const mkTimeout = () =>
       new Promise<never>((_, reject) =>
@@ -46,7 +47,7 @@ export async function GET(request: NextRequest) {
     const { rows, error } = await Promise.race([fetchInventoryDashboardRows(supabase), mkTimeout()]);
 
     if (error) {
-      console.error("property-listings query error:", error);
+      console.error("admin inventory-dashboard query error:", error);
       const hint =
         /property_inventory_dashboard_rows|property_listing_configurations/i.test(error.message || "")
           ? " Run sql/property_listing_configurations.sql in Supabase if this is the first deploy."
@@ -58,11 +59,13 @@ export async function GET(request: NextRequest) {
     }
 
     const groups = groupRowsByPropertyInOrder(rows);
+
     const groupsFiltered = filterPropertyGroups(groups, {
       searchQLower,
-      locationId: null,
-      lineFilter: "all",
+      locationId,
+      lineFilter,
     });
+
     const totalProperties = groupsFiltered.length;
     const totalPages = Math.max(1, Math.ceil(totalProperties / perPage));
     const page = Math.min(requestedPage, totalPages);
@@ -83,7 +86,11 @@ export async function GET(request: NextRequest) {
           totalProperties,
           totalPages,
         },
-        editModeAvailable: Boolean(process.env.PROPERTY_LISTINGS_EDIT_SECRET?.trim()),
+        filters: {
+          q: searchQ,
+          locationId,
+          lineFilter,
+        },
       },
       {
         headers: {
@@ -93,7 +100,7 @@ export async function GET(request: NextRequest) {
       }
     );
   } catch (e) {
-    console.error("GET /api/property-listings:", e);
+    console.error("GET /api/admin/inventory-dashboard:", e);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

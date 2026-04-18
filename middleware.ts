@@ -25,15 +25,22 @@ export function middleware(request: NextRequest) {
 
   // Server-side admin route gate:
   // - unauthenticated users -> /admin/login
-  // - non-support users -> only /admin/leads
+  // - non-support users -> /admin/leads and /admin/inventory only
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
     const token = request.cookies.get('sb-access-token')?.value;
     const email = getEmailFromJwt(token);
     if (!email) {
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
-    if (email !== SUPPORT_ADMIN_EMAIL && pathname !== '/admin/leads') {
-      return NextResponse.redirect(new URL('/admin/leads', request.url));
+    if (email !== SUPPORT_ADMIN_EMAIL) {
+      const salesAllowed =
+        pathname === '/admin/leads' ||
+        pathname.startsWith('/admin/leads/') ||
+        pathname === '/admin/inventory' ||
+        pathname.startsWith('/admin/inventory/');
+      if (!salesAllowed) {
+        return NextResponse.redirect(new URL('/admin/leads', request.url));
+      }
     }
   }
 

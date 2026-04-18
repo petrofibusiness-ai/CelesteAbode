@@ -11,7 +11,8 @@ import {
   Menu,
   X,
   MapPin,
-  Mail
+  Mail,
+  Layers,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -37,7 +38,10 @@ export default function AdminSidebar({ leadsOnly = false }: AdminSidebarProps) {
   };
 
   const navItems = leadsOnly
-    ? [{ href: "/admin/leads", label: "Leads", icon: Mail }]
+    ? [
+        { href: "/admin/leads", label: "Leads", icon: Mail },
+        { href: "/admin/inventory", label: "Inventory", icon: Layers },
+      ]
     : [
         { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
         { href: "/admin/leads", label: "Leads", icon: Mail },
@@ -45,6 +49,7 @@ export default function AdminSidebar({ leadsOnly = false }: AdminSidebarProps) {
         { href: "/admin/locations/new", label: "New Location", icon: Plus },
         { href: "/admin/properties", label: "Properties", icon: Building2 },
         { href: "/admin/properties/new", label: "New Property", icon: Plus },
+        { href: "/admin/inventory", label: "Inventory", icon: Layers },
       ];
 
   // Close mobile menu when route changes

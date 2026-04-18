@@ -80,9 +80,12 @@ export default function AdminLayout({
         setIsAuthenticated(true);
         setUserEmail(email || null);
 
-        if (
-          isLeadsOnly && pathname !== "/admin/leads"
-        ) {
+        const salesAllowedPath =
+          pathname === "/admin/leads" ||
+          pathname.startsWith("/admin/leads/") ||
+          pathname === "/admin/inventory" ||
+          pathname.startsWith("/admin/inventory/");
+        if (isLeadsOnly && !salesAllowedPath) {
           router.replace("/admin/leads");
         }
       })

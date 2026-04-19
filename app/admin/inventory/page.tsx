@@ -1,14 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  Layers,
-  Loader2,
-  RefreshCw,
-  Search,
-  SlidersHorizontal,
-} from "lucide-react";
+import { Layers, Loader2, MapPin, RefreshCw, Search, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -21,6 +16,8 @@ import {
 import { PropertyGridPagination } from "@/components/property-grid-pagination";
 import type { PropertyInventoryRow } from "@/types/property-listing";
 import type { Location } from "@/types/location";
+import { formatInventoryPriceCrDisplay } from "@/lib/property-listings-price";
+import { getPropertyUrl } from "@/lib/property-url";
 import { cn } from "@/lib/utils";
 
 interface PaginationState {
@@ -28,6 +25,117 @@ interface PaginationState {
   perPage: number;
   totalProperties: number;
   totalPages: number;
+}
+
+const cellBorder = "border border-zinc-300 px-3 py-2.5 align-top";
+const thBase =
+  "border border-zinc-300 bg-zinc-100 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-zinc-600";
+
+/** So `3bhk`, `3.5bhk`, and `3 BHK` all normalize before matching. */
+function normalizeConfigForGrouping(raw: string): string {
+  return raw
+    .trim()
+    .replace(/(\d+(?:\.\d+)?)(bhk)/gi, "$1 $2")
+    .replace(/\s+/g, " ");
+}
+
+/**
+ * Bucket similar labels (e.g. "3 BHK", "3 BHK + Study", "3.5 BHK + Study") under one family.
+ * Uses a single decimal-aware BHK match so "3.5 BHK" is never read as "5 BHK".
+ */
+function configurationGroupKeyFromLabel(label: string): string {
+  const v = (label ?? "").trim();
+  if (!v) return "Not set";
+  const lowered = normalizeConfigForGrouping(v).toLowerCase();
+
+  if (/\bstudio\b/.test(lowered)) return "Studio";
+  if (/\b1\s*rk\b/.test(lowered)) return "1 RK";
+
+  const bhk = lowered.match(/(\d+(?:\.\d+)?)\s*bhk\b/i);
+  if (bhk) {
+    const n = parseFloat(bhk[1] ?? "0");
+    if (Number.isFinite(n) && n > 0 && n <= 32) {
+      return `${n} BHK`;
+    }
+  }
+
+  if (/\bduplex\b/i.test(v)) return "Duplex";
+  if (/\bpenthouse\b/i.test(v)) return "Penthouse";
+  if (/\bplot\b/.test(lowered) || /\bland\b/.test(lowered)) return "Plots / Land";
+  if (/\bshop\b/.test(lowered) || /\boffice\b/.test(lowered)) return "Commercial";
+  if (/\bvilla\b/.test(lowered)) return "Villas";
+
+  return "Other layouts";
+}
+
+function bhkBedroomSortKey(key: string): number | null {
+  const m = key.trim().match(/^(\d+(?:\.\d+)?)\s*BHK$/i);
+  if (!m) return null;
+  const n = parseFloat(m[1] ?? "");
+  return Number.isFinite(n) ? n : null;
+}
+
+function orderedConfigurationGroupKeys(keys: Set<string>): string[] {
+  const list = [...keys];
+  const bhkKeys = list
+    .filter((x) => bhkBedroomSortKey(x) != null)
+    .sort((a, b) => {
+      const da = bhkBedroomSortKey(a) ?? 0;
+      const db = bhkBedroomSortKey(b) ?? 0;
+      if (da !== db) return da - db;
+      return a.localeCompare(b);
+    });
+  const head = ["Studio", "1 RK"] as const;
+  const tail = [
+    "Duplex",
+    "Penthouse",
+    "Villas",
+    "Plots / Land",
+    "Commercial",
+    "Not set",
+    "Other layouts",
+  ] as const;
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const p of head) {
+    if (keys.has(p)) {
+      out.push(p);
+      seen.add(p);
+    }
+  }
+  for (const p of bhkKeys) {
+    if (!seen.has(p)) {
+      out.push(p);
+      seen.add(p);
+    }
+  }
+  for (const p of tail) {
+    if (keys.has(p)) {
+      out.push(p);
+      seen.add(p);
+    }
+  }
+  for (const k of list.sort((a, b) => a.localeCompare(b))) {
+    if (!seen.has(k)) out.push(k);
+  }
+  return out;
+}
+
+function groupInventoryRowsByConfiguration(
+  rows: PropertyInventoryRow[]
+): { key: string; label: string; lines: PropertyInventoryRow[] }[] {
+  const map = new Map<string, PropertyInventoryRow[]>();
+  const ordered = [...rows].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+  for (const line of ordered) {
+    const key = configurationGroupKeyFromLabel(line.configuration ?? "");
+    if (!map.has(key)) map.set(key, []);
+    map.get(key)!.push(line);
+  }
+  return orderedConfigurationGroupKeys(new Set(map.keys())).map((key) => ({
+    key,
+    label: key === "Not set" ? "Not set" : key,
+    lines: map.get(key) ?? [],
+  }));
 }
 
 function chunkItemsByProperty(items: PropertyInventoryRow[]): PropertyInventoryRow[][] {
@@ -46,6 +154,12 @@ function chunkItemsByProperty(items: PropertyInventoryRow[]): PropertyInventoryR
   }
   if (current.length) chunks.push(current);
   return chunks;
+}
+
+function formatOptionalLine(label: string, value: string | undefined): string | null {
+  const v = (value ?? "").trim();
+  if (!v) return null;
+  return `${label}: ${v}`;
 }
 
 export default function AdminInventoryPage() {
@@ -178,10 +292,10 @@ export default function AdminInventoryPage() {
 
   if (loading && items.length === 0) {
     return (
-      <div className="p-4 sm:p-6 md:p-8 flex items-center justify-center min-h-[50vh]">
+      <div className="flex min-h-[50vh] items-center justify-center bg-gradient-to-br from-gray-50 via-white to-gray-50 px-4">
         <div className="flex flex-col items-center gap-3">
-          <Loader2 className="w-10 h-10 text-[#CBB27A] animate-spin" />
-          <p className="text-gray-600 text-sm" style={{ fontFamily: "Poppins, sans-serif" }}>
+          <Loader2 className="h-10 w-10 animate-spin text-[#CBB27A]" aria-hidden />
+          <p className="text-sm text-gray-600" style={{ fontFamily: "Poppins, sans-serif" }}>
             Loading inventory…
           </p>
         </div>
@@ -190,60 +304,63 @@ export default function AdminInventoryPage() {
   }
 
   return (
-    <div className="p-4 sm:p-6 md:p-8 lg:p-10 bg-gradient-to-br from-gray-50 via-white to-gray-50 min-h-screen pb-24 md:pb-10">
-      <div className="max-w-[1600px] mx-auto">
-        {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 mb-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 pb-28 font-poppins pt-4 sm:pt-6 md:pb-10 md:pt-8 lg:pt-10">
+      <div className="mx-auto max-w-[1600px] px-4 sm:px-6 md:px-8 lg:px-10">
+        {/* Header (original) */}
+        <div className="mb-8 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="flex items-start gap-3 sm:gap-4">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#CBB27A] to-[#B8A068] rounded-xl flex items-center justify-center shadow-lg shrink-0">
-              <Layers className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#CBB27A] to-[#B8A068] shadow-lg sm:h-14 sm:w-14">
+              <Layers className="h-6 w-6 text-white sm:h-7 sm:w-7" />
             </div>
             <div>
               <h1
-                className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent"
+                className="bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-2xl font-bold text-transparent sm:text-3xl md:text-4xl"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 Published inventory
               </h1>
             </div>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex shrink-0 items-center gap-2">
             <Button
               type="button"
               variant="outline"
               onClick={handleRefresh}
               disabled={refreshing || listLoading}
-              className="h-11 px-4 rounded-xl border-2 border-gray-200 hover:border-[#CBB27A] hover:bg-[#CBB27A]/5"
+              className="h-11 rounded-xl border-2 border-gray-200 px-4 hover:border-[#CBB27A] hover:bg-[#CBB27A]/5"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              <RefreshCw className={cn("w-4 h-4 mr-2", refreshing && "animate-spin")} />
+              <RefreshCw className={cn("mr-2 h-4 w-4", refreshing && "animate-spin")} />
               Refresh
             </Button>
           </div>
         </div>
 
-        {/* Filters */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-200/80 shadow-md p-4 sm:p-5 mb-6">
-          <div className="flex items-center gap-2 text-gray-700 mb-4">
-            <SlidersHorizontal className="w-4 h-4 text-[#CBB27A]" />
+        {/* Filters (original) */}
+        <div className="mb-6 rounded-2xl border border-gray-200/80 bg-white/90 p-4 shadow-md backdrop-blur-sm sm:p-5">
+          <div className="mb-4 flex items-center gap-2 text-gray-700">
+            <SlidersHorizontal className="h-4 w-4 text-[#CBB27A]" />
             <span className="text-sm font-semibold" style={{ fontFamily: "Poppins, sans-serif" }}>
               Filters
             </span>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
             <div className="relative lg:col-span-2">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
               <Input
                 placeholder="Search project, location, slug, configuration, size, price…"
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
-                className="pl-10 h-11 rounded-xl border-gray-200 focus-visible:ring-[#CBB27A]/30"
+                className="h-11 rounded-xl border-gray-200 pl-10 focus-visible:ring-[#CBB27A]/30"
                 style={{ fontFamily: "Poppins, sans-serif" }}
                 aria-label="Search inventory"
               />
             </div>
             <Select value={locationId || "__all__"} onValueChange={(v) => setLocationId(v === "__all__" ? "" : v)}>
-              <SelectTrigger className="h-11 rounded-xl w-full border-gray-200" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <SelectTrigger
+                className="h-11 w-full rounded-xl border-gray-200"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
                 <SelectValue placeholder="All locations" />
               </SelectTrigger>
               <SelectContent>
@@ -260,146 +377,39 @@ export default function AdminInventoryPage() {
 
         {error ? (
           <div
-            className="mb-6 rounded-xl border border-red-200 bg-red-50 text-red-800 px-4 py-3 text-sm"
-            style={{ fontFamily: "Poppins, sans-serif" }}
+            className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900"
+            role="alert"
           >
             {error}
           </div>
         ) : null}
 
-        {/* Table / cards */}
+        {/* List */}
         <div className="relative">
           {listLoading ? (
             <div
-              className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-white/60 backdrop-blur-[2px] min-h-[240px]"
+              className="absolute inset-0 z-10 flex items-center justify-center rounded-lg border border-zinc-200 bg-white/80 backdrop-blur-[1px]"
               aria-busy
+              aria-label="Updating results"
             >
-              <Loader2 className="w-10 h-10 text-[#CBB27A] animate-spin" />
+              <Loader2 className="h-9 w-9 text-[#9a8648] animate-spin" />
             </div>
           ) : null}
 
           {grouped.length === 0 ? (
-            <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-12 text-center">
-              <Layers className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-600 font-medium" style={{ fontFamily: "Poppins, sans-serif" }}>
-                No rows match your filters.
-              </p>
-              <p className="text-sm text-gray-500 mt-2" style={{ fontFamily: "Poppins, sans-serif" }}>
-                Try clearing search or switching the location filter.
-              </p>
+            <div className="rounded-lg border border-zinc-300 bg-white px-6 py-14 text-center shadow-sm">
+              <Layers className="mx-auto mb-3 h-10 w-10 text-zinc-300" aria-hidden />
+              <p className="font-medium text-zinc-800">No projects match these filters.</p>
+              <p className="mt-2 text-sm text-zinc-600">Clear the search box or choose “All locations”.</p>
             </div>
           ) : (
-            <>
-              {/* Desktop table */}
-              <div className="hidden lg:block bg-white rounded-2xl border border-gray-200/80 shadow-md overflow-hidden">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left min-w-[720px]">
-                    <thead>
-                      <tr className="bg-gradient-to-r from-gray-50 to-gray-100/80 border-b border-gray-200">
-                        <th className="px-4 py-3 font-semibold text-gray-700 w-10" style={{ fontFamily: "Poppins, sans-serif" }}>
-                          #
-                        </th>
-                        <th className="px-4 py-3 font-semibold text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
-                          Project
-                        </th>
-                        <th
-                          className="px-3 py-3 font-semibold text-gray-700 w-[7.5rem] max-w-[7.5rem] align-top whitespace-normal break-words"
-                          style={{ fontFamily: "Poppins, sans-serif" }}
-                        >
-                          Location
-                        </th>
-                        <th className="px-4 py-3 font-semibold text-gray-700" style={{ fontFamily: "Poppins, sans-serif" }}>
-                          Configuration
-                        </th>
-                        <th className="px-4 py-3 font-semibold text-gray-700 whitespace-nowrap" style={{ fontFamily: "Poppins, sans-serif" }}>
-                          Size (sq ft)
-                        </th>
-                        <th className="px-4 py-3 font-semibold text-gray-700 whitespace-nowrap" style={{ fontFamily: "Poppins, sans-serif" }}>
-                          Price (Cr)
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      {grouped.map((rows) => {
-                        const head = rows[0];
-                        return (
-                          <DesktopPropertyGroupRows
-                            key={`${head.propertyId}-${head.propertySerial}`}
-                            rows={rows}
-                          />
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* Mobile / tablet cards */}
-              <div className="lg:hidden space-y-4">
-                {grouped.map((rows) => {
-                  const head = rows[0];
-                  return (
-                    <article
-                      key={`m-${head.propertyId}-${head.propertySerial}`}
-                      className="bg-white rounded-2xl border border-gray-200/80 shadow-md overflow-hidden"
-                    >
-                      <div className="p-4 border-b border-gray-100 bg-gradient-to-r from-[#CBB27A]/8 to-transparent">
-                        <div>
-                          <p className="text-xs text-gray-500 font-medium" style={{ fontFamily: "Poppins, sans-serif" }}>
-                            #{head.propertySerial}
-                          </p>
-                          <h2
-                            className="text-base font-bold text-gray-900 mt-0.5"
-                            style={{ fontFamily: "Poppins, sans-serif" }}
-                          >
-                            {head.projectName}
-                          </h2>
-                          <p className="text-xs text-gray-600 mt-1" style={{ fontFamily: "Poppins, sans-serif" }}>
-                            {head.locationLabel}
-                          </p>
-                        </div>
-                      </div>
-                      <ul className="divide-y divide-gray-100">
-                        {rows.map((line) => (
-                          <li key={line.id ?? `blank-${line.propertyId}-${line.sortOrder}`} className="p-4 space-y-2">
-                            <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm">
-                              <span className="text-gray-500" style={{ fontFamily: "Poppins, sans-serif" }}>
-                                Config
-                              </span>
-                              <span className="font-medium text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>
-                                {line.configuration?.trim() ? (
-                                  line.configuration
-                                ) : (
-                                  <span className="text-red-600 font-semibold">NA</span>
-                                )}
-                              </span>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm">
-                              <div>
-                                <span className="text-gray-500 block" style={{ fontFamily: "Poppins, sans-serif" }}>
-                                  Size (sq ft)
-                                </span>
-                                <span className="font-medium text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>
-                                  {line.sizeSqft || "—"}
-                                </span>
-                              </div>
-                              <div>
-                                <span className="text-gray-500 block" style={{ fontFamily: "Poppins, sans-serif" }}>
-                                  Price (Cr)
-                                </span>
-                                <span className="font-medium text-gray-900 tabular-nums" style={{ fontFamily: "Poppins, sans-serif" }}>
-                                  {line.priceCr?.trim() ? line.priceCr : "—"}
-                                </span>
-                              </div>
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    </article>
-                  );
-                })}
-              </div>
-            </>
+            <ol className="space-y-6" aria-label="Published projects">
+              {grouped.map((rows) => (
+                <li key={`${rows[0].propertyId}-${rows[0].propertySerial}`}>
+                  <InventoryProjectCard rows={rows} />
+                </li>
+              ))}
+            </ol>
           )}
         </div>
 
@@ -417,49 +427,153 @@ export default function AdminInventoryPage() {
   );
 }
 
-function DesktopPropertyGroupRows({ rows }: { rows: PropertyInventoryRow[] }) {
+function InventoryProjectCard({ rows }: { rows: PropertyInventoryRow[] }) {
   const head = rows[0];
-  return (
-    <>
-      {rows.map((line, idx) => (
-        <tr key={line.id ?? `blank-${line.propertyId}-${line.sortOrder}-${idx}`} className="hover:bg-[#CBB27A]/[0.04]">
-          <td className="px-4 py-3 text-gray-500 align-top whitespace-nowrap" style={{ fontFamily: "Poppins, sans-serif" }}>
-            {idx === 0 ? head.propertySerial : ""}
-          </td>
-          <td className="px-4 py-3 align-top">
-            {idx === 0 ? (
-              <span className="font-semibold text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>
-                {line.projectName}
-              </span>
-            ) : (
-              <span className="text-gray-400 text-xs">″</span>
-            )}
-          </td>
+  const serial = head.propertySerial ?? "—";
+  const towers = formatOptionalLine("Towers", head.inventoryTowers);
+  const possession = formatOptionalLine("Possession", head.possessionDate);
+  const metaLines = [towers, possession].filter(Boolean) as string[];
+  const configGroups = useMemo(() => groupInventoryRowsByConfiguration(rows), [rows]);
+
+  const configurationTableRows = useMemo(() => {
+    let zebra = 0;
+    const nodes: ReactNode[] = [];
+    for (const group of configGroups) {
+      nodes.push(
+        <tr key={`grp-h-${group.key}`} className="bg-gradient-to-r from-[#CBB27A]/22 via-[#CBB27A]/12 to-[#CBB27A]/8">
           <td
-            className="px-3 py-3 text-gray-700 align-top w-[7.5rem] max-w-[7.5rem] whitespace-normal break-words"
-            style={{ fontFamily: "Poppins, sans-serif" }}
+            colSpan={3}
+            className="border border-zinc-300 border-b-2 border-b-[#CBB27A]/55 px-3 py-3 text-left sm:px-4 sm:py-3.5"
           >
-            {idx === 0 ? (
-              <span className="block leading-snug break-words">{line.locationLabel}</span>
-            ) : (
-              ""
-            )}
-          </td>
-          <td className="px-4 py-3 text-gray-900 align-top" style={{ fontFamily: "Poppins, sans-serif" }}>
-            {line.configuration?.trim() ? (
-              line.configuration
-            ) : (
-              <span className="text-red-600 font-semibold">NA</span>
-            )}
-          </td>
-          <td className="px-4 py-3 text-gray-800 align-top tabular-nums" style={{ fontFamily: "Poppins, sans-serif" }}>
-            {line.sizeSqft || "—"}
-          </td>
-          <td className="px-4 py-3 text-gray-800 align-top tabular-nums" style={{ fontFamily: "Poppins, sans-serif" }}>
-            {line.priceCr?.trim() ? line.priceCr : "—"}
+            <span
+              className="text-lg font-bold tracking-tight text-zinc-900 sm:text-xl"
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            >
+              {group.label}
+            </span>
           </td>
         </tr>
-      ))}
-    </>
+      );
+      for (let idx = 0; idx < group.lines.length; idx++) {
+        const line = group.lines[idx]!;
+        const stripe = zebra % 2 === 0;
+        zebra += 1;
+        nodes.push(
+          <tr
+            key={line.id ?? `blank-${line.propertyId}-${line.sortOrder}-${group.key}-${idx}`}
+            className={stripe ? "bg-white" : "bg-zinc-50/90"}
+          >
+            <td className={cn(cellBorder, "text-zinc-900")}>
+              <ConfigurationCell value={line.configuration} />
+            </td>
+            <td className={cn(cellBorder, "tabular-nums text-zinc-800")}>
+              {line.sizeSqft?.trim() ? line.sizeSqft : "—"}
+            </td>
+            <td className={cn(cellBorder, "font-medium text-zinc-900 tabular-nums")}>
+              {line.priceCr?.trim() ? formatInventoryPriceCrDisplay(line.priceCr) : "—"}
+            </td>
+          </tr>
+        );
+      }
+    }
+    return nodes;
+  }, [configGroups]);
+
+  return (
+    <article className="overflow-hidden rounded-lg border border-zinc-300 bg-white shadow-sm">
+      {/* Accent + project header (grid with visible lines) */}
+      <div className="flex border-b border-zinc-300">
+        <div
+          className="flex w-12 shrink-0 flex-col items-center justify-center border-r border-zinc-300 bg-[#CBB27A]/12 px-2 py-3 sm:w-14"
+          aria-label={`List number ${serial}`}
+        >
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">#</span>
+          <span className="text-lg font-semibold tabular-nums text-zinc-900">{serial}</span>
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="grid grid-cols-1 border-zinc-300 sm:grid-cols-[1fr_auto] sm:divide-x sm:divide-zinc-300">
+            <div className="border-b border-zinc-300 p-3 sm:border-b-0 sm:p-4">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
+                <h2 className="min-w-0 flex-1 text-base font-semibold leading-snug text-zinc-900 sm:text-lg">
+                  {head.projectName}
+                </h2>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className={cn(
+                    "h-9 min-w-[6.25rem] shrink-0 self-end rounded-lg border-2 border-[#CBB27A]/75 bg-[#CBB27A]/15 px-4 text-sm font-semibold !text-zinc-900 shadow-sm",
+                    "hover:border-[#CBB27A] hover:!bg-[#CBB27A]/28 hover:!text-zinc-900",
+                    "active:!bg-[#CBB27A]/35 active:!text-zinc-900",
+                    "focus-visible:ring-2 focus-visible:ring-[#CBB27A]/45 focus-visible:!text-zinc-900",
+                    "sm:self-start"
+                  )}
+                  asChild
+                >
+                  <Link
+                    href={getPropertyUrl({
+                      slug: head.slug,
+                      locationSlug: head.locationSlug || null,
+                    })}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View page
+                  </Link>
+                </Button>
+              </div>
+            </div>
+            <div className="flex min-w-0 flex-col justify-center gap-1 p-3 sm:w-[13.5rem] sm:shrink-0 sm:p-4">
+              <div className="flex items-start gap-2 text-sm text-zinc-800">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400" aria-hidden />
+                <span className="leading-snug">{head.locationLabel || "—"}</span>
+              </div>
+            </div>
+          </div>
+          {metaLines.length > 0 ? (
+            <div className="border-t border-zinc-200 bg-zinc-50/80 px-3 py-2 sm:px-4">
+              <ul className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-zinc-600">
+                {metaLines.map((line) => (
+                  <li key={line}>{line}</li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      {/* Configuration lines — grouped by similar unit type */}
+      <div className="border-t border-zinc-300 bg-white">
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[520px] border-collapse text-sm">
+            <thead>
+              <tr>
+                <th scope="col" className={cn(thBase, "w-[38%]")}>
+                  Variant
+                </th>
+                <th scope="col" className={cn(thBase, "w-[28%]")}>
+                  Size (sq ft)
+                </th>
+                <th scope="col" className={cn(thBase, "w-[34%]")}>
+                  Price (₹)
+                </th>
+              </tr>
+            </thead>
+            <tbody>{configurationTableRows}</tbody>
+          </table>
+        </div>
+      </div>
+    </article>
   );
+}
+
+function ConfigurationCell({ value }: { value: string }) {
+  const v = value?.trim();
+  if (!v) {
+    return (
+      <span className="inline-flex items-center rounded border border-amber-200/80 bg-amber-50 px-2 py-0.5 text-xs font-medium text-amber-900">
+        Not set — add in CMS
+      </span>
+    );
+  }
+  return <span>{v}</span>;
 }

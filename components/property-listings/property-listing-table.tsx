@@ -9,6 +9,8 @@ import type { PropertyInventoryRow } from "@/types/property-listing";
 import { CONFIGURATIONS } from "@/lib/property-enums";
 import { propertyListingsEditFetchHeaders } from "@/lib/property-listings-edit-headers";
 import {
+  formatInventoryPriceCrDisplay,
+  hasCroreNumberToken,
   sanitizeInventoryDigitsInput,
   sanitizeInventoryPriceCrInput,
 } from "@/lib/property-listings-price";
@@ -205,8 +207,14 @@ function PropertyInventoryCard({
     (row: DraftRow) => {
       if (!unlocked || saving || deleteLoading) return;
       setDeleteError(null);
-      const parts = [row.configuration.trim(), row.sizeSqft.trim() ? `${row.sizeSqft} sq ft` : "", row.priceCr.trim()]
-        .filter(Boolean);
+      const priceLine = row.priceCr.trim()
+        ? hasCroreNumberToken(row.priceCr)
+          ? formatInventoryPriceCrDisplay(row.priceCr)
+          : row.priceCr.trim()
+        : "";
+      const parts = [row.configuration.trim(), row.sizeSqft.trim() ? `${row.sizeSqft} sq ft` : "", priceLine].filter(
+        Boolean
+      );
       const summary = parts.length ? parts.join(" · ") : "Empty line";
       if (row.id) setDeleteModal({ mode: "api", id: row.id, summary });
       else setDeleteModal({ mode: "draft", key: row.key, summary });
@@ -539,7 +547,7 @@ function PropertyInventoryCard({
                   Size (sq ft)
                 </th>
                 <th className="px-4 py-2.5 font-poppins text-[0.65rem] font-semibold uppercase tracking-wide text-muted-foreground sm:px-5">
-                  Price (Cr)
+                  Price (₹)
                 </th>
                 <th className="px-2 py-2.5 text-center font-poppins text-[0.65rem] font-semibold uppercase tracking-wide text-muted-foreground sm:px-3">
                   <span className="sr-only">Delete configuration</span>
@@ -592,18 +600,26 @@ function PropertyInventoryCard({
                   </td>
                   <td className="px-4 py-2 align-middle sm:px-5">
                     <label className="sr-only" htmlFor={`plc-pr-${row.key}`}>
-                      Price
+                      Price (crore figure; shown below in ₹)
                     </label>
-                    <input
-                      id={`plc-pr-${row.key}`}
-                      type="text"
-                      value={row.priceCr}
-                      onChange={(e) => updateDraft(row.key, "priceCr", e.target.value)}
-                      disabled={!unlocked}
-                      placeholder="e.g. 2.5 Cr"
-                      className={inputClass}
-                      autoComplete="off"
-                    />
+                    <div className="space-y-1">
+                      <input
+                        id={`plc-pr-${row.key}`}
+                        type="text"
+                        value={row.priceCr}
+                        onChange={(e) => updateDraft(row.key, "priceCr", e.target.value)}
+                        disabled={!unlocked}
+                        placeholder="e.g. 1.05"
+                        title="Crore amount (e.g. 1.05 = ₹ 1,05,00,000)"
+                        className={inputClass}
+                        autoComplete="off"
+                      />
+                      {row.priceCr.trim() && hasCroreNumberToken(row.priceCr) ? (
+                        <p className="font-poppins text-[0.65rem] leading-tight text-muted-foreground tabular-nums">
+                          {formatInventoryPriceCrDisplay(row.priceCr)}
+                        </p>
+                      ) : null}
+                    </div>
                   </td>
                   <td className="px-2 py-2 align-middle text-center sm:px-3">
                     <button

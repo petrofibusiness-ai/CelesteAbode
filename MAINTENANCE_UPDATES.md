@@ -2,6 +2,8 @@
 
 *Monthly log of website updates for client handover. Add new entries under the latest month; keep pointers crisp and development-focused.*
 
+**April 2026 (admin + inventory handover):** see **`MAINTENANCE_APRIL.md`** — role-based admin, **`/ca-internal-inventory-v1`** data entry, **`/admin/inventory`** read-only pitch sheet, pricing in ₹, security notes, and pointers to this log for related admin items (e.g. **#136–138**, **#162**, **#214–221**).
+
 ---
 
 ## March 2026
@@ -369,6 +371,7 @@
 ## How to use this doc
 
 - **Each month:** Add a new `## Month YYYY` section at the top (above the previous month).
+- **April 2026 admin + inventory:** Use **`MAINTENANCE_APRIL.md`** for the full narrative handover (roles, internal vs admin inventory, pricing); you may add a one-line pointer here only.
 - **One line per change:** Short, actionable; no long paragraphs.
 - **Group by type:** e.g. New page & SEO, Hero & above-the-fold, Content blocks, UX, Layout, Components.
 - **Client-ready:** Focus on what changed from a user/product perspective; avoid internal ticket IDs unless the client uses them.

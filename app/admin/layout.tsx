@@ -75,18 +75,16 @@ export default function AdminLayout({
 
         const data = await res.json().catch(() => ({}));
         const email = (data?.user?.email || "").toString().toLowerCase();
-        const isLeadsOnly = email !== SUPPORT_ADMIN_EMAIL;
+        const isInventoryOnlyUser = email !== SUPPORT_ADMIN_EMAIL;
 
         setIsAuthenticated(true);
         setUserEmail(email || null);
 
-        const salesAllowedPath =
-          pathname === "/admin/leads" ||
-          pathname.startsWith("/admin/leads/") ||
+        const inventoryAllowedPath =
           pathname === "/admin/inventory" ||
           pathname.startsWith("/admin/inventory/");
-        if (isLeadsOnly && !salesAllowedPath) {
-          router.replace("/admin/leads");
+        if (isInventoryOnlyUser && !inventoryAllowedPath) {
+          router.replace("/admin/inventory");
         }
       })
       .catch(() => {
@@ -122,14 +120,14 @@ export default function AdminLayout({
     return null;
   }
 
-  const isLeadsOnlyUser = Boolean(
+  const isInventoryOnlyUser = Boolean(
     userEmail && userEmail !== SUPPORT_ADMIN_EMAIL
   );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
       <div className="flex flex-col md:flex-row">
-        <AdminSidebar leadsOnly={isLeadsOnlyUser} />
+        <AdminSidebar inventoryOnly={isInventoryOnlyUser} />
         <main className="flex-1 md:ml-64 w-full pt-16 md:pt-0" style={{ paddingTop: '4rem' }}>
           {children}
         </main>

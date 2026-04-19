@@ -19,10 +19,11 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface AdminSidebarProps {
-  leadsOnly?: boolean;
+  /** Non-support admin: sidebar shows Inventory only */
+  inventoryOnly?: boolean;
 }
 
-export default function AdminSidebar({ leadsOnly = false }: AdminSidebarProps) {
+export default function AdminSidebar({ inventoryOnly = false }: AdminSidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -37,11 +38,8 @@ export default function AdminSidebar({ leadsOnly = false }: AdminSidebarProps) {
     }
   };
 
-  const navItems = leadsOnly
-    ? [
-        { href: "/admin/leads", label: "Leads", icon: Mail },
-        { href: "/admin/inventory", label: "Inventory", icon: Layers },
-      ]
+  const navItems = inventoryOnly
+    ? [{ href: "/admin/inventory", label: "Inventory", icon: Layers }]
     : [
         { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
         { href: "/admin/leads", label: "Leads", icon: Mail },

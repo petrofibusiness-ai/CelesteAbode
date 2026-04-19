@@ -25,7 +25,7 @@ export function middleware(request: NextRequest) {
 
   // Server-side admin route gate:
   // - unauthenticated users -> /admin/login
-  // - non-support users -> /admin/leads and /admin/inventory only
+  // - non-support users -> /admin/inventory only
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
     const token = request.cookies.get('sb-access-token')?.value;
     const email = getEmailFromJwt(token);
@@ -33,13 +33,11 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
     if (email !== SUPPORT_ADMIN_EMAIL) {
-      const salesAllowed =
-        pathname === '/admin/leads' ||
-        pathname.startsWith('/admin/leads/') ||
+      const inventoryOnly =
         pathname === '/admin/inventory' ||
         pathname.startsWith('/admin/inventory/');
-      if (!salesAllowed) {
-        return NextResponse.redirect(new URL('/admin/leads', request.url));
+      if (!inventoryOnly) {
+        return NextResponse.redirect(new URL('/admin/inventory', request.url));
       }
     }
   }

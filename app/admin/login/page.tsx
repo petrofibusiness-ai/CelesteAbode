@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
       }
 
       const email = (data?.user?.email || "").toString().toLowerCase();
-      const target = email === SUPPORT_ADMIN_EMAIL ? "/admin" : "/admin/leads";
+      const target = email === SUPPORT_ADMIN_EMAIL ? "/admin" : "/admin/inventory";
       router.push(target);
       router.refresh();
     } catch (err) {

@@ -446,7 +446,7 @@ function InventoryProjectCard({ rows }: { rows: PropertyInventoryRow[] }) {
             className="border border-zinc-300 border-b-2 border-b-[#CBB27A]/55 px-3 py-3 text-left sm:px-4 sm:py-3.5"
           >
             <span
-              className="text-lg font-bold tracking-tight text-zinc-900 sm:text-xl"
+              className="text-left text-base font-semibold tracking-tight text-zinc-600 sm:text-lg"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
               {group.label}
@@ -491,21 +491,25 @@ function InventoryProjectCard({ rows }: { rows: PropertyInventoryRow[] }) {
           <span className="text-lg font-semibold tabular-nums text-zinc-900">{serial}</span>
         </div>
         <div className="min-w-0 flex-1">
-          <div className="grid grid-cols-1 border-zinc-300 sm:grid-cols-[1fr_auto] sm:divide-x sm:divide-zinc-300">
-            <div className="border-b border-zinc-300 p-3 sm:border-b-0 sm:p-4">
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
-                <h2 className="min-w-0 flex-1 text-base font-semibold leading-snug text-zinc-900 sm:text-lg">
-                  {head.projectName}
-                </h2>
+          <div className="grid grid-cols-1 border-zinc-300 sm:grid-cols-[1fr_auto] sm:divide-x sm:divide-zinc-300 sm:items-stretch">
+            <div className="flex flex-col justify-center border-b border-zinc-300 p-3 sm:border-b-0 sm:min-h-[4.25rem] sm:p-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                <div className="min-w-0 flex-1">
+                  <h2
+                    className="text-left text-lg font-bold leading-snug tracking-tight text-zinc-900 sm:text-xl md:text-2xl"
+                    style={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    {head.projectName}
+                  </h2>
+                </div>
                 <Button
                   variant="outline"
                   size="sm"
                   className={cn(
-                    "h-9 min-w-[6.25rem] shrink-0 self-end rounded-lg border-2 border-[#CBB27A]/75 bg-[#CBB27A]/15 px-4 text-sm font-semibold !text-zinc-900 shadow-sm",
+                    "h-9 min-w-[6.25rem] shrink-0 self-start rounded-lg border-2 border-[#CBB27A]/75 bg-[#CBB27A]/15 px-4 text-sm font-semibold !text-zinc-900 shadow-sm sm:self-center",
                     "hover:border-[#CBB27A] hover:!bg-[#CBB27A]/28 hover:!text-zinc-900",
                     "active:!bg-[#CBB27A]/35 active:!text-zinc-900",
-                    "focus-visible:ring-2 focus-visible:ring-[#CBB27A]/45 focus-visible:!text-zinc-900",
-                    "sm:self-start"
+                    "focus-visible:ring-2 focus-visible:ring-[#CBB27A]/45 focus-visible:!text-zinc-900"
                   )}
                   asChild
                 >
@@ -522,9 +526,9 @@ function InventoryProjectCard({ rows }: { rows: PropertyInventoryRow[] }) {
                 </Button>
               </div>
             </div>
-            <div className="flex min-w-0 flex-col justify-center gap-1 p-3 sm:w-[13.5rem] sm:shrink-0 sm:p-4">
-              <div className="flex items-start gap-2 text-sm text-zinc-800">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400" aria-hidden />
+            <div className="flex min-h-0 min-w-0 flex-col justify-center p-3 sm:w-[13.5rem] sm:shrink-0 sm:p-4">
+              <div className="flex items-center gap-2 text-left text-sm text-zinc-800">
+                <MapPin className="h-4 w-4 shrink-0 text-zinc-400" aria-hidden />
                 <span className="leading-snug">{head.locationLabel || "—"}</span>
               </div>
             </div>

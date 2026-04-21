@@ -12,7 +12,6 @@ import {
   Layers,
   MapPin,
   IndianRupee,
-  Sparkles,
   ThumbsDown,
   ThumbsUp,
   TrendingUp,
@@ -29,7 +28,7 @@ const LINK_CLASS = "text-[#CBB27A] font-semibold hover:underline underline-offse
 const PANCHSHEEL_FACTS = {
   rera: "UPRERAPRJ8595",
   priceFrom: "₹91.5 lakhs",
-  areaSqft: "915–1525 sq.ft.",
+  areaSqft: "915–1,525 sq.ft.",
   acres: "26",
   openGreen: "65%",
   towers: "28",
@@ -78,34 +77,38 @@ const PANCHSHEEL_GALLERY_PHOTOS = [
 
 export const panchsheelGreens2FaqSchemaItems: { question: string; answer: string }[] = [
   {
-    question: "What is Panchsheel Greens phase 2?",
+    question: "What is the Panchsheel Greens 2 pin code?",
     answer:
-      "Panchsheel Greens 2 is the Panchsheel Greens phase 2 campus in Greater Noida West: about 26 acres, 28 towers, roughly 4,200 apartments, strong open green cover, and OC-led handover on multiple towers. On Celeste Abode we list Panchsheel Greens-II with 2 BHK, 2 BHK + Study, and 3 BHK inventory, RERA UPRERAPRJ8595, pricing from ₹91.5 lakhs, clubhouse, pools, and landscaped spaces. Full specs and forms sit on the Panchsheel Greens-II listing.",
+      "201306. This is the standard pin code for the Sector 16 Greater Noida West belt used on sale agreements and utility connections for Panchsheel Greens 2.",
   },
   {
-    question: "Where is Panchsheel Greens 2 in Noida Extension?",
+    question: "Is Panchsheel Greens 2 ready to move?",
     answer:
-      "Panchsheel Greens 2 is in Sector 16, Greater Noida West (Noida Extension), Uttar Pradesh, with strong road access toward Noida, NH corridors, FNG, and Crossing Republik. Pin 201306 is widely used on listings for this belt. Address and map context match our Panchsheel Greens-II listing on Celeste Abode.",
+      "Yes. Occupancy certificates are received on multiple towers and a large resident base already lives on campus. Always confirm the specific tower and stack before you book.",
   },
   {
-    question: "What is the Panchsheel Greens 2 price list?",
+    question: "What configurations are available in Panchsheel Greens 2?",
     answer:
-      "Celeste Abode lists Panchsheel Greens-II from about ₹91.5 lakhs for eligible 2 BHK stacks, with 2 BHK + Study and 3 BHK on the live sheet. Current Panchsheel Greens 2 price list and resale bands sit on the Panchsheel Greens-II listing with brochure download and callback. Our team shares tower-wise numbers once you pick configuration and timeline.",
+      "2 BHK, 2 BHK + Study, and 3 BHK apartments in roughly the 915 to 1,525 sq.ft. carpet range, depending on tower and release.",
   },
   {
-    question: "How do I get the Panchsheel Greens 2 brochure?",
+    question: "What is the starting price for Panchsheel Greens 2?",
     answer:
-      "Open Panchsheel Greens-II on Celeste Abode and use the brochure download, or request a callback on the same page. We send the latest brochure and floor plans for the configuration you want.",
+      "From ₹91.5 lakhs for a 2 BHK on our Panchsheel Greens-II listing. Exact price moves by tower, floor, and facing.",
   },
   {
-    question: "Are Panchsheel Greens 2 flats for sale in resale?",
+    question: "Does Panchsheel Greens 2 have villas?",
     answer:
-      "Yes. Fresh and resale Panchsheel Greens 2 flat for sale options are routed through the Panchsheel Greens-II listing and our Greater Noida desk. Tell us tower, floor, and budget and we line up visits.",
+      "No. The campus is entirely high-rise apartments. For villas or low-rise options in Greater Noida West, contact our desk and we share what is live nearby.",
   },
   {
-    question: "What do Panchsheel Greens 2 reviews say?",
+    question: "What is the RERA number for Panchsheel Greens 2?",
+    answer: "UPRERAPRJ8595 for Panchsheel Greens-II on Celeste Abode.",
+  },
+  {
+    question: "Is Panchsheel Greens 2 a good investment?",
     answer:
-      "Buyers like the Sector 16 Greater Noida West location, campus amenities, and value versus many Noida pockets. Practical watch points are peak traffic toward Noida and society upkeep on high-density phases. Gallery and amenities on the Panchsheel Greens-II page give a clear first look.",
+      "For buyers who want value, rental depth, and a ready township, it is one of the stronger Sector 16 bets. The commute trade-off toward Noida is real: map your office route before you decide.",
   },
 ];
 
@@ -127,22 +130,22 @@ function DataTable({ rows, caption }: { rows: [string, ReactNode][]; caption?: s
   return (
     <div className="my-6 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
       {caption ? (
-        <div className="bg-[#0f1112] px-4 py-2.5 border-b border-gray-800">
-          <p className="text-[0.65rem] font-bold uppercase tracking-wider text-[#CBB27A] m-0 font-poppins">{caption}</p>
+        <div className="border-b border-gray-800 bg-[#0f1112] px-4 py-2.5">
+          <p className="m-0 font-poppins text-[0.65rem] font-bold uppercase tracking-wider text-[#CBB27A]">{caption}</p>
         </div>
       ) : null}
       <div className="overflow-x-auto">
-        <table className="w-full text-sm font-poppins border-collapse min-w-[260px]">
+        <table className="w-full border-collapse font-poppins text-sm min-w-[260px]">
           <tbody>
             {rows.map(([label, value]) => (
               <tr key={label} className="border-b border-gray-100 last:border-0">
                 <th
                   scope="row"
-                  className="text-left font-semibold text-gray-900 align-top py-2.5 px-4 w-[36%] max-w-[180px] border-r border-gray-100 bg-gray-50/60 text-[13px]"
+                  className="w-[38%] max-w-[200px] border-r border-gray-100 bg-gray-50/60 px-4 py-2.5 text-left align-top text-[13px] font-semibold text-gray-900"
                 >
                   {label}
                 </th>
-                <td className="text-gray-700 py-2.5 px-4 text-[13px] leading-relaxed">{value}</td>
+                <td className="px-4 py-2.5 text-[13px] leading-relaxed text-gray-700">{value}</td>
               </tr>
             ))}
           </tbody>
@@ -152,95 +155,99 @@ function DataTable({ rows, caption }: { rows: [string, ReactNode][]; caption?: s
   );
 }
 
+function PriceGuideTable() {
+  const rows: [string, string][] = [
+    ["2 BHK", `From ${PANCHSHEEL_FACTS.priceFrom}`],
+    ["2 BHK + Study", "Tower and floor specific"],
+    ["3 BHK", "Tower and floor specific"],
+    ["Resale flats", "Market-led by stack"],
+  ];
+  return (
+    <div className="my-6 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+      <div className="border-b border-gray-800 bg-[#0f1112] px-4 py-2.5">
+        <p className="m-0 font-poppins text-[0.65rem] font-bold uppercase tracking-wider text-[#CBB27A]">
+          Indicative price (2026)
+        </p>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse font-poppins text-sm min-w-[280px]">
+          <thead>
+            <tr className="border-b border-gray-200 bg-gray-100 text-left">
+              <th className="px-4 py-3 text-xs font-bold uppercase tracking-wide text-gray-800">Configuration</th>
+              <th className="px-4 py-3 text-xs font-bold uppercase tracking-wide text-gray-800">Indicative price</th>
+            </tr>
+          </thead>
+          <tbody className="text-gray-800">
+            {rows.map(([a, b]) => (
+              <tr key={a} className="border-b border-gray-100 last:border-0">
+                <td className="px-4 py-2.5 text-[13px] font-medium text-gray-900">{a}</td>
+                <td className="px-4 py-2.5 text-[13px] text-gray-700">{b}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function StatPill({ children }: { children: ReactNode }) {
+  return (
+    <span className="inline-flex items-center rounded-full border border-[#CBB27A]/35 bg-[#CBB27A]/12 px-3 py-1.5 text-xs font-semibold text-gray-900">
+      {children}
+    </span>
+  );
+}
+
 export function PanchsheelGreens2GreaterNoidaWestContent() {
   const toc = [
-    { href: "#pg2-intro", title: "Introduction" },
-    { href: "#pg2-overview", title: "Overview" },
-    { href: "#pg2-location", title: "Location and pin" },
+    { href: "#pg2-lead", title: "Lead" },
+    { href: "#pg2-what", title: "What is Greens 2?" },
+    { href: "#pg2-overview", title: "Quick overview" },
+    { href: "#pg2-location", title: "Location & pin" },
     { href: "#pg2-price", title: "Price list" },
     { href: "#pg2-floor", title: "Floor plans" },
     { href: "#pg2-photos", title: "Photos" },
-    { href: "#pg2-brochure", title: "Brochure" },
-    { href: "#pg2-flat-sale", title: "Flats for sale" },
+    { href: "#pg2-flats", title: "Flats for sale" },
     { href: "#pg2-review", title: "Review" },
     { href: "#pg2-invest", title: "Why invest" },
     { href: "#faq-pg2", title: "FAQs" },
+    { href: "#pg2-next", title: "Next step" },
   ];
 
   const overviewRows: [string, ReactNode][] = [
-    ["Project name", "Panchsheel Greens-II (Panchsheel Greens 2 / phase 2)"],
-    ["Location", "Sector 16, Greater Noida West (Noida Extension), Uttar Pradesh"],
+    ["Project name", "Panchsheel Greens 2"],
+    ["Location", "Sector 16, Greater Noida West, UP"],
     ["Builder", "Panchsheel Group"],
     ["Status", PANCHSHEEL_FACTS.status],
-    ["Property type", "Apartments / flats"],
-    [
-      "Configuration",
-      "2 BHK, 2 BHK + Study, 3 BHK; typical carpet band about " + PANCHSHEEL_FACTS.areaSqft + " on inventory sheets",
-    ],
     ["RERA", PANCHSHEEL_FACTS.rera],
-    ["Indicative pricing", "From " + PANCHSHEEL_FACTS.priceFrom + " on Celeste Abode listing (tower and floor specific)"],
-    ["Project area", "About " + PANCHSHEEL_FACTS.acres + " acres"],
-    ["Open space", "About " + PANCHSHEEL_FACTS.openGreen + " green and open landscape (master plan)"],
-    ["Towers", PANCHSHEEL_FACTS.towers + " towers"],
-    ["Total units", PANCHSHEEL_FACTS.units + " apartments"],
-    [
-      "Possession",
-      "OC received on multiple towers with large resident base already in; phased completion across stacks (Panchsheel Group campus update)",
-    ],
-    [
-      "Listing",
-      <>
-        Gallery, amenities, brochure, and callback on the{" "}
-        <Link href={PROJECT_PAGE} className={LINK_CLASS}>
-          Panchsheel Greens-II
-        </Link>{" "}
-        page.
-      </>,
-    ],
-  ];
-
-  const priceRows: [string, ReactNode][] = [
-    [
-      "2 BHK",
-      <>
-        From {PANCHSHEEL_FACTS.priceFrom} on the{" "}
-        <Link href={PROJECT_PAGE} className={LINK_CLASS}>
-          Panchsheel Greens-II
-        </Link>{" "}
-        listing; tower and floor refresh the exact BSP.
-      </>,
-    ],
-    ["2 BHK + Study", "Live sheet on the listing, tower and floor specific"],
-    ["3 BHK", "Live sheet and resale inventory; same campus scale as 2 BHK stacks"],
-    ["Resale", "Market-led by stack; share unit details and we line up comparable deals"],
-    [
-      "Villas / low-rise",
-      <>
-        Main campus is high-rise apartments. Ask our desk for villa-style options nearby or browse{" "}
-        <Link href="/properties-in-greater-noida" className={LINK_CLASS}>
-          Greater Noida properties
-        </Link>
-        .
-      </>,
-    ],
+    ["Total area", `${PANCHSHEEL_FACTS.acres} acres`],
+    ["Towers", PANCHSHEEL_FACTS.towers],
+    ["Total units", PANCHSHEEL_FACTS.units],
+    ["Configurations", "2 BHK, 2 BHK + Study, 3 BHK"],
+    ["Carpet area range", `~${PANCHSHEEL_FACTS.areaSqft}`],
+    ["Starting price", `From ${PANCHSHEEL_FACTS.priceFrom}`],
+    ["Open space", `~${PANCHSHEEL_FACTS.openGreen} green and landscaped`],
   ];
 
   return (
     <div className="blog-article font-poppins">
-      <div className="mb-8 rounded-xl border border-[#CBB27A]/25 bg-[#CBB27A]/8 p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="mb-8 flex flex-col gap-4 rounded-xl border border-[#CBB27A]/25 bg-[#CBB27A]/8 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
         <div>
-          <p className="text-xs font-bold uppercase tracking-wider text-[#9a7b2c] m-0 mb-1">Full project detail</p>
-          <p className="text-sm text-gray-800 m-0 leading-snug">
-            About {PANCHSHEEL_FACTS.acres} acres, {PANCHSHEEL_FACTS.towers} towers, {PANCHSHEEL_FACTS.units} homes, and
-            listing-led pricing from {PANCHSHEEL_FACTS.priceFrom}. Floor plans, gallery, brochure, and callbacks sit on our
-            Panchsheel Greens-II page (same campus as Panchsheel Greens 2).
+          <p className="m-0 mb-1 text-xs font-bold uppercase tracking-wider text-[#9a7b2c]">Project hub</p>
+          <p className="m-0 text-sm leading-snug text-gray-800">
+            Live sheet, brochure, gallery, and callbacks on{" "}
+            <Link href={PROJECT_PAGE} className={LINK_CLASS}>
+              Panchsheel Greens-II
+            </Link>
+            .
           </p>
         </div>
         <Link
           href={PROJECT_PAGE}
-          className="inline-flex items-center justify-center gap-2 shrink-0 rounded-lg bg-[#0f1112] px-5 py-2.5 text-sm font-semibold text-[#CBB27A] hover:bg-gray-900 transition-colors"
+          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-[#0f1112] px-5 py-2.5 text-sm font-semibold text-[#CBB27A] transition-colors hover:bg-gray-900"
         >
-          Open Panchsheel Greens-II
+          Open listing
           <ArrowRight className="size-4" aria-hidden />
         </Link>
       </div>
@@ -252,7 +259,7 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
         <div className="border-b border-gray-200 bg-gray-50 px-3 py-2 md:px-4 md:py-2.5">
           <p className="m-0 text-[0.65rem] font-bold uppercase tracking-wider text-[#CBB27A]">On this page</p>
         </div>
-        <ul className="m-0 grid list-none grid-cols-2 md:grid-cols-3 gap-px border-0 bg-gray-200 p-0">
+        <ul className="m-0 grid list-none grid-cols-2 gap-px border-0 bg-gray-200 p-0 md:grid-cols-3">
           {toc.map((item) => (
             <li key={item.href} className="min-w-0 bg-gray-50">
               <div className="px-3 py-2 md:px-4 md:py-2.5">
@@ -268,45 +275,25 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
         </ul>
       </nav>
 
-      <section id="pg2-intro" className="scroll-mt-28 mb-10">
-        <div className="flex items-center gap-2 mb-3">
-          <Sparkles className="size-5 text-[#CBB27A]" aria-hidden />
-          <p className="text-xs font-bold uppercase tracking-wider text-[#CBB27A] m-0">Introduction</p>
-        </div>
-        <p className="text-gray-800 text-base md:text-[17px] leading-relaxed mb-4">
-          <strong>Panchsheel Greens 2</strong> is a large Panchsheel Group township in Greater Noida West, the stretch
-          people still call Noida Extension. The campus runs at roughly {PANCHSHEEL_FACTS.acres} acres with{" "}
-          {PANCHSHEEL_FACTS.towers} towers and about {PANCHSHEEL_FACTS.units} apartments, which is why Panchsheel Greens phase
-          2 and Panchsheel Greens 2 Noida searches keep landing here. It is an approved residential campus with strong end-user
-          and investor interest: sensible tickets from {PANCHSHEEL_FACTS.priceFrom} on our listing, rental depth, and healthy
-          resale liquidity for the belt. If you
-          are weighing the corridor more broadly, our{" "}
-          <Link href="/blog/noida-vs-greater-noida-investment-2026" className={LINK_CLASS}>
-            Noida vs Greater Noida investment note
-          </Link>{" "}
-          frames how we think about the trade-offs.
+      <header id="pg2-lead" className="scroll-mt-28 mb-10">
+        <p className="m-0 mb-3 font-poppins text-2xl font-bold leading-tight text-foreground md:text-[1.65rem]">
+          Panchsheel Greens 2, Greater Noida West: Price, Photos, Floor Plans &amp; Review (2026)
         </p>
-        <ul className="space-y-2 text-gray-700 text-sm leading-relaxed mb-5 list-none m-0 p-0">
-          <li className="flex gap-2">
-            <CheckCircle2 className="size-4 text-[#CBB27A] shrink-0 mt-0.5" aria-hidden />
-            <span>Developer: Panchsheel Group, with deep NCR delivery and a lived-in footprint at Greens 2.</span>
-          </li>
-          <li className="flex gap-2">
-            <Building2 className="size-4 text-[#CBB27A] shrink-0 mt-0.5" aria-hidden />
-            <span>Demand stays strong for full-scale amenities, retail, schools nearby, and value versus core Noida.</span>
-          </li>
-          <li className="flex gap-2">
-            <TrendingUp className="size-4 text-[#CBB27A] shrink-0 mt-0.5" aria-hidden />
-            <span>
-              Investors like rent and exit depth; end users like schools, clubs, and a settled campus. Both find inventory
-              here.
-            </span>
-          </li>
-        </ul>
+        <div className="mb-5 flex flex-wrap gap-2">
+          <StatPill>{PANCHSHEEL_FACTS.acres}-acre township</StatPill>
+          <StatPill>{PANCHSHEEL_FACTS.towers} towers</StatPill>
+          <StatPill>{PANCHSHEEL_FACTS.units} apartments</StatPill>
+          <StatPill>From {PANCHSHEEL_FACTS.priceFrom}</StatPill>
+        </div>
+        <p className="mb-5 text-base leading-relaxed text-gray-800 md:text-[17px]">
+          Panchsheel Greens 2 is a {PANCHSHEEL_FACTS.acres}-acre township in Sector 16, Greater Noida West. {PANCHSHEEL_FACTS.towers}{" "}
+          towers. {PANCHSHEEL_FACTS.units} apartments. Prices from {PANCHSHEEL_FACTS.priceFrom}. Here is everything you need to know
+          before you buy or invest.
+        </p>
         <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-gray-200">
           <Image
             src={PANCHSHEEL_GREENS_2_IMAGES.leadVisual}
-            alt="Panchsheel Greens 2 Greater Noida West: towers, landscaped walkway, and plaza"
+            alt="Panchsheel Greens 2 Greater Noida West: towers, walkway, and plaza"
             fill
             className="object-cover object-center"
             sizes="(max-width: 1024px) 100vw, 896px"
@@ -314,50 +301,74 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
             unoptimized
           />
         </div>
+      </header>
+
+      <section id="pg2-what" className="scroll-mt-28 mb-10">
+        <SectionH2 id="pg2-what-h" icon={Building2}>
+          What is Panchsheel Greens 2?
+        </SectionH2>
+        <div className="space-y-4 text-sm leading-relaxed text-gray-800 md:text-[15px]">
+          <p className="m-0">
+            Panchsheel Greens 2 sits inside the Noida Extension belt that buyers and brokers still call Greater Noida West. The
+            Panchsheel Group built this as a full township, not a standalone project. That means a clubhouse, multiple pools,
+            on-site retail, and schools nearby within the same address.
+          </p>
+          <p className="m-0">
+            The project is ready to move. Occupancy certificates are received on multiple towers. A large resident base
+            already lives there. That is the first thing any serious buyer checks, and here the answer is clean.
+          </p>
+          <p className="m-0">
+            Searches for Panchsheel Greens phase 2, Panchsheel Greens 2 Noida Extension, and Panchsheel Greens 2 Greater Noida
+            all point to this campus. For corridor context, read our{" "}
+            <Link href="/blog/noida-vs-greater-noida-investment-2026" className={LINK_CLASS}>
+              Noida vs Greater Noida investment guide
+            </Link>
+            .
+          </p>
+        </div>
       </section>
 
       <section id="pg2-overview" className="scroll-mt-28 mb-10">
         <SectionH2 id="pg2-overview-h" icon={Layers}>
-          Panchsheel Greens 2 overview
+          Panchsheel Greens 2: quick overview
         </SectionH2>
-        <p className="text-sm text-gray-600 mb-3">
-          A quick snapshot for Panchsheel Greens 2 Noida Extension and Panchsheel Greens 2 Greater Noida West readers,
-          aligned with our{" "}
+        <DataTable rows={overviewRows} caption="Detail vs info" />
+        <p className="m-0 text-sm text-gray-600">
+          Tower-wise possession and inventory sit on the{" "}
           <Link href={PROJECT_PAGE} className={LINK_CLASS}>
             Panchsheel Greens-II
           </Link>{" "}
           listing.
         </p>
-        <DataTable rows={overviewRows} caption="At a glance" />
-        <p className="text-sm text-gray-600 m-0">
-          Panchsheel Greens 2 possession timelines are tower-specific. We keep the live view next to inventory on the{" "}
-          <Link href={PROJECT_PAGE} className={LINK_CLASS}>
-            Panchsheel Greens-II
-          </Link>{" "}
-          page.
-        </p>
       </section>
 
       <section id="pg2-location" className="scroll-mt-28 mb-10">
         <SectionH2 id="pg2-location-h" icon={MapPin}>
-          Panchsheel Greens 2 location, address, and pin code
+          Panchsheel Greens 2 location and pin code
         </SectionH2>
-        <p className="text-sm text-gray-700 leading-relaxed mb-3">
-          Panchsheel Greens 2 address: Sector 16, Greater Noida West, Greater Noida, Uttar Pradesh, as on our{" "}
-          <Link href={PROJECT_PAGE} className={LINK_CLASS}>
-            Panchsheel Greens-II
-          </Link>{" "}
-          listing. Panchsheel Greens 2 pin code, Panchsheel Greens 2 Greater Noida West pin code, and pin code of Panchsheel
-          Greens 2 Noida Extension commonly align with {PANCHSHEEL_FACTS.pin} for this Sector 16 belt on agreements and
-          utilities. Searches for Panchsheel Greens 2 sector 16 Noida or Panchsheel Greens 2 Noida extension address point here.
-        </p>
-        <ul className="text-sm text-gray-700 space-y-1.5 m-0 pl-4 list-disc mb-4">
-          <li>Noida and NH corridors within a short drive; FNG and Greater Noida road network in daily use.</li>
-          <li>Crossing Republik and Ghaziabad retail within easy reach.</li>
-          <li>Noida office and school hubs connected by road; metro is a drive-first story today with future line extension on the map.</li>
+        <div className="mb-4 rounded-lg border border-gray-200 bg-gray-50/90 p-4 text-sm text-gray-800">
+          <p className="m-0 mb-2 font-semibold text-gray-900">Address</p>
+          <p className="m-0">Sector 16, Greater Noida West, Greater Noida, Uttar Pradesh.</p>
+          <p className="mt-3 m-0 mb-1 font-semibold text-gray-900">Panchsheel Greens 2 pin code</p>
+          <p className="m-0">
+            {PANCHSHEEL_FACTS.pin}. This is the standard pin for the Sector 16 belt on sale agreements and utility connections.
+          </p>
+        </div>
+        <p className="m-0 mb-2 text-sm font-bold text-gray-900">What is nearby?</p>
+        <ul className="mb-5 list-disc space-y-1.5 pl-5 text-sm text-gray-800">
+          <li>Noida and NH corridors are a short drive away.</li>
+          <li>Crossing Republik retail is easily reachable.</li>
+          <li>Ghaziabad markets sit within daily commute distance.</li>
+          <li>Schools, hospitals, and local retail are on or near the campus.</li>
+          <li>Metro is drive-first today. A future line extension is on the map but not yet at this doorstep.</li>
         </ul>
-        <figure className="m-0 overflow-hidden rounded-xl border border-gray-200 bg-neutral-100 shadow-sm">
-          <div className="relative aspect-[4/3] w-full max-w-4xl sm:aspect-video">
+        <p className="mb-5 text-sm leading-relaxed text-gray-700">
+          The Noida Extension location is the trade-off this project asks you to make. You get more space and better pricing
+          than core Noida sectors. In exchange, peak-hour drives toward Noida need planning. Most residents who live here say it
+          is worth it.
+        </p>
+        <div className="overflow-hidden rounded-xl border border-gray-200 bg-neutral-100 shadow-sm">
+          <div className="relative aspect-[4/3] w-full sm:aspect-video">
             <iframe
               src={PANCHSHEEL_MAP_EMBED_SRC}
               title="Panchsheel Greens 2 on Google Maps"
@@ -367,43 +378,70 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
               referrerPolicy="no-referrer-when-downgrade"
             />
           </div>
-          <figcaption className="px-3 py-2 text-xs text-gray-600 bg-white border-t border-gray-100">
-            Interactive map for Panchsheel Greens 2 (Greater Noida West / Noida Extension belt).
-          </figcaption>
-        </figure>
+        </div>
       </section>
 
       <section id="pg2-price" className="scroll-mt-28 mb-10">
         <SectionH2 id="pg2-price-h" icon={IndianRupee}>
-          Panchsheel Greens 2 price list
+          Panchsheel Greens 2 price list (2026)
         </SectionH2>
-        <DataTable rows={priceRows} caption="Indicative bands" />
-        <p className="text-sm text-gray-600 m-0">
-          For a Panchsheel Greens 2 villas price list or low-rise stock nearby, our Greater Noida desk shares what is live
-          today. This Panchsheel Greens-II listing is apartment-led; the{" "}
+        <p className="mb-4 text-sm text-gray-700">
+          Prices are tower and floor specific. The bands below are a reference. For exact current pricing by tower and floor,{" "}
+          check the{" "}
           <Link href={PROJECT_PAGE} className={LINK_CLASS}>
-            project page
+            live listing
           </Link>{" "}
-          carries the current apartment sheet.
+          or contact our desk directly.
         </p>
+        <PriceGuideTable />
+        <div className="mt-6 rounded-xl border border-amber-200/70 bg-amber-50/50 p-4">
+          <p className="m-0 mb-2 flex items-center gap-2 text-sm font-bold text-amber-950">
+            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-amber-200/60 text-xs font-black">!</span>
+            A note on villas
+          </p>
+          <p className="m-0 text-sm leading-relaxed text-gray-800">
+            Panchsheel Greens 2 villas is a common search. The main campus is entirely high-rise apartments. No villas exist
+            within this project. If you want villa or low-rise options in the same belt, ask us and we will share what is live
+            nearby.
+          </p>
+        </div>
       </section>
 
       <section id="pg2-floor" className="scroll-mt-28 mb-10">
         <SectionH2 id="pg2-floor-h" icon={Layers}>
-          Panchsheel Greens 2 floor plan and layout
+          Panchsheel Greens 2 floor plans
         </SectionH2>
-        <p className="text-sm text-gray-700 leading-relaxed mb-3">
-          Panchsheel Greens 2 layout options on Celeste Abode span 2 BHK, 2 BHK + Study, and 3 BHK apartments, typically in the
-          about {PANCHSHEEL_FACTS.areaSqft} band depending on tower. Panchsheel Greens 2 floor plan and layout plan downloads
-          sit on the{" "}
+        <p className="mb-3 text-sm text-gray-800">The project offers three main layouts:</p>
+        <ul className="mb-4 list-none space-y-2.5 m-0 p-0">
+          <li className="flex gap-2 text-sm text-gray-800">
+            <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#CBB27A]" aria-hidden />
+            <span>
+              <span className="font-semibold text-gray-900">2 BHK</span> — approximately 915 sq.ft. carpet area.
+            </span>
+          </li>
+          <li className="flex gap-2 text-sm text-gray-800">
+            <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#CBB27A]" aria-hidden />
+            <span>
+              <span className="font-semibold text-gray-900">2 BHK + Study</span> — mid-range carpet band, varies by tower.
+            </span>
+          </li>
+          <li className="flex gap-2 text-sm text-gray-800">
+            <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-[#CBB27A]" aria-hidden />
+            <span>
+              <span className="font-semibold text-gray-900">3 BHK</span> — up to approximately 1,525 sq.ft. carpet area.
+            </span>
+          </li>
+        </ul>
+        <p className="m-0 text-sm leading-relaxed text-gray-700">
+          Floor plan downloads with exact dimensions are on the{" "}
           <Link href={PROJECT_PAGE} className={LINK_CLASS}>
-            Panchsheel Greens-II
-          </Link>{" "}
-          page, alongside the brochure. For another Greater Noida West benchmark, see{" "}
+            listing page
+          </Link>
+          . Tower-wise layouts differ slightly, so always check the specific tower before shortlisting. Compare with{" "}
           <Link href="/blog/sobha-rivana-greater-noida-west" className={LINK_CLASS}>
             Sobha Rivana
-          </Link>
-          .
+          </Link>{" "}
+          if you want another Greater Noida West benchmark.
         </p>
       </section>
 
@@ -411,93 +449,115 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
         <SectionH2 id="pg2-photos-h" icon={Images}>
           Panchsheel Greens 2 photos
         </SectionH2>
-        <p className="text-sm text-gray-600 mb-3">
-          Panchsheel Greens 2 photos below: tap or click a thumbnail to enlarge. More visuals live on the{" "}
+        <p className="mb-4 text-sm leading-relaxed text-gray-700">
+          The campus photos show finished towers, landscaped walkways, the clubhouse, and the central plaza. A large portion of
+          the {PANCHSHEEL_FACTS.acres} acres is open green space, which shows in the ground-level shots. Tap a thumbnail to
+          enlarge. More photos are on the{" "}
           <Link href={PROJECT_PAGE} className={LINK_CLASS}>
-            Panchsheel Greens-II
-          </Link>{" "}
-          listing.
+            project listing
+          </Link>
+          . Want a site visit? We can arrange it.
         </p>
         <PanchsheelGreens2PhotoGallery photos={PANCHSHEEL_GALLERY_PHOTOS} />
       </section>
 
-      <section id="pg2-brochure" className="scroll-mt-28 mb-10">
-        <SectionH2 id="pg2-brochure-h" icon={FileDown}>
-          Panchsheel Greens 2 brochure
+      <section id="pg2-flats" className="scroll-mt-28 mb-10">
+        <SectionH2 id="pg2-flats-h" icon={Home}>
+          Panchsheel Greens 2 flats for sale
         </SectionH2>
-        <div className="rounded-xl border border-gray-200 bg-gray-50/80 p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <p className="text-sm text-gray-700 m-0">
-            Download the latest Panchsheel Greens 2 brochure from the Panchsheel Greens-II listing, or leave a request here.
-            We send the PDF and key specs together.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-2 shrink-0">
-            <Link
-              href={PROJECT_PAGE}
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#CBB27A] px-5 py-2.5 text-sm font-semibold text-[#0f1112] hover:bg-[#b9a56f] transition-colors"
-            >
-              <FileDown className="size-4" aria-hidden />
-              Brochure on listing
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 hover:border-[#CBB27A] transition-colors"
-            >
-              Contact
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section id="pg2-flat-sale" className="scroll-mt-28 mb-10">
-        <SectionH2 id="pg2-flat-sale-h" icon={Home}>
-          Panchsheel Greens 2 flat for sale
-        </SectionH2>
-        <p className="text-sm text-gray-700 leading-relaxed m-0">
-          Panchsheel Greens 2 flat for sale spans fresh builder inventory where available and a deep resale market across
-          handed-over towers. Shortlist tower, floor, and budget on the{" "}
+        <p className="mb-3 text-sm font-semibold text-gray-900">Available inventory here includes:</p>
+        <ul className="mb-4 list-disc space-y-1.5 pl-5 text-sm text-gray-800">
+          <li>Fresh builder stock where remaining.</li>
+          <li>Resale flats across handed-over towers.</li>
+          <li>A wide price range by floor, tower, and facing.</li>
+        </ul>
+        <p className="mb-4 text-sm leading-relaxed text-gray-700">
+          The resale market is active. Rental demand from working households in the 2 BHK and 3 BHK segments is steady. For
+          investors, that means reasonable exit options and rental income potential. Brochure and downloadable floor plans
+          sit on the{" "}
           <Link href={PROJECT_PAGE} className={LINK_CLASS}>
             Panchsheel Greens-II
           </Link>{" "}
-          page or ask us to line up visits. For the wider belt, browse{" "}
-          <Link href="/properties-in-greater-noida" className={LINK_CLASS}>
-            properties in Greater Noida
-          </Link>
-          . If you are comparing three-bedroom stock elsewhere, our{" "}
-          <Link href="/blog/3bhk-flats-in-greater-noida" className={LINK_CLASS}>
-            3 BHK in Greater Noida guide
-          </Link>{" "}
-          is a useful parallel read.
+          page alongside the enquiry form.
         </p>
+        <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+          <Link
+            href={PROJECT_PAGE}
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#CBB27A] px-5 py-2.5 text-sm font-semibold text-[#0f1112] hover:bg-[#b9a56f]"
+          >
+            <FileDown className="size-4" aria-hidden />
+            Brochure &amp; listing
+          </Link>
+          <Link
+            href="/properties-in-greater-noida"
+            className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 hover:border-[#CBB27A]"
+          >
+            Greater Noida properties
+          </Link>
+          <Link
+            href="/blog/3bhk-flats-in-greater-noida"
+            className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 hover:border-[#CBB27A]"
+          >
+            3 BHK Greater Noida guide
+          </Link>
+        </div>
       </section>
 
       <section id="pg2-review" className="scroll-mt-28 mb-10">
         <SectionH2 id="pg2-review-h" icon={ThumbsUp}>
           Panchsheel Greens 2 review
         </SectionH2>
-        <p className="text-sm text-gray-600 mb-3">
-          A concise read for Panchsheel Greens 2 review and Panchsheel Greens 2 Noida Extension review searches.
-        </p>
-        <div className="grid sm:grid-cols-2 gap-3">
-          <div className="rounded-xl border border-green-200/80 bg-green-50/40 p-4">
-            <p className="text-xs font-bold uppercase text-green-900 m-0 mb-2 flex items-center gap-1.5">
+        <p className="mb-4 text-sm text-gray-600">An honest read for buyers doing real research.</p>
+        <div className="grid gap-4 md:grid-cols-2">
+          <div className="rounded-xl border border-emerald-200/80 bg-emerald-50/40 p-5">
+            <p className="m-0 mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-emerald-900">
               <ThumbsUp className="size-4" aria-hidden />
-              Pros
+              What works
             </p>
-            <ul className="text-sm text-gray-800 space-y-1 m-0 pl-4 list-disc">
-              <li>Large lived-in campus, clubs, pools, and on-site retail.</li>
-              <li>Strong resale and rental depth for 2 BHK, 2 BHK + Study, and 3 BHK.</li>
-              <li>Value pricing versus many Noida pockets.</li>
+            <ul className="m-0 list-disc space-y-2 pl-4 text-sm leading-relaxed text-gray-800">
+              <li>
+                <strong className="text-gray-900">Scale.</strong> {PANCHSHEEL_FACTS.acres} acres with {PANCHSHEEL_FACTS.units}{" "}
+                homes means the club, pools, jogging track, and retail are properly funded and used. Small projects cannot
+                sustain this.
+              </li>
+              <li>
+                <strong className="text-gray-900">Ready status.</strong> OC received on multiple towers. No possession risk on
+                completed stacks. You see what you buy.
+              </li>
+              <li>
+                <strong className="text-gray-900">Rental depth.</strong> Working families rent 2 BHK and 3 BHK units here
+                consistently. The Noida Extension rental market is not shallow.
+              </li>
+              <li>
+                <strong className="text-gray-900">Price.</strong> For the ticket size and the amenity package, the value is
+                strong versus equivalent Noida sectors. This is the main reason buyers choose this belt.
+              </li>
+              <li>
+                <strong className="text-gray-900">Resale liquidity.</strong> The project is large enough that buyers exist. You
+                are not stuck waiting for one buyer in a 200-unit building.
+              </li>
             </ul>
           </div>
-          <div className="rounded-xl border border-amber-200/80 bg-amber-50/40 p-4">
-            <p className="text-xs font-bold uppercase text-amber-950 m-0 mb-2 flex items-center gap-1.5">
+          <div className="rounded-xl border border-amber-200/80 bg-amber-50/40 p-5">
+            <p className="m-0 mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-wide text-amber-950">
               <ThumbsDown className="size-4" aria-hidden />
-              Cons
+              What to watch
             </p>
-            <ul className="text-sm text-gray-800 space-y-1 m-0 pl-4 list-disc">
-              <li>Peak-hour drives toward Noida need planning.</li>
-              <li>High density means society upkeep matters.</li>
-              <li>Phase labels online can blur; stick to tower-level detail.</li>
+            <ul className="m-0 list-disc space-y-2 pl-4 text-sm leading-relaxed text-gray-800">
+              <li>
+                <strong className="text-gray-900">Commute.</strong> Peak-hour traffic toward Noida and Delhi needs real
+                planning. Check your specific office location before buying.
+              </li>
+              <li>
+                <strong className="text-gray-900">Density.</strong> {PANCHSHEEL_FACTS.units} homes in {PANCHSHEEL_FACTS.acres}{" "}
+                acres is dense. Society maintenance, lift management, and common area upkeep all matter. Ask current residents
+                about RWA quality before deciding.
+              </li>
+              <li>
+                <strong className="text-gray-900">Phase labelling.</strong> Online listings sometimes blur Panchsheel Greens 1
+                and Greens 2 details. Always verify tower number, RERA ID ({PANCHSHEEL_FACTS.rera}), and floor before agreeing to
+                anything.
+              </li>
             </ul>
           </div>
         </div>
@@ -505,51 +565,90 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
 
       <section id="pg2-invest" className="scroll-mt-28 mb-10">
         <SectionH2 id="pg2-invest-h" icon={TrendingUp}>
-          Why invest in Panchsheel Greens 2
+          Why invest in Panchsheel Greens 2?
         </SectionH2>
-        <ul className="text-sm text-gray-700 space-y-2 m-0 pl-4 list-disc">
-          <li>
-            Location: Sector 16 Greater Noida West with road access to Noida, NH links, and Crossing Republik.
-          </li>
-          <li>
-            Price: Sector 16 Greater Noida West value with Panchsheel Group execution, attractive for families comparing
-            tickets across NCR.
-          </li>
-          <li>
-            Rentals: steady interest from working households for well-kept 2 and 3 BHK units.
-          </li>
-        </ul>
+        <p className="mb-4 text-sm text-gray-800">Three reasons buyers return to this project:</p>
+        <ol className="m-0 list-none space-y-4 p-0">
+          {[
+            {
+              n: "1",
+              title: "Location with value",
+              body: "Sector 16, Greater Noida West gives you road access to Noida and NH links without the premium you pay in core Noida sectors.",
+            },
+            {
+              n: "2",
+              title: "End-user appeal",
+              body: "Families buying for self-use find the amenities, school proximity, and ready status convincing. End-user demand protects investment value better than speculative demand.",
+            },
+            {
+              n: "3",
+              title: "Rentals",
+              body: "The 2 BHK and 3 BHK segments attract working households. Investors report stable occupancy.",
+            },
+          ].map((item) => (
+            <li
+              key={item.n}
+              className="flex gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
+            >
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#0f1112] text-sm font-bold text-[#CBB27A]">
+                {item.n}
+              </span>
+              <div>
+                <p className="m-0 mb-1 font-semibold text-gray-900">{item.title}</p>
+                <p className="m-0 text-sm leading-relaxed text-gray-700">{item.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p className="mt-4 text-sm text-gray-600">
+          If you are comparing this against other corridors, our{" "}
+          <Link href="/blog/noida-vs-greater-noida-investment-2026" className={LINK_CLASS}>
+            Noida vs Greater Noida investment guide
+          </Link>{" "}
+          covers the trade-offs clearly.
+        </p>
       </section>
 
       <section id="faq-pg2" className="scroll-mt-28 mb-8">
         <SectionH2 id="faq-pg2-h" icon={CheckCircle2}>
-          FAQs
+          Frequently asked questions
         </SectionH2>
-        <p className="text-sm text-gray-600 mb-4">Tap a question to expand.</p>
+        <p className="mb-4 text-sm text-gray-600">Tap a question to expand.</p>
         <SobhaRivanaFaqAccordion items={panchsheelGreens2FaqSchemaItems} />
       </section>
 
-      <section className="rounded-xl border border-[#CBB27A]/25 bg-gradient-to-br from-[#CBB27A]/10 to-white p-6 md:p-8 text-center" aria-label="Call to action">
-        <h2 className="text-lg md:text-xl font-bold text-foreground mb-2 font-poppins">Next step</h2>
-        <p className="text-sm text-gray-600 max-w-lg mx-auto mb-5 leading-relaxed">
-          Brochure, floor plans, photos, pricing, and Panchsheel Greens 2 flat for sale options are on the Panchsheel
-          Greens-II listing. Prefer a curated shortlist? Book a consultation or write to us through{" "}
+      <section
+        id="pg2-next"
+        className="scroll-mt-28 rounded-xl border border-[#CBB27A]/25 bg-gradient-to-br from-[#CBB27A]/10 to-white p-6 text-center md:p-8"
+        aria-label="Call to action"
+      >
+        <h2 className="mb-3 font-poppins text-lg font-bold text-foreground md:text-xl">Next step</h2>
+        <p className="mx-auto mb-5 max-w-xl text-sm leading-relaxed text-gray-700">
+          Floor plans, photos, brochure, price sheet, and flats for sale are on the{" "}
+          <Link href={PROJECT_PAGE} className={LINK_CLASS}>
+            Panchsheel Greens-II
+          </Link>{" "}
+          listing page. Want a curated shortlist based on your budget and tower preference?{" "}
+          <Link href="/request-a-free-consultation" className={LINK_CLASS}>
+            Book a free consultation
+          </Link>{" "}
+          or{" "}
           <Link href="/contact" className={LINK_CLASS}>
-            Contact
+            write to us
           </Link>
           .
         </p>
-        <div className="flex flex-col sm:flex-row gap-2 justify-center">
+        <div className="flex flex-col justify-center gap-2 sm:flex-row">
           <Link
             href={PROJECT_PAGE}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#CBB27A] px-6 py-3 text-sm font-semibold text-[#0f1112] hover:bg-[#b9a56f] transition-colors"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#CBB27A] px-6 py-3 text-sm font-semibold text-[#0f1112] hover:bg-[#b9a56f]"
           >
             Open Panchsheel Greens-II
             <ArrowRight className="size-4" aria-hidden />
           </Link>
           <Link
             href="/request-a-free-consultation"
-            className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-800 hover:border-[#CBB27A] transition-colors"
+            className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-semibold text-gray-800 hover:border-[#CBB27A]"
           >
             Book consultation
           </Link>

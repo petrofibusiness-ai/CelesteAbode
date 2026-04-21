@@ -168,8 +168,11 @@ export async function generateMetadata({
       "panchsheel greens 2 greater noida west",
       "panchsheel greens 2 address",
       "panchsheel greens 2 nearest metro",
-      "Panchsheel Greens 2 Greater Noida West",
-      "Noida Extension",
+      "panchsheel greens 2 noida",
+      "panchsheel greens phase 2",
+      "panchsheel greens 2 price list",
+      "panchsheel greens 2 brochure",
+      "panchsheel greens 2 flat for sale",
       "Celeste Abode",
     ],
     "sobha-rivana-greater-noida-west": [
@@ -248,21 +251,17 @@ export default async function BlogPostPage({
   const related = getRelatedPosts(slug, 4);
   const ArticleContent = ARTICLE_CONTENT[slug];
   const isSobhaRivana = slug === "sobha-rivana-greater-noida-west";
-  const isPanchsheelGreens2 = slug === "panchsheel-greens-2-greater-noida-west";
   const isThreeBhkGreaterNoida = slug === "3bhk-flats-in-greater-noida";
+  const isPanchsheelGreens2 = slug === "panchsheel-greens-2-greater-noida-west";
   const isNoidaVsGreaterNoida = slug === "noida-vs-greater-noida-investment-2026";
   const isUpcomingLuxury = slug === "upcoming-luxury-projects-noida-greater-noida-2026";
   const isForestWalk = slug === "forest-walk-villa-ghaziabad-luxury-living-2026";
   const usePremiumHero = true;
-  const heroTitle = isSobhaRivana
-    ? "Sobha Rivana, Greater Noida West"
-    : isPanchsheelGreens2
-      ? "Panchsheel Greens 2, Greater Noida West"
-      : post.title;
+  const heroTitle = isSobhaRivana ? "Sobha Rivana, Greater Noida West" : post.title;
   const heroEyebrow = isSobhaRivana
     ? "Project Spotlight | Sector 1, Greater Noida West"
     : isPanchsheelGreens2
-      ? "Project guide | Greater Noida West (Noida Extension)"
+      ? "Project Spotlight | Sector 16, Greater Noida West"
     : isThreeBhkGreaterNoida
       ? "Greater Noida West & Noida Extension | 2026"
       : isNoidaVsGreaterNoida
@@ -274,8 +273,6 @@ export default async function BlogPostPage({
       : post.category;
   const heroSubtext = isSobhaRivana
     ? "RERA details, pricing, floor plans, and location insights. Everything you need to evaluate before you decide."
-    : isPanchsheelGreens2
-      ? "Price bands, resale flats, pin code discipline, photos, metro reach, and what a serious review looks like before you pay a token."
     : isThreeBhkGreaterNoida
       ? "Shortlist luxury 3 BHK homes in Greater Noida with accurate pricing, verified inventory, and fast-track site visits."
     : isForestWalk
@@ -382,10 +379,28 @@ export default async function BlogPostPage({
                         </div>
                       </div>
                     ) : null}
+                    {isPanchsheelGreens2 ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <div className="inline-grid w-max max-w-full grid-cols-1 justify-items-stretch gap-3 self-end sm:flex sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-end">
+                          <Link
+                            href="/properties-in-greater-noida/panchsheel-greens-ii"
+                            className="inline-flex w-full min-w-0 items-center justify-center rounded-lg bg-[#CBB27A] px-5 py-2.5 text-center text-sm font-semibold text-[#0f1112] transition-colors hover:bg-[#b9a56f] font-poppins sm:inline-flex sm:w-auto"
+                          >
+                            View Panchsheel Greens-II
+                          </Link>
+                          <Link
+                            href="/request-a-free-consultation"
+                            className="inline-flex w-full min-w-0 items-center justify-center rounded-lg border border-white/35 bg-white/10 px-5 py-2.5 text-center text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white/15 font-poppins sm:inline-flex sm:w-auto"
+                          >
+                            Book a free consultation
+                          </Link>
+                        </div>
+                      </div>
+                    ) : null}
                     <div
                       className={cn(
                         "flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs font-poppins text-white/75 sm:gap-x-6 sm:gap-y-2 sm:text-sm",
-                        isThreeBhkGreaterNoida ? "justify-end px-1 sm:px-2" : "justify-center"
+                        isThreeBhkGreaterNoida || isPanchsheelGreens2 ? "justify-end px-1 sm:px-2" : "justify-center"
                       )}
                     >
                       <span className="flex items-center gap-1.5 sm:gap-2">

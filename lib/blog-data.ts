@@ -178,15 +178,15 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 9,
-    title: "Panchsheel Greens 2 Greater Noida West: Price, Location & Honest Buyer Notes",
+    title: "Panchsheel Greens 2 Greater Noida West Price & Location Info",
     slug: "panchsheel-greens-2-greater-noida-west",
     excerpt:
-      "A consultant-style walkthrough of Panchsheel Greens 2 in Greater Noida West—price and resale reality, pin code discipline, photos and floor plans, villa search intent, reviews, and metro reach from Noida Extension.",
+      "Explore Panchsheel Greens 2 Greater Noida West price, floor plan, photos, resale flats, location map, nearest metro, pin code and units in Noida Extension area.",
     category: "Project Spotlight",
-    readTime: "11 min read",
-    date: "April 2, 2026",
+    readTime: "8 min read",
+    date: "March 30, 2026",
     image:
-      "https://placehold.co/1920x1080/0f1112/CBB27A?text=Panchsheel+Greens+2+hero+placeholder",
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/panchsheel-greens-ii/images/Screenshot%202026-04-22%20at%203.12.42%E2%80%AFAM.png",
     featured: true,
     views: "0",
     heroFullscreen: true,
@@ -194,8 +194,9 @@ export const blogPosts: BlogPost[] = [
     metaDescription:
       "Explore Panchsheel Greens 2 Greater Noida West price, floor plan, photos, resale flats, location map, nearest metro, pin code and units in Noida Extension area.",
     ogImage:
-      "https://placehold.co/1920x1080/0f1112/CBB27A?text=Panchsheel+Greens+2+hero+placeholder",
-    ogImageAlt: "Panchsheel Greens 2 Greater Noida West — project guide hero",
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/panchsheel-greens-ii/images/Screenshot%202026-04-22%20at%203.12.42%E2%80%AFAM.png",
+    ogImageAlt:
+      "Panchsheel Greens 2 Greater Noida West: residential towers, landscaped walkway, and central plaza",
   },
 ];
 
@@ -207,26 +208,11 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   const others = blogPosts.filter((p) => p.slug !== currentSlug);
   if (currentSlug === "3bhk-flats-in-greater-noida") {
     const prioritySlugs = [
-      "noida-vs-greater-noida-investment-2026",
-      "upcoming-luxury-projects-noida-greater-noida-2026",
-      "sobha-rivana-greater-noida-west",
       "panchsheel-greens-2-greater-noida-west",
-      "jewar-airport-ncr-property-buyers-2026",
-    ];
-    const picked: BlogPost[] = [];
-    for (const s of prioritySlugs) {
-      const post = others.find((p) => p.slug === s);
-      if (post) picked.push(post);
-    }
-    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
-    return [...picked, ...rest].slice(0, limit);
-  }
-  if (currentSlug === "panchsheel-greens-2-greater-noida-west") {
-    const prioritySlugs = [
-      "3bhk-flats-in-greater-noida",
-      "sobha-rivana-greater-noida-west",
       "noida-vs-greater-noida-investment-2026",
       "upcoming-luxury-projects-noida-greater-noida-2026",
+      "sobha-rivana-greater-noida-west",
+      "jewar-airport-ncr-property-buyers-2026",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {
@@ -238,10 +224,26 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "sobha-rivana-greater-noida-west") {
     const prioritySlugs = [
+      "panchsheel-greens-2-greater-noida-west",
       "upcoming-luxury-projects-noida-greater-noida-2026",
       "noida-vs-greater-noida-investment-2026",
       "jewar-airport-ncr-property-buyers-2026",
       "yamuna-expressway-growth-corridor-delhi-ncr",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "panchsheel-greens-2-greater-noida-west") {
+    const prioritySlugs = [
+      "sobha-rivana-greater-noida-west",
+      "3bhk-flats-in-greater-noida",
+      "noida-vs-greater-noida-investment-2026",
+      "upcoming-luxury-projects-noida-greater-noida-2026",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

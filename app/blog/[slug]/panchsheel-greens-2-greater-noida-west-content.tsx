@@ -18,39 +18,79 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { SobhaRivanaFaqAccordion } from "./sobha-rivana-faq-accordion";
+import { PanchsheelGreens2PhotoGallery } from "./panchsheel-greens-2-photo-gallery";
 
 /** Canonical listing: celesteabode.com/properties-in-greater-noida/panchsheel-greens-ii */
 const PROJECT_PAGE = "/properties-in-greater-noida/panchsheel-greens-ii";
 
 const LINK_CLASS = "text-[#CBB27A] font-semibold hover:underline underline-offset-2";
 
-/** Replace URLs with your final assets when ready. */
-export const PANCHSHEEL_GREENS_2_IMAGES = {
-  leadVisual:
-    "https://placehold.co/1600x900/0f1112/CBB27A?text=Panchsheel+Greens+2+hero",
-  contextMap: "https://placehold.co/1600x900/111827/c9a962?text=Location+map",
-  resaleOrInterior: "https://placehold.co/1600x900/0b1020/e6d7a2?text=Floor+plan",
-  gallery1: "https://placehold.co/800x600/0f1112/CBB27A?text=Photo+1",
-  gallery2: "https://placehold.co/800x600/1a1d1f/d4c48a?text=Photo+2",
-  gallery3: "https://placehold.co/800x600/111827/c9a962?text=Photo+3",
-  gallery4: "https://placehold.co/800x600/0b1020/e6d7a2?text=Photo+4",
+/** Campus and listing facts aligned with `lib/project-metadata.ts` (Panchsheel Greens-II) and Panchsheel Group disclosures. */
+const PANCHSHEEL_FACTS = {
+  rera: "UPRERAPRJ8595",
+  priceFrom: "₹91.5 lakhs",
+  areaSqft: "915–1525 sq.ft.",
+  acres: "26",
+  openGreen: "65%",
+  towers: "28",
+  units: "4,216",
+  status: "Ready to Move",
+  pin: "201306",
 } as const;
+
+/** Hero matches blog `image` / `ogImage` in lib/blog-data (Panchsheel post). */
+export const PANCHSHEEL_BLOG_HERO_URL =
+  "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/panchsheel-greens-ii/images/Screenshot%202026-04-22%20at%203.12.42%E2%80%AFAM.png" as const;
+
+/** Google Maps embed for Panchsheel Greens 2 (location section). */
+const PANCHSHEEL_MAP_EMBED_SRC =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14010.237256516035!2d77.45758380000001!3d28.61299445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cee6fea14575b%3A0xa5d52a4ce9874994!2sPanchsheel%20Greens%202%2C%20Ghaziabad%2C%20Uttar%20Pradesh%20201318!5e0!3m2!1sen!2sin!4v1776808075198!5m2!1sen!2sin" as const;
+
+export const PANCHSHEEL_GREENS_2_IMAGES = {
+  leadVisual: PANCHSHEEL_BLOG_HERO_URL,
+  gallery1:
+    "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/panchsheel-greens-ii/images/Screenshot%202026-04-22%20at%203.11.41%E2%80%AFAM.png",
+  gallery2:
+    "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/panchsheel-greens-ii/images/Screenshot%202026-04-22%20at%203.11.57%E2%80%AFAM.png",
+  gallery3: PANCHSHEEL_BLOG_HERO_URL,
+  gallery4:
+    "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/panchsheel-greens-ii/images/Screenshot%202026-04-22%20at%203.12.20%E2%80%AFAM.png",
+} as const;
+
+const PANCHSHEEL_GALLERY_PHOTOS = [
+  {
+    src: PANCHSHEEL_GREENS_2_IMAGES.gallery1,
+    alt: "Panchsheel Greens II: yoga and open courtyard between residential towers",
+  },
+  {
+    src: PANCHSHEEL_GREENS_2_IMAGES.gallery2,
+    alt: "Panchsheel Greens II: outdoor swimming pool amenity",
+  },
+  {
+    src: PANCHSHEEL_GREENS_2_IMAGES.gallery3,
+    alt: "Panchsheel Greens II: landscaped walkway and high-rise towers",
+  },
+  {
+    src: PANCHSHEEL_GREENS_2_IMAGES.gallery4,
+    alt: "Panchsheel Greens II: fitness centre with cardio equipment and park view",
+  },
+] as const;
 
 export const panchsheelGreens2FaqSchemaItems: { question: string; answer: string }[] = [
   {
     question: "What is Panchsheel Greens phase 2?",
     answer:
-      "Panchsheel Greens 2 lines up with Panchsheel Greens-II on Celeste Abode: Panchsheel Group apartments in Sector 16, Greater Noida West, with 2 BHK and 2 BHK + Study configurations, clubhouse, pools, and landscaped open spaces. Full specs sit on the Panchsheel Greens-II listing.",
+      "Panchsheel Greens 2 is the Panchsheel Greens phase 2 campus in Greater Noida West: about 26 acres, 28 towers, roughly 4,200 apartments, strong open green cover, and OC-led handover on multiple towers. On Celeste Abode we list Panchsheel Greens-II with 2 BHK, 2 BHK + Study, and 3 BHK inventory, RERA UPRERAPRJ8595, pricing from ₹91.5 lakhs, clubhouse, pools, and landscaped spaces. Full specs and forms sit on the Panchsheel Greens-II listing.",
   },
   {
     question: "Where is Panchsheel Greens 2 in Noida Extension?",
     answer:
-      "Panchsheel Greens 2 is in Sector 16, Greater Noida West (Noida Extension), Uttar Pradesh, with strong road access toward Noida, NH corridors, and Crossing Republik. Address and map context match our Panchsheel Greens-II listing on Celeste Abode.",
+      "Panchsheel Greens 2 is in Sector 16, Greater Noida West (Noida Extension), Uttar Pradesh, with strong road access toward Noida, NH corridors, FNG, and Crossing Republik. Pin 201306 is widely used on listings for this belt. Address and map context match our Panchsheel Greens-II listing on Celeste Abode.",
   },
   {
     question: "What is the Panchsheel Greens 2 price list?",
     answer:
-      "Current Panchsheel Greens 2 price list and offers sit on the Panchsheel Greens-II listing, with brochure download and callback options. Our team shares tower-wise and resale numbers once you pick configuration and timeline.",
+      "Celeste Abode lists Panchsheel Greens-II from about ₹91.5 lakhs for eligible 2 BHK stacks, with 2 BHK + Study and 3 BHK on the live sheet. Current Panchsheel Greens 2 price list and resale bands sit on the Panchsheel Greens-II listing with brochure download and callback. Our team shares tower-wise numbers once you pick configuration and timeline.",
   },
   {
     question: "How do I get the Panchsheel Greens 2 brochure?",
@@ -112,19 +152,6 @@ function DataTable({ rows, caption }: { rows: [string, ReactNode][]; caption?: s
   );
 }
 
-function GalleryTile({ src, alt, label }: { src: string; alt: string; label: string }) {
-  return (
-    <figure className="overflow-hidden rounded-lg border border-gray-200 bg-neutral-100">
-      <div className="relative aspect-[4/3] w-full">
-        <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width:640px)50vw,25vw" unoptimized />
-      </div>
-      <figcaption className="px-2 py-1.5 text-center text-[10px] font-medium text-gray-600 bg-white border-t border-gray-100">
-        {label}
-      </figcaption>
-    </figure>
-  );
-}
-
 export function PanchsheelGreens2GreaterNoidaWestContent() {
   const toc = [
     { href: "#pg2-intro", title: "Introduction" },
@@ -144,9 +171,22 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
     ["Project name", "Panchsheel Greens-II (Panchsheel Greens 2 / phase 2)"],
     ["Location", "Sector 16, Greater Noida West (Noida Extension), Uttar Pradesh"],
     ["Builder", "Panchsheel Group"],
+    ["Status", PANCHSHEEL_FACTS.status],
     ["Property type", "Apartments / flats"],
-    ["Configuration", "2 BHK, 2 BHK + Study"],
-    ["RERA", "UPRERAPRJ8595"],
+    [
+      "Configuration",
+      "2 BHK, 2 BHK + Study, 3 BHK; typical carpet band about " + PANCHSHEEL_FACTS.areaSqft + " on inventory sheets",
+    ],
+    ["RERA", PANCHSHEEL_FACTS.rera],
+    ["Indicative pricing", "From " + PANCHSHEEL_FACTS.priceFrom + " on Celeste Abode listing (tower and floor specific)"],
+    ["Project area", "About " + PANCHSHEEL_FACTS.acres + " acres"],
+    ["Open space", "About " + PANCHSHEEL_FACTS.openGreen + " green and open landscape (master plan)"],
+    ["Towers", PANCHSHEEL_FACTS.towers + " towers"],
+    ["Total units", PANCHSHEEL_FACTS.units + " apartments"],
+    [
+      "Possession",
+      "OC received on multiple towers with large resident base already in; phased completion across stacks (Panchsheel Group campus update)",
+    ],
     [
       "Listing",
       <>
@@ -163,19 +203,20 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
     [
       "2 BHK",
       <>
-        Current rates on the{" "}
+        From {PANCHSHEEL_FACTS.priceFrom} on the{" "}
         <Link href={PROJECT_PAGE} className={LINK_CLASS}>
           Panchsheel Greens-II
         </Link>{" "}
-        listing or through a quick callback.
+        listing; tower and floor refresh the exact BSP.
       </>,
     ],
-    ["2 BHK + Study", "Same live sheet, tower and floor specific"],
+    ["2 BHK + Study", "Live sheet on the listing, tower and floor specific"],
+    ["3 BHK", "Live sheet and resale inventory; same campus scale as 2 BHK stacks"],
     ["Resale", "Market-led by stack; share unit details and we line up comparable deals"],
     [
       "Villas / low-rise",
       <>
-        This listing is apartment-led. Ask our desk for villa-style options nearby or browse{" "}
+        Main campus is high-rise apartments. Ask our desk for villa-style options nearby or browse{" "}
         <Link href="/properties-in-greater-noida" className={LINK_CLASS}>
           Greater Noida properties
         </Link>
@@ -190,8 +231,9 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
         <div>
           <p className="text-xs font-bold uppercase tracking-wider text-[#9a7b2c] m-0 mb-1">Full project detail</p>
           <p className="text-sm text-gray-800 m-0 leading-snug">
-            Floor plans, gallery, brochure, and callbacks for this project sit on our Panchsheel Greens-II listing (the
-            same campus many people call Panchsheel Greens 2).
+            About {PANCHSHEEL_FACTS.acres} acres, {PANCHSHEEL_FACTS.towers} towers, {PANCHSHEEL_FACTS.units} homes, and
+            listing-led pricing from {PANCHSHEEL_FACTS.priceFrom}. Floor plans, gallery, brochure, and callbacks sit on our
+            Panchsheel Greens-II page (same campus as Panchsheel Greens 2).
           </p>
         </div>
         <Link
@@ -233,9 +275,11 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
         </div>
         <p className="text-gray-800 text-base md:text-[17px] leading-relaxed mb-4">
           <strong>Panchsheel Greens 2</strong> is a large Panchsheel Group township in Greater Noida West, the stretch
-          people still call Noida Extension. The same community is often searched as Panchsheel Greens phase 2 or Panchsheel
-          Greens 2 Noida because daily life and work ties back to Noida. It is an approved residential campus with strong
-          end-user and investor interest: sensible tickets, rental depth, and healthy resale liquidity for the belt. If you
+          people still call Noida Extension. The campus runs at roughly {PANCHSHEEL_FACTS.acres} acres with{" "}
+          {PANCHSHEEL_FACTS.towers} towers and about {PANCHSHEEL_FACTS.units} apartments, which is why Panchsheel Greens phase
+          2 and Panchsheel Greens 2 Noida searches keep landing here. It is an approved residential campus with strong end-user
+          and investor interest: sensible tickets from {PANCHSHEEL_FACTS.priceFrom} on our listing, rental depth, and healthy
+          resale liquidity for the belt. If you
           are weighing the corridor more broadly, our{" "}
           <Link href="/blog/noida-vs-greater-noida-investment-2026" className={LINK_CLASS}>
             Noida vs Greater Noida investment note
@@ -262,7 +306,7 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
         <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-gray-200">
           <Image
             src={PANCHSHEEL_GREENS_2_IMAGES.leadVisual}
-            alt="Panchsheel Greens 2 Greater Noida West"
+            alt="Panchsheel Greens 2 Greater Noida West: towers, landscaped walkway, and plaza"
             fill
             className="object-cover object-center"
             sizes="(max-width: 1024px) 100vw, 896px"
@@ -304,24 +348,29 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
             Panchsheel Greens-II
           </Link>{" "}
           listing. Panchsheel Greens 2 pin code, Panchsheel Greens 2 Greater Noida West pin code, and pin code of Panchsheel
-          Greens 2 Noida Extension all follow the Sector 16 Greater Noida West postal belt on your agreement and utility
-          address. Searches for Panchsheel Greens 2 sector 16 Noida or Panchsheel Greens 2 Noida extension address point here.
+          Greens 2 Noida Extension commonly align with {PANCHSHEEL_FACTS.pin} for this Sector 16 belt on agreements and
+          utilities. Searches for Panchsheel Greens 2 sector 16 Noida or Panchsheel Greens 2 Noida extension address point here.
         </p>
         <ul className="text-sm text-gray-700 space-y-1.5 m-0 pl-4 list-disc mb-4">
           <li>Noida and NH corridors within a short drive; FNG and Greater Noida road network in daily use.</li>
           <li>Crossing Republik and Ghaziabad retail within easy reach.</li>
           <li>Noida office and school hubs connected by road; metro is a drive-first story today with future line extension on the map.</li>
         </ul>
-        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl border border-gray-200">
-          <Image
-            src={PANCHSHEEL_GREENS_2_IMAGES.contextMap}
-            alt="Panchsheel Greens 2 location"
-            fill
-            className="object-cover"
-            sizes="(max-width: 1024px) 100vw, 896px"
-            unoptimized
-          />
-        </div>
+        <figure className="m-0 overflow-hidden rounded-xl border border-gray-200 bg-neutral-100 shadow-sm">
+          <div className="relative aspect-[4/3] w-full max-w-4xl sm:aspect-video">
+            <iframe
+              src={PANCHSHEEL_MAP_EMBED_SRC}
+              title="Panchsheel Greens 2 on Google Maps"
+              className="absolute inset-0 h-full w-full border-0"
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+          <figcaption className="px-3 py-2 text-xs text-gray-600 bg-white border-t border-gray-100">
+            Interactive map for Panchsheel Greens 2 (Greater Noida West / Noida Extension belt).
+          </figcaption>
+        </figure>
       </section>
 
       <section id="pg2-price" className="scroll-mt-28 mb-10">
@@ -344,8 +393,9 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
           Panchsheel Greens 2 floor plan and layout
         </SectionH2>
         <p className="text-sm text-gray-700 leading-relaxed mb-3">
-          Panchsheel Greens 2 layout options on Celeste Abode are led by 2 BHK and 2 BHK + Study apartments. Panchsheel Greens
-          2 floor plan and layout plan downloads sit on the{" "}
+          Panchsheel Greens 2 layout options on Celeste Abode span 2 BHK, 2 BHK + Study, and 3 BHK apartments, typically in the
+          about {PANCHSHEEL_FACTS.areaSqft} band depending on tower. Panchsheel Greens 2 floor plan and layout plan downloads
+          sit on the{" "}
           <Link href={PROJECT_PAGE} className={LINK_CLASS}>
             Panchsheel Greens-II
           </Link>{" "}
@@ -355,16 +405,6 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
           </Link>
           .
         </p>
-        <div className="relative aspect-[16/9] max-w-2xl overflow-hidden rounded-xl border border-gray-200">
-          <Image
-            src={PANCHSHEEL_GREENS_2_IMAGES.resaleOrInterior}
-            alt="Panchsheel Greens 2 floor plan preview"
-            fill
-            className="object-contain bg-neutral-50"
-            sizes="(max-width:1024px)100vw,640px"
-            unoptimized
-          />
-        </div>
       </section>
 
       <section id="pg2-photos" className="scroll-mt-28 mb-10">
@@ -372,18 +412,13 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
           Panchsheel Greens 2 photos
         </SectionH2>
         <p className="text-sm text-gray-600 mb-3">
-          A short Panchsheel Greens 2 photos strip below. The full five-image gallery is on the{" "}
+          Panchsheel Greens 2 photos below: tap or click a thumbnail to enlarge. More visuals live on the{" "}
           <Link href={PROJECT_PAGE} className={LINK_CLASS}>
             Panchsheel Greens-II
           </Link>{" "}
           listing.
         </p>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-          <GalleryTile src={PANCHSHEEL_GREENS_2_IMAGES.gallery1} alt="Panchsheel Greens 2 towers" label="Towers" />
-          <GalleryTile src={PANCHSHEEL_GREENS_2_IMAGES.gallery2} alt="Panchsheel Greens 2 club" label="Club" />
-          <GalleryTile src={PANCHSHEEL_GREENS_2_IMAGES.gallery3} alt="Panchsheel Greens 2 landscape" label="Landscape" />
-          <GalleryTile src={PANCHSHEEL_GREENS_2_IMAGES.gallery4} alt="Panchsheel Greens 2 interior" label="Interior" />
-        </div>
+        <PanchsheelGreens2PhotoGallery photos={PANCHSHEEL_GALLERY_PHOTOS} />
       </section>
 
       <section id="pg2-brochure" className="scroll-mt-28 mb-10">
@@ -450,7 +485,7 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
             </p>
             <ul className="text-sm text-gray-800 space-y-1 m-0 pl-4 list-disc">
               <li>Large lived-in campus, clubs, pools, and on-site retail.</li>
-              <li>Strong resale and rental depth for 2 BHK and 2 BHK + Study.</li>
+              <li>Strong resale and rental depth for 2 BHK, 2 BHK + Study, and 3 BHK.</li>
               <li>Value pricing versus many Noida pockets.</li>
             </ul>
           </div>
@@ -481,7 +516,7 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
             tickets across NCR.
           </li>
           <li>
-            Rentals: steady interest from working households for well-kept 2 BHK and 2 BHK + Study units.
+            Rentals: steady interest from working households for well-kept 2 and 3 BHK units.
           </li>
         </ul>
       </section>

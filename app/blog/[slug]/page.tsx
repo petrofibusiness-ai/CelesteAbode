@@ -22,6 +22,10 @@ import {
   ThreeBhkFlatsGreaterNoida2026Content,
   threeBhkGreaterNoidaWestFaqSchemaItems,
 } from "./three-bhk-flats-greater-noida-2026-content";
+import {
+  PanchsheelGreens2GreaterNoidaWestContent,
+  panchsheelGreens2FaqSchemaItems,
+} from "./panchsheel-greens-2-greater-noida-west-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -34,6 +38,7 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "upcoming-luxury-projects-noida-greater-noida-2026": UpcomingLuxuryProjectsNoidaGreaterNoidaContent,
   "sobha-rivana-greater-noida-west": SobhaRivanaGreaterNoidaWestContent,
   "3bhk-flats-in-greater-noida": ThreeBhkFlatsGreaterNoida2026Content,
+  "panchsheel-greens-2-greater-noida-west": PanchsheelGreens2GreaterNoidaWestContent,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -60,7 +65,8 @@ export async function generateMetadata({
   const title =
     post.slug === "forest-walk-villa-ghaziabad-luxury-living-2026" ||
     post.slug === "sobha-rivana-greater-noida-west" ||
-    post.slug === "3bhk-flats-in-greater-noida"
+    post.slug === "3bhk-flats-in-greater-noida" ||
+    post.slug === "panchsheel-greens-2-greater-noida-west"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -151,6 +157,21 @@ export async function generateMetadata({
       "Jewar airport Greater Noida West",
       "Celeste Abode",
     ],
+    "panchsheel-greens-2-greater-noida-west": [
+      "panchsheel greens 2",
+      "panchsheel greens 2 photos",
+      "panchsheel greens 2 noida extension",
+      "panchsheel greens 2 pin code",
+      "panchsheel greens 2 review",
+      "panchsheel greens 2 villas",
+      "panchsheel greens 2 greater noida",
+      "panchsheel greens 2 greater noida west",
+      "panchsheel greens 2 address",
+      "panchsheel greens 2 nearest metro",
+      "Panchsheel Greens 2 Greater Noida West",
+      "Noida Extension",
+      "Celeste Abode",
+    ],
     "sobha-rivana-greater-noida-west": [
       "Sobha Rivana",
       "Sobha Rivana Greater Noida",
@@ -227,14 +248,21 @@ export default async function BlogPostPage({
   const related = getRelatedPosts(slug, 4);
   const ArticleContent = ARTICLE_CONTENT[slug];
   const isSobhaRivana = slug === "sobha-rivana-greater-noida-west";
+  const isPanchsheelGreens2 = slug === "panchsheel-greens-2-greater-noida-west";
   const isThreeBhkGreaterNoida = slug === "3bhk-flats-in-greater-noida";
   const isNoidaVsGreaterNoida = slug === "noida-vs-greater-noida-investment-2026";
   const isUpcomingLuxury = slug === "upcoming-luxury-projects-noida-greater-noida-2026";
   const isForestWalk = slug === "forest-walk-villa-ghaziabad-luxury-living-2026";
   const usePremiumHero = true;
-  const heroTitle = isSobhaRivana ? "Sobha Rivana, Greater Noida West" : post.title;
+  const heroTitle = isSobhaRivana
+    ? "Sobha Rivana, Greater Noida West"
+    : isPanchsheelGreens2
+      ? "Panchsheel Greens 2, Greater Noida West"
+      : post.title;
   const heroEyebrow = isSobhaRivana
     ? "Project Spotlight | Sector 1, Greater Noida West"
+    : isPanchsheelGreens2
+      ? "Project guide | Greater Noida West (Noida Extension)"
     : isThreeBhkGreaterNoida
       ? "Greater Noida West & Noida Extension | 2026"
       : isNoidaVsGreaterNoida
@@ -246,6 +274,8 @@ export default async function BlogPostPage({
       : post.category;
   const heroSubtext = isSobhaRivana
     ? "RERA details, pricing, floor plans, and location insights. Everything you need to evaluate before you decide."
+    : isPanchsheelGreens2
+      ? "Price bands, resale flats, pin code discipline, photos, metro reach, and what a serious review looks like before you pay a token."
     : isThreeBhkGreaterNoida
       ? "Shortlist luxury 3 BHK homes in Greater Noida with accurate pricing, verified inventory, and fast-track site visits."
     : isForestWalk
@@ -275,6 +305,9 @@ export default async function BlogPostPage({
       {slug === "3bhk-flats-in-greater-noida" ? (
         <FAQPageSchema faqs={threeBhkGreaterNoidaWestFaqSchemaItems} />
       ) : null}
+      {slug === "panchsheel-greens-2-greater-noida-west" ? (
+        <FAQPageSchema faqs={panchsheelGreens2FaqSchemaItems} />
+      ) : null}
 
       <div className="min-h-screen bg-background">
         <Header />
@@ -303,14 +336,14 @@ export default async function BlogPostPage({
                       usePremiumHero
                         ? "max-w-3xl mx-auto rounded-2xl border border-white/20 bg-black/30 px-4 py-4 backdrop-blur-[2px] sm:px-6 sm:py-6 md:backdrop-blur-sm"
                         : "max-w-3xl mx-auto text-center",
-                      isThreeBhkGreaterNoida && "text-left"
+                      (isThreeBhkGreaterNoida || isPanchsheelGreens2) && "text-left"
                     )}
                   >
                     <p
                       className={
-                        usePremiumHero && !isThreeBhkGreaterNoida
+                        usePremiumHero && !isThreeBhkGreaterNoida && !isPanchsheelGreens2
                           ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
-                          : isThreeBhkGreaterNoida
+                          : isThreeBhkGreaterNoida || isPanchsheelGreens2
                             ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                             : "mb-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                       }
@@ -322,7 +355,7 @@ export default async function BlogPostPage({
                     </h1>
                     <p
                       className={
-                        isThreeBhkGreaterNoida
+                        isThreeBhkGreaterNoida || isPanchsheelGreens2
                           ? "mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
                           : usePremiumHero
                             ? "mx-auto mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"

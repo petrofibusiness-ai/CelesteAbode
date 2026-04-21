@@ -176,6 +176,27 @@ export const blogPosts: BlogPost[] = [
     ogImageAlt:
       "Greater Noida NCR at night with metro and city lights—3 BHK flats and connectivity",
   },
+  {
+    id: 9,
+    title: "Panchsheel Greens 2 Greater Noida West: Price, Location & Honest Buyer Notes",
+    slug: "panchsheel-greens-2-greater-noida-west",
+    excerpt:
+      "A consultant-style walkthrough of Panchsheel Greens 2 in Greater Noida West—price and resale reality, pin code discipline, photos and floor plans, villa search intent, reviews, and metro reach from Noida Extension.",
+    category: "Project Spotlight",
+    readTime: "11 min read",
+    date: "April 2, 2026",
+    image:
+      "https://placehold.co/1920x1080/0f1112/CBB27A?text=Panchsheel+Greens+2+hero+placeholder",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "Panchsheel Greens 2 Greater Noida West Price & Location Info",
+    metaDescription:
+      "Explore Panchsheel Greens 2 Greater Noida West price, floor plan, photos, resale flats, location map, nearest metro, pin code and units in Noida Extension area.",
+    ogImage:
+      "https://placehold.co/1920x1080/0f1112/CBB27A?text=Panchsheel+Greens+2+hero+placeholder",
+    ogImageAlt: "Panchsheel Greens 2 Greater Noida West — project guide hero",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -189,7 +210,23 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
       "noida-vs-greater-noida-investment-2026",
       "upcoming-luxury-projects-noida-greater-noida-2026",
       "sobha-rivana-greater-noida-west",
+      "panchsheel-greens-2-greater-noida-west",
       "jewar-airport-ncr-property-buyers-2026",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "panchsheel-greens-2-greater-noida-west") {
+    const prioritySlugs = [
+      "3bhk-flats-in-greater-noida",
+      "sobha-rivana-greater-noida-west",
+      "noida-vs-greater-noida-investment-2026",
+      "upcoming-luxury-projects-noida-greater-noida-2026",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

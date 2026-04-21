@@ -3,10 +3,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Layers, Loader2 } from "lucide-react";
+import { Layers, Loader2, MapPin, RefreshCw, Search, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
 import {
   Select,
   SelectContent,
@@ -31,7 +30,6 @@ interface PaginationState {
 const cellBorder = "border border-zinc-300 px-3 py-2.5 align-top";
 const thBase =
   "border border-zinc-300 bg-zinc-100 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-zinc-600";
-const BHK_FILTER_OPTIONS = ["2 BHK", "3 BHK", "4 BHK"] as const;
 
 /** So `3bhk`, `3.5bhk`, and `3 BHK` all normalize before matching. */
 function normalizeConfigForGrouping(raw: string): string {
@@ -164,49 +162,6 @@ function formatOptionalLine(label: string, value: string | undefined): string | 
   return `${label}: ${v}`;
 }
 
-function parsePriceCr(value: string | undefined): number | null {
-  const cleaned = (value ?? "").replace(/[^0-9.]/g, "");
-  if (!cleaned) return null;
-  const parsed = Number.parseFloat(cleaned);
-  return Number.isFinite(parsed) ? parsed : null;
-}
-
-function parseSizeSqft(value: string | undefined): number | null {
-  const cleaned = (value ?? "").replace(/[^0-9.]/g, "");
-  if (!cleaned) return null;
-  const parsed = Number.parseFloat(cleaned);
-  return Number.isFinite(parsed) ? parsed : null;
-}
-
-function toRupeesFromCr(cr: number): number {
-  return Math.round(cr * 10000000);
-}
-
-function formatINR(value: number): string {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(value);
-}
-
-function extractBhkKeys(text: string): string[] {
-  const out = new Set<string>();
-  const normalized = normalizeConfigForGrouping(text).toLowerCase();
-  const matches = normalized.matchAll(/(\d+(?:\.\d+)?)\s*bhk\b/g);
-  for (const match of matches) {
-    const n = Number.parseFloat(match[1] ?? "");
-    if (Number.isFinite(n) && n > 0) out.add(`${n} BHK`);
-  }
-  return [...out];
-}
-
-function rowMatchesAnyBhk(row: PropertyInventoryRow, selectedBhk: Set<string>): boolean {
-  if (selectedBhk.size === 0) return true;
-  const key = configurationGroupKeyFromLabel(row.configuration ?? "");
-  return selectedBhk.has(key);
-}
-
 export default function AdminInventoryPage() {
   const router = useRouter();
   const [items, setItems] = useState<PropertyInventoryRow[]>([]);
@@ -219,20 +174,23 @@ export default function AdminInventoryPage() {
   const [locations, setLocations] = useState<Location[]>([]);
   const [loading, setLoading] = useState(true);
   const [listLoading, setListLoading] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState("");
-  const [selectedBhk, setSelectedBhk] = useState<string[]>([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [locationId, setLocationId] = useState<string>("");
-  const [projectFilter, setProjectFilter] = useState("");
-  const [variantFilter, setVariantFilter] = useState("");
-  const [sizeFilter, setSizeFilter] = useState("");
-  const [priceFilter, setPriceFilter] = useState("");
-  const [budgetRangeRs, setBudgetRangeRs] = useState<[number, number]>([0, 0]);
   const [page, setPage] = useState(1);
   const isFirstInventoryFetch = useRef(true);
+  const filterRef = useRef({ debouncedSearch, locationId });
 
   const handleAuthError = useCallback(() => {
     router.push("/admin/login");
   }, [router]);
+
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(searchInput.trim()), 380);
+    return () => clearTimeout(t);
+  }, [searchInput]);
 
   useEffect(() => {
     let cancelled = false;
@@ -265,9 +223,9 @@ export default function AdminInventoryPage() {
       setError("");
 
       const params = new URLSearchParams();
-      const perPage = "80";
       params.set("page", String(page));
-      params.set("perPage", perPage);
+      params.set("perPage", "15");
+      if (debouncedSearch) params.set("q", debouncedSearch);
       if (locationId) params.set("locationId", locationId);
 
       const res = await fetch(`/api/admin/inventory-dashboard?${params}`, {
@@ -301,109 +259,36 @@ export default function AdminInventoryPage() {
       isFirstInventoryFetch.current = false;
       setLoading(false);
       setListLoading(false);
+      setRefreshing(false);
     }
-  }, [page, locationId, handleAuthError]);
+  }, [page, debouncedSearch, locationId, handleAuthError]);
 
   useEffect(() => {
-    void loadInventory();
-  }, [page, locationId, loadInventory]);
+    const prev = filterRef.current;
+    const filtersChanged =
+      prev.debouncedSearch !== debouncedSearch || prev.locationId !== locationId;
 
-  const priceBoundsRs = useMemo(() => {
-    const all = items
-      .map((row) => parsePriceCr(row.priceCr))
-      .filter((v): v is number => v != null)
-      .map((v) => toRupeesFromCr(v));
-    if (all.length === 0) return { min: 0, max: 0 };
-    return {
-      min: Math.floor(Math.min(...all) / 100000) * 100000,
-      max: Math.ceil(Math.max(...all) / 100000) * 100000,
-    };
-  }, [items]);
-
-  useEffect(() => {
-    if (priceBoundsRs.max === 0) {
-      setBudgetRangeRs([0, 0]);
+    if (filtersChanged && page !== 1) {
+      setPage(1);
       return;
     }
-    setBudgetRangeRs((prev) => {
-      const [prevMin, prevMax] = prev;
-      if (!prevMin && !prevMax) return [priceBoundsRs.min, priceBoundsRs.max];
-      const nextMin = Math.max(priceBoundsRs.min, Math.min(prevMin, priceBoundsRs.max));
-      const nextMax = Math.max(nextMin, Math.min(prevMax, priceBoundsRs.max));
-      return [nextMin, nextMax];
-    });
-  }, [priceBoundsRs.min, priceBoundsRs.max]);
 
-  const selectedBhkSet = useMemo(() => new Set(selectedBhk), [selectedBhk]);
-  const highlightedBhkKeys = useMemo(() => {
-    const keys = new Set<string>(selectedBhk);
-    for (const key of extractBhkKeys(variantFilter)) keys.add(key);
-    return keys;
-  }, [selectedBhk, variantFilter]);
+    filterRef.current = { debouncedSearch, locationId };
+    void loadInventory();
+  }, [page, debouncedSearch, locationId, loadInventory]);
 
-  const projectFilterLower = projectFilter.trim().toLowerCase();
-  const variantFilterLower = variantFilter.trim().toLowerCase();
-  const sizeDigitsFilter = sizeFilter.replace(/[^\d]/g, "");
-  const priceDigitsFilter = priceFilter.replace(/[^\d]/g, "");
+  const grouped = useMemo(() => chunkItemsByProperty(items), [items]);
 
-  const filteredItems = useMemo(() => {
-    return items.filter((row) => {
-      if (projectFilterLower && !row.projectName.toLowerCase().includes(projectFilterLower)) {
-        return false;
-      }
-
-      if (locationId && row.locationId !== locationId) return false;
-      if (variantFilterLower && !(row.configuration ?? "").toLowerCase().includes(variantFilterLower)) {
-        return false;
-      }
-      if (!rowMatchesAnyBhk(row, selectedBhkSet)) return false;
-
-      const size = parseSizeSqft(row.sizeSqft);
-      if (sizeDigitsFilter && size != null) {
-        const normalizedSizeDigits = String(Math.round(size));
-        if (!normalizedSizeDigits.includes(sizeDigitsFilter)) return false;
-      }
-
-      const price = parsePriceCr(row.priceCr);
-      if (price == null) return true;
-      const priceRs = toRupeesFromCr(price);
-      if (budgetRangeRs[0] > 0 && priceRs < budgetRangeRs[0]) return false;
-      if (budgetRangeRs[1] > 0 && priceRs > budgetRangeRs[1]) return false;
-      if (priceDigitsFilter) {
-        const normalizedPriceDigits = String(priceRs);
-        if (!normalizedPriceDigits.includes(priceDigitsFilter)) return false;
-      }
-      return true;
-    });
-  }, [
-    items,
-    projectFilterLower,
-    locationId,
-    variantFilterLower,
-    selectedBhkSet,
-    sizeDigitsFilter,
-    budgetRangeRs,
-    priceDigitsFilter,
-  ]);
-
-  const flatRows = useMemo(() => {
-    return [...filteredItems].sort((a, b) => {
-      const pa = parsePriceCr(a.priceCr);
-      const pb = parsePriceCr(b.priceCr);
-      if (pa != null && pb != null && pa !== pb) return pa - pb;
-      if (pa != null && pb == null) return -1;
-      if (pa == null && pb != null) return 1;
-      return a.projectName.localeCompare(b.projectName);
-    });
-  }, [filteredItems]);
+  const handleRefresh = () => {
+    setRefreshing(true);
+    void loadInventory();
+  };
 
   const onPageChange = (p: number) => {
     if (p < 1 || p > pagination.totalPages || p === page || listLoading) return;
     setPage(p);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  const serialStart = (pagination.page - 1) * pagination.perPage;
 
   if (loading && items.length === 0) {
     return (
@@ -436,7 +321,58 @@ export default function AdminInventoryPage() {
               </h1>
             </div>
           </div>
-          <div className="flex shrink-0 items-center gap-2" />
+          <div className="flex shrink-0 items-center gap-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleRefresh}
+              disabled={refreshing || listLoading}
+              className="h-11 rounded-xl border-2 border-gray-200 px-4 hover:border-[#CBB27A] hover:bg-[#CBB27A]/5"
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            >
+              <RefreshCw className={cn("mr-2 h-4 w-4", refreshing && "animate-spin")} />
+              Refresh
+            </Button>
+          </div>
+        </div>
+
+        {/* Filters (original) */}
+        <div className="mb-6 rounded-2xl border border-gray-200/80 bg-white/90 p-4 shadow-md backdrop-blur-sm sm:p-5">
+          <div className="mb-4 flex items-center gap-2 text-gray-700">
+            <SlidersHorizontal className="h-4 w-4 text-[#CBB27A]" />
+            <span className="text-sm font-semibold" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Filters
+            </span>
+          </div>
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+            <div className="relative lg:col-span-2">
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <Input
+                placeholder="Search project, location, slug, configuration, size, price…"
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                className="h-11 rounded-xl border-gray-200 pl-10 focus-visible:ring-[#CBB27A]/30"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+                aria-label="Search inventory"
+              />
+            </div>
+            <Select value={locationId || "__all__"} onValueChange={(v) => setLocationId(v === "__all__" ? "" : v)}>
+              <SelectTrigger
+                className="h-11 w-full rounded-xl border-gray-200"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                <SelectValue placeholder="All locations" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="__all__">All locations</SelectItem>
+                {locations.map((loc) => (
+                  <SelectItem key={loc.id} value={loc.id}>
+                    {loc.locationName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {error ? (
@@ -460,189 +396,21 @@ export default function AdminInventoryPage() {
             </div>
           ) : null}
 
-          <div className="mb-3 rounded-lg border border-zinc-300 bg-white px-4 py-3 shadow-sm">
-            <div className="mb-2 flex items-center justify-between gap-3">
-              <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">Price range</span>
-              <span className="text-sm font-medium text-zinc-700">
-                {budgetRangeRs[0] > 0 ? formatINR(budgetRangeRs[0]) : "—"} -{" "}
-                {budgetRangeRs[1] > 0 ? formatINR(budgetRangeRs[1]) : "—"}
-              </span>
+          {grouped.length === 0 ? (
+            <div className="rounded-lg border border-zinc-300 bg-white px-6 py-14 text-center shadow-sm">
+              <Layers className="mx-auto mb-3 h-10 w-10 text-zinc-300" aria-hidden />
+              <p className="font-medium text-zinc-800">No projects match these filters.</p>
+              <p className="mt-2 text-sm text-zinc-600">Clear the search box or choose “All locations”.</p>
             </div>
-            <Slider
-              min={priceBoundsRs.min}
-              max={priceBoundsRs.max}
-              step={100000}
-              value={budgetRangeRs}
-              onValueChange={(value) => {
-                if (value.length === 2) {
-                  setBudgetRangeRs([value[0] ?? priceBoundsRs.min, value[1] ?? priceBoundsRs.max]);
-                }
-              }}
-              className="w-full data-[orientation=horizontal]:h-6 [&_[data-slot=slider-track]]:h-2.5 [&_[data-slot=slider-range]]:bg-[#CBB27A] [&_[data-slot=slider-thumb]]:size-5 [&_[data-slot=slider-thumb]]:border-[#CBB27A] [&_[data-slot=slider-thumb]]:bg-white"
-              aria-label="Global price range in rupees"
-            />
-            <div className="mt-2 flex items-center gap-2">
-              {BHK_FILTER_OPTIONS.map((opt) => {
-                const active = selectedBhk.includes(opt);
-                return (
-                  <button
-                    key={opt}
-                    type="button"
-                    onClick={() =>
-                      setSelectedBhk((prev) =>
-                        prev.includes(opt) ? prev.filter((item) => item !== opt) : [...prev, opt]
-                      )
-                    }
-                    className={cn(
-                      "rounded-md border px-3 py-1.5 text-xs font-semibold transition-colors",
-                      active
-                        ? "border-[#CBB27A] bg-[#CBB27A]/20 text-zinc-900"
-                        : "border-gray-300 bg-white text-zinc-700 hover:border-[#CBB27A]/70"
-                    )}
-                  >
-                    {opt}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="overflow-hidden rounded-lg border border-zinc-300 bg-white shadow-sm">
-            <div className="overflow-x-auto">
-              <table className="w-full min-w-[920px] border-collapse text-sm">
-                <thead className="sticky top-0 z-20 bg-white shadow-sm">
-                  <tr>
-                    <th className={cn(thBase, "w-[72px] min-w-[72px] bg-white px-2 py-2")} />
-                    <th className={cn(thBase, "bg-white px-3 py-2")}>
-                      <Input
-                        value={projectFilter}
-                        onChange={(e) => setProjectFilter(e.target.value)}
-                        placeholder="Search project"
-                        className="h-9 w-full border-2 border-zinc-300 bg-white text-[13px] placeholder:font-medium placeholder:text-zinc-500 focus-visible:ring-[#CBB27A]/35"
-                        aria-label="Project filter"
-                      />
-                    </th>
-                    <th className={cn(thBase, "bg-white px-3 py-2")}>
-                      <Select value={locationId || "__all__"} onValueChange={(v) => setLocationId(v === "__all__" ? "" : v)}>
-                        <SelectTrigger className="h-9 w-full border-2 border-zinc-300 bg-white text-left text-[13px] font-medium text-zinc-700 focus:ring-[#CBB27A]/35">
-                          <SelectValue placeholder="All locations" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="__all__">All locations</SelectItem>
-                          {locations.map((loc) => (
-                            <SelectItem key={loc.id} value={loc.id}>
-                              {loc.locationName}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </th>
-                    <th className={cn(thBase, "bg-white px-3 py-2")}>
-                      <Input
-                        value={variantFilter}
-                        onChange={(e) => setVariantFilter(e.target.value)}
-                        placeholder="Search variant"
-                        className="h-9 w-full border-2 border-zinc-300 bg-white text-[13px] placeholder:font-medium placeholder:text-zinc-500 focus-visible:ring-[#CBB27A]/35"
-                        aria-label="Variant filter"
-                      />
-                    </th>
-                    <th className={cn(thBase, "bg-white px-3 py-2")}>
-                      <Input
-                        value={sizeFilter}
-                        onChange={(e) => setSizeFilter(e.target.value.replace(/[^\d]/g, ""))}
-                        placeholder="Size"
-                        className="h-9 w-full border-2 border-zinc-300 bg-white font-mono text-[13px] placeholder:font-medium placeholder:text-zinc-500 focus-visible:ring-[#CBB27A]/35"
-                        inputMode="numeric"
-                        aria-label="Size filter"
-                      />
-                    </th>
-                    <th className={cn(thBase, "bg-white px-3 py-2")}>
-                      <Input
-                        value={priceFilter}
-                        onChange={(e) => setPriceFilter(e.target.value.replace(/[^\d]/g, ""))}
-                        placeholder="Price ₹"
-                        className="h-9 w-full border-2 border-zinc-300 bg-white font-mono text-[13px] placeholder:font-medium placeholder:text-zinc-500 focus-visible:ring-[#CBB27A]/35"
-                        inputMode="numeric"
-                        aria-label="Price filter"
-                      />
-                    </th>
-                    <th className={cn(thBase, "bg-white px-3 py-2")} />
-                  </tr>
-                  <tr>
-                    <th scope="col" className={cn(thBase, "w-[72px] min-w-[72px] bg-black px-2 text-center text-white border-black")}>Sr. No.</th>
-                    <th scope="col" className={cn(thBase, "bg-black text-white border-black")}>Project</th>
-                    <th scope="col" className={cn(thBase, "bg-black text-white border-black")}>Location</th>
-                    <th scope="col" className={cn(thBase, "bg-black text-white border-black")}>Variant</th>
-                    <th scope="col" className={cn(thBase, "bg-black text-white border-black")}>Size (sq ft)</th>
-                    <th scope="col" className={cn(thBase, "bg-black text-white border-black")}>Price (₹)</th>
-                    <th scope="col" className={cn(thBase, "bg-black text-white border-black")}>View</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {flatRows.length === 0 ? (
-                    <tr>
-                      <td colSpan={7} className="border border-zinc-300 px-6 py-14 text-center">
-                        <Layers className="mx-auto mb-3 h-10 w-10 text-zinc-300" aria-hidden />
-                        <p className="font-medium text-zinc-800">No units match these filters.</p>
-                        <p className="mt-2 text-sm text-zinc-600">
-                          Change location to &quot;All locations&quot; or clear other filters above.
-                        </p>
-                      </td>
-                    </tr>
-                  ) : (
-                    flatRows.map((row, idx) => {
-                      const confKey = configurationGroupKeyFromLabel(row.configuration ?? "");
-                      const isHighlighted = highlightedBhkKeys.has(confKey);
-                      return (
-                        <tr
-                          key={row.id ?? `${row.propertyId}-${row.sortOrder}-${idx}`}
-                          className={cn(
-                            idx % 2 === 0 ? "bg-white" : "bg-zinc-50/80",
-                            isHighlighted && "bg-[#CBB27A]/20",
-                            "hover:bg-[rgba(197,168,124,0.10)]"
-                          )}
-                        >
-                          <td className={cn(cellBorder, "w-[72px] min-w-[72px] px-2 text-center")}>
-                            <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-md border border-zinc-300 bg-zinc-50 px-1 text-[11px] font-semibold text-zinc-600">
-                              {serialStart + idx + 1}
-                            </span>
-                          </td>
-                          <td className={cn(cellBorder, "pl-4")}>
-                            <span className="font-medium text-zinc-900">{row.projectName}</span>
-                          </td>
-                          <td className={cn(cellBorder, "pl-4")}>{row.locationLabel || "—"}</td>
-                          <td className={cn(cellBorder, "pl-4")}>{row.configuration?.trim() || "—"}</td>
-                          <td className={cn(cellBorder, "pl-4 font-mono tabular-nums")}>{row.sizeSqft?.trim() || "—"}</td>
-                          <td className={cn(cellBorder, "pl-4 font-mono font-medium tabular-nums")}>
-                            {row.priceCr?.trim() ? formatInventoryPriceCrDisplay(row.priceCr) : "—"}
-                          </td>
-                          <td className={cn(cellBorder, "pl-4")}>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              className="h-8 rounded-md border border-black bg-black px-3 text-xs font-semibold text-white hover:bg-zinc-900 hover:text-white"
-                              asChild
-                            >
-                              <Link
-                                href={getPropertyUrl({
-                                  slug: row.slug,
-                                  locationSlug: row.locationSlug || null,
-                                })}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                View page
-                              </Link>
-                            </Button>
-                          </td>
-                        </tr>
-                      );
-                    })
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          ) : (
+            <ol className="space-y-6" aria-label="Published projects">
+              {grouped.map((rows) => (
+                <li key={`${rows[0].propertyId}-${rows[0].propertySerial}`}>
+                  <InventoryProjectCard rows={rows} />
+                </li>
+              ))}
+            </ol>
+          )}
         </div>
 
         {pagination.totalPages > 1 ? (
@@ -659,13 +427,7 @@ export default function AdminInventoryPage() {
   );
 }
 
-function InventoryProjectCard({
-  rows,
-  highlightedBhkKeys,
-}: {
-  rows: PropertyInventoryRow[];
-  highlightedBhkKeys?: Set<string>;
-}) {
+function InventoryProjectCard({ rows }: { rows: PropertyInventoryRow[] }) {
   const head = rows[0];
   const serial = head.propertySerial ?? "—";
   const towers = formatOptionalLine("Towers", head.inventoryTowers);
@@ -696,14 +458,10 @@ function InventoryProjectCard({
         const line = group.lines[idx]!;
         const stripe = zebra % 2 === 0;
         zebra += 1;
-        const isHighlighted = Boolean(highlightedBhkKeys?.has(group.key));
         nodes.push(
           <tr
             key={line.id ?? `blank-${line.propertyId}-${line.sortOrder}-${group.key}-${idx}`}
-            className={cn(
-              stripe ? "bg-white" : "bg-zinc-50/90",
-              isHighlighted && "bg-[#CBB27A]/18"
-            )}
+            className={stripe ? "bg-white" : "bg-zinc-50/90"}
           >
             <td className={cn(cellBorder, "text-zinc-900")}>
               <ConfigurationCell value={line.configuration} />

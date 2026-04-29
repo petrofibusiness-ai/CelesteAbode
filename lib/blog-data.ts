@@ -25,7 +25,7 @@ export const SOBHA_RIVANA_BLOG_PATH = "/blog/sobha-rivana-greater-noida-west" as
 export const SOBHA_RIVANA_HERO_IMAGE =
   "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/Elevation-Evening-View.webp" as const;
 
-/** UP RERA project registration id; verify on up-rera.in if the listing updates. */
+/** UP RERA project registration id; verify on up-rera.in if the project record updates. */
 export const SOBHA_RIVANA_RERA_FULL = "UPRERAPRJ313638" as const;
 
 export const blogPosts: BlogPost[] = [
@@ -198,6 +198,27 @@ export const blogPosts: BlogPost[] = [
     ogImageAlt:
       "Panchsheel Greens 2 Greater Noida West: residential towers, landscaped walkway, and central plaza",
   },
+  {
+    id: 10,
+    title: "Best Locations to Buy Flats in Greater Noida for Future Growth (2026)",
+    slug: "best-locations-buy-flats-greater-noida-2026",
+    excerpt:
+      "Jewar is live, metro lines are extending, and Greater Noida still offers a value base versus core Noida. Here are the sectors that make sense for end users, investors, and rental buyers in 2026—plus what to verify before you book.",
+    category: "Location Intelligence",
+    readTime: "12 min read",
+    date: "March 31, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/noida_vs_greater_noida.png",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "Best Locations to Buy Flats in Greater Noida for Future Growth (2026)",
+    metaDescription:
+      "Top sectors in Greater Noida for 2026: Greater Noida West, Yamuna Expressway, Zeta, Techzone, Knowledge Park. Jewar airport, price bands, 3 BHK reality, and what to check before you buy.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/noida_vs_greater_noida.png",
+    ogImageAlt: "Greater Noida and Noida region growth — best locations for flats in 2026",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -206,8 +227,24 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
 
 export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   const others = blogPosts.filter((p) => p.slug !== currentSlug);
+  if (currentSlug === "noida-vs-greater-noida-investment-2026") {
+    const prioritySlugs = [
+      "best-locations-buy-flats-greater-noida-2026",
+      "jewar-airport-ncr-property-buyers-2026",
+      "3bhk-flats-in-greater-noida",
+      "yamuna-expressway-growth-corridor-delhi-ncr",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
   if (currentSlug === "3bhk-flats-in-greater-noida") {
     const prioritySlugs = [
+      "best-locations-buy-flats-greater-noida-2026",
       "panchsheel-greens-2-greater-noida-west",
       "noida-vs-greater-noida-investment-2026",
       "upcoming-luxury-projects-noida-greater-noida-2026",
@@ -244,6 +281,22 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
       "3bhk-flats-in-greater-noida",
       "noida-vs-greater-noida-investment-2026",
       "upcoming-luxury-projects-noida-greater-noida-2026",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "best-locations-buy-flats-greater-noida-2026") {
+    const prioritySlugs = [
+      "noida-vs-greater-noida-investment-2026",
+      "jewar-airport-ncr-property-buyers-2026",
+      "yamuna-expressway-growth-corridor-delhi-ncr",
+      "3bhk-flats-in-greater-noida",
+      "panchsheel-greens-2-greater-noida-west",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

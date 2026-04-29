@@ -101,7 +101,7 @@ const GN_3BHK_PROPERTY_BLOCKS: {
     reraId: "UPRERAPRJ415309",
     priceRange: [
       "~₹8,584/sq ft base selling price (BSP); floor, parking, and taxes are extra",
-      "3 and 4 BHK; sizes on the listing page",
+      "3 and 4 BHK; sizes on the property page",
     ],
     nearbyBullets: [
       "Sector 1 on the Greater Noida West grid with Noida–Greater Noida link roads for daily commutes",

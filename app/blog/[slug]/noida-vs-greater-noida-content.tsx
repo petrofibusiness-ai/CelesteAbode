@@ -72,6 +72,17 @@ export function NoidaVsGreaterNoidaContent() {
             </Link>{" "}
             and then move to Greater Noida options once your budget band is clear.
           </p>
+          <p>
+            If you already know Greater Noida is the direction and you want a{" "}
+            <strong>sector-by-sector</strong> read (Noida Extension, Yamuna Expressway, Zeta, Techzone), use our{" "}
+            <Link
+              href="/blog/best-locations-buy-flats-greater-noida-2026"
+              className="text-[#CBB27A] font-semibold hover:underline"
+            >
+              best locations in Greater Noida for 2026
+            </Link>{" "}
+            guide next.
+          </p>
         </div>
         <div className="relative w-full mt-6 rounded-2xl overflow-hidden bg-gray-100 border border-gray-200">
           <div className="relative w-full" style={{ aspectRatio: "16/9" }}>

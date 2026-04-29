@@ -26,6 +26,10 @@ import {
   PanchsheelGreens2GreaterNoidaWestContent,
   panchsheelGreens2FaqSchemaItems,
 } from "./panchsheel-greens-2-greater-noida-west-content";
+import {
+  BestLocationsFlatsGreaterNoida2026Content,
+  bestLocationsGreaterNoidaFaqSchemaItems,
+} from "./best-locations-flats-greater-noida-2026-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -39,6 +43,7 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "sobha-rivana-greater-noida-west": SobhaRivanaGreaterNoidaWestContent,
   "3bhk-flats-in-greater-noida": ThreeBhkFlatsGreaterNoida2026Content,
   "panchsheel-greens-2-greater-noida-west": PanchsheelGreens2GreaterNoidaWestContent,
+  "best-locations-buy-flats-greater-noida-2026": BestLocationsFlatsGreaterNoida2026Content,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -66,7 +71,8 @@ export async function generateMetadata({
     post.slug === "forest-walk-villa-ghaziabad-luxury-living-2026" ||
     post.slug === "sobha-rivana-greater-noida-west" ||
     post.slug === "3bhk-flats-in-greater-noida" ||
-    post.slug === "panchsheel-greens-2-greater-noida-west"
+    post.slug === "panchsheel-greens-2-greater-noida-west" ||
+    post.slug === "best-locations-buy-flats-greater-noida-2026"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -155,6 +161,19 @@ export async function generateMetadata({
       "Sector 1 Greater Noida West",
       "flats for sale Greater Noida West",
       "Jewar airport Greater Noida West",
+      "Celeste Abode",
+    ],
+    "best-locations-buy-flats-greater-noida-2026": [
+      "best locations to buy flats Greater Noida",
+      "Greater Noida property investment 2026",
+      "Greater Noida West flats",
+      "Noida Extension best sectors",
+      "Yamuna Expressway flats Greater Noida",
+      "Jewar airport property Greater Noida",
+      "Techzone 4 Greater Noida investment",
+      "Knowledge Park 5 flats",
+      "Zeta Greater Noida property",
+      "3 BHK Greater Noida locations",
       "Celeste Abode",
     ],
     "panchsheel-greens-2-greater-noida-west": [
@@ -253,6 +272,7 @@ export default async function BlogPostPage({
   const isSobhaRivana = slug === "sobha-rivana-greater-noida-west";
   const isThreeBhkGreaterNoida = slug === "3bhk-flats-in-greater-noida";
   const isPanchsheelGreens2 = slug === "panchsheel-greens-2-greater-noida-west";
+  const isBestLocationsGreaterNoida = slug === "best-locations-buy-flats-greater-noida-2026";
   const isNoidaVsGreaterNoida = slug === "noida-vs-greater-noida-investment-2026";
   const isUpcomingLuxury = slug === "upcoming-luxury-projects-noida-greater-noida-2026";
   const isForestWalk = slug === "forest-walk-villa-ghaziabad-luxury-living-2026";
@@ -262,6 +282,8 @@ export default async function BlogPostPage({
     ? "Project Spotlight | Sector 1, Greater Noida West"
     : isPanchsheelGreens2
       ? "Project Spotlight | Sector 16, Greater Noida West"
+    : isBestLocationsGreaterNoida
+      ? "Location Guide | Greater Noida & NCR 2026"
     : isThreeBhkGreaterNoida
       ? "Greater Noida West & Noida Extension | 2026"
       : isNoidaVsGreaterNoida
@@ -275,6 +297,8 @@ export default async function BlogPostPage({
     ? "RERA details, pricing, floor plans, and location insights. Everything you need to evaluate before you decide."
     : isThreeBhkGreaterNoida
       ? "Shortlist luxury 3 BHK homes in Greater Noida with accurate pricing, verified inventory, and fast-track site visits."
+    : isBestLocationsGreaterNoida
+      ? "Jewar is operational, corridors are repricing, and sector choice matters more than ever. Map the best micro-markets for your budget and hold period."
     : isForestWalk
       ? "Discover Why buyers are shifting to Forest Walk Villa on NH-24 and what makes this project stand out in 2026."
     : post.excerpt;
@@ -305,6 +329,9 @@ export default async function BlogPostPage({
       {slug === "panchsheel-greens-2-greater-noida-west" ? (
         <FAQPageSchema faqs={panchsheelGreens2FaqSchemaItems} />
       ) : null}
+      {slug === "best-locations-buy-flats-greater-noida-2026" ? (
+        <FAQPageSchema faqs={bestLocationsGreaterNoidaFaqSchemaItems} />
+      ) : null}
 
       <div className="min-h-screen bg-background">
         <Header />
@@ -333,14 +360,14 @@ export default async function BlogPostPage({
                       usePremiumHero
                         ? "max-w-3xl mx-auto rounded-2xl border border-white/20 bg-black/30 px-4 py-4 backdrop-blur-[2px] sm:px-6 sm:py-6 md:backdrop-blur-sm"
                         : "max-w-3xl mx-auto text-center",
-                      (isThreeBhkGreaterNoida || isPanchsheelGreens2) && "text-left"
+                      (isThreeBhkGreaterNoida || isPanchsheelGreens2 || isBestLocationsGreaterNoida) && "text-left"
                     )}
                   >
                     <p
                       className={
                         usePremiumHero && !isThreeBhkGreaterNoida && !isPanchsheelGreens2
                           ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
-                          : isThreeBhkGreaterNoida || isPanchsheelGreens2
+                          : isThreeBhkGreaterNoida || isPanchsheelGreens2 || isBestLocationsGreaterNoida
                             ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                             : "mb-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                       }
@@ -352,7 +379,7 @@ export default async function BlogPostPage({
                     </h1>
                     <p
                       className={
-                        isThreeBhkGreaterNoida || isPanchsheelGreens2
+                        isThreeBhkGreaterNoida || isPanchsheelGreens2 || isBestLocationsGreaterNoida
                           ? "mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
                           : usePremiumHero
                             ? "mx-auto mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
@@ -361,14 +388,14 @@ export default async function BlogPostPage({
                     >
                       {heroSubtext}
                     </p>
-                    {isThreeBhkGreaterNoida ? (
+                    {isThreeBhkGreaterNoida || isBestLocationsGreaterNoida ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
                         <div className="inline-grid w-max max-w-full grid-cols-1 justify-items-stretch gap-3 self-end sm:flex sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-end">
                           <Link
                             href="/properties-in-greater-noida"
                             className="inline-flex w-full min-w-0 items-center justify-center rounded-lg bg-[#CBB27A] px-5 py-2.5 text-center text-sm font-semibold text-[#0f1112] transition-colors hover:bg-[#b9a56f] font-poppins sm:inline-flex sm:w-auto"
                           >
-                            View available projects
+                            {isBestLocationsGreaterNoida ? "Browse Greater Noida" : "View available projects"}
                           </Link>
                           <Link
                             href="/request-a-free-consultation"
@@ -400,7 +427,9 @@ export default async function BlogPostPage({
                     <div
                       className={cn(
                         "flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs font-poppins text-white/75 sm:gap-x-6 sm:gap-y-2 sm:text-sm",
-                        isThreeBhkGreaterNoida || isPanchsheelGreens2 ? "justify-end px-1 sm:px-2" : "justify-center"
+                        isThreeBhkGreaterNoida || isPanchsheelGreens2 || isBestLocationsGreaterNoida
+                          ? "justify-end px-1 sm:px-2"
+                          : "justify-center"
                       )}
                     >
                       <span className="flex items-center gap-1.5 sm:gap-2">

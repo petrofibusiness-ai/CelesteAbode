@@ -32,6 +32,8 @@ const cellBorder = "border border-zinc-300 px-3 py-2.5 align-top";
 const thBase =
   "border border-zinc-300 bg-zinc-100 px-3 py-2 text-left text-xs font-semibold uppercase tracking-wide text-zinc-600";
 const BHK_FILTER_OPTIONS = ["2 BHK", "3 BHK", "4 BHK"] as const;
+const SIZE_TOLERANCE_SQFT = 250;
+const PRICE_TOLERANCE_RS = 2500000;
 
 function normalizeConfigForGrouping(raw: string): string {
   return raw
@@ -243,8 +245,8 @@ export default function AdminInventoryPage() {
 
   const projectFilterLower = projectFilter.trim().toLowerCase();
   const variantFilterLower = variantFilter.trim().toLowerCase();
-  const sizeDigitsFilter = sizeFilter.replace(/[^\d]/g, "");
-  const priceDigitsFilter = priceFilter.replace(/[^\d]/g, "");
+  const sizeTarget = sizeFilter ? Number.parseFloat(sizeFilter) : null;
+  const priceTargetRs = priceFilter ? Number.parseInt(priceFilter, 10) : null;
 
   const filteredItems = useMemo(() => {
     return items.filter((row) => {
@@ -258,19 +260,18 @@ export default function AdminInventoryPage() {
       if (!rowMatchesAnyBhk(row, selectedBhkSet)) return false;
 
       const size = parseSizeSqft(row.sizeSqft);
-      if (sizeDigitsFilter && size != null) {
-        const normalizedSizeDigits = String(Math.round(size));
-        if (!normalizedSizeDigits.includes(sizeDigitsFilter)) return false;
+      if (sizeTarget != null) {
+        if (size == null) return false;
+        if (Math.abs(size - sizeTarget) > SIZE_TOLERANCE_SQFT) return false;
       }
 
       const price = parsePriceCr(row.priceCr);
-      if (price == null) return true;
+      if (price == null) return priceTargetRs == null;
       const priceRs = toRupeesFromCr(price);
       if (budgetRangeRs[0] > 0 && priceRs < budgetRangeRs[0]) return false;
       if (budgetRangeRs[1] > 0 && priceRs > budgetRangeRs[1]) return false;
-      if (priceDigitsFilter) {
-        const normalizedPriceDigits = String(priceRs);
-        if (!normalizedPriceDigits.includes(priceDigitsFilter)) return false;
+      if (priceTargetRs != null) {
+        if (Math.abs(priceRs - priceTargetRs) > PRICE_TOLERANCE_RS) return false;
       }
       return true;
     });
@@ -280,9 +281,9 @@ export default function AdminInventoryPage() {
     locationId,
     variantFilterLower,
     selectedBhkSet,
-    sizeDigitsFilter,
+    sizeTarget,
     budgetRangeRs,
-    priceDigitsFilter,
+    priceTargetRs,
   ]);
 
   const flatRows = useMemo(() => {

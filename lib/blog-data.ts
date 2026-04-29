@@ -201,14 +201,14 @@ export const blogPosts: BlogPost[] = [
   {
     id: 10,
     title: "Best Locations to Buy Flats in Greater Noida for Future Growth (2026)",
-    slug: "best-locations-buy-flats-greater-noida-2026",
+    slug: "greater-noida-best-locations-flats-2026",
     excerpt:
       "Jewar is live, metro lines are extending, and Greater Noida still offers a value base versus core Noida. Here are the sectors that make sense for end users, investors, and rental buyers in 2026—plus what to verify before you book.",
     category: "Location Intelligence",
     readTime: "12 min read",
-    date: "March 31, 2026",
+    date: "April 28, 2026",
     image:
-      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/noida_vs_greater_noida.png",
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/greater_noida_west_photography.webp",
     featured: true,
     views: "0",
     heroFullscreen: true,
@@ -216,8 +216,8 @@ export const blogPosts: BlogPost[] = [
     metaDescription:
       "Top sectors in Greater Noida for 2026: Greater Noida West, Yamuna Expressway, Zeta, Techzone, Knowledge Park. Jewar airport, price bands, 3 BHK reality, and what to check before you buy.",
     ogImage:
-      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/noida_vs_greater_noida.png",
-    ogImageAlt: "Greater Noida and Noida region growth — best locations for flats in 2026",
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/greater_noida_west_photography.webp",
+    ogImageAlt: "Greater Noida West: residential towers and road grid from above",
   },
 ];
 
@@ -229,7 +229,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   const others = blogPosts.filter((p) => p.slug !== currentSlug);
   if (currentSlug === "noida-vs-greater-noida-investment-2026") {
     const prioritySlugs = [
-      "best-locations-buy-flats-greater-noida-2026",
+      "greater-noida-best-locations-flats-2026",
       "jewar-airport-ncr-property-buyers-2026",
       "3bhk-flats-in-greater-noida",
       "yamuna-expressway-growth-corridor-delhi-ncr",
@@ -244,7 +244,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "3bhk-flats-in-greater-noida") {
     const prioritySlugs = [
-      "best-locations-buy-flats-greater-noida-2026",
+      "greater-noida-best-locations-flats-2026",
       "panchsheel-greens-2-greater-noida-west",
       "noida-vs-greater-noida-investment-2026",
       "upcoming-luxury-projects-noida-greater-noida-2026",
@@ -290,7 +290,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
     const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
     return [...picked, ...rest].slice(0, limit);
   }
-  if (currentSlug === "best-locations-buy-flats-greater-noida-2026") {
+  if (currentSlug === "greater-noida-best-locations-flats-2026") {
     const prioritySlugs = [
       "noida-vs-greater-noida-investment-2026",
       "jewar-airport-ncr-property-buyers-2026",

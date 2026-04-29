@@ -193,20 +193,47 @@ export function BestLocationsFlatsGreaterNoida2026Content() {
           The Aqua Line metro story is extending. There is still room to enter before the market prices in the next
           layer of infrastructure if you pick the right sector for your job, school runs, and hold period.
         </p>
-        <div className="flex flex-wrap gap-2">
-          {[
-            { icon: TrendingUp, text: "~98% / 5 yrs (belt-wide context)" },
-            { icon: Plane, text: "Jewar Phase 1 · Mar 2026" },
-            { icon: MapPin, text: "Zone-first buying" },
-          ].map(({ icon: Icon, text }) => (
-            <span
-              key={text}
-              className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-800 shadow-sm md:text-sm"
-            >
-              <Icon className="size-3.5 text-[#CBB27A] shrink-0" aria-hidden />
-              {text}
-            </span>
-          ))}
+        <div className="overflow-hidden rounded-2xl border border-[#CBB27A]/25 bg-gradient-to-b from-white via-white to-gray-50/90 shadow-sm ring-1 ring-black/[0.04]">
+          <ul className="m-0 grid list-none grid-cols-1 divide-y divide-gray-100 p-0 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+            {[
+              {
+                icon: TrendingUp,
+                title: "~98%",
+                subtitle: "5-year rise · belt-wide",
+                emphasize: true,
+              },
+              {
+                icon: Plane,
+                title: "Jewar Phase 1",
+                subtitle: "Opened Mar 2026",
+                emphasize: false,
+              },
+              {
+                icon: MapPin,
+                title: "Zone-first buying",
+                subtitle: "Pick belt before tower",
+                emphasize: false,
+              },
+            ].map(({ icon: Icon, title, subtitle, emphasize }) => (
+              <li key={title} className="flex flex-col items-center gap-3 px-5 py-6 text-center sm:px-6 sm:py-7">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#CBB27A]/12 text-[#CBB27A] ring-4 ring-[#CBB27A]/5">
+                  <Icon className="size-[22px]" strokeWidth={2} aria-hidden />
+                </span>
+                <div className="space-y-1.5">
+                  <p
+                    className={
+                      emphasize
+                        ? "font-poppins text-[1.65rem] font-bold tabular-nums leading-none tracking-tight text-[#0f1112] md:text-[1.85rem]"
+                        : "font-poppins text-base font-semibold leading-snug tracking-tight text-[#0f1112] md:text-lg"
+                    }
+                  >
+                    {title}
+                  </p>
+                  <p className="mx-auto max-w-[14rem] text-[13px] leading-snug text-gray-500 md:text-sm">{subtitle}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
         <p className="mt-6 text-gray-600 leading-relaxed">
           This guide covers the best locations to buy property in Greater Noida right now, what drives growth in each

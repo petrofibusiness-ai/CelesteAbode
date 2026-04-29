@@ -271,6 +271,11 @@ const nextConfig = {
         destination: '/blog/3bhk-flats-in-greater-noida',
         permanent: true,
       },
+      {
+        source: '/blog/best-locations-buy-flats-greater-noida-2026',
+        destination: '/blog/greater-noida-best-locations-flats-2026',
+        permanent: true,
+      },
       // Property slug: canonical spelling is kviraaj (double A)
       {
         source: '/properties-in-greater-noida/kviraj-mayfair-residency',

@@ -13,6 +13,21 @@ const MAX_SIZE = 2000;
 const MAX_CONFIG = 200;
 
 /** Matches `property_inventory_dashboard_rows` select shape. */
+/** Header fields copied onto each dashboard row (from an existing row or `properties_v2`). */
+interface PropertyInventoryMeta {
+  property_id: string;
+  slug: string;
+  project_name: string;
+  location_label: string;
+  location_id: string | null;
+  locality_id: string | null;
+  hero_image: string;
+  hero_image_alt: string | null;
+  possession_date: string | null;
+  inventory_towers: string | null;
+  property_created_at: string;
+}
+
 interface DashboardViewRow {
   line_id: string | null;
   property_id: string;
@@ -108,63 +123,124 @@ export async function POST(request: NextRequest) {
 
     const supabase = getSupabaseAdminClient();
 
-    const { data: prop, error: propErr } = await supabase
-      .from("properties_v2")
-      .select("id")
-      .eq("id", propertyId)
-      .eq("is_published", true)
+    const { data: dashProp, error: propErr } = await supabase
+      .from("property_inventory_dashboard_rows")
+      .select(
+        "property_id, slug, project_name, location_label, location_id, locality_id, hero_image, hero_image_alt, possession_date, inventory_towers, property_created_at"
+      )
+      .eq("property_id", propertyId)
+      .order("line_created_at", { ascending: true, nullsFirst: false })
+      .limit(1)
       .maybeSingle();
 
     if (propErr) {
       console.error("POST property-listings/configurations property:", propErr);
       return NextResponse.json({ error: "Property lookup failed" }, { status: 500 });
     }
-    if (!prop) {
-      return NextResponse.json({ error: "Property not found or unpublished" }, { status: 404 });
+
+    let meta: PropertyInventoryMeta | null = dashProp
+      ? {
+          property_id: dashProp.property_id,
+          slug: dashProp.slug ?? "",
+          project_name: dashProp.project_name ?? "",
+          location_label: dashProp.location_label ?? "",
+          location_id: dashProp.location_id,
+          locality_id: dashProp.locality_id,
+          hero_image: dashProp.hero_image ?? "",
+          hero_image_alt: dashProp.hero_image_alt,
+          possession_date: dashProp.possession_date,
+          inventory_towers: dashProp.inventory_towers,
+          property_created_at: dashProp.property_created_at ?? new Date().toISOString(),
+        }
+      : null;
+
+    if (!meta) {
+      const { data: pv2, error: v2Err } = await supabase
+        .from("properties_v2")
+        .select(
+          "id, slug, project_name, location, location_id, locality_id, hero_image, hero_image_alt, possession_date, inventory_towers, created_at"
+        )
+        .eq("id", propertyId)
+        .maybeSingle();
+
+      if (v2Err) {
+        console.error("POST property-listings/configurations properties_v2:", v2Err);
+        return NextResponse.json({ error: "Property lookup failed" }, { status: 500 });
+      }
+      if (!pv2) {
+        return NextResponse.json({ error: "Property not found" }, { status: 404 });
+      }
+      meta = {
+        property_id: pv2.id,
+        slug: pv2.slug ?? "",
+        project_name: pv2.project_name ?? "",
+        location_label: (pv2.location as string | null) ?? "",
+        location_id: pv2.location_id,
+        locality_id: pv2.locality_id,
+        hero_image: pv2.hero_image ?? "",
+        hero_image_alt: pv2.hero_image_alt,
+        possession_date: pv2.possession_date,
+        inventory_towers: pv2.inventory_towers,
+        property_created_at: pv2.created_at ?? new Date().toISOString(),
+      };
     }
 
     const { data: top } = await supabase
-      .from("property_listing_configurations")
+      .from("property_inventory_dashboard_rows")
       .select("sort_order")
       .eq("property_id", propertyId)
+      .not("line_id", "is", null)
       .order("sort_order", { ascending: false })
       .limit(1)
       .maybeSingle();
 
     const nextOrder = (typeof top?.sort_order === "number" ? top.sort_order : -1) + 1;
 
-    const { data: inserted, error: insErr } = await supabase
-      .from("property_listing_configurations")
-      .insert({
-        property_id: propertyId,
-        configuration,
-        size_sqft: sizeSqft,
-        price_cr: priceCr,
-        sort_order: nextOrder,
-      })
-      .select("id")
-      .single();
+    const newLineId = crypto.randomUUID();
+    const lineCreatedAt = new Date().toISOString();
+    const { error: writeError } = await supabase.from("property_inventory_dashboard_rows").insert({
+      line_id: newLineId,
+      property_id: propertyId,
+      configuration_label: configuration,
+      size_sqft: sizeSqft,
+      price_cr: priceCr,
+      sort_order: nextOrder,
+      line_created_at: lineCreatedAt,
+      slug: meta.slug,
+      project_name: meta.project_name,
+      location_label: meta.location_label,
+      location_id: meta.location_id,
+      locality_id: meta.locality_id,
+      hero_image: meta.hero_image,
+      hero_image_alt: meta.hero_image_alt,
+      possession_date: meta.possession_date,
+      inventory_towers: meta.inventory_towers,
+      property_created_at: meta.property_created_at,
+    });
 
-    if (insErr || !inserted?.id) {
-      console.error("POST property-listings/configurations insert:", insErr);
-      return NextResponse.json(
-        { error: "Insert failed", details: insErr?.message },
-        { status: 500 }
-      );
+    if (writeError) {
+      console.error("POST property-listings/configurations insert:", writeError);
+      return NextResponse.json({ error: "Insert failed", details: writeError.message }, { status: 500 });
     }
 
-    const { data: viewRow, error: viewErr } = await supabase
-      .from("property_inventory_dashboard_rows")
-      .select("*")
-      .eq("line_id", inserted.id)
-      .maybeSingle();
-
-    if (viewErr || !viewRow) {
-      console.error("POST property-listings/configurations view:", viewErr);
-      return NextResponse.json({ error: "Row created but could not load dashboard row" }, { status: 500 });
-    }
-
-    const row = viewRow as DashboardViewRow;
+    const row: DashboardViewRow = {
+      line_id: newLineId,
+      property_id: meta.property_id,
+      size_sqft: sizeSqft,
+      configuration_label: configuration,
+      price_cr: priceCr,
+      sort_order: nextOrder,
+      slug: meta.slug,
+      project_name: meta.project_name,
+      location_label: meta.location_label,
+      location_id: meta.location_id,
+      locality_id: meta.locality_id,
+      hero_image: meta.hero_image,
+      hero_image_alt: meta.hero_image_alt,
+      possession_date: meta.possession_date,
+      inventory_towers: meta.inventory_towers,
+      property_created_at: meta.property_created_at,
+    };
     let locationSlug = "";
     if (row.location_id) {
       const { data: loc } = await supabase

@@ -156,6 +156,103 @@ export async function fetchInventoryDashboardRows(
   return { rows: (data || []) as DashboardViewRow[], error: null };
 }
 
+/** Published project row from `properties_v2` (subset for synthetic dashboard lines). */
+interface PublishedPropertyRow {
+  id: string;
+  slug: string | null;
+  project_name: string | null;
+  location: string | null;
+  location_id: string | null;
+  locality_id: string | null;
+  hero_image: string | null;
+  hero_image_alt: string | null;
+  possession_date: string | null;
+  inventory_towers: string | null;
+  created_at: string;
+}
+
+function sortDashboardRowsWithinProperty(a: DashboardViewRow, b: DashboardViewRow): number {
+  const so = (a.sort_order ?? 0) - (b.sort_order ?? 0);
+  if (so !== 0) return so;
+  return (a.line_id ?? "").localeCompare(b.line_id ?? "");
+}
+
+function syntheticRowFromPublished(p: PublishedPropertyRow): DashboardViewRow {
+  return {
+    line_id: null,
+    property_id: p.id,
+    size_sqft: null,
+    configuration_label: null,
+    price_cr: null,
+    sort_order: 0,
+    slug: p.slug ?? "",
+    project_name: p.project_name ?? "",
+    location_label: p.location ?? "",
+    location_id: p.location_id,
+    locality_id: p.locality_id,
+    hero_image: p.hero_image ?? "",
+    hero_image_alt: p.hero_image_alt,
+    possession_date: p.possession_date,
+    inventory_towers: p.inventory_towers,
+    property_created_at: p.created_at,
+  };
+}
+
+/**
+ * Append published projects that have zero rows in `property_inventory_dashboard_rows`
+ * so CA inventory can add the first configuration (POST) for them.
+ */
+export async function mergePublishedPropertiesMissingDashboardRows(
+  supabase: AdminSupabase,
+  dashboardRows: DashboardViewRow[]
+): Promise<{ rows: DashboardViewRow[]; error: Error | null }> {
+  const { data, error } = await supabase
+    .from("properties_v2")
+    .select(
+      "id, slug, project_name, location, location_id, locality_id, hero_image, hero_image_alt, possession_date, inventory_towers, created_at"
+    )
+    .eq("is_published", true)
+    .order("created_at", { ascending: false })
+    .limit(FETCH_LINES_CAP);
+
+  if (error) {
+    return { rows: dashboardRows, error: new Error(error.message) };
+  }
+
+  const published = (data || []) as PublishedPropertyRow[];
+  const byProperty = new Map<string, DashboardViewRow[]>();
+  for (const r of dashboardRows) {
+    const pid = r.property_id;
+    let bucket = byProperty.get(pid);
+    if (!bucket) {
+      bucket = [];
+      byProperty.set(pid, bucket);
+    }
+    bucket.push(r);
+  }
+
+  const out: DashboardViewRow[] = [];
+  const publishedIds = new Set<string>();
+
+  for (const p of published) {
+    publishedIds.add(p.id);
+    const group = byProperty.get(p.id);
+    if (group && group.length > 0) {
+      out.push(...[...group].sort(sortDashboardRowsWithinProperty));
+    } else {
+      out.push(syntheticRowFromPublished(p));
+    }
+  }
+
+  for (const [pid, group] of byProperty) {
+    if (!publishedIds.has(pid) && group.length > 0) {
+      out.push(...[...group].sort(sortDashboardRowsWithinProperty));
+    }
+  }
+
+  return { rows: out, error: null };
+}
+
 export function buildPagedInventoryItems(
   pageGroups: DashboardViewRow[][],
   slugByLocationId: Map<string, string>,

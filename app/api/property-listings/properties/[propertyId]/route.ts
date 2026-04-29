@@ -62,22 +62,48 @@ export async function PATCH(
     }
 
     const supabase = getSupabaseAdminClient();
-    const { data: prop, error: propErr } = await supabase
+    const { data: exists, error: lookupErr } = await supabase
+      .from("property_inventory_dashboard_rows")
+      .select("property_id")
+      .eq("property_id", propertyId)
+      .limit(1)
+      .maybeSingle();
+    if (lookupErr) {
+      console.error("PATCH property-listings/properties lookup:", lookupErr);
+      return NextResponse.json({ error: "Property lookup failed" }, { status: 500 });
+    }
+
+    if (exists) {
+      const { error } = await supabase
+        .from("property_inventory_dashboard_rows")
+        .update({
+          inventory_towers: parsed.inventoryTowers,
+          possession_date: parsed.possessionDate || null,
+        })
+        .eq("property_id", propertyId);
+
+      if (error) {
+        console.error("PATCH property-listings/properties update:", error);
+        return NextResponse.json({ error: "Update failed", details: error.message }, { status: 500 });
+      }
+      return NextResponse.json({ ok: true, propertyId, updated: "dashboard_rows" as const });
+    }
+
+    /** No dashboard rows yet (e.g. list shows synthetic row from `properties_v2`). */
+    const { data: pv2, error: v2Err } = await supabase
       .from("properties_v2")
       .select("id")
       .eq("id", propertyId)
-      .eq("is_published", true)
       .maybeSingle();
-
-    if (propErr) {
-      console.error("PATCH property-listings/properties lookup:", propErr);
+    if (v2Err) {
+      console.error("PATCH property-listings/properties properties_v2:", v2Err);
       return NextResponse.json({ error: "Property lookup failed" }, { status: 500 });
     }
-    if (!prop) {
-      return NextResponse.json({ error: "Property not found or unpublished" }, { status: 404 });
+    if (!pv2) {
+      return NextResponse.json({ error: "Property not found" }, { status: 404 });
     }
 
-    const { error } = await supabase
+    const { error: v2UpdateErr } = await supabase
       .from("properties_v2")
       .update({
         inventory_towers: parsed.inventoryTowers,
@@ -85,12 +111,12 @@ export async function PATCH(
       })
       .eq("id", propertyId);
 
-    if (error) {
-      console.error("PATCH property-listings/properties update:", error);
-      return NextResponse.json({ error: "Update failed", details: error.message }, { status: 500 });
+    if (v2UpdateErr) {
+      console.error("PATCH property-listings/properties properties_v2 update:", v2UpdateErr);
+      return NextResponse.json({ error: "Update failed", details: v2UpdateErr.message }, { status: 500 });
     }
 
-    return NextResponse.json({ ok: true, propertyId });
+    return NextResponse.json({ ok: true, propertyId, updated: "properties_v2" as const });
   } catch (e) {
     console.error("PATCH /api/property-listings/properties/[propertyId]:", e);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

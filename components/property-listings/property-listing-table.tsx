@@ -60,39 +60,6 @@ type DraftRow = {
   priceCr: string;
 };
 
-function isPresetTemplateRow(r: DraftRow, propertyId: string): boolean {
-  return !r.id && !r.priceCr.trim() && r.key.startsWith(`nb-${propertyId}-`);
-}
-
-function ensureTrailingBlankRows(
-  rows: DraftRow[],
-  propertyId: string,
-  seqRef: { current: number }
-): DraftRow[] {
-  let emptyTail = 0;
-  for (let i = rows.length - 1; i >= 0; i--) {
-    const r = rows[i]!;
-    if (r.id) break;
-    if (isPresetTemplateRow(r, propertyId)) emptyTail += 1;
-    else break;
-  }
-  const need = Math.max(0, 2 - emptyTail);
-  if (need === 0) return rows;
-  const add: DraftRow[] = [];
-  for (let k = 0; k < need; k++) {
-    seqRef.current += 1;
-    const slot = rows.length + k;
-    add.push({
-      key: `nb-${propertyId}-${seqRef.current}`,
-      id: undefined,
-      sizeSqft: "",
-      configuration: presetConfiguration(slot),
-      priceCr: "",
-    });
-  }
-  return [...rows, ...add];
-}
-
 const inputClass =
   "h-10 w-full rounded-md border border-black bg-white px-2.5 font-poppins text-xs text-foreground outline-none transition focus:border-black focus:ring-2 focus:ring-black/15 disabled:cursor-not-allowed disabled:bg-muted/50";
 
@@ -110,12 +77,19 @@ function PropertyInventoryCard({
   editKey: string | null;
   onInventoryReload: () => void | Promise<void>;
 }) {
-  const sorted = useMemo(() => sortLines(lines), [lines]);
-  const first = sorted[0];
+  /** Rows persisted with a line_id; if none yet, keep the single synthetic row so first config can be POSTed. */
+  const visibleForDraft = useMemo(() => {
+    const withId = lines.filter((l) => Boolean(l.id));
+    if (withId.length > 0) return withId;
+    return lines;
+  }, [lines]);
+
+  const first = lines[0];
+  const sortedSaved = useMemo(() => sortLines(visibleForDraft), [visibleForDraft]);
   const linesSnapshot = useMemo(
     () =>
       JSON.stringify(
-        sorted.map((l) => ({
+        sortedSaved.map((l) => ({
           id: l.id ?? null,
           pid: l.propertyId,
           s: l.sizeSqft,
@@ -124,7 +98,7 @@ function PropertyInventoryCard({
           o: l.sortOrder,
         }))
       ),
-    [sorted]
+    [sortedSaved]
   );
 
   const blankSeqRef = useRef(0);
@@ -148,28 +122,15 @@ function PropertyInventoryCard({
   }, [first.propertyId, first.inventoryTowers, first.possessionDate]);
 
   useEffect(() => {
-    const base: DraftRow[] = sorted.map((l, i) => ({
+    const base: DraftRow[] = sortedSaved.map((l, i) => ({
       key: l.id ?? `np-${l.propertyId}`,
       id: l.id,
       sizeSqft: sanitizeInventoryDigitsInput(l.sizeSqft ?? ""),
       configuration: (l.configuration ?? "").trim() || presetConfiguration(i),
       priceCr: sanitizeInventoryPriceCrInput(l.priceCr ?? ""),
     }));
-    const minTrailing = Math.max(2, 6 - base.length);
-    const blanks: DraftRow[] = [];
-    for (let i = 0; i < minTrailing; i++) {
-      blankSeqRef.current += 1;
-      const slot = base.length + i;
-      blanks.push({
-        key: `nb-${first.propertyId}-${blankSeqRef.current}`,
-        id: undefined,
-        sizeSqft: "",
-        configuration: presetConfiguration(slot),
-        priceCr: "",
-      });
-    }
-    setDraftRows([...base, ...blanks]);
-  }, [linesSnapshot, first.propertyId]);
+    setDraftRows(base);
+  }, [linesSnapshot, sortedSaved]);
 
   const href = getPropertyUrl({
     slug: first.slug,
@@ -288,10 +249,7 @@ function PropertyInventoryCard({
     if (!deleteModal) return;
     setDeleteError(null);
     if (deleteModal.mode === "draft") {
-      setDraftRows((rows) => {
-        const filtered = rows.filter((r) => r.key !== deleteModal.key);
-        return ensureTrailingBlankRows(filtered, first.propertyId, blankSeqRef);
-      });
+      setDraftRows((rows) => rows.filter((r) => r.key !== deleteModal.key));
       setDeleteModal(null);
       return;
     }
@@ -371,11 +329,10 @@ function PropertyInventoryCard({
             ? sanitizeInventoryDigitsInput(value)
             : value;
       setDraftRows((rows) => {
-        const next = rows.map((r) => (r.key === key ? { ...r, [field]: nextValue } : r));
-        return ensureTrailingBlankRows(next, first.propertyId, blankSeqRef);
+        return rows.map((r) => (r.key === key ? { ...r, [field]: nextValue } : r));
       });
     },
-    [first.propertyId]
+    []
   );
 
   const handleAddConfiguration = useCallback(() => {
@@ -390,10 +347,7 @@ function PropertyInventoryCard({
         configuration: "",
         priceCr: "",
       };
-      const firstTemplateIdx = rows.findIndex((r) => r.key.startsWith(`nb-${pid}-`));
-      const insertAt = firstTemplateIdx === -1 ? rows.length : firstTemplateIdx;
-      const next = [...rows.slice(0, insertAt), newRow, ...rows.slice(insertAt)];
-      return ensureTrailingBlankRows(next, pid, blankSeqRef);
+      return [...rows, newRow];
     });
   }, [first.propertyId, unlocked]);
 

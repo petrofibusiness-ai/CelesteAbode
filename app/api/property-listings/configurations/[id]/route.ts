@@ -75,9 +75,9 @@ export async function PATCH(
 
     const supabase = getSupabaseAdminClient();
     const { data: existing, error: fetchErr } = await supabase
-      .from("property_listing_configurations")
-      .select("id, property_id")
-      .eq("id", id)
+      .from("property_inventory_dashboard_rows")
+      .select("line_id, property_id")
+      .eq("line_id", id)
       .maybeSingle();
 
     if (fetchErr) {
@@ -88,29 +88,14 @@ export async function PATCH(
       return NextResponse.json({ error: "Configuration not found" }, { status: 404 });
     }
 
-    const { data: prop, error: propErr } = await supabase
-      .from("properties_v2")
-      .select("id")
-      .eq("id", existing.property_id)
-      .eq("is_published", true)
-      .maybeSingle();
-
-    if (propErr) {
-      console.error("PATCH property-listings/configurations property:", propErr);
-      return NextResponse.json({ error: "Property lookup failed" }, { status: 500 });
-    }
-    if (!prop) {
-      return NextResponse.json({ error: "Property not found or unpublished" }, { status: 404 });
-    }
-
     const { error } = await supabase
-      .from("property_listing_configurations")
+      .from("property_inventory_dashboard_rows")
       .update({
         size_sqft: parsed.sizeSqft,
-        configuration: parsed.configuration,
+        configuration_label: parsed.configuration,
         price_cr: parsed.priceCr,
       })
-      .eq("id", id);
+      .eq("line_id", id);
 
     if (error) {
       console.error("PATCH property-listings/configurations:", error);
@@ -146,9 +131,9 @@ export async function DELETE(
 
     const supabase = getSupabaseAdminClient();
     const { data: existing, error: fetchErr } = await supabase
-      .from("property_listing_configurations")
-      .select("id, property_id")
-      .eq("id", id)
+      .from("property_inventory_dashboard_rows")
+      .select("line_id, property_id")
+      .eq("line_id", id)
       .maybeSingle();
 
     if (fetchErr) {
@@ -159,54 +144,10 @@ export async function DELETE(
       return NextResponse.json({ error: "Configuration not found" }, { status: 404 });
     }
 
-    const { data: prop, error: propErr } = await supabase
-      .from("properties_v2")
-      .select("id")
-      .eq("id", existing.property_id)
-      .eq("is_published", true)
-      .maybeSingle();
-
-    if (propErr) {
-      console.error("DELETE property-listings/configurations property:", propErr);
-      return NextResponse.json({ error: "Property lookup failed" }, { status: 500 });
-    }
-    if (!prop) {
-      return NextResponse.json({ error: "Property not found or unpublished" }, { status: 404 });
-    }
-
-    const propertyId = existing.property_id;
-    const { count, error: countErr } = await supabase
-      .from("property_listing_configurations")
-      .select("id", { count: "exact", head: true })
-      .eq("property_id", propertyId);
-
-    if (countErr) {
-      console.error("DELETE property-listings/configurations count:", countErr);
-      return NextResponse.json({ error: "Count failed", details: countErr.message }, { status: 500 });
-    }
-
-    const n = count ?? 0;
-    // Never remove the last line for a project — the dashboard only lists properties that have ≥1
-    // configuration row. Clearing price should drop that quote line only; the project stays visible.
-    if (n <= 1) {
-      const { error } = await supabase
-        .from("property_listing_configurations")
-        .update({
-          configuration: "",
-          size_sqft: "",
-          price_cr: "",
-          sort_order: 0,
-        })
-        .eq("id", id);
-
-      if (error) {
-        console.error("DELETE property-listings/configurations (clear last row):", error);
-        return NextResponse.json({ error: "Update failed", details: error.message }, { status: 500 });
-      }
-      return NextResponse.json({ ok: true, id, clearedInPlace: true });
-    }
-
-    const { error } = await supabase.from("property_listing_configurations").delete().eq("id", id);
+    const { error } = await supabase
+      .from("property_inventory_dashboard_rows")
+      .delete()
+      .eq("line_id", id);
 
     if (error) {
       console.error("DELETE property-listings/configurations:", error);

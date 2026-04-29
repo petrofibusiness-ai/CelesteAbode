@@ -8,6 +8,7 @@ import {
   filterPropertyGroups,
   groupRowsByPropertyInOrder,
   locationSlugMapForRows,
+  mergePublishedPropertiesMissingDashboardRows,
   normalizeSearchQ,
 } from "@/lib/inventory-dashboard-rows";
 
@@ -43,7 +44,7 @@ export async function GET(request: NextRequest) {
         setTimeout(() => reject(new Error("Query timeout")), QUERY_TIMEOUT)
       );
 
-    const { rows, error } = await Promise.race([fetchInventoryDashboardRows(supabase), mkTimeout()]);
+    const { rows: dashboardRows, error } = await Promise.race([fetchInventoryDashboardRows(supabase), mkTimeout()]);
 
     if (error) {
       console.error("property-listings query error:", error);
@@ -56,6 +57,15 @@ export async function GET(request: NextRequest) {
         { status: 500 }
       );
     }
+
+    const { rows: mergedRows, error: mergeErr } = await mergePublishedPropertiesMissingDashboardRows(
+      supabase,
+      dashboardRows
+    );
+    if (mergeErr) {
+      console.error("property-listings merge published:", mergeErr);
+    }
+    const rows = mergeErr ? dashboardRows : mergedRows;
 
     const groups = groupRowsByPropertyInOrder(rows);
     const groupsFiltered = filterPropertyGroups(groups, {

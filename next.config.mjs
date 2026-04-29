@@ -272,8 +272,8 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: '/blog/best-locations-buy-flats-greater-noida-2026',
-        destination: '/blog/greater-noida-best-locations-flats-2026',
+        source: '/blog/greater-noida-best-locations-flats-2026',
+        destination: '/blog/best-locations-buy-flats-greater-noida-2026',
         permanent: true,
       },
       // Property slug: canonical spelling is kviraaj (double A)

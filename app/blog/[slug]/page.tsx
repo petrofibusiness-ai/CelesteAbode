@@ -43,7 +43,7 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "sobha-rivana-greater-noida-west": SobhaRivanaGreaterNoidaWestContent,
   "3bhk-flats-in-greater-noida": ThreeBhkFlatsGreaterNoida2026Content,
   "panchsheel-greens-2-greater-noida-west": PanchsheelGreens2GreaterNoidaWestContent,
-  "greater-noida-best-locations-flats-2026": BestLocationsFlatsGreaterNoida2026Content,
+  "best-locations-buy-flats-greater-noida-2026": BestLocationsFlatsGreaterNoida2026Content,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -72,7 +72,7 @@ export async function generateMetadata({
     post.slug === "sobha-rivana-greater-noida-west" ||
     post.slug === "3bhk-flats-in-greater-noida" ||
     post.slug === "panchsheel-greens-2-greater-noida-west" ||
-    post.slug === "greater-noida-best-locations-flats-2026"
+    post.slug === "best-locations-buy-flats-greater-noida-2026"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -163,7 +163,7 @@ export async function generateMetadata({
       "Jewar airport Greater Noida West",
       "Celeste Abode",
     ],
-    "greater-noida-best-locations-flats-2026": [
+    "best-locations-buy-flats-greater-noida-2026": [
       "best locations to buy flats Greater Noida",
       "Greater Noida property investment 2026",
       "Greater Noida West flats",
@@ -272,7 +272,7 @@ export default async function BlogPostPage({
   const isSobhaRivana = slug === "sobha-rivana-greater-noida-west";
   const isThreeBhkGreaterNoida = slug === "3bhk-flats-in-greater-noida";
   const isPanchsheelGreens2 = slug === "panchsheel-greens-2-greater-noida-west";
-  const isBestLocationsGreaterNoida = slug === "greater-noida-best-locations-flats-2026";
+  const isBestLocationsGreaterNoida = slug === "best-locations-buy-flats-greater-noida-2026";
   const isNoidaVsGreaterNoida = slug === "noida-vs-greater-noida-investment-2026";
   const isUpcomingLuxury = slug === "upcoming-luxury-projects-noida-greater-noida-2026";
   const isForestWalk = slug === "forest-walk-villa-ghaziabad-luxury-living-2026";
@@ -329,7 +329,7 @@ export default async function BlogPostPage({
       {slug === "panchsheel-greens-2-greater-noida-west" ? (
         <FAQPageSchema faqs={panchsheelGreens2FaqSchemaItems} />
       ) : null}
-      {slug === "greater-noida-best-locations-flats-2026" ? (
+      {slug === "best-locations-buy-flats-greater-noida-2026" ? (
         <FAQPageSchema faqs={bestLocationsGreaterNoidaFaqSchemaItems} />
       ) : null}
 

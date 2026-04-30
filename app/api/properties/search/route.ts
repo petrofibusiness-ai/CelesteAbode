@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { unstable_cache } from "next/cache";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
-import { supabaseToProperty } from "@/lib/supabase-property-mapper";
+import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 import { addLocationSlugToProperties } from "@/lib/property-location-helper";
 import { slugToLocationCategory } from "@/lib/location-slug";
-import { PROPERTY_TYPES, PROJECT_STATUSES, CONFIGURATIONS, isValidPropertyType, isValidProjectStatus, isValidConfiguration } from "@/lib/property-enums";
+import { isValidPropertyType, isValidProjectStatus, isValidConfiguration } from "@/lib/property-enums";
+import { getPropertyIdsWithAnyConfigurationLabels } from "@/lib/property-inventory-configuration-filter";
 
 // Query timeout: 10 seconds
 const QUERY_TIMEOUT = 10000;
@@ -111,15 +111,18 @@ export async function GET(request: NextRequest) {
 
     // Build query - start with base filters
     // Filter order: location_id (mandatory) → locality_id (optional) → other filters
+    const listingSelect =
+      "id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, description, hero_image, hero_image_alt, is_published, created_at, updated_at";
+
     let query = supabase
-      .from("properties_v2")
-    .select("id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, configuration, hero_image, hero_image_alt, is_published, created_at, updated_at")
+      .from("properties_v3")
+      .select(listingSelect)
       .eq("location_id", locationData.id) // MANDATORY: Location filter using location_id
       .eq("is_published", true); // Only published properties
 
     let countQuery = supabase
-      .from("properties_v2")
-      .select("id, configuration", { count: "exact" })
+      .from("properties_v3")
+      .select("*", { count: "exact", head: true })
       .eq("location_id", locationData.id)
       .eq("is_published", true);
 
@@ -198,7 +201,53 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Note: Configuration filtering will be done after fetching due to array overlap complexity
+    if (configurationFilters.length > 0) {
+      const validConfigurations = configurationFilters
+        .map(mapConfigurationFilter)
+        .filter((config): config is string => config !== null && isValidConfiguration(config));
+
+      if (validConfigurations.length > 0) {
+        const { ids: configPropertyIds, error: cfgErr } = await getPropertyIdsWithAnyConfigurationLabels(
+          supabase,
+          validConfigurations
+        );
+        if (cfgErr) {
+          console.error("configuration filter:", cfgErr);
+          return NextResponse.json(
+            { error: "Failed to filter by configuration", details: cfgErr.message },
+            { status: 500 }
+          );
+        }
+        if (configPropertyIds.length === 0) {
+          return NextResponse.json(
+            {
+              properties: [],
+              filters: {
+                location: locationSlug,
+                locality: localityFilters,
+                propertyType: propertyTypeFilter || "all",
+                projectStatus: projectStatusFilter || "all",
+                configuration: configurationFilters,
+              },
+              limit,
+              offset,
+              total: 0,
+              totalCount: 0,
+              hasMore: false,
+            },
+            {
+              headers: {
+                "X-RateLimit-Remaining": rateLimit.remaining.toString(),
+                "X-RateLimit-Reset": new Date(rateLimit.resetTime).toISOString(),
+                "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+              },
+            }
+          );
+        }
+        query = query.in("id", configPropertyIds);
+        countQuery = countQuery.in("id", configPropertyIds);
+      }
+    }
 
     // Order and paginate
     // Fetch limit + 1 to check if there are more properties without a separate count query
@@ -210,10 +259,10 @@ export async function GET(request: NextRequest) {
       setTimeout(() => reject(new Error("Query timeout")), QUERY_TIMEOUT)
     );
 
-    const [{ data, error }, { data: countData, error: countError }] = await Promise.all([
+    const [{ data, error }, { count: totalCountResult, error: countError }] = await Promise.all([
       Promise.race([query, timeoutPromise]),
       Promise.race([countQuery, timeoutPromise]),
-    ]) as any;
+    ]);
 
     if (error) {
       console.error("Supabase error:", error);
@@ -226,46 +275,15 @@ export async function GET(request: NextRequest) {
       console.error("Supabase count query error:", countError);
     }
 
-    // Filter by configuration if needed (array overlap - property must contain at least one selected config)
-    let filteredData = data || [];
-    if (configurationFilters.length > 0) {
-      const validConfigurations = configurationFilters
-        .map(mapConfigurationFilter)
-        .filter((config): config is string => config !== null && isValidConfiguration(config));
-      
-      if (validConfigurations.length > 0) {
-        filteredData = filteredData.filter((property: any) => {
-          // Skip Commercial properties (NULL configuration) when filtering by configuration
-          if (!property.configuration || property.configuration.length === 0) {
-            return false;
-          }
-          const propertyConfigs = property.configuration;
-          // Check if property's configuration array contains any of the selected configurations
-          return validConfigurations.some(config => propertyConfigs.includes(config));
-        });
-      }
-    }
-
-    let totalCount = typeof countData?.length === "number" ? countData.length : 0;
-    if (configurationFilters.length > 0) {
-      const validConfigurations = configurationFilters
-        .map(mapConfigurationFilter)
-        .filter((config): config is string => config !== null && isValidConfiguration(config));
-
-      if (validConfigurations.length > 0) {
-        totalCount = (countData || []).filter((property: any) => {
-          if (!property.configuration || property.configuration.length === 0) return false;
-          return validConfigurations.some((config) => property.configuration.includes(config));
-        }).length;
-      }
-    }
+    const filteredData = data || [];
+    const totalCount = typeof totalCountResult === "number" && totalCountResult >= 0 ? totalCountResult : filteredData.length;
 
     // Check if there are more properties (if we got limit + 1, there are more)
     const hasMore = filteredData.length > limit;
     const propertiesToReturn = filteredData.slice(0, limit); // Return only the requested limit
 
     // Convert snake_case to camelCase
-    const mappedProperties = propertiesToReturn.map((prop: any) => supabaseToProperty(prop as any));
+    const mappedProperties = propertiesToReturn.map((prop: unknown) => supabaseV3ToProperty(prop as any));
 
     // Add locationSlug to all properties
     const propertiesWithLocation = await addLocationSlugToProperties(mappedProperties, supabase);

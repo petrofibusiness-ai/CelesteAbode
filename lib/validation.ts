@@ -3,11 +3,10 @@
 import {
   PROPERTY_TYPES,
   PROJECT_STATUSES,
-  CONFIGURATIONS,
   isValidPropertyType,
   isValidProjectStatus,
-  isValidConfiguration,
 } from "@/lib/property-enums";
+import { normalizeMapLinkFromInput } from "@/lib/map-link-normalize";
 
 export interface ValidationError {
   field: string;
@@ -215,7 +214,6 @@ export function validatePropertyData(body: any): ValidationError[] {
   errors.push(...validateString(body.projectName, 'projectName', true, 500));
   errors.push(...validateString(body.developer, 'developer', true, 500));
   errors.push(...validateString(body.location, 'location', true, 500));
-  errors.push(...validateString(body.sizes, 'sizes', true, 200));
   errors.push(...validateString(body.description, 'description', true, 50000));
 
   // Optional string fields
@@ -309,22 +307,77 @@ export function validatePropertyData(body: any): ValidationError[] {
     }
   }
 
-  // Configuration array (enum array) validation
-  if (body.configuration !== undefined) {
-    errors.push(...validateArray(
-      body.configuration,
-      'configuration',
-      50,
-      (item, index) => {
-        if (typeof item !== 'string') {
-          return `configuration[${index}] must be a string`;
-        }
-        if (!isValidConfiguration(item)) {
-          return `configuration[${index}] must be one of: ${CONFIGURATIONS.join(', ')}`;
+  if (body.projectSnapshot !== undefined) {
+    errors.push(
+      ...validateArray(body.projectSnapshot, "projectSnapshot", MAX_ARRAY_SIZE, (item, index) => {
+        if (typeof item !== "string") return `projectSnapshot[${index}] must be a string`;
+        if (item.length > 1000) return `projectSnapshot[${index}] too long`;
+        return null;
+      })
+    );
+  }
+
+  if (body.whyBlock !== undefined && body.whyBlock !== null) {
+    if (typeof body.whyBlock !== "object" || Array.isArray(body.whyBlock)) {
+      errors.push({ field: "whyBlock", message: "whyBlock must be an object" });
+    } else {
+      if (body.whyBlock.title != null) {
+        errors.push(...validateString(body.whyBlock.title, "whyBlock.title", false, 300));
+      }
+      if (body.whyBlock.points !== undefined) {
+        errors.push(
+          ...validateArray(body.whyBlock.points, "whyBlock.points", 50, (item, index) => {
+            if (typeof item !== "string") return `whyBlock.points[${index}] must be a string`;
+            if (item.length > 1000) return `whyBlock.points[${index}] too long`;
+            return null;
+          })
+        );
+      }
+    }
+  }
+
+  if (body.floorPlans !== undefined) {
+    errors.push(
+      ...validateArray(body.floorPlans, "floorPlans", 50, (item, index) => {
+        if (typeof item !== "object" || item === null) return `floorPlans[${index}] must be an object`;
+        if (!item.src || typeof item.src !== "string") return `floorPlans[${index}].src is required`;
+        try {
+          new URL(item.src);
+        } catch {
+          return `floorPlans[${index}].src must be a valid URL`;
         }
         return null;
-      }
-    ));
+      })
+    );
+  }
+
+  if (body.locationAdvantage !== undefined) {
+    errors.push(
+      ...validateArray(body.locationAdvantage, "locationAdvantage", 50, (item, index) => {
+        if (typeof item !== "object" || item === null) return `locationAdvantage[${index}] must be an object`;
+        if (!item.label || typeof item.label !== "string" || !item.label.trim()) {
+          return `locationAdvantage[${index}].label is required`;
+        }
+        if (!item.text || typeof item.text !== "string" || !item.text.trim()) {
+          return `locationAdvantage[${index}].text is required`;
+        }
+        return null;
+      })
+    );
+  }
+
+  if (body.mapLink !== undefined && body.mapLink !== null && body.mapLink !== "") {
+    const normalized = normalizeMapLinkFromInput(String(body.mapLink));
+    if (normalized === null) {
+      errors.push({
+        field: "mapLink",
+        message:
+          "mapLink must be a valid embed URL or full iframe HTML from Google Maps (Embed a map)",
+      });
+    } else {
+      body.mapLink = normalized;
+      errors.push(...validateUrl(body.mapLink, "mapLink", false));
+    }
   }
 
   if (body.images !== undefined) {

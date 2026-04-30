@@ -3,12 +3,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
-import { propertyToSupabase, supabaseToProperty } from "@/lib/supabase-property-mapper";
 import { checkDistributedRateLimit, DISTRIBUTED_RATE_LIMITS } from "@/lib/redis-rate-limit";
 import { getRateLimitIdentifier } from "@/lib/rate-limit";
 import { verifyCSRFToken } from "@/lib/csrf";
 import { logSecurityEvent, getClientIP, getUserAgent } from "@/lib/security-events";
 import { z } from "zod";
+import { normalizeMapLinkFromInput } from "@/lib/map-link-normalize";
 
 const QUERY_TIMEOUT = 10000; // 10 seconds for draft creation
 
@@ -23,8 +23,32 @@ const DraftPropertySchema = z.object({
   reraId: z.string().max(100).optional(),
   projectStatus: z.string().optional().nullable(),
   possessionDate: z.string().max(100).optional(),
-  configuration: z.array(z.string()).max(50).optional(),
-  sizes: z.string().min(1).max(200),
+  projectSnapshot: z.array(z.string()).optional(),
+  whyBlock: z
+    .object({
+      title: z.string().optional(),
+      points: z.array(z.string()).optional(),
+    })
+    .optional(),
+  floorPlans: z
+    .array(z.object({ label: z.string().optional(), src: z.string().url() }))
+    .optional(),
+  locationAdvantage: z
+    .array(z.object({ label: z.string().min(1), text: z.string().min(1) }))
+    .optional(),
+  mapLink: z.preprocess(
+    (val) => {
+      if (val === undefined || val === null) return null;
+      if (typeof val !== "string") return "__invalid_map_link__";
+      const t = val.trim();
+      if (t === "") return null;
+      if (t.length > 120000) return "__invalid_map_link__";
+      const url = normalizeMapLinkFromInput(t);
+      if (url === null) return "__invalid_map_link__";
+      return url;
+    },
+    z.union([z.string().url().max(16384), z.null()]).optional()
+  ),
   description: z.string().min(1).max(50000),
   priceMin: z
     .union([
@@ -117,7 +141,7 @@ export async function POST(request: NextRequest) {
     let body: z.infer<typeof DraftPropertySchema>;
     try {
       const rawBody = await request.json();
-      body = DraftPropertySchema.parse(rawBody);
+      body = DraftPropertySchema.parse(rawBody ?? {});
     } catch (error) {
       await logSecurityEvent('INVALID_INPUT', {
         userId: user.id,
@@ -144,6 +168,11 @@ export async function POST(request: NextRequest) {
     const supabase = getSupabaseAdminClient();
 
     // Create draft property (without media URLs)
+    const why = body.whyBlock;
+    const why_block: Record<string, unknown> = {};
+    if (why?.title?.trim()) why_block.title = why.title.trim();
+    if (why?.points?.length) why_block.points = why.points.map((p) => String(p).trim()).filter(Boolean);
+
     const draftProperty = {
       slug: body.slug.trim().toLowerCase(),
       project_name: body.projectName.trim(),
@@ -155,26 +184,33 @@ export async function POST(request: NextRequest) {
       rera_id: body.reraId?.trim() || null,
       project_status: body.projectStatus || null,
       possession_date: body.possessionDate?.trim() || null,
-      configuration: body.propertyType === 'Commercial' ? null : (body.configuration || []),
-      sizes: body.sizes.trim(),
       description: body.description.trim(),
-      hero_image: '', // Will be set after upload
+      hero_image: "",
       brochure_url: null,
       images: [],
       videos: [],
-      amenities: body.amenities.filter((a: string) => a && a.trim() !== ''),
+      amenities: body.amenities.filter((a: string) => a && a.trim() !== ""),
+      project_snapshot: (body.projectSnapshot || []).map((s) => String(s).trim()).filter(Boolean),
+      why_block,
+      floor_plans: (body.floorPlans || []).map((fp) => ({
+        src: fp.src.trim(),
+        ...(fp.label?.trim() ? { label: fp.label.trim() } : {}),
+      })),
+      location_advantage: body.locationAdvantage || [],
+      map_link: body.mapLink?.trim() || null,
       price_min: body.priceMin != null && Number.isFinite(body.priceMin) ? body.priceMin : null,
       price_max: body.priceMax != null && Number.isFinite(body.priceMax) ? body.priceMax : null,
       price_unit: body.priceUnit?.trim() || null,
       seo: body.seo || {},
-      is_published: false, // Drafts are never published
+      inventory_towers: "",
+      is_published: false,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     };
 
     // Insert with timeout
     const insertPromise = supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .insert([draftProperty])
       .select("id, slug")
       .single();

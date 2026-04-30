@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSupabaseServerClient, getSupabaseAdminClient } from "@/lib/supabase-server";
-import { supabaseToProperty } from "@/lib/supabase-property-mapper";
+import { getSupabaseAdminClient } from "@/lib/supabase-server";
+import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 import { addLocationSlugToProperty } from "@/lib/property-location-helper";
 
@@ -44,8 +44,8 @@ export async function GET(
     // Fetch property from Supabase - only published properties (RLS enforced)
     // Select only needed columns for better performance
     const queryPromise = supabase
-      .from("properties_v2")
-    .select("id, slug, project_name, developer, location, location_id, locality_id, rera_id, project_status, possession_date, configuration, sizes, description, hero_image, hero_image_alt, brochure_url, images, videos, amenities, price_min, price_max, price_unit, seo, created_at, updated_at")
+      .from("properties_v3")
+      .select("*")
       .eq("slug", slug.toLowerCase().trim())
       .eq("is_published", true) // Only published properties
       .single();
@@ -64,7 +64,7 @@ export async function GET(
     }
 
     // Convert snake_case to camelCase
-    const property = supabaseToProperty(data);
+    const property = supabaseV3ToProperty(data);
 
     // Add locationSlug to property
     const propertyWithLocation = await addLocationSlugToProperty(property, supabase);

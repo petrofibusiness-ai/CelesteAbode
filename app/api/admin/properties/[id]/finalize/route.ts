@@ -3,7 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
-import { propertyToSupabase, supabaseToProperty } from "@/lib/supabase-property-mapper";
+import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
 import { checkDistributedRateLimit, DISTRIBUTED_RATE_LIMITS } from "@/lib/redis-rate-limit";
 import { getRateLimitIdentifier } from "@/lib/rate-limit";
 import { verifyCSRFToken } from "@/lib/csrf";
@@ -118,7 +118,7 @@ export async function PATCH(
 
     // Fetch existing property
     const fetchPromise = supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .select("*")
       .eq("id", id)
       .single();
@@ -165,7 +165,7 @@ export async function PATCH(
 
     // Update property
     const updatePromise = supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .update(updateData)
       .eq("id", id)
       .select()
@@ -196,7 +196,7 @@ export async function PATCH(
       );
     }
 
-    const property = supabaseToProperty(updatedData);
+    const property = supabaseV3ToProperty(updatedData);
 
     // Revalidate caches after property finalization
     let locationSlug: string | undefined;
@@ -215,7 +215,7 @@ export async function PATCH(
     // Audit log
     const requestMetadata = getRequestMetadata(request);
     await logAuditEntry({
-      table_name: 'properties_v2',
+      table_name: 'properties_v3',
       operation: 'UPDATE',
       record_id: id,
       user_id: user.id,

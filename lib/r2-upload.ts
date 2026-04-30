@@ -63,13 +63,20 @@ function getContentType(filename: string, fileType: string): string {
  * Upload file to Cloudflare R2
  * @param file - File to upload
  * @param propertySlug - Property slug for folder organization
- * @param fileType - Type of file: 'hero', 'brochure', 'image', 'video', 'location-hero', 'location-celeste-abode'
+ * @param fileType - Type of file: 'hero', 'brochure', 'image', 'video', 'floor-plan', 'location-hero', 'location-celeste-abode'
  * @returns Upload result with public URL
  */
 export async function uploadToR2(
   file: File,
   propertySlug: string,
-  fileType: "hero" | "brochure" | "image" | "video" | "location-hero" | "location-celeste-abode"
+  fileType:
+    | "hero"
+    | "brochure"
+    | "image"
+    | "video"
+    | "floor-plan"
+    | "location-hero"
+    | "location-celeste-abode"
 ): Promise<R2UploadResult> {
   try {
     // Validate configuration
@@ -113,6 +120,11 @@ export async function uploadToR2(
         // Format: {slug}/images/{slug}_{timestamp}_{originalFilename}
         const imageFilename = sanitizeFilename(file.name);
         objectKey = `${sanitizedSlug}/images/${sanitizedSlug}_${timestamp}_${imageFilename}`;
+        break;
+      case "floor-plan":
+        // Format: {slug}/floor-plans/{slug}_{timestamp}_{originalFilename} (same pattern as images, different folder)
+        const floorPlanFilename = sanitizeFilename(file.name);
+        objectKey = `${sanitizedSlug}/floor-plans/${sanitizedSlug}_${timestamp}_${floorPlanFilename}`;
         break;
       case "video":
         // Format: {slug}/videos/{slug}_{timestamp}_{originalFilename}
@@ -208,6 +220,16 @@ export async function uploadImageToR2(
   propertySlug: string
 ): Promise<R2UploadResult> {
   return uploadToR2(file, propertySlug, "image");
+}
+
+/**
+ * Upload floor plan image to R2 ({slug}/floor-plans/...)
+ */
+export async function uploadFloorPlanImageToR2(
+  file: File,
+  propertySlug: string
+): Promise<R2UploadResult> {
+  return uploadToR2(file, propertySlug, "floor-plan");
 }
 
 /**

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
-import { supabaseToProperty } from "@/lib/supabase-property-mapper";
+import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
+import { getPropertyIdsWithAnyConfigurationLabels } from "@/lib/property-inventory-configuration-filter";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 import { addLocationSlugToProperties } from "@/lib/property-location-helper";
 import { PROPERTY_TYPES, PROJECT_STATUSES, CONFIGURATIONS, isValidPropertyType, isValidProjectStatus, isValidConfiguration } from "@/lib/property-enums";
@@ -74,13 +75,16 @@ export async function GET(request: NextRequest) {
     const offset = Math.max(0, parseInt(searchParams.get('offset') || '0', 10));
 
     // Build query - start with base filters (mirror filters on countQuery for totalCount)
+    const listingSelect =
+      "id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, description, hero_image, hero_image_alt, is_published, created_at, updated_at";
+
     let query = supabase
-      .from("properties_v2")
-    .select("id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, configuration, hero_image, hero_image_alt, is_published, created_at, updated_at")
+      .from("properties_v3")
+      .select(listingSelect)
       .eq("is_published", true); // Only published properties
 
     let countQuery = supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .select("*", { count: "exact", head: true })
       .eq("is_published", true);
 
@@ -115,10 +119,37 @@ export async function GET(request: NextRequest) {
         .filter((config): config is string => config !== null && isValidConfiguration(config));
       
       if (mappedConfigs.length > 0) {
-        // Use .in() for multiple configuration values
-        // This will exclude NULL configurations (Commercial properties)
-        query = query.not("configuration", "is", null).in("configuration", mappedConfigs);
-        countQuery = countQuery.not("configuration", "is", null).in("configuration", mappedConfigs);
+        const { ids: configPropertyIds, error: cfgErr } = await getPropertyIdsWithAnyConfigurationLabels(
+          supabase,
+          mappedConfigs
+        );
+        if (cfgErr) {
+          console.error("configuration filter:", cfgErr);
+          return NextResponse.json(
+            { error: "Failed to filter by configuration", details: cfgErr.message },
+            { status: 500 }
+          );
+        }
+        if (configPropertyIds.length === 0) {
+          return NextResponse.json(
+            {
+              properties: [],
+              total: 0,
+              totalCount: 0,
+              hasMore: false,
+              limit,
+              offset,
+            },
+            {
+              headers: {
+                "Cache-Control": "public, s-maxage=10, max-age=10",
+                "Cache-Tag": "api-properties-all,properties",
+              },
+            }
+          );
+        }
+        query = query.in("id", configPropertyIds);
+        countQuery = countQuery.in("id", configPropertyIds);
       }
     }
 
@@ -155,7 +186,7 @@ export async function GET(request: NextRequest) {
     const propertiesToReturn = (data || []).slice(0, limit);
 
     // Convert snake_case to camelCase
-    const mappedProperties = propertiesToReturn.map((prop: any) => supabaseToProperty(prop as any));
+    const mappedProperties = propertiesToReturn.map((prop: any) => supabaseV3ToProperty(prop as any));
 
     // Add locationSlug to all properties
     const propertiesWithLocation = await addLocationSlugToProperties(mappedProperties, supabase);

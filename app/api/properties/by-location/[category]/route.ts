@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
-import { supabaseToProperty } from "@/lib/supabase-property-mapper";
+import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 import { addLocationSlugToProperties } from "@/lib/property-location-helper";
 
@@ -69,8 +69,10 @@ export async function GET(
     // Fetch properties from Supabase with pagination - optimized query (no count to speed up)
     // Fetch limit + 1 to check if there are more properties without a separate count query
     const queryPromise = supabase
-      .from("properties_v2")
-      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, hero_image, hero_image_alt, is_published, created_at, updated_at")
+      .from("properties_v3")
+      .select(
+        "id, slug, project_name, developer, location, location_id, locality_id, project_status, description, hero_image, hero_image_alt, is_published, created_at, updated_at"
+      )
       .eq("location_id", locationData.id) // Filter by location_id instead of location_category
       .eq("is_published", true)
       .order("created_at", { ascending: false })
@@ -95,7 +97,7 @@ export async function GET(
     const properties = (data || []).slice(0, limit); // Return only the requested limit
 
     // Convert snake_case to camelCase
-    const mappedProperties = properties.map((prop: any) => supabaseToProperty(prop as any));
+    const mappedProperties = properties.map((prop: any) => supabaseV3ToProperty(prop as any));
 
     // Add locationSlug to all properties (though they should all have the same location)
     const propertiesWithLocation = await addLocationSlugToProperties(mappedProperties, supabase);

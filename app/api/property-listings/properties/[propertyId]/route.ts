@@ -89,34 +89,34 @@ export async function PATCH(
       return NextResponse.json({ ok: true, propertyId, updated: "dashboard_rows" as const });
     }
 
-    /** No dashboard rows yet (e.g. list shows synthetic row from `properties_v2`). */
-    const { data: pv2, error: v2Err } = await supabase
-      .from("properties_v2")
+    /** No dashboard rows yet (e.g. list shows synthetic row from `properties_v3`). */
+    const { data: pv3, error: v3Err } = await supabase
+      .from("properties_v3")
       .select("id")
       .eq("id", propertyId)
       .maybeSingle();
-    if (v2Err) {
-      console.error("PATCH property-listings/properties properties_v2:", v2Err);
+    if (v3Err) {
+      console.error("PATCH property-listings/properties properties_v3:", v3Err);
       return NextResponse.json({ error: "Property lookup failed" }, { status: 500 });
     }
-    if (!pv2) {
+    if (!pv3) {
       return NextResponse.json({ error: "Property not found" }, { status: 404 });
     }
 
-    const { error: v2UpdateErr } = await supabase
-      .from("properties_v2")
+    const { error: v3UpdateErr } = await supabase
+      .from("properties_v3")
       .update({
         inventory_towers: parsed.inventoryTowers,
         possession_date: parsed.possessionDate || null,
       })
       .eq("id", propertyId);
 
-    if (v2UpdateErr) {
-      console.error("PATCH property-listings/properties properties_v2 update:", v2UpdateErr);
-      return NextResponse.json({ error: "Update failed", details: v2UpdateErr.message }, { status: 500 });
+    if (v3UpdateErr) {
+      console.error("PATCH property-listings/properties properties_v3 update:", v3UpdateErr);
+      return NextResponse.json({ error: "Update failed", details: v3UpdateErr.message }, { status: 500 });
     }
 
-    return NextResponse.json({ ok: true, propertyId, updated: "properties_v2" as const });
+    return NextResponse.json({ ok: true, propertyId, updated: "properties_v3" as const });
   } catch (e) {
     console.error("PATCH /api/property-listings/properties/[propertyId]:", e);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

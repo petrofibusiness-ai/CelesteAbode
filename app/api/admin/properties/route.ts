@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { getSupabaseServerClient, getSupabaseAdminClient } from "@/lib/supabase-server";
 import { Property } from "@/types/property";
-import { supabaseToProperty, propertyToSupabase } from "@/lib/supabase-property-mapper";
+import { supabaseV3ToProperty, propertyToSupabaseV3 } from "@/lib/supabase-property-mapper";
 import { validatePropertyData } from "@/lib/validation";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 import { logAuditEntry, getRequestMetadata } from "@/lib/audit-log";
@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
     // Fetch ALL properties with pagination - no filter on is_published
     // Admin should see both published and draft properties
     const { data, error, count } = await supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, is_published, hero_image, hero_image_alt, created_at, updated_at", { count: 'exact' })
       .order("created_at", { ascending: false })
       .range(offset, offset + limit - 1);
@@ -108,7 +108,7 @@ export async function GET(request: NextRequest) {
 
     // Convert snake_case to camelCase and add location slug
     const properties = (data || []).map((item: any) => {
-      const property = supabaseToProperty(item);
+      const property = supabaseV3ToProperty(item);
       // Add locationSlug to property for URL generation
       if (item.location_id && locationSlugMap.has(item.location_id)) {
         (property as any).locationSlug = locationSlugMap.get(item.location_id);
@@ -214,32 +214,55 @@ export async function POST(request: NextRequest) {
     const requestMetadata = getRequestMetadata(request);
 
     // Prepare property data
+    const floorPlans =
+      validatedData.floorPlans?.filter((fp) => fp.src?.trim()).map((fp) => ({
+        src: fp.src.trim(),
+        label: fp.label?.trim() || undefined,
+      })) ?? [];
+
     const property: Omit<Property, "id" | "createdAt" | "updatedAt"> = {
       slug: validatedData.slug.trim().toLowerCase(),
       projectName: validatedData.projectName.trim(),
       developer: validatedData.developer.trim(),
       location: validatedData.location.trim(),
-      locationId: validatedData.locationId || null, // FK to locations_v2 (required)
-      localityId: validatedData.localityId || null, // FK to localities (optional)
+      locationId: validatedData.locationId || null,
+      localityId: validatedData.localityId || null,
       propertyType: validatedData.propertyType || null,
       reraId: validatedData.reraId?.trim() || undefined,
       projectStatus: validatedData.projectStatus || null,
       possessionDate: validatedData.possessionDate?.trim() || undefined,
-      configuration: validatedData.propertyType === 'Commercial' 
-        ? null 
-        : (Array.isArray(validatedData.configuration) ? validatedData.configuration : []),
-      sizes: validatedData.sizes.trim(),
+      configuration: null,
+      projectSnapshot: (validatedData.projectSnapshot || [])
+        .map((s) => String(s).trim())
+        .filter((s) => s.length > 0),
+      whyBlock: {
+        title: validatedData.whyBlock?.title?.trim() || undefined,
+        points: (validatedData.whyBlock?.points || [])
+          .map((p) => String(p).trim())
+          .filter((p) => p.length > 0),
+      },
+      floorPlans,
+      locationAdvantage: validatedData.locationAdvantage || [],
+      mapLink: validatedData.mapLink ?? null,
       description: validatedData.description.trim(),
       heroImage: validatedData.heroImage.trim(),
       heroImageAlt: validatedData.heroImageAlt?.trim() || undefined,
       brochureUrl: validatedData.brochureUrl?.trim() || undefined,
       images: Array.isArray(validatedData.images) ? validatedData.images.filter((url: string) => url && url.trim()) : [],
-      videos: Array.isArray(validatedData.videos) ? validatedData.videos.filter((v: any) => v && v.src && v.title && v.thumbnail).map((v: any) => ({ title: v.title, src: v.src, thumbnail: v.thumbnail })) : [],
-      amenities: Array.isArray(validatedData.amenities) ? validatedData.amenities.filter((a: string) => a && typeof a === 'string' && a.trim() !== '') : [],
+      videos: Array.isArray(validatedData.videos)
+        ? validatedData.videos
+            .filter((v: any) => v && v.src)
+            .map((v: any) => ({
+              title: (v.title || "").trim(),
+              src: v.src.trim(),
+              thumbnail: (v.thumbnail || "").trim(),
+            }))
+        : [],
+      amenities: Array.isArray(validatedData.amenities) ? validatedData.amenities.filter((a: string) => a && typeof a === "string" && a.trim() !== "") : [],
       priceMin: validatedData.priceMin ?? undefined,
       priceMax: validatedData.priceMax ?? undefined,
       priceUnit: validatedData.priceUnit?.trim() || undefined,
-      seo: validatedData.seo && typeof validatedData.seo === 'object' ? validatedData.seo : {},
+      seo: validatedData.seo && typeof validatedData.seo === "object" ? validatedData.seo : {},
       isPublished: validatedData.isPublished === true,
     };
 
@@ -252,7 +275,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Convert camelCase to snake_case for Supabase
-    const supabaseProperty = propertyToSupabase(property);
+    const supabaseProperty = propertyToSupabaseV3(property);
 
     // Use admin client (service role) for write operations to bypass RLS
     // Authentication is already verified above, so this is safe
@@ -260,7 +283,7 @@ export async function POST(request: NextRequest) {
 
     // Insert into Supabase with timeout protection
     const insertPromise = supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .insert([supabaseProperty])
       .select()
       .single();
@@ -298,11 +321,11 @@ export async function POST(request: NextRequest) {
     propertyId = data.id;
 
     // Convert snake_case back to camelCase
-    const createdProperty = supabaseToProperty(data);
+    const createdProperty = supabaseV3ToProperty(data);
 
     // Audit log
     await logAuditEntry({
-      table_name: 'properties_v2',
+      table_name: 'properties_v3',
       operation: 'CREATE',
       record_id: data.id,
       user_id: user.id,

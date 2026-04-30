@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer";
 import { Phone, Building2 } from "lucide-react";
 import { Property } from "@/types/property";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
-import { supabaseToProperty } from "@/lib/supabase-property-mapper";
+import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
 import { fetchLocalitiesByLocationId } from "@/lib/fetch-localities";
 import { NoidaPropertiesGrid } from "@/components/noida-properties-grid";
 import { LocationPropertyFilters } from "@/components/location-property-filters";
@@ -50,15 +50,15 @@ export default async function CommercialPropertyInNoidaPage() {
     const [{ data: localitiesData }, { data: propertiesData }, { count }] = await Promise.all([
       fetchLocalitiesByLocationId(noidaLocation.id).then((list) => ({ data: list })),
       supabase
-        .from("properties_v2")
-        .select("id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, configuration, hero_image, hero_image_alt, is_published, created_at, updated_at")
+        .from("properties_v3")
+        .select("id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, description, hero_image, hero_image_alt, is_published, created_at, updated_at")
         .eq("location_id", noidaLocation.id)
         .eq("property_type", "Commercial")
         .eq("is_published", true)
         .order("created_at", { ascending: false })
         .limit(6),
       supabase
-        .from("properties_v2")
+        .from("properties_v3")
         .select("id", { count: "exact", head: true })
         .eq("location_id", noidaLocation.id)
         .eq("property_type", "Commercial")
@@ -68,7 +68,7 @@ export default async function CommercialPropertyInNoidaPage() {
     totalPropertiesCount = count;
     localities = Array.isArray(localitiesData) ? localitiesData : [];
     properties = (propertiesData || []).map((prop: any) => {
-      const p = supabaseToProperty(prop);
+      const p = supabaseV3ToProperty(prop);
       return { ...p, locationSlug: noidaLocation.slug } as Property & { locationSlug: string };
     });
   }

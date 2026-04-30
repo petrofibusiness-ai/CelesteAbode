@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
     }
 
     let q = supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .select("property_type")
       .eq("is_published", true)
       .not("property_type", "is", null)

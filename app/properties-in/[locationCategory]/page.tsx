@@ -7,7 +7,7 @@ import { Footer } from "@/components/footer";
 import { Property } from "@/types/property";
 import { Location } from "@/types/location";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
-import { supabaseToProperty } from "@/lib/supabase-property-mapper";
+import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
 import { supabaseToLocation } from "@/lib/supabase-location-mapper";
 import { fetchLocalitiesByLocationId } from "@/lib/fetch-localities";
 import { CheckCircle2, Phone, Mail, Building2 } from "lucide-react";
@@ -156,15 +156,15 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
   // Fetch initial 6 properties for this location using location_id
   // Production logic: Only fetch properties that belong to this location_id
     const { data: propertiesData, error } = await supabase
-      .from("properties_v2")
-      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, hero_image, hero_image_alt, is_published, created_at, updated_at")
+      .from("properties_v3")
+      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, description, hero_image, hero_image_alt, is_published, created_at, updated_at, images, amenities")
       .eq("location_id", location.id) // MANDATORY: Only properties for this location
       .eq("is_published", true)
       .order("created_at", { ascending: false })
       .limit(6);
 
   const { count: totalPropertiesCount } = await supabase
-    .from("properties_v2")
+    .from("properties_v3")
     .select("id", { count: "exact", head: true })
     .eq("location_id", location.id)
     .eq("is_published", true);
@@ -175,13 +175,11 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
 
   const properties: Property[] = propertiesData
     ? propertiesData.map((prop: any) => {
-        const property = supabaseToProperty(prop as any);
-        // Add locationSlug to property for URL generation
-        // All properties belong to the same location, so we can use location.slug
+        const property = supabaseV3ToProperty(prop);
         return {
           ...property,
           locationSlug: location.slug,
-        } as Property & { locationSlug: string };
+        };
       })
     : [];
 

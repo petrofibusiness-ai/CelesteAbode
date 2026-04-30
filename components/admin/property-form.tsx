@@ -13,14 +13,13 @@ import { toast } from "sonner";
 import { AmenitiesMultiSelect } from "@/components/admin/amenities-multi-select";
 import { normalizeAmenities } from "@/lib/amenity-normalize";
 import { UploadProgressOverlay } from "@/components/admin/upload-progress-overlay";
-import { 
-  PROPERTY_TYPES, 
-  PROJECT_STATUSES, 
-  CONFIGURATIONS,
+import {
+  PROPERTY_TYPES,
+  PROJECT_STATUSES,
   isValidPropertyType,
   isValidProjectStatus,
-  isValidConfiguration
 } from "@/lib/property-enums";
+import { normalizeMapLinkFromInput } from "@/lib/map-link-normalize";
 
 interface PropertyFormProps {
   property?: Property;
@@ -108,8 +107,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     reraId: property?.reraId || "",
     projectStatus: property?.projectStatus || null,
     possessionDate: property?.possessionDate || "",
-    configuration: property?.configuration || [],
-    sizes: property?.sizes || "",
     description: property?.description || "",
     heroImage: property?.heroImage || "",
     heroImageAlt: property?.heroImageAlt || "",
@@ -117,6 +114,18 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     images: property?.images || [],
     videos: property?.videos || [],
     amenities: normalizeAmenities(property?.amenities),
+    projectSnapshot: property?.projectSnapshot?.length ? [...property.projectSnapshot] : [],
+    whyBlock: {
+      title: property?.whyBlock?.title || "",
+      points: property?.whyBlock?.points?.length ? [...property.whyBlock.points] : [],
+    },
+    floorPlans: property?.floorPlans?.length
+      ? property.floorPlans.map((fp) => ({ src: fp.src, label: fp.label || "" }))
+      : [],
+    locationAdvantage: property?.locationAdvantage?.length
+      ? property.locationAdvantage.map((r) => ({ label: r.label, text: r.text }))
+      : [],
+    mapLink: property?.mapLink || "",
     priceMin: property?.priceMin ?? null,
     priceMax: property?.priceMax ?? null,
     priceUnit: property?.priceUnit ?? "",
@@ -146,10 +155,46 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     videos: [],
   });
 
+  /** Parallel to `formData.floorPlans`: staged files uploaded to R2 on save ({slug}/floor-plans/...) */
+  const [pendingFloorPlanFiles, setPendingFloorPlanFiles] = useState<(File | undefined)[]>([]);
+  const [floorPlanBlobPreviews, setFloorPlanBlobPreviews] = useState<(string | undefined)[]>([]);
 
   // Refs for file inputs to reset them after selection
   const imageInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
+  const floorPlanInputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  useEffect(() => {
+    const n = formData.floorPlans?.length ?? 0;
+    setPendingFloorPlanFiles((prev) => {
+      if (prev.length === n) return prev;
+      const next = prev.slice(0, n);
+      while (next.length < n) next.push(undefined);
+      return next;
+    });
+    setFloorPlanBlobPreviews((prev) => {
+      if (prev.length === n) return prev;
+      for (let i = n; i < prev.length; i++) {
+        if (prev[i]) URL.revokeObjectURL(prev[i]!);
+      }
+      const next = prev.slice(0, n);
+      while (next.length < n) next.push(undefined);
+      return next;
+    });
+  }, [formData.floorPlans?.length]);
+
+  const prevPropertyIdForFloorPlansRef = useRef<string | undefined>(undefined);
+  useEffect(() => {
+    if (prevPropertyIdForFloorPlansRef.current === property?.id) return;
+    prevPropertyIdForFloorPlansRef.current = property?.id;
+    setFloorPlanBlobPreviews((prev) => {
+      prev.forEach((u) => {
+        if (u) URL.revokeObjectURL(u);
+      });
+      return [];
+    });
+    setPendingFloorPlanFiles([]);
+  }, [property?.id]);
 
   // Fetch locations on mount
   useEffect(() => {
@@ -333,10 +378,48 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     }
   };
 
+  const handleFloorPlanFileSelect = (idx: number, file: File | null) => {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file for the floor plan");
+      return;
+    }
+    setFloorPlanBlobPreviews((prev) => {
+      const next = [...prev];
+      while (next.length <= idx) next.push(undefined);
+      if (next[idx]) URL.revokeObjectURL(next[idx]!);
+      next[idx] = URL.createObjectURL(file);
+      return next;
+    });
+    setPendingFloorPlanFiles((prev) => {
+      const next = [...prev];
+      while (next.length <= idx) next.push(undefined);
+      next[idx] = file;
+      return next;
+    });
+    toast.success("Floor plan image will upload when you save.");
+  };
+
+  const clearFloorPlanStagedFile = (idx: number) => {
+    setFloorPlanBlobPreviews((prev) => {
+      if (idx >= prev.length) return prev;
+      const next = [...prev];
+      if (next[idx]) URL.revokeObjectURL(next[idx]!);
+      next[idx] = undefined;
+      return next;
+    });
+    setPendingFloorPlanFiles((prev) => {
+      if (idx >= prev.length) return prev;
+      const next = [...prev];
+      next[idx] = undefined;
+      return next;
+    });
+  };
+
   // Upload a single file to R2 with progress tracking
   const uploadFileToR2 = async (
     file: File,
-    type: "hero" | "brochure" | "image" | "video",
+    type: "hero" | "brochure" | "image" | "video" | "floor-plan",
     propertySlug: string,
     onProgress?: (bytesUploaded: number, totalBytes: number) => void
   ): Promise<string> => {
@@ -374,6 +457,9 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         endpoint = "/api/admin/upload/pdf";
       } else if (type === "image") {
         endpoint = "/api/admin/upload/image";
+      } else if (type === "floor-plan") {
+        endpoint = "/api/admin/upload/image";
+        uploadFormData.append("kind", "floorPlan");
       } else if (type === "video") {
         endpoint = "/api/admin/upload/video";
       } else if (type === "hero") {
@@ -458,20 +544,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     });
   };
 
-  const handleConfigurationChange = (value: string) => {
-    const configValue = value as typeof CONFIGURATIONS[number];
-    if (!isValidConfiguration(configValue)) return;
-    
-    const currentConfig = formData.configuration || [];
-    if (currentConfig.includes(configValue)) {
-      // Remove if already selected
-      handleChange("configuration", currentConfig.filter(c => c !== configValue));
-    } else {
-      // Add if not selected
-      handleChange("configuration", [...currentConfig, configValue]);
-    }
-  };
-
   const handleAmenitiesChange = (amenities: string[]) => {
     // Normalize amenities to ensure consistency
     const normalized = normalizeAmenities(amenities);
@@ -550,14 +622,33 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     if (formData.projectStatus && !isValidProjectStatus(formData.projectStatus)) {
       newErrors.projectStatus = "Invalid project status selected";
     }
-    // Validate configuration array (skip for Commercial properties)
-    if (formData.propertyType !== 'Commercial' && formData.configuration && formData.configuration.length > 0) {
-      const invalidConfigs = formData.configuration.filter(c => !isValidConfiguration(c));
-      if (invalidConfigs.length > 0) {
-        newErrors.configuration = "Invalid configuration values selected";
+
+    const fpRows = formData.floorPlans || [];
+    for (let i = 0; i < fpRows.length; i++) {
+      const fp = fpRows[i];
+      const hasLabel = Boolean(fp.label?.trim());
+      const hasSrc = Boolean(fp.src?.trim());
+      const hasPending = Boolean(pendingFloorPlanFiles[i]);
+      if (!hasLabel && !hasSrc && !hasPending) continue;
+      if (hasPending) continue;
+      if (!hasSrc) {
+        newErrors.floorPlans = "Each floor plan needs an image (upload a file)";
+        break;
+      }
+      try {
+        new URL(fp.src!.trim());
+      } catch {
+        newErrors.floorPlans = "Each floor plan image must be a valid URL";
+        break;
       }
     }
-    
+    if (formData.mapLink?.trim()) {
+      if (!normalizeMapLinkFromInput(formData.mapLink.trim())) {
+        newErrors.mapLink =
+          "Paste the full Google Maps iframe or a valid https embed URL (maps.google.com/maps/embed?...)";
+      }
+    }
+
     // Validate amenities - at least one is required
     if (!formData.amenities || formData.amenities.length === 0) {
       newErrors.amenities = "At least one amenity is required";
@@ -637,16 +728,25 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         setLoading(false);
         throw new Error("Property slug is required for file uploads. Please ensure the slug field is filled.");
       }
-      const updatedFormData = { ...formData };
+      const updatedFormData = {
+        ...formData,
+        floorPlans: (formData.floorPlans || []).map((fp) => ({ ...fp })),
+      };
       const uploadErrors: string[] = [];
       
 
       // Calculate files to upload and files deleted
-      const filesToUpload: Array<{ file: File; type: "hero" | "brochure" | "image" | "video" }> = [];
+      const filesToUpload: Array<{
+        file: File;
+        type: "hero" | "brochure" | "image" | "video" | "floor-plan";
+      }> = [];
       if (tempFiles.hero) filesToUpload.push({ file: tempFiles.hero, type: "hero" });
       if (tempFiles.brochure) filesToUpload.push({ file: tempFiles.brochure, type: "brochure" });
-      tempFiles.images.forEach(file => filesToUpload.push({ file, type: "image" }));
-      tempFiles.videos.forEach(file => filesToUpload.push({ file, type: "video" }));
+      tempFiles.images.forEach((file) => filesToUpload.push({ file, type: "image" }));
+      tempFiles.videos.forEach((file) => filesToUpload.push({ file, type: "video" }));
+      pendingFloorPlanFiles.forEach((file) => {
+        if (file) filesToUpload.push({ file, type: "floor-plan" });
+      });
       
       const totalFiles = filesToUpload.length;
       const totalBytes = filesToUpload.reduce((sum, item) => sum + item.file.size, 0);
@@ -918,7 +1018,46 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         }
       }
       updatedFormData.videos = videoData;
-      
+
+      for (let i = 0; i < pendingFloorPlanFiles.length; i++) {
+        const pending = pendingFloorPlanFiles[i];
+        if (!pending) continue;
+        const currentFileIndex = fileIndex++;
+        try {
+          if (!isTerminalState) {
+            safeSetStatusText(`Uploading floor plan ${i + 1}...`);
+          }
+          const planUrl = await uploadFileToR2(
+            pending,
+            "floor-plan",
+            propertySlug,
+            (bytesUploaded, totalBytes) => {
+              if (!isTerminalState) {
+                updateOverallProgress(bytesUploaded, totalBytes, currentFileIndex);
+              }
+            }
+          );
+          if (!planUrl || planUrl.trim() === "") {
+            throw new Error(`Floor plan ${i + 1} upload failed - no URL returned`);
+          }
+          const fps = updatedFormData.floorPlans || [];
+          if (fps[i]) {
+            fps[i] = { ...fps[i], src: planUrl.trim() };
+          }
+          if (!isTerminalState) {
+            fileProgressMap.set(currentFileIndex, pending.size);
+            updateOverallProgress(pending.size, pending.size, currentFileIndex);
+          }
+        } catch (error) {
+          const errorMsg = `Failed to upload floor plan ${i + 1}: ${error instanceof Error ? error.message : "Unknown error"}`;
+          uploadErrors.push(errorMsg);
+          console.error(errorMsg, error);
+          if (!isTerminalState) {
+            fileProgressMap.set(currentFileIndex, pending.size);
+            updateOverallProgress(pending.size, pending.size, currentFileIndex);
+          }
+        }
+      }
 
       // Step 2: Validate that critical uploads succeeded
       // If hero image upload failed and we don't have an existing one, abort
@@ -987,17 +1126,31 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       // Ensure JSONB fields are properly formatted
       const propertyData = {
         ...updatedFormData,
-        // Add location_id and locality_id (required by new schema)
         locationId: selectedLocationId || null,
         localityId: selectedLocalityId || null,
-        // Ensure arrays are never null/undefined
-        configuration: updatedFormData.configuration || [],
+        projectSnapshot: (updatedFormData.projectSnapshot || [])
+          .map((s) => String(s).trim())
+          .filter((s) => s.length > 0),
+        whyBlock: {
+          title: updatedFormData.whyBlock?.title?.trim() || undefined,
+          points: (updatedFormData.whyBlock?.points || [])
+            .map((p) => String(p).trim())
+            .filter((p) => p.length > 0),
+        },
+        floorPlans: (updatedFormData.floorPlans || [])
+          .filter((fp) => fp.src?.trim())
+          .map((fp) => ({
+            src: fp.src.trim(),
+            label: fp.label?.trim() || undefined,
+          })),
+        locationAdvantage: (updatedFormData.locationAdvantage || []).filter(
+          (r) => r.label?.trim() && r.text?.trim()
+        ),
+        mapLink: normalizeMapLinkFromInput(updatedFormData.mapLink?.trim() || "") || null,
         images: updatedFormData.images || [],
         videos: updatedFormData.videos || [],
         amenities: (updatedFormData.amenities || []).filter((a: string) => a && a.trim() !== ""),
-        // Ensure SEO object is properly formatted
         seo: updatedFormData.seo || {},
-        // Ensure boolean is set correctly
         isPublished: updatedFormData.isPublished === true,
       };
 
@@ -1087,6 +1240,11 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       if (previewUrls.brochure) URL.revokeObjectURL(previewUrls.brochure);
       previewUrls.images.forEach((url) => URL.revokeObjectURL(url));
       previewUrls.videos.forEach((url) => URL.revokeObjectURL(url));
+      floorPlanBlobPreviews.forEach((url) => {
+        if (url) URL.revokeObjectURL(url);
+      });
+      setFloorPlanBlobPreviews([]);
+      setPendingFloorPlanFiles([]);
 
       // Clear all form fields after successful save (only for new properties, not edits)
       if (!property?.id) {
@@ -1099,14 +1257,18 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           reraId: "",
           projectStatus: null,
           possessionDate: "",
-          configuration: [],
-          sizes: "",
           description: "",
           heroImage: "",
+          heroImageAlt: "",
           brochureUrl: "",
           images: [],
           videos: [],
           amenities: [],
+          projectSnapshot: [],
+          whyBlock: { title: "", points: [] },
+          floorPlans: [],
+          locationAdvantage: [],
+          mapLink: "",
           priceMin: null,
           priceMax: null,
           priceUnit: "",
@@ -1182,7 +1344,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     if (!formData.projectName || formData.projectName.trim() === "") return false;
     if (!formData.developer || formData.developer.trim() === "") return false;
     if (!formData.location || formData.location.trim() === "") return false;
-    if (!formData.sizes || formData.sizes.trim() === "") return false;
     if (!formData.description || formData.description.trim() === "") return false;
     
     // Check locationId is selected
@@ -1197,13 +1358,26 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     // Validate optional fields if they are set
     if (formData.propertyType && !isValidPropertyType(formData.propertyType)) return false;
     if (formData.projectStatus && !isValidProjectStatus(formData.projectStatus)) return false;
-    
-    // Validate configuration array if it has items (skip for Commercial properties)
-    if (formData.propertyType !== 'Commercial' && formData.configuration && formData.configuration.length > 0) {
-      const invalidConfigs = formData.configuration.filter(c => !isValidConfiguration(c));
-      if (invalidConfigs.length > 0) return false;
+
+    const fps = formData.floorPlans || [];
+    for (let i = 0; i < fps.length; i++) {
+      const fp = fps[i];
+      const hasLabel = Boolean(fp.label?.trim());
+      const hasSrc = Boolean(fp.src?.trim());
+      const hasPending = Boolean(pendingFloorPlanFiles[i]);
+      if (!hasLabel && !hasSrc && !hasPending) continue;
+      if (hasPending) continue;
+      if (!hasSrc) return false;
+      try {
+        new URL(fp.src!.trim());
+      } catch {
+        return false;
+      }
     }
-    
+    if (formData.mapLink?.trim()) {
+      if (!normalizeMapLinkFromInput(formData.mapLink.trim())) return false;
+    }
+
     // Validate locality belongs to selected location (if locality is selected)
     if (selectedLocationId && selectedLocalityId && selectedLocalityId.trim() !== "") {
       const localityBelongsToLocation = localities.some(
@@ -1221,19 +1395,20 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     formData.projectName,
     formData.developer,
     formData.location,
-    formData.sizes,
     formData.description,
     formData.heroImage,
     formData.amenities,
     formData.propertyType,
     formData.projectStatus,
-    formData.configuration,
+    formData.floorPlans,
+    formData.mapLink,
     selectedLocationId,
     selectedLocalityId,
     localities,
     tempFiles.hero,
     formData.priceMin,
     formData.priceMax,
+    pendingFloorPlanFiles,
   ]);
 
   return (
@@ -1454,10 +1629,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                   const value = e.target.value || null;
                   if (value === null || isValidPropertyType(value)) {
                     handleChange("propertyType", value);
-                    // Clear configuration when Commercial is selected
-                    if (value === 'Commercial') {
-                      handleChange("configuration", []);
-                    }
                   }
                 }}
                 className={`h-11 border-2 ${errors.propertyType ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : "border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20"} rounded-xl transition-all w-full px-3 bg-white`}
@@ -1559,21 +1730,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
             </div>
 
             <div>
-              <Label htmlFor="sizes" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
-                Sizes *
-              </Label>
-              <Input
-                id="sizes"
-                value={formData.sizes}
-                onChange={(e) => handleChange("sizes", e.target.value)}
-                placeholder="e.g., 163 sq. yd - 238 sq. yd (3,070 sq.ft - 4,200 sq.ft)"
-                className="h-11 border-2 border-gray-200 focus:border-[#CBB27A] focus:ring-[#CBB27A]/20 rounded-xl transition-all placeholder:text-gray-400"
-                required
-                style={{ fontFamily: "Poppins, sans-serif" }}
-              />
-            </div>
-
-            <div>
               <Label htmlFor="priceMin" className="text-sm font-semibold text-gray-700 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
                 Min Price
               </Label>
@@ -1669,55 +1825,324 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         </div>
       </div>
 
-      {/* Unit Types & Media Section */}
+      {/* Public listing page content (properties_v3) */}
+      <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6 sm:p-8 space-y-8 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#CBB27A]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+        <div className="relative z-10">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#CBB27A] to-[#B8A068] rounded-xl flex items-center justify-center shadow-lg">
+              <FileText className="w-5 h-5 text-white" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Listing page content
+            </h2>
+          </div>
+          <p className="text-sm text-gray-600 mb-6" style={{ fontFamily: "Poppins, sans-serif" }}>
+            These fields power the public property page (snapshot, why section, floor plans, location, map). Unit configurations and pricing on the live site come from the inventory dashboard.
+          </p>
+
+          <div className="space-y-4">
+            <Label className="text-sm font-semibold text-gray-800" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Project snapshot (bullet points)
+            </Label>
+            {(formData.projectSnapshot || []).map((line, idx) => (
+              <div key={idx} className="flex gap-2">
+                <Input
+                  value={line}
+                  onChange={(e) => {
+                    const next = [...(formData.projectSnapshot || [])];
+                    next[idx] = e.target.value;
+                    handleChange("projectSnapshot", next);
+                  }}
+                  placeholder="e.g., 12 acre · 8 towers · G+45"
+                  className="h-11 border-2 border-gray-200 rounded-xl flex-1"
+                  style={{ fontFamily: "Poppins, sans-serif" }}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  className="shrink-0 border-red-200 text-red-600 hover:bg-red-50"
+                  onClick={() => {
+                    const next = (formData.projectSnapshot || []).filter((_, i) => i !== idx);
+                    handleChange("projectSnapshot", next);
+                  }}
+                  aria-label="Remove line"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="border-[#CBB27A]/50 text-[#8a7349]"
+              onClick={() => handleChange("projectSnapshot", [...(formData.projectSnapshot || []), ""])}
+            >
+              <Plus className="w-4 h-4 mr-1" />
+              Add snapshot line
+            </Button>
+          </div>
+
+          <div className="space-y-4 pt-6 border-t border-gray-100 mt-6">
+            <Label htmlFor="whyTitle" className="text-sm font-semibold text-gray-800" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Why this project — section title
+            </Label>
+            <Input
+              id="whyTitle"
+              value={formData.whyBlock?.title || ""}
+              onChange={(e) =>
+                handleChange("whyBlock", { ...formData.whyBlock, title: e.target.value, points: formData.whyBlock?.points || [] })
+              }
+              placeholder="e.g., Why choose this developer?"
+              className="h-11 border-2 border-gray-200 rounded-xl"
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            />
+            <Label className="text-sm font-semibold text-gray-800 block pt-2" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Why this project — points
+            </Label>
+            {(formData.whyBlock?.points || []).map((pt, idx) => (
+              <div key={idx} className="flex gap-2">
+                <Textarea
+                  value={pt}
+                  onChange={(e) => {
+                    const pts = [...(formData.whyBlock?.points || [])];
+                    pts[idx] = e.target.value;
+                    handleChange("whyBlock", { ...formData.whyBlock, title: formData.whyBlock?.title || "", points: pts });
+                  }}
+                  placeholder="Supporting point"
+                  rows={2}
+                  className="border-2 border-gray-200 rounded-xl flex-1 resize-y min-h-[2.75rem]"
+                  style={{ fontFamily: "Poppins, sans-serif" }}
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  className="shrink-0 border-red-200 text-red-600 hover:bg-red-50 self-start"
+                  onClick={() => {
+                    const pts = (formData.whyBlock?.points || []).filter((_, i) => i !== idx);
+                    handleChange("whyBlock", { ...formData.whyBlock, title: formData.whyBlock?.title || "", points: pts });
+                  }}
+                  aria-label="Remove point"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="border-[#CBB27A]/50 text-[#8a7349]"
+              onClick={() =>
+                handleChange("whyBlock", {
+                  title: formData.whyBlock?.title || "",
+                  points: [...(formData.whyBlock?.points || []), ""],
+                })
+              }
+            >
+              <Plus className="w-4 h-4 mr-1" />
+              Add point
+            </Button>
+          </div>
+
+          <div className="space-y-4 pt-6 border-t border-gray-100 mt-6">
+            <Label className="text-sm font-semibold text-gray-800" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Floor plans (title + image)
+            </Label>
+            <p className="text-xs text-gray-500" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Images upload to Cloudflare R2 under{" "}
+              <span className="font-mono text-gray-600">{"{slug}/floor-plans/"}</span> when you save.
+            </p>
+            {errors.floorPlans && (
+              <p className="text-red-500 text-sm">{errors.floorPlans}</p>
+            )}
+            {(formData.floorPlans || []).map((fp, idx) => (
+              <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border-2 border-gray-100 rounded-xl bg-gray-50/50">
+                <div>
+                  <Label className="text-xs text-gray-600 mb-1 block">Title / caption</Label>
+                  <Input
+                    value={fp.label || ""}
+                    onChange={(e) => {
+                      const next = [...(formData.floorPlans || [])];
+                      next[idx] = { ...next[idx], label: e.target.value };
+                      handleChange("floorPlans", next);
+                    }}
+                    placeholder="e.g., Typical 3 BHK"
+                    className="h-10 border-2 border-gray-200 rounded-lg"
+                    style={{ fontFamily: "Poppins, sans-serif" }}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-xs text-gray-600 mb-1 block">Floor plan image *</Label>
+                  <input
+                    ref={(el) => {
+                      floorPlanInputRefs.current[idx] = el;
+                    }}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) handleFloorPlanFileSelect(idx, f);
+                      e.target.value = "";
+                    }}
+                  />
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="border-[#CBB27A]/50 text-[#8a7349]"
+                      onClick={() => floorPlanInputRefs.current[idx]?.click()}
+                    >
+                      <Upload className="w-4 h-4 mr-1" />
+                      {fp.src?.trim() || pendingFloorPlanFiles[idx] ? "Replace image" : "Upload image"}
+                    </Button>
+                    {(pendingFloorPlanFiles[idx] || floorPlanBlobPreviews[idx]) && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="text-amber-700"
+                        onClick={() => clearFloorPlanStagedFile(idx)}
+                      >
+                        Clear new upload
+                      </Button>
+                    )}
+                  </div>
+                  {(floorPlanBlobPreviews[idx] || fp.src?.trim()) && (
+                    <div className="mt-2 rounded-lg border border-gray-200 bg-white p-2 inline-block max-w-full">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={floorPlanBlobPreviews[idx] || fp.src || ""}
+                        alt={fp.label || "Floor plan preview"}
+                        className="max-h-40 w-auto max-w-full object-contain rounded"
+                      />
+                    </div>
+                  )}
+                </div>
+                <div className="md:col-span-2 flex justify-end">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="text-red-600"
+                    onClick={() => {
+                      clearFloorPlanStagedFile(idx);
+                      const next = (formData.floorPlans || []).filter((_, i) => i !== idx);
+                      handleChange("floorPlans", next);
+                    }}
+                  >
+                    Remove plan
+                  </Button>
+                </div>
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="border-[#CBB27A]/50 text-[#8a7349]"
+              onClick={() => handleChange("floorPlans", [...(formData.floorPlans || []), { src: "", label: "" }])}
+            >
+              <Plus className="w-4 h-4 mr-1" />
+              Add floor plan
+            </Button>
+          </div>
+
+          <div className="space-y-4 pt-6 border-t border-gray-100 mt-6">
+            <Label className="text-sm font-semibold text-gray-800" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Location advantage
+            </Label>
+            {(formData.locationAdvantage || []).map((row, idx) => (
+              <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border-2 border-gray-100 rounded-xl">
+                <div>
+                  <Label className="text-xs text-gray-600 mb-1 block">Label (e.g. Roads)</Label>
+                  <Input
+                    value={row.label}
+                    onChange={(e) => {
+                      const next = [...(formData.locationAdvantage || [])];
+                      next[idx] = { ...next[idx], label: e.target.value };
+                      handleChange("locationAdvantage", next);
+                    }}
+                    className="h-10 border-2 border-gray-200 rounded-lg"
+                    style={{ fontFamily: "Poppins, sans-serif" }}
+                  />
+                </div>
+                <div>
+                  <Label className="text-xs text-gray-600 mb-1 block">Description</Label>
+                  <Textarea
+                    value={row.text}
+                    onChange={(e) => {
+                      const next = [...(formData.locationAdvantage || [])];
+                      next[idx] = { ...next[idx], text: e.target.value };
+                      handleChange("locationAdvantage", next);
+                    }}
+                    rows={2}
+                    className="border-2 border-gray-200 rounded-lg resize-y"
+                    style={{ fontFamily: "Poppins, sans-serif" }}
+                  />
+                </div>
+                <div className="md:col-span-2 flex justify-end">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="text-red-600"
+                    onClick={() => {
+                      const next = (formData.locationAdvantage || []).filter((_, i) => i !== idx);
+                      handleChange("locationAdvantage", next);
+                    }}
+                  >
+                    Remove row
+                  </Button>
+                </div>
+              </div>
+            ))}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="border-[#CBB27A]/50 text-[#8a7349]"
+              onClick={() =>
+                handleChange("locationAdvantage", [...(formData.locationAdvantage || []), { label: "", text: "" }])
+              }
+            >
+              <Plus className="w-4 h-4 mr-1" />
+              Add location advantage
+            </Button>
+          </div>
+
+          <div className="pt-6 border-t border-gray-100 mt-6">
+            <Label htmlFor="mapLink" className="text-sm font-semibold text-gray-800 mb-2 block" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Map embed (iframe or URL)
+            </Label>
+            <Textarea
+              id="mapLink"
+              value={formData.mapLink || ""}
+              onChange={(e) => handleChange("mapLink", e.target.value)}
+              placeholder='Paste the full <iframe ...> from Google Maps “Embed a map”, or only the https://.../maps/embed?... URL'
+              rows={5}
+              className={`min-h-[120px] border-2 rounded-xl resize-y ${errors.mapLink ? "border-red-500" : "border-gray-200"}`}
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            />
+            {errors.mapLink && <p className="text-red-500 text-sm mt-1">{errors.mapLink}</p>}
+            <p className="text-xs text-gray-500 mt-1">
+              We store only the embed URL; pasted iframe HTML is parsed on the server.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Media Section */}
       <div className="bg-white rounded-2xl shadow-md border border-gray-200/50 p-6 sm:p-8 space-y-6 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[#CBB27A]/5 to-transparent rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         <div className="relative z-10">
-          {/* Configuration (Unit Types) - Hidden for Commercial properties */}
-          {formData.propertyType !== 'Commercial' && (
-            <div className="mt-8">
-            <Label className="text-base sm:text-lg font-bold text-gray-800 mb-6 block" style={{ fontFamily: "Poppins, sans-serif" }}>
-              Configuration (Unit Types)
-            </Label>
-            <div className="space-y-3">
-              {CONFIGURATIONS.map((config) => {
-                const isSelected = formData.configuration?.includes(config) || false;
-                return (
-                  <label
-                    key={config}
-                    className={`flex items-center gap-3 p-4 border-2 rounded-xl cursor-pointer transition-all ${
-                      isSelected
-                        ? "border-[#CBB27A] bg-gradient-to-r from-[#CBB27A]/10 to-[#CBB27A]/5"
-                        : "border-gray-200 hover:border-[#CBB27A]/50 hover:bg-gray-50"
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={isSelected}
-                      onChange={() => handleConfigurationChange(config)}
-                      className="w-5 h-5 text-[#CBB27A] border-gray-300 rounded focus:ring-[#CBB27A] focus:ring-2"
-                    />
-                    <span className="text-sm font-medium text-gray-700 flex-1" style={{ fontFamily: "Poppins, sans-serif" }}>
-                      {config}
-                    </span>
-                  </label>
-                );
-              })}
-            </div>
-            {errors.configuration && (
-              <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
-                <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-                {errors.configuration}
-              </p>
-            )}
-            <p className="text-xs text-gray-500 mt-3" style={{ fontFamily: "Poppins, sans-serif" }}>
-              Select one or more unit configurations. Multiple selections are allowed.
-            </p>
-            </div>
-          )}
-
           {/* Hero Image */}
-          <div className="mt-8">
+          <div className="mt-0">
           <Label className="text-base sm:text-lg font-bold text-gray-800 mb-6 block" style={{ fontFamily: "Poppins, sans-serif" }}>
             Hero Image *
           </Label>

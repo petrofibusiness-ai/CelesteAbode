@@ -13,7 +13,7 @@ const MAX_SIZE = 2000;
 const MAX_CONFIG = 200;
 
 /** Matches `property_inventory_dashboard_rows` select shape. */
-/** Header fields copied onto each dashboard row (from an existing row or `properties_v2`). */
+/** Header fields copied onto each dashboard row (from an existing row or `properties_v3`). */
 interface PropertyInventoryMeta {
   property_id: string;
   slug: string;
@@ -155,33 +155,33 @@ export async function POST(request: NextRequest) {
       : null;
 
     if (!meta) {
-      const { data: pv2, error: v2Err } = await supabase
-        .from("properties_v2")
+      const { data: pv3, error: v3Err } = await supabase
+        .from("properties_v3")
         .select(
           "id, slug, project_name, location, location_id, locality_id, hero_image, hero_image_alt, possession_date, inventory_towers, created_at"
         )
         .eq("id", propertyId)
         .maybeSingle();
 
-      if (v2Err) {
-        console.error("POST property-listings/configurations properties_v2:", v2Err);
+      if (v3Err) {
+        console.error("POST property-listings/configurations properties_v3:", v3Err);
         return NextResponse.json({ error: "Property lookup failed" }, { status: 500 });
       }
-      if (!pv2) {
+      if (!pv3) {
         return NextResponse.json({ error: "Property not found" }, { status: 404 });
       }
       meta = {
-        property_id: pv2.id,
-        slug: pv2.slug ?? "",
-        project_name: pv2.project_name ?? "",
-        location_label: (pv2.location as string | null) ?? "",
-        location_id: pv2.location_id,
-        locality_id: pv2.locality_id,
-        hero_image: pv2.hero_image ?? "",
-        hero_image_alt: pv2.hero_image_alt,
-        possession_date: pv2.possession_date,
-        inventory_towers: pv2.inventory_towers,
-        property_created_at: pv2.created_at ?? new Date().toISOString(),
+        property_id: pv3.id,
+        slug: pv3.slug ?? "",
+        project_name: pv3.project_name ?? "",
+        location_label: (pv3.location as string | null) ?? "",
+        location_id: pv3.location_id,
+        locality_id: pv3.locality_id,
+        hero_image: pv3.hero_image ?? "",
+        hero_image_alt: pv3.hero_image_alt,
+        possession_date: pv3.possession_date,
+        inventory_towers: pv3.inventory_towers,
+        property_created_at: pv3.created_at ?? new Date().toISOString(),
       };
     }
 

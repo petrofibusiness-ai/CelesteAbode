@@ -156,7 +156,7 @@ export async function fetchInventoryDashboardRows(
   return { rows: (data || []) as DashboardViewRow[], error: null };
 }
 
-/** Published project row from `properties_v2` (subset for synthetic dashboard lines). */
+/** Published project row from `properties_v3` (subset for synthetic dashboard lines). */
 interface PublishedPropertyRow {
   id: string;
   slug: string | null;
@@ -207,7 +207,7 @@ export async function mergePublishedPropertiesMissingDashboardRows(
   dashboardRows: DashboardViewRow[]
 ): Promise<{ rows: DashboardViewRow[]; error: Error | null }> {
   const { data, error } = await supabase
-    .from("properties_v2")
+    .from("properties_v3")
     .select(
       "id, slug, project_name, location, location_id, locality_id, hero_image, hero_image_alt, possession_date, inventory_towers, created_at"
     )
@@ -251,6 +251,43 @@ export async function mergePublishedPropertiesMissingDashboardRows(
   }
 
   return { rows: out, error: null };
+}
+
+/**
+ * Distinct configuration labels for a published property, ordered by `sort_order` then `line_created_at`.
+ * Source: `property_inventory_dashboard_rows` (view/table). `price_cr` is intentionally not used on the public page.
+ */
+export async function fetchPropertyInventoryConfigurationLabels(
+  supabase: AdminSupabase,
+  propertyId: string
+): Promise<string[]> {
+  if (!propertyId) return [];
+
+  const { data, error } = await supabase
+    .from("property_inventory_dashboard_rows")
+    .select("configuration_label, sort_order, line_created_at")
+    .eq("property_id", propertyId)
+    .order("sort_order", { ascending: true, nullsFirst: false })
+    .order("line_created_at", { ascending: true, nullsFirst: true });
+
+  if (error) {
+    console.error("[fetchPropertyInventoryConfigurationLabels]", error);
+    return [];
+  }
+
+  const ordered: string[] = [];
+  const seen = new Set<string>();
+  for (const row of data || []) {
+    const raw = (row as { configuration_label?: string | null }).configuration_label;
+    if (raw == null) continue;
+    const label = String(raw).trim();
+    if (!label) continue;
+    const key = label.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    ordered.push(label);
+  }
+  return ordered;
 }
 
 export function buildPagedInventoryItems(

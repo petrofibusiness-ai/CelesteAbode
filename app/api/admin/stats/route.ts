@@ -42,19 +42,19 @@ export async function GET(request: NextRequest) {
     
     // Count total properties (all rows, regardless of is_published)
     const totalPromise = supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .select("*", { count: 'exact', head: true });
 
     // Count published properties (is_published = true)
     const publishedPromise = supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .select("*", { count: 'exact', head: true })
       .eq("is_published", true);
 
     // Count draft properties (is_published = false OR is_published IS NULL)
     // Using .or() to handle both false and NULL values
     const draftPromise = supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .select("*", { count: 'exact', head: true })
       .or("is_published.eq.false,is_published.is.null");
 

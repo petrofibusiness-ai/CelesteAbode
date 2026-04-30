@@ -337,7 +337,7 @@ export async function DELETE(
 
     // Step 2: Check if any properties are using this location
     const { data: propertiesUsingLocation, error: checkError } = await supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .select("id, project_name, is_published")
       .eq("location_id", locationId)
       .limit(5);
@@ -389,7 +389,7 @@ export async function DELETE(
       console.error("Error deleting localities:", localitiesDeleteError);
       
       // Check if it's a foreign key constraint violation
-      if (localitiesDeleteError.code === '23503' && localitiesDeleteError.message?.includes('properties_v2')) {
+      if (localitiesDeleteError.code === '23503' && localitiesDeleteError.message?.includes('properties_v3')) {
         return NextResponse.json(
           { 
             error: "Cannot delete this location. Some localities are still being used by properties. Please remove or reassign those properties first."
@@ -413,7 +413,7 @@ export async function DELETE(
       console.error("Error deleting location:", locationDeleteError);
       
       // Check if it's a foreign key constraint violation
-      if (locationDeleteError.code === '23503' && locationDeleteError.message?.includes('properties_v2')) {
+      if (locationDeleteError.code === '23503' && locationDeleteError.message?.includes('properties_v3')) {
         return NextResponse.json(
           { 
             error: "Cannot delete this location. It is still being used by one or more properties. Please remove or reassign those properties first."

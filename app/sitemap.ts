@@ -172,10 +172,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  // Fetch published properties from properties_v2
+  // Fetch published properties from properties_v3
   // Only include properties that have a valid location_id
   const { data: propertiesData, error: propertiesError } = await supabase
-    .from('properties_v2')
+    .from('properties_v3')
     .select('id, slug, location_id, updated_at')
     .eq('is_published', true)
     .not('location_id', 'is', null);

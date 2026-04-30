@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
-import { supabaseToProperty } from "@/lib/supabase-property-mapper";
+import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 import { addLocationSlugToProperties } from "@/lib/property-location-helper";
 
@@ -33,8 +33,10 @@ export async function GET(request: NextRequest) {
     // Fetch ALL properties - NO filter on is_published
     // This explicitly fetches both published and unpublished properties
     const queryPromise = supabase
-      .from("properties_v2")
-    .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, hero_image, hero_image_alt, is_published, created_at, updated_at")
+      .from("properties_v3")
+      .select(
+        "id, slug, project_name, developer, location, location_id, locality_id, project_status, description, hero_image, hero_image_alt, is_published, created_at, updated_at"
+      )
       // NO .eq("is_published", true) filter - we want ALL properties
       .order("created_at", { ascending: false }); // Newest first
 
@@ -55,7 +57,7 @@ export async function GET(request: NextRequest) {
     // Convert snake_case to camelCase - DO NOT filter by is_published
     const properties = (data || []).map((prop) => {
       try {
-        return supabaseToProperty(prop as any);
+        return supabaseV3ToProperty(prop as any);
       } catch (err) {
         console.error(`Error mapping property:`, err);
         return null;

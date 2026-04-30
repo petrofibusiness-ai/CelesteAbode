@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { getSupabaseServerClient, getSupabaseAdminClient } from "@/lib/supabase-server";
-import { supabaseToProperty, propertyToSupabase } from "@/lib/supabase-property-mapper";
+import { supabaseV3ToProperty, propertyToSupabaseV3 } from "@/lib/supabase-property-mapper";
 import { deleteR2ObjectsByPrefix, deleteR2ObjectByKey, deriveR2KeyFromUrl } from "@/lib/r2-upload";
 import { validatePropertyData } from "@/lib/validation";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
@@ -9,6 +9,7 @@ import { logAuditEntry, getRequestMetadata } from "@/lib/audit-log";
 import { verifyCSRFToken } from "@/lib/csrf";
 import { logSecurityEvent, getClientIP, getUserAgent } from "@/lib/security-events";
 import { revalidatePropertyCaches, revalidatePropertyAPIs, revalidateAllPropertyCaches } from "@/lib/cache-revalidation";
+import type { Property } from "@/types/property";
 
 // Query timeout: 30 seconds
 const QUERY_TIMEOUT = 30000;
@@ -48,7 +49,7 @@ export async function GET(
     const supabase = getSupabaseAdminClient();
 
     const queryPromise = supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .select("*")
       .eq("id", id)
       .single();
@@ -67,7 +68,7 @@ export async function GET(
     }
 
     // Convert snake_case to camelCase
-    const property = supabaseToProperty(data);
+    const property = supabaseV3ToProperty(data);
 
     // Fetch location slug if location_id exists
     if (data.location_id) {
@@ -176,7 +177,7 @@ export async function PATCH(
       };
 
       const queryPromise = supabase
-        .from("properties_v2")
+        .from("properties_v3")
         .update(updateData)
         .eq("id", id)
         .select()
@@ -196,11 +197,11 @@ export async function PATCH(
         );
       }
 
-      const property = supabaseToProperty(data);
+      const property = supabaseV3ToProperty(data);
 
       // Audit log
       await logAuditEntry({
-        table_name: 'properties_v2',
+        table_name: 'properties_v3',
         operation: 'UPDATE',
         record_id: id,
         user_id: user.id,
@@ -217,7 +218,7 @@ export async function PATCH(
     // Full update - implement asset synchronization
     // Step 1: Fetch existing property record
     const fetchPromise = supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .select("*")
       .eq("id", id)
       .single();
@@ -237,7 +238,7 @@ export async function PATCH(
     }
 
     oldValues = existingData;
-    const existingProperty = supabaseToProperty(existingData);
+    const existingProperty = supabaseV3ToProperty(existingData);
 
     // Input validation for full update
     const validationErrors = validatePropertyData(body);
@@ -341,15 +342,72 @@ export async function PATCH(
       priceMax: parsePrice(body.priceMax),
     };
 
+    const pick = <T>(incoming: T | undefined, fallback: T): T =>
+      incoming !== undefined ? incoming : fallback;
+
+    const merged: Omit<Property, "id" | "createdAt" | "updatedAt"> = {
+      slug: String(pick(bodyForSupabase.slug, existingProperty.slug)).trim().toLowerCase(),
+      projectName: String(pick(bodyForSupabase.projectName, existingProperty.projectName)).trim(),
+      developer: String(pick(bodyForSupabase.developer, existingProperty.developer)).trim(),
+      location: String(pick(bodyForSupabase.location, existingProperty.location)).trim(),
+      locationId: pick(bodyForSupabase.locationId, existingProperty.locationId ?? null) ?? null,
+      localityId: pick(bodyForSupabase.localityId, existingProperty.localityId ?? null) ?? null,
+      propertyType: pick(bodyForSupabase.propertyType, existingProperty.propertyType ?? null) ?? null,
+      reraId: pick(bodyForSupabase.reraId, existingProperty.reraId) || undefined,
+      projectStatus: pick(bodyForSupabase.projectStatus, existingProperty.projectStatus ?? null) ?? null,
+      possessionDate: pick(bodyForSupabase.possessionDate, existingProperty.possessionDate) || undefined,
+      configuration: null,
+      description: String(pick(bodyForSupabase.description, existingProperty.description)).trim(),
+      heroImage: String(pick(bodyForSupabase.heroImage, existingProperty.heroImage)).trim(),
+      heroImageAlt: pick(bodyForSupabase.heroImageAlt, existingProperty.heroImageAlt) || undefined,
+      brochureUrl: pick(bodyForSupabase.brochureUrl, existingProperty.brochureUrl) || undefined,
+      images: pick(bodyForSupabase.images, existingProperty.images) || [],
+      videos: pick(bodyForSupabase.videos, existingProperty.videos) || [],
+      amenities: pick(bodyForSupabase.amenities, existingProperty.amenities) || [],
+      projectSnapshot: Array.isArray(bodyForSupabase.projectSnapshot)
+        ? bodyForSupabase.projectSnapshot.map((s: string) => String(s).trim()).filter(Boolean)
+        : existingProperty.projectSnapshot ?? [],
+      whyBlock:
+        bodyForSupabase.whyBlock !== undefined
+          ? {
+              title: bodyForSupabase.whyBlock?.title?.trim() || undefined,
+              points: (bodyForSupabase.whyBlock?.points || [])
+                .map((p: string) => String(p).trim())
+                .filter(Boolean),
+            }
+          : existingProperty.whyBlock ?? { points: [] },
+      floorPlans: Array.isArray(bodyForSupabase.floorPlans)
+        ? bodyForSupabase.floorPlans
+            .filter((fp: { src?: string }) => fp?.src?.trim())
+            .map((fp: { src: string; label?: string }) => ({
+              src: fp.src.trim(),
+              label: fp.label?.trim() || undefined,
+            }))
+        : existingProperty.floorPlans ?? [],
+      locationAdvantage: Array.isArray(bodyForSupabase.locationAdvantage)
+        ? bodyForSupabase.locationAdvantage
+        : existingProperty.locationAdvantage ?? [],
+      mapLink: (() => {
+        if (bodyForSupabase.mapLink === undefined) return existingProperty.mapLink ?? null;
+        const s = String(bodyForSupabase.mapLink).trim();
+        return s === "" ? null : s;
+      })(),
+      priceMin: bodyForSupabase.priceMin ?? existingProperty.priceMin ?? undefined,
+      priceMax: bodyForSupabase.priceMax ?? existingProperty.priceMax ?? undefined,
+      priceUnit: pick(bodyForSupabase.priceUnit, existingProperty.priceUnit) ?? undefined,
+      seo: pick(bodyForSupabase.seo, existingProperty.seo) || {},
+      isPublished: pick(bodyForSupabase.isPublished, existingProperty.isPublished),
+    };
+
     // Step 7: Update database with final asset state
-    const supabaseProperty = propertyToSupabase(bodyForSupabase);
+    const supabaseProperty = propertyToSupabaseV3(merged);
     const updateData = {
       ...supabaseProperty,
       updated_at: new Date().toISOString(),
     };
 
     const updatePromise = supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .update(updateData)
       .eq("id", id)
       .select()
@@ -369,7 +427,7 @@ export async function PATCH(
       );
     }
 
-    const property = supabaseToProperty(data);
+    const property = supabaseV3ToProperty(data);
 
     // Calculate changes for audit log
     const changes: Record<string, any> = {};
@@ -383,7 +441,7 @@ export async function PATCH(
 
     // Audit log
     await logAuditEntry({
-      table_name: 'properties_v2',
+      table_name: 'properties_v3',
       operation: 'UPDATE',
       record_id: id,
       user_id: user.id,
@@ -501,7 +559,7 @@ export async function DELETE(
 
     // Step 1: Fetch the property record to get the slug
     const fetchPromise = supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .select("slug, *")
       .eq("id", id)
       .single();
@@ -544,7 +602,7 @@ export async function DELETE(
 
     // Step 4: Delete the property record from the database
     const deletePromise = supabase
-      .from("properties_v2")
+      .from("properties_v3")
       .delete()
       .eq("id", id);
 
@@ -564,7 +622,7 @@ export async function DELETE(
 
     // Audit log
     await logAuditEntry({
-      table_name: 'properties_v2',
+      table_name: 'properties_v3',
       operation: 'DELETE',
       record_id: id,
       user_id: user.id,

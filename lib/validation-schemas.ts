@@ -2,7 +2,8 @@
 // Uses Zod for type-safe schema validation
 
 import { z } from 'zod';
-import { PROPERTY_TYPES, PROJECT_STATUSES, CONFIGURATIONS } from '@/lib/property-enums';
+import { PROPERTY_TYPES, PROJECT_STATUSES } from '@/lib/property-enums';
+import { normalizeMapLinkFromInput } from '@/lib/map-link-normalize';
 
 // ============= Common Schemas =============
 
@@ -57,6 +58,23 @@ export const PropertyFilterSchema = z.object({
   _t: z.number().optional(),
 });
 
+const WhyBlockSchema = z
+  .object({
+    title: z.string().max(300).optional(),
+    points: z.array(z.string().max(1000)).optional().default([]),
+  })
+  .optional();
+
+const FloorPlanSchema = z.object({
+  label: z.string().max(300).optional(),
+  src: URLSchema,
+});
+
+const LocationAdvantageSchema = z.object({
+  label: z.string().min(1).max(200),
+  text: z.string().min(1).max(5000),
+});
+
 export const PropertyDataSchema = z.object({
   projectName: z.string().min(1).max(500),
   slug: SlugSchema,
@@ -68,8 +86,23 @@ export const PropertyDataSchema = z.object({
   reraId: z.string().max(255).optional(),
   projectStatus: z.enum(PROJECT_STATUSES).optional().nullable(),
   possessionDate: z.string().max(255).optional(),
-  configuration: z.array(z.enum(CONFIGURATIONS)).optional().default([]),
-  sizes: z.string().min(1).max(1000),
+  projectSnapshot: z.array(z.string().max(1000)).optional().default([]),
+  whyBlock: WhyBlockSchema,
+  floorPlans: z.array(FloorPlanSchema).optional().default([]),
+  locationAdvantage: z.array(LocationAdvantageSchema).optional().default([]),
+  mapLink: z.preprocess(
+    (val) => {
+      if (val === undefined || val === null) return null;
+      if (typeof val !== "string") return "__invalid_map_link__";
+      const t = val.trim();
+      if (t === "") return null;
+      if (t.length > 120000) return "__invalid_map_link__";
+      const url = normalizeMapLinkFromInput(t);
+      if (url === null) return "__invalid_map_link__";
+      return url;
+    },
+    z.union([z.string().url().max(16384), z.null()]).optional()
+  ),
   description: z.string().min(1).max(5000),
   heroImage: URLSchema,
   heroImageAlt: z.string().max(255).optional(),

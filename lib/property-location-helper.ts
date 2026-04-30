@@ -63,7 +63,7 @@ export async function addLocationSlugToProperties(
 export async function addLocationSlugToProperty(
   property: Property,
   supabase: SupabaseClient
-): Promise<Property & { locationSlug?: string }> {
+): Promise<Property> {
   if (!property.locationId) {
     return property;
   }

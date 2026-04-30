@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
-import { uploadImageToR2, uploadHeroImageToR2 } from "@/lib/r2-upload";
+import { uploadImageToR2, uploadHeroImageToR2, uploadFloorPlanImageToR2 } from "@/lib/r2-upload";
 import { verifyCSRFToken } from "@/lib/csrf";
 import { validateUploadedFile, sanitizeFilename, COMMON_CONFIGS } from "@/lib/file-upload-validator";
 import { validateJSONBody } from "@/lib/validation-schemas";
@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
     const file = formData.get("file") as File;
     const propertySlug = formData.get("propertySlug") as string;
     const isHero = formData.get("isHero") === "true";
+    const isFloorPlan = formData.get("kind") === "floorPlan";
 
     if (!file) {
       return NextResponse.json(
@@ -83,6 +84,8 @@ export async function POST(request: NextRequest) {
     let uploadResult;
     if (isHero) {
       uploadResult = await uploadHeroImageToR2(file, propertySlug);
+    } else if (isFloorPlan) {
+      uploadResult = await uploadFloorPlanImageToR2(file, propertySlug);
     } else {
       uploadResult = await uploadImageToR2(file, propertySlug);
     }

@@ -671,7 +671,7 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
         developer={property.developer}
         reraId={property.reraId}
         configuration={property.configuration || undefined}
-        area={property.sizes}
+        area={property.sizes ?? ""}
         status={property.projectStatus || "Not specified"}
         url={projectUrl}
       />

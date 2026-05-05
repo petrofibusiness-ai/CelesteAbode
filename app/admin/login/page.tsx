@@ -9,8 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Lock, Mail, Building2, Loader2 } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-
-const SUPPORT_ADMIN_EMAIL = "support@celesteabode.com";
+import { isFullAdminEmail } from "@/lib/admin-access";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -39,7 +38,7 @@ export default function AdminLoginPage() {
       }
 
       const email = (data?.user?.email || "").toString().toLowerCase();
-      const target = email === SUPPORT_ADMIN_EMAIL ? "/admin" : "/admin/inventory";
+      const target = isFullAdminEmail(email) ? "/admin" : "/admin/inventory";
       router.push(target);
       router.refresh();
     } catch (err) {

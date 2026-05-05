@@ -13,6 +13,7 @@ import {
   MapPin,
   Mail,
   Layers,
+  MessageCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -39,7 +40,14 @@ export default function AdminSidebar({ inventoryOnly = false }: AdminSidebarProp
   };
 
   const navItems = inventoryOnly
-    ? [{ href: "/admin/inventory", label: "Inventory", icon: Layers }]
+    ? [
+        { href: "/admin/inventory", label: "Inventory", icon: Layers },
+        {
+          href: "/admin/inventory/messaging",
+          label: "Messaging",
+          icon: MessageCircle,
+        },
+      ]
     : [
         { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
         { href: "/admin/leads", label: "Leads", icon: Mail },
@@ -48,6 +56,11 @@ export default function AdminSidebar({ inventoryOnly = false }: AdminSidebarProp
         { href: "/admin/properties", label: "Properties", icon: Building2 },
         { href: "/admin/properties/new", label: "New Property", icon: Plus },
         { href: "/admin/inventory", label: "Inventory", icon: Layers },
+        {
+          href: "/admin/inventory/messaging",
+          label: "Messaging",
+          icon: MessageCircle,
+        },
       ];
 
   // Close mobile menu when route changes
@@ -78,8 +91,11 @@ export default function AdminSidebar({ inventoryOnly = false }: AdminSidebarProp
         <nav className="flex-1 p-4 space-y-2">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname === item.href || 
-              (item.href !== "/admin" && pathname?.startsWith(item.href));
+            const isActive =
+              item.href === "/admin/inventory"
+                ? pathname === "/admin/inventory"
+                : pathname === item.href ||
+                  (item.href !== "/admin" && pathname?.startsWith(`${item.href}/`));
             
             return (
               <Link

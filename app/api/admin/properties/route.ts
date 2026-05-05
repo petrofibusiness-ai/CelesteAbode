@@ -78,7 +78,7 @@ export async function GET(request: NextRequest) {
     // Admin should see both published and draft properties
     const { data, error, count } = await supabase
       .from("properties_v3")
-      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, is_published, hero_image, hero_image_alt, created_at, updated_at", { count: 'exact' })
+      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, is_published, hero_image, hero_image_alt, brochure_url, images, created_at, updated_at", { count: 'exact' })
       .order("created_at", { ascending: false })
       .range(offset, offset + limit - 1);
 
@@ -109,6 +109,10 @@ export async function GET(request: NextRequest) {
     // Convert snake_case to camelCase and add location slug
     const properties = (data || []).map((item: any) => {
       const property = supabaseV3ToProperty(item);
+      // Defensive fallback: keep brochure URL even if mapper input shape changes.
+      if (!property.brochureUrl && typeof item.brochure_url === "string" && item.brochure_url.trim()) {
+        property.brochureUrl = item.brochure_url.trim();
+      }
       // Add locationSlug to property for URL generation
       if (item.location_id && locationSlugMap.has(item.location_id)) {
         (property as any).locationSlug = locationSlugMap.get(item.location_id);

@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-
-const SUPPORT_ADMIN_EMAIL = 'support@celesteabode.com';
+import { isFullAdminEmail } from '@/lib/admin-access';
 
 function getEmailFromJwt(token: string | undefined): string | null {
   if (!token) return null;
@@ -32,7 +31,7 @@ export function middleware(request: NextRequest) {
     if (!email) {
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
-    if (email !== SUPPORT_ADMIN_EMAIL) {
+    if (!isFullAdminEmail(email)) {
       const inventoryOnly =
         pathname === '/admin/inventory' ||
         pathname.startsWith('/admin/inventory/');

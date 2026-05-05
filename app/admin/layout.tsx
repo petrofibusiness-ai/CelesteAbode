@@ -5,8 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Building2 } from "lucide-react";
 import AdminSidebar from "@/components/admin/admin-sidebar";
 import { Toaster } from "@/components/ui/sonner";
-
-const SUPPORT_ADMIN_EMAIL = "support@celesteabode.com";
+import { isFullAdminEmail } from "@/lib/admin-access";
 
 export default function AdminLayout({
   children,
@@ -75,7 +74,7 @@ export default function AdminLayout({
 
         const data = await res.json().catch(() => ({}));
         const email = (data?.user?.email || "").toString().toLowerCase();
-        const isInventoryOnlyUser = email !== SUPPORT_ADMIN_EMAIL;
+        const isInventoryOnlyUser = !isFullAdminEmail(email);
 
         setIsAuthenticated(true);
         setUserEmail(email || null);
@@ -120,9 +119,7 @@ export default function AdminLayout({
     return null;
   }
 
-  const isInventoryOnlyUser = Boolean(
-    userEmail && userEmail !== SUPPORT_ADMIN_EMAIL
-  );
+  const isInventoryOnlyUser = Boolean(userEmail && !isFullAdminEmail(userEmail));
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Building2, Plus, FileText, Eye, Loader2, Mail, MapPin, TrendingUp, Users, CheckCircle2, Clock, MessageSquare } from "lucide-react";
+import { Building2, Plus, FileText, Eye, Loader2, Mail, MapPin, TrendingUp, Users, CheckCircle2, Clock, MessageSquare, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
@@ -301,6 +301,16 @@ export default function AdminDashboard() {
               <Button variant="outline" className="w-full sm:w-auto border-2 border-gray-300 hover:border-[#CBB27A] hover:bg-[#CBB27A]/5 text-gray-700 hover:text-gray-900 transition-all duration-300 hover:scale-105 h-11 sm:h-12 px-4 sm:px-6 text-sm sm:text-base" style={{ fontFamily: "Poppins, sans-serif" }}>
                 <Building2 className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                 View All Properties
+              </Button>
+            </Link>
+            <Link href="/admin/inventory/messaging" className="w-full sm:w-auto">
+              <Button
+                variant="outline"
+                className="w-full sm:w-auto border-2 border-[#25D366]/40 bg-[#25D366]/5 hover:bg-[#25D366]/15 text-[#128C7E] transition-all duration-300 hover:scale-105 h-11 sm:h-12 px-4 sm:px-6 text-sm sm:text-base"
+                style={{ fontFamily: "Poppins, sans-serif" }}
+              >
+                <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                WhatsApp messaging
               </Button>
             </Link>
           </div>

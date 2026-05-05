@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Layers, Loader2 } from "lucide-react";
+import { Layers, Loader2, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -335,7 +335,19 @@ export default function AdminInventoryPage() {
               </h1>
             </div>
           </div>
-          <div className="flex shrink-0 items-center gap-2" />
+          <div className="flex shrink-0 items-center gap-2">
+            <Button
+              asChild
+              variant="outline"
+              className="border-[#25D366]/40 text-[#128C7E] hover:bg-[#25D366]/10"
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            >
+              <Link href="/admin/inventory/messaging" className="inline-flex items-center gap-2">
+                <MessageCircle className="h-4 w-4" />
+                WhatsApp messaging
+              </Link>
+            </Button>
+          </div>
         </div>
 
         {error ? (

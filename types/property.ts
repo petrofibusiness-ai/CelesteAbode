@@ -78,6 +78,15 @@ export interface Property {
   isPublished: boolean; // Whether the property is live
   createdAt?: string;
   updatedAt?: string;
+  /**
+   * Set only on GET /api/admin/properties for messaging: inventory lines from
+   * `property_inventory_dashboard_rows` (same source as `property_listing_configurations`).
+   */
+  messagingInventoryLines?: Array<{
+    configuration: string;
+    sizeSqft: string;
+    priceCr: string;
+  }>;
 }
 
 export interface PropertyFormData extends Omit<Property, 'id' | 'createdAt' | 'updatedAt'> {

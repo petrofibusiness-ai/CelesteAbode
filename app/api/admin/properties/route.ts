@@ -78,7 +78,10 @@ export async function GET(request: NextRequest) {
     // Admin should see both published and draft properties
     const { data, error, count } = await supabase
       .from("properties_v3")
-      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, is_published, hero_image, hero_image_alt, brochure_url, images, created_at, updated_at", { count: 'exact' })
+      .select(
+        "id, slug, project_name, developer, location, location_id, locality_id, project_status, is_published, hero_image, hero_image_alt, brochure_url, images, project_snapshot, location_advantage, created_at, updated_at",
+        { count: "exact" }
+      )
       .order("created_at", { ascending: false })
       .range(offset, offset + limit - 1);
 
@@ -119,6 +122,46 @@ export async function GET(request: NextRequest) {
       }
       return property;
     });
+
+    const propertyIds = properties.map((p) => p.id).filter((id): id is string => Boolean(id));
+    const linesByPropertyId = new Map<
+      string,
+      Array<{ configuration: string; sizeSqft: string; priceCr: string }>
+    >();
+
+    if (propertyIds.length > 0) {
+      const { data: invRows, error: invError } = await supabase
+        .from("property_inventory_dashboard_rows")
+        .select("property_id, line_id, configuration_label, size_sqft, price_cr, sort_order")
+        .in("property_id", propertyIds)
+        .order("sort_order", { ascending: true, nullsFirst: false });
+
+      if (!invError && invRows) {
+        for (const row of invRows as Array<{
+          property_id: string;
+          line_id: string | null;
+          configuration_label: string | null;
+          size_sqft: string | null;
+          price_cr: string | null;
+        }>) {
+          if (!row.line_id) continue;
+          const pid = row.property_id;
+          const bucket = linesByPropertyId.get(pid) ?? [];
+          bucket.push({
+            configuration: String(row.configuration_label ?? "").trim(),
+            sizeSqft: String(row.size_sqft ?? "").trim(),
+            priceCr: String(row.price_cr ?? "").trim(),
+          });
+          linesByPropertyId.set(pid, bucket);
+        }
+      }
+    }
+
+    for (const property of properties) {
+      if (property.id) {
+        property.messagingInventoryLines = linesByPropertyId.get(property.id) ?? [];
+      }
+    }
 
     // Response metadata (removed debug log for production)
 

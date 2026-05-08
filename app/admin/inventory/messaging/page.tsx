@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Property } from "@/types/property";
 import {
-  getCelesteWhatsAppOutreachTemplateForProperty,
+  buildCelesteWhatsAppMessagingTemplate,
   whatsAppComposeUrlNoRecipient,
   whatsAppComposeUrlWithRecipient,
 } from "@/lib/whatsapp-compose";
@@ -150,9 +150,12 @@ export default function AdminInventoryMessagingPage() {
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" style={{ fontFamily: "Poppins, sans-serif" }}>
                 {properties.map((p) => {
                   const propertyKey = p.id ?? p.slug;
-                  const messageText = getCelesteWhatsAppOutreachTemplateForProperty({
-                    propertyName: p.projectName,
+                  const messageText = buildCelesteWhatsAppMessagingTemplate({
+                    projectName: p.projectName,
                     location: p.location,
+                    projectSnapshot: p.projectSnapshot ?? [],
+                    locationAdvantage: p.locationAdvantage ?? [],
+                    inventoryLines: p.messagingInventoryLines ?? [],
                   });
                   const phone = phoneByPropertyKey[propertyKey] ?? "";
                   const phoneDigits = normalizePhoneDigits(phone);

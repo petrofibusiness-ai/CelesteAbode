@@ -43,11 +43,9 @@ function formatConfigurationsBlock(lines: MessagingInventoryLine[]): string {
     .map((l) => {
       const cfg = l.configuration.trim();
       const sz = l.sizeSqft.trim();
-      const pr = l.priceCr.trim();
       const parts: string[] = [];
       if (cfg) parts.push(cfg);
       if (sz) parts.push(`${sz} sq.ft.`);
-      if (pr) parts.push(pr);
       return parts.length ? `• ${parts.join(" · ")}` : null;
     })
     .filter((x): x is string => Boolean(x));

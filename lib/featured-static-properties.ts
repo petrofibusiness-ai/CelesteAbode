@@ -45,10 +45,19 @@ const FUSION_VASUNDHARA_FEATURED: Property & { locationSlug: string } = {
   locationSlug: "ghaziabad",
 };
 
+/** Static property pages with dedicated routes (not only in properties_v2). */
+export const FEATURED_STATIC_PROPERTY_PAGES: (Property & { locationSlug: string })[] = [
+  FUSION_VASUNDHARA_FEATURED,
+];
+
 export function getFeaturedStaticPropertiesForLocation(locationSlug: string): (Property & { locationSlug: string })[] {
-  if (locationSlug === "ghaziabad") {
-    return [FUSION_VASUNDHARA_FEATURED];
-  }
-  return [];
+  return FEATURED_STATIC_PROPERTY_PAGES.filter((p) => p.locationSlug === locationSlug);
+}
+
+export function getFeaturedStaticPropertySitemapPaths(): { url: string; lastModified: Date }[] {
+  return FEATURED_STATIC_PROPERTY_PAGES.map((property) => ({
+    url: `/properties-in-${property.locationSlug}/${property.slug}`,
+    lastModified: new Date(property.updatedAt),
+  }));
 }
 

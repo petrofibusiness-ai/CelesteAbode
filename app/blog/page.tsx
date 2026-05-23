@@ -80,14 +80,15 @@ export default function BlogPage() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-24">
-        {/* Hero Section */}
+      <main className="pt-0">
+        {/* Hero Section — full bleed under header + promo banner (banner overlays) */}
         <section
-          className="relative py-16 md:py-20 bg-gradient-to-b from-[#0f1112] to-background overflow-hidden"
+          className="relative overflow-hidden bg-gradient-to-b from-[#0f1112] to-background py-16 md:py-20"
           data-site-hero
+          data-hero-no-section-pad
         >
           <div className="absolute inset-0 bg-[url('/propertyhero.avif')] opacity-5 bg-cover bg-center" />
-          <div className="relative max-w-[95%] xl:max-w-[1800px] mx-auto text-center">
+          <div className="relative mx-auto max-w-[95%] pt-[var(--site-header-total,6rem)] text-center xl:max-w-[1800px]">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

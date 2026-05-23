@@ -605,10 +605,7 @@ html[data-promo-banner="true"] {
 }
 
 @media (min-width: 768px) {
-  html[data-promo-banner="true"] [data-site-hero] {
-    padding-top: var(--site-header-total) !important;
-  }
-
+  /* main.pt-24 pages only — do not pad [data-site-hero] itself (overlay heroes sit under header + banner) */
   html[data-promo-banner="true"] main.pt-24 {
     padding-top: var(--site-header-total) !important;
   }

@@ -1117,7 +1117,7 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
 
               <aside
                 id="property-inquiry-sidebar"
-                className="mt-10 hidden min-w-0 scroll-mt-28 lg:sticky lg:top-24 lg:mt-0 lg:block xl:top-28 z-20"
+                className="mt-10 hidden min-w-0 scroll-mt-[var(--site-header-total,6rem)] lg:sticky lg:top-[var(--site-header-total,6rem)] lg:mt-0 lg:block xl:top-[calc(var(--site-header-total,6rem)+1rem)] z-20"
               >
                 <PropertyStickyInquiryCard
                   projectNamePlain={projectNamePlain}

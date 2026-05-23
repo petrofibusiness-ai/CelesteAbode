@@ -1,6 +1,7 @@
 import { MetadataRoute } from 'next';
 import { getSupabaseAdminClient } from '@/lib/supabase-server';
 import { blogPosts } from '@/lib/blog-data';
+import { getFeaturedStaticPropertySitemapPaths } from '@/lib/featured-static-properties';
 import { PRIVATE_PROPERTY_LISTING_PATH } from '@/lib/private-property-listing-route';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.celesteabode.com';
@@ -235,8 +236,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
   }
 
+  const featuredStaticPropertyPages: MetadataRoute.Sitemap = getFeaturedStaticPropertySitemapPaths().map(
+    ({ url, lastModified }) => ({
+      url: `${SITE_URL}${url}`,
+      lastModified,
+      changeFrequency: 'weekly' as const,
+      priority: 0.75,
+    })
+  );
+
   // Combine all pages and ensure no duplicates by URL
-  const allPages = [...staticPages, ...locationPages, ...propertyPages];
+  const allPages = [...staticPages, ...locationPages, ...propertyPages, ...featuredStaticPropertyPages];
   const uniquePages = Array.from(
     new Map(allPages.map(page => [page.url, page])).values()
   );

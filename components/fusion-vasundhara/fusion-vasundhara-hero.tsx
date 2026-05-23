@@ -54,6 +54,8 @@ export function FusionVasundharaHero() {
     <section
       className="relative min-h-svh w-full overflow-hidden bg-black"
       aria-labelledby="fusion-vasundhara-h1"
+      data-site-hero
+      data-hero-no-section-pad
     >
       <div className="absolute inset-0">
         <FusionVasundharaGallery slides={HERO_CAROUSEL_SLIDES} theme="dark" bare fullscreenHero />

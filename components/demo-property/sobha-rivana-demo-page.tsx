@@ -326,7 +326,7 @@ export function SobhaRivanaDemoPage() {
 
               <aside
                 id="demo-property-sidebar"
-                className="mt-10 hidden min-w-0 scroll-mt-28 lg:sticky lg:top-24 lg:mt-0 lg:block xl:top-28"
+                className="mt-10 hidden min-w-0 scroll-mt-[var(--site-header-total,6rem)] lg:sticky lg:top-[var(--site-header-total,6rem)] lg:mt-0 lg:block xl:top-[calc(var(--site-header-total,6rem)+1rem)]"
               >
                 <SobhaRivanaStickySidebar idPrefix="desk" />
               </aside>

@@ -52,11 +52,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate file size (10 MB limit)
-    const maxSize = 10 * 1024 * 1024; // 10 MB in bytes
+    // Validate file size (20 MB limit)
+    const maxSize = 20 * 1024 * 1024; // 20 MB in bytes
     if (file.size > maxSize) {
       return NextResponse.json(
-        { error: `PDF file size must be less than 10 MB. Current size: ${(file.size / 1024 / 1024).toFixed(2)} MB` },
+        { error: `PDF file size must be less than 20 MB. Current size: ${(file.size / 1024 / 1024).toFixed(2)} MB` },
         { status: 400 }
       );
     }

@@ -266,10 +266,10 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         toast.error("Please select a PDF file");
         return;
       }
-      // Validate file size (10 MB limit)
-      const maxSize = 10 * 1024 * 1024; // 10 MB in bytes
+      // Validate file size (20 MB limit)
+      const maxSize = 20 * 1024 * 1024; // 20 MB in bytes
       if (file.size > maxSize) {
-        toast.error("PDF file size must be less than 10 MB");
+        toast.error("PDF file size must be less than 20 MB");
         return;
       }
     }
@@ -1905,7 +1905,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                     <FileText className="w-5 h-5 text-[#CBB27A]" />
                   </div>
                   <p className="mb-2 text-sm text-gray-700 font-medium">
-                    <span className="font-semibold text-[#CBB27A]">Click to upload PDF</span> (max. 10 MB)
+                    <span className="font-semibold text-[#CBB27A]">Click to upload PDF</span> (max. 20 MB)
                   </p>
                 </div>
                 <input
@@ -2136,7 +2136,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
                   <FileText className="w-5 h-5 text-[#CBB27A]" />
                 </div>
                 <p className="mb-2 text-sm text-gray-700 font-medium">
-                  <span className="font-semibold text-[#CBB27A]">Click to upload PDF</span> (max. 10mb)
+                  <span className="font-semibold text-[#CBB27A]">Click to upload PDF</span> (max. 20 MB)
                 </p>
               </div>
               <input

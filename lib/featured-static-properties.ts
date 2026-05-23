@@ -57,7 +57,7 @@ export function getFeaturedStaticPropertiesForLocation(locationSlug: string): (P
 export function getFeaturedStaticPropertySitemapPaths(): { url: string; lastModified: Date }[] {
   return FEATURED_STATIC_PROPERTY_PAGES.map((property) => ({
     url: `/properties-in-${property.locationSlug}/${property.slug}`,
-    lastModified: new Date(property.updatedAt),
+    lastModified: new Date(property.updatedAt ?? property.createdAt ?? Date.now()),
   }));
 }
 

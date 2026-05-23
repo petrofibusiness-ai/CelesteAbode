@@ -65,11 +65,6 @@ const WhyBlockSchema = z
   })
   .optional();
 
-const FloorPlanSchema = z.object({
-  label: z.string().max(300).optional(),
-  src: URLSchema,
-});
-
 const LocationAdvantageSchema = z.object({
   label: z.string().min(1).max(200),
   text: z.string().min(1).max(5000),
@@ -88,7 +83,7 @@ export const PropertyDataSchema = z.object({
   possessionDate: z.string().max(255).optional(),
   projectSnapshot: z.array(z.string().max(1000)).optional().default([]),
   whyBlock: WhyBlockSchema,
-  floorPlans: z.array(FloorPlanSchema).optional().default([]),
+  floorPlanUrl: z.union([URLSchema, z.literal(""), z.null()]).optional(),
   locationAdvantage: z.array(LocationAdvantageSchema).optional().default([]),
   mapLink: z.preprocess(
     (val) => {

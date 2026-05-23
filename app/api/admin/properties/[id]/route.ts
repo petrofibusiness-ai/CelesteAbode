@@ -376,14 +376,10 @@ export async function PATCH(
                 .filter(Boolean),
             }
           : existingProperty.whyBlock ?? { points: [] },
-      floorPlans: Array.isArray(bodyForSupabase.floorPlans)
-        ? bodyForSupabase.floorPlans
-            .filter((fp: { src?: string }) => fp?.src?.trim())
-            .map((fp: { src: string; label?: string }) => ({
-              src: fp.src.trim(),
-              label: fp.label?.trim() || undefined,
-            }))
-        : existingProperty.floorPlans ?? [],
+      floorPlanUrl:
+        bodyForSupabase.floorPlanUrl !== undefined
+          ? bodyForSupabase.floorPlanUrl?.trim() || null
+          : existingProperty.floorPlanUrl ?? null,
       locationAdvantage: Array.isArray(bodyForSupabase.locationAdvantage)
         ? bodyForSupabase.locationAdvantage
         : existingProperty.locationAdvantage ?? [],

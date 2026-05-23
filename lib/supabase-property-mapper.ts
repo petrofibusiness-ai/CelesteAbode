@@ -1,7 +1,6 @@
 // Utility to map between TypeScript camelCase and Supabase snake_case
 import type {
   Property,
-  PropertyFloorPlanSlide,
   PropertyLocationAdvantageRow,
 } from "@/types/property";
 import { normalizeAmenities } from "@/lib/amenity-normalize";
@@ -237,30 +236,36 @@ function parseWhyBlock(raw: unknown): { title?: string; points: string[] } {
   return { title: title || undefined, points };
 }
 
-function parseFloorPlans(raw: unknown): PropertyFloorPlanSlide[] {
-  if (!Array.isArray(raw)) return [];
-  const out: PropertyFloorPlanSlide[] = [];
-  for (const item of raw) {
-    if (!item || typeof item !== "object") continue;
-    const o = item as Record<string, unknown>;
-    const src =
-      typeof o.src === "string"
-        ? o.src
-        : typeof o.url === "string"
-          ? o.url
-          : typeof o.image === "string"
-            ? o.image
-            : "";
-    if (!src.trim()) continue;
-    out.push({
-      src: src.trim(),
-      alt: typeof o.alt === "string" ? o.alt : undefined,
-      label: typeof o.label === "string" ? o.label : typeof o.title === "string" ? o.title : undefined,
-      width: typeof o.width === "number" ? o.width : undefined,
-      height: typeof o.height === "number" ? o.height : undefined,
-    });
+/** Parse `properties_v3.floor_plans` (text URL, or legacy JSON array). */
+function parseFloorPlanUrl(raw: unknown): string | undefined {
+  if (typeof raw === "string" && raw.trim()) {
+    const trimmed = raw.trim();
+    if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+      return trimmed;
+    }
+    try {
+      const parsed = JSON.parse(trimmed) as unknown;
+      return parseFloorPlanUrl(parsed);
+    } catch {
+      return undefined;
+    }
   }
-  return out;
+  if (Array.isArray(raw)) {
+    for (const item of raw) {
+      if (!item || typeof item !== "object") continue;
+      const o = item as Record<string, unknown>;
+      const src =
+        typeof o.src === "string"
+          ? o.src
+          : typeof o.url === "string"
+            ? o.url
+            : typeof o.image === "string"
+              ? o.image
+              : "";
+      if (src.trim()) return src.trim();
+    }
+  }
+  return undefined;
 }
 
 function parseV3AmenitiesRaw(raw: unknown): string[] {
@@ -322,7 +327,7 @@ export function supabaseV3ToProperty(row: SupabasePropertyV3): Property {
     amenities: normalizeAmenities(parseV3AmenitiesRaw(row.amenities)),
     projectSnapshot: parseProjectSnapshot(row.project_snapshot),
     whyBlock: parseWhyBlock(row.why_block),
-    floorPlans: parseFloorPlans(row.floor_plans),
+    floorPlanUrl: parseFloorPlanUrl(row.floor_plans) ?? null,
     locationAdvantage: parseLocationAdvantage(row.location_advantage),
     mapLink: normalizeMapLinkFromInput(row.map_link) ?? null,
     priceMin: row.price_min != null ? Number(row.price_min) : undefined,
@@ -351,16 +356,7 @@ export function propertyToSupabaseV3(
   if (why?.title?.trim()) why_block.title = why.title.trim();
   if (points.length > 0) why_block.points = points;
 
-  const floor_plans = (property.floorPlans || [])
-    .filter((fp) => fp.src && String(fp.src).trim())
-    .map((fp) => {
-      const row: Record<string, unknown> = { src: fp.src.trim() };
-      if (fp.label?.trim()) row.label = fp.label.trim();
-      if (fp.alt?.trim()) row.alt = fp.alt.trim();
-      if (fp.width != null && Number.isFinite(fp.width)) row.width = fp.width;
-      if (fp.height != null && Number.isFinite(fp.height)) row.height = fp.height;
-      return row;
-    });
+  const floor_plans = property.floorPlanUrl?.trim() || null;
 
   const location_advantage = (property.locationAdvantage || [])
     .filter((r) => r.label?.trim() && r.text?.trim())

@@ -30,9 +30,7 @@ const DraftPropertySchema = z.object({
       points: z.array(z.string()).optional(),
     })
     .optional(),
-  floorPlans: z
-    .array(z.object({ label: z.string().optional(), src: z.string().url() }))
-    .optional(),
+  floorPlanUrl: z.string().url().optional().nullable(),
   locationAdvantage: z
     .array(z.object({ label: z.string().min(1), text: z.string().min(1) }))
     .optional(),
@@ -192,10 +190,7 @@ export async function POST(request: NextRequest) {
       amenities: body.amenities.filter((a: string) => a && a.trim() !== ""),
       project_snapshot: (body.projectSnapshot || []).map((s) => String(s).trim()).filter(Boolean),
       why_block,
-      floor_plans: (body.floorPlans || []).map((fp) => ({
-        src: fp.src.trim(),
-        ...(fp.label?.trim() ? { label: fp.label.trim() } : {}),
-      })),
+      floor_plans: body.floorPlanUrl?.trim() || null,
       location_advantage: body.locationAdvantage || [],
       map_link: body.mapLink?.trim() || null,
       price_min: body.priceMin != null && Number.isFinite(body.priceMin) ? body.priceMin : null,

@@ -31,6 +31,7 @@ import { Footer } from "@/components/footer";
 import { BreadcrumbSchema, PropertySchema } from "@/lib/structured-data";
 import { SobhaRivanaGallery, type DemoGallerySlide } from "@/components/demo-property/sobha-rivana-gallery";
 import { BrochureDownloadDialog } from "@/components/brochure-download-dialog";
+import { FloorPlansSection } from "@/components/property-public/floor-plans-section";
 import { Button } from "@/components/ui/button";
 import { AmenityIcon } from "@/lib/amenity-icons";
 import type { Property } from "@/types/property";
@@ -588,16 +589,7 @@ export default function PropertyDemoLayout({
 
   const heroSlides = useMemo(() => buildHeroSlides(property), [property]);
 
-  const floorPlanSlides: DemoGallerySlide[] = useMemo(() => {
-    const plans = property.floorPlans || [];
-    return plans.map((p, i) => ({
-      src: p.src,
-      alt: p.alt || `${projectNamePlain} — layout ${i + 1}`,
-      label: p.label || `Plan ${i + 1}`,
-      width: p.width ?? 1600,
-      height: p.height ?? 1000,
-    }));
-  }, [property.floorPlans, projectNamePlain]);
+  const hasFloorPlans = Boolean(property.floorPlanUrl?.trim());
 
   const amenitiesToShow = useMemo(() => {
     const list = property.amenities?.filter((a) => a && String(a).trim()) || [];
@@ -736,16 +728,20 @@ export default function PropertyDemoLayout({
                   </section>
                 ) : null}
 
-                {floorPlanSlides.length > 0 ? (
+                {hasFloorPlans ? (
                   <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="floor-plans-h2">
                     <SectionHeading
                       id="floor-plans-h2"
                       icon={Layers}
                       title="Floor plans & layouts"
-                      subtitle="Site layout, typical unit, and clubhouse views — a strong feel for scale and lifestyle before you step on site."
+                      subtitle="Typical units, tower plates, and master layout — unlock the full PDF after a quick form."
                     />
                     <div className="max-w-4xl lg:mr-auto">
-                      <SobhaRivanaGallery slides={floorPlanSlides} theme="dark" cinema />
+                      <FloorPlansSection
+                        propertyName={projectNamePlain}
+                        propertySlug={property.slug}
+                        floorPlanUrl={property.floorPlanUrl!.trim()}
+                      />
                     </div>
                   </section>
                 ) : null}

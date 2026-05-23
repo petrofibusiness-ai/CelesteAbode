@@ -11,14 +11,19 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Download, Loader2, CheckCircle2 } from "lucide-react";
+import { Download, Layers, Loader2, CheckCircle2 } from "lucide-react";
+
+export type BrochureDownloadPurpose = "brochure" | "floor-plans";
 
 interface BrochureDownloadDialogProps {
   isOpen: boolean;
   onClose: () => void;
   propertyName: string;
   propertySlug?: string;
-  brochureUrl?: string; // Cloudinary URL
+  brochureUrl?: string;
+  /** When set, used as the download URL (e.g. floor plan PDF). Falls back to `brochureUrl`. */
+  downloadUrl?: string;
+  purpose?: BrochureDownloadPurpose;
 }
 
 export function BrochureDownloadDialog({
@@ -27,7 +32,11 @@ export function BrochureDownloadDialog({
   propertyName,
   propertySlug,
   brochureUrl,
+  downloadUrl: downloadUrlProp,
+  purpose = "brochure",
 }: BrochureDownloadDialogProps) {
+  const isFloorPlans = purpose === "floor-plans";
+  const resourceUrl = downloadUrlProp || brochureUrl;
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -176,7 +185,10 @@ export function BrochureDownloadDialog({
           phone: formData.phone,
           email: formData.email,
           propertyName,
-          brochureUrl,
+          propertySlug,
+          brochureUrl: resourceUrl,
+          downloadUrl: resourceUrl,
+          purpose,
         }),
       });
 
@@ -186,15 +198,15 @@ export function BrochureDownloadDialog({
         setSubmitStatus("success");
         
         // Trigger download after a brief delay
-        if (result.downloadUrl || brochureUrl) {
+        if (result.downloadUrl || resourceUrl) {
           setTimeout(async () => {
-            const downloadUrl = result.downloadUrl || brochureUrl;
+            const downloadUrl = result.downloadUrl || resourceUrl;
             if (downloadUrl) {
               try {
-                // Use slug for filename: {slug}_celeste_abode.pdf
-                const filename = propertySlug 
-                  ? `${propertySlug}_celeste_abode.pdf`
-                  : `${propertyName.replace(/\s+/g, "-").toLowerCase()}_celeste_abode.pdf`;
+                const slugPart = propertySlug || propertyName.replace(/\s+/g, "-").toLowerCase();
+                const filename = isFloorPlans
+                  ? `${slugPart}_floor_plans.pdf`
+                  : `${slugPart}_celeste_abode.pdf`;
                 
                 // Use proxy endpoint to bypass CORS and force download
                 const proxyUrl = `/api/brochure-download/proxy?url=${encodeURIComponent(downloadUrl)}&filename=${encodeURIComponent(filename)}`;
@@ -295,14 +307,20 @@ export function BrochureDownloadDialog({
         <DialogHeader>
           <div className="flex items-center gap-3 mb-2">
             <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center">
-              <Download className="w-6 h-6 text-white" />
+              {isFloorPlans ? (
+                <Layers className="w-6 h-6 text-white" />
+              ) : (
+                <Download className="w-6 h-6 text-white" />
+              )}
             </div>
             <div>
               <DialogTitle className="text-2xl font-bold text-gray-900">
-                Download Brochure
+                {isFloorPlans ? "View floor plans" : "Download Brochure"}
               </DialogTitle>
               <DialogDescription className="text-sm text-gray-600 mt-1">
-                Get detailed information about {propertyName}
+                {isFloorPlans
+                  ? `Unlock detailed layouts for ${propertyName}`
+                  : `Get detailed information about ${propertyName}`}
               </DialogDescription>
             </div>
           </div>
@@ -314,10 +332,12 @@ export function BrochureDownloadDialog({
               <CheckCircle2 className="w-8 h-8 text-green-600" />
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">
-              Brochure Downloaded!
+              {isFloorPlans ? "Floor plans unlocked!" : "Brochure Downloaded!"}
             </h3>
             <p className="text-sm text-gray-600">
-              Your brochure is downloading. We'll be in touch soon!
+              {isFloorPlans
+                ? "Your floor plans are downloading. We'll be in touch soon!"
+                : "Your brochure is downloading. We'll be in touch soon!"}
             </p>
           </div>
         ) : (
@@ -414,6 +434,11 @@ export function BrochureDownloadDialog({
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                     Processing...
+                  </>
+                ) : isFloorPlans ? (
+                  <>
+                    <Layers className="w-4 h-4 mr-2" />
+                    View floor plans
                   </>
                 ) : (
                   <>

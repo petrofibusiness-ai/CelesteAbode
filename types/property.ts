@@ -16,15 +16,6 @@ export interface PropertySEO {
   canonical?: string;
 }
 
-/** Floor plan / layout image for gallery (properties_v3.floor_plans JSON). */
-export interface PropertyFloorPlanSlide {
-  src: string;
-  alt?: string;
-  label?: string;
-  width?: number;
-  height?: number;
-}
-
 /** Location advantage row (properties_v3.location_advantage JSON). */
 export interface PropertyLocationAdvantageRow {
   label: string;
@@ -65,8 +56,8 @@ export interface Property {
   projectSnapshot?: string[];
   /** properties_v3.why_block — section title + bullet points */
   whyBlock?: { title?: string; points: string[] };
-  /** properties_v3.floor_plans */
-  floorPlans?: PropertyFloorPlanSlide[];
+  /** properties_v3.floor_plans — public R2 URL of floor plan PDF */
+  floorPlanUrl?: string | null;
   /** properties_v3.location_advantage */
   locationAdvantage?: PropertyLocationAdvantageRow[];
   /** properties_v3.map_link — maps embed URL for iframe src (saved normalized from URL or pasted iframe HTML) */

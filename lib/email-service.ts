@@ -13,7 +13,8 @@ export interface EmailSubmissionParams {
     | 'advisory-session'
     | 'consultation'
     | 'chatbot'
-    | 'brochure-download';
+    | 'brochure-download'
+    | 'floor-plans-download';
   firstName: string;
   lastName: string;
   /** Optional for chatbot and brochure-download. */
@@ -775,7 +776,8 @@ function createConfirmationEmailTemplate(
 export async function sendFormSubmissionEmail(params: EmailSubmissionParams): Promise<EmailResult> {
   try {
     const isChatbot = params.formType === 'chatbot';
-    const isBrochureDownload = params.formType === "brochure-download";
+    const isBrochureDownload =
+      params.formType === "brochure-download" || params.formType === "floor-plans-download";
 
     // Validate required fields
     if (!params.firstName || !params.phone) {
@@ -841,6 +843,10 @@ export async function sendFormSubmissionEmail(params: EmailSubmissionParams): Pr
       case "brochure-download":
         emailContent = createContactEmailTemplate(params);
         subject = `Brochure download - ${fullName}`;
+        break;
+      case "floor-plans-download":
+        emailContent = createContactEmailTemplate(params);
+        subject = `Floor plans download - ${fullName}`;
         break;
       case 'segmented-entry':
         emailContent = createSegmentedEntryEmailTemplate(params);

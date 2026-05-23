@@ -336,19 +336,16 @@ export function validatePropertyData(body: any): ValidationError[] {
     }
   }
 
-  if (body.floorPlans !== undefined) {
-    errors.push(
-      ...validateArray(body.floorPlans, "floorPlans", 50, (item, index) => {
-        if (typeof item !== "object" || item === null) return `floorPlans[${index}] must be an object`;
-        if (!item.src || typeof item.src !== "string") return `floorPlans[${index}].src is required`;
-        try {
-          new URL(item.src);
-        } catch {
-          return `floorPlans[${index}].src must be a valid URL`;
-        }
-        return null;
-      })
-    );
+  if (body.floorPlanUrl !== undefined && body.floorPlanUrl !== null && body.floorPlanUrl !== "") {
+    if (typeof body.floorPlanUrl !== "string") {
+      errors.push({ field: "floorPlanUrl", message: "floorPlanUrl must be a string URL" });
+    } else {
+      try {
+        new URL(body.floorPlanUrl.trim());
+      } catch {
+        errors.push({ field: "floorPlanUrl", message: "floorPlanUrl must be a valid URL" });
+      }
+    }
   }
 
   if (body.locationAdvantage !== undefined) {

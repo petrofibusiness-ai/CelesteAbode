@@ -119,9 +119,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       title: property?.whyBlock?.title || "",
       points: property?.whyBlock?.points?.length ? [...property.whyBlock.points] : [],
     },
-    floorPlans: property?.floorPlans?.length
-      ? property.floorPlans.map((fp) => ({ src: fp.src, label: fp.label || "" }))
-      : [],
+    floorPlanUrl: property?.floorPlanUrl || "",
     locationAdvantage: property?.locationAdvantage?.length
       ? property.locationAdvantage.map((r) => ({ label: r.label, text: r.text }))
       : [],
@@ -137,6 +135,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
   const [tempFiles, setTempFiles] = useState<{
     hero?: File;
     brochure?: File;
+    floorPlan?: File;
     images: File[];
     videos: File[];
   }>({
@@ -148,6 +147,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
   const [previewUrls, setPreviewUrls] = useState<{
     hero?: string;
     brochure?: string;
+    floorPlan?: string;
     images: string[];
     videos: string[];
   }>({
@@ -155,46 +155,9 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     videos: [],
   });
 
-  /** Parallel to `formData.floorPlans`: staged files uploaded to R2 on save ({slug}/floor-plans/...) */
-  const [pendingFloorPlanFiles, setPendingFloorPlanFiles] = useState<(File | undefined)[]>([]);
-  const [floorPlanBlobPreviews, setFloorPlanBlobPreviews] = useState<(string | undefined)[]>([]);
-
   // Refs for file inputs to reset them after selection
   const imageInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
-  const floorPlanInputRefs = useRef<(HTMLInputElement | null)[]>([]);
-
-  useEffect(() => {
-    const n = formData.floorPlans?.length ?? 0;
-    setPendingFloorPlanFiles((prev) => {
-      if (prev.length === n) return prev;
-      const next = prev.slice(0, n);
-      while (next.length < n) next.push(undefined);
-      return next;
-    });
-    setFloorPlanBlobPreviews((prev) => {
-      if (prev.length === n) return prev;
-      for (let i = n; i < prev.length; i++) {
-        if (prev[i]) URL.revokeObjectURL(prev[i]!);
-      }
-      const next = prev.slice(0, n);
-      while (next.length < n) next.push(undefined);
-      return next;
-    });
-  }, [formData.floorPlans?.length]);
-
-  const prevPropertyIdForFloorPlansRef = useRef<string | undefined>(undefined);
-  useEffect(() => {
-    if (prevPropertyIdForFloorPlansRef.current === property?.id) return;
-    prevPropertyIdForFloorPlansRef.current = property?.id;
-    setFloorPlanBlobPreviews((prev) => {
-      prev.forEach((u) => {
-        if (u) URL.revokeObjectURL(u);
-      });
-      return [];
-    });
-    setPendingFloorPlanFiles([]);
-  }, [property?.id]);
 
   // Fetch locations on mount
   useEffect(() => {
@@ -275,7 +238,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
   // Store file temporarily (not uploaded until submit)
   const handleFileSelect = (
     file: File,
-    type: "hero" | "brochure" | "image" | "video"
+    type: "hero" | "brochure" | "floor-plan" | "image" | "video"
   ) => {
     // Validate file type
     if (type === "hero" || type === "image") {
@@ -298,7 +261,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         });
         return;
       }
-    } else if (type === "brochure") {
+    } else if (type === "brochure" || type === "floor-plan") {
       if (file.type !== "application/pdf") {
         toast.error("Please select a PDF file");
         return;
@@ -330,6 +293,13 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       if (formData.brochureUrl && !formData.brochureUrl.startsWith("blob:")) {
         handleChange("brochureUrl", "");
       }
+    } else if (type === "floor-plan") {
+      if (previewUrls.floorPlan) URL.revokeObjectURL(previewUrls.floorPlan);
+      setTempFiles((prev) => ({ ...prev, floorPlan: file }));
+      setPreviewUrls((prev) => ({ ...prev, floorPlan: previewUrl }));
+      if (formData.floorPlanUrl && !formData.floorPlanUrl.startsWith("blob:")) {
+        handleChange("floorPlanUrl", "");
+      }
     } else if (type === "image") {
       setTempFiles((prev) => ({ ...prev, images: [...prev.images, file] }));
       setPreviewUrls((prev) => ({ ...prev, images: [...prev.images, previewUrl] }));
@@ -340,13 +310,15 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
 
     // Only show toast for single file selections (hero, brochure)
     // Multiple files (images, videos) will show their own toast
-    if (type === "hero" || type === "brochure") {
-      toast.success(`${type === "hero" ? "Hero image" : "Brochure"} selected. It will be uploaded when you save the property.`);
+    if (type === "hero" || type === "brochure" || type === "floor-plan") {
+      const label =
+        type === "hero" ? "Hero image" : type === "brochure" ? "Brochure" : "Floor plan PDF";
+      toast.success(`${label} selected. It will be uploaded when you save the property.`);
     }
   };
 
   // Remove temporary file
-  const removeTempFile = (type: "hero" | "brochure" | "image" | "video", index?: number) => {
+  const removeTempFile = (type: "hero" | "brochure" | "floor-plan" | "image" | "video", index?: number) => {
     if (type === "hero") {
       if (previewUrls.hero) URL.revokeObjectURL(previewUrls.hero);
       setTempFiles((prev) => ({ ...prev, hero: undefined }));
@@ -355,6 +327,10 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       if (previewUrls.brochure) URL.revokeObjectURL(previewUrls.brochure);
       setTempFiles((prev) => ({ ...prev, brochure: undefined }));
       setPreviewUrls((prev) => ({ ...prev, brochure: undefined }));
+    } else if (type === "floor-plan") {
+      if (previewUrls.floorPlan) URL.revokeObjectURL(previewUrls.floorPlan);
+      setTempFiles((prev) => ({ ...prev, floorPlan: undefined }));
+      setPreviewUrls((prev) => ({ ...prev, floorPlan: undefined }));
     } else if (type === "image" && index !== undefined) {
       URL.revokeObjectURL(previewUrls.images[index]);
       setTempFiles((prev) => ({
@@ -376,44 +352,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         videos: prev.videos.filter((_, i) => i !== index),
       }));
     }
-  };
-
-  const handleFloorPlanFileSelect = (idx: number, file: File | null) => {
-    if (!file) return;
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please select an image file for the floor plan");
-      return;
-    }
-    setFloorPlanBlobPreviews((prev) => {
-      const next = [...prev];
-      while (next.length <= idx) next.push(undefined);
-      if (next[idx]) URL.revokeObjectURL(next[idx]!);
-      next[idx] = URL.createObjectURL(file);
-      return next;
-    });
-    setPendingFloorPlanFiles((prev) => {
-      const next = [...prev];
-      while (next.length <= idx) next.push(undefined);
-      next[idx] = file;
-      return next;
-    });
-    toast.success("Floor plan image will upload when you save.");
-  };
-
-  const clearFloorPlanStagedFile = (idx: number) => {
-    setFloorPlanBlobPreviews((prev) => {
-      if (idx >= prev.length) return prev;
-      const next = [...prev];
-      if (next[idx]) URL.revokeObjectURL(next[idx]!);
-      next[idx] = undefined;
-      return next;
-    });
-    setPendingFloorPlanFiles((prev) => {
-      if (idx >= prev.length) return prev;
-      const next = [...prev];
-      next[idx] = undefined;
-      return next;
-    });
   };
 
   // Upload a single file to R2 with progress tracking
@@ -458,7 +396,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       } else if (type === "image") {
         endpoint = "/api/admin/upload/image";
       } else if (type === "floor-plan") {
-        endpoint = "/api/admin/upload/image";
+        endpoint = "/api/admin/upload/pdf";
         uploadFormData.append("kind", "floorPlan");
       } else if (type === "video") {
         endpoint = "/api/admin/upload/video";
@@ -623,23 +561,11 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       newErrors.projectStatus = "Invalid project status selected";
     }
 
-    const fpRows = formData.floorPlans || [];
-    for (let i = 0; i < fpRows.length; i++) {
-      const fp = fpRows[i];
-      const hasLabel = Boolean(fp.label?.trim());
-      const hasSrc = Boolean(fp.src?.trim());
-      const hasPending = Boolean(pendingFloorPlanFiles[i]);
-      if (!hasLabel && !hasSrc && !hasPending) continue;
-      if (hasPending) continue;
-      if (!hasSrc) {
-        newErrors.floorPlans = "Each floor plan needs an image (upload a file)";
-        break;
-      }
+    if (formData.floorPlanUrl?.trim()) {
       try {
-        new URL(fp.src!.trim());
+        new URL(formData.floorPlanUrl.trim());
       } catch {
-        newErrors.floorPlans = "Each floor plan image must be a valid URL";
-        break;
+        newErrors.floorPlanUrl = "Floor plan PDF URL must be valid";
       }
     }
     if (formData.mapLink?.trim()) {
@@ -730,7 +656,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       }
       const updatedFormData = {
         ...formData,
-        floorPlans: (formData.floorPlans || []).map((fp) => ({ ...fp })),
+        floorPlanUrl: formData.floorPlanUrl,
       };
       const uploadErrors: string[] = [];
       
@@ -742,11 +668,9 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       }> = [];
       if (tempFiles.hero) filesToUpload.push({ file: tempFiles.hero, type: "hero" });
       if (tempFiles.brochure) filesToUpload.push({ file: tempFiles.brochure, type: "brochure" });
+      if (tempFiles.floorPlan) filesToUpload.push({ file: tempFiles.floorPlan, type: "floor-plan" });
       tempFiles.images.forEach((file) => filesToUpload.push({ file, type: "image" }));
       tempFiles.videos.forEach((file) => filesToUpload.push({ file, type: "video" }));
-      pendingFloorPlanFiles.forEach((file) => {
-        if (file) filesToUpload.push({ file, type: "floor-plan" });
-      });
       
       const totalFiles = filesToUpload.length;
       const totalBytes = filesToUpload.reduce((sum, item) => sum + item.file.size, 0);
@@ -919,6 +843,43 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         }
       }
 
+      // Upload floor plan PDF (optional; replaces existing URL in DB)
+      if (tempFiles.floorPlan) {
+        const currentFileIndex = fileIndex++;
+        const floorPlanFile = tempFiles.floorPlan;
+        try {
+          if (!isTerminalState) {
+            safeSetStatusText("Uploading floor plan PDF...");
+          }
+          const planUrl = await uploadFileToR2(
+            floorPlanFile,
+            "floor-plan",
+            propertySlug,
+            (bytesUploaded, totalBytes) => {
+              if (!isTerminalState) {
+                updateOverallProgress(bytesUploaded, totalBytes, currentFileIndex);
+              }
+            }
+          );
+          if (!planUrl || planUrl.trim() === "") {
+            throw new Error("Floor plan upload failed - no URL returned");
+          }
+          updatedFormData.floorPlanUrl = planUrl.trim();
+          if (!isTerminalState) {
+            fileProgressMap.set(currentFileIndex, floorPlanFile.size);
+            updateOverallProgress(floorPlanFile.size, floorPlanFile.size, currentFileIndex);
+          }
+        } catch (error) {
+          const errorMsg = `Failed to upload floor plan: ${error instanceof Error ? error.message : "Unknown error"}`;
+          uploadErrors.push(errorMsg);
+          console.error(errorMsg, error);
+          if (!isTerminalState) {
+            fileProgressMap.set(currentFileIndex, floorPlanFile.size);
+            updateOverallProgress(floorPlanFile.size, floorPlanFile.size, currentFileIndex);
+          }
+        }
+      }
+
       // Upload gallery images
       const imageUrls: string[] = [...formData.images]; // Keep existing images
       for (let i = 0; i < tempFiles.images.length; i++) {
@@ -1019,46 +980,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       }
       updatedFormData.videos = videoData;
 
-      for (let i = 0; i < pendingFloorPlanFiles.length; i++) {
-        const pending = pendingFloorPlanFiles[i];
-        if (!pending) continue;
-        const currentFileIndex = fileIndex++;
-        try {
-          if (!isTerminalState) {
-            safeSetStatusText(`Uploading floor plan ${i + 1}...`);
-          }
-          const planUrl = await uploadFileToR2(
-            pending,
-            "floor-plan",
-            propertySlug,
-            (bytesUploaded, totalBytes) => {
-              if (!isTerminalState) {
-                updateOverallProgress(bytesUploaded, totalBytes, currentFileIndex);
-              }
-            }
-          );
-          if (!planUrl || planUrl.trim() === "") {
-            throw new Error(`Floor plan ${i + 1} upload failed - no URL returned`);
-          }
-          const fps = updatedFormData.floorPlans || [];
-          if (fps[i]) {
-            fps[i] = { ...fps[i], src: planUrl.trim() };
-          }
-          if (!isTerminalState) {
-            fileProgressMap.set(currentFileIndex, pending.size);
-            updateOverallProgress(pending.size, pending.size, currentFileIndex);
-          }
-        } catch (error) {
-          const errorMsg = `Failed to upload floor plan ${i + 1}: ${error instanceof Error ? error.message : "Unknown error"}`;
-          uploadErrors.push(errorMsg);
-          console.error(errorMsg, error);
-          if (!isTerminalState) {
-            fileProgressMap.set(currentFileIndex, pending.size);
-            updateOverallProgress(pending.size, pending.size, currentFileIndex);
-          }
-        }
-      }
-
       // Step 2: Validate that critical uploads succeeded
       // If hero image upload failed and we don't have an existing one, abort
       if (!updatedFormData.heroImage || updatedFormData.heroImage.trim() === "") {
@@ -1137,12 +1058,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
             .map((p) => String(p).trim())
             .filter((p) => p.length > 0),
         },
-        floorPlans: (updatedFormData.floorPlans || [])
-          .filter((fp) => fp.src?.trim())
-          .map((fp) => ({
-            src: fp.src.trim(),
-            label: fp.label?.trim() || undefined,
-          })),
+        floorPlanUrl: updatedFormData.floorPlanUrl?.trim() || null,
         locationAdvantage: (updatedFormData.locationAdvantage || []).filter(
           (r) => r.label?.trim() && r.text?.trim()
         ),
@@ -1240,11 +1156,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
       if (previewUrls.brochure) URL.revokeObjectURL(previewUrls.brochure);
       previewUrls.images.forEach((url) => URL.revokeObjectURL(url));
       previewUrls.videos.forEach((url) => URL.revokeObjectURL(url));
-      floorPlanBlobPreviews.forEach((url) => {
-        if (url) URL.revokeObjectURL(url);
-      });
-      setFloorPlanBlobPreviews([]);
-      setPendingFloorPlanFiles([]);
+      if (previewUrls.floorPlan) URL.revokeObjectURL(previewUrls.floorPlan);
 
       // Clear all form fields after successful save (only for new properties, not edits)
       if (!property?.id) {
@@ -1266,7 +1178,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           amenities: [],
           projectSnapshot: [],
           whyBlock: { title: "", points: [] },
-          floorPlans: [],
+          floorPlanUrl: "",
           locationAdvantage: [],
           mapLink: "",
           priceMin: null,
@@ -1359,17 +1271,9 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     if (formData.propertyType && !isValidPropertyType(formData.propertyType)) return false;
     if (formData.projectStatus && !isValidProjectStatus(formData.projectStatus)) return false;
 
-    const fps = formData.floorPlans || [];
-    for (let i = 0; i < fps.length; i++) {
-      const fp = fps[i];
-      const hasLabel = Boolean(fp.label?.trim());
-      const hasSrc = Boolean(fp.src?.trim());
-      const hasPending = Boolean(pendingFloorPlanFiles[i]);
-      if (!hasLabel && !hasSrc && !hasPending) continue;
-      if (hasPending) continue;
-      if (!hasSrc) return false;
+    if (formData.floorPlanUrl?.trim()) {
       try {
-        new URL(fp.src!.trim());
+        new URL(formData.floorPlanUrl.trim());
       } catch {
         return false;
       }
@@ -1400,7 +1304,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     formData.amenities,
     formData.propertyType,
     formData.projectStatus,
-    formData.floorPlans,
+    formData.floorPlanUrl,
     formData.mapLink,
     selectedLocationId,
     selectedLocalityId,
@@ -1408,7 +1312,6 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     tempFiles.hero,
     formData.priceMin,
     formData.priceMax,
-    pendingFloorPlanFiles,
   ]);
 
   return (
@@ -1950,107 +1853,73 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
 
           <div className="space-y-4 pt-6 border-t border-gray-100 mt-6">
             <Label className="text-sm font-semibold text-gray-800" style={{ fontFamily: "Poppins, sans-serif" }}>
-              Floor plans (title + image)
+              Floor plans PDF
             </Label>
             <p className="text-xs text-gray-500" style={{ fontFamily: "Poppins, sans-serif" }}>
-              Images upload to Cloudflare R2 under{" "}
-              <span className="font-mono text-gray-600">{"{slug}/floor-plans/"}</span> when you save.
+              Upload a single PDF to Cloudflare R2 under{" "}
+              <span className="font-mono text-gray-600">{"{slug}/floor-plans/"}</span>. Saving replaces the
+              previous file URL in the database.
             </p>
-            {errors.floorPlans && (
-              <p className="text-red-500 text-sm">{errors.floorPlans}</p>
+            {errors.floorPlanUrl && (
+              <p className="text-red-500 text-sm">{errors.floorPlanUrl}</p>
             )}
-            {(formData.floorPlans || []).map((fp, idx) => (
-              <div key={idx} className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 border-2 border-gray-100 rounded-xl bg-gray-50/50">
-                <div>
-                  <Label className="text-xs text-gray-600 mb-1 block">Title / caption</Label>
-                  <Input
-                    value={fp.label || ""}
-                    onChange={(e) => {
-                      const next = [...(formData.floorPlans || [])];
-                      next[idx] = { ...next[idx], label: e.target.value };
-                      handleChange("floorPlans", next);
-                    }}
-                    placeholder="e.g., Typical 3 BHK"
-                    className="h-10 border-2 border-gray-200 rounded-lg"
+            {previewUrls.floorPlan || formData.floorPlanUrl ? (
+              <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-gray-50 to-gray-50/50 rounded-xl border-2 border-gray-200 shadow-sm">
+                <div className="w-10 h-10 bg-gradient-to-br from-[#CBB27A]/20 to-[#CBB27A]/10 rounded-lg flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-[#CBB27A]" />
+                </div>
+                {previewUrls.floorPlan ? (
+                  <span className="text-sm text-gray-700 flex-1 font-medium" style={{ fontFamily: "Poppins, sans-serif" }}>
+                    {tempFiles.floorPlan?.name} (
+                    {tempFiles.floorPlan ? (tempFiles.floorPlan.size / 1024 / 1024).toFixed(2) : "0"} MB)
+                  </span>
+                ) : (
+                  <a
+                    href={formData.floorPlanUrl || undefined}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-blue-600 hover:text-blue-700 hover:underline flex-1 font-medium"
                     style={{ fontFamily: "Poppins, sans-serif" }}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label className="text-xs text-gray-600 mb-1 block">Floor plan image *</Label>
-                  <input
-                    ref={(el) => {
-                      floorPlanInputRefs.current[idx] = el;
-                    }}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={(e) => {
-                      const f = e.target.files?.[0];
-                      if (f) handleFloorPlanFileSelect(idx, f);
-                      e.target.value = "";
-                    }}
-                  />
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="border-[#CBB27A]/50 text-[#8a7349]"
-                      onClick={() => floorPlanInputRefs.current[idx]?.click()}
-                    >
-                      <Upload className="w-4 h-4 mr-1" />
-                      {fp.src?.trim() || pendingFloorPlanFiles[idx] ? "Replace image" : "Upload image"}
-                    </Button>
-                    {(pendingFloorPlanFiles[idx] || floorPlanBlobPreviews[idx]) && (
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        className="text-amber-700"
-                        onClick={() => clearFloorPlanStagedFile(idx)}
-                      >
-                        Clear new upload
-                      </Button>
-                    )}
-                  </div>
-                  {(floorPlanBlobPreviews[idx] || fp.src?.trim()) && (
-                    <div className="mt-2 rounded-lg border border-gray-200 bg-white p-2 inline-block max-w-full">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={floorPlanBlobPreviews[idx] || fp.src || ""}
-                        alt={fp.label || "Floor plan preview"}
-                        className="max-h-40 w-auto max-w-full object-contain rounded"
-                      />
-                    </div>
-                  )}
-                </div>
-                <div className="md:col-span-2 flex justify-end">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="text-red-600"
-                    onClick={() => {
-                      clearFloorPlanStagedFile(idx);
-                      const next = (formData.floorPlans || []).filter((_, i) => i !== idx);
-                      handleChange("floorPlans", next);
-                    }}
                   >
-                    Remove plan
-                  </Button>
-                </div>
+                    View floor plan PDF
+                  </a>
+                )}
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (previewUrls.floorPlan) {
+                      removeTempFile("floor-plan");
+                    } else {
+                      handleChange("floorPlanUrl", "");
+                    }
+                  }}
+                  className="text-red-600 hover:text-red-700 hover:bg-red-50 rounded-lg p-2 transition-all"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
-            ))}
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              className="border-[#CBB27A]/50 text-[#8a7349]"
-              onClick={() => handleChange("floorPlans", [...(formData.floorPlans || []), { src: "", label: "" }])}
-            >
-              <Plus className="w-4 h-4 mr-1" />
-              Add floor plan
-            </Button>
+            ) : (
+              <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-[#CBB27A] hover:bg-[#CBB27A]/5 transition-all duration-200 group relative overflow-hidden">
+                <div className="relative z-10 flex flex-col items-center justify-center pt-5 pb-6">
+                  <div className="w-10 h-10 bg-gradient-to-br from-[#CBB27A]/20 to-[#CBB27A]/10 rounded-lg flex items-center justify-center mb-2">
+                    <FileText className="w-5 h-5 text-[#CBB27A]" />
+                  </div>
+                  <p className="mb-2 text-sm text-gray-700 font-medium">
+                    <span className="font-semibold text-[#CBB27A]">Click to upload PDF</span> (max. 10 MB)
+                  </p>
+                </div>
+                <input
+                  type="file"
+                  className="hidden"
+                  accept="application/pdf"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleFileSelect(file, "floor-plan");
+                  }}
+                  disabled={loading || uploading === "all"}
+                />
+              </label>
+            )}
           </div>
 
           <div className="space-y-4 pt-6 border-t border-gray-100 mt-6">

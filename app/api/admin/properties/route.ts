@@ -261,12 +261,6 @@ export async function POST(request: NextRequest) {
     const requestMetadata = getRequestMetadata(request);
 
     // Prepare property data
-    const floorPlans =
-      validatedData.floorPlans?.filter((fp) => fp.src?.trim()).map((fp) => ({
-        src: fp.src.trim(),
-        label: fp.label?.trim() || undefined,
-      })) ?? [];
-
     const property: Omit<Property, "id" | "createdAt" | "updatedAt"> = {
       slug: validatedData.slug.trim().toLowerCase(),
       projectName: validatedData.projectName.trim(),
@@ -288,7 +282,7 @@ export async function POST(request: NextRequest) {
           .map((p) => String(p).trim())
           .filter((p) => p.length > 0),
       },
-      floorPlans,
+      floorPlanUrl: validatedData.floorPlanUrl?.trim() || null,
       locationAdvantage: validatedData.locationAdvantage || [],
       mapLink: validatedData.mapLink ?? null,
       description: validatedData.description.trim(),

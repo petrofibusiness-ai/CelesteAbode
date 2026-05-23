@@ -66,7 +66,9 @@ function isValidPhoneNumber(phone: string): boolean {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, phone, email, propertyName, propertySlug, brochureUrl } = body;
+    const { name, phone, email, propertyName, propertySlug, brochureUrl, downloadUrl: requestedDownloadUrl, purpose } = body;
+    const isFloorPlans = purpose === 'floor-plans';
+    const resourceUrl = (requestedDownloadUrl || brochureUrl || '').trim();
     
     // Validate required fields (email optional)
     if (!name || !phone || !propertyName) {
@@ -110,14 +112,22 @@ export async function POST(request: NextRequest) {
       ...(rawEmail ? { email: rawEmail.trim().toLowerCase() } : {}),
       phone: sanitizedPhone.trim(),
       formType: 'contact',
-      formSource: propertyName ? `property-brochure-download:${propertyName}` : 'property-brochure-download',
+      formSource: isFloorPlans
+        ? (propertyName ? `property-floor-plans:${propertyName}` : 'property-floor-plans')
+        : (propertyName ? `property-brochure-download:${propertyName}` : 'property-brochure-download'),
       propertyName: propertyName,
       propertySlug: propertySlug || undefined,
-      formData: {
-        brochureUrl: brochureUrl || '',
-        action: 'brochure-download',
-        propertyName: propertyName,
-      },
+      formData: isFloorPlans
+        ? {
+            floorPlanUrl: resourceUrl,
+            action: 'floor-plans-download',
+            propertyName: propertyName,
+          }
+        : {
+            brochureUrl: resourceUrl,
+            action: 'brochure-download',
+            propertyName: propertyName,
+          },
       clientIP: clientIP,
     });
 
@@ -128,12 +138,14 @@ export async function POST(request: NextRequest) {
 
     // Send email notification
     const emailResult = await sendFormSubmissionEmail({
-      formType: "brochure-download",
+      formType: isFloorPlans ? "floor-plans-download" : "brochure-download",
       firstName: firstName,
       lastName: lastName || "",
       ...(rawEmail ? { email: rawEmail.trim().toLowerCase() } : {}),
       phone: sanitizedPhone.trim(),
-      message: `Brochure download request for ${propertyName}`,
+      message: isFloorPlans
+        ? `Floor plans download request for ${propertyName}`
+        : `Brochure download request for ${propertyName}`,
     });
 
     // Update lead email status if lead was stored
@@ -154,13 +166,13 @@ export async function POST(request: NextRequest) {
     // The brochureUrl should be the public R2 URL from Cloudflare R2
     let downloadUrl = '';
     
-    if (brochureUrl && brochureUrl.startsWith('http')) {
+    if (resourceUrl && resourceUrl.startsWith('http')) {
       // Use the provided R2 public URL directly
-      downloadUrl = brochureUrl;
+      downloadUrl = resourceUrl;
     } else {
       // If no URL provided, return error
       return NextResponse.json(
-        { error: 'Brochure URL not available' },
+        { error: isFloorPlans ? 'Floor plan URL not available' : 'Brochure URL not available' },
         { status: 400 }
       );
     }

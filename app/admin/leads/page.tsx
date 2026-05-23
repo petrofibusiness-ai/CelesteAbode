@@ -1102,6 +1102,12 @@ export default function LeadsPage() {
                                     : lead.form_source.includes(':')
                                     ? `Brochure Download - ${lead.form_source.split(':')[1]}`
                                     : 'Brochure Download - Property'
+                                  : lead.form_source.startsWith('property-floor-plans')
+                                  ? lead.property_name
+                                    ? `Floor Plans - ${lead.property_name}`
+                                    : lead.form_source.includes(':')
+                                    ? `Floor Plans - ${lead.form_source.split(':')[1]}`
+                                    : 'Floor Plans - Property'
                                   : lead.form_source === 'homepage-footer-cta'
                                   ? 'Homepage Footer CTA'
                                   : lead.form_source === 'homepage'
@@ -1421,6 +1427,12 @@ export default function LeadsPage() {
                             : selectedLeadForDetails.form_source.includes(':')
                             ? `Brochure Download - ${selectedLeadForDetails.form_source.split(':')[1]}`
                             : 'Brochure Download - Property'
+                          : selectedLeadForDetails.form_source.startsWith('property-floor-plans')
+                          ? selectedLeadForDetails.property_name
+                            ? `Floor Plans - ${selectedLeadForDetails.property_name}`
+                            : selectedLeadForDetails.form_source.includes(':')
+                            ? `Floor Plans - ${selectedLeadForDetails.form_source.split(':')[1]}`
+                            : 'Floor Plans - Property'
                           : selectedLeadForDetails.form_source === 'homepage-footer-cta'
                           ? 'Homepage Footer CTA'
                           : selectedLeadForDetails.form_source === 'homepage'

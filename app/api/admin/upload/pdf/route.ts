@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { requireAdminAuth } from "@/lib/admin-auth-guard";
-import { uploadBrochureToR2 } from "@/lib/r2-upload";
+import { uploadBrochureToR2, uploadFloorPlanImageToR2 } from "@/lib/r2-upload";
 import { logSecurityEvent, getClientIP, getUserAgent } from "@/lib/security-events";
 import { verifyCSRFToken } from "@/lib/csrf";
 
@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const file = formData.get("file") as File;
     const propertySlug = formData.get("propertySlug") as string || formData.get("projectSlug") as string;
+    const isFloorPlan = formData.get("kind") === "floorPlan";
 
     if (!file) {
       return NextResponse.json(
@@ -68,7 +69,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Upload to R2
-    const result = await uploadBrochureToR2(file, propertySlug);
+    const result = isFloorPlan
+      ? await uploadFloorPlanImageToR2(file, propertySlug)
+      : await uploadBrochureToR2(file, propertySlug);
 
     if (!result.success) {
       return NextResponse.json(

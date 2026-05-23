@@ -117,9 +117,11 @@ export default function ProjectsPage() {
           }
           const data = await response.json();
           const fetchedProperties = data.properties || [];
-          setTotalCount(
-            typeof data.totalCount === "number" ? data.totalCount : fetchedProperties.length
-          );
+          if (typeof data.totalCount === "number") {
+            setTotalCount(data.totalCount);
+          } else if (offset === 0) {
+            setTotalCount(fetchedProperties.length);
+          }
           setProperties(fetchedProperties);
           setCurrentPage(page);
         } else {

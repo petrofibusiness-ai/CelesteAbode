@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Layers, Loader2 } from "lucide-react";
+import { Layers, Loader2, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -18,6 +18,11 @@ import { PropertyGridPagination } from "@/components/property-grid-pagination";
 import type { PropertyInventoryRow } from "@/types/property-listing";
 import type { Location } from "@/types/location";
 import { formatInventoryPriceCrDisplay } from "@/lib/property-listings-price";
+import { configurationGroupKeyFromLabel } from "@/lib/inventory-configuration-groups";
+import {
+  buildLocationInventorySummaryFromRows,
+  type LocationInventorySummary,
+} from "@/lib/inventory-location-summary";
 import { getPropertyUrl } from "@/lib/property-url";
 import { cn } from "@/lib/utils";
 
@@ -34,38 +39,6 @@ const thBase =
 const BHK_FILTER_OPTIONS = ["2 BHK", "3 BHK", "4 BHK"] as const;
 const SIZE_TOLERANCE_SQFT = 250;
 const PRICE_TOLERANCE_RS = 2500000;
-
-function normalizeConfigForGrouping(raw: string): string {
-  return raw
-    .trim()
-    .replace(/(\d+(?:\.\d+)?)(bhk)/gi, "$1 $2")
-    .replace(/\s+/g, " ");
-}
-
-function configurationGroupKeyFromLabel(label: string): string {
-  const v = (label ?? "").trim();
-  if (!v) return "Not set";
-  const lowered = normalizeConfigForGrouping(v).toLowerCase();
-
-  if (/\bstudio\b/.test(lowered)) return "Studio";
-  if (/\b1\s*rk\b/.test(lowered)) return "1 RK";
-
-  const bhk = lowered.match(/(\d+(?:\.\d+)?)\s*bhk\b/i);
-  if (bhk) {
-    const n = parseFloat(bhk[1] ?? "0");
-    if (Number.isFinite(n) && n > 0 && n <= 32) {
-      return `${n} BHK`;
-    }
-  }
-
-  if (/\bduplex\b/i.test(v)) return "Duplex";
-  if (/\bpenthouse\b/i.test(v)) return "Penthouse";
-  if (/\bplot\b/.test(lowered) || /\bland\b/.test(lowered)) return "Plots / Land";
-  if (/\bshop\b/.test(lowered) || /\boffice\b/.test(lowered)) return "Commercial";
-  if (/\bvilla\b/.test(lowered)) return "Villas";
-
-  return "Other layouts";
-}
 
 function parsePriceCr(value: string | undefined): number | null {
   const cleaned = (value ?? "").replace(/[^0-9.]/g, "");
@@ -95,7 +68,11 @@ function formatINR(value: number): string {
 
 function extractBhkKeys(text: string): string[] {
   const out = new Set<string>();
-  const normalized = normalizeConfigForGrouping(text).toLowerCase();
+  const normalized = text
+    .trim()
+    .replace(/(\d+(?:\.\d+)?)(bhk)/gi, "$1 $2")
+    .replace(/\s+/g, " ")
+    .toLowerCase();
   const matches = normalized.matchAll(/(\d+(?:\.\d+)?)\s*bhk\b/g);
   for (const match of matches) {
     const n = Number.parseFloat(match[1] ?? "");
@@ -131,6 +108,7 @@ export default function AdminInventoryPage() {
   const [sizeFilter, setSizeFilter] = useState("");
   const [priceFilter, setPriceFilter] = useState("");
   const [page, setPage] = useState(1);
+  const [locationSummary, setLocationSummary] = useState<LocationInventorySummary[]>([]);
   const isFirstInventoryFetch = useRef(true);
 
   const handleAuthError = useCallback(() => {
@@ -170,7 +148,7 @@ export default function AdminInventoryPage() {
       const params = new URLSearchParams();
       params.set("page", String(page));
       params.set("perPage", "80");
-      if (locationId) params.set("locationId", locationId);
+      if (locationId && locationId !== "__unassigned__") params.set("locationId", locationId);
 
       const res = await fetch(`/api/admin/inventory-dashboard?${params}`, {
         credentials: "include",
@@ -189,6 +167,9 @@ export default function AdminInventoryPage() {
 
       const data = await res.json();
       setItems((data.items || []) as PropertyInventoryRow[]);
+      setLocationSummary(
+        Array.isArray(data.locationSummary) ? (data.locationSummary as LocationInventorySummary[]) : []
+      );
       setPagination(
         (data.pagination || {
           page: 1,
@@ -253,7 +234,11 @@ export default function AdminInventoryPage() {
       if (projectFilterLower && !row.projectName.toLowerCase().includes(projectFilterLower)) {
         return false;
       }
-      if (locationId && row.locationId !== locationId) return false;
+      if (locationId === "__unassigned__") {
+        if (row.locationId) return false;
+      } else if (locationId && row.locationId !== locationId) {
+        return false;
+      }
       if (variantFilterLower && !(row.configuration ?? "").toLowerCase().includes(variantFilterLower)) {
         return false;
       }
@@ -285,6 +270,60 @@ export default function AdminInventoryPage() {
     budgetRangeRs,
     priceTargetRs,
   ]);
+
+  const hasClientFilters = useMemo(() => {
+    const budgetActive =
+      priceBoundsRs.max > 0 &&
+      (budgetRangeRs[0] > priceBoundsRs.min || budgetRangeRs[1] < priceBoundsRs.max);
+    return (
+      selectedBhk.length > 0 ||
+      Boolean(projectFilterLower) ||
+      Boolean(variantFilterLower) ||
+      sizeTarget != null ||
+      priceTargetRs != null ||
+      budgetActive
+    );
+  }, [
+    selectedBhk.length,
+    projectFilterLower,
+    variantFilterLower,
+    sizeTarget,
+    priceTargetRs,
+    budgetRangeRs,
+    priceBoundsRs.min,
+    priceBoundsRs.max,
+  ]);
+
+  const displayLocationSummary = useMemo(() => {
+    if (!hasClientFilters) return locationSummary;
+    return buildLocationInventorySummaryFromRows(filteredItems);
+  }, [hasClientFilters, locationSummary, filteredItems]);
+
+  const locationSummaryById = useMemo(() => {
+    const map = new Map<string, LocationInventorySummary>();
+    for (const entry of displayLocationSummary) {
+      if (entry.locationId) map.set(entry.locationId, entry);
+    }
+    return map;
+  }, [displayLocationSummary]);
+
+  const locationCards = useMemo(() => {
+    const cards = locations.map((loc) => {
+      const stats = locationSummaryById.get(loc.id);
+      return {
+        id: loc.id,
+        name: loc.locationName,
+        propertyCount: stats?.propertyCount ?? 0,
+      };
+    });
+    return cards.sort((a, b) => {
+      const aIsLucknow = a.name.toLowerCase().includes("lucknow");
+      const bIsLucknow = b.name.toLowerCase().includes("lucknow");
+      if (aIsLucknow && !bIsLucknow) return 1;
+      if (!aIsLucknow && bIsLucknow) return -1;
+      return a.name.localeCompare(b.name);
+    });
+  }, [locations, locationSummaryById]);
 
   const flatRows = useMemo(() => {
     return [...filteredItems].sort((a, b) => {
@@ -404,6 +443,60 @@ export default function AdminInventoryPage() {
               })}
             </div>
           </div>
+
+          {locationCards.length > 0 ? (
+            <div className="mb-3 rounded-lg border border-zinc-300 bg-white px-4 py-4 shadow-sm">
+              <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+                <span className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                  City-wise inventory
+                </span>
+                {locationId && locationId !== "__unassigned__" ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setLocationId("");
+                      setPage(1);
+                    }}
+                    className="text-xs font-semibold text-[#9a8648] underline-offset-2 hover:underline"
+                  >
+                    Clear location filter
+                  </button>
+                ) : null}
+              </div>
+              <div className="flex w-full gap-3">
+                {locationCards.map((loc) => {
+                  const isActive = locationId === loc.id;
+                  return (
+                    <button
+                      key={loc.id}
+                      type="button"
+                      onClick={() => {
+                        setLocationId(isActive ? "" : loc.id);
+                        setPage(1);
+                      }}
+                      className={cn(
+                        "flex min-h-[100px] min-w-0 flex-1 basis-0 flex-col justify-between rounded-lg border px-3 py-3 text-left transition-colors",
+                        isActive
+                          ? "border-[#CBB27A] bg-[#CBB27A]/15 ring-1 ring-[#CBB27A]/40"
+                          : "border-zinc-200 bg-zinc-50/80 hover:border-[#CBB27A]/50 hover:bg-white"
+                      )}
+                    >
+                      <p className="flex min-h-[2.5rem] items-start gap-1 text-xs font-semibold leading-snug text-zinc-900">
+                        <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#9a8648]" aria-hidden />
+                        <span className="line-clamp-2">{loc.name}</span>
+                      </p>
+                      <p className="mt-2 text-2xl font-bold tabular-nums leading-none text-zinc-900">
+                        {loc.propertyCount}
+                      </p>
+                      <p className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-zinc-500">
+                        {loc.propertyCount === 1 ? "property" : "properties"}
+                      </p>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ) : null}
 
           <div className="overflow-hidden rounded-lg border border-zinc-300 bg-white shadow-sm">
             <div className="overflow-x-auto">

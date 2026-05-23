@@ -2,9 +2,9 @@
 
 import type { ReactNode } from "react";
 import { Cormorant_Garamond } from "next/font/google";
-import { Award, Building2, IndianRupee, MapPin, ShieldCheck } from "lucide-react";
-import { SOBHA_RIVANA_HERO_IMAGE, SOBHA_RIVANA_RERA_FULL } from "@/lib/blog-data";
-import { SobhaRivanaGallery, type DemoGallerySlide } from "./sobha-rivana-gallery";
+import { Award, BadgePercent, Building2, IndianRupee, MapPin } from "lucide-react";
+import { FUSION_VASUNDHARA_HERO_IMAGE } from "@/lib/fusion-vasundhara-assets";
+import { FusionVasundharaGallery, type DemoGallerySlide } from "./fusion-vasundhara-gallery";
 
 const heroPropertyDisplay = Cormorant_Garamond({
   subsets: ["latin"],
@@ -12,27 +12,15 @@ const heroPropertyDisplay = Cormorant_Garamond({
   display: "swap",
 });
 
+export { FUSION_VASUNDHARA_HERO_IMAGE } from "@/lib/fusion-vasundhara-assets";
+
 export const HERO_CAROUSEL_SLIDES: DemoGallerySlide[] = [
   {
-    src: SOBHA_RIVANA_HERO_IMAGE,
-    alt: "Sobha Rivana — elevation, Sector 1 Greater Noida West",
-    label: "Elevation",
+    src: FUSION_VASUNDHARA_HERO_IMAGE,
+    alt: "Fusion Vasundhara towers and entrance at Sector 7, Vasundhara, Ghaziabad",
+    label: "Fusion Vasundhara",
     width: 1920,
     height: 1080,
-  },
-  {
-    src: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-interior.avif",
-    alt: "Sobha Rivana — sample apartment interior",
-    label: "Interior",
-    width: 1600,
-    height: 1000,
-  },
-  {
-    src: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-clubhouse.avif",
-    alt: "Sobha Rivana — clubhouse",
-    label: "Clubhouse",
-    width: 1600,
-    height: 1000,
   },
 ];
 
@@ -61,19 +49,14 @@ function SpecPill({
   );
 }
 
-export function SobhaRivanaHero() {
+export function FusionVasundharaHero() {
   return (
     <section
       className="relative min-h-svh w-full overflow-hidden bg-black"
-      aria-labelledby="demo-hero-h1"
+      aria-labelledby="fusion-vasundhara-h1"
     >
       <div className="absolute inset-0">
-        <SobhaRivanaGallery
-          slides={HERO_CAROUSEL_SLIDES}
-          theme="dark"
-          bare
-          fullscreenHero
-        />
+        <FusionVasundharaGallery slides={HERO_CAROUSEL_SLIDES} theme="dark" bare fullscreenHero />
       </div>
 
       <div className="pointer-events-none relative z-10 flex min-h-svh flex-col">
@@ -81,12 +64,12 @@ export function SobhaRivanaHero() {
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
         <div className="relative flex min-h-0 flex-1 flex-col px-4 pb-10 pt-[var(--site-header-total,6rem)] sm:px-6 sm:pb-12 sm:pt-[calc(7rem+var(--site-banner-h,0px))] md:px-10 lg:px-14">
-          <div className="max-w-4xl text-left pointer-events-auto">
+          <div className="pointer-events-auto max-w-4xl text-left">
             <h1
-              id="demo-hero-h1"
+              id="fusion-vasundhara-h1"
               className={`${heroPropertyDisplay.className} text-[2rem] font-semibold uppercase leading-[1.05] tracking-[0.12em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-5xl sm:tracking-[0.16em] md:text-6xl md:tracking-[0.18em]`}
             >
-              Sobha Rivana
+              Fusion Vasundhara
             </h1>
             <div className="mt-3 flex items-start gap-2">
               <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-[#CBB27A]" aria-hidden />
@@ -94,29 +77,24 @@ export function SobhaRivanaHero() {
                 className="text-sm font-semibold text-white/95 drop-shadow sm:text-lg"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
-                Sector 1, Greater Noida West · 2, 3 &amp; 4 BHK
+                Sector 7, Vasundhara, Ghaziabad - 3, 3.5 and 4 BHK (pre-launch)
               </p>
             </div>
           </div>
 
-          <div className="mt-auto flex w-full justify-start pt-10 sm:pt-12 pointer-events-auto">
+          <div className="pointer-events-auto mt-auto flex w-full justify-start pt-10 sm:pt-12">
             <div className="grid w-full max-w-[min(100%,20rem)] grid-cols-2 gap-2 sm:max-w-2xl sm:grid-cols-4 sm:gap-3">
-              <SpecPill label="RERA" icon={<ShieldCheck className="h-4 w-4" aria-hidden />}>
-                <span className="line-clamp-3 text-[11px] leading-tight sm:line-clamp-none sm:text-xs">
-                  {SOBHA_RIVANA_RERA_FULL}
-                </span>
+              <SpecPill label="EOI" icon={<BadgePercent className="h-4 w-4" aria-hidden />}>
+                10%
               </SpecPill>
               <SpecPill label="Configuration" icon={<Building2 className="h-4 w-4" aria-hidden />}>
-                2 / 3 / 4 BHK
+                3 / 3.5 / 4 BHK
               </SpecPill>
               <SpecPill label="Price" icon={<IndianRupee className="h-4 w-4" aria-hidden />}>
                 On request
-                <span className="mt-0.5 block text-[10px] font-normal text-white/75">
-                  ~₹2.25 Cr* indicative
-                </span>
               </SpecPill>
               <SpecPill label="Developer" icon={<Award className="h-4 w-4" aria-hidden />}>
-                Sobha Ltd.
+                Fusion Group
               </SpecPill>
             </div>
           </div>

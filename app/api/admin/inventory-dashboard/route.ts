@@ -11,6 +11,7 @@ import {
   normalizeSearchQ,
   type InventoryLineFilter,
 } from "@/lib/inventory-dashboard-rows";
+import { buildLocationInventorySummary } from "@/lib/inventory-location-summary";
 
 const QUERY_TIMEOUT = 15000;
 const DEFAULT_PER_PAGE = 15;
@@ -86,10 +87,12 @@ export async function GET(request: NextRequest) {
     const slugByLocationId = await locationSlugMapForRows(supabase, pageRowsFlat);
 
     const items = buildPagedInventoryItems(pageGroups, slugByLocationId, start + 1);
+    const locationSummary = buildLocationInventorySummary(groupsFiltered);
 
     return NextResponse.json(
       {
         items,
+        locationSummary,
         pagination: {
           page,
           perPage,

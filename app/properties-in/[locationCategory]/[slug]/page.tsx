@@ -44,7 +44,10 @@ async function resolveCanonicalProperty(
     .single();
 
   if (propertyError) {
-    console.error("[resolveCanonicalProperty] Error fetching property:", propertyError);
+    // No row is expected for hardcoded/static property pages that are not in properties_v2.
+    if ((propertyError as { code?: string }).code !== "PGRST116") {
+      console.error("[resolveCanonicalProperty] Error fetching property:", propertyError);
+    }
     return null;
   }
 
@@ -67,7 +70,9 @@ async function resolveCanonicalProperty(
     .single();
 
   if (locationError) {
-    console.error("[resolveCanonicalProperty] Error fetching location:", locationError);
+    if ((locationError as { code?: string }).code !== "PGRST116") {
+      console.error("[resolveCanonicalProperty] Error fetching location:", locationError);
+    }
     return null;
   }
 

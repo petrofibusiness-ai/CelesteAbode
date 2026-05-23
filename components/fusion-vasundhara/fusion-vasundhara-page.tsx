@@ -1,7 +1,6 @@
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import {
-  Activity,
   ArrowUpRight,
   Building2,
   Dumbbell,
@@ -10,96 +9,76 @@ import {
   GraduationCap,
   Home,
   Landmark,
-  Layers,
   MapPin,
-  Plane,
+  TrendingUp,
   Route,
   Shield,
   Sparkles,
   Stethoscope,
   Store,
+  Train,
   TreePine,
   Waves,
 } from "lucide-react";
-import { PropertyScrollFootnote, PropertyScrollSubtext } from "@/components/property-scroll-footnote";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+import { PropertyScrollFootnote, PropertyScrollSubtext } from "@/components/property-scroll-footnote";
 import { BreadcrumbSchema } from "@/lib/structured-data";
-import { SobhaRivanaGallery, type DemoGallerySlide } from "./sobha-rivana-gallery";
-import { SobhaRivanaHero } from "./sobha-rivana-hero";
-import { SobhaRivanaFooterCta } from "./sobha-rivana-footer-cta";
-import { SobhaRivanaMapEmbed, SobhaRivanaStickySidebar } from "./sobha-rivana-sticky-sidebar";
+import { FusionVasundharaHero } from "./fusion-vasundhara-hero";
+import { FusionVasundharaFooterCta } from "./fusion-vasundhara-footer-cta";
+import { FusionVasundharaMapEmbed, FusionVasundharaStickySidebar } from "./fusion-vasundhara-sticky-sidebar";
 
-const FLOOR_PLAN_SLIDES: DemoGallerySlide[] = [
-  {
-    src: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/land.jpeg",
-    alt: "Sobha Rivana — site and tower layout",
-    label: "Site layout",
-    width: 1600,
-    height: 894,
-  },
-  {
-    src: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-interior.avif",
-    alt: "Sobha Rivana — typical unit interior",
-    label: "Typical unit",
-    width: 1600,
-    height: 1000,
-  },
-  {
-    src: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-clubhouse.avif",
-    alt: "Sobha Rivana — clubhouse",
-    label: "Clubhouse",
-    width: 1600,
-    height: 1000,
-  },
+const FUSION_FACTS = [
+  "Established NCR developer with delivered projects.",
+  "50+ lakh sq ft delivered across the portfolio.",
+  "40+ lakh sq ft currently under construction.",
+  "3,000+ families already living in Fusion communities.",
 ];
 
-const SOBHA_FACTS = [
-  "Dubai's No.1 Developer | India's Most Trusted Brand",
-  "550+ Landmark Projects | 230+ Prestigious Awards",
-  "1,456 Quality Checks Before Handover",
-  "100% Backward Integrated – Quality You Can Trust",
+const ROI_PROJECTION = [
+  { label: "Indicative BSP", value: "₹8,945/sq ft*" },
+  { label: "3 BHK entry ticket (approx.)", value: "~₹1.48 Cr*" },
+  { label: "EOI at booking", value: "10%" },
+  { label: "Indicative rental yield", value: "3.5–4.0% p.a.*" },
+  { label: "3-year projection", value: "₹12,000/sq ft*" },
+  { label: "5-year projection", value: "₹15,000+/sq ft*" },
 ];
 
 const AMENITIES: { label: string; icon: LucideIcon }[] = [
-  { label: "Central greens & open spine", icon: TreePine },
-  { label: "River-themed landscape", icon: Waves },
-  { label: "Club & community block", icon: Building2 },
-  { label: "Pool deck", icon: Droplets },
-  { label: "Gym & wellness", icon: Dumbbell },
-  { label: "Indoor / outdoor sports", icon: Activity },
-  { label: "Walking & jogging loops", icon: Footprints },
-  { label: "Layered security", icon: Shield },
+  { label: "Landscaped greens", icon: TreePine },
+  { label: "Luxury clubhouse", icon: Building2 },
+  { label: "Pool and deck", icon: Droplets },
+  { label: "Gym and wellness", icon: Dumbbell },
+  { label: "Sports and recreation", icon: Waves },
+  { label: "Walking and running track", icon: Footprints },
+  { label: "Security and access control", icon: Shield },
+  { label: "Kids and family zones", icon: Sparkles },
 ];
 
 const HIGHLIGHTS = [
-  "2 / 3 / 4 BHK · indicative from ₹2.25 Cr* (final on builder sheet)",
-  "12 acre · 8 towers · G+45 · ~1,375 units",
-  "4 flats per floor · 3+1 lifts · 3-level basement parking",
-  "Large clubhouse · river-themed landscape · layered security",
+  "Pre-launch in Sector 7, Vasundhara, Ghaziabad",
+  "Approx 4 acres prime land parcel",
+  "Approx G+33 across 4 towers",
+  "3.0 / 3.5 / 4.0 BHK formats: ~1850 / ~2110 / ~2570 sq ft",
 ];
 
 const LOCATION_ADVANTAGE: { label: string; text: string; icon: LucideIcon }[] = [
-  { label: "Roads", text: "FNG ~2 km · NH 24 ~10 km · Pari Chowk ~18 km", icon: Route },
-  { label: "Air / rail", text: "Jewar airport ~45 min · metro ~8 km", icon: Plane },
-  { label: "Daily needs", text: "Yatharth ~500 m · D-Mart ~500 m · Gaur City Mall ~4.4 km", icon: Store },
-  { label: "Healthcare", text: "Fortis ~10 km · Kailash ~12 km", icon: Stethoscope },
-  { label: "Schools", text: "Lotus Valley ~3 km · GD Goenka International ~4.5 km", icon: GraduationCap },
-  {
-    label: "Leisure",
-    text: "Noida Golf Course ~12 km · Buddh International Circuit ~30 km",
-    icon: Landmark,
-  },
+  { label: "Metro", text: "Vaishali metro around 3 km (as marketed)", icon: Train },
+  { label: "Rail and bus", text: "Anand Vihar ISBT and railway around 7 km", icon: Route },
+  { label: "Daily needs", text: "Vasundhara market and retail catchments nearby", icon: Store },
+  { label: "Healthcare", text: "Multi-speciality hospitals in Indirapuram and Kaushambi belt", icon: Stethoscope },
+  { label: "Schools", text: "Established schools across Vasundhara and nearby sectors", icon: GraduationCap },
+  { label: "Delhi access", text: "Strong road connection for East Delhi work corridors", icon: Landmark },
 ];
 
 const NCR_LINKS = [
-  { href: "/properties-in-greater-noida", title: "Greater Noida", sub: "Expressway belt & new launches" },
-  { href: "/properties-in-noida", title: "Noida", sub: "Metro & office corridors" },
-  { href: "/properties-in-ghaziabad", title: "Ghaziabad", sub: "NCR east" },
+  { href: "/properties-in-ghaziabad", title: "Ghaziabad", sub: "Vasundhara, Indirapuram and NH24" },
+  { href: "/properties-in-noida", title: "Noida", sub: "Metro and office corridors" },
+  { href: "/properties-in-greater-noida", title: "Greater Noida", sub: "Value and growth sectors" },
   { href: "/properties", title: "All NCR", sub: "Browse all projects" },
 ];
 
-function DemoSectionHeading({
+function SectionHeading({
   icon: Icon,
   title,
   subtitle,
@@ -119,14 +98,14 @@ function DemoSectionHeading({
         {id ? (
           <h2
             id={id}
-            className="text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl"
+            className="text-xl font-bold leading-tight text-gray-900 sm:text-2xl md:text-3xl lg:text-4xl"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
             {title}
           </h2>
         ) : (
           <h2
-            className="text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl"
+            className="text-xl font-bold leading-tight text-gray-900 sm:text-2xl md:text-3xl lg:text-4xl"
             style={{ fontFamily: "Poppins, sans-serif" }}
           >
             {title}
@@ -139,35 +118,33 @@ function DemoSectionHeading({
   );
 }
 
-export function SobhaRivanaDemoPage() {
+export function FusionVasundharaPage() {
   const site = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ApartmentComplex",
-    name: "Sobha Rivana",
+    name: "Fusion Vasundhara",
     description:
-      "2, 3 and 4 BHK apartments in Sector 1, Greater Noida West by Sobha Limited. Uttar Pradesh RERA registered.",
+      "Pre-launch premium apartments in Sector 7 Vasundhara, Ghaziabad with 3, 3.5 and 4 BHK formats.",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Greater Noida West",
+      addressLocality: "Vasundhara, Ghaziabad",
       addressRegion: "Uttar Pradesh",
       addressCountry: "IN",
     },
-    developer: { "@type": "Organization", name: "Sobha Limited" },
-    numberOfBedrooms: ["2", "3", "4"],
+    developer: { "@type": "Organization", name: "Fusion Group" },
+    numberOfBedrooms: ["3", "3.5", "4"],
   };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <BreadcrumbSchema
         items={[
           { name: "Home", url: site },
-          { name: "Sobha Rivana (demo layout)", url: `${site}/demo-property` },
+          { name: "Properties in Ghaziabad", url: `${site}/properties-in-ghaziabad` },
+          { name: "Fusion Vasundhara", url: `${site}/properties-in-ghaziabad/fusion-vasundhara` },
         ]}
       />
 
@@ -175,22 +152,18 @@ export function SobhaRivanaDemoPage() {
         <Header />
 
         <main className="pb-8 pt-0">
-          <SobhaRivanaHero />
+          <FusionVasundharaHero />
 
           <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 md:px-12 md:py-16">
             <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_288px] lg:items-start lg:gap-x-6 xl:gap-x-8">
               <div className="min-w-0 w-full">
                 <div className="mb-10 scroll-mt-28 lg:hidden">
-                  <SobhaRivanaStickySidebar idPrefix="mob" />
+                  <FusionVasundharaStickySidebar idPrefix="mob" />
                 </div>
 
-                <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="snapshot-h2">
-                  <DemoSectionHeading
-                    id="snapshot-h2"
-                    icon={Home}
-                    title="Project snapshot"
-                  />
-                  <ul className="grid w-full gap-3 sm:grid-cols-2" role="list">
+                <section className="mb-12 w-full min-w-0 sm:mb-16 md:mb-24" aria-labelledby="snapshot-h2">
+                  <SectionHeading id="snapshot-h2" icon={Home} title="Fusion Vasundhara Project Snapshot" />
+                  <ul className="grid w-full min-w-0 gap-3 sm:grid-cols-2" role="list">
                     {HIGHLIGHTS.map((item) => (
                       <li
                         key={item}
@@ -203,15 +176,20 @@ export function SobhaRivanaDemoPage() {
                     ))}
                   </ul>
                   <PropertyScrollFootnote>
-                    *Indicative starting points — your advisor walks you through the full quote, including PLC, floor
-                    rise, parking, and GST.
+                    *Pre-launch market inputs; final specifications, payment plan, and approvals follow official
+                    developer communication.
                   </PropertyScrollFootnote>
                 </section>
 
-                <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="why-sobha-h2">
-                  <DemoSectionHeading id="why-sobha-h2" icon={Building2} title="Why SOBHA?" />
+                <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="why-fusion-h2">
+                  <SectionHeading
+                    id="why-fusion-h2"
+                    icon={Building2}
+                    title="Why Fusion Group?"
+                    subtitle="Fusion has built a visible NCR track record and this Vasundhara launch is attracting premium Ghaziabad buyers looking for space and access."
+                  />
                   <ul className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2" role="list">
-                    {SOBHA_FACTS.map((line) => (
+                    {FUSION_FACTS.map((line) => (
                       <li
                         key={line}
                         className="rounded-2xl border border-gray-200 bg-gray-50/80 px-5 py-4 text-left text-sm font-semibold leading-relaxed text-gray-900 sm:text-base"
@@ -222,28 +200,40 @@ export function SobhaRivanaDemoPage() {
                     ))}
                   </ul>
                   <PropertyScrollSubtext className="mt-8 text-sm">
-                    Explore complementary projects in{" "}
-                    <Link href="/properties-in-greater-noida" className="font-semibold text-[#CBB27A] hover:underline">
-                      Greater Noida
+                    Explore nearby options in{" "}
+                    <Link href="/properties-in-ghaziabad" className="font-semibold text-[#CBB27A] hover:underline">
+                      Ghaziabad
                     </Link>{" "}
-                    — we shortlist what actually fits your brief.
+                    and compare with clarity before you block.
                   </PropertyScrollSubtext>
                 </section>
 
-                <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="floor-plans-h2">
-                  <DemoSectionHeading
-                    id="floor-plans-h2"
-                    icon={Layers}
-                    title="Floor plans & layouts"
-                    subtitle="Site layout, typical unit, and clubhouse views — a strong feel for scale and lifestyle before you step on site."
-                  />
-                  <div className="w-full">
-                    <SobhaRivanaGallery slides={FLOOR_PLAN_SLIDES} theme="dark" cinema />
-                  </div>
+                <section className="mb-12 w-full min-w-0 sm:mb-16 md:mb-24" aria-labelledby="roi-projection-h2">
+                  <SectionHeading id="roi-projection-h2" icon={TrendingUp} title="ROI Projection" />
+                  <ul className="grid w-full min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list">
+                    {ROI_PROJECTION.map(({ label, value }) => (
+                      <li
+                        key={label}
+                        className="rounded-2xl border border-gray-200 bg-white px-5 py-5 text-left shadow-sm"
+                        style={{ fontFamily: "Poppins, sans-serif" }}
+                      >
+                        <p className="text-xs font-bold uppercase tracking-wider text-gray-500">{label}</p>
+                        <p className="mt-2 text-xl font-bold leading-tight text-[#CBB27A] sm:text-2xl">{value}</p>
+                      </li>
+                    ))}
+                  </ul>
+                  <PropertyScrollFootnote>
+                    *Indicative projections from pre-launch BSP and Vasundhara corridor benchmarks; actual returns vary
+                    with possession, market cycle, and final builder pricing.
+                  </PropertyScrollFootnote>
                 </section>
 
                 <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="amenities-h2">
-                  <DemoSectionHeading id="amenities-h2" icon={Sparkles} title="Key amenities" />
+                  <SectionHeading id="amenities-h2" icon={Sparkles} title="Fusion Vasundhara Key Amenities" />
+                  <PropertyScrollSubtext className="mb-6 text-sm sm:text-base">
+                    Fusion Vasundhara key amenities are curated around daily convenience, fitness, recreation, and
+                    secure community living for modern families in Vasundhara.
+                  </PropertyScrollSubtext>
                   <div className="grid w-full grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
                     {AMENITIES.map(({ label, icon: AmIcon }) => (
                       <div
@@ -267,11 +257,16 @@ export function SobhaRivanaDemoPage() {
                 </section>
 
                 <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="location-advantage-h2">
-                  <DemoSectionHeading id="location-advantage-h2" icon={MapPin} title="Location Advantage" />
-                  <ul
-                    className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
-                    role="list"
-                  >
+                  <SectionHeading
+                    id="location-advantage-h2"
+                    icon={MapPin}
+                    title="Fusion Vasundhara Location Advantage"
+                  />
+                  <PropertyScrollSubtext className="mb-6 text-sm sm:text-base">
+                    Fusion Vasundhara location advantage is anchored in metro access, Delhi connectivity, schools,
+                    healthcare, and everyday retail that supports both end-use comfort and long-term value.
+                  </PropertyScrollSubtext>
+                  <ul className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list">
                     {LOCATION_ADVANTAGE.map(({ label, text, icon: RowIcon }) => (
                       <li
                         key={label}
@@ -293,16 +288,12 @@ export function SobhaRivanaDemoPage() {
                     ))}
                   </ul>
                   <div className="mt-10 w-full sm:mt-12">
-                    <SobhaRivanaMapEmbed />
+                    <FusionVasundharaMapEmbed />
                   </div>
                 </section>
 
                 <section className="mb-4 sm:mb-8" aria-labelledby="ncr-h2">
-                  <DemoSectionHeading
-                    id="ncr-h2"
-                    icon={Building2}
-                    title="Explore more in NCR"
-                  />
+                  <SectionHeading id="ncr-h2" icon={Building2} title="Explore more in NCR" />
                   <ul className="grid w-full gap-3 sm:grid-cols-2 lg:grid-cols-4" role="list">
                     {NCR_LINKS.map((card) => (
                       <li key={card.href}>
@@ -325,16 +316,16 @@ export function SobhaRivanaDemoPage() {
               </div>
 
               <aside
-                id="demo-property-sidebar"
+                id="fusion-vasundhara-sidebar"
                 className="mt-10 hidden min-w-0 scroll-mt-28 lg:sticky lg:top-24 lg:mt-0 lg:block xl:top-28"
               >
-                <SobhaRivanaStickySidebar idPrefix="desk" />
+                <FusionVasundharaStickySidebar idPrefix="desk" />
               </aside>
             </div>
           </div>
         </main>
 
-        <SobhaRivanaFooterCta />
+        <FusionVasundharaFooterCta />
         <Footer />
       </div>
     </>

@@ -823,13 +823,13 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
 
         {/* Main Content */}
         <main>
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-6 sm:py-8 md:py-16">
+          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 md:px-12 md:py-16">
             {/* Description + CTA + gallery: grid ends before amenities so sticky sidebar releases there */}
-            <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(288px,380px)] lg:gap-x-10 xl:gap-x-14 lg:items-start">
-              <div className="min-w-0">
+            <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_288px] lg:items-start lg:gap-x-6 xl:gap-x-8">
+              <div className="min-w-0 w-full">
             {/* Description Section */}
             <section className="mb-12 sm:mb-16 md:mb-24">
-              <div className="max-w-4xl lg:mr-auto">
+              <div className="w-full">
                 <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#CBB27A]/10 rounded-full flex items-center justify-center flex-shrink-0">
                     <Eye className="w-5 h-5 sm:w-6 sm:h-6 text-[#CBB27A]" />
@@ -880,7 +880,7 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
             </div>
 
             {/* CTA Buttons - After About Section */}
-            <div className="mb-16 md:mb-24 max-w-4xl lg:mr-auto">
+            <div className="mb-16 md:mb-24 w-full">
               <div className="text-center mb-8">
                 <p
                   className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-2xl mx-auto"
@@ -932,7 +932,7 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
             {/* Project Gallery - Media Carousel */}
             {mediaItems.length > 0 && (
               <section className="mb-12 sm:mb-16 md:mb-24">
-                <div className="max-w-4xl lg:mr-auto">
+                <div className="w-full">
                   <div className="mb-6 sm:mb-8">
                     <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
                       <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#CBB27A]/10 rounded-full flex items-center justify-center flex-shrink-0">
@@ -1117,7 +1117,7 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
 
               <aside
                 id="property-inquiry-sidebar"
-                className="hidden lg:block self-start lg:sticky lg:top-24 xl:top-28 z-20 w-full max-w-[380px] justify-self-end scroll-mt-28"
+                className="mt-10 hidden min-w-0 scroll-mt-28 lg:sticky lg:top-24 lg:mt-0 lg:block xl:top-28 z-20"
               >
                 <PropertyStickyInquiryCard
                   projectNamePlain={projectNamePlain}
@@ -1139,7 +1139,7 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
             {/* Amenities - 6-8 items */}
             {amenitiesToShow.length > 0 && (
               <section className="mb-12 sm:mb-16 md:mb-24">
-                <div className="max-w-6xl mx-auto">
+                <div className="w-full">
                   <div className="mb-6 sm:mb-8">
                     <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
                       <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#CBB27A]/10 rounded-full flex items-center justify-center flex-shrink-0">

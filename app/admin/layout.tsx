@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Building2 } from "lucide-react";
-import AdminSidebar from "@/components/admin/admin-sidebar";
-import { Toaster } from "@/components/ui/sonner";
+import { AdminLayoutShell } from "@/components/admin/admin-layout-shell";
 
 const SUPPORT_ADMIN_EMAIL = "support@celesteabode.com";
 
@@ -26,7 +25,7 @@ export default function AdminLayout({
     }
 
     // Only run on client side
-    if (typeof document === 'undefined') {
+    if (typeof document === "undefined") {
       return;
     }
 
@@ -37,22 +36,22 @@ export default function AdminLayout({
 
       // Create or update robots meta tag
       if (!metaRobots) {
-        metaRobots = document.createElement('meta');
-        metaRobots.name = 'robots';
+        metaRobots = document.createElement("meta");
+        metaRobots.name = "robots";
         document.head.appendChild(metaRobots);
       }
-      metaRobots.content = 'noindex, nofollow, noarchive, nosnippet';
+      metaRobots.content = "noindex, nofollow, noarchive, nosnippet";
 
       // Create or update googlebot meta tag
       if (!metaGooglebot) {
-        metaGooglebot = document.createElement('meta');
-        metaGooglebot.name = 'googlebot';
+        metaGooglebot = document.createElement("meta");
+        metaGooglebot.name = "googlebot";
         document.head.appendChild(metaGooglebot);
       }
-      metaGooglebot.content = 'noindex, nofollow';
+      metaGooglebot.content = "noindex, nofollow";
     } catch (error) {
       // Silently fail if there's an error (e.g., SSR)
-      console.warn('Failed to add admin meta tags:', error);
+      console.warn("Failed to add admin meta tags:", error);
     }
   }, [pathname]);
 
@@ -81,8 +80,7 @@ export default function AdminLayout({
         setUserEmail(email || null);
 
         const inventoryAllowedPath =
-          pathname === "/admin/inventory" ||
-          pathname.startsWith("/admin/inventory/");
+          pathname === "/admin/inventory" || pathname.startsWith("/admin/inventory/");
         if (isInventoryOnlyUser && !inventoryAllowedPath) {
           router.replace("/admin/inventory");
         }
@@ -97,12 +95,12 @@ export default function AdminLayout({
   // Show nothing while checking auth (except on login page)
   if (pathname !== "/admin/login" && isAuthenticated === null) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 flex items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 via-white to-gray-50">
         <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-br from-[#CBB27A] to-[#B8A068] rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg animate-pulse">
-            <Building2 className="w-8 h-8 text-white" />
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#CBB27A] to-[#B8A068] shadow-lg animate-pulse">
+            <Building2 className="h-8 w-8 text-white" />
           </div>
-          <p className="text-gray-600 font-medium" style={{ fontFamily: "Poppins, sans-serif" }}>
+          <p className="font-medium text-gray-600" style={{ fontFamily: "Poppins, sans-serif" }}>
             Loading...
           </p>
         </div>
@@ -120,21 +118,7 @@ export default function AdminLayout({
     return null;
   }
 
-  const isInventoryOnlyUser = Boolean(
-    userEmail && userEmail !== SUPPORT_ADMIN_EMAIL
-  );
+  const isInventoryOnlyUser = Boolean(userEmail && userEmail !== SUPPORT_ADMIN_EMAIL);
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50">
-      <div className="flex flex-col md:flex-row">
-        <AdminSidebar inventoryOnly={isInventoryOnlyUser} />
-        <main className="flex-1 md:ml-64 w-full pt-16 md:pt-0" style={{ paddingTop: '4rem' }}>
-          {children}
-        </main>
-      </div>
-      <Toaster />
-    </div>
-  );
+  return <AdminLayoutShell inventoryOnly={isInventoryOnlyUser}>{children}</AdminLayoutShell>;
 }
-
-

@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 const SUPPORT_ADMIN_EMAIL = 'support@celesteabode.com';
+const STATIC_PROPERTY_ROUTE_EXCEPTIONS = new Set([
+  '/properties-in-ghaziabad/fusion-vasundhara',
+]);
 
 function getEmailFromJwt(token: string | undefined): string | null {
   if (!token) return null;
@@ -22,6 +25,11 @@ function getEmailFromJwt(token: string | undefined): string | null {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  // Allow dedicated hardcoded SEO pages to resolve directly.
+  if (STATIC_PROPERTY_ROUTE_EXCEPTIONS.has(pathname)) {
+    return NextResponse.next();
+  }
 
   // Server-side admin route gate:
   // - unauthenticated users -> /admin/login

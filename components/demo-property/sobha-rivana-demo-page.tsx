@@ -234,7 +234,7 @@ export function SobhaRivanaDemoPage() {
                   <DemoSectionHeading
                     id="floor-plans-h2"
                     icon={Layers}
-                    title="Floor plans & layouts"
+                    title="Floor Plan and Site Layouts"
                     subtitle="Site layout, typical unit, and clubhouse views — a strong feel for scale and lifestyle before you step on site."
                   />
                   <div className="max-w-4xl lg:mr-auto">

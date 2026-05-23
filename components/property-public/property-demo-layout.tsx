@@ -733,7 +733,7 @@ export default function PropertyDemoLayout({
                     <SectionHeading
                       id="floor-plans-h2"
                       icon={Layers}
-                      title="Floor plans & layouts"
+                      title="Floor Plan and Site Layouts"
                       subtitle="Typical units, tower plates, and master layout — unlock the full PDF after a quick form."
                     />
                     <div className="max-w-4xl lg:mr-auto">

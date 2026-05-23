@@ -52,7 +52,8 @@ function applyFilters(
   supabase: ReturnType<typeof getSupabaseAdminClient>,
   propertyTypeFilter: string | null,
   projectStatusFilter: string | null,
-  configurationFilters: string[]
+  configurationFilters: string[],
+  countKind: "exact" | "estimated" = "exact"
 ) {
   let query = supabase
     .from("properties_v2")
@@ -63,7 +64,7 @@ function applyFilters(
 
   let countQuery = supabase
     .from("properties_v2")
-    .select("id", { count: "exact", head: true })
+    .select("id", { count: countKind, head: true })
     .eq("is_published", true);
 
   if (propertyTypeFilter && propertyTypeFilter !== "all") {
@@ -172,12 +173,13 @@ export async function GET(request: NextRequest) {
 
       if (totalCount === null) {
         try {
-          const estimatedCountQuery = applyFilters(
+          const { countQuery: estimatedCountQuery } = applyFilters(
             supabase,
             propertyTypeFilter,
             projectStatusFilter,
-            configurationFilters
-          ).countQuery.select("id", { count: "estimated", head: true });
+            configurationFilters,
+            "estimated"
+          );
 
           const { count, error: estimateError } = await withTimeout(
             estimatedCountQuery,

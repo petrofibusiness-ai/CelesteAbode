@@ -118,7 +118,7 @@ export function SobhaRivanaGallery({
         ) : null}
         {safe.length > 1 ? (
           <div
-            className={`absolute right-1.5 top-1/2 z-10 flex -translate-y-1/2 flex-col items-center gap-px rounded-full px-0.5 py-0.5 shadow-sm backdrop-blur-md sm:right-2 ${
+            className={`absolute right-1 top-1/2 z-10 flex -translate-y-1/2 scale-[0.72] flex-col items-center gap-0 rounded-full px-px py-0.5 shadow-sm backdrop-blur-sm sm:right-2 sm:scale-100 sm:gap-px sm:px-0.5 sm:py-0.5 ${
               controlsOnDark
                 ? "bg-black/40 ring-1 ring-white/12"
                 : "bg-white/90 ring-1 ring-gray-200/70"
@@ -127,16 +127,16 @@ export function SobhaRivanaGallery({
             <button
               type="button"
               onClick={() => go(-1)}
-              className={`flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#CBB27A] ${
+              className={`flex h-3 w-3 shrink-0 items-center justify-center rounded-full transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#CBB27A] sm:h-[18px] sm:w-[18px] ${
                 controlsOnDark
                   ? "text-white/70 hover:bg-white/10 hover:text-white"
                   : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
               }`}
               aria-label="Previous image"
             >
-              <ChevronUp className="h-2.5 w-2.5" strokeWidth={2} aria-hidden />
+              <ChevronUp className="h-1.5 w-1.5 sm:h-2.5 sm:w-2.5" strokeWidth={2} aria-hidden />
             </button>
-            <div className="flex max-w-[3.25rem] flex-wrap items-center justify-center gap-px px-px sm:max-w-[4rem]">
+            <div className="flex max-h-[3rem] flex-col flex-nowrap items-center gap-[2px] overflow-y-auto px-px py-px [scrollbar-width:none] sm:max-h-none sm:max-w-[4rem] sm:flex-row sm:flex-wrap sm:justify-center sm:gap-px [&::-webkit-scrollbar]:hidden">
               {safe.map((_, i) => (
                 <button
                   key={i}
@@ -144,14 +144,14 @@ export function SobhaRivanaGallery({
                   onClick={() => setIndex(i)}
                   aria-label={`Go to image ${i + 1}`}
                   aria-current={i === index ? "true" : undefined}
-                  className={`h-[3px] min-h-[3px] min-w-[3px] rounded-full transition-all focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#CBB27A] ${
+                  className={`h-[2px] min-h-[2px] min-w-[2px] rounded-full transition-all focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#CBB27A] sm:h-[3px] sm:min-h-[3px] sm:min-w-[3px] ${
                     i === index
                       ? controlsOnDark
-                        ? "w-2 bg-white"
-                        : "w-2 bg-gray-900"
+                        ? "w-1.5 bg-white sm:w-2"
+                        : "w-1.5 bg-gray-900 sm:w-2"
                       : controlsOnDark
-                        ? "w-[3px] bg-white/35 hover:bg-white/55"
-                        : "w-[3px] bg-gray-300 hover:bg-gray-500"
+                        ? "w-[2px] bg-white/35 hover:bg-white/55 sm:w-[3px]"
+                        : "w-[2px] bg-gray-300 hover:bg-gray-500 sm:w-[3px]"
                   }`}
                 />
               ))}
@@ -159,14 +159,14 @@ export function SobhaRivanaGallery({
             <button
               type="button"
               onClick={() => go(1)}
-              className={`flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#CBB27A] ${
+              className={`flex h-3 w-3 shrink-0 items-center justify-center rounded-full transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#CBB27A] sm:h-[18px] sm:w-[18px] ${
                 controlsOnDark
                   ? "text-white/70 hover:bg-white/10 hover:text-white"
                   : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
               }`}
               aria-label="Next image"
             >
-              <ChevronDown className="h-2.5 w-2.5" strokeWidth={2} aria-hidden />
+              <ChevronDown className="h-1.5 w-1.5 sm:h-2.5 sm:w-2.5" strokeWidth={2} aria-hidden />
             </button>
           </div>
         ) : null}

@@ -419,7 +419,7 @@ export function BrochureDownloadDialog({
               </div>
             )}
 
-            <div className="pt-4 text-center">
+            <div className="mx-auto flex w-max max-w-full flex-col items-stretch pt-4">
               <Button
                 type="submit"
                 disabled={
@@ -428,7 +428,7 @@ export function BrochureDownloadDialog({
                   !formData.phone.trim() ||
                   !isValidPhone(formData.phone)
                 }
-                className="inline-flex h-12 min-w-[220px] px-10 bg-black hover:bg-gray-900 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="inline-flex h-12 items-center justify-center whitespace-nowrap px-6 bg-black hover:bg-gray-900 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed sm:min-w-[220px] sm:px-10"
               >
                 {isSubmitting ? (
                   <>

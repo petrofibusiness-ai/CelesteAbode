@@ -9,7 +9,6 @@ import {
   Award,
   Building2,
   Download,
-  Eye,
   GraduationCap,
   Home,
   Landmark,
@@ -32,6 +31,7 @@ import { BreadcrumbSchema, PropertySchema } from "@/lib/structured-data";
 import { SobhaRivanaGallery, type DemoGallerySlide } from "@/components/demo-property/sobha-rivana-gallery";
 import { BrochureDownloadDialog } from "@/components/brochure-download-dialog";
 import { FloorPlansSection } from "@/components/property-public/floor-plans-section";
+import { summarizeConfigurationLabelsForHero } from "@/lib/configuration-hero-summary";
 import { Button } from "@/components/ui/button";
 import { AmenityIcon } from "@/lib/amenity-icons";
 import type { Property } from "@/types/property";
@@ -95,7 +95,7 @@ function SectionHeading({
   id?: string;
 }) {
   return (
-    <div className="mb-8 max-w-4xl text-left lg:mr-auto">
+    <div className="mb-8 w-full text-left">
       <div className="mb-4 flex items-center gap-3 sm:mb-6 sm:gap-4">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#CBB27A]/10 sm:h-12 sm:w-12">
           <Icon className="h-5 w-5 text-[#CBB27A] sm:h-6 sm:w-6" aria-hidden />
@@ -115,7 +115,7 @@ function SectionHeading({
         )}
       </div>
       <div className="mb-6 h-1 w-16 bg-[#CBB27A] sm:mb-8 sm:w-20" />
-      {subtitle ? <p className="max-w-3xl text-base leading-relaxed text-gray-600">{subtitle}</p> : null}
+      {subtitle ? <p className="w-full text-base leading-relaxed text-gray-600">{subtitle}</p> : null}
     </div>
   );
 }
@@ -152,9 +152,16 @@ function PropertyDemoHero({
   inventoryConfigurationLabels: string[];
 }) {
   const rera = property.reraId?.trim() || "N/A";
+  const configurationSummary = summarizeConfigurationLabelsForHero(inventoryConfigurationLabels);
+  const hasConfiguration = configurationSummary.length > 0;
 
   return (
-    <section className="relative min-h-svh w-full overflow-hidden bg-black" aria-labelledby="property-hero-h1">
+    <section
+      className="relative min-h-svh w-full overflow-hidden bg-black"
+      aria-labelledby="property-hero-h1"
+      data-site-hero
+      data-hero-no-section-pad
+    >
       <div className="absolute inset-0">
         {slides.length > 0 ? (
           <SobhaRivanaGallery slides={slides} theme="dark" bare fullscreenHero />
@@ -167,8 +174,8 @@ function PropertyDemoHero({
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-transparent" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-        <div className="relative flex min-h-0 flex-1 flex-col px-4 pb-10 pt-24 sm:px-6 sm:pb-12 sm:pt-28 md:px-10 lg:px-14">
-          <div className="max-w-4xl text-left pointer-events-auto">
+        <div className="relative flex min-h-0 flex-1 flex-col px-4 pb-10 pt-[var(--site-header-total,6rem)] sm:px-6 sm:pb-12 sm:pt-[calc(7rem+var(--site-banner-h,0px))] md:px-10 lg:px-14">
+          <div className="pointer-events-auto max-w-4xl text-left">
             <h1
               id="property-hero-h1"
               className={`${heroTitleFont.className} text-[2rem] font-semibold uppercase leading-[1.05] tracking-[0.12em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-5xl sm:tracking-[0.16em] md:text-6xl md:tracking-[0.18em]`}
@@ -185,27 +192,20 @@ function PropertyDemoHero({
             </div>
           </div>
 
-          <div className="mt-auto flex w-full justify-start pt-10 sm:pt-12 pointer-events-auto">
-            <div className="grid w-full max-w-[min(100%,20rem)] grid-cols-2 gap-2 sm:max-w-2xl sm:grid-cols-4 sm:gap-3">
+          <div className="pointer-events-auto mt-auto flex w-full justify-start pt-10 sm:pt-12">
+            <div
+              className={`grid w-full max-w-[min(100%,20rem)] grid-cols-2 gap-2 sm:max-w-2xl sm:gap-3 ${
+                hasConfiguration ? "sm:grid-cols-4" : "sm:max-w-xl sm:grid-cols-3"
+              }`}
+            >
               <SpecPill label="RERA" icon={<ShieldCheck className="h-4 w-4" aria-hidden />}>
                 <span className="line-clamp-3 text-[11px] leading-tight sm:line-clamp-none sm:text-xs">{rera}</span>
               </SpecPill>
-              <SpecPill label="Configuration" icon={<Building2 className="h-4 w-4" aria-hidden />}>
-                {inventoryConfigurationLabels.length > 0 ? (
-                  <ul className="max-h-[5.5rem] space-y-1 overflow-y-auto text-[11px] font-semibold leading-snug sm:max-h-none sm:text-xs">
-                    {inventoryConfigurationLabels.map((c) => (
-                      <li key={c} className="flex gap-1.5">
-                        <span className="text-[#CBB27A]" aria-hidden>
-                          •
-                        </span>
-                        <span>{c}</span>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  "N/A"
-                )}
-              </SpecPill>
+              {hasConfiguration ? (
+                <SpecPill label="Configuration" icon={<Building2 className="h-4 w-4" aria-hidden />}>
+                  <span className="text-[11px] font-semibold leading-snug sm:text-xs">{configurationSummary}</span>
+                </SpecPill>
+              ) : null}
               <SpecPill label="Price" icon={<IndianRupee className="h-4 w-4" aria-hidden />}>
                 On request
               </SpecPill>
@@ -243,11 +243,14 @@ function PropertyDemoStickySidebar({
   property,
   projectNamePlain,
   configurationOptions = [],
+  part = "all",
 }: {
   idPrefix?: string;
   property: Property;
   projectNamePlain: string;
   configurationOptions?: string[];
+  /** Desktop sidebar uses both; mobile can split brochure vs callback placement. */
+  part?: "all" | "brochure" | "callback";
 }) {
   const [brochureOpen, setBrochureOpen] = useState(false);
   const [name, setName] = useState("");
@@ -335,12 +338,14 @@ function PropertyDemoStickySidebar({
 
   const hasBrochure = Boolean(property.brochureUrl?.trim());
   const configRequired = configurationOptions.length > 0;
+  const showBrochure = part === "all" || part === "brochure";
+  const showCallback = part === "all" || part === "callback";
   const fieldShell =
-    "w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/40";
+    "w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/40";
 
   return (
     <>
-      {hasBrochure ? (
+      {hasBrochure && showBrochure ? (
         <BrochureDownloadDialog
           isOpen={brochureOpen}
           onClose={() => setBrochureOpen(false)}
@@ -350,32 +355,33 @@ function PropertyDemoStickySidebar({
         />
       ) : null}
 
-      <div className="flex flex-col gap-3">
-        <div
-          className="rounded-2xl border border-[#CBB27A]/40 p-4 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.45)] ring-1 ring-white/10 [color-scheme:dark] sm:p-4"
-          style={{
-            fontFamily: "Poppins, sans-serif",
-            background: "linear-gradient(165deg, #0f0f0f 0%, #030303 42%, #141414 100%)",
-          }}
-        >
+      <div className="flex flex-col gap-2.5">
+        {showBrochure ? (
+          <div
+            className="rounded-xl border border-[#CBB27A]/40 p-3 shadow-[0_20px_48px_-12px_rgba(0,0,0,0.45)] ring-1 ring-white/10 [color-scheme:dark]"
+            style={{
+              fontFamily: "Poppins, sans-serif",
+              background: "linear-gradient(165deg, #0f0f0f 0%, #030303 42%, #141414 100%)",
+            }}
+          >
           <div className="flex gap-2.5">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#CBB27A]/15 text-[#CBB27A] ring-1 ring-[#CBB27A]/30">
               <FileText className="h-4 w-4" aria-hidden />
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-[10px] font-semibold uppercase tracking-wider text-[#CBB27A]/90">{projectNamePlain}</p>
-              <p className="mt-0.5 text-sm font-bold leading-tight text-white">Brochure &amp; details</p>
+              <p className="mt-0.5 text-sm font-bold leading-tight text-white">Brochure &amp; floor plans</p>
               <p className="mt-1 text-[11px] leading-snug text-gray-400">
-                PDF, pricing snapshot, formats — we liaise with the builder so you skip the chase.
+                Review layouts and pricing at your own pace. Share your details and we&apos;ll send the brochure right away.
               </p>
             </div>
           </div>
-          <div className="mt-3 flex flex-col gap-1.5">
+          <div className="mt-3 mx-auto flex w-max max-w-full flex-col items-stretch gap-1.5 lg:mx-0 lg:w-full">
             {hasBrochure ? (
               <Button
                 type="button"
                 onClick={() => setBrochureOpen(true)}
-                className="h-auto min-h-9 w-full whitespace-normal rounded-lg border-0 bg-[#CBB27A] px-3 py-2 text-center text-xs font-bold text-black shadow-md transition hover:bg-[#d4c068]"
+                className="h-auto min-h-9 whitespace-nowrap rounded-lg border-0 bg-[#CBB27A] px-6 py-2 text-center text-xs font-bold text-black shadow-md transition hover:bg-[#d4c068] lg:w-full"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 <span className="inline-flex items-center justify-center gap-1.5">
@@ -387,35 +393,37 @@ function PropertyDemoStickySidebar({
             <Button
               asChild
               variant="outline"
-              className="h-auto min-h-9 w-full whitespace-normal rounded-lg border-2 border-white/25 bg-transparent py-2 text-xs font-bold text-white hover:bg-white/10 hover:text-white"
+              className="h-auto min-h-9 whitespace-nowrap rounded-lg border-2 border-white/25 bg-transparent px-6 py-2 text-xs font-bold text-white hover:bg-white/10 hover:text-white lg:w-full"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              <Link href="/request-a-free-consultation" className="inline-flex items-center justify-center gap-1.5 px-3">
+              <Link href="/request-a-free-consultation" className="inline-flex items-center justify-center gap-1.5">
                 Contact Celeste Abode
               </Link>
             </Button>
           </div>
         </div>
+        ) : null}
 
+        {showCallback ? (
         <div
-          className="property-inquiry-dark-card rounded-2xl border border-[#CBB27A]/40 p-5 shadow-[0_24px_60px_-12px_rgba(0,0,0,0.45)] ring-1 ring-white/10 [color-scheme:dark] sm:p-6"
+          className="property-inquiry-dark-card rounded-xl border border-[#CBB27A]/40 p-3.5 shadow-[0_20px_48px_-12px_rgba(0,0,0,0.45)] ring-1 ring-white/10 [color-scheme:dark] sm:p-4"
           style={{
             fontFamily: "Poppins, sans-serif",
             background: "linear-gradient(165deg, #0f0f0f 0%, #030303 42%, #141414 100%)",
           }}
         >
           <p className="text-xs font-semibold uppercase tracking-wider text-[#CBB27A]/90">{projectNamePlain}</p>
-          <h3 className="mt-2 text-lg font-bold leading-snug text-white">Request a callback</h3>
-          <p className="mt-2 text-sm leading-relaxed text-gray-400">
-            Share your details — a Celeste Abode advisor calls back with a focused briefing on this project.
+          <h3 className="mt-1.5 text-base font-bold leading-snug text-white">We&apos;d be happy to call you</h3>
+          <p className="mt-1.5 text-xs leading-relaxed text-gray-400">
+            Share your name and number below. An advisor will reach out with clear, honest guidance on this project — at your pace, without pressure.
           </p>
 
           {isDone ? (
             <div className="mt-5 rounded-xl border border-[#CBB27A]/30 bg-[#CBB27A]/10 px-4 py-4 text-center text-sm text-white">
-              Thanks — we&apos;ll be in touch shortly.
+              Thank you — we&apos;ll be in touch soon.
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+            <form onSubmit={handleSubmit} className="mt-4 space-y-3">
               <div>
                 <label htmlFor={`${idPrefix}-inquiry-name`} className="mb-1 block text-xs font-semibold text-gray-400">
                   Name
@@ -428,7 +436,7 @@ function PropertyDemoStickySidebar({
                   onChange={(e) => setName(e.target.value)}
                   required
                   autoComplete="name"
-                  className="w-full rounded-xl border border-white/20 bg-white/10 px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/40"
+                  className="w-full rounded-lg border border-white/20 bg-white/10 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:border-[#CBB27A] focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/40"
                   placeholder="Your full name"
                 />
               </div>
@@ -445,7 +453,7 @@ function PropertyDemoStickySidebar({
                   required
                   inputMode="tel"
                   autoComplete="tel"
-                  className={`w-full rounded-xl border bg-white/10 px-3 py-2.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/40 ${
+                  className={`w-full rounded-lg border bg-white/10 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#CBB27A]/40 ${
                     phoneError ? "border-red-400 focus:border-red-400" : "border-white/20 focus:border-[#CBB27A]"
                   }`}
                   placeholder="Mobile number"
@@ -483,7 +491,7 @@ function PropertyDemoStickySidebar({
                   !phone.trim() ||
                   (configRequired && !configuration.trim())
                 }
-                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#CBB27A] py-3 text-sm font-bold text-black transition hover:bg-[#d4c068] disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex w-full items-center justify-center gap-2 rounded-lg bg-[#CBB27A] py-2.5 text-xs font-bold text-black transition hover:bg-[#d4c068] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <>
@@ -491,12 +499,13 @@ function PropertyDemoStickySidebar({
                     Submitting…
                   </>
                 ) : (
-                  "Submit"
+                  "Request a callback"
                 )}
               </button>
             </form>
           )}
         </div>
+        ) : null}
       </div>
     </>
   );
@@ -542,24 +551,32 @@ function PropertyDemoFooterCta({ property, projectNamePlain }: { property: Prope
               Download the brochure or book time with us — we coordinate site visits, decode the builder sheet with you,
               and place this project in context against other options that match your brief.
             </p>
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
+            <div
+              className={
+                hasBrochure
+                  ? "mt-8 mx-auto flex w-max max-w-full flex-col items-stretch gap-3"
+                  : "mt-8 flex justify-center"
+              }
+            >
               {hasBrochure ? (
                 <button
                   type="button"
                   onClick={() => setOpen(true)}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#CBB27A] px-6 py-3 text-sm font-bold text-gray-900 shadow-lg transition hover:bg-[#b8a066] sm:text-base"
+                  className="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[#CBB27A] px-6 text-sm font-bold text-gray-900 shadow-lg transition hover:bg-[#b8a066] sm:h-[3.25rem] sm:text-base"
                   style={{ fontFamily: "Poppins, sans-serif" }}
                 >
-                  <Download className="h-5 w-5" aria-hidden />
+                  <Download className="h-5 w-5 shrink-0" aria-hidden />
                   Download brochure
                 </button>
               ) : null}
               <Link
                 href="/request-a-free-consultation"
-                className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-white/80 bg-transparent px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10 sm:text-base"
+                className={`inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl border-2 border-white/80 bg-transparent px-6 text-sm font-bold text-white transition hover:bg-white/10 sm:h-[3.25rem] sm:text-base ${
+                  hasBrochure ? "" : "py-3"
+                }`}
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
-                <MessageSquare className="h-5 w-5 text-[#CBB27A]" aria-hidden />
+                <MessageSquare className="h-5 w-5 shrink-0 text-[#CBB27A]" aria-hidden />
                 Contact Celeste Abode
               </Link>
             </div>
@@ -651,45 +668,12 @@ export default function PropertyDemoLayout({
           />
 
           <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 md:px-12 md:py-16">
-            <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(288px,380px)] lg:items-start lg:gap-x-10 xl:gap-x-14">
-              <div className="min-w-0">
-                <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="about-h2">
-                  <div className="mb-8 max-w-4xl text-left lg:mr-auto">
-                    <div className="mb-4 flex items-center gap-3 sm:mb-6 sm:gap-4">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#CBB27A]/10 sm:h-12 sm:w-12">
-                        <Eye className="h-5 w-5 text-[#CBB27A] sm:h-6 sm:w-6" aria-hidden />
-                      </div>
-                      <h2
-                        id="about-h2"
-                        className="text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl"
-                        style={{ fontFamily: "Poppins, sans-serif" }}
-                        dangerouslySetInnerHTML={{ __html: `About ${property.projectName}` }}
-                      />
-                    </div>
-                    <div className="mb-6 h-1 w-16 bg-[#CBB27A] sm:mb-8 sm:w-20" />
-                  </div>
-                  <div className="relative max-w-4xl overflow-hidden rounded-2xl border border-[#CBB27A]/20 bg-gradient-to-br from-white via-[#CBB27A]/5 to-white p-6 shadow-2xl sm:rounded-3xl sm:p-8 md:p-12 lg:mr-auto">
-                    <p
-                      className="text-base leading-[1.8] text-gray-800 md:text-lg"
-                      style={{ fontFamily: "Poppins, sans-serif" }}
-                      dangerouslySetInnerHTML={{ __html: property.description }}
-                    />
-                  </div>
-                </section>
-
-                <div className="mb-10 scroll-mt-28 lg:hidden">
-                  <PropertyDemoStickySidebar
-                    idPrefix="mob"
-                    property={property}
-                    projectNamePlain={projectNamePlain}
-                    configurationOptions={inventoryConfigurationLabels}
-                  />
-                </div>
-
+            <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_288px] lg:items-start lg:gap-x-6 xl:gap-x-8">
+              <div className="min-w-0 w-full">
                 {property.projectSnapshot && property.projectSnapshot.length > 0 ? (
                   <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="snapshot-h2">
                     <SectionHeading id="snapshot-h2" icon={Home} title="Project snapshot" />
-                    <ul className="grid max-w-4xl gap-3 sm:grid-cols-2 lg:mr-auto" role="list">
+                    <ul className="grid w-full gap-3 sm:grid-cols-2" role="list">
                       {property.projectSnapshot.map((item, idx) => (
                         <li
                           key={`${idx}-${item.slice(0, 48)}`}
@@ -704,10 +688,20 @@ export default function PropertyDemoLayout({
                   </section>
                 ) : null}
 
+                <div className="mb-10 scroll-mt-28 lg:hidden">
+                  <PropertyDemoStickySidebar
+                    idPrefix="mob-bro"
+                    part="brochure"
+                    property={property}
+                    projectNamePlain={projectNamePlain}
+                    configurationOptions={inventoryConfigurationLabels}
+                  />
+                </div>
+
                 {whyPoints.length > 0 ? (
                   <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="why-h2">
                     <SectionHeading id="why-h2" icon={Building2} title={whyTitle} />
-                    <ul className="grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2 lg:mr-auto" role="list">
+                    <ul className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2" role="list">
                       {whyPoints.map((line, idx) => (
                         <li
                           key={`${idx}-${line.slice(0, 48)}`}
@@ -728,15 +722,24 @@ export default function PropertyDemoLayout({
                   </section>
                 ) : null}
 
+                <div className="mb-10 scroll-mt-28 lg:hidden">
+                  <PropertyDemoStickySidebar
+                    idPrefix="mob-call"
+                    part="callback"
+                    property={property}
+                    projectNamePlain={projectNamePlain}
+                    configurationOptions={inventoryConfigurationLabels}
+                  />
+                </div>
+
                 {hasFloorPlans ? (
                   <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="floor-plans-h2">
                     <SectionHeading
                       id="floor-plans-h2"
                       icon={Layers}
                       title="Floor Plan and Site Layouts"
-                      subtitle="Typical units, tower plates, and master layout — unlock the full PDF after a quick form."
                     />
-                    <div className="max-w-4xl lg:mr-auto">
+                    <div className="w-full">
                       <FloorPlansSection
                         propertyName={projectNamePlain}
                         propertySlug={property.slug}
@@ -749,7 +752,7 @@ export default function PropertyDemoLayout({
                 {amenitiesToShow.length > 0 ? (
                   <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="amenities-h2">
                     <SectionHeading id="amenities-h2" icon={Sparkles} title="Key amenities" />
-                    <div className="grid max-w-6xl grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-4 lg:mr-auto">
+                    <div className="grid w-full grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
                       {amenitiesToShow.map((label) => (
                         <div
                           key={label}
@@ -781,7 +784,7 @@ export default function PropertyDemoLayout({
                   <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="location-advantage-h2">
                     <SectionHeading id="location-advantage-h2" icon={MapPin} title="Location advantage" />
                     <ul
-                      className="grid max-w-4xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:mr-auto"
+                      className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3"
                       role="list"
                     >
                       {property.locationAdvantage.map(({ label, text }) => {
@@ -808,7 +811,7 @@ export default function PropertyDemoLayout({
                       })}
                     </ul>
                     {property.mapLink ? (
-                      <div className="mt-10 max-w-5xl lg:mr-auto sm:mt-12">
+                      <div className="mt-10 w-full sm:mt-12">
                         <PropertyMapEmbed src={property.mapLink} title={`${projectNamePlain} on map`} />
                       </div>
                     ) : null}
@@ -816,7 +819,7 @@ export default function PropertyDemoLayout({
                 ) : property.mapLink ? (
                   <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="map-h2">
                     <SectionHeading id="map-h2" icon={MapPin} title="Location map" />
-                    <div className="max-w-5xl lg:mr-auto">
+                    <div className="w-full">
                       <PropertyMapEmbed src={property.mapLink} title={`${projectNamePlain} on map`} />
                     </div>
                   </section>
@@ -824,7 +827,7 @@ export default function PropertyDemoLayout({
 
                 <section className="mb-4 sm:mb-8" aria-labelledby="ncr-h2">
                   <SectionHeading id="ncr-h2" icon={Building2} title="Explore more in NCR" />
-                  <ul className="grid max-w-5xl gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:mr-auto" role="list">
+                  <ul className="grid w-full gap-3 sm:grid-cols-2 lg:grid-cols-4" role="list">
                     {NCR_LINKS.map((card) => (
                       <li key={card.href}>
                         <Link
@@ -847,7 +850,7 @@ export default function PropertyDemoLayout({
 
               <aside
                 id="property-demo-sidebar"
-                className="mt-10 hidden scroll-mt-28 self-start lg:sticky lg:top-24 lg:mt-0 lg:block xl:top-28"
+                className="mt-10 hidden min-w-0 scroll-mt-28 lg:sticky lg:top-24 lg:mt-0 lg:block xl:top-28"
               >
                 <PropertyDemoStickySidebar
                   idPrefix="desk"

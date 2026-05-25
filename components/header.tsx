@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Mail, ChevronDown, Instagram, Linkedin } from "lucide-react";
+import { Menu, X, Mail, Phone, ChevronDown, Instagram, Linkedin } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -503,6 +503,15 @@ export function Header({ alwaysBlack = false }: HeaderProps) {
 
             {/* Menu Footer */}
             <div className="px-6 py-4 border-t border-white/10 space-y-4">
+              <a
+                href="tel:+919910906306"
+                className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group m-0 font-poppins"
+              >
+                <div className="w-10 h-10 bg-[#CBB27A]/20 rounded-full flex items-center justify-center border border-[#CBB27A]/30 group-hover:bg-[#CBB27A]/30 transition-colors flex-shrink-0">
+                  <Phone className="w-5 h-5 text-[#CBB27A]" />
+                </div>
+                <span className="text-sm font-medium">+91 9910906306</span>
+              </a>
               <a
                 href="mailto:support@celesteabode.com"
                 className="flex items-center gap-3 text-white hover:text-[#CBB27A] transition-colors group m-0 font-poppins"

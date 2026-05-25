@@ -66,6 +66,8 @@ export function SobhaRivanaHero() {
     <section
       className="relative min-h-svh w-full overflow-hidden bg-black"
       aria-labelledby="demo-hero-h1"
+      data-site-hero
+      data-hero-no-section-pad
     >
       <div className="absolute inset-0">
         <SobhaRivanaGallery

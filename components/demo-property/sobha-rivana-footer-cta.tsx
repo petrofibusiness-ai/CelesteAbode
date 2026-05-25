@@ -41,22 +41,22 @@ export function SobhaRivanaFooterCta() {
               Download the brochure or book time with us — we coordinate site visits, decode the builder
               sheet with you, and place Rivana in context against other NCR options that match your brief.
             </p>
-            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
+            <div className="mt-8 mx-auto flex w-max max-w-full flex-col items-stretch gap-3">
               <button
                 type="button"
                 onClick={() => setOpen(true)}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#CBB27A] px-6 py-3 text-sm font-bold text-gray-900 shadow-lg transition hover:bg-[#b8a066] sm:text-base"
+                className="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-[#CBB27A] px-6 text-sm font-bold text-gray-900 shadow-lg transition hover:bg-[#b8a066] sm:h-[3.25rem] sm:text-base"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
-                <Download className="h-5 w-5" aria-hidden />
+                <Download className="h-5 w-5 shrink-0" aria-hidden />
                 Download brochure
               </button>
               <Link
                 href="/request-a-free-consultation"
-                className="inline-flex items-center justify-center gap-2 rounded-xl border-2 border-white/80 bg-transparent px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10 sm:text-base"
+                className="inline-flex h-12 items-center justify-center gap-2 whitespace-nowrap rounded-xl border-2 border-white/80 bg-transparent px-6 text-sm font-bold text-white transition hover:bg-white/10 sm:h-[3.25rem] sm:text-base"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
-                <MessageSquare className="h-5 w-5 text-[#CBB27A]" aria-hidden />
+                <MessageSquare className="h-5 w-5 shrink-0 text-[#CBB27A]" aria-hidden />
                 Contact Celeste Abode
               </Link>
             </div>

@@ -16,7 +16,6 @@ import {
   ArrowRight,
   Sparkles,
   Play,
-  Eye,
   Building2,
   Shield,
   ChevronLeft,
@@ -825,43 +824,8 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
         <main>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-6 sm:py-8 md:py-16">
             {/* Description + CTA + gallery: grid ends before amenities so sticky sidebar releases there */}
-            <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(288px,380px)] lg:gap-x-10 xl:gap-x-14 lg:items-start">
-              <div className="min-w-0">
-            {/* Description Section */}
-            <section className="mb-12 sm:mb-16 md:mb-24">
-              <div className="max-w-4xl lg:mr-auto">
-                <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[#CBB27A]/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Eye className="w-5 h-5 sm:w-6 sm:h-6 text-[#CBB27A]" />
-                  </div>
-                  <h2
-                    className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900"
-                    style={{ fontFamily: "Poppins, sans-serif" }}
-                    dangerouslySetInnerHTML={{ __html: `About ${property.projectName}` }}
-                  />
-                </div>
-                <div className="w-16 sm:w-20 h-1 bg-[#CBB27A] mb-6 sm:mb-8"></div>
-
-                <div className="relative bg-gradient-to-br from-white via-[#CBB27A]/5 to-white rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 md:p-12 lg:p-20 border border-[#CBB27A]/20 overflow-hidden">
-                  <div className="absolute top-0 right-0 w-72 h-72 bg-[#CBB27A]/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                  <div className="absolute bottom-0 left-0 w-56 h-56 bg-[#CBB27A]/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
-                  
-                  <div className="relative z-10">
-                    <p
-                      className="text-base md:text-lg leading-relaxed text-gray-800 text-justify max-w-4xl mx-auto"
-                      style={{ 
-                        fontFamily: "Poppins, sans-serif",
-                        fontWeight: 400,
-                        letterSpacing: "-0.01em",
-                        lineHeight: "1.8",
-                      }}
-                      dangerouslySetInnerHTML={{ __html: property.description }}
-                    />
-                  </div>
-                </div>
-              </div>
-            </section>
-
+            <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_288px] lg:items-start lg:gap-x-6 xl:gap-x-8">
+              <div className="min-w-0 w-full">
             <div id="property-inquiry-mobile" className="lg:hidden mb-10 scroll-mt-28">
               <PropertyStickyInquiryCard
                 projectNamePlain={projectNamePlain}
@@ -1117,7 +1081,7 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
 
               <aside
                 id="property-inquiry-sidebar"
-                className="hidden lg:block self-start lg:sticky lg:top-24 xl:top-28 z-20 w-full max-w-[380px] justify-self-end scroll-mt-28"
+                className="mt-10 hidden min-w-0 scroll-mt-28 lg:sticky lg:top-24 lg:mt-0 lg:block xl:top-28 z-20"
               >
                 <PropertyStickyInquiryCard
                   projectNamePlain={projectNamePlain}

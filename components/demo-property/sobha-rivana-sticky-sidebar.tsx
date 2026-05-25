@@ -124,17 +124,17 @@ export function SobhaRivanaStickySidebar({ idPrefix = "demo" }: { idPrefix?: str
             </div>
             <div className="min-w-0 flex-1">
               <p className="text-[10px] font-semibold uppercase tracking-wider text-[#CBB27A]/90">Sobha Rivana</p>
-              <p className="mt-0.5 text-sm font-bold leading-tight text-white">Brochure &amp; details</p>
+              <p className="mt-0.5 text-sm font-bold leading-tight text-white">Brochure &amp; floor plans</p>
               <p className="mt-1 text-[11px] leading-snug text-gray-400">
-                PDF, pricing snapshot, formats — we liaise with the builder so you skip the chase.
+                Review layouts and pricing at your own pace. Share your details and we&apos;ll send the brochure right away.
               </p>
             </div>
           </div>
-          <div className="mt-3 flex flex-col gap-1.5">
+          <div className="mt-3 mx-auto flex w-max max-w-full flex-col items-stretch gap-1.5 lg:mx-0 lg:w-full">
             <Button
               type="button"
               onClick={() => setBrochureOpen(true)}
-              className="h-auto min-h-9 w-full whitespace-normal rounded-lg border-0 bg-[#CBB27A] px-3 py-2 text-center text-xs font-bold text-black shadow-md transition hover:bg-[#d4c068]"
+              className="h-auto min-h-9 whitespace-nowrap rounded-lg border-0 bg-[#CBB27A] px-6 py-2 text-center text-xs font-bold text-black shadow-md transition hover:bg-[#d4c068] lg:w-full"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
               <span className="inline-flex items-center justify-center gap-1.5">
@@ -145,10 +145,10 @@ export function SobhaRivanaStickySidebar({ idPrefix = "demo" }: { idPrefix?: str
             <Button
               asChild
               variant="outline"
-              className="h-auto min-h-9 w-full whitespace-normal rounded-lg border-2 border-white/25 bg-transparent py-2 text-xs font-bold text-white hover:bg-white/10 hover:text-white"
+              className="h-auto min-h-9 whitespace-nowrap rounded-lg border-2 border-white/25 bg-transparent px-6 py-2 text-xs font-bold text-white hover:bg-white/10 hover:text-white lg:w-full"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              <Link href="/request-a-free-consultation" className="inline-flex items-center justify-center gap-1.5 px-3">
+              <Link href="/request-a-free-consultation" className="inline-flex items-center justify-center gap-1.5">
                 Contact Celeste Abode
               </Link>
             </Button>
@@ -163,15 +163,14 @@ export function SobhaRivanaStickySidebar({ idPrefix = "demo" }: { idPrefix?: str
           }}
         >
           <p className="text-xs font-semibold uppercase tracking-wider text-[#CBB27A]/90">Sobha Rivana</p>
-          <h3 className="mt-2 text-lg font-bold leading-snug text-white">Request a callback</h3>
+          <h3 className="mt-2 text-lg font-bold leading-snug text-white">We&apos;d be happy to call you</h3>
           <p className="mt-2 text-sm leading-relaxed text-gray-400">
-            Share your details — a Celeste Abode advisor calls back with a focused briefing on Rivana:
-            formats, pricing bands, and how it stacks up for your budget and commute.
+            Share your name and number below. An advisor will reach out with clear, honest guidance on Rivana — at your pace, without pressure.
           </p>
 
           {isDone ? (
             <div className="mt-5 rounded-xl border border-[#CBB27A]/30 bg-[#CBB27A]/10 px-4 py-4 text-center text-sm text-white">
-              Thanks — we&apos;ll be in touch shortly.
+              Thank you — we&apos;ll be in touch soon.
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="mt-5 space-y-4">
@@ -223,7 +222,7 @@ export function SobhaRivanaStickySidebar({ idPrefix = "demo" }: { idPrefix?: str
                     Submitting…
                   </>
                 ) : (
-                  "Submit"
+                  "Request a callback"
                 )}
               </button>
             </form>

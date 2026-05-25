@@ -9,8 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Property } from "@/types/property";
 import {
   buildCelesteWhatsAppMessagingTemplate,
+  openWhatsAppSendToNumber,
   whatsAppComposeUrlNoRecipient,
-  whatsAppComposeUrlWithRecipient,
 } from "@/lib/whatsapp-compose";
 
 const PAGE_SIZE = 100;
@@ -476,8 +476,7 @@ export default function AdminInventoryMessagingPage() {
                               className="w-full bg-black hover:bg-zinc-900 text-white gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
                               onClick={() => {
                                 if (!canSendToNumber) return;
-                                const url = whatsAppComposeUrlWithRecipient(phoneDigits, messageText);
-                                window.open(url, "_blank", "noopener,noreferrer");
+                                openWhatsAppSendToNumber(phoneDigits, messageText);
                               }}
                             >
                               <Send className="w-4 h-4" />

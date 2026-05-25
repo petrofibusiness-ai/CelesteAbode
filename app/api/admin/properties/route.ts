@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await supabase
       .from("properties_v3")
       .select(
-        "id, slug, project_name, developer, location, location_id, locality_id, project_status, is_published, hero_image, hero_image_alt, brochure_url, images, project_snapshot, location_advantage, created_at, updated_at",
+        "id, slug, project_name, developer, location, location_id, locality_id, project_status, is_published, hero_image, hero_image_alt, brochure_url, floor_plans, images, project_snapshot, location_advantage, created_at, updated_at",
         { count: "exact" }
       )
       .order("created_at", { ascending: false })

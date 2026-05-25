@@ -51,6 +51,53 @@ function getBrochureDownloadHref(property: Property): string {
   return `/api/brochure-download/proxy?url=${encodeURIComponent(rawUrl)}&filename=${encodeURIComponent(filename)}`;
 }
 
+function resolveFloorPlanUrl(property: Property): string {
+  const fromCamel = typeof property.floorPlanUrl === "string" ? property.floorPlanUrl : "";
+  const fromSnake =
+    typeof (property as Property & { floor_plans?: string | null }).floor_plans === "string"
+      ? ((property as Property & { floor_plans?: string | null }).floor_plans ?? "")
+      : "";
+  return (fromCamel || fromSnake).trim();
+}
+
+function getFloorPlanDownloadHref(property: Property): string {
+  const rawUrl = resolveFloorPlanUrl(property);
+  if (!rawUrl) return "";
+  const filenameBase = (property.slug || property.projectName || "property")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+  const filename = `${filenameBase || "property"}_floor_plans.pdf`;
+  return `/api/brochure-download/proxy?url=${encodeURIComponent(rawUrl)}&filename=${encodeURIComponent(filename)}`;
+}
+
+function propertyFilenameBase(property: Property): string {
+  return (property.slug || property.projectName || "property")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "") || "property";
+}
+
+async function downloadViaProxy(href: string, filename: string): Promise<void> {
+  const response = await fetch(href, {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!response.ok) {
+    throw new Error("Download request failed");
+  }
+  const blob = await response.blob();
+  const objectUrl = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = objectUrl;
+  link.download = filename;
+  link.style.display = "none";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(objectUrl);
+}
+
 /** Same-origin proxy avoids browser CORS when downloading R2 / storage URLs. */
 function getAssetProxyHref(imageUrl: string, filename: string): string {
   return `/api/brochure-download/proxy?url=${encodeURIComponent(imageUrl)}&filename=${encodeURIComponent(filename)}`;
@@ -80,7 +127,8 @@ export default function AdminInventoryMessagingPage() {
 
   // Keep a per-property phone input so agents can send to specific numbers.
   const [phoneByPropertyKey, setPhoneByPropertyKey] = useState<Record<string, string>>({});
-  const [downloadingByPropertyKey, setDownloadingByPropertyKey] = useState<Record<string, boolean>>({});
+  const [downloadingBrochureByPropertyKey, setDownloadingBrochureByPropertyKey] = useState<Record<string, boolean>>({});
+  const [downloadingFloorPlanByPropertyKey, setDownloadingFloorPlanByPropertyKey] = useState<Record<string, boolean>>({});
   const [downloadingAssetSlot, setDownloadingAssetSlot] = useState<Record<string, boolean>>({});
 
   const load = useCallback(async (p: number) => {
@@ -163,7 +211,11 @@ export default function AdminInventoryMessagingPage() {
                   const canSendToNumber = phoneError.length === 0;
                   const brochureHref = getBrochureDownloadHref(p);
                   const hasBrochure = brochureHref.length > 0;
-                  const isDownloading = Boolean(downloadingByPropertyKey[propertyKey]);
+                  const isDownloadingBrochure = Boolean(downloadingBrochureByPropertyKey[propertyKey]);
+                  const floorPlanHref = getFloorPlanDownloadHref(p);
+                  const hasFloorPlan = floorPlanHref.length > 0;
+                  const isDownloadingFloorPlan = Boolean(downloadingFloorPlanByPropertyKey[propertyKey]);
+                  const filenameBase = propertyFilenameBase(p);
                   const propertyImages = Array.isArray(p.images) ? p.images.filter((img) => typeof img === "string" && img.trim()) : [];
                   const hasAssets = propertyImages.length > 0;
 
@@ -219,44 +271,22 @@ export default function AdminInventoryMessagingPage() {
                               type="button"
                               size="sm"
                               variant="outline"
-                              disabled={isDownloading}
+                              disabled={isDownloadingBrochure}
                               className="w-full border-zinc-300 bg-white text-zinc-900 hover:bg-zinc-100 gap-1.5 disabled:opacity-70"
                               onClick={async () => {
-                                if (isDownloading) return;
-                                setDownloadingByPropertyKey((prev) => ({ ...prev, [propertyKey]: true }));
+                                if (isDownloadingBrochure) return;
+                                setDownloadingBrochureByPropertyKey((prev) => ({ ...prev, [propertyKey]: true }));
+                                const filename = `${filenameBase}_celeste_abode.pdf`;
                                 try {
-                                  const response = await fetch(brochureHref, {
-                                    method: "GET",
-                                    credentials: "include",
-                                  });
-                                  if (!response.ok) {
-                                    throw new Error("Download request failed");
-                                  }
-                                  const blob = await response.blob();
-                                  const objectUrl = URL.createObjectURL(blob);
-                                  const filenameBase = (p.slug || p.projectName || "property")
-                                    .toLowerCase()
-                                    .replace(/[^a-z0-9]+/g, "-")
-                                    .replace(/(^-|-$)/g, "");
-                                  const filename = `${filenameBase || "property"}_celeste_abode.pdf`;
-
-                                  const link = document.createElement("a");
-                                  link.href = objectUrl;
-                                  link.download = filename;
-                                  link.style.display = "none";
-                                  document.body.appendChild(link);
-                                  link.click();
-                                  document.body.removeChild(link);
-                                  URL.revokeObjectURL(objectUrl);
+                                  await downloadViaProxy(brochureHref, filename);
                                 } catch {
-                                  // Fallback to direct browser download path if fetch/blob fails.
                                   window.open(brochureHref, "_blank", "noopener,noreferrer");
                                 } finally {
-                                  setDownloadingByPropertyKey((prev) => ({ ...prev, [propertyKey]: false }));
+                                  setDownloadingBrochureByPropertyKey((prev) => ({ ...prev, [propertyKey]: false }));
                                 }
                               }}
                             >
-                              {isDownloading ? (
+                              {isDownloadingBrochure ? (
                                 <>
                                   <Loader2 className="w-4 h-4 animate-spin" />
                                   Downloading...
@@ -278,6 +308,54 @@ export default function AdminInventoryMessagingPage() {
                             >
                               <Download className="w-4 h-4" />
                               Brochure unavailable
+                            </Button>
+                          )}
+
+                          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                            Floor plans
+                          </p>
+                          {hasFloorPlan ? (
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="outline"
+                              disabled={isDownloadingFloorPlan}
+                              className="w-full border-zinc-300 bg-white text-zinc-900 hover:bg-zinc-100 gap-1.5 disabled:opacity-70"
+                              onClick={async () => {
+                                if (isDownloadingFloorPlan) return;
+                                setDownloadingFloorPlanByPropertyKey((prev) => ({ ...prev, [propertyKey]: true }));
+                                const filename = `${filenameBase}_floor_plans.pdf`;
+                                try {
+                                  await downloadViaProxy(floorPlanHref, filename);
+                                } catch {
+                                  window.open(floorPlanHref, "_blank", "noopener,noreferrer");
+                                } finally {
+                                  setDownloadingFloorPlanByPropertyKey((prev) => ({ ...prev, [propertyKey]: false }));
+                                }
+                              }}
+                            >
+                              {isDownloadingFloorPlan ? (
+                                <>
+                                  <Loader2 className="w-4 h-4 animate-spin" />
+                                  Downloading...
+                                </>
+                              ) : (
+                                <>
+                                  <Download className="w-4 h-4" />
+                                  Download floor plans
+                                </>
+                              )}
+                            </Button>
+                          ) : (
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="outline"
+                              disabled
+                              className="w-full border-zinc-300 bg-white text-zinc-400 gap-1.5"
+                            >
+                              <Download className="w-4 h-4" />
+                              Floor plans unavailable
                             </Button>
                           )}
 

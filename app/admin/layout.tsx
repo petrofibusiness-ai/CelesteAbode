@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Building2 } from "lucide-react";
-import AdminSidebar from "@/components/admin/admin-sidebar";
-import { Toaster } from "@/components/ui/sonner";
-import { isFullAdminEmail } from "@/lib/admin-access";
+import { AdminLayoutShell } from "@/components/admin/admin-layout-shell";
+import { SUPPORT_ADMIN_EMAIL } from "@/lib/admin-access";
 
 export default function AdminLayout({
   children,
@@ -74,7 +73,7 @@ export default function AdminLayout({
 
         const data = await res.json().catch(() => ({}));
         const email = (data?.user?.email || "").toString().toLowerCase();
-        const isInventoryOnlyUser = !isFullAdminEmail(email);
+        const isInventoryOnlyUser = email !== SUPPORT_ADMIN_EMAIL;
 
         setIsAuthenticated(true);
         setUserEmail(email || null);
@@ -118,7 +117,7 @@ export default function AdminLayout({
     return null;
   }
 
-  const isInventoryOnlyUser = Boolean(userEmail && !isFullAdminEmail(userEmail));
+  const isInventoryOnlyUser = Boolean(userEmail && userEmail !== SUPPORT_ADMIN_EMAIL);
 
   return <AdminLayoutShell inventoryOnly={isInventoryOnlyUser}>{children}</AdminLayoutShell>;
 }

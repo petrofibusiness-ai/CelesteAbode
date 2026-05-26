@@ -13,6 +13,7 @@ import {
   MapPin,
   Mail,
   Layers,
+  MessageCircle,
   PanelLeftClose,
   PanelLeftOpen,
 } from "lucide-react";

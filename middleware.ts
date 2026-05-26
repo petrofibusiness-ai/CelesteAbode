@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { SUPPORT_ADMIN_EMAIL } from '@/lib/admin-access';
 
-const SUPPORT_ADMIN_EMAIL = 'support@celesteabode.com';
 const STATIC_PROPERTY_ROUTE_EXCEPTIONS = new Set([
   '/properties-in-ghaziabad/fusion-vasundhara',
 ]);
@@ -40,7 +40,7 @@ export function middleware(request: NextRequest) {
     if (!email) {
       return NextResponse.redirect(new URL('/admin/login', request.url));
     }
-    if (!isFullAdminEmail(email)) {
+    if (email !== SUPPORT_ADMIN_EMAIL) {
       const inventoryOnly =
         pathname === '/admin/inventory' ||
         pathname.startsWith('/admin/inventory/');

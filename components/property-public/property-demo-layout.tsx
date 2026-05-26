@@ -130,12 +130,15 @@ function SpecPill({
   children: ReactNode;
 }) {
   return (
-    <div className="flex flex-col rounded-xl border border-white/20 bg-black/35 px-3 py-2.5 shadow-lg backdrop-blur-md sm:rounded-2xl sm:px-4 sm:py-3">
-      <div className="mb-1.5 flex h-8 w-8 items-center justify-center rounded-full bg-[#CBB27A]/25 text-[#CBB27A] ring-1 ring-[#CBB27A]/35 sm:h-9 sm:w-9">
+    <div className="flex min-w-0 flex-col overflow-hidden rounded-xl border border-white/20 bg-black/35 px-3 py-2.5 shadow-lg backdrop-blur-md sm:rounded-2xl sm:px-4 sm:py-3">
+      <div className="mb-1.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#CBB27A]/25 text-[#CBB27A] ring-1 ring-[#CBB27A]/35 sm:h-9 sm:w-9">
         {icon}
       </div>
       <p className="text-[9px] font-bold uppercase tracking-wider text-white/70">{label}</p>
-      <div className="mt-0.5 text-xs font-bold leading-snug text-white sm:text-sm" style={{ fontFamily: "Poppins, sans-serif" }}>
+      <div
+        className="mt-0.5 min-w-0 break-words text-xs font-bold leading-snug text-white [overflow-wrap:anywhere] sm:text-sm"
+        style={{ fontFamily: "Poppins, sans-serif" }}
+      >
         {children}
       </div>
     </div>
@@ -194,12 +197,14 @@ function PropertyDemoHero({
 
           <div className="pointer-events-auto mt-auto flex w-full justify-start pt-10 sm:pt-12">
             <div
-              className={`grid w-full max-w-[min(100%,20rem)] grid-cols-2 gap-2 sm:max-w-2xl sm:gap-3 ${
+              className={`grid w-full max-w-[min(100%,20rem)] grid-cols-2 gap-2 sm:max-w-2xl sm:gap-3 [&>*]:min-w-0 ${
                 hasConfiguration ? "sm:grid-cols-4" : "sm:max-w-xl sm:grid-cols-3"
               }`}
             >
               <SpecPill label="RERA" icon={<ShieldCheck className="h-4 w-4" aria-hidden />}>
-                <span className="line-clamp-3 text-[11px] leading-tight sm:line-clamp-none sm:text-xs">{rera}</span>
+                <span className="block min-w-0 break-words text-[11px] leading-snug [overflow-wrap:anywhere] sm:text-xs">
+                  {rera}
+                </span>
               </SpecPill>
               {hasConfiguration ? (
                 <SpecPill label="Configuration" icon={<Building2 className="h-4 w-4" aria-hidden />}>
@@ -211,7 +216,7 @@ function PropertyDemoHero({
               </SpecPill>
               <SpecPill label="Developer" icon={<Award className="h-4 w-4" aria-hidden />}>
                 <span
-                  className="line-clamp-4 text-[11px] leading-tight sm:line-clamp-none sm:text-xs"
+                  className="block min-w-0 break-words text-[11px] leading-snug [overflow-wrap:anywhere] sm:text-xs"
                   dangerouslySetInnerHTML={{ __html: property.developer }}
                 />
               </SpecPill>

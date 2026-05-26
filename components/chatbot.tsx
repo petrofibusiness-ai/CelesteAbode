@@ -56,6 +56,8 @@ export function Chatbot() {
   const [phoneError, setPhoneError] = useState(false);
   /** Left IG/FB/LinkedIn: on pages with [data-site-hero], stay hidden until user scrolls and the stack no longer overlaps a laid-out hero */
   const [showLeftSocial, setShowLeftSocial] = useState(false);
+  /** Mobile: WhatsApp / call / chat FABs hidden over [data-site-hero] until scroll clears the hero */
+  const [showRightFab, setShowRightFab] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -67,8 +69,7 @@ export function Chatbot() {
     scrollToBottom();
   }, [messages]);
 
-  // Left social: pages with [data-site-hero] — never show on first paint (avoids 0×0 hero rects before images/layout).
-  // Only show after the user has scrolled and the icon zone no longer overlaps a real hero rect.
+  // Floating actions vs [data-site-hero]: hidden on first paint over heroes; reveal after scroll clears the hero.
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -77,36 +78,24 @@ export function Chatbot() {
     /** Reset each navigation; icons stay off until user scrolls on hero pages */
     const hasScrolledRef = { current: false };
 
-    const ICON_ZONE_RIGHT = 130; // px from left edge (covers left-6 + 56px buttons + shadow)
-    const ICON_ZONE_BOTTOM_PAD = 28; // matches bottom-6 + breathing room
-    const ICON_STACK_EST_HEIGHT = 300; // 3× ~56px buttons + gaps (sm)
-    const MIN_HERO_DIM = 8; // below this, getBoundingClientRect is not layout-stable yet — treat as overlapping
+    const ICON_ZONE_BOTTOM_PAD = 28;
+    const MIN_HERO_DIM = 8;
+    const LEFT_ZONE_RIGHT = 130;
+    const LEFT_STACK_EST_HEIGHT = 300;
+    const RIGHT_ZONE_WIDTH = 100;
+    const RIGHT_STACK_EST_HEIGHT = 220;
 
     const markScrolledIfNeeded = () => {
       if (window.scrollY > 2) hasScrolledRef.current = true;
     };
 
-    const update = () => {
-      if (cancelled) return;
-      markScrolledIfNeeded();
-
-      if (hideLeftSocialIcons) {
-        setShowLeftSocial(false);
-        return;
-      }
-
-      const heroes = document.querySelectorAll("[data-site-hero]");
-      if (heroes.length === 0) {
-        setShowLeftSocial(true);
-        return;
-      }
-
-      const h = window.innerHeight;
-      const zoneTop = h - ICON_STACK_EST_HEIGHT - ICON_ZONE_BOTTOM_PAD;
-      const zoneBottom = h;
-      const zoneLeft = 0;
-      const zoneRight = ICON_ZONE_RIGHT;
-
+    const heroOverlapsZone = (
+      heroes: NodeListOf<Element>,
+      zoneTop: number,
+      zoneBottom: number,
+      zoneLeft: number,
+      zoneRight: number
+    ) => {
       let overlapsAny = false;
       heroes.forEach((el) => {
         const hr = el.getBoundingClientRect();
@@ -121,8 +110,48 @@ export function Chatbot() {
           hr.left < zoneRight;
         if (overlaps) overlapsAny = true;
       });
+      return overlapsAny;
+    };
 
-      setShowLeftSocial(!overlapsAny && hasScrolledRef.current);
+    const update = () => {
+      if (cancelled) return;
+      markScrolledIfNeeded();
+
+      const heroes = document.querySelectorAll("[data-site-hero]");
+      const h = window.innerHeight;
+      const w = window.innerWidth;
+      const isMobile = w < 768;
+      const scrolled = hasScrolledRef.current;
+
+      if (hideLeftSocialIcons) {
+        setShowLeftSocial(false);
+      } else if (heroes.length === 0) {
+        setShowLeftSocial(true);
+      } else {
+        const leftOverlaps = heroOverlapsZone(
+          heroes,
+          h - LEFT_STACK_EST_HEIGHT - ICON_ZONE_BOTTOM_PAD,
+          h,
+          0,
+          LEFT_ZONE_RIGHT
+        );
+        setShowLeftSocial(!leftOverlaps && scrolled);
+      }
+
+      if (!isMobile) {
+        setShowRightFab(true);
+      } else if (heroes.length === 0) {
+        setShowRightFab(true);
+      } else {
+        const rightOverlaps = heroOverlapsZone(
+          heroes,
+          h - RIGHT_STACK_EST_HEIGHT - ICON_ZONE_BOTTOM_PAD,
+          h,
+          w - RIGHT_ZONE_WIDTH,
+          w
+        );
+        setShowRightFab(!rightOverlaps && scrolled);
+      }
     };
 
     const scheduleUpdate = () => {
@@ -867,14 +896,20 @@ export function Chatbot() {
         </motion.div>
       ) : null}
 
-      {/* Right: WhatsApp and Call Buttons - Above Chatbot */}
+      {/* Right: WhatsApp and Call — on mobile, hidden over [data-site-hero] until scroll clears hero */}
       <motion.a
         href="https://wa.me/919910906306"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        exit={{ scale: 0 }}
-        className="fixed bottom-[144px] right-4 sm:bottom-[168px] sm:right-6 z-[9999] bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full p-3 sm:p-4 opacity-100 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 md:opacity-50 md:hover:opacity-100 flex items-center justify-center group w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
+        initial={false}
+        animate={{
+          opacity: showRightFab ? 1 : 0,
+          scale: showRightFab ? 1 : 0,
+        }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        className={`fixed bottom-[144px] right-4 sm:bottom-[168px] sm:right-6 z-[9999] bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 md:opacity-50 md:hover:opacity-100 flex items-center justify-center group w-12 h-12 sm:w-14 sm:h-14 touch-manipulation ${
+          showRightFab ? "" : "max-md:pointer-events-none"
+        }`}
         aria-label="WhatsApp"
+        aria-hidden={!showRightFab}
       >
         <svg className="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.865 9.865 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
@@ -882,23 +917,35 @@ export function Chatbot() {
       </motion.a>
       <motion.a
         href="tel:+919910906306"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        exit={{ scale: 0 }}
-        className="fixed bottom-[80px] right-4 sm:bottom-[96px] sm:right-6 z-[9999] bg-green-600 hover:bg-green-700 text-white rounded-full p-3 sm:p-4 opacity-100 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 md:opacity-50 md:hover:opacity-100 flex items-center justify-center group w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
+        initial={false}
+        animate={{
+          opacity: showRightFab ? 1 : 0,
+          scale: showRightFab ? 1 : 0,
+        }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        className={`fixed bottom-[80px] right-4 sm:bottom-[96px] sm:right-6 z-[9999] bg-green-600 hover:bg-green-700 text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 md:opacity-50 md:hover:opacity-100 flex items-center justify-center group w-12 h-12 sm:w-14 sm:h-14 touch-manipulation ${
+          showRightFab ? "" : "max-md:pointer-events-none"
+        }`}
         aria-label="Call us"
+        aria-hidden={!showRightFab}
       >
         <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
       </motion.a>
 
       {!isOpen && (
         <motion.button
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          exit={{ scale: 0 }}
+          initial={false}
+          animate={{
+            opacity: showRightFab ? 1 : 0,
+            scale: showRightFab ? 1 : 0,
+          }}
+          transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[9999] bg-[#0f1112] hover:bg-[#1a1c1e] text-[#CBB27A] rounded-full p-3 sm:p-4 opacity-100 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 md:opacity-50 md:hover:opacity-100 flex items-center justify-center group w-12 h-12 sm:w-14 sm:h-14 border border-[#CBB27A]/30 touch-manipulation"
+          className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[9999] bg-[#0f1112] hover:bg-[#1a1c1e] text-[#CBB27A] rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 md:opacity-50 md:hover:opacity-100 flex items-center justify-center group w-12 h-12 sm:w-14 sm:h-14 border border-[#CBB27A]/30 touch-manipulation ${
+            showRightFab ? "" : "max-md:pointer-events-none"
+          }`}
           aria-label="Open chatbot"
+          aria-hidden={!showRightFab}
         >
           <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />
           <span className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-2.5 h-2.5 sm:w-3 sm:h-3 bg-[#CBB27A] rounded-full animate-pulse" />

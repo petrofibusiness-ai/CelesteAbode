@@ -6,6 +6,7 @@ import { addLocationSlugToProperties } from "@/lib/property-location-helper";
 import { slugToLocationCategory } from "@/lib/location-slug";
 import { PROPERTY_TYPES, PROJECT_STATUSES, CONFIGURATIONS, isValidPropertyType, isValidProjectStatus, isValidConfiguration } from "@/lib/property-enums";
 import { getFeaturedStaticPropertiesForLocation } from "@/lib/featured-static-properties";
+import { getPropertyIdsWithAnyConfigurationLabels } from "@/lib/property-inventory-configuration-filter";
 
 // Query timeout: 10 seconds
 const QUERY_TIMEOUT = 10000;

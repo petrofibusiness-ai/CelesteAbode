@@ -65,7 +65,7 @@ export function FusionVasundharaHero() {
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-transparent" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
-        <div className="relative flex min-h-0 flex-1 flex-col px-4 pb-10 pt-[var(--site-header-total,6rem)] sm:px-6 sm:pb-12 sm:pt-[calc(7rem+var(--site-banner-h,0px))] md:px-10 lg:px-14">
+        <div className="relative flex min-h-0 flex-1 flex-col px-4 pb-10 pt-[calc(var(--site-header-total,6rem)+0.75rem)] sm:px-6 sm:pb-12 sm:pt-[calc(7rem+var(--site-banner-h,0px))] md:px-10 lg:px-14">
           <div className="pointer-events-auto max-w-4xl text-left">
             <h1
               id="fusion-vasundhara-h1"

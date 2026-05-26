@@ -118,11 +118,12 @@ export function SobhaRivanaGallery({
         ) : null}
         {safe.length > 1 ? (
           <div
-            className={`absolute right-1 top-1/2 z-10 flex -translate-y-1/2 scale-[0.72] flex-col items-center gap-0 rounded-full px-px py-0.5 shadow-sm backdrop-blur-sm sm:right-2 sm:scale-100 sm:gap-px sm:px-0.5 sm:py-0.5 ${
+            className={`pointer-events-auto absolute right-1 top-1/2 z-20 flex -translate-y-1/2 flex-col items-center gap-0 rounded-full px-px py-0.5 shadow-sm backdrop-blur-sm sm:right-2 sm:gap-px sm:px-0.5 ${
               controlsOnDark
                 ? "bg-black/40 ring-1 ring-white/12"
                 : "bg-white/90 ring-1 ring-gray-200/70"
             }`}
+            aria-label="Image gallery controls"
           >
             <button
               type="button"
@@ -136,7 +137,20 @@ export function SobhaRivanaGallery({
             >
               <ChevronUp className="h-1.5 w-1.5 sm:h-2.5 sm:w-2.5" strokeWidth={2} aria-hidden />
             </button>
-            <div className="flex max-h-[3rem] flex-col flex-nowrap items-center gap-[2px] overflow-y-auto px-px py-px [scrollbar-width:none] sm:max-h-none sm:max-w-[4rem] sm:flex-row sm:flex-wrap sm:justify-center sm:gap-px [&::-webkit-scrollbar]:hidden">
+            {fullscreenHero ? (
+              <span
+                className={`min-w-[1.35rem] select-none py-px text-center text-[9px] font-semibold tabular-nums leading-none sm:hidden ${
+                  controlsOnDark ? "text-white/85" : "text-gray-800"
+                }`}
+              >
+                {index + 1}/{safe.length}
+              </span>
+            ) : null}
+            <div
+              className={`max-w-[2.5rem] flex-wrap items-center justify-center gap-px px-px sm:max-w-[4rem] ${
+                fullscreenHero ? "hidden sm:flex" : "flex"
+              }`}
+            >
               {safe.map((_, i) => (
                 <button
                   key={i}

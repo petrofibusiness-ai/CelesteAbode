@@ -4,8 +4,8 @@ import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 import { addLocationSlugToProperties } from "@/lib/property-location-helper";
 import { slugToLocationCategory } from "@/lib/location-slug";
-import { isValidPropertyType, isValidProjectStatus, isValidConfiguration } from "@/lib/property-enums";
-import { getPropertyIdsWithAnyConfigurationLabels } from "@/lib/property-inventory-configuration-filter";
+import { PROPERTY_TYPES, PROJECT_STATUSES, CONFIGURATIONS, isValidPropertyType, isValidProjectStatus, isValidConfiguration } from "@/lib/property-enums";
+import { getFeaturedStaticPropertiesForLocation } from "@/lib/featured-static-properties";
 
 // Query timeout: 10 seconds
 const QUERY_TIMEOUT = 10000;
@@ -286,7 +286,23 @@ export async function GET(request: NextRequest) {
     const mappedProperties = propertiesToReturn.map((prop: unknown) => supabaseV3ToProperty(prop as any));
 
     // Add locationSlug to all properties
-    const propertiesWithLocation = await addLocationSlugToProperties(mappedProperties, supabase);
+    let propertiesWithLocation = await addLocationSlugToProperties(mappedProperties, supabase);
+    let totalCountWithFeatured = totalCount;
+
+    // Include hardcoded featured cards only on the first, unfiltered listing page.
+    const hasAnyFilter =
+      localityFilters.length > 0 ||
+      (propertyTypeFilter !== null && propertyTypeFilter !== "all") ||
+      (projectStatusFilter !== null && projectStatusFilter !== "all") ||
+      configurationFilters.length > 0;
+
+    if (offset === 0 && !hasAnyFilter) {
+      const featuredStatic = getFeaturedStaticPropertiesForLocation(locationSlug.toLowerCase().trim());
+      if (featuredStatic.length > 0) {
+        propertiesWithLocation = [...featuredStatic, ...propertiesWithLocation].slice(0, limit);
+        totalCountWithFeatured += featuredStatic.length;
+      }
+    }
 
     return NextResponse.json(
       { 
@@ -301,7 +317,7 @@ export async function GET(request: NextRequest) {
         limit,
         offset,
         total: propertiesWithLocation.length,
-        totalCount,
+        totalCount: totalCountWithFeatured,
         hasMore
       },
       {

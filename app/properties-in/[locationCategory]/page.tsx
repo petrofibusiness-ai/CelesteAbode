@@ -20,6 +20,7 @@ import LocationFAQs from "@/components/location-faqs";
 import { SeoBlocksRevealController } from "@/components/seo-blocks-reveal-controller";
 import { FAQPageSchema, BreadcrumbSchema, LocationPageSchema } from "@/lib/structured-data";
 import { PROPERTY_SEARCH_ANCHOR_ID } from "@/lib/scroll-listings";
+import { getFeaturedStaticPropertiesForLocation } from "@/lib/featured-static-properties";
 
 interface PageProps {
   params: Promise<{
@@ -173,7 +174,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
     console.error("Error fetching properties for location:", error);
   }
 
-  const properties: Property[] = propertiesData
+  const dbProperties: Property[] = propertiesData
     ? propertiesData.map((prop: any) => {
         const property = supabaseV3ToProperty(prop);
         return {
@@ -182,6 +183,9 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
         };
       })
     : [];
+  const featuredStaticProperties = getFeaturedStaticPropertiesForLocation(location.slug);
+  const properties: Property[] = [...featuredStaticProperties, ...dbProperties].slice(0, 6);
+  const totalPropertiesCountWithFeatured = (totalPropertiesCount ?? dbProperties.length) + featuredStaticProperties.length;
 
   // Fetch compare locations (compare_location_1, _2, _3 are FKs to locations_v2)
   const compareLocationIds = [location.compareLocation1, location.compareLocation2, location.compareLocation3].filter(
@@ -296,7 +300,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
                 <NoidaPropertiesGrid 
                   initialProperties={properties} 
                   location={location.slug}
-                  initialTotalCount={totalPropertiesCount ?? properties.length}
+                  initialTotalCount={totalPropertiesCountWithFeatured}
                 />
               ) : (
                 <div className="flex flex-col items-center justify-center py-16 bg-gray-50 rounded-2xl">

@@ -303,12 +303,12 @@ export function SobhaRivanaGreaterNoidaWestContent() {
           Sobha Rivana UP RERA registration and status
         </h2>
         <p className="text-gray-700 leading-relaxed mb-5">
-          Sobha Rivana is registered on UP RERA as <strong>{SOBHA_RIVANA_RERA_FULL}</strong>, with a listing date of{" "}
+          Sobha Rivana is registered on UP RERA as <strong>{SOBHA_RIVANA_RERA_FULL}</strong>, with a registration date of{" "}
           <strong>20 March 2026</strong>. That is one anchor among many. We still read location, product, and price with
           you as a whole picture, the way we do for every serious buyer in NCR.
         </p>
         <p className="text-gray-700 leading-relaxed mb-4">
-          Listing paperwork lives on{" "}
+          Official project records live on{" "}
           <a href="https://up-rera.in" target="_blank" rel="noopener noreferrer" className="text-[#CBB27A] font-semibold hover:underline">
             up-rera.in
           </a>

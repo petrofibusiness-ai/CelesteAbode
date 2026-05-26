@@ -19,12 +19,12 @@ import {
 import { SobhaRivanaFaqAccordion } from "./sobha-rivana-faq-accordion";
 import { PanchsheelGreens2PhotoGallery } from "./panchsheel-greens-2-photo-gallery";
 
-/** Canonical listing: celesteabode.com/properties-in-greater-noida/panchsheel-greens-ii */
+/** Canonical property page: celesteabode.com/properties-in-greater-noida/panchsheel-greens-ii */
 const PROJECT_PAGE = "/properties-in-greater-noida/panchsheel-greens-ii";
 
 const LINK_CLASS = "text-[#CBB27A] font-semibold hover:underline underline-offset-2";
 
-/** Campus and listing facts aligned with `lib/project-metadata.ts` (Panchsheel Greens-II) and Panchsheel Group disclosures. */
+/** Campus and project facts aligned with `lib/project-metadata.ts` (Panchsheel Greens-II) and Panchsheel Group disclosures. */
 const PANCHSHEEL_FACTS = {
   rera: "UPRERAPRJ8595",
   priceFrom: "₹91.5 lakhs",
@@ -94,7 +94,7 @@ export const panchsheelGreens2FaqSchemaItems: { question: string; answer: string
   {
     question: "What is the starting price for Panchsheel Greens 2?",
     answer:
-      "From ₹91.5 lakhs for a 2 BHK on our Panchsheel Greens-II listing. Exact price moves by tower, floor, and facing.",
+      "From ₹91.5 lakhs for a 2 BHK on our Panchsheel Greens-II property page. Exact price moves by tower, floor, and facing.",
   },
   {
     question: "Does Panchsheel Greens 2 have villas?",
@@ -202,7 +202,7 @@ function StatPill({ children }: { children: ReactNode }) {
 export function PanchsheelGreens2GreaterNoidaWestContent() {
   const toc = [
     { href: "#pg2-lead", title: "Lead" },
-    { href: "#pg2-what", title: "What is Greens 2?" },
+    { href: "#pg2-what", title: "What is Panchsheel Greens 2?" },
     { href: "#pg2-overview", title: "Quick overview" },
     { href: "#pg2-location", title: "Location & pin" },
     { href: "#pg2-price", title: "Price list" },
@@ -247,7 +247,7 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
           href={PROJECT_PAGE}
           className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-[#0f1112] px-5 py-2.5 text-sm font-semibold text-[#CBB27A] transition-colors hover:bg-gray-900"
         >
-          Open listing
+          View property
           <ArrowRight className="size-4" aria-hidden />
         </Link>
       </div>
@@ -338,7 +338,7 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
           <Link href={PROJECT_PAGE} className={LINK_CLASS}>
             Panchsheel Greens-II
           </Link>{" "}
-          listing.
+          property page.
         </p>
       </section>
 
@@ -389,7 +389,7 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
           Prices are tower and floor specific. The bands below are a reference. For exact current pricing by tower and floor,{" "}
           check the{" "}
           <Link href={PROJECT_PAGE} className={LINK_CLASS}>
-            live listing
+            property page
           </Link>{" "}
           or contact our desk directly.
         </p>
@@ -435,7 +435,7 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
         <p className="m-0 text-sm leading-relaxed text-gray-700">
           Floor plan downloads with exact dimensions are on the{" "}
           <Link href={PROJECT_PAGE} className={LINK_CLASS}>
-            listing page
+            property page
           </Link>
           . Tower-wise layouts differ slightly, so always check the specific tower before shortlisting. Compare with{" "}
           <Link href="/blog/sobha-rivana-greater-noida-west" className={LINK_CLASS}>
@@ -454,7 +454,7 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
           the {PANCHSHEEL_FACTS.acres} acres is open green space, which shows in the ground-level shots. Tap a thumbnail to
           enlarge. More photos are on the{" "}
           <Link href={PROJECT_PAGE} className={LINK_CLASS}>
-            project listing
+            project page
           </Link>
           . Want a site visit? We can arrange it.
         </p>
@@ -486,7 +486,7 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
             className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#CBB27A] px-5 py-2.5 text-sm font-semibold text-[#0f1112] hover:bg-[#b9a56f]"
           >
             <FileDown className="size-4" aria-hidden />
-            Brochure &amp; listing
+            Brochure &amp; details
           </Link>
           <Link
             href="/properties-in-greater-noida"
@@ -498,7 +498,7 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
             href="/blog/3bhk-flats-in-greater-noida"
             className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-5 py-2.5 text-sm font-semibold text-gray-800 hover:border-[#CBB27A]"
           >
-            3 BHK Greater Noida guide
+            3 BHK flats in Greater Noida guide
           </Link>
         </div>
       </section>
@@ -554,7 +554,7 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
                 about RWA quality before deciding.
               </li>
               <li>
-                <strong className="text-gray-900">Phase labelling.</strong> Online listings sometimes blur Panchsheel Greens 1
+                <strong className="text-gray-900">Phase labelling.</strong> Some online property portals sometimes blur Panchsheel Greens 1
                 and Greens 2 details. Always verify tower number, RERA ID ({PANCHSHEEL_FACTS.rera}), and floor before agreeing to
                 anything.
               </li>
@@ -628,7 +628,7 @@ export function PanchsheelGreens2GreaterNoidaWestContent() {
           <Link href={PROJECT_PAGE} className={LINK_CLASS}>
             Panchsheel Greens-II
           </Link>{" "}
-          listing page. Want a curated shortlist based on your budget and tower preference?{" "}
+          property page. Want a curated shortlist based on your budget and tower preference?{" "}
           <Link href="/request-a-free-consultation" className={LINK_CLASS}>
             Book a free consultation
           </Link>{" "}

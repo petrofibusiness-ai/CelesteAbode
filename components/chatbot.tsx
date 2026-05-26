@@ -44,7 +44,8 @@ export function Chatbot() {
     pathname === "/ca-internal-inventory-v1" || pathname?.startsWith("/ca-internal-inventory-v1/");
   /** Demo fullscreen hero: hide fixed left IG/FB/LinkedIn stack (not the spec pills). */
   const hideLeftSocialIcons =
-    pathname === "/demo-property" || pathname?.startsWith("/demo-property/");
+    pathname === "/demo-property" ||
+    pathname?.startsWith("/demo-property/");
 
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -830,7 +831,7 @@ export function Chatbot() {
             href="https://www.instagram.com/celesteabode/"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#F77737] hover:opacity-90 text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
+            className="bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#F77737] text-white rounded-full p-3 sm:p-4 opacity-100 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 md:opacity-50 md:hover:opacity-100 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
             aria-label="Instagram"
           >
             <Instagram className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
@@ -839,7 +840,7 @@ export function Chatbot() {
             href="https://www.facebook.com/people/Celeste-Abode/61579337236985/"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#1877F2] hover:bg-[#0F5DC8] text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
+            className="bg-[#1877F2] hover:bg-[#0F5DC8] text-white rounded-full p-3 sm:p-4 opacity-100 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 md:opacity-50 md:hover:opacity-100 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
             aria-label="Facebook"
           >
             <svg
@@ -858,7 +859,7 @@ export function Chatbot() {
             href="https://www.linkedin.com/company/celeste-abode/"
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#0A66C2] hover:bg-[#004182] text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
+            className="bg-[#0A66C2] hover:bg-[#004182] text-white rounded-full p-3 sm:p-4 opacity-100 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 md:opacity-50 md:hover:opacity-100 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
             aria-label="LinkedIn"
           >
             <Linkedin className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -869,10 +870,10 @@ export function Chatbot() {
       {/* Right: WhatsApp and Call Buttons - Above Chatbot */}
       <motion.a
         href="https://wa.me/919910906306"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0, opacity: 0 }}
-        className="fixed bottom-[144px] right-4 sm:bottom-[168px] sm:right-6 z-[9999] bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center group w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        exit={{ scale: 0 }}
+        className="fixed bottom-[144px] right-4 sm:bottom-[168px] sm:right-6 z-[9999] bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full p-3 sm:p-4 opacity-100 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 md:opacity-50 md:hover:opacity-100 flex items-center justify-center group w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
         aria-label="WhatsApp"
       >
         <svg className="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
@@ -881,10 +882,10 @@ export function Chatbot() {
       </motion.a>
       <motion.a
         href="tel:+919910906306"
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0, opacity: 0 }}
-        className="fixed bottom-[80px] right-4 sm:bottom-[96px] sm:right-6 z-[9999] bg-green-600 hover:bg-green-700 text-white rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center group w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        exit={{ scale: 0 }}
+        className="fixed bottom-[80px] right-4 sm:bottom-[96px] sm:right-6 z-[9999] bg-green-600 hover:bg-green-700 text-white rounded-full p-3 sm:p-4 opacity-100 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 md:opacity-50 md:hover:opacity-100 flex items-center justify-center group w-12 h-12 sm:w-14 sm:h-14 touch-manipulation"
         aria-label="Call us"
       >
         <Phone className="w-5 h-5 sm:w-6 sm:h-6" />
@@ -892,11 +893,11 @@ export function Chatbot() {
 
       {!isOpen && (
         <motion.button
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0, opacity: 0 }}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          exit={{ scale: 0 }}
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[9999] bg-[#0f1112] hover:bg-[#1a1c1e] text-[#CBB27A] rounded-full p-3 sm:p-4 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 flex items-center justify-center group w-12 h-12 sm:w-14 sm:h-14 border border-[#CBB27A]/30 touch-manipulation"
+          className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[9999] bg-[#0f1112] hover:bg-[#1a1c1e] text-[#CBB27A] rounded-full p-3 sm:p-4 opacity-100 shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 md:opacity-50 md:hover:opacity-100 flex items-center justify-center group w-12 h-12 sm:w-14 sm:h-14 border border-[#CBB27A]/30 touch-manipulation"
           aria-label="Open chatbot"
         >
           <MessageCircle className="w-5 h-5 sm:w-6 sm:h-6" />

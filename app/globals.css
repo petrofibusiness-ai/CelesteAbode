@@ -50,6 +50,9 @@
   --line: #E9E3DC; /* Hairline borders/dividers */
   --coffee: #2B3035; /* Authoritative neutral for buttons/links */
   --sand: #CBB27A; /* Logo gold accent */
+  --site-banner-h: 0px;
+  --site-nav-h: 6rem;
+  --site-header-total: var(--site-nav-h);
   --sand-tint-light: #E7DCC5; /* Chips/hover/focus */
   --sand-tint-dark: #DED0B1; /* Chips/hover/focus */
   --cool-gray: #6A7077; /* Meta/labels/footnotes */
@@ -592,6 +595,102 @@ body::after {
 .premium-button {
   box-shadow: 0 8px 20px rgba(14,10,8,0.28); /* EDIT: add soft shadow to premium buttons */
   border: 1px solid rgba(255,255,255,0.03); /* EDIT: soft border to lift button */
+}
+
+/* Hot-property promo strip + fixed header clearance */
+html[data-promo-banner="true"] {
+  --site-banner-gap: 1px;
+  --site-banner-h: 2.25rem;
+  --site-header-total: calc(var(--site-nav-h) + var(--site-banner-gap) + var(--site-banner-h));
+}
+
+@media (min-width: 768px) {
+  /* main.pt-24 pages only — do not pad [data-site-hero] itself (overlay heroes sit under header + banner) */
+  html[data-promo-banner="true"] main.pt-24 {
+    padding-top: var(--site-header-total) !important;
+  }
+}
+
+html[data-promo-banner="true"] [data-site-hero] .pt-24 {
+  padding-top: var(--site-header-total) !important;
+}
+
+html[data-promo-banner="true"] [data-site-hero] .sm\:pt-28 {
+  padding-top: calc(7rem + var(--site-banner-h)) !important;
+}
+
+@keyframes hot-banner-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.hot-property-banner-shimmer {
+  background-image: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.18) 45%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: hot-banner-shimmer 18s linear infinite;
+}
+
+.hot-property-banner .hot-property-banner-shimmer {
+  /* Keep shimmer subtle; avoid a hard band beside the CTA */
+  opacity: 0.35;
+}
+
+.hot-property-marquee {
+  mask-image: linear-gradient(to right, transparent 0%, black 6%, black 100%);
+}
+
+.hot-property-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: hot-property-marquee-rtl 28s linear infinite;
+  will-change: transform;
+}
+
+.hot-property-marquee-item {
+  flex-shrink: 0;
+  padding-right: 4rem;
+  white-space: nowrap;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #23262a;
+}
+
+@media (min-width: 640px) {
+  .hot-property-marquee-item {
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .hot-property-marquee-item {
+    font-size: 0.875rem;
+  }
+}
+
+@keyframes hot-property-marquee-rtl {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hot-property-marquee-track {
+    animation: none;
+    transform: none;
+  }
 }
 
 /* Glass Metallic Effect */

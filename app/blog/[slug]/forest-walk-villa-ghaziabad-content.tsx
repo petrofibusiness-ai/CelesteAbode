@@ -3,7 +3,7 @@ import Link from "next/link";
 import { TreePine } from "lucide-react";
 
 const HERO_IMG =
-  "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/forest-walk-villa_hero.avif";
+  "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/forest-walk-villa_hero_1778984210627.jpeg";
 const WALK_IMG_1 =
   "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/images/forest-walk-villa_1.avif";
 const WALK_IMG_2 =

@@ -111,7 +111,7 @@ export default function BlogPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
               {/* Left Sidebar - Popular Articles (same layout as article page "You may also like") */}
               <aside className="lg:col-span-3 order-2 lg:order-1">
-                <div className="sticky top-28">
+                <div className="blog-sidebar-sticky">
                   <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -298,7 +298,7 @@ export default function BlogPage() {
 
               {/* Right Sidebar - Lead Capture Form */}
               <aside className="lg:col-span-3 order-3">
-                <div className="sticky top-28">
+                <div className="blog-sidebar-sticky">
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}

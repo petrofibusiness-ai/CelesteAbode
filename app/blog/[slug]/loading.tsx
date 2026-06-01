@@ -14,7 +14,7 @@ export default function BlogPostLoading() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Left sidebar skeleton */}
             <aside className="lg:col-span-3 hidden lg:block">
-              <div className="sticky top-28 space-y-4">
+              <div className="space-y-4">
                 <div className="h-6 w-40 bg-gray-200 rounded animate-pulse" />
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="flex gap-3">
@@ -52,7 +52,7 @@ export default function BlogPostLoading() {
 
             {/* Right sidebar skeleton */}
             <aside className="lg:col-span-3 hidden lg:block">
-              <div className="sticky top-28 rounded-xl bg-gray-100 p-6 animate-pulse">
+              <div className="rounded-xl bg-gray-100 p-6 animate-pulse">
                 <div className="h-6 w-36 bg-gray-200 rounded mb-6" />
                 <div className="space-y-4">
                   <div className="h-10 w-full bg-gray-200 rounded" />

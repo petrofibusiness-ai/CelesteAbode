@@ -619,6 +619,13 @@ html[data-promo-banner="true"] [data-site-hero] .sm\:pt-28 {
   padding-top: calc(7rem + var(--site-banner-h)) !important;
 }
 
+/* Blog sidebars: stick below fixed nav + promo strip (not overlapping the marquee) */
+.blog-sidebar-sticky {
+  position: sticky;
+  top: var(--site-nav-h, 6rem);
+  padding-top: var(--site-banner-h, 0px);
+}
+
 @keyframes hot-banner-shimmer {
   0% {
     background-position: 0% 50%;

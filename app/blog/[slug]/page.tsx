@@ -30,6 +30,11 @@ import {
   BestLocationsFlatsGreaterNoida2026Content,
   bestLocationsGreaterNoidaFaqSchemaItems,
 } from "./best-locations-flats-greater-noida-2026-content";
+import {
+  ValuingResidentialPropertyNoidaContent,
+  ValuingNoidaCtaPair,
+  valuingResidentialPropertyNoidaFaqSchemaItems,
+} from "./valuing-residential-property-noida-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -44,6 +49,7 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "3bhk-flats-in-greater-noida": ThreeBhkFlatsGreaterNoida2026Content,
   "panchsheel-greens-2-greater-noida-west": PanchsheelGreens2GreaterNoidaWestContent,
   "best-locations-buy-flats-greater-noida-2026": BestLocationsFlatsGreaterNoida2026Content,
+  "top-10-tips-valuing-residential-property-noida": ValuingResidentialPropertyNoidaContent,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -72,7 +78,8 @@ export async function generateMetadata({
     post.slug === "sobha-rivana-greater-noida-west" ||
     post.slug === "3bhk-flats-in-greater-noida" ||
     post.slug === "panchsheel-greens-2-greater-noida-west" ||
-    post.slug === "best-locations-buy-flats-greater-noida-2026"
+    post.slug === "best-locations-buy-flats-greater-noida-2026" ||
+    post.slug === "top-10-tips-valuing-residential-property-noida"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -161,6 +168,23 @@ export async function generateMetadata({
       "Sector 1 Greater Noida West",
       "flats for sale Greater Noida West",
       "Jewar airport Greater Noida West",
+      "Celeste Abode",
+    ],
+    "top-10-tips-valuing-residential-property-noida": [
+      "property in noida",
+      "real estate company in noida",
+      "property dealers in noida",
+      "real estate dealers in noida",
+      "real estate agency in noida",
+      "best real estate company in noida",
+      "flats in noida",
+      "buy flat in noida",
+      "flats for sale in noida",
+      "2 bhk flat in noida",
+      "3 bhk flats in noida",
+      "3bhk flat in noida",
+      "value property noida",
+      "residential real estate noida",
       "Celeste Abode",
     ],
     "best-locations-buy-flats-greater-noida-2026": [
@@ -273,6 +297,7 @@ export default async function BlogPostPage({
   const isThreeBhkGreaterNoida = slug === "3bhk-flats-in-greater-noida";
   const isPanchsheelGreens2 = slug === "panchsheel-greens-2-greater-noida-west";
   const isBestLocationsGreaterNoida = slug === "best-locations-buy-flats-greater-noida-2026";
+  const isValuingResidentialNoida = slug === "top-10-tips-valuing-residential-property-noida";
   const isNoidaVsGreaterNoida = slug === "noida-vs-greater-noida-investment-2026";
   const isUpcomingLuxury = slug === "upcoming-luxury-projects-noida-greater-noida-2026";
   const isForestWalk = slug === "forest-walk-villa-ghaziabad-luxury-living-2026";
@@ -284,6 +309,8 @@ export default async function BlogPostPage({
       ? "Project Spotlight | Sector 16, Greater Noida West"
     : isBestLocationsGreaterNoida
       ? "Location Guide | Greater Noida & NCR 2026"
+    : isValuingResidentialNoida
+      ? "Buyer Guide | Noida property valuation"
     : isThreeBhkGreaterNoida
       ? "Greater Noida West & Noida Extension | 2026"
       : isNoidaVsGreaterNoida
@@ -332,6 +359,9 @@ export default async function BlogPostPage({
       {slug === "best-locations-buy-flats-greater-noida-2026" ? (
         <FAQPageSchema faqs={bestLocationsGreaterNoidaFaqSchemaItems} />
       ) : null}
+      {slug === "top-10-tips-valuing-residential-property-noida" ? (
+        <FAQPageSchema faqs={valuingResidentialPropertyNoidaFaqSchemaItems} />
+      ) : null}
 
       <div className="min-h-screen bg-background">
         <Header />
@@ -360,14 +390,21 @@ export default async function BlogPostPage({
                       usePremiumHero
                         ? "max-w-3xl mx-auto rounded-2xl border border-white/20 bg-black/30 px-4 py-4 backdrop-blur-[2px] sm:px-6 sm:py-6 md:backdrop-blur-sm"
                         : "max-w-3xl mx-auto text-center",
-                      (isThreeBhkGreaterNoida || isPanchsheelGreens2 || isBestLocationsGreaterNoida) && "text-left"
+                      (isThreeBhkGreaterNoida ||
+                        isPanchsheelGreens2 ||
+                        isBestLocationsGreaterNoida ||
+                        isValuingResidentialNoida) &&
+                        "text-left"
                     )}
                   >
                     <p
                       className={
                         usePremiumHero && !isThreeBhkGreaterNoida && !isPanchsheelGreens2
                           ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
-                          : isThreeBhkGreaterNoida || isPanchsheelGreens2 || isBestLocationsGreaterNoida
+                          : isThreeBhkGreaterNoida ||
+                              isPanchsheelGreens2 ||
+                              isBestLocationsGreaterNoida ||
+                              isValuingResidentialNoida
                             ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                             : "mb-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                       }
@@ -379,7 +416,10 @@ export default async function BlogPostPage({
                     </h1>
                     <p
                       className={
-                        isThreeBhkGreaterNoida || isPanchsheelGreens2 || isBestLocationsGreaterNoida
+                        isThreeBhkGreaterNoida ||
+                          isPanchsheelGreens2 ||
+                          isBestLocationsGreaterNoida ||
+                          isValuingResidentialNoida
                           ? "mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
                           : usePremiumHero
                             ? "mx-auto mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
@@ -388,14 +428,20 @@ export default async function BlogPostPage({
                     >
                       {heroSubtext}
                     </p>
-                    {isThreeBhkGreaterNoida || isBestLocationsGreaterNoida ? (
+                    {isValuingResidentialNoida ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <ValuingNoidaCtaPair direction="row" hero />
+                      </div>
+                    ) : isThreeBhkGreaterNoida || isBestLocationsGreaterNoida ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
                         <div className="inline-grid w-max max-w-full grid-cols-1 justify-items-stretch gap-3 self-end sm:flex sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-end">
                           <Link
                             href="/properties-in-greater-noida"
                             className="inline-flex w-full min-w-0 items-center justify-center rounded-lg bg-[#CBB27A] px-5 py-2.5 text-center text-sm font-semibold text-[#0f1112] transition-colors hover:bg-[#b9a56f] font-poppins sm:inline-flex sm:w-auto"
                           >
-                            {isBestLocationsGreaterNoida ? "Browse Greater Noida" : "View available projects"}
+                            {isBestLocationsGreaterNoida
+                              ? "Browse Greater Noida"
+                              : "View available projects"}
                           </Link>
                           <Link
                             href="/request-a-free-consultation"
@@ -427,7 +473,10 @@ export default async function BlogPostPage({
                     <div
                       className={cn(
                         "flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs font-poppins text-white/75 sm:gap-x-6 sm:gap-y-2 sm:text-sm",
-                        isThreeBhkGreaterNoida || isPanchsheelGreens2 || isBestLocationsGreaterNoida
+                        isThreeBhkGreaterNoida ||
+                          isPanchsheelGreens2 ||
+                          isBestLocationsGreaterNoida ||
+                          isValuingResidentialNoida
                           ? "justify-end px-1 sm:px-2"
                           : "justify-center"
                       )}
@@ -455,7 +504,7 @@ export default async function BlogPostPage({
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               {/* Left sidebar – You may also like */}
               <aside className="lg:col-span-3 order-2 lg:order-1">
-                <div className="sticky top-28">
+                <div className="blog-sidebar-sticky">
                   <div className="bg-white rounded-xl p-6 shadow-md border border-gray-100">
                     <h3 className="text-lg font-bold text-foreground mb-5 font-poppins flex items-center gap-2">
                       <span className="w-1 h-6 bg-[#CBB27A] rounded-full" />
@@ -538,7 +587,7 @@ export default async function BlogPostPage({
 
               {/* Right sidebar: Lead form */}
               <aside className="lg:col-span-3 order-3">
-                <div className="sticky top-28">
+                <div className="blog-sidebar-sticky">
                   <ArticleLeadForm />
                 </div>
               </aside>

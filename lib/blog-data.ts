@@ -107,13 +107,13 @@ export const blogPosts: BlogPost[] = [
     category: "Project Spotlight",
     readTime: "11 min read",
     date: "January 30, 2026",
-    image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/forest-walk-villa_hero.avif",
+    image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/forest-walk-villa_hero_1778984210627.jpeg",
     featured: true,
     views: "760",
     heroFullscreen: true,
     metaTitle: "Forest Walk Villa Ghaziabad | Luxury 4BHK Villa Living on NH-24",
     metaDescription: "Explore Forest Walk Villa in Ghaziabad, a luxury 4BHK villa township on NH-24 with premium amenities and green living. Discover pricing and connect with property experts today.",
-    ogImage: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/forest-walk-villa_hero.avif",
+    ogImage: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/forest-walk-villa/forest-walk-villa_hero_1778984210627.jpeg",
     ogImageAlt: "Forest Walk Villa Ghaziabad | Luxury 4BHK Villa Living on NH-24",
   },
   {
@@ -219,6 +219,27 @@ export const blogPosts: BlogPost[] = [
       "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/greater_noida_west_photography.webp",
     ogImageAlt: "Greater Noida West: residential towers and road grid from above",
   },
+  {
+    id: 11,
+    title: "Top 10 Tips for Valuing Residential Real Estate Investments in Noida",
+    slug: "top-10-tips-valuing-residential-property-noida",
+    excerpt:
+      "Ten checks to value flats in Noida: location, all-in cost, and exit, before you book.",
+    category: "Buyer Guide",
+    readTime: "6 min read",
+    date: "May 20, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/Blog%2010%20tips%20to%20value%20real%20estate%20in%20noida/10%20tips%20to%20value%20real%20estate%20in%20noida%202.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "Top 10 Tips for Valuing Residential Real Estate in Noida (2026)",
+    metaDescription:
+      "Learn how to value property in Noida before you buy. Ten tips on pricing, RERA, 2 and 3 BHK flats, plus how a real estate agency can help you shortlist flats for sale in Noida.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/Blog%2010%20tips%20to%20value%20real%20estate%20in%20noida/10%20tips%20to%20value%20real%20estate%20in%20noida%202.webp",
+    ogImageAlt: "Valuing residential real estate in Noida: skyline, model home, and valuation data",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -297,6 +318,21 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
       "yamuna-expressway-growth-corridor-delhi-ncr",
       "3bhk-flats-in-greater-noida",
       "panchsheel-greens-2-greater-noida-west",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "top-10-tips-valuing-residential-property-noida") {
+    const prioritySlugs = [
+      "is-noida-safe-to-buy-property-2026",
+      "noida-vs-greater-noida-investment-2026",
+      "upcoming-luxury-projects-noida-greater-noida-2026",
+      "yamuna-expressway-growth-corridor-delhi-ncr",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

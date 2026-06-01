@@ -4,6 +4,7 @@ import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState, type FormEvent, type ReactNode } from "react";
 import { Cormorant_Garamond } from "next/font/google";
+import Image from "next/image";
 import {
   ArrowUpRight,
   Award,
@@ -11,6 +12,7 @@ import {
   Download,
   GraduationCap,
   Home,
+  ImageIcon,
   Landmark,
   Layers,
   MapPin,
@@ -36,6 +38,7 @@ import { Button } from "@/components/ui/button";
 import { AmenityIcon } from "@/lib/amenity-icons";
 import type { Property } from "@/types/property";
 import { isValidPhone, isValidName, sanitizeInput } from "@/lib/security";
+import { formatProjectGalleryHeading } from "@/lib/project-gallery-heading";
 
 const heroTitleFont = Cormorant_Garamond({
   subsets: ["latin"],
@@ -70,6 +73,14 @@ function buildHeroSlides(property: Property): DemoGallerySlide[] {
     width: i === 0 ? 1920 : 1600,
     height: i === 0 ? 1080 : 1000,
   }));
+}
+
+function splitHeroAndGallerySlides(slides: DemoGallerySlide[]): {
+  heroSlide: DemoGallerySlide | null;
+  gallerySlides: DemoGallerySlide[];
+} {
+  if (!slides.length) return { heroSlide: null, gallerySlides: [] };
+  return { heroSlide: slides[0], gallerySlides: slides.slice(1) };
 }
 
 function iconForLocationRow(label: string): LucideIcon {
@@ -147,11 +158,11 @@ function SpecPill({
 
 function PropertyDemoHero({
   property,
-  slides,
+  heroSlide,
   inventoryConfigurationLabels,
 }: {
   property: Property;
-  slides: DemoGallerySlide[];
+  heroSlide: DemoGallerySlide | null;
   inventoryConfigurationLabels: string[];
 }) {
   const rera = property.reraId?.trim() || "N/A";
@@ -166,8 +177,19 @@ function PropertyDemoHero({
       data-hero-no-section-pad
     >
       <div className="absolute inset-0">
-        {slides.length > 0 ? (
-          <SobhaRivanaGallery slides={slides} theme="dark" bare fullscreenHero />
+        {heroSlide ? (
+          <>
+            <Image
+              src={heroSlide.src}
+              alt={heroSlide.alt}
+              fill
+              className="object-cover"
+              sizes="100vw"
+              priority
+              unoptimized
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40" />
+          </>
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black" />
         )}
@@ -609,7 +631,11 @@ export default function PropertyDemoLayout({
     [property.projectName]
   );
 
-  const heroSlides = useMemo(() => buildHeroSlides(property), [property]);
+  const allSlides = useMemo(() => buildHeroSlides(property), [property]);
+  const { heroSlide, gallerySlides } = useMemo(
+    () => splitHeroAndGallerySlides(allSlides),
+    [allSlides]
+  );
 
   const hasFloorPlans = Boolean(property.floorPlanUrl?.trim());
 
@@ -668,7 +694,7 @@ export default function PropertyDemoLayout({
         <main className="pb-8 pt-0">
           <PropertyDemoHero
             property={property}
-            slides={heroSlides}
+            heroSlide={heroSlide}
             inventoryConfigurationLabels={inventoryConfigurationLabels}
           />
 
@@ -690,6 +716,20 @@ export default function PropertyDemoLayout({
                         </li>
                       ))}
                     </ul>
+                  </section>
+                ) : null}
+
+                {gallerySlides.length > 0 ? (
+                  <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="project-gallery-h2">
+                    <SectionHeading
+                      id="project-gallery-h2"
+                      icon={ImageIcon}
+                      title={formatProjectGalleryHeading(projectNamePlain)}
+                      subtitle="Elevation, interiors, and lifestyle views — explore the project before your site visit."
+                    />
+                    <div className="w-full">
+                      <SobhaRivanaGallery slides={gallerySlides} theme="dark" cinema />
+                    </div>
                   </section>
                 ) : null}
 

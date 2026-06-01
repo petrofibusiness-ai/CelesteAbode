@@ -1,10 +1,10 @@
 "use client";
 
 import type { ReactNode } from "react";
+import Image from "next/image";
 import { Cormorant_Garamond } from "next/font/google";
 import { Award, BadgePercent, Building2, IndianRupee, MapPin } from "lucide-react";
 import { FUSION_VASUNDHARA_HERO_IMAGE } from "@/lib/fusion-vasundhara-assets";
-import { FusionVasundharaGallery, type DemoGallerySlide } from "./fusion-vasundhara-gallery";
 
 const heroPropertyDisplay = Cormorant_Garamond({
   subsets: ["latin"],
@@ -13,16 +13,6 @@ const heroPropertyDisplay = Cormorant_Garamond({
 });
 
 export { FUSION_VASUNDHARA_HERO_IMAGE } from "@/lib/fusion-vasundhara-assets";
-
-export const HERO_CAROUSEL_SLIDES: DemoGallerySlide[] = [
-  {
-    src: FUSION_VASUNDHARA_HERO_IMAGE,
-    alt: "Fusion Vasundhara towers and entrance at Sector 7, Vasundhara, Ghaziabad",
-    label: "Fusion Vasundhara",
-    width: 1920,
-    height: 1080,
-  },
-];
 
 function SpecPill({
   icon,
@@ -58,7 +48,16 @@ export function FusionVasundharaHero() {
       data-hero-no-section-pad
     >
       <div className="absolute inset-0">
-        <FusionVasundharaGallery slides={HERO_CAROUSEL_SLIDES} theme="dark" bare fullscreenHero />
+        <Image
+          src={FUSION_VASUNDHARA_HERO_IMAGE}
+          alt="Fusion Vasundhara towers and entrance at Sector 7, Vasundhara, Ghaziabad"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+          unoptimized
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40" />
       </div>
 
       <div className="pointer-events-none relative z-10 flex min-h-svh flex-col">

@@ -1,10 +1,11 @@
 "use client";
 
 import type { ReactNode } from "react";
+import Image from "next/image";
 import { Cormorant_Garamond } from "next/font/google";
 import { Award, Building2, IndianRupee, MapPin, ShieldCheck } from "lucide-react";
 import { SOBHA_RIVANA_HERO_IMAGE, SOBHA_RIVANA_RERA_FULL } from "@/lib/blog-data";
-import { SobhaRivanaGallery, type DemoGallerySlide } from "./sobha-rivana-gallery";
+import type { DemoGallerySlide } from "./sobha-rivana-gallery";
 
 const heroPropertyDisplay = Cormorant_Garamond({
   subsets: ["latin"],
@@ -12,14 +13,8 @@ const heroPropertyDisplay = Cormorant_Garamond({
   display: "swap",
 });
 
-export const HERO_CAROUSEL_SLIDES: DemoGallerySlide[] = [
-  {
-    src: SOBHA_RIVANA_HERO_IMAGE,
-    alt: "Sobha Rivana — elevation, Sector 1 Greater Noida West",
-    label: "Elevation",
-    width: 1920,
-    height: 1080,
-  },
+/** Carousel slides for the gallery section (hero uses only the first image). */
+export const PROJECT_GALLERY_SLIDES: DemoGallerySlide[] = [
   {
     src: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/shobha-rivana/shobha-rivana-interior.avif",
     alt: "Sobha Rivana — sample apartment interior",
@@ -70,12 +65,16 @@ export function SobhaRivanaHero() {
       data-hero-no-section-pad
     >
       <div className="absolute inset-0">
-        <SobhaRivanaGallery
-          slides={HERO_CAROUSEL_SLIDES}
-          theme="dark"
-          bare
-          fullscreenHero
+        <Image
+          src={SOBHA_RIVANA_HERO_IMAGE}
+          alt="Sobha Rivana — elevation, Sector 1 Greater Noida West"
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+          unoptimized
         />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40" />
       </div>
 
       <div className="pointer-events-none relative z-10 flex min-h-svh flex-col">

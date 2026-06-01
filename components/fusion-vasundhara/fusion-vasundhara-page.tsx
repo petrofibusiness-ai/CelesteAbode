@@ -8,6 +8,7 @@ import {
   Footprints,
   GraduationCap,
   Home,
+  ImageIcon,
   Landmark,
   MapPin,
   TrendingUp,
@@ -20,6 +21,9 @@ import {
   TreePine,
   Waves,
 } from "lucide-react";
+import { FUSION_VASUNDHARA_GALLERY_IMAGES } from "@/lib/fusion-vasundhara-assets";
+import { formatProjectGalleryHeading } from "@/lib/project-gallery-heading";
+import { FusionVasundharaGallery, type DemoGallerySlide } from "./fusion-vasundhara-gallery";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PropertyScrollFootnote, PropertyScrollSubtext } from "@/components/property-scroll-footnote";
@@ -70,6 +74,14 @@ const LOCATION_ADVANTAGE: { label: string; text: string; icon: LucideIcon }[] = 
   { label: "Schools", text: "Established schools across Vasundhara and nearby sectors", icon: GraduationCap },
   { label: "Delhi access", text: "Strong road connection for East Delhi work corridors", icon: Landmark },
 ];
+
+const PROJECT_GALLERY_SLIDES: DemoGallerySlide[] = FUSION_VASUNDHARA_GALLERY_IMAGES.map((img) => ({
+  src: img.src,
+  alt: img.alt,
+  label: img.label,
+  width: 1600,
+  height: 1000,
+}));
 
 const NCR_LINKS = [
   { href: "/properties-in-ghaziabad", title: "Ghaziabad", sub: "Vasundhara, Indirapuram and NH24" },
@@ -176,6 +188,20 @@ export function FusionVasundharaPage() {
                     developer communication.
                   </PropertyScrollFootnote>
                 </section>
+
+                {PROJECT_GALLERY_SLIDES.length > 0 ? (
+                  <section className="mb-12 w-full min-w-0 sm:mb-16 md:mb-24" aria-labelledby="project-gallery-h2">
+                    <SectionHeading
+                      id="project-gallery-h2"
+                      icon={ImageIcon}
+                      title={formatProjectGalleryHeading("Fusion Vasundhara")}
+                      subtitle="Elevation, interiors, and lifestyle views — explore the project before your site visit."
+                    />
+                    <div className="w-full">
+                      <FusionVasundharaGallery slides={PROJECT_GALLERY_SLIDES} theme="dark" cinema />
+                    </div>
+                  </section>
+                ) : null}
 
                 <div className="mb-10 scroll-mt-[var(--site-header-total,6rem)] lg:hidden">
                   <FusionVasundharaStickySidebar idPrefix="mob-bro" part="brochure" />

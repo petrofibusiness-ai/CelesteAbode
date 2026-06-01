@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { AmenityIcon } from "@/lib/amenity-icons";
 import { getPropertyAbsoluteUrl } from "@/lib/property-url";
+import { formatProjectGalleryHeading } from "@/lib/project-gallery-heading";
 
 interface PropertyStickyInquiryCardProps {
   projectNamePlain: string;
@@ -906,7 +907,7 @@ export default function DynamicPropertyPage({ property, canonicalUrl }: DynamicP
                         className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900"
                         style={{ fontFamily: "Poppins, sans-serif" }}
                       >
-                        Project Gallery
+                        {formatProjectGalleryHeading(projectNamePlain)}
                       </h2>
                     </div>
                     <div className="w-16 sm:w-20 h-1 bg-[#CBB27A] mb-6 sm:mb-8"></div>

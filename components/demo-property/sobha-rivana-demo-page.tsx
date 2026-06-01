@@ -9,6 +9,7 @@ import {
   Footprints,
   GraduationCap,
   Home,
+  ImageIcon,
   Landmark,
   Layers,
   MapPin,
@@ -25,8 +26,9 @@ import { PropertyScrollFootnote, PropertyScrollSubtext } from "@/components/prop
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { BreadcrumbSchema } from "@/lib/structured-data";
+import { formatProjectGalleryHeading } from "@/lib/project-gallery-heading";
 import { SobhaRivanaGallery, type DemoGallerySlide } from "./sobha-rivana-gallery";
-import { SobhaRivanaHero } from "./sobha-rivana-hero";
+import { PROJECT_GALLERY_SLIDES, SobhaRivanaHero } from "./sobha-rivana-hero";
 import { SobhaRivanaFooterCta } from "./sobha-rivana-footer-cta";
 import { SobhaRivanaMapEmbed, SobhaRivanaStickySidebar } from "./sobha-rivana-sticky-sidebar";
 
@@ -213,6 +215,20 @@ export function SobhaRivanaDemoPage() {
                     rise, parking, and GST.
                   </PropertyScrollFootnote>
                 </section>
+
+                {PROJECT_GALLERY_SLIDES.length > 0 ? (
+                  <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="project-gallery-h2">
+                    <DemoSectionHeading
+                      id="project-gallery-h2"
+                      icon={ImageIcon}
+                      title={formatProjectGalleryHeading("Sobha Rivana")}
+                      subtitle="Interiors, clubhouse, and lifestyle views — explore the project before your site visit."
+                    />
+                    <div className="w-full">
+                      <SobhaRivanaGallery slides={PROJECT_GALLERY_SLIDES} theme="dark" cinema />
+                    </div>
+                  </section>
+                ) : null}
 
                 <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="why-sobha-h2">
                   <DemoSectionHeading id="why-sobha-h2" icon={Building2} title="Why SOBHA?" />

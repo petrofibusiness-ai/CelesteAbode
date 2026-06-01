@@ -118,54 +118,53 @@ export function SobhaRivanaGallery({
         ) : null}
         {safe.length > 1 ? (
           <div
-            className={`pointer-events-auto absolute right-1 top-1/2 z-20 flex -translate-y-1/2 flex-col items-center gap-0 rounded-full px-px py-0.5 shadow-sm backdrop-blur-sm sm:right-2 sm:gap-px sm:px-0.5 ${
-              controlsOnDark
-                ? "bg-black/40 ring-1 ring-white/12"
-                : "bg-white/90 ring-1 ring-gray-200/70"
-            }`}
+            className="pointer-events-auto absolute right-2 top-1/2 z-20 flex -translate-y-1/2 flex-col items-center gap-2.5 sm:right-3"
             aria-label="Image gallery controls"
           >
             <button
               type="button"
               onClick={() => go(-1)}
-              className={`gallery-control-btn flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full p-0 transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#CBB27A] ${
+              className={`gallery-control-btn flex items-center justify-center p-0 transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#CBB27A] ${
                 controlsOnDark
-                  ? "text-white/70 hover:bg-white/10 hover:text-white"
-                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                  ? "text-white/75 hover:text-white"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
               aria-label="Previous image"
             >
-              <ChevronUp className="h-2.5 w-2.5" strokeWidth={2} aria-hidden />
+              <ChevronUp className="h-5 w-5" strokeWidth={1.75} aria-hidden />
             </button>
             {fullscreenHero ? (
               <span
-                className={`min-w-[1.35rem] select-none py-px text-center text-[9px] font-semibold tabular-nums leading-none sm:hidden ${
-                  controlsOnDark ? "text-white/85" : "text-gray-800"
+                className={`select-none text-[9px] font-medium tabular-nums leading-none tracking-wide sm:hidden ${
+                  controlsOnDark ? "text-white/80" : "text-gray-700"
                 }`}
               >
                 {index + 1}/{safe.length}
               </span>
             ) : null}
             <div
-              className={`flex max-w-[4rem] flex-wrap items-center justify-center gap-px px-px ${
+              className={`flex flex-col items-center gap-2 py-0.5 ${
                 fullscreenHero ? "hidden sm:flex" : "flex"
               }`}
+              role="tablist"
+              aria-label="Slide indicators"
             >
               {safe.map((_, i) => (
                 <button
                   key={i}
                   type="button"
+                  role="tab"
                   onClick={() => setIndex(i)}
                   aria-label={`Go to image ${i + 1}`}
-                  aria-current={i === index ? "true" : undefined}
-                  className={`gallery-control-btn h-[3px] min-h-0 min-w-0 rounded-full p-0 transition-all focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#CBB27A] ${
+                  aria-selected={i === index}
+                  className={`gallery-control-btn w-[2px] shrink-0 rounded-full p-0 transition-all duration-200 focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#CBB27A] ${
                     i === index
                       ? controlsOnDark
-                        ? "w-2 bg-white"
-                        : "w-2 bg-gray-900"
+                        ? "h-6 bg-white"
+                        : "h-6 bg-gray-900"
                       : controlsOnDark
-                        ? "w-[3px] bg-white/35 hover:bg-white/55"
-                        : "w-[3px] bg-gray-300 hover:bg-gray-500"
+                        ? "h-3.5 bg-white/40 hover:bg-white/65"
+                        : "h-3.5 bg-gray-400/80 hover:bg-gray-600"
                   }`}
                 />
               ))}
@@ -173,14 +172,14 @@ export function SobhaRivanaGallery({
             <button
               type="button"
               onClick={() => go(1)}
-              className={`gallery-control-btn flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full p-0 transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#CBB27A] ${
+              className={`gallery-control-btn flex items-center justify-center p-0 transition focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#CBB27A] ${
                 controlsOnDark
-                  ? "text-white/70 hover:bg-white/10 hover:text-white"
-                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                  ? "text-white/75 hover:text-white"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
               aria-label="Next image"
             >
-              <ChevronDown className="h-2.5 w-2.5" strokeWidth={2} aria-hidden />
+              <ChevronDown className="h-5 w-5" strokeWidth={1.75} aria-hidden />
             </button>
           </div>
         ) : null}

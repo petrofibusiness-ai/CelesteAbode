@@ -240,6 +240,27 @@ export const blogPosts: BlogPost[] = [
       "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/Blog%2010%20tips%20to%20value%20real%20estate%20in%20noida/10%20tips%20to%20value%20real%20estate%20in%20noida%202.webp",
     ogImageAlt: "Valuing residential real estate in Noida: skyline, model home, and valuation data",
   },
+  {
+    id: 12,
+    title: "Why Choose Celeste Abode for Expert Property Advisory in Delhi NCR",
+    slug: "why-choose-celeste-abode-property-advisory-delhi-ncr",
+    excerpt:
+      "Buyer-side property advisory across Noida, Greater Noida, and Yamuna Expressway: shortlists, all-in cost clarity, and site visits you can trust.",
+    category: "Advisory",
+    readTime: "6 min read",
+    date: "June 1, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/Blog%20why-choose-celeste-abode-property-advisory-delhi-ncr/why-choose-celeste-abode-property-advisory-delhi-ncr3.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "Why Choose Celeste Abode for Expert Property Advisory in Delhi NCR",
+    metaDescription:
+      "Buyer-side property advisory in Delhi NCR. Celeste Abode shortlists across Noida, Greater Noida, and Yamuna Expressway with clear all-in costs and honest project checks.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/Blog%20why-choose-celeste-abode-property-advisory-delhi-ncr/why-choose-celeste-abode-property-advisory-delhi-ncr3.webp",
+    ogImageAlt: "Why choose Celeste Abode for expert property advisory in Delhi NCR",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -329,10 +350,26 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "top-10-tips-valuing-residential-property-noida") {
     const prioritySlugs = [
+      "why-choose-celeste-abode-property-advisory-delhi-ncr",
       "is-noida-safe-to-buy-property-2026",
       "noida-vs-greater-noida-investment-2026",
       "upcoming-luxury-projects-noida-greater-noida-2026",
       "yamuna-expressway-growth-corridor-delhi-ncr",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "why-choose-celeste-abode-property-advisory-delhi-ncr") {
+    const prioritySlugs = [
+      "top-10-tips-valuing-residential-property-noida",
+      "is-noida-safe-to-buy-property-2026",
+      "noida-vs-greater-noida-investment-2026",
+      "best-locations-buy-flats-greater-noida-2026",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

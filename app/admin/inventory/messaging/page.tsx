@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Download, Loader2, MessageCircle, Send } from "lucide-react";
+import { Download, Loader2, MessageCircle, Search, Send, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Property } from "@/types/property";
@@ -124,6 +124,9 @@ export default function AdminInventoryMessagingPage() {
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalCount, setTotalCount] = useState(0);
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
 
   // Keep a per-property phone input so agents can send to specific numbers.
   const [phoneByPropertyKey, setPhoneByPropertyKey] = useState<Record<string, string>>({});
@@ -131,14 +134,31 @@ export default function AdminInventoryMessagingPage() {
   const [downloadingFloorPlanByPropertyKey, setDownloadingFloorPlanByPropertyKey] = useState<Record<string, boolean>>({});
   const [downloadingAssetSlot, setDownloadingAssetSlot] = useState<Record<string, boolean>>({});
 
-  const load = useCallback(async (p: number) => {
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      const next = searchInput.trim();
+      setSearch((prev) => {
+        if (prev !== next) setPage(1);
+        return next;
+      });
+    }, 300);
+    return () => window.clearTimeout(timer);
+  }, [searchInput]);
+
+  const load = useCallback(async (p: number, q: string) => {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch(
-        `/api/admin/properties?page=${p}&limit=${PAGE_SIZE}&t=${Date.now()}`,
-        { credentials: "include", cache: "no-store" }
-      );
+      const params = new URLSearchParams();
+      params.set("page", String(p));
+      params.set("limit", String(PAGE_SIZE));
+      params.set("t", String(Date.now()));
+      if (q) params.set("search", q);
+
+      const res = await fetch(`/api/admin/properties?${params.toString()}`, {
+        credentials: "include",
+        cache: "no-store",
+      });
       if (res.status === 401) {
         router.push("/admin/login");
         return;
@@ -150,22 +170,25 @@ export default function AdminInventoryMessagingPage() {
       const data = await res.json();
       setProperties(data.properties || []);
       const tp = data.pagination?.totalPages;
+      const total = data.pagination?.total;
       setTotalPages(Math.max(1, typeof tp === "number" && tp > 0 ? tp : 1));
+      setTotalCount(typeof total === "number" ? total : (data.properties || []).length);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to load");
       setProperties([]);
+      setTotalCount(0);
     } finally {
       setLoading(false);
     }
   }, [router]);
 
   useEffect(() => {
-    load(page);
-  }, [load, page]);
+    load(page, search);
+  }, [load, page, search]);
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1
             className="text-2xl sm:text-3xl font-bold text-gray-900"
@@ -173,6 +196,34 @@ export default function AdminInventoryMessagingPage() {
           >
             WhatsApp messaging
           </h1>
+          {search ? (
+            <p className="mt-1 text-sm text-gray-600" style={{ fontFamily: "Poppins, sans-serif" }}>
+              {loading ? "Searching…" : `${totalCount} ${totalCount === 1 ? "project" : "projects"} found`}
+            </p>
+          ) : null}
+        </div>
+        <div className="relative w-full sm:max-w-sm">
+          <Search
+            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400"
+            aria-hidden
+          />
+          <Input
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Search project"
+            className="h-10 w-full border-2 border-zinc-300 bg-white pl-9 pr-9 text-[13px] placeholder:font-medium placeholder:text-zinc-500 focus-visible:ring-[#CBB27A]/35"
+            aria-label="Search project"
+          />
+          {searchInput ? (
+            <button
+              type="button"
+              onClick={() => setSearchInput("")}
+              className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-800"
+              aria-label="Clear search"
+            >
+              <X className="h-4 w-4" aria-hidden />
+            </button>
+          ) : null}
         </div>
       </div>
 
@@ -192,7 +243,7 @@ export default function AdminInventoryMessagingPage() {
           <div className="px-4 py-6 sm:px-6 lg:px-8">
             {properties.length === 0 ? (
               <div className="py-12 text-center text-gray-500" style={{ fontFamily: "Poppins, sans-serif" }}>
-                No properties found.
+                {search ? `No projects match "${search}".` : "No properties found."}
               </div>
             ) : (
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" style={{ fontFamily: "Poppins, sans-serif" }}>

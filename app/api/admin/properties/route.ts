@@ -10,6 +10,7 @@ import { verifyCSRFToken } from "@/lib/csrf";
 import { validateQueryParams, validateJSONBody, PropertyFilterSchema, PropertyDataSchema } from "@/lib/validation-schemas";
 import { logSecurityEvent, getClientIP, getUserAgent } from "@/lib/security-events";
 import { revalidatePropertyCaches, revalidatePropertyAPIs } from "@/lib/cache-revalidation";
+import { sanitizeProjectNameSearch } from "@/lib/property-listing-search";
 
 // Query timeout: 30 seconds
 const QUERY_TIMEOUT = 30000;
@@ -67,8 +68,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const { page, limit } = filters;
+    const { page, limit, search } = filters;
     const offset = (page - 1) * limit;
+    const searchTerm = search ? sanitizeProjectNameSearch(search).replace(/,/g, " ") : "";
 
     // Get Supabase admin client to bypass RLS and see all properties
     // Admin needs to see all properties (published and unpublished) regardless of RLS policies
@@ -76,14 +78,23 @@ export async function GET(request: NextRequest) {
 
     // Fetch ALL properties with pagination - no filter on is_published
     // Admin should see both published and draft properties
-    const { data, error, count } = await supabase
+    let query = supabase
       .from("properties_v3")
       .select(
         "id, slug, project_name, developer, location, location_id, locality_id, project_status, is_published, hero_image, hero_image_alt, brochure_url, floor_plans, images, project_snapshot, location_advantage, created_at, updated_at",
         { count: "exact" }
       )
-      .order("created_at", { ascending: false })
-      .range(offset, offset + limit - 1);
+      .order("created_at", { ascending: false });
+
+    if (searchTerm) {
+      const escaped = searchTerm.replace(/"/g, '""');
+      const pattern = `"%${escaped}%"`;
+      query = query.or(
+        `project_name.ilike.${pattern},developer.ilike.${pattern},location.ilike.${pattern},slug.ilike.${pattern}`
+      );
+    }
+
+    const { data, error, count } = await query.range(offset, offset + limit - 1);
 
     if (error) {
       console.error("Supabase error:", error);

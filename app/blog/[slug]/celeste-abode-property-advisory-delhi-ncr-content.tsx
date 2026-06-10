@@ -93,7 +93,7 @@ export function CelesteAbodeAdvisoryCtaPair({
     <div
       className={
         direction === "row"
-          ? "inline-grid max-w-full grid-cols-2 gap-3"
+          ? "grid w-max max-w-full grid-cols-1 gap-3 sm:grid-cols-2"
           : "grid w-max max-w-full grid-cols-1 gap-3"
       }
     >

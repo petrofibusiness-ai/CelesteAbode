@@ -187,45 +187,78 @@ export default function AdminInventoryMessagingPage() {
   }, [load, page, search]);
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div>
-          <h1
-            className="text-2xl sm:text-3xl font-bold text-gray-900"
-            style={{ fontFamily: "Poppins, sans-serif" }}
-          >
-            WhatsApp messaging
-          </h1>
-          {search ? (
-            <p className="mt-1 text-sm text-gray-600" style={{ fontFamily: "Poppins, sans-serif" }}>
-              {loading ? "Searching…" : `${totalCount} ${totalCount === 1 ? "project" : "projects"} found`}
-            </p>
-          ) : null}
-        </div>
-        <div className="relative w-full sm:max-w-sm">
-          <Search
-            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400"
-            aria-hidden
-          />
-          <Input
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="Search project"
-            className="h-10 w-full border-2 border-zinc-300 bg-white pl-9 pr-9 text-[13px] placeholder:font-medium placeholder:text-zinc-500 focus-visible:ring-[#CBB27A]/35"
-            aria-label="Search project"
-          />
-          {searchInput ? (
-            <button
-              type="button"
-              onClick={() => setSearchInput("")}
-              className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-zinc-500 transition hover:bg-zinc-100 hover:text-zinc-800"
-              aria-label="Clear search"
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 pb-10 pt-4 sm:pt-6 md:pt-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-6 flex items-start gap-3 sm:gap-4">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#25D366] to-[#128C7E] shadow-lg sm:h-14 sm:w-14">
+            <MessageCircle className="h-6 w-6 text-white sm:h-7 sm:w-7" aria-hidden />
+          </div>
+          <div className="min-w-0">
+            <h1
+              className="bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-2xl font-bold text-transparent sm:text-3xl"
+              style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              <X className="h-4 w-4" aria-hidden />
-            </button>
-          ) : null}
+              WhatsApp messaging
+            </h1>
+            <p className="mt-1 text-sm text-gray-600" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Find a project, download assets, and send ready-made WhatsApp messages to clients.
+            </p>
+          </div>
         </div>
-      </div>
+
+        <div className="mb-6 overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-sm">
+          <div className="flex flex-col gap-4 p-4 sm:p-5 lg:flex-row lg:items-center lg:gap-6">
+            <div className="shrink-0 lg:w-56">
+              <p className="text-sm font-semibold text-zinc-800" style={{ fontFamily: "Poppins, sans-serif" }}>
+                Search projects
+              </p>
+              <p className="mt-0.5 text-xs leading-relaxed text-zinc-500" style={{ fontFamily: "Poppins, sans-serif" }}>
+                By project name, developer, location, or slug
+              </p>
+            </div>
+
+            <div className="relative min-w-0 flex-1 lg:max-w-2xl">
+              <div
+                className="pointer-events-none absolute left-3.5 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg bg-zinc-100/90"
+                aria-hidden
+              >
+                <Search className="h-4 w-4 text-zinc-500" />
+              </div>
+              <Input
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                placeholder="e.g. Sobha, Fusion Vasundhara, Sector 150…"
+                className="h-11 w-full rounded-xl border-zinc-200 bg-zinc-50/60 pl-[3.25rem] pr-11 text-sm text-zinc-900 shadow-inner transition placeholder:text-zinc-400 focus-visible:border-[#CBB27A]/50 focus-visible:bg-white focus-visible:ring-2 focus-visible:ring-[#CBB27A]/20"
+                aria-label="Search project"
+              />
+              {searchInput ? (
+                <button
+                  type="button"
+                  onClick={() => setSearchInput("")}
+                  className="absolute right-2.5 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-700"
+                  aria-label="Clear search"
+                >
+                  <X className="h-4 w-4" aria-hidden />
+                </button>
+              ) : null}
+            </div>
+
+            {search || loading ? (
+              <div className="flex shrink-0 items-center lg:w-32 lg:justify-end">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1.5 text-xs font-medium text-zinc-700 tabular-nums">
+                  {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin text-[#CBB27A]" aria-hidden /> : null}
+                  {loading ? "Searching…" : `${totalCount} ${totalCount === 1 ? "match" : "matches"}`}
+                </span>
+              </div>
+            ) : (
+              <div className="hidden shrink-0 items-center lg:flex lg:w-32 lg:justify-end">
+                <span className="text-xs text-zinc-400 tabular-nums">
+                  {totalCount} {totalCount === 1 ? "project" : "projects"}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
 
       {error && (
         <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
@@ -576,6 +609,7 @@ export default function AdminInventoryMessagingPage() {
           </Button>
         </div>
       )}
+      </div>
     </div>
   );
 }

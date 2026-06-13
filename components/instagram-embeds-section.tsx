@@ -26,16 +26,16 @@ function reinitCarousel(api: CarouselApi | undefined) {
 
 /** Instagram embed permalinks (posts + reels) — order matches site carousel */
 const POSTS = [
-  "https://www.instagram.com/p/DWTr-xrmN0e/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DUVDQ7xDo34/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DVqBtQpjZPX/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DWUJJs-j-9a/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DWEqsksD65r/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DWHGmIPDyvS/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DV7tAlxAFjr/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DVqBtQpjZPX/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DVM-jPdgP0X/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DU687mqD8vh/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DY9ySWAPzB4/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DZFjimUv6De/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DZcxt_CvPw2/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DZXo-3dP8R6/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DYUdpl7CBvQ/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DYR5ne8lXLA/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DZSgGBGPb6h/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/p/DZaXp_Ij0l9/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/p/DY_kpkPPBqN/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DYzfkZZvwP5/?utm_source=ig_embed&utm_campaign=loading",
 ] as const
 
 function InstagramEmbedSlide({ url }: { url: string }) {

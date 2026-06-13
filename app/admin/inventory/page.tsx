@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Layers, Loader2, MapPin, MessageCircle } from "lucide-react";
+import { Layers, Loader2, MapPin, MessageCircle, MessagesSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -374,7 +374,7 @@ export default function AdminInventoryPage() {
               </h1>
             </div>
           </div>
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="flex shrink-0 flex-col gap-2 sm:flex-row sm:items-center">
             <Button
               asChild
               variant="outline"
@@ -384,6 +384,17 @@ export default function AdminInventoryPage() {
               <Link href="/admin/inventory/messaging" className="inline-flex items-center gap-2">
                 <MessageCircle className="h-4 w-4" />
                 WhatsApp messaging
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="border-[#CBB27A]/50 text-[#8B7344] hover:bg-[#CBB27A]/10"
+              style={{ fontFamily: "Poppins, sans-serif" }}
+            >
+              <Link href="/admin/inventory/follow-up" className="inline-flex items-center gap-2">
+                <MessagesSquare className="h-4 w-4" />
+                Lead follow-up
               </Link>
             </Button>
           </div>

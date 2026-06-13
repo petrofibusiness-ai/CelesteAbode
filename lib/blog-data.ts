@@ -261,6 +261,27 @@ export const blogPosts: BlogPost[] = [
       "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/Blog%20why-choose-celeste-abode-property-advisory-delhi-ncr/why-choose-celeste-abode-property-advisory-delhi-ncr3.webp",
     ogImageAlt: "Why choose Celeste Abode for expert property advisory in Delhi NCR",
   },
+  {
+    id: 13,
+    title: "How Infrastructure Developments Are Driving Property Prices in Greater Noida",
+    slug: "infrastructure-driving-property-prices-greater-noida",
+    excerpt:
+      "Jewar, metro, and expressway links are repricing Greater Noida belt by belt. See where the bump is real, and how to buy without overpaying the headline.",
+    category: "Market Intelligence",
+    readTime: "7 min read",
+    date: "June 3, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/webp/Infrastructure%20Developments%20Are%20Driving%20Property%20Prices2.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "How Infrastructure Is Driving Property Prices in Greater Noida (2026)",
+    metaDescription:
+      "Jewar Airport, Aqua Metro, and expressway links are repricing property in Greater Noida. Belt-by-belt guide for flats and apartments, plus how Celeste Abode helps you buy without overpaying the headline.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/webp/Infrastructure%20Developments%20Are%20Driving%20Property%20Prices2.webp",
+    ogImageAlt: "Greater Noida infrastructure and residential skyline driving property prices",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -370,6 +391,22 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
       "is-noida-safe-to-buy-property-2026",
       "noida-vs-greater-noida-investment-2026",
       "best-locations-buy-flats-greater-noida-2026",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "infrastructure-driving-property-prices-greater-noida") {
+    const prioritySlugs = [
+      "best-locations-buy-flats-greater-noida-2026",
+      "jewar-airport-ncr-property-buyers-2026",
+      "noida-vs-greater-noida-investment-2026",
+      "3bhk-flats-in-greater-noida",
+      "yamuna-expressway-growth-corridor-delhi-ncr",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

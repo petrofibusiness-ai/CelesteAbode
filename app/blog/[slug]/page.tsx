@@ -40,6 +40,11 @@ import {
   CelesteAbodeAdvisoryCtaPair,
   celesteAbodeAdvisoryDelhiNcrFaqSchemaItems,
 } from "./celeste-abode-property-advisory-delhi-ncr-content";
+import {
+  InfrastructurePropertyPricesGreaterNoidaContent,
+  InfrastructureGreaterNoidaCtaPair,
+  infrastructurePropertyPricesGreaterNoidaFaqSchemaItems,
+} from "./infrastructure-property-prices-greater-noida-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -56,6 +61,7 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "best-locations-buy-flats-greater-noida-2026": BestLocationsFlatsGreaterNoida2026Content,
   "top-10-tips-valuing-residential-property-noida": ValuingResidentialPropertyNoidaContent,
   "why-choose-celeste-abode-property-advisory-delhi-ncr": CelesteAbodePropertyAdvisoryDelhiNcrContent,
+  "infrastructure-driving-property-prices-greater-noida": InfrastructurePropertyPricesGreaterNoidaContent,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -86,7 +92,8 @@ export async function generateMetadata({
     post.slug === "panchsheel-greens-2-greater-noida-west" ||
     post.slug === "best-locations-buy-flats-greater-noida-2026" ||
     post.slug === "top-10-tips-valuing-residential-property-noida" ||
-    post.slug === "why-choose-celeste-abode-property-advisory-delhi-ncr"
+    post.slug === "why-choose-celeste-abode-property-advisory-delhi-ncr" ||
+    post.slug === "infrastructure-driving-property-prices-greater-noida"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -180,7 +187,9 @@ export async function generateMetadata({
     "why-choose-celeste-abode-property-advisory-delhi-ncr": [
       "property advisory Delhi NCR",
       "real estate consulting Delhi NCR",
+      "real estate consultants in Noida",
       "real estate company in Noida",
+      "best real estate property consultant in Noida",
       "property consultants Delhi NCR",
       "best real estate company in Noida",
       "real estate agency in Noida",
@@ -191,6 +200,23 @@ export async function generateMetadata({
       "Greater Noida property consultant",
       "Yamuna Expressway property advisory",
       "real estate consulting services",
+    ],
+    "infrastructure-driving-property-prices-greater-noida": [
+      "property in Greater Noida",
+      "property in Greater Noida West",
+      "flats in Greater Noida",
+      "flats for sale in Greater Noida",
+      "buy flat in Greater Noida",
+      "apartments in Greater Noida",
+      "Greater Noida infrastructure",
+      "Greater Noida property prices",
+      "Jewar Airport property prices",
+      "Aqua Line metro Greater Noida",
+      "Yamuna Expressway property",
+      "best real estate company in Greater Noida",
+      "real estate consultant in Greater Noida",
+      "real estate consultant Delhi NCR",
+      "Celeste Abode",
     ],
     "top-10-tips-valuing-residential-property-noida": [
       "property in noida",
@@ -321,6 +347,7 @@ export default async function BlogPostPage({
   const isBestLocationsGreaterNoida = slug === "best-locations-buy-flats-greater-noida-2026";
   const isValuingResidentialNoida = slug === "top-10-tips-valuing-residential-property-noida";
   const isCelesteAbodeAdvisory = slug === "why-choose-celeste-abode-property-advisory-delhi-ncr";
+  const isInfrastructureGreaterNoida = slug === "infrastructure-driving-property-prices-greater-noida";
   const isNoidaVsGreaterNoida = slug === "noida-vs-greater-noida-investment-2026";
   const isUpcomingLuxury = slug === "upcoming-luxury-projects-noida-greater-noida-2026";
   const isForestWalk = slug === "forest-walk-villa-ghaziabad-luxury-living-2026";
@@ -336,6 +363,8 @@ export default async function BlogPostPage({
       ? "Buyer Guide | Noida property valuation"
     : isCelesteAbodeAdvisory
       ? "Advisory | Delhi NCR property buyers"
+    : isInfrastructureGreaterNoida
+      ? "Market Intelligence | Greater Noida 2026"
     : isThreeBhkGreaterNoida
       ? "Greater Noida West & Noida Extension | 2026"
       : isNoidaVsGreaterNoida
@@ -390,6 +419,9 @@ export default async function BlogPostPage({
       {slug === "why-choose-celeste-abode-property-advisory-delhi-ncr" ? (
         <FAQPageSchema faqs={celesteAbodeAdvisoryDelhiNcrFaqSchemaItems} />
       ) : null}
+      {slug === "infrastructure-driving-property-prices-greater-noida" ? (
+        <FAQPageSchema faqs={infrastructurePropertyPricesGreaterNoidaFaqSchemaItems} />
+      ) : null}
 
       <div className="min-h-screen bg-background">
         <Header />
@@ -422,7 +454,8 @@ export default async function BlogPostPage({
                         isPanchsheelGreens2 ||
                         isBestLocationsGreaterNoida ||
                         isValuingResidentialNoida ||
-                        isCelesteAbodeAdvisory) &&
+                        isCelesteAbodeAdvisory ||
+                        isInfrastructureGreaterNoida) &&
                         "text-left"
                     )}
                   >
@@ -434,7 +467,8 @@ export default async function BlogPostPage({
                               isPanchsheelGreens2 ||
                               isBestLocationsGreaterNoida ||
                               isValuingResidentialNoida ||
-                              isCelesteAbodeAdvisory
+                              isCelesteAbodeAdvisory ||
+                              isInfrastructureGreaterNoida
                             ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                             : "mb-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                       }
@@ -450,7 +484,8 @@ export default async function BlogPostPage({
                           isPanchsheelGreens2 ||
                           isBestLocationsGreaterNoida ||
                           isValuingResidentialNoida ||
-                          isCelesteAbodeAdvisory
+                          isCelesteAbodeAdvisory ||
+                          isInfrastructureGreaterNoida
                           ? "mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
                           : usePremiumHero
                             ? "mx-auto mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
@@ -466,6 +501,10 @@ export default async function BlogPostPage({
                     ) : isCelesteAbodeAdvisory ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
                         <CelesteAbodeAdvisoryCtaPair direction="row" hero />
+                      </div>
+                    ) : isInfrastructureGreaterNoida ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <InfrastructureGreaterNoidaCtaPair direction="row" hero />
                       </div>
                     ) : isThreeBhkGreaterNoida || isBestLocationsGreaterNoida ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
@@ -512,7 +551,8 @@ export default async function BlogPostPage({
                           isPanchsheelGreens2 ||
                           isBestLocationsGreaterNoida ||
                           isValuingResidentialNoida ||
-                          isCelesteAbodeAdvisory
+                          isCelesteAbodeAdvisory ||
+                          isInfrastructureGreaterNoida
                           ? "justify-end px-1 sm:px-2"
                           : "justify-center"
                       )}

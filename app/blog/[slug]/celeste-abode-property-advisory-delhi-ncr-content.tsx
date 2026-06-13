@@ -155,7 +155,8 @@ export function CelesteAbodePropertyAdvisoryDelhiNcrContent() {
           Delhi NCR is large enough that two buyers with the same budget can end up in completely different cities,
           sectors, and hold stories. Expert property advisory is not about handing you more names; it is about
           narrowing the map to options you can defend at booking and at resale. Celeste Abode was built for that
-          buyer-side job across Noida, Greater Noida, Yamuna Expressway, and the wider belt.
+          buyer-side job across Noida, Greater Noida, Yamuna Expressway, and the wider belt, whether you are
+          comparing real estate consultants in Noida or already deep into site visits.
         </p>
         <blockquote className="mt-8 rounded-r-xl border-l-4 border-[#CBB27A] bg-amber-50/60 px-5 py-4 text-[15px] leading-relaxed text-gray-800 md:text-base">
           The right advisor does not rush a token. They show you why a project is on the list, what the all-in ticket
@@ -226,7 +227,7 @@ export function CelesteAbodePropertyAdvisoryDelhiNcrContent() {
         <article className="mb-8 rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
           <h3 className="mb-3 text-lg font-semibold text-foreground">2. NCR depth without NCR noise</h3>
           <p className="text-[15px] leading-[1.75] text-gray-700">
-            Our team works daily across{" "}
+            As a real estate company in Noida focused on advisory, our team works daily across{" "}
             <Link href={PROPERTIES_NOIDA} className="font-medium text-[#CBB27A] hover:underline">
               property in Noida
             </Link>
@@ -284,7 +285,8 @@ export function CelesteAbodePropertyAdvisoryDelhiNcrContent() {
           </table>
         </div>
         <p className="mt-5 text-[15px] leading-[1.75] text-gray-700 md:text-base">
-          For flat-specific paths, see{" "}
+          Anyone shopping for the best real estate property consultant in Noida should still ask for belt-specific
+          reasons, not a generic launch list. For flat-specific paths, see{" "}
           <Link href={FLATS_NOIDA} className="font-medium text-[#CBB27A] hover:underline">
             flats for sale in Noida
           </Link>{" "}

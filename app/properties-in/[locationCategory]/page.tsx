@@ -4,12 +4,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { Property } from "@/types/property";
 import { Location } from "@/types/location";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
-import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
 import { supabaseToLocation } from "@/lib/supabase-location-mapper";
-import { fetchLocalitiesByLocationId } from "@/lib/fetch-localities";
+import { fetchLocationListingData } from "@/lib/fetch-location-listing-data";
 import { CheckCircle2, Phone, Mail, Building2 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
 import { NoidaPropertiesGrid } from "@/components/noida-properties-grid";
@@ -20,7 +18,6 @@ import LocationFAQs from "@/components/location-faqs";
 import { SeoBlocksRevealController } from "@/components/seo-blocks-reveal-controller";
 import { FAQPageSchema, BreadcrumbSchema, LocationPageSchema } from "@/lib/structured-data";
 import { PROPERTY_SEARCH_ANCHOR_ID } from "@/lib/scroll-listings";
-import { getFeaturedStaticPropertiesForLocation } from "@/lib/featured-static-properties";
 
 interface PageProps {
   params: Promise<{
@@ -151,41 +148,8 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
 
   const location = supabaseToLocation(locationData);
 
-  // Fetch localities for this location from the localities table
-  const localities = await fetchLocalitiesByLocationId(location.id);
-
-  // Fetch initial 6 properties for this location using location_id
-  // Production logic: Only fetch properties that belong to this location_id
-    const { data: propertiesData, error } = await supabase
-      .from("properties_v3")
-      .select("id, slug, project_name, developer, location, location_id, locality_id, project_status, description, hero_image, hero_image_alt, is_published, created_at, updated_at, images, amenities")
-      .eq("location_id", location.id) // MANDATORY: Only properties for this location
-      .eq("is_published", true)
-      .order("created_at", { ascending: false })
-      .limit(6);
-
-  const { count: totalPropertiesCount } = await supabase
-    .from("properties_v3")
-    .select("id", { count: "exact", head: true })
-    .eq("location_id", location.id)
-    .eq("is_published", true);
-
-  if (error) {
-    console.error("Error fetching properties for location:", error);
-  }
-
-  const dbProperties: Property[] = propertiesData
-    ? propertiesData.map((prop: any) => {
-        const property = supabaseV3ToProperty(prop);
-        return {
-          ...property,
-          locationSlug: location.slug,
-        };
-      })
-    : [];
-  const featuredStaticProperties = getFeaturedStaticPropertiesForLocation(location.slug);
-  const properties: Property[] = [...featuredStaticProperties, ...dbProperties].slice(0, 6);
-  const totalPropertiesCountWithFeatured = (totalPropertiesCount ?? dbProperties.length) + featuredStaticProperties.length;
+  const { localities, properties, totalCount: totalPropertiesCountWithFeatured } =
+    await fetchLocationListingData(location.slug, { propertyTypeFilter: "all" });
 
   // Fetch compare locations (compare_location_1, _2, _3 are FKs to locations_v2)
   const compareLocationIds = [location.compareLocation1, location.compareLocation2, location.compareLocation3].filter(

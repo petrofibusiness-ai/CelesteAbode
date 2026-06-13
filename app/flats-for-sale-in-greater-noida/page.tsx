@@ -2,10 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { Property } from "@/types/property";
-import { getSupabaseAdminClient } from "@/lib/supabase-server";
-import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
-import { fetchLocalitiesByLocationId } from "@/lib/fetch-localities";
+import { fetchLocationListingData } from "@/lib/fetch-location-listing-data";
 import { NoidaPropertiesGrid } from "@/components/noida-properties-grid";
 import { LocationPropertyFilters } from "@/components/location-property-filters";
 import { Building2, Phone } from "lucide-react";
@@ -53,47 +50,11 @@ const CONTENT_BLOCK_CLASS =
   "leading-[1.75] " +
   "[&_h3]:text-base [&_h3]:sm:text-lg [&_h3]:font-bold [&_h3]:text-gray-900 [&_h3]:mt-6 [&_h3]:mb-2 [&_h3]:first:mt-0 [&_p]:mb-4 [&_p]:last:mb-0";
 
+export const revalidate = 10;
+
 export default async function FlatsForSaleInGreaterNoidaPage() {
-  const supabase = getSupabaseAdminClient();
-
-  const { data: gnLocation } = await supabase
-    .from("locations_v2")
-    .select("id, slug")
-    .eq("slug", "greater-noida")
-    .eq("is_published", true)
-    .single();
-
-  let properties: (Property & { locationSlug: string })[] = [];
-  let localities: Array<{ value: string; label: string }> = [];
-
-  let totalPropertiesCount: number | null = null;
-
-  if (gnLocation?.id) {
-    const [{ data: localitiesData }, { data: propertiesData }, { count }] = await Promise.all([
-      fetchLocalitiesByLocationId(gnLocation.id).then((list) => ({ data: list })),
-      supabase
-        .from("properties_v3")
-        .select("id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, description, hero_image, hero_image_alt, is_published, created_at, updated_at")
-        .eq("location_id", gnLocation.id)
-        .eq("property_type", "Apartment/Flats")
-        .eq("is_published", true)
-        .order("created_at", { ascending: false })
-        .limit(6),
-      supabase
-        .from("properties_v3")
-        .select("id", { count: "exact", head: true })
-        .eq("location_id", gnLocation.id)
-        .eq("property_type", "Apartment/Flats")
-        .eq("is_published", true),
-    ]);
-
-    totalPropertiesCount = count;
-    localities = Array.isArray(localitiesData) ? localitiesData : [];
-    properties = (propertiesData || []).map((prop: any) => {
-      const p = supabaseV3ToProperty(prop);
-      return { ...p, locationSlug: gnLocation.slug } as Property & { locationSlug: string };
-    });
-  }
+  const { location: gnLocation, localities, properties, totalCount: totalPropertiesCount } =
+    await fetchLocationListingData("greater-noida", { propertyTypeFilter: "apartments" });
 
   const breadcrumbItems = [
     { name: "Home", url: SITE_URL },
@@ -162,7 +123,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                     <NoidaPropertiesGrid
                       initialProperties={properties}
                       location="greater-noida"
-                      initialTotalCount={totalPropertiesCount ?? properties.length}
+                      initialTotalCount={totalPropertiesCount}
                       defaultPropertyType="apartments"
                     />
                   ) : (

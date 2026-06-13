@@ -117,6 +117,66 @@ function assetSlotKey(propertyKey: string, index: number): string {
   return `${propertyKey}:${index}`;
 }
 
+const ASSET_SECTION_LABEL =
+  "text-xs font-semibold uppercase tracking-wide text-zinc-500 shrink-0";
+
+const ASSET_DOWNLOAD_BUTTON =
+  "h-8 w-full border-zinc-300 bg-white text-zinc-900 hover:!bg-black hover:!text-white hover:!border-black gap-1.5 disabled:opacity-70";
+
+const ASSET_UNAVAILABLE_BUTTON =
+  "h-8 w-full border-zinc-300 bg-white text-zinc-400 gap-1.5";
+
+function AssetDownloadRow({
+  label,
+  available,
+  loading,
+  loadingLabel,
+  actionLabel,
+  unavailableLabel,
+  onDownload,
+}: {
+  label: string;
+  available: boolean;
+  loading: boolean;
+  loadingLabel: string;
+  actionLabel: string;
+  unavailableLabel: string;
+  onDownload: () => void;
+}) {
+  return (
+    <div className="flex h-[4.25rem] shrink-0 flex-col justify-between">
+      <p className={ASSET_SECTION_LABEL}>{label}</p>
+      {available ? (
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          disabled={loading}
+          className={ASSET_DOWNLOAD_BUTTON}
+          onClick={onDownload}
+        >
+          {loading ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" />
+              {loadingLabel}
+            </>
+          ) : (
+            <>
+              <Download className="w-4 h-4" />
+              {actionLabel}
+            </>
+          )}
+        </Button>
+      ) : (
+        <Button type="button" size="sm" variant="outline" disabled className={ASSET_UNAVAILABLE_BUTTON}>
+          <Download className="w-4 h-4" />
+          {unavailableLabel}
+        </Button>
+      )}
+    </div>
+  );
+}
+
 export default function AdminInventoryMessagingPage() {
   const router = useRouter();
   const [properties, setProperties] = useState<Property[]>([]);
@@ -279,7 +339,7 @@ export default function AdminInventoryMessagingPage() {
                 {search ? `No projects match "${search}".` : "No properties found."}
               </div>
             ) : (
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" style={{ fontFamily: "Poppins, sans-serif" }}>
+              <div className="grid grid-cols-1 items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3" style={{ fontFamily: "Poppins, sans-serif" }}>
                 {properties.map((p) => {
                   const propertyKey = p.id ?? p.slug;
                   const messageText = buildCelesteWhatsAppMessagingTemplate({
@@ -337,27 +397,26 @@ export default function AdminInventoryMessagingPage() {
                         </div>
                       </div>
 
-                      <div className="flex flex-1 flex-col p-4 sm:p-5">
-                        <h2 className="text-base font-semibold text-gray-900 leading-snug [overflow-wrap:anywhere]">
-                          {p.projectName}
-                        </h2>
-                        <p className="mt-1 text-sm text-gray-600 [overflow-wrap:anywhere]">
-                          {p.location || "—"}
-                        </p>
-
-                        <div className="mt-auto pt-4">
-                          <div className="space-y-3 rounded-xl border border-zinc-200 bg-zinc-50 p-3">
-                          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                            Brochure
+                      <div className="flex min-h-0 flex-1 flex-col p-4 sm:p-5">
+                        <div className="min-h-[4.25rem] shrink-0">
+                          <h2 className="line-clamp-2 text-base font-semibold leading-snug text-gray-900 [overflow-wrap:anywhere]">
+                            {p.projectName}
+                          </h2>
+                          <p className="mt-1 line-clamp-1 text-sm text-gray-600 [overflow-wrap:anywhere]">
+                            {p.location || "—"}
                           </p>
-                          {hasBrochure ? (
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="outline"
-                              disabled={isDownloadingBrochure}
-                              className="w-full border-zinc-300 bg-white text-zinc-900 hover:bg-zinc-100 gap-1.5 disabled:opacity-70"
-                              onClick={async () => {
+                        </div>
+
+                        <div className="mt-4 flex min-h-[26.5rem] flex-1 flex-col">
+                          <div className="flex h-full flex-col gap-3 rounded-xl border border-zinc-200 bg-zinc-50 p-3">
+                            <AssetDownloadRow
+                              label="Brochure"
+                              available={hasBrochure}
+                              loading={isDownloadingBrochure}
+                              loadingLabel="Downloading..."
+                              actionLabel="Download brochure"
+                              unavailableLabel="Brochure unavailable"
+                              onDownload={async () => {
                                 if (isDownloadingBrochure) return;
                                 setDownloadingBrochureByPropertyKey((prev) => ({ ...prev, [propertyKey]: true }));
                                 const filename = `${filenameBase}_celeste_abode.pdf`;
@@ -369,43 +428,16 @@ export default function AdminInventoryMessagingPage() {
                                   setDownloadingBrochureByPropertyKey((prev) => ({ ...prev, [propertyKey]: false }));
                                 }
                               }}
-                            >
-                              {isDownloadingBrochure ? (
-                                <>
-                                  <Loader2 className="w-4 h-4 animate-spin" />
-                                  Downloading...
-                                </>
-                              ) : (
-                                <>
-                                  <Download className="w-4 h-4" />
-                                  Download brochure
-                                </>
-                              )}
-                            </Button>
-                          ) : (
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="outline"
-                              disabled
-                              className="w-full border-zinc-300 bg-white text-zinc-400 gap-1.5"
-                            >
-                              <Download className="w-4 h-4" />
-                              Brochure unavailable
-                            </Button>
-                          )}
+                            />
 
-                          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                            Floor plans
-                          </p>
-                          {hasFloorPlan ? (
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="outline"
-                              disabled={isDownloadingFloorPlan}
-                              className="w-full border-zinc-300 bg-white text-zinc-900 hover:bg-zinc-100 gap-1.5 disabled:opacity-70"
-                              onClick={async () => {
+                            <AssetDownloadRow
+                              label="Floor plans"
+                              available={hasFloorPlan}
+                              loading={isDownloadingFloorPlan}
+                              loadingLabel="Downloading..."
+                              actionLabel="Download floor plans"
+                              unavailableLabel="Floor plans unavailable"
+                              onDownload={async () => {
                                 if (isDownloadingFloorPlan) return;
                                 setDownloadingFloorPlanByPropertyKey((prev) => ({ ...prev, [propertyKey]: true }));
                                 const filename = `${filenameBase}_floor_plans.pdf`;
@@ -417,161 +449,135 @@ export default function AdminInventoryMessagingPage() {
                                   setDownloadingFloorPlanByPropertyKey((prev) => ({ ...prev, [propertyKey]: false }));
                                 }
                               }}
-                            >
-                              {isDownloadingFloorPlan ? (
-                                <>
-                                  <Loader2 className="w-4 h-4 animate-spin" />
-                                  Downloading...
-                                </>
-                              ) : (
-                                <>
-                                  <Download className="w-4 h-4" />
-                                  Download floor plans
-                                </>
-                              )}
-                            </Button>
-                          ) : (
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="outline"
-                              disabled
-                              className="w-full border-zinc-300 bg-white text-zinc-400 gap-1.5"
-                            >
-                              <Download className="w-4 h-4" />
-                              Floor plans unavailable
-                            </Button>
-                          )}
+                            />
 
-                          {hasAssets ? (
-                            <div className="space-y-2">
-                              <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+                            <div className="flex h-[7.75rem] shrink-0 flex-col gap-2">
+                              <p className={ASSET_SECTION_LABEL}>
                                 Images{" "}
                                 <span className="font-normal normal-case text-zinc-400">
                                   ({propertyImages.length})
                                 </span>
                               </p>
-                              <div
-                                className={
-                                  propertyImages.length > 8
-                                    ? "max-h-[7.5rem] overflow-y-auto overflow-x-hidden pr-0.5 [-webkit-overflow-scrolling:touch]"
-                                    : ""
-                                }
-                              >
-                                <div className="flex flex-wrap gap-1.5">
-                                  {propertyImages.map((imageUrl, i) => {
-                                    const slot = assetSlotKey(propertyKey, i);
-                                    const slotLoading = Boolean(downloadingAssetSlot[slot]);
-                                    const filenameBase = (p.slug || p.projectName || "property")
-                                      .toLowerCase()
-                                      .replace(/[^a-z0-9]+/g, "-")
-                                      .replace(/(^-|-$)/g, "");
-                                    const filename = `${filenameBase || "property"}_asset_${i + 1}.${assetImageExtension(imageUrl)}`;
-                                    const proxyHref = getAssetProxyHref(imageUrl, filename);
-                                    return (
-                                      <Button
-                                        key={slot}
-                                        type="button"
-                                        size="sm"
-                                        variant="outline"
-                                        disabled={slotLoading}
-                                        title={`Download image ${i + 1}`}
-                                        className="h-8 min-w-[2.75rem] shrink-0 border-zinc-300 bg-white px-2 text-xs text-zinc-900 hover:bg-zinc-100 gap-1 disabled:opacity-70"
-                                        onClick={async () => {
-                                          if (slotLoading) return;
-                                          setDownloadingAssetSlot((prev) => ({ ...prev, [slot]: true }));
-                                          try {
-                                            const response = await fetch(proxyHref, {
-                                              method: "GET",
-                                              credentials: "include",
-                                            });
-                                            if (!response.ok) return;
-                                            const blob = await response.blob();
-                                            const objectUrl = URL.createObjectURL(blob);
-                                            const link = document.createElement("a");
-                                            link.href = objectUrl;
-                                            link.download = filename;
-                                            link.style.display = "none";
-                                            document.body.appendChild(link);
-                                            link.click();
-                                            document.body.removeChild(link);
-                                            URL.revokeObjectURL(objectUrl);
-                                          } finally {
-                                            setDownloadingAssetSlot((prev) => ({ ...prev, [slot]: false }));
-                                          }
-                                        }}
-                                      >
-                                        {slotLoading ? (
-                                          <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" aria-hidden />
-                                        ) : (
-                                          <Download className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                                        )}
-                                        <span className="tabular-nums font-medium">{i + 1}</span>
-                                      </Button>
-                                    );
-                                  })}
-                                </div>
+                              <div className="h-[6.25rem] overflow-y-auto overflow-x-hidden rounded-lg border border-zinc-200 bg-white p-2 [-webkit-overflow-scrolling:touch]">
+                                {hasAssets ? (
+                                  <div className="flex flex-wrap gap-1.5">
+                                    {propertyImages.map((imageUrl, i) => {
+                                      const slot = assetSlotKey(propertyKey, i);
+                                      const slotLoading = Boolean(downloadingAssetSlot[slot]);
+                                      const imageFilenameBase = (p.slug || p.projectName || "property")
+                                        .toLowerCase()
+                                        .replace(/[^a-z0-9]+/g, "-")
+                                        .replace(/(^-|-$)/g, "");
+                                      const filename = `${imageFilenameBase || "property"}_asset_${i + 1}.${assetImageExtension(imageUrl)}`;
+                                      const proxyHref = getAssetProxyHref(imageUrl, filename);
+                                      return (
+                                        <Button
+                                          key={slot}
+                                          type="button"
+                                          size="sm"
+                                          variant="outline"
+                                          disabled={slotLoading}
+                                          title={`Download image ${i + 1}`}
+                                          className="h-8 min-w-[2.75rem] shrink-0 border-zinc-300 bg-white px-2 text-xs text-zinc-900 hover:!bg-black hover:!text-white hover:!border-black gap-1 disabled:opacity-70"
+                                          onClick={async () => {
+                                            if (slotLoading) return;
+                                            setDownloadingAssetSlot((prev) => ({ ...prev, [slot]: true }));
+                                            try {
+                                              const response = await fetch(proxyHref, {
+                                                method: "GET",
+                                                credentials: "include",
+                                              });
+                                              if (!response.ok) return;
+                                              const blob = await response.blob();
+                                              const objectUrl = URL.createObjectURL(blob);
+                                              const link = document.createElement("a");
+                                              link.href = objectUrl;
+                                              link.download = filename;
+                                              link.style.display = "none";
+                                              document.body.appendChild(link);
+                                              link.click();
+                                              document.body.removeChild(link);
+                                              URL.revokeObjectURL(objectUrl);
+                                            } finally {
+                                              setDownloadingAssetSlot((prev) => ({ ...prev, [slot]: false }));
+                                            }
+                                          }}
+                                        >
+                                          {slotLoading ? (
+                                            <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" aria-hidden />
+                                          ) : (
+                                            <Download className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                                          )}
+                                          <span className="font-medium tabular-nums">{i + 1}</span>
+                                        </Button>
+                                      );
+                                    })}
+                                  </div>
+                                ) : (
+                                  <div className="flex h-full min-h-[4.75rem] items-center justify-center px-2 text-center text-xs text-zinc-400">
+                                    No gallery images
+                                  </div>
+                                )}
                               </div>
                             </div>
-                          ) : (
-                            <div className="rounded-lg border border-dashed border-zinc-200 bg-white px-3 py-2 text-center text-xs text-zinc-400">
-                              No gallery images
+
+                            <div className="mt-auto flex shrink-0 flex-col gap-3 border-t border-zinc-200 pt-3">
+                              <p className={ASSET_SECTION_LABEL}>WhatsApp actions</p>
+                              <Button
+                                asChild
+                                size="sm"
+                                className="h-8 w-full bg-[#25D366] text-white gap-1.5 hover:bg-[#20BD5A]"
+                              >
+                                <a href={whatsAppComposeUrlNoRecipient(messageText)} rel="noopener noreferrer">
+                                  <MessageCircle className="w-4 h-4" />
+                                  Choose chat in WhatsApp
+                                </a>
+                              </Button>
+
+                              <div className="flex flex-col gap-2">
+                                <label className="sr-only" htmlFor={`phone-${propertyKey}`}>
+                                  Phone number
+                                </label>
+                                <Input
+                                  id={`phone-${propertyKey}`}
+                                  value={phone}
+                                  onChange={(e) =>
+                                    setPhoneByPropertyKey((prev) => ({
+                                      ...prev,
+                                      [propertyKey]: e.target.value,
+                                    }))
+                                  }
+                                  placeholder="Phone number"
+                                  inputMode="tel"
+                                  className="h-9 flex-1 border-zinc-300"
+                                  autoComplete="off"
+                                  aria-invalid={phone.length > 0 && !canSendToNumber}
+                                />
+
+                                <Button
+                                  type="button"
+                                  size="sm"
+                                  disabled={!canSendToNumber}
+                                  className="h-8 w-full bg-black text-white gap-1.5 hover:bg-zinc-900 disabled:cursor-not-allowed disabled:opacity-50"
+                                  onClick={() => {
+                                    if (!canSendToNumber) return;
+                                    openWhatsAppSendToNumber(phoneDigits, messageText);
+                                  }}
+                                >
+                                  <Send className="w-4 h-4" />
+                                  Send to entered number
+                                </Button>
+                                <p
+                                  className={`min-h-[2.5rem] text-xs leading-relaxed ${
+                                    phone.length > 0 && phoneError ? "text-red-600" : "text-zinc-500"
+                                  }`}
+                                >
+                                  {phone.length > 0 && phoneError
+                                    ? phoneError
+                                    : "Use country code if needed (example: 91...)."}
+                                </p>
+                              </div>
                             </div>
-                          )}
-
-                          <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
-                            WhatsApp actions
-                          </p>
-                          <Button
-                            asChild
-                            size="sm"
-                            className="w-full bg-[#25D366] hover:bg-[#20BD5A] text-white gap-1.5"
-                          >
-                            <a href={whatsAppComposeUrlNoRecipient(messageText)} rel="noopener noreferrer">
-                              <MessageCircle className="w-4 h-4" />
-                              Choose chat in WhatsApp
-                            </a>
-                          </Button>
-
-                          <div className="flex flex-col gap-2">
-                            <label className="sr-only" htmlFor={`phone-${propertyKey}`}>
-                              Phone number
-                            </label>
-                            <Input
-                              id={`phone-${propertyKey}`}
-                              value={phone}
-                              onChange={(e) =>
-                                setPhoneByPropertyKey((prev) => ({
-                                  ...prev,
-                                  [propertyKey]: e.target.value,
-                                }))
-                              }
-                              placeholder="Phone number"
-                              inputMode="tel"
-                              className="h-9 flex-1 border-zinc-300"
-                              autoComplete="off"
-                              aria-invalid={phone.length > 0 && !canSendToNumber}
-                            />
-
-                            <Button
-                              type="button"
-                              size="sm"
-                              disabled={!canSendToNumber}
-                              className="w-full bg-black hover:bg-zinc-900 text-white gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
-                              onClick={() => {
-                                if (!canSendToNumber) return;
-                                openWhatsAppSendToNumber(phoneDigits, messageText);
-                              }}
-                            >
-                              <Send className="w-4 h-4" />
-                              Send to entered number
-                            </Button>
-                            {phone.length > 0 && phoneError ? (
-                              <p className="text-xs text-red-600">{phoneError}</p>
-                            ) : (
-                              <p className="text-xs text-zinc-500">Use country code if needed (example: 91...).</p>
-                            )}
-                          </div>
                           </div>
                         </div>
                       </div>

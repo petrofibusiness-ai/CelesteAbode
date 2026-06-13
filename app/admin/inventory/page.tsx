@@ -648,7 +648,7 @@ export default function AdminInventoryPage() {
                             <Button
                               variant="outline"
                               size="sm"
-                              className="h-8 rounded-md border border-black bg-black px-3 text-xs font-semibold text-white hover:bg-zinc-900 hover:text-white"
+                              className="h-8 rounded-md border border-black bg-black px-3 text-xs font-semibold text-white hover:bg-black hover:text-white"
                               asChild
                             >
                               <Link

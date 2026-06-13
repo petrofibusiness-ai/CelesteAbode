@@ -22,17 +22,6 @@ export function propertyMatchesListingTypeFilter(
   return true;
 }
 
-function applyPropertyTypeDbFilter(
-  query: ReturnType<ReturnType<typeof getSupabaseAdminClient>["from"]>,
-  filter: LocationListingPropertyTypeFilter
-) {
-  if (filter === "all") return query;
-  if (filter === "apartments") return query.eq("property_type", "Apartment/Flats");
-  if (filter === "residential") return query.in("property_type", ["Apartment/Flats", "Villas"]);
-  if (filter === "commercial") return query.eq("property_type", "Commercial");
-  return query;
-}
-
 export async function fetchLocationListingData(
   locationSlug: string,
   options: { propertyTypeFilter?: LocationListingPropertyTypeFilter; limit?: number } = {}
@@ -72,8 +61,16 @@ export async function fetchLocationListingData(
     .eq("location_id", locationData.id)
     .eq("is_published", true);
 
-  propertiesQuery = applyPropertyTypeDbFilter(propertiesQuery, propertyTypeFilter);
-  countQuery = applyPropertyTypeDbFilter(countQuery, propertyTypeFilter);
+  if (propertyTypeFilter === "apartments") {
+    propertiesQuery = propertiesQuery.eq("property_type", "Apartment/Flats");
+    countQuery = countQuery.eq("property_type", "Apartment/Flats");
+  } else if (propertyTypeFilter === "residential") {
+    propertiesQuery = propertiesQuery.in("property_type", ["Apartment/Flats", "Villas"]);
+    countQuery = countQuery.in("property_type", ["Apartment/Flats", "Villas"]);
+  } else if (propertyTypeFilter === "commercial") {
+    propertiesQuery = propertiesQuery.eq("property_type", "Commercial");
+    countQuery = countQuery.eq("property_type", "Commercial");
+  }
 
   const [{ data: propertiesData, error }, { count: totalPropertiesCount }] = await Promise.all([
     propertiesQuery,

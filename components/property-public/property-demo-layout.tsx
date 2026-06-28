@@ -66,13 +66,31 @@ function buildHeroSlides(property: Property): DemoGallerySlide[] {
     if (u && !urls.includes(u)) urls.push(u);
   }
   const plain = stripTags(property.projectName) || "Project";
-  return urls.map((src, i) => ({
+  const imageSlides: DemoGallerySlide[] = urls.map((src, i) => ({
+    type: "image",
     src,
     alt: property.heroImageAlt || `${plain} — ${i === 0 ? "hero" : `image ${i + 1}`}`,
     label: i === 0 ? "Project" : `View ${i + 1}`,
     width: i === 0 ? 1920 : 1600,
     height: i === 0 ? 1080 : 1000,
   }));
+
+  const videoSlides: DemoGallerySlide[] = (property.videos || [])
+    .flatMap((video, i): DemoGallerySlide[] => {
+      const src = video.src?.trim();
+      if (!src) return [];
+      return [{
+        type: "video" as const,
+        src,
+        poster: video.thumbnail?.trim() || hero || undefined,
+        alt: video.title?.trim() || `${plain} — video ${i + 1}`,
+        label: "",
+        width: 1600,
+        height: 900,
+      }];
+    });
+
+  return [...imageSlides, ...videoSlides];
 }
 
 function splitHeroAndGallerySlides(slides: DemoGallerySlide[]): {

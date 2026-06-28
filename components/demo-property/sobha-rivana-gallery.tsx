@@ -10,6 +10,8 @@ export type DemoGallerySlide = {
   label: string;
   width: number;
   height: number;
+  type?: "image" | "video";
+  poster?: string;
 };
 
 type GalleryTheme = "light" | "dark";
@@ -48,9 +50,10 @@ export function SobhaRivanaGallery({
 
   useEffect(() => {
     if (safe.length <= 1) return;
+    if (current?.type === "video") return;
     const t = window.setInterval(() => go(1), 7000);
     return () => window.clearInterval(t);
-  }, [go, safe.length]);
+  }, [current?.type, go, safe.length]);
 
   if (!current) return null;
 
@@ -82,24 +85,35 @@ export function SobhaRivanaGallery({
       className={`${shell} ${fillParent && !cinema && !fullscreenHero ? "flex min-h-0 flex-col" : ""}`.trim()}
     >
       <div className={frame}>
-        <Image
-          key={current.src}
-          src={current.src}
-          alt={current.alt}
-          fill
-          className={imgClass}
-          sizes={
-            fullscreenHero
-              ? "100vw"
-              : cinema
-                ? "(max-width: 1024px) 100vw, 896px"
-                : fillParent
-                  ? "(max-width: 1024px) 100vw, 58vw"
-                  : "(max-width: 1024px) 100vw, 896px"
-          }
-          priority={index === 0}
-          unoptimized={current.src.endsWith(".avif") || current.src.includes("r2.dev")}
-        />
+        {current.type === "video" ? (
+          <video
+            key={current.src}
+            src={current.src}
+            poster={current.poster}
+            controls
+            preload="metadata"
+            className="h-full w-full bg-black object-contain"
+          />
+        ) : (
+          <Image
+            key={current.src}
+            src={current.src}
+            alt={current.alt}
+            fill
+            className={imgClass}
+            sizes={
+              fullscreenHero
+                ? "100vw"
+                : cinema
+                  ? "(max-width: 1024px) 100vw, 896px"
+                  : fillParent
+                    ? "(max-width: 1024px) 100vw, 58vw"
+                    : "(max-width: 1024px) 100vw, 896px"
+            }
+            priority={index === 0}
+            unoptimized={current.src.endsWith(".avif") || current.src.includes("r2.dev")}
+          />
+        )}
         <div
           className={
             fullscreenHero
@@ -109,7 +123,7 @@ export function SobhaRivanaGallery({
                 : "pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-900/70 via-gray-900/10 to-transparent"
           }
         />
-        {!fullscreenHero ? (
+        {!fullscreenHero && current.label ? (
           <p
             className="pointer-events-none absolute bottom-3 left-4 right-4 text-sm font-medium text-white drop-shadow-md sm:bottom-4 sm:left-5"
           >
@@ -119,7 +133,7 @@ export function SobhaRivanaGallery({
         {safe.length > 1 ? (
           <div
             className="pointer-events-auto absolute right-2 top-1/2 z-20 flex -translate-y-1/2 flex-col items-center gap-2.5 sm:right-3"
-            aria-label="Image gallery controls"
+            aria-label="Gallery controls"
           >
             <button
               type="button"
@@ -129,7 +143,7 @@ export function SobhaRivanaGallery({
                   ? "text-white/75 hover:text-white"
                   : "text-gray-600 hover:text-gray-900"
               }`}
-              aria-label="Previous image"
+              aria-label="Previous media"
             >
               <ChevronUp className="h-5 w-5" strokeWidth={1.75} aria-hidden />
             </button>
@@ -155,7 +169,7 @@ export function SobhaRivanaGallery({
                   type="button"
                   role="tab"
                   onClick={() => setIndex(i)}
-                  aria-label={`Go to image ${i + 1}`}
+                  aria-label={`Go to media ${i + 1}`}
                   aria-selected={i === index}
                   className={`gallery-control-btn w-[2px] shrink-0 rounded-full p-0 transition-all duration-200 focus-visible:outline focus-visible:ring-2 focus-visible:ring-[#CBB27A] ${
                     i === index
@@ -177,7 +191,7 @@ export function SobhaRivanaGallery({
                   ? "text-white/75 hover:text-white"
                   : "text-gray-600 hover:text-gray-900"
               }`}
-              aria-label="Next image"
+              aria-label="Next media"
             >
               <ChevronDown className="h-5 w-5" strokeWidth={1.75} aria-hidden />
             </button>

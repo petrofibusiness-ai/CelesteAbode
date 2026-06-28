@@ -10,7 +10,7 @@ const DATA_TIMEOUT_MS = 25_000;
 const COUNT_TIMEOUT_MS = 12_000;
 
 const LISTING_SELECT =
-  "id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, description, hero_image, hero_image_alt, is_published, created_at, updated_at";
+  "id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, description, hero_image, hero_image_alt, featured, is_published, created_at, updated_at";
 
 function mapPropertyTypeFilter(filterValue: string): string | null {
   const mapping: Record<string, string> = {
@@ -147,7 +147,10 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const dataQuery = query.order("created_at", { ascending: false }).range(offset, offset + limit);
+    const dataQuery = query
+      .order("featured", { ascending: false, nullsFirst: false })
+      .order("created_at", { ascending: false })
+      .range(offset, offset + limit);
     const { data, error } = await withTimeout(dataQuery, DATA_TIMEOUT_MS, "Data");
 
     if (error) {

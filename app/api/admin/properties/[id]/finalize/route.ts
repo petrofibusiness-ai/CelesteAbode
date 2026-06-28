@@ -23,6 +23,7 @@ const FinalizePropertySchema = z.object({
     src: z.string().url(),
     thumbnail: z.string().url().optional(),
   })).max(20).optional(),
+  featured: z.boolean().optional(),
   isPublished: z.boolean().optional(),
 });
 
@@ -161,6 +162,9 @@ export async function PATCH(
     }
     if (body.isPublished !== undefined) {
       updateData.is_published = body.isPublished;
+    }
+    if (body.featured !== undefined) {
+      updateData.featured = body.featured;
     }
 
     // Update property

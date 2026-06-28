@@ -35,9 +35,10 @@ export async function GET(request: NextRequest) {
     const queryPromise = supabase
       .from("properties_v3")
       .select(
-        "id, slug, project_name, developer, location, location_id, locality_id, project_status, description, hero_image, hero_image_alt, is_published, created_at, updated_at"
+        "id, slug, project_name, developer, location, location_id, locality_id, project_status, description, hero_image, hero_image_alt, featured, is_published, created_at, updated_at"
       )
       // NO .eq("is_published", true) filter - we want ALL properties
+      .order("featured", { ascending: false, nullsFirst: false })
       .order("created_at", { ascending: false }); // Newest first
 
     const timeoutPromise = new Promise<never>((_, reject) =>

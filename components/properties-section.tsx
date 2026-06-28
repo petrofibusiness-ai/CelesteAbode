@@ -11,7 +11,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useEffect, useRef, useState } from "react";
-import { MapPin, Play, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, Play, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { Property } from "@/types/property";
 import { getPropertyUrl } from "@/lib/property-url";
 
@@ -24,6 +24,7 @@ interface PropertyDisplay {
   imageAlt?: string; // Alt text for hero image
   status: string;
   slug: string;
+  featured?: boolean;
   isPublished?: boolean; // Add isPublished to track publish status
 }
 
@@ -70,6 +71,7 @@ export function PropertiesSection() {
               imageAlt: prop.heroImageAlt, // Store hero image alt text
               status: prop.projectStatus || '',
               slug: prop.slug,
+              featured: prop.featured,
               isPublished: prop.isPublished, // Store publish status
             };
           })
@@ -188,6 +190,12 @@ export function PropertiesSection() {
 
                           {/* Status Badge */}
                           <div className="absolute top-4 left-4 flex gap-2">
+                            {property.featured && (
+                              <span className="inline-flex items-center gap-1 rounded-full bg-[#CBB27A] px-3 py-1 text-xs font-semibold text-white shadow-lg backdrop-blur-sm">
+                                <Star className="h-3.5 w-3.5 fill-current" aria-hidden />
+                                Featured
+                              </span>
+                            )}
                             <span className="px-3 py-1 rounded-full text-xs font-semibold shadow-lg backdrop-blur-sm property-status-badge">
                               {property.status}
                             </span>

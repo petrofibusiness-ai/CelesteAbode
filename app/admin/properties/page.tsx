@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Building2, Plus, Edit, Trash2, Eye, EyeOff, Loader2, ExternalLink, RefreshCw } from "lucide-react";
+import { Building2, Plus, Edit, Trash2, Eye, EyeOff, Loader2, ExternalLink, RefreshCw, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Property } from "@/types/property";
 import { toast } from "sonner";
@@ -266,6 +266,44 @@ export default function PropertiesPage() {
     }
   };
 
+  const handleToggleFeatured = async (id: string, currentStatus: boolean) => {
+    if (!csrfToken) {
+      toast.error("CSRF token not available. Please refresh the page.");
+      return;
+    }
+
+    try {
+      setUpdating(id);
+      const headers = new Headers();
+      headers.set('Content-Type', 'application/json');
+      headers.set('x-csrf-token', csrfToken);
+
+      const response = await fetch(`/api/admin/properties/${id}`, {
+        method: "PATCH",
+        headers,
+        credentials: 'include',
+        body: JSON.stringify({ featured: !currentStatus }),
+      });
+
+      if (response.status === 401) {
+        handleAuthError();
+        return;
+      }
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to update featured status");
+      }
+
+      toast.success(`Property ${!currentStatus ? "marked as featured" : "removed from featured"}`);
+      await loadProperties(currentPage, { forceRefresh: true });
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to update featured status");
+    } finally {
+      setUpdating(null);
+    }
+  };
+
   if (loading) {
     return (
       <div className="p-4 sm:p-6 md:p-8">
@@ -402,7 +440,13 @@ export default function PropertiesPage() {
                   </div>
                 )}
                 {/* Status Badge */}
-                <div className="absolute top-3 right-3">
+                <div className="absolute top-3 right-3 flex flex-col items-end gap-2">
+                  {property.featured && (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold shadow-sm bg-[#CBB27A] text-white">
+                      <Star className="w-3 h-3 fill-current" />
+                      Featured
+                    </span>
+                  )}
                   <span
                     className={`px-2.5 py-1 rounded-md text-xs font-semibold shadow-sm ${
                       property.isPublished
@@ -479,6 +523,25 @@ export default function PropertiesPage() {
                       <EyeOff className="w-4 h-4 text-gray-600" />
                     ) : (
                       <Eye className="w-4 h-4 text-gray-600" />
+                    )}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleToggleFeatured(property.id!, property.featured)}
+                    disabled={updating === property.id || deleting !== null}
+                    className={`h-10 w-10 p-0 flex items-center justify-center border-2 transition-all duration-200 disabled:opacity-50 ${
+                      property.featured
+                        ? "border-[#CBB27A] bg-[#CBB27A]/10 text-[#CBB27A] hover:bg-[#CBB27A]/20"
+                        : "border-gray-300 hover:border-[#CBB27A] hover:bg-[#CBB27A]/10 text-gray-700 hover:text-[#CBB27A]"
+                    }`}
+                    title={property.featured ? "Remove featured" : "Mark as featured"}
+                    style={{ fontFamily: "Poppins, sans-serif" }}
+                  >
+                    {updating === property.id ? (
+                      <Loader2 className="w-4 h-4 text-gray-600 animate-spin" />
+                    ) : (
+                      <Star className={`w-4 h-4 ${property.featured ? "fill-current" : ""}`} />
                     )}
                   </Button>
                   <Button

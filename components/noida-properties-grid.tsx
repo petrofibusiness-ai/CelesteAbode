@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
-import { MapPin, Loader2, Building2 } from "lucide-react";
+import { MapPin, Loader2, Building2, Star } from "lucide-react";
 import { Property } from "@/types/property";
 import { getPropertyUrl } from "@/lib/property-url";
 import { PropertyGridPagination } from "@/components/property-grid-pagination";
@@ -201,6 +201,13 @@ export function NoidaPropertiesGrid({
                       />
 
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent transition-opacity duration-500 group-hover:from-black/95 group-hover:via-black/30"></div>
+
+                      {property.featured && (
+                        <div className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full bg-[#CBB27A] px-3 py-1.5 text-xs font-semibold text-white shadow-lg backdrop-blur-sm">
+                          <Star className="h-3.5 w-3.5 fill-current" aria-hidden />
+                          Featured
+                        </div>
+                      )}
 
                       <div className="absolute bottom-3 left-3 right-3 transition-transform duration-300 group-hover:translate-y-[-4px]">
                         <div className="flex items-center gap-2 text-white mb-1">

@@ -81,9 +81,10 @@ export async function GET(request: NextRequest) {
     let query = supabase
       .from("properties_v3")
       .select(
-        "id, slug, project_name, developer, location, location_id, locality_id, project_status, is_published, hero_image, hero_image_alt, brochure_url, floor_plans, images, project_snapshot, location_advantage, created_at, updated_at",
+        "id, slug, project_name, developer, location, location_id, locality_id, project_status, featured, is_published, hero_image, hero_image_alt, brochure_url, floor_plans, images, project_snapshot, location_advantage, created_at, updated_at",
         { count: "exact" }
       )
+      .order("featured", { ascending: false, nullsFirst: false })
       .order("created_at", { ascending: false });
 
     if (searchTerm) {
@@ -315,6 +316,7 @@ export async function POST(request: NextRequest) {
       priceMax: validatedData.priceMax ?? undefined,
       priceUnit: validatedData.priceUnit?.trim() || undefined,
       seo: validatedData.seo && typeof validatedData.seo === "object" ? validatedData.seo : {},
+      featured: validatedData.featured === true,
       isPublished: validatedData.isPublished === true,
     };
 

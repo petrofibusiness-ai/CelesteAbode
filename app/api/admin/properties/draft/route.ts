@@ -75,6 +75,7 @@ const DraftPropertySchema = z.object({
   priceUnit: z.string().max(200).optional(),
   amenities: z.array(z.string()).min(1).max(100),
   seo: z.record(z.any()).optional(),
+  featured: z.boolean().default(false),
   isPublished: z.boolean().default(false),
 }).refine(
   (data) => data.priceMin == null || data.priceMax == null || data.priceMax >= data.priceMin,
@@ -198,6 +199,7 @@ export async function POST(request: NextRequest) {
       price_unit: body.priceUnit?.trim() || null,
       seo: body.seo || {},
       inventory_towers: "",
+      featured: body.featured === true,
       is_published: false,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),

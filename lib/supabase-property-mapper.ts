@@ -43,6 +43,7 @@ export interface SupabaseProperty {
     ogImage?: string;
     canonical?: string;
   } | null;
+  featured?: boolean | null;
   is_published: boolean;
   created_at?: string;
   updated_at?: string;
@@ -80,6 +81,7 @@ export function supabaseToProperty(supabaseProp: SupabaseProperty): Property {
     priceMax: supabaseProp.price_max != null ? Number(supabaseProp.price_max) : undefined,
     priceUnit: supabaseProp.price_unit ?? undefined,
     seo: supabaseProp.seo || undefined,
+    featured: supabaseProp.featured === true,
     isPublished: supabaseProp.is_published,
     createdAt: supabaseProp.created_at,
     updatedAt: supabaseProp.updated_at,
@@ -123,6 +125,7 @@ export function propertyToSupabase(property: Omit<Property, "id" | "createdAt" |
       return String(v).trim();
     })(),
     seo: property.seo || null,
+    featured: Boolean(property.featured),
     is_published: property.isPublished || false,
   };
 }
@@ -154,6 +157,7 @@ export interface SupabasePropertyV3 {
   seo?: SupabaseProperty["seo"];
   property_type?: PropertyType | null;
   project_status?: ProjectStatus | null;
+  featured?: boolean | null;
   is_published: boolean;
   price_min?: string | number | null;
   price_max?: string | number | null;
@@ -334,6 +338,7 @@ export function supabaseV3ToProperty(row: SupabasePropertyV3): Property {
     priceMax: row.price_max != null ? Number(row.price_max) : undefined,
     priceUnit: row.price_unit ?? undefined,
     seo: row.seo || undefined,
+    featured: row.featured === true,
     isPublished: row.is_published,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -400,6 +405,7 @@ export function propertyToSupabaseV3(
     seo: property.seo && Object.keys(property.seo).length > 0 ? property.seo : {},
     property_type: property.propertyType ?? null,
     project_status: property.projectStatus ?? null,
+    featured: Boolean(property.featured),
     is_published: Boolean(property.isPublished),
     price_min:
       property.priceMin != null && Number.isFinite(Number(property.priceMin))

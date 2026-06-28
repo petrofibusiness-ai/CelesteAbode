@@ -66,6 +66,7 @@ export interface Property {
   priceMax?: number | null; // Max price (bigint)
   priceUnit?: string | null; // Display price (text)
   seo?: PropertySEO; // Optional SEO fields
+  featured: boolean; // Whether the property should be prioritized in listings
   isPublished: boolean; // Whether the property is live
   createdAt?: string;
   updatedAt?: string;

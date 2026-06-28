@@ -168,11 +168,26 @@ export async function PATCH(
     // Authentication is already verified above, so this is safe
     const supabase = getSupabaseAdminClient();
 
-    // Handle partial updates (e.g., just isPublished)
-    if (body.hasOwnProperty('isPublished') && Object.keys(body).length === 1) {
-      // Only updating isPublished - no asset sync needed
+    // Handle partial updates (e.g., just isPublished / featured)
+    const partialBooleanKeys = ["isPublished", "featured"];
+    if (
+      Object.keys(body).length > 0 &&
+      Object.keys(body).every((key) => partialBooleanKeys.includes(key))
+    ) {
+      if (
+        (body.isPublished !== undefined && typeof body.isPublished !== "boolean") ||
+        (body.featured !== undefined && typeof body.featured !== "boolean")
+      ) {
+        return NextResponse.json(
+          { error: "Invalid boolean update" },
+          { status: 400 }
+        );
+      }
+
+      // Only updating simple booleans - no asset sync needed
       const updateData = {
-        is_published: body.isPublished === true,
+        ...(body.isPublished !== undefined ? { is_published: body.isPublished === true } : {}),
+        ...(body.featured !== undefined ? { featured: body.featured === true } : {}),
         updated_at: new Date().toISOString(),
       };
 
@@ -206,8 +221,7 @@ export async function PATCH(
         record_id: id,
         user_id: user.id,
         user_email: user.email,
-        changes: { is_published: body.isPublished },
-        old_values: { is_published: !body.isPublished },
+        changes: updateData,
         new_values: updateData,
         ...requestMetadata,
       });
@@ -392,6 +406,7 @@ export async function PATCH(
       priceMax: bodyForSupabase.priceMax ?? existingProperty.priceMax ?? undefined,
       priceUnit: pick(bodyForSupabase.priceUnit, existingProperty.priceUnit) ?? undefined,
       seo: pick(bodyForSupabase.seo, existingProperty.seo) || {},
+      featured: pick(bodyForSupabase.featured, existingProperty.featured),
       isPublished: pick(bodyForSupabase.isPublished, existingProperty.isPublished),
     };
 

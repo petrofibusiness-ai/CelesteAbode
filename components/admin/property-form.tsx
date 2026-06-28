@@ -128,6 +128,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
     priceMax: property?.priceMax ?? null,
     priceUnit: property?.priceUnit ?? "",
     seo: property?.seo || {},
+    featured: property?.featured || false,
     isPublished: property?.isPublished || false,
   });
 
@@ -1067,6 +1068,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
         videos: updatedFormData.videos || [],
         amenities: (updatedFormData.amenities || []).filter((a: string) => a && a.trim() !== ""),
         seo: updatedFormData.seo || {},
+        featured: updatedFormData.featured === true,
         isPublished: updatedFormData.isPublished === true,
       };
 
@@ -1185,6 +1187,7 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
           priceMax: null,
           priceUnit: "",
           seo: {},
+          featured: false,
           isPublished: false,
         });
         setSelectedLocationId(null);
@@ -2392,6 +2395,19 @@ export default function PropertyForm({ property, onSuccess }: PropertyFormProps)
             />
             <Label htmlFor="isPublished" className="text-gray-700 font-semibold cursor-pointer flex-1" style={{ fontFamily: "Poppins, sans-serif" }}>
               Publish this property (make it visible on the website)
+            </Label>
+          </div>
+
+          {/* Featured Toggle */}
+          <div className="mt-4 flex items-center gap-4 p-5 border-2 border-gray-300 rounded-xl bg-gradient-to-r from-gray-50 to-gray-50/50 hover:border-[#CBB27A] hover:bg-gradient-to-r hover:from-[#CBB27A]/5 hover:to-[#CBB27A]/5 transition-all duration-200">
+            <Checkbox
+              id="featured"
+              checked={formData.featured}
+              onCheckedChange={(checked) => handleChange("featured", checked === true)}
+              className="border-2 border-gray-400 data-[state=checked]:border-[#CBB27A] data-[state=checked]:bg-[#CBB27A] w-5 h-5"
+            />
+            <Label htmlFor="featured" className="text-gray-700 font-semibold cursor-pointer flex-1" style={{ fontFamily: "Poppins, sans-serif" }}>
+              Feature this property (show it ahead of non-featured properties)
             </Label>
           </div>
 

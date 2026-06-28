@@ -484,6 +484,13 @@ export function validatePropertyData(body: any): ValidationError[] {
   }
 
   // Boolean field
+  if (body.featured !== undefined && typeof body.featured !== 'boolean') {
+    errors.push({
+      field: 'featured',
+      message: 'featured must be a boolean',
+    });
+  }
+
   if (body.isPublished !== undefined && typeof body.isPublished !== 'boolean') {
     errors.push({
       field: 'isPublished',

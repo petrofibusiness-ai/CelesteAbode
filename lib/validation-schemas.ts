@@ -141,6 +141,7 @@ export const PropertyDataSchema = z.object({
     ogImage: URLSchema.optional(),
     canonical: URLSchema.optional(),
   }).optional(),
+  featured: z.boolean().default(false),
   isPublished: z.boolean().default(false),
 }).refine(
   (data) => data.priceMin == null || data.priceMax == null || data.priceMax >= data.priceMin,

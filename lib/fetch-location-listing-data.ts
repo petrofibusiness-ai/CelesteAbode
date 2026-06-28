@@ -5,7 +5,7 @@ import { getFeaturedStaticPropertiesForLocation } from "@/lib/featured-static-pr
 import type { Property } from "@/types/property";
 
 const LISTING_SELECT =
-  "id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, description, hero_image, hero_image_alt, is_published, created_at, updated_at, images, amenities";
+  "id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, description, hero_image, hero_image_alt, featured, is_published, created_at, updated_at, images, amenities";
 
 export type LocationListingPropertyTypeFilter = "all" | "apartments" | "residential" | "commercial";
 
@@ -52,6 +52,7 @@ export async function fetchLocationListingData(
     .select(LISTING_SELECT)
     .eq("location_id", locationData.id)
     .eq("is_published", true)
+    .order("featured", { ascending: false, nullsFirst: false })
     .order("created_at", { ascending: false })
     .limit(limit);
 

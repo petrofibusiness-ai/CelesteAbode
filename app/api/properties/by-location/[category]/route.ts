@@ -71,10 +71,11 @@ export async function GET(
     const queryPromise = supabase
       .from("properties_v3")
       .select(
-        "id, slug, project_name, developer, location, location_id, locality_id, project_status, description, hero_image, hero_image_alt, is_published, created_at, updated_at"
+        "id, slug, project_name, developer, location, location_id, locality_id, project_status, description, hero_image, hero_image_alt, featured, is_published, created_at, updated_at"
       )
       .eq("location_id", locationData.id) // Filter by location_id instead of location_category
       .eq("is_published", true)
+      .order("featured", { ascending: false, nullsFirst: false })
       .order("created_at", { ascending: false })
       .range(offset, offset + limit); // Fetch limit + 1 to check for more
 

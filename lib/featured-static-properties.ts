@@ -39,6 +39,7 @@ const FUSION_VASUNDHARA_FEATURED: Property & { locationSlug: string } = {
     keywords: "fusion vasundhara, ghaziabad, pre launch apartments",
     canonical: "/properties-in-ghaziabad/fusion-vasundhara",
   },
+  featured: true,
   isPublished: true,
   createdAt: new Date(0).toISOString(),
   updatedAt: new Date(0).toISOString(),

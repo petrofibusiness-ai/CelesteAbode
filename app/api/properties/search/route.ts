@@ -117,7 +117,7 @@ export async function GET(request: NextRequest) {
     // Build query - start with base filters
     // Filter order: location_id (mandatory) → locality_id (optional) → other filters
     const listingSelect =
-      "id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, description, hero_image, hero_image_alt, is_published, created_at, updated_at";
+      "id, slug, project_name, developer, location, location_id, locality_id, property_type, project_status, description, hero_image, hero_image_alt, featured, is_published, created_at, updated_at";
 
     let query = supabase
       .from("properties_v3")
@@ -257,6 +257,7 @@ export async function GET(request: NextRequest) {
     // Order and paginate
     // Fetch limit + 1 to check if there are more properties without a separate count query
     query = query
+      .order("featured", { ascending: false, nullsFirst: false })
       .order("created_at", { ascending: false })
       .range(offset, offset + limit); // Fetch limit + 1
 

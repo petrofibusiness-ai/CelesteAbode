@@ -8,7 +8,10 @@ import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
 import { fetchLocalitiesByLocationId } from "@/lib/fetch-localities";
 import { NoidaPropertiesGrid } from "@/components/noida-properties-grid";
+import { PreLaunchPropertiesSection } from "@/components/prelaunch-properties-section";
 import { LocationPropertyFilters } from "@/components/location-property-filters";
+import { getPreLaunchPropertiesForLocation } from "@/lib/featured-static-properties";
+import { propertyMatchesListingTypeFilter } from "@/lib/fetch-location-listing-data";
 import { BreadcrumbSchema, WebPageSchema, FAQPageSchema } from "@/lib/structured-data";
 import { SeoBlocksRevealController } from "@/components/seo-blocks-reveal-controller";
 import LocationFAQs from "@/components/location-faqs";
@@ -16,6 +19,7 @@ import { ConsultationSidebar } from "@/components/consultation-sidebar";
 import { OpenConsultationTrigger } from "@/components/open-consultation-trigger";
 import type { FAQ } from "@/types/location";
 import { PROPERTY_SEARCH_ANCHOR_ID } from "@/lib/scroll-listings";
+import { LOCATION_SECTION_HEADING_CLASS, LOCATION_SECTION_HEADING_ON_DARK_CLASS } from "@/lib/location-page-typography";
 
 /**
  * On-page target phrases (user brief; /flats-in-ghaziabad). Present in `<p>` / FAQ body:
@@ -54,6 +58,9 @@ const CONTENT_BLOCK_CLASS =
 
 export default async function FlatsInGhaziabadPage() {
   const supabase = getSupabaseAdminClient();
+  const preLaunchProperties = getPreLaunchPropertiesForLocation("ghaziabad").filter((p) =>
+    propertyMatchesListingTypeFilter(p, "apartments")
+  );
 
   const { data: ghaziabadLocation } = await supabase
     .from("locations_v2")
@@ -144,6 +151,8 @@ export default async function FlatsInGhaziabadPage() {
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent" />
           </div>
 
+          <PreLaunchPropertiesSection properties={preLaunchProperties} locationName="Ghaziabad" />
+
           <section id="properties" className="py-8 md:py-12 bg-background relative">
             <div className="max-w-7xl mx-auto px-6">
               {ghaziabadLocation?.id && (
@@ -200,7 +209,7 @@ export default async function FlatsInGhaziabadPage() {
                 <SeoBlocksRevealController initialVisible={1} step={1} totalCount={10}>
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         Buy <span className="text-[#CBB27A]">Flats in Ghaziabad</span> with Trusted Real Estate Consultants
                       </h2>
                     </header>
@@ -227,7 +236,7 @@ export default async function FlatsInGhaziabadPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         Find the Best Flats in Ghaziabad with{" "}
                         <span className="text-[#CBB27A]">Expert Property Consultants</span>
                       </h2>
@@ -261,7 +270,7 @@ export default async function FlatsInGhaziabadPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         Why Work with Professional{" "}
                         <span className="text-[#CBB27A]">Real Estate Consultants</span> in Ghaziabad
                       </h2>
@@ -295,7 +304,7 @@ export default async function FlatsInGhaziabadPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         Explore <span className="text-[#CBB27A]">Flats for Sale</span> in Indirapuram Ghaziabad
                       </h2>
                     </header>
@@ -324,7 +333,7 @@ export default async function FlatsInGhaziabadPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         Leading Real Estate Consultants for <span className="text-[#CBB27A]">Flats in Ghaziabad</span>
                       </h2>
                     </header>
@@ -357,7 +366,7 @@ export default async function FlatsInGhaziabadPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         Our Real Estate Consulting Services for{" "}
                         <span className="text-[#CBB27A]">Flat Buyers</span>
                       </h2>
@@ -387,7 +396,7 @@ export default async function FlatsInGhaziabadPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         Top Locations to Buy <span className="text-[#CBB27A]">Flats in Ghaziabad</span>
                       </h2>
                     </header>
@@ -416,7 +425,7 @@ export default async function FlatsInGhaziabadPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         How Celeste Abode Helps You Buy the <span className="text-[#CBB27A]">Right Flat</span>
                       </h2>
                     </header>
@@ -449,7 +458,7 @@ export default async function FlatsInGhaziabadPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         Why <span className="text-[#CBB27A]">Celeste Abode</span> Are Trusted Property Consultants in Ghaziabad
                       </h2>
                     </header>
@@ -482,7 +491,7 @@ export default async function FlatsInGhaziabadPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         Benefits of Choosing Professional{" "}
                         <span className="text-[#CBB27A]">Property Dealers in Ghaziabad</span>
                       </h2>
@@ -516,7 +525,7 @@ export default async function FlatsInGhaziabadPage() {
               <section className="py-16 md:py-24 bg-background">
                 <div className="max-w-4xl px-6">
                   <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                    <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-gray-900 mb-4`}>
                       Frequently Asked Questions About Flats in Ghaziabad
                     </h2>
                     <p className="text-lg text-gray-600 font-poppins">
@@ -538,7 +547,7 @@ export default async function FlatsInGhaziabadPage() {
 
           <section className="py-16 md:py-24 bg-gradient-to-br from-[#0f1112] to-gray-900">
             <div className="max-w-3xl mx-auto px-6 text-center">
-              <h2 className="text-2xl md:text-4xl font-bold text-white mb-4 font-poppins">
+              <h2 className={`${LOCATION_SECTION_HEADING_ON_DARK_CLASS} mb-4`}>
                 Looking for a flat in Ghaziabad and want an honest view before you decide?
               </h2>
               <p className="text-white/85 leading-relaxed font-poppins mb-8">

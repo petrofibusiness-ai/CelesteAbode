@@ -4,6 +4,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { fetchLocationListingData } from "@/lib/fetch-location-listing-data";
 import { NoidaPropertiesGrid } from "@/components/noida-properties-grid";
+import { PreLaunchPropertiesSection } from "@/components/prelaunch-properties-section";
 import { LocationPropertyFilters } from "@/components/location-property-filters";
 import { Building2, Phone } from "lucide-react";
 import { BreadcrumbSchema, WebPageSchema, FAQPageSchema } from "@/lib/structured-data";
@@ -13,6 +14,7 @@ import { ConsultationSidebar } from "@/components/consultation-sidebar";
 import { OpenConsultationTrigger } from "@/components/open-consultation-trigger";
 import type { FAQ } from "@/types/location";
 import { PROPERTY_SEARCH_ANCHOR_ID } from "@/lib/scroll-listings";
+import { LOCATION_SECTION_HEADING_CLASS, LOCATION_SECTION_HEADING_ON_DARK_CLASS } from "@/lib/location-page-typography";
 
 /**
  * On-page target phrases (user brief; celeste prompt). Present in `<p>` / FAQ body:
@@ -53,7 +55,7 @@ const CONTENT_BLOCK_CLASS =
 export const revalidate = 10;
 
 export default async function FlatsForSaleInGreaterNoidaPage() {
-  const { location: gnLocation, localities, properties, totalCount: totalPropertiesCount } =
+  const { location: gnLocation, localities, properties, preLaunchProperties, totalCount: totalPropertiesCount } =
     await fetchLocationListingData("greater-noida", { propertyTypeFilter: "apartments" });
 
   const breadcrumbItems = [
@@ -102,6 +104,8 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
               </h1>
             </div>
           </section>
+
+          <PreLaunchPropertiesSection properties={preLaunchProperties} locationName="Greater Noida" />
 
           <section id="properties" className="py-8 md:py-12 bg-background relative">
             <div className="max-w-7xl mx-auto px-6">
@@ -159,7 +163,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                 <SeoBlocksRevealController initialVisible={1} step={1} totalCount={7}>
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         Explore Best <span className="text-[#CBB27A]">Flats for Sale in Greater Noida</span>
                       </h2>
                     </header>
@@ -186,7 +190,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         <span className="text-[#CBB27A]">Apartments in Greater Noida</span> for Modern Living
                       </h2>
                     </header>
@@ -223,7 +227,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         Buy <span className="text-[#CBB27A]">Studio Apartment in Greater Noida</span>
                       </h2>
                     </header>
@@ -255,7 +259,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         <span className="text-[#CBB27A]">2 BHK and 3 BHK Flats</span> in Greater Noida
                       </h2>
                     </header>
@@ -282,7 +286,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         Top <span className="text-[#CBB27A]">Locations</span> for Flats in Greater Noida
                       </h2>
                     </header>
@@ -311,7 +315,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         Why <span className="text-[#CBB27A]">Buy Flats</span> in Greater Noida
                       </h2>
                     </header>
@@ -352,7 +356,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
 
                   <article data-seo-block>
                     <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                      <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                      <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                         Why Choose <span className="text-[#CBB27A]">Celeste Abode</span> to Buy Flats in Greater Noida
                       </h2>
                     </header>
@@ -397,7 +401,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
               <section className="py-16 md:py-24 bg-background">
                 <div className="max-w-4xl px-6">
                   <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                    <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-gray-900 mb-4`}>
                       FAQs About Flats in Greater Noida
                     </h2>
                     <p className="text-lg text-gray-600 font-poppins">
@@ -416,7 +420,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
 
           <section className="py-16 md:py-24 bg-gradient-to-br from-[#0f1112] to-gray-900">
             <div className="max-w-3xl mx-auto px-6 text-center">
-              <h2 className="text-2xl md:text-4xl font-bold text-white mb-4 font-poppins">
+              <h2 className={`${LOCATION_SECTION_HEADING_ON_DARK_CLASS} mb-4`}>
                 Ready to Buy a Flat in Greater Noida?
               </h2>
               <p className="text-white/85 leading-relaxed font-poppins mb-8">

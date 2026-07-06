@@ -11,6 +11,7 @@ import { fetchLocationListingData } from "@/lib/fetch-location-listing-data";
 import { CheckCircle2, Phone, Mail, Building2 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
 import { NoidaPropertiesGrid } from "@/components/noida-properties-grid";
+import { PreLaunchPropertiesSection } from "@/components/prelaunch-properties-section";
 import { LocationPropertyFilters } from "@/components/location-property-filters";
 import { LocationContactForm } from "@/components/location-contact-form";
 import { WhyInvestSection } from "@/components/why-invest-section";
@@ -18,6 +19,10 @@ import LocationFAQs from "@/components/location-faqs";
 import { SeoBlocksRevealController } from "@/components/seo-blocks-reveal-controller";
 import { FAQPageSchema, BreadcrumbSchema, LocationPageSchema } from "@/lib/structured-data";
 import { PROPERTY_SEARCH_ANCHOR_ID } from "@/lib/scroll-listings";
+import {
+  LOCATION_SECTION_HEADING_CLASS,
+  LOCATION_SECTION_HEADING_ON_DARK_CLASS,
+} from "@/lib/location-page-typography";
 
 interface PageProps {
   params: Promise<{
@@ -148,7 +153,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
 
   const location = supabaseToLocation(locationData);
 
-  const { localities, properties, totalCount: totalPropertiesCountWithFeatured } =
+  const { localities, properties, preLaunchProperties, totalCount: totalPropertiesCountWithFeatured } =
     await fetchLocationListingData(location.slug, { propertyTypeFilter: "all" });
 
   // Fetch compare locations (compare_location_1, _2, _3 are FKs to locations_v2)
@@ -234,12 +239,17 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
             </div>
           </section>
 
+          <PreLaunchPropertiesSection
+            properties={preLaunchProperties}
+            locationName={location.locationName}
+          />
+
           {/* Properties Grid Section */}
-          <section id="properties" className="py-16 md:py-24 bg-background relative">
+          <section id="properties" className="pt-0 pb-0 bg-background relative">
             <div className="max-w-7xl mx-auto px-6">
               <div className="text-center mb-12">
                 <h2
-                  className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2"
+                  className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}
                   dangerouslySetInnerHTML={{ __html: location.exploreSectionHeading || "Explore Properties" }}
                 />
                 <p
@@ -296,7 +306,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
                     <article key={index} data-seo-block className="w-full mb-4 md:mb-6">
                       <header className="text-center mb-8 md:mb-12">
                         <h2
-                          className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4 font-poppins leading-tight"
+                          className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-4 leading-tight`}
                           dangerouslySetInnerHTML={{ __html: blog.title }}
                         />
                       </header>
@@ -333,7 +343,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
               <section className="py-14 md:py-20 bg-background">
                 <div className="max-w-6xl mx-auto px-6">
                   <div className="text-center mb-8 md:mb-10">
-                    <h2 className="text-2xl md:text-4xl font-bold text-primary mb-3 font-poppins">
+                    <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-primary mb-3`}>
                       Compare Nearby NCR Markets Before You Decide
                     </h2>
                     <p className="text-muted-foreground max-w-2xl mx-auto text-center font-poppins">
@@ -359,7 +369,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/25 group-hover:from-black/95 transition-all duration-500" />
                           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
-                            <h3 className="text-3xl md:text-4xl font-bold text-white mb-2 group-hover:text-[#CBB27A] transition-colors font-poppins">
+                            <h3 className="text-2xl md:text-[2.125rem] font-bold text-white mb-2 group-hover:text-[#CBB27A] transition-colors font-poppins">
                               {region.title}
                             </h3>
                      
@@ -384,7 +394,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
               <section className="py-16 md:py-24 bg-background">
                 <div className="max-w-4xl mx-auto px-6">
                   <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                    <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-gray-900 mb-4`}>
                       Frequently Asked Questions
                     </h2>
                     <p className="text-lg text-gray-600 font-poppins">
@@ -412,7 +422,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
                 {/* Left Column - Content */}
                 <div className="space-y-6">
                   <h2
-                    className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight"
+                    className={`${LOCATION_SECTION_HEADING_ON_DARK_CLASS} leading-tight`}
                     dangerouslySetInnerHTML={{
                       __html:
                         location.footerCtaHeading ||

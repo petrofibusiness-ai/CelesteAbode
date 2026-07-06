@@ -245,7 +245,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
           />
 
           {/* Properties Grid Section */}
-          <section id="properties" className="pt-0 pb-0 bg-background relative">
+          <section id="properties" className="pt-12 pb-0 bg-background relative">
             <div className="max-w-7xl mx-auto px-6">
               <div className="text-center mb-12">
                 <h2

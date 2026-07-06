@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth";
 import { requireAdminAuth } from "@/lib/admin-auth-guard";
 import { getSupabaseAdminClient } from "@/lib/supabase-server";
+import {
+  getFeaturedStaticPropertyPageCount,
+  getPublishedFeaturedStaticPropertyPageCount,
+} from "@/lib/featured-static-properties";
 import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-limit";
 
 // Query timeout: 10 seconds
@@ -79,9 +83,14 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const totalProperties = totalResult.count || 0;
-    const publishedProperties = publishedResult.count || 0;
+    const databaseTotalProperties = totalResult.count || 0;
+    const databasePublishedProperties = publishedResult.count || 0;
     const draftProperties = draftResult.count || 0;
+    const hardcodedPropertyPages = getFeaturedStaticPropertyPageCount();
+    const hardcodedPublishedPages = getPublishedFeaturedStaticPropertyPageCount();
+
+    const totalProperties = databaseTotalProperties + hardcodedPropertyPages;
+    const publishedProperties = databasePublishedProperties + hardcodedPublishedPages;
 
     // Count total locations and fetch location names
     // Match the same query pattern as admin/locations page
@@ -178,6 +187,8 @@ export async function GET(request: NextRequest) {
       totalProperties,
       publishedProperties,
       draftProperties,
+      databaseTotalProperties,
+      hardcodedPropertyPages,
       totalLocations,
       activeLocations,
       totalLeads,

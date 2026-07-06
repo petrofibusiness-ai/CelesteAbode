@@ -4,6 +4,8 @@ import { SUPPORT_ADMIN_EMAIL } from '@/lib/admin-access';
 
 const STATIC_PROPERTY_ROUTE_EXCEPTIONS = new Set([
   '/properties-in-ghaziabad/fusion-vasundhara',
+  '/properties-in-ghaziabad/karyan-residences-nh24',
+  '/properties-in-noida/ace-parkway-2-0',
 ]);
 
 function getEmailFromJwt(token: string | undefined): string | null {

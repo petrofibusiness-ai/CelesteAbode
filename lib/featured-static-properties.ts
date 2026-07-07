@@ -1,8 +1,8 @@
 import { Property } from "@/types/property";
 
 import { FUSION_VASUNDHARA_HERO_IMAGE } from "@/lib/fusion-vasundhara-assets";
-import { ACE_PARKWAY_2_0_HERO_IMAGE } from "@/lib/ace-parkway-2-0-assets";
-import { KARYAN_RESIDENCES_NH24_HERO_IMAGE } from "@/lib/karyan-residences-nh24-assets";
+import { ACE_PARKWAY_2_0_HERO_IMAGE, ACE_SECTOR_150_PROJECT_NAME, ACE_SECTOR_150_SLUG } from "@/lib/ace-parkway-2-0-assets";
+import { KARYAN_NH24_PROJECT_NAME, KARYAN_NH24_SLUG, KARYAN_RESIDENCES_NH24_HERO_IMAGE } from "@/lib/karyan-residences-nh24-assets";
 
 const FUSION_VASUNDHARA_FEATURED: Property & { locationSlug: string } = {
   id: "featured-fusion-vasundhara",
@@ -49,8 +49,8 @@ const FUSION_VASUNDHARA_FEATURED: Property & { locationSlug: string } = {
 
 const KARYAN_RESIDENCES_NH24_FEATURED: Property & { locationSlug: string } = {
   id: "featured-karyan-residences-nh24",
-  slug: "karyan-residences-nh24",
-  projectName: "Karyan Residences NH-24",
+  slug: KARYAN_NH24_SLUG,
+  projectName: KARYAN_NH24_PROJECT_NAME,
   developer: "Karyan Group",
   location: "NH-24, Ghaziabad",
   locationCategory: null,
@@ -65,7 +65,7 @@ const KARYAN_RESIDENCES_NH24_FEATURED: Property & { locationSlug: string } = {
   description:
     "Pre-launch 2, 2+Study and 3 BHK apartments on NH-24, Ghaziabad by Karyan Group. Mivan construction, 8.5 acres, 10 towers.",
   heroImage: KARYAN_RESIDENCES_NH24_HERO_IMAGE,
-  heroImageAlt: "Karyan Residences NH-24 Ghaziabad pre-launch project",
+  heroImageAlt: "Karyan NH-24 Ghaziabad pre-launch residential project",
   brochureUrl: "",
   images: [KARYAN_RESIDENCES_NH24_HERO_IMAGE],
   amenities: [
@@ -80,11 +80,11 @@ const KARYAN_RESIDENCES_NH24_FEATURED: Property & { locationSlug: string } = {
   priceMax: null,
   priceUnit: "From Rs 5,900/sq ft*",
   seo: {
-    title: "Karyan Residences NH-24 Ghaziabad - Pre-Launch 2 & 3 BHK",
+    title: "Karyan NH-24 Ghaziabad - Pre-Launch 2 & 3 BHK",
     description:
       "Karyan Group pre-launch on NH-24, Ghaziabad with 2, 2+Study and 3 BHK Mivan-built homes.",
-    keywords: "karyan residences nh24, karyan group ghaziabad, nh-24 pre launch, 2 bhk ghaziabad",
-    canonical: "/properties-in-ghaziabad/karyan-residences-nh24",
+    keywords: "karyan nh24 ghaziabad, karyan group ghaziabad, nh-24 pre launch, 2 bhk ghaziabad",
+    canonical: `/properties-in-ghaziabad/${KARYAN_NH24_SLUG}`,
   },
   isPublished: true,
   createdAt: new Date(0).toISOString(),
@@ -94,8 +94,8 @@ const KARYAN_RESIDENCES_NH24_FEATURED: Property & { locationSlug: string } = {
 
 const ACE_PARKWAY_2_0_FEATURED: Property & { locationSlug: string } = {
   id: "featured-ace-parkway-2-0",
-  slug: "ace-parkway-2-0",
-  projectName: "Ace Parkway 2.0",
+  slug: ACE_SECTOR_150_SLUG,
+  projectName: ACE_SECTOR_150_PROJECT_NAME,
   developer: "ACE Group",
   location: "Sector 150, Noida",
   locationCategory: null,
@@ -110,7 +110,7 @@ const ACE_PARKWAY_2_0_FEATURED: Property & { locationSlug: string } = {
   description:
     "Pre-launch ultra-luxury 3, 4 and 4.5 BHK apartments in Sector 150, Noida by ACE Group. 15 acres, 11 towers, approx 790 units.",
   heroImage: ACE_PARKWAY_2_0_HERO_IMAGE,
-  heroImageAlt: "Ace Parkway 2.0 Sector 150 Noida pre-launch project",
+  heroImageAlt: "Ace Sector 150 Noida pre-launch ultra-luxury project",
   brochureUrl: "",
   images: [ACE_PARKWAY_2_0_HERO_IMAGE],
   amenities: [
@@ -125,11 +125,11 @@ const ACE_PARKWAY_2_0_FEATURED: Property & { locationSlug: string } = {
   priceMax: null,
   priceUnit: "From Rs 16,995/sq ft*",
   seo: {
-    title: "Ace Parkway 2.0 Sector 150 Noida - Pre-Launch Ultra-Luxury 3/4/4.5 BHK",
+    title: "Ace Sector 150 Noida - Pre-Launch Ultra-Luxury 3/4/4.5 BHK",
     description:
-      "ACE Group Ace Parkway 2.0 in Sector 150, Noida with ultra-luxury 3, 4 and 4.5 BHK homes.",
-    keywords: "ace parkway 2.0, sector 150 noida, ace group pre launch, luxury apartments noida",
-    canonical: "/properties-in-noida/ace-parkway-2-0",
+      "ACE Group pre-launch in Sector 150, Noida with ultra-luxury 3, 4 and 4.5 BHK homes.",
+    keywords: "ace sector 150 noida, ace group pre launch, sector 150 noida, luxury apartments noida",
+    canonical: `/properties-in-noida/${ACE_SECTOR_150_SLUG}`,
   },
   isPublished: true,
   createdAt: new Date(0).toISOString(),

@@ -3,12 +3,16 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Download, FileText, Loader2 } from "lucide-react";
+import {
+  KARYAN_NH24_PROJECT_NAME,
+  KARYAN_NH24_SLUG,
+} from "@/lib/karyan-residences-nh24-assets";
 import { BrochureDownloadDialog } from "@/components/brochure-download-dialog";
 import { Button } from "@/components/ui/button";
 import { isValidName, isValidPhone, sanitizeInput } from "@/lib/security";
 
-const PROPERTY_NAME = "Karyan Residences NH-24";
-const PROPERTY_SLUG = "karyan-residences-nh24";
+const PROPERTY_NAME = KARYAN_NH24_PROJECT_NAME;
+const PROPERTY_SLUG = KARYAN_NH24_SLUG;
 
 const MAPS_EMBED_SRC =
   "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3501.8!2d77.48!3d28.67!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390ce5c8b8e8e8e9%3A0x0!2sNH-24%2C%20Ghaziabad%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1778250504312!5m2!1sen!2sin";
@@ -20,7 +24,7 @@ export function KaryanResidencesNh24MapEmbed({ className = "" }: { className?: s
     >
       <iframe
         src={MAPS_EMBED_SRC}
-        title="Karyan Residences NH-24, Ghaziabad on Google Maps"
+        title={`${KARYAN_NH24_PROJECT_NAME} on Google Maps`}
         className="h-[min(420px,70vw)] w-full border-0 sm:h-[450px]"
         allowFullScreen
         loading="lazy"
@@ -87,7 +91,7 @@ export function KaryanResidencesNh24StickySidebar({
     }
 
     const message =
-      "WhatsApp enquiry for Karyan Residences NH-24 (pre-launch, Ghaziabad). Submitted from the property page.";
+      `WhatsApp enquiry for ${KARYAN_NH24_PROJECT_NAME} (pre-launch). Submitted from the property page.`;
 
     setIsSubmitting(true);
     try {

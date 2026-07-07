@@ -29,6 +29,8 @@ import { PropertyScrollFootnote, PropertyScrollSubtext } from "@/components/prop
 import { BreadcrumbSchema } from "@/lib/structured-data";
 import { formatProjectGalleryHeading } from "@/lib/project-gallery-heading";
 import {
+  KARYAN_NH24_PROJECT_NAME,
+  KARYAN_NH24_SLUG,
   KARYAN_RESIDENCES_NH24_AERIAL_VIEW_IMAGE,
   KARYAN_RESIDENCES_NH24_HERO_IMAGE,
   KARYAN_RESIDENCES_NH24_LANDSCAPED_CAMPUS_IMAGE,
@@ -42,26 +44,26 @@ import {
   KaryanResidencesNh24StickySidebar,
 } from "./karyan-residences-nh24-sticky-sidebar";
 
-const PROJECT_NAME = "Karyan Residences NH-24";
+const PROJECT_NAME = KARYAN_NH24_PROJECT_NAME;
 
 const GALLERY_SLIDES: DemoGallerySlide[] = [
   {
     src: KARYAN_RESIDENCES_NH24_HERO_IMAGE,
-    alt: "Karyan Residences NH-24, residential towers and entrance on NH-24, Ghaziabad",
+    alt: "Karyan NH-24 Ghaziabad, residential towers and entrance on NH-24",
     label: "Residential view",
     width: 1600,
     height: 900,
   },
   {
     src: KARYAN_RESIDENCES_NH24_AERIAL_VIEW_IMAGE,
-    alt: "Karyan Residences NH-24, aerial view of towers along NH-24 at sunset",
+    alt: "Karyan NH-24 Ghaziabad, aerial view of towers along NH-24 at sunset",
     label: "Aerial view",
     width: 1600,
     height: 900,
   },
   {
     src: KARYAN_RESIDENCES_NH24_LANDSCAPED_CAMPUS_IMAGE,
-    alt: "Karyan Residences NH-24, landscaped central campus with clubhouse and greens",
+    alt: "Karyan NH-24 Ghaziabad, landscaped central campus with clubhouse and greens",
     label: "Landscaped campus",
     width: 1600,
     height: 900,
@@ -186,7 +188,7 @@ export function KaryanResidencesNh24Page() {
         items={[
           { name: "Home", url: site },
           { name: "Properties in Ghaziabad", url: `${site}/properties-in-ghaziabad` },
-          { name: PROJECT_NAME, url: `${site}/properties-in-ghaziabad/karyan-residences-nh24` },
+          { name: PROJECT_NAME, url: `${site}/properties-in-ghaziabad/${KARYAN_NH24_SLUG}` },
         ]}
       />
 
@@ -302,7 +304,7 @@ export function KaryanResidencesNh24Page() {
                   />
                   <FloorPlansSection
                     propertyName={PROJECT_NAME}
-                    propertySlug="karyan-residences-nh24"
+                    propertySlug={KARYAN_NH24_SLUG}
                     floorPlanUrl=""
                   />
                   <ul className="mt-6 grid w-full gap-3 sm:grid-cols-3" role="list">

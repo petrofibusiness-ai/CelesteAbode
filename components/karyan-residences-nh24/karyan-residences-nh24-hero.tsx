@@ -4,7 +4,10 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { Cormorant_Garamond } from "next/font/google";
 import { Award, BadgePercent, Building2, IndianRupee, MapPin } from "lucide-react";
-import { KARYAN_RESIDENCES_NH24_HERO_IMAGE } from "@/lib/karyan-residences-nh24-assets";
+import {
+  KARYAN_NH24_PROJECT_NAME,
+  KARYAN_RESIDENCES_NH24_HERO_IMAGE,
+} from "@/lib/karyan-residences-nh24-assets";
 
 const heroPropertyDisplay = Cormorant_Garamond({
   subsets: ["latin"],
@@ -48,7 +51,7 @@ export function KaryanResidencesNh24Hero() {
       <div className="absolute inset-0">
         <Image
           src={KARYAN_RESIDENCES_NH24_HERO_IMAGE}
-          alt="Karyan Residences NH-24, residential towers and entrance on NH-24, Ghaziabad"
+          alt="Karyan NH-24 Ghaziabad, residential towers and entrance on NH-24"
           fill
           className="object-cover"
           sizes="100vw"
@@ -68,13 +71,13 @@ export function KaryanResidencesNh24Hero() {
               id="karyan-residences-nh24-h1"
               className={`${heroPropertyDisplay.className} text-[1.65rem] font-semibold uppercase leading-[1.05] tracking-[0.08em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-4xl sm:tracking-[0.12em] md:text-5xl lg:text-6xl`}
             >
-              Karyan Residences NH-24
+              {KARYAN_NH24_PROJECT_NAME}
             </h1>
             <p
               className="mt-2 text-xs font-medium uppercase tracking-wider text-white/75 sm:text-sm"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              Pre-launch by Karyan Group · official project name awaited
+              Pre-launch by Karyan Group
             </p>
             <div className="mt-3 flex items-start gap-2">
               <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-[#CBB27A]" aria-hidden />

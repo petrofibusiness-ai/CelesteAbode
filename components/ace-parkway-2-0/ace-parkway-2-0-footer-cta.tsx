@@ -3,6 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Download, MessageSquare } from "lucide-react";
+import {
+  ACE_SECTOR_150_PROJECT_NAME,
+  ACE_SECTOR_150_SLUG,
+} from "@/lib/ace-parkway-2-0-assets";
 import { BrochureDownloadDialog } from "@/components/brochure-download-dialog";
 
 export function AceParkway20FooterCta() {
@@ -13,13 +17,13 @@ export function AceParkway20FooterCta() {
       <BrochureDownloadDialog
         isOpen={open}
         onClose={() => setOpen(false)}
-        propertyName="Ace Parkway 2.0"
-        propertySlug="ace-parkway-2-0"
+        propertyName={ACE_SECTOR_150_PROJECT_NAME}
+        propertySlug={ACE_SECTOR_150_SLUG}
       />
       <section
         id="ace-footer-cta"
         className="relative overflow-hidden bg-gradient-to-br from-[#1a2420] via-[#243028] to-[#1a2420] py-16 md:py-20"
-        aria-label="Enquire about Ace Parkway 2.0"
+        aria-label={`Enquire about ${ACE_SECTOR_150_PROJECT_NAME}`}
       >
         <div className="pointer-events-none absolute inset-0 opacity-10">
           <div className="absolute left-10 top-10 h-48 w-48 rounded-full bg-[#CBB27A] blur-3xl" />
@@ -31,7 +35,7 @@ export function AceParkway20FooterCta() {
               className="text-2xl font-bold leading-tight text-white sm:text-3xl md:text-4xl"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              Ready to explore <span className="text-[#CBB27A]">Ace Parkway 2.0</span>?
+              Ready to explore <span className="text-[#CBB27A]">{ACE_SECTOR_150_PROJECT_NAME}</span>?
             </h2>
             <p
               className="mt-4 text-sm leading-relaxed text-white/80 sm:text-base md:text-lg"

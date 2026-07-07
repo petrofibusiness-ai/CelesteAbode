@@ -3,6 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Download, MessageSquare } from "lucide-react";
+import {
+  KARYAN_NH24_PROJECT_NAME,
+  KARYAN_NH24_SLUG,
+} from "@/lib/karyan-residences-nh24-assets";
 import { BrochureDownloadDialog } from "@/components/brochure-download-dialog";
 
 export function KaryanResidencesNh24FooterCta() {
@@ -13,13 +17,13 @@ export function KaryanResidencesNh24FooterCta() {
       <BrochureDownloadDialog
         isOpen={open}
         onClose={() => setOpen(false)}
-        propertyName="Karyan Residences NH-24"
-        propertySlug="karyan-residences-nh24"
+        propertyName={KARYAN_NH24_PROJECT_NAME}
+        propertySlug={KARYAN_NH24_SLUG}
       />
       <section
         id="karyan-footer-cta"
         className="relative overflow-hidden bg-gradient-to-br from-[#0a1628] via-[#111d32] to-[#0a1628] py-16 md:py-20"
-        aria-label="Enquire about Karyan Residences NH-24"
+        aria-label={`Enquire about ${KARYAN_NH24_PROJECT_NAME}`}
       >
         <div className="pointer-events-none absolute inset-0 opacity-10">
           <div className="absolute left-10 top-10 h-48 w-48 rounded-full bg-[#CBB27A] blur-3xl" />
@@ -31,7 +35,7 @@ export function KaryanResidencesNh24FooterCta() {
               className="text-2xl font-bold leading-tight text-white sm:text-3xl md:text-4xl"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              Ready to explore <span className="text-[#CBB27A]">Karyan Residences NH-24</span>?
+              Ready to explore <span className="text-[#CBB27A]">{KARYAN_NH24_PROJECT_NAME}</span>?
             </h2>
             <p
               className="mt-4 text-sm leading-relaxed text-white/80 sm:text-base md:text-lg"

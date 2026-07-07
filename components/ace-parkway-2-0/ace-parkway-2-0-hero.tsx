@@ -4,7 +4,10 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { Cormorant_Garamond } from "next/font/google";
 import { Award, BadgePercent, Building2, IndianRupee, MapPin } from "lucide-react";
-import { ACE_PARKWAY_2_0_HERO_IMAGE } from "@/lib/ace-parkway-2-0-assets";
+import {
+  ACE_PARKWAY_2_0_HERO_IMAGE,
+  ACE_SECTOR_150_PROJECT_NAME,
+} from "@/lib/ace-parkway-2-0-assets";
 
 const heroPropertyDisplay = Cormorant_Garamond({
   subsets: ["latin"],
@@ -48,7 +51,7 @@ export function AceParkway20Hero() {
       <div className="absolute inset-0">
         <Image
           src={ACE_PARKWAY_2_0_HERO_IMAGE}
-          alt="Ace Parkway 2.0, ultra-luxury towers overlooking central green and golf course, Sector 150 Noida"
+          alt="Ace Sector 150 Noida, ultra-luxury towers overlooking central green and golf course"
           fill
           className="object-cover"
           sizes="100vw"
@@ -73,7 +76,7 @@ export function AceParkway20Hero() {
               id="ace-parkway-2-0-h1"
               className={`${heroPropertyDisplay.className} mt-2 text-[1.65rem] font-semibold uppercase leading-[1.05] tracking-[0.08em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-4xl sm:tracking-[0.12em] md:text-5xl lg:text-6xl`}
             >
-              Ace Parkway 2.0
+              {ACE_SECTOR_150_PROJECT_NAME}
             </h1>
             <div className="mt-3 flex items-start gap-2">
               <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-[#CBB27A]" aria-hidden />

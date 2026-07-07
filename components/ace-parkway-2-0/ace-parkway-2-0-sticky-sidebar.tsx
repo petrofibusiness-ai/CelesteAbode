@@ -3,12 +3,16 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Download, FileText, Loader2 } from "lucide-react";
+import {
+  ACE_SECTOR_150_PROJECT_NAME,
+  ACE_SECTOR_150_SLUG,
+} from "@/lib/ace-parkway-2-0-assets";
 import { BrochureDownloadDialog } from "@/components/brochure-download-dialog";
 import { Button } from "@/components/ui/button";
 import { isValidName, isValidPhone, sanitizeInput } from "@/lib/security";
 
-const PROPERTY_NAME = "Ace Parkway 2.0";
-const PROPERTY_SLUG = "ace-parkway-2-0";
+const PROPERTY_NAME = ACE_SECTOR_150_PROJECT_NAME;
+const PROPERTY_SLUG = ACE_SECTOR_150_SLUG;
 
 const MAPS_EMBED_SRC =
   "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14020.5!2d77.487!3d28.422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cee3f8b8b8b8b%3A0x0!2sSector%20150%2C%20Noida%2C%20Uttar%20Pradesh%20201310!5e0!3m2!1sen!2sin!4v1778250504312!5m2!1sen!2sin";
@@ -20,7 +24,7 @@ export function AceParkway20MapEmbed({ className = "" }: { className?: string })
     >
       <iframe
         src={MAPS_EMBED_SRC}
-        title="Ace Parkway 2.0, Sector 150 Noida on Google Maps"
+        title={`${ACE_SECTOR_150_PROJECT_NAME} on Google Maps`}
         className="h-[min(420px,70vw)] w-full border-0 sm:h-[450px]"
         allowFullScreen
         loading="lazy"
@@ -87,7 +91,7 @@ export function AceParkway20StickySidebar({
     }
 
     const message =
-      "WhatsApp enquiry for Ace Parkway 2.0 (Sector 150, Noida). Submitted from the property page.";
+      `WhatsApp enquiry for ${ACE_SECTOR_150_PROJECT_NAME} (Sector 150, Noida). Submitted from the property page.`;
 
     setIsSubmitting(true);
     try {
@@ -195,7 +199,7 @@ export function AceParkway20StickySidebar({
             <p className="text-xs font-semibold uppercase tracking-wider text-[#CBB27A]/90">{PROPERTY_NAME}</p>
             <h3 className="mt-1.5 text-base font-bold leading-snug text-white">We&apos;d be happy to call you</h3>
             <p className="mt-1.5 text-xs leading-relaxed text-gray-400">
-              Share your name and number. We&apos;ll walk you through EOI, unit preference, and how Parkway 2.0 compares
+              Share your name and number. We&apos;ll walk you through EOI, unit preference, and how this project compares
               in Sector 150, without pressure.
             </p>
 

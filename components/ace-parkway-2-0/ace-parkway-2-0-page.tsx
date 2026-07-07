@@ -27,19 +27,23 @@ import { Footer } from "@/components/footer";
 import { PropertyScrollFootnote, PropertyScrollSubtext } from "@/components/property-scroll-footnote";
 import { BreadcrumbSchema } from "@/lib/structured-data";
 import { formatProjectGalleryHeading } from "@/lib/project-gallery-heading";
-import { ACE_PARKWAY_2_0_HERO_IMAGE } from "@/lib/ace-parkway-2-0-assets";
+import {
+  ACE_PARKWAY_2_0_HERO_IMAGE,
+  ACE_SECTOR_150_PROJECT_NAME,
+  ACE_SECTOR_150_SLUG,
+} from "@/lib/ace-parkway-2-0-assets";
 import { SobhaRivanaGallery, type DemoGallerySlide } from "@/components/demo-property/sobha-rivana-gallery";
 import { FloorPlansSection } from "@/components/property-public/floor-plans-section";
 import { AceParkway20Hero } from "./ace-parkway-2-0-hero";
 import { AceParkway20FooterCta } from "./ace-parkway-2-0-footer-cta";
 import { AceParkway20MapEmbed, AceParkway20StickySidebar } from "./ace-parkway-2-0-sticky-sidebar";
 
-const PROJECT_NAME = "Ace Parkway 2.0";
+const PROJECT_NAME = ACE_SECTOR_150_PROJECT_NAME;
 
 const GALLERY_SLIDES: DemoGallerySlide[] = [
   {
     src: ACE_PARKWAY_2_0_HERO_IMAGE,
-    alt: "Ace Parkway 2.0, ultra-luxury towers overlooking central green and golf course, Sector 150 Noida",
+    alt: "Ace Sector 150 Noida, ultra-luxury towers overlooking central green and golf course",
     label: "Aerial view",
     width: 1600,
     height: 900,
@@ -49,7 +53,7 @@ const GALLERY_SLIDES: DemoGallerySlide[] = [
 const ACE_FACTS = [
   "Luxury-focused NCR developer with delivered residential and commercial landmarks since 2010.",
   "Known for green-forward planning across Ace City, Ace Golfshire and Ace Parkway.",
-  "Parkway 2.0 extends the Parkway lineage in Sector 150 with a lower-density master plan.",
+  "New ultra-luxury pre-launch in Sector 150 with a lower-density master plan across 15 acres.",
   "Track record of timely delivery and premium construction quality across Noida and Greater Noida.",
 ];
 
@@ -188,7 +192,7 @@ export function AceParkway20Page() {
         items={[
           { name: "Home", url: site },
           { name: "Properties in Noida", url: `${site}/properties-in-noida` },
-          { name: PROJECT_NAME, url: `${site}/properties-in-noida/ace-parkway-2-0` },
+          { name: PROJECT_NAME, url: `${site}/properties-in-noida/${ACE_SECTOR_150_SLUG}` },
         ]}
       />
 
@@ -302,7 +306,7 @@ export function AceParkway20Page() {
                   />
                   <FloorPlansSection
                     propertyName={PROJECT_NAME}
-                    propertySlug="ace-parkway-2-0"
+                    propertySlug={ACE_SECTOR_150_SLUG}
                     floorPlanUrl=""
                   />
                   <ul className="mt-6 grid w-full gap-3 sm:grid-cols-3" role="list">

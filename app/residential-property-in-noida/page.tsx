@@ -7,9 +7,8 @@ import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
 import { fetchLocalitiesByLocationId } from "@/lib/fetch-localities";
 import { NoidaPropertiesGrid } from "@/components/noida-properties-grid";
-import { PreLaunchPropertiesSection } from "@/components/prelaunch-properties-section";
 import { LocationPropertyFilters } from "@/components/location-property-filters";
-import { getPreLaunchPropertiesForLocation } from "@/lib/featured-static-properties";
+import { getFeaturedStaticPropertiesForLocation } from "@/lib/featured-static-properties";
 import { propertyMatchesListingTypeFilter } from "@/lib/fetch-location-listing-data";
 import { Building2, Phone } from "lucide-react";
 import { BreadcrumbSchema, WebPageSchema, FAQPageSchema } from "@/lib/structured-data";
@@ -61,9 +60,6 @@ const CONTENT_BLOCK_CLASS =
 
 export default async function ResidentialPropertyInNoidaPage() {
   const supabase = getSupabaseAdminClient();
-  const preLaunchProperties = getPreLaunchPropertiesForLocation("noida").filter((p) =>
-    propertyMatchesListingTypeFilter(p, "residential")
-  );
 
   const { data: noidaLocation } = await supabase
     .from("locations_v2")
@@ -102,6 +98,11 @@ export default async function ResidentialPropertyInNoidaPage() {
       const p = supabaseV3ToProperty(prop);
       return { ...p, locationSlug: noidaLocation.slug } as Property & { locationSlug: string };
     });
+    const featuredStatic = getFeaturedStaticPropertiesForLocation("noida").filter((p) =>
+      propertyMatchesListingTypeFilter(p, "residential")
+    );
+    properties = [...featuredStatic, ...properties].slice(0, 6);
+    totalPropertiesCount = (count ?? properties.length) + featuredStatic.length;
   }
 
   const breadcrumbItems = [
@@ -151,8 +152,6 @@ export default async function ResidentialPropertyInNoidaPage() {
               </h1>
             </div>
           </section>
-
-          <PreLaunchPropertiesSection properties={preLaunchProperties} locationName="Noida" />
 
           {/* Listing: filters + grid only; content blocks (headings + cards) come after */}
           <section id="properties" className="py-8 md:py-12 bg-background relative">

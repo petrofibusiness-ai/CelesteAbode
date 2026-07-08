@@ -148,21 +148,6 @@ export function getFeaturedStaticPropertiesForLocation(locationSlug: string): (P
   return FEATURED_STATIC_PROPERTY_PAGES.filter((p) => p.locationSlug === locationSlug);
 }
 
-/** Pre-launch / upcoming static property pages for a location (excluded from main grid). */
-export function getPreLaunchPropertiesForLocation(
-  locationSlug: string,
-  options: { publishedOnly?: boolean } = {}
-): (Property & { locationSlug: string })[] {
-  const { publishedOnly = true } = options;
-  return getFeaturedStaticPropertiesForLocation(locationSlug).filter(
-    (p) => !publishedOnly || p.isPublished
-  );
-}
-
-export function isPreLaunchPropertySlug(slug: string): boolean {
-  return FEATURED_STATIC_PROPERTY_PAGES.some((p) => p.slug === slug);
-}
-
 export function getFeaturedStaticPropertySitemapPaths(): { url: string; lastModified: Date }[] {
   return FEATURED_STATIC_PROPERTY_PAGES.map((property) => ({
     url: `/properties-in-${property.locationSlug}/${property.slug}`,

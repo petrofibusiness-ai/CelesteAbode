@@ -6,6 +6,11 @@ import { addLocationSlugToProperties } from "@/lib/property-location-helper";
 import { slugToLocationCategory } from "@/lib/location-slug";
 import { PROPERTY_TYPES, PROJECT_STATUSES, CONFIGURATIONS, isValidPropertyType, isValidProjectStatus, isValidConfiguration } from "@/lib/property-enums";
 import { getPropertyIdsWithAnyConfigurationLabels } from "@/lib/property-inventory-configuration-filter";
+import { getFeaturedStaticPropertiesForLocation } from "@/lib/featured-static-properties";
+import {
+  propertyMatchesListingTypeFilter,
+  type LocationListingPropertyTypeFilter,
+} from "@/lib/fetch-location-listing-data";
 
 // Query timeout: 10 seconds
 const QUERY_TIMEOUT = 10000;
@@ -286,7 +291,31 @@ export async function GET(request: NextRequest) {
     const mappedProperties = propertiesToReturn.map((prop: unknown) => supabaseV3ToProperty(prop as any));
 
     // Add locationSlug to all properties
-    const propertiesWithLocation = await addLocationSlugToProperties(mappedProperties, supabase);
+    let propertiesWithLocation = await addLocationSlugToProperties(mappedProperties, supabase);
+    let totalCountWithFeatured = totalCount;
+
+    // Include featured static cards on first page when user has not narrowed locality/status/configuration.
+    const hasUserAppliedFilter =
+      localityFilters.length > 0 ||
+      (projectStatusFilter !== null && projectStatusFilter !== "all") ||
+      configurationFilters.length > 0;
+
+    if (offset === 0 && !hasUserAppliedFilter) {
+      const listingTypeFilter: LocationListingPropertyTypeFilter =
+        propertyTypeFilter === "apartments" ||
+        propertyTypeFilter === "residential" ||
+        propertyTypeFilter === "commercial"
+          ? propertyTypeFilter
+          : "all";
+
+      const featuredStatic = getFeaturedStaticPropertiesForLocation(locationSlug.toLowerCase().trim()).filter(
+        (p) => propertyMatchesListingTypeFilter(p, listingTypeFilter)
+      );
+      if (featuredStatic.length > 0) {
+        propertiesWithLocation = [...featuredStatic, ...propertiesWithLocation].slice(0, limit);
+        totalCountWithFeatured += featuredStatic.length;
+      }
+    }
 
     return NextResponse.json(
       { 
@@ -301,7 +330,7 @@ export async function GET(request: NextRequest) {
         limit,
         offset,
         total: propertiesWithLocation.length,
-        totalCount: totalCount,
+        totalCount: totalCountWithFeatured,
         hasMore
       },
       {

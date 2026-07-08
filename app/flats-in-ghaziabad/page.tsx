@@ -8,9 +8,8 @@ import { getSupabaseAdminClient } from "@/lib/supabase-server";
 import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
 import { fetchLocalitiesByLocationId } from "@/lib/fetch-localities";
 import { NoidaPropertiesGrid } from "@/components/noida-properties-grid";
-import { PreLaunchPropertiesSection } from "@/components/prelaunch-properties-section";
 import { LocationPropertyFilters } from "@/components/location-property-filters";
-import { getPreLaunchPropertiesForLocation } from "@/lib/featured-static-properties";
+import { getFeaturedStaticPropertiesForLocation } from "@/lib/featured-static-properties";
 import { propertyMatchesListingTypeFilter } from "@/lib/fetch-location-listing-data";
 import { BreadcrumbSchema, WebPageSchema, FAQPageSchema } from "@/lib/structured-data";
 import { SeoBlocksRevealController } from "@/components/seo-blocks-reveal-controller";
@@ -58,9 +57,6 @@ const CONTENT_BLOCK_CLASS =
 
 export default async function FlatsInGhaziabadPage() {
   const supabase = getSupabaseAdminClient();
-  const preLaunchProperties = getPreLaunchPropertiesForLocation("ghaziabad").filter((p) =>
-    propertyMatchesListingTypeFilter(p, "apartments")
-  );
 
   const { data: ghaziabadLocation } = await supabase
     .from("locations_v2")
@@ -98,6 +94,11 @@ export default async function FlatsInGhaziabadPage() {
       const p = supabaseV3ToProperty(prop);
       return { ...p, locationSlug: ghaziabadLocation.slug } as Property & { locationSlug: string };
     });
+    const featuredStatic = getFeaturedStaticPropertiesForLocation("ghaziabad").filter((p) =>
+      propertyMatchesListingTypeFilter(p, "apartments")
+    );
+    properties = [...featuredStatic, ...properties].slice(0, 6);
+    totalPropertiesCount = (count ?? properties.length) + featuredStatic.length;
   }
 
   const breadcrumbItems = [
@@ -150,8 +151,6 @@ export default async function FlatsInGhaziabadPage() {
           <div className="w-full flex justify-center py-2">
             <div className="w-100 h-0.25 bg-gradient-to-r from-transparent via-[#CBB27A] to-transparent" />
           </div>
-
-          <PreLaunchPropertiesSection properties={preLaunchProperties} locationName="Ghaziabad" />
 
           <section id="properties" className="py-8 md:py-12 bg-background relative">
             <div className="max-w-7xl mx-auto px-6">

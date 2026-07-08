@@ -4,7 +4,6 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { fetchLocationListingData } from "@/lib/fetch-location-listing-data";
 import { NoidaPropertiesGrid } from "@/components/noida-properties-grid";
-import { PreLaunchPropertiesSection } from "@/components/prelaunch-properties-section";
 import { LocationPropertyFilters } from "@/components/location-property-filters";
 import { Building2, Phone } from "lucide-react";
 import { BreadcrumbSchema, WebPageSchema, FAQPageSchema } from "@/lib/structured-data";
@@ -72,7 +71,7 @@ const CONTENT_BLOCK_CLASS =
 export const revalidate = 10;
 
 export default async function FlatsForSaleInNoidaPage() {
-  const { location: noidaLocation, localities, properties, preLaunchProperties, totalCount: totalPropertiesCount } =
+  const { location: noidaLocation, localities, properties, totalCount: totalPropertiesCount } =
     await fetchLocationListingData("noida", { propertyTypeFilter: "apartments" });
 
   const breadcrumbItems = [
@@ -121,8 +120,6 @@ export default async function FlatsForSaleInNoidaPage() {
               </h1>
             </div>
           </section>
-
-          <PreLaunchPropertiesSection properties={preLaunchProperties} locationName="Noida" />
 
           <section id="properties" className="py-8 md:py-12 bg-background relative">
             <div className="max-w-7xl mx-auto px-6">

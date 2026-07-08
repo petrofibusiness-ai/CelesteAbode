@@ -7,9 +7,7 @@ import {
   Droplets,
   Footprints,
   Home,
-  ImageIcon,
   Landmark,
-  Layers,
   MapPin,
   Plane,
   Shield,
@@ -26,29 +24,15 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PropertyScrollFootnote, PropertyScrollSubtext } from "@/components/property-scroll-footnote";
 import { BreadcrumbSchema } from "@/lib/structured-data";
-import { formatProjectGalleryHeading } from "@/lib/project-gallery-heading";
 import {
-  ACE_PARKWAY_2_0_HERO_IMAGE,
   ACE_SECTOR_150_PROJECT_NAME,
   ACE_SECTOR_150_SLUG,
 } from "@/lib/ace-parkway-2-0-assets";
-import { SobhaRivanaGallery, type DemoGallerySlide } from "@/components/demo-property/sobha-rivana-gallery";
-import { FloorPlansSection } from "@/components/property-public/floor-plans-section";
 import { AceParkway20Hero } from "./ace-parkway-2-0-hero";
 import { AceParkway20FooterCta } from "./ace-parkway-2-0-footer-cta";
 import { AceParkway20MapEmbed, AceParkway20StickySidebar } from "./ace-parkway-2-0-sticky-sidebar";
 
 const PROJECT_NAME = ACE_SECTOR_150_PROJECT_NAME;
-
-const GALLERY_SLIDES: DemoGallerySlide[] = [
-  {
-    src: ACE_PARKWAY_2_0_HERO_IMAGE,
-    alt: "Ace Sector 150 Noida, ultra-luxury towers overlooking central green and golf course",
-    label: "Aerial view",
-    width: 1600,
-    height: 900,
-  },
-];
 
 const ACE_FACTS = [
   "Luxury-focused NCR developer with delivered residential and commercial landmarks since 2010.",
@@ -248,20 +232,6 @@ export function AceParkway20Page() {
                   </ul>
                 </section>
 
-                {GALLERY_SLIDES.length > 0 ? (
-                  <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="project-gallery-h2">
-                    <SectionHeading
-                      id="project-gallery-h2"
-                      icon={ImageIcon}
-                      title={formatProjectGalleryHeading(PROJECT_NAME)}
-                      subtitle="Renders and lifestyle imagery will be updated as official media is released."
-                    />
-                    <div className="w-full">
-                      <SobhaRivanaGallery slides={GALLERY_SLIDES} theme="dark" cinema />
-                    </div>
-                  </section>
-                ) : null}
-
                 <div className="mb-10 scroll-mt-[var(--site-header-total,6rem)] lg:hidden">
                   <AceParkway20StickySidebar idPrefix="mob-bro" part="brochure" />
                 </div>
@@ -296,31 +266,6 @@ export function AceParkway20Page() {
                 <div className="mb-10 scroll-mt-[var(--site-header-total,6rem)] lg:hidden">
                   <AceParkway20StickySidebar idPrefix="mob-call" part="callback" />
                 </div>
-
-                <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="floor-plans-h2">
-                  <SectionHeading
-                    id="floor-plans-h2"
-                    icon={Layers}
-                    title="Configurations & Unit Sizes"
-                    subtitle="Spacious ultra-luxury formats designed for families who want scale, privacy, and Sector 150 address value."
-                  />
-                  <FloorPlansSection
-                    propertyName={PROJECT_NAME}
-                    propertySlug={ACE_SECTOR_150_SLUG}
-                    floorPlanUrl=""
-                  />
-                  <ul className="mt-6 grid w-full gap-3 sm:grid-cols-3" role="list">
-                    <li className="rounded-xl border border-gray-200 bg-white px-4 py-4 text-sm font-semibold text-gray-900 shadow-sm">
-                      3 BHK: 1900 sq ft
-                    </li>
-                    <li className="rounded-xl border border-gray-200 bg-white px-4 py-4 text-sm font-semibold text-gray-900 shadow-sm">
-                      4 BHK: 2600 sq ft
-                    </li>
-                    <li className="rounded-xl border border-gray-200 bg-white px-4 py-4 text-sm font-semibold text-gray-900 shadow-sm">
-                      4.5 BHK: 4400 sq ft
-                    </li>
-                  </ul>
-                </section>
 
                 <section className="mb-12 w-full min-w-0 sm:mb-16 md:mb-24" aria-labelledby="roi-projection-h2">
                   <SectionHeading id="roi-projection-h2" icon={TrendingUp} title="Pricing & Investment Outlook" />

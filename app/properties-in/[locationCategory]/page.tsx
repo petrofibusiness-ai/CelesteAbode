@@ -11,7 +11,6 @@ import { fetchLocationListingData } from "@/lib/fetch-location-listing-data";
 import { CheckCircle2, Phone, Mail, Building2 } from "lucide-react";
 import { ObfuscatedEmail } from "@/components/obfuscated-email";
 import { NoidaPropertiesGrid } from "@/components/noida-properties-grid";
-import { PreLaunchPropertiesSection } from "@/components/prelaunch-properties-section";
 import { LocationPropertyFilters } from "@/components/location-property-filters";
 import { LocationContactForm } from "@/components/location-contact-form";
 import { WhyInvestSection } from "@/components/why-invest-section";
@@ -153,7 +152,7 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
 
   const location = supabaseToLocation(locationData);
 
-  const { localities, properties, preLaunchProperties, totalCount: totalPropertiesCountWithFeatured } =
+  const { localities, properties, totalCount: totalPropertiesCountWithFeatured } =
     await fetchLocationListingData(location.slug, { propertyTypeFilter: "all" });
 
   // Fetch compare locations (compare_location_1, _2, _3 are FKs to locations_v2)
@@ -239,13 +238,8 @@ export default async function LocationPropertiesPage({ params }: PageProps) {
             </div>
           </section>
 
-          <PreLaunchPropertiesSection
-            properties={preLaunchProperties}
-            locationName={location.locationName}
-          />
-
           {/* Properties Grid Section */}
-          <section id="properties" className="pt-12 pb-0 bg-background relative">
+          <section id="properties" className="py-16 md:py-24 bg-background relative">
             <div className="max-w-7xl mx-auto px-6">
               <div className="text-center mb-12">
                 <h2

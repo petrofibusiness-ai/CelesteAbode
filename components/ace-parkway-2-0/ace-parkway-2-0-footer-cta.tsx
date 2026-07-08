@@ -52,7 +52,7 @@ export function AceParkway20FooterCta() {
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 <Download className="h-5 w-5 shrink-0" aria-hidden />
-                Download brochure
+                Request brochure
               </button>
               <Link
                 href="/request-a-free-consultation"

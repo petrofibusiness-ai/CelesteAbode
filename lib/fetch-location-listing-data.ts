@@ -41,7 +41,6 @@ export async function fetchLocationListingData(
       location: null as { id: string; slug: string } | null,
       localities: [] as Array<{ value: string; label: string }>,
       properties: [] as Property[],
-      preLaunchProperties: [] as Property[],
       totalCount: 0,
     };
   }
@@ -90,18 +89,17 @@ export async function fetchLocationListingData(
     };
   });
 
-  const preLaunchProperties = getFeaturedStaticPropertiesForLocation(locationSlug).filter((p) =>
+  const featuredStatic = getFeaturedStaticPropertiesForLocation(locationSlug).filter((p) =>
     propertyMatchesListingTypeFilter(p, propertyTypeFilter)
   );
 
-  const properties = dbProperties.slice(0, limit);
-  const totalCount = totalPropertiesCount ?? dbProperties.length;
+  const properties = [...featuredStatic, ...dbProperties].slice(0, limit);
+  const totalCount = (totalPropertiesCount ?? dbProperties.length) + featuredStatic.length;
 
   return {
     location: locationData,
     localities,
     properties,
-    preLaunchProperties,
     totalCount,
   };
 }

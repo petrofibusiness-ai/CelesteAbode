@@ -171,7 +171,7 @@ export function AceParkway20StickySidebar({
               >
                 <span className="inline-flex items-center justify-center gap-1.5">
                   <Download className="h-3.5 w-3.5 shrink-0" aria-hidden />
-                  Download brochure
+                  Request brochure
                 </span>
               </Button>
               <Button

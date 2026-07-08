@@ -8,9 +8,7 @@ import {
   Footprints,
   GraduationCap,
   Home,
-  ImageIcon,
   Landmark,
-  Layers,
   MapPin,
   Shield,
   Sparkles,
@@ -27,16 +25,10 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PropertyScrollFootnote, PropertyScrollSubtext } from "@/components/property-scroll-footnote";
 import { BreadcrumbSchema } from "@/lib/structured-data";
-import { formatProjectGalleryHeading } from "@/lib/project-gallery-heading";
 import {
   KARYAN_NH24_PROJECT_NAME,
   KARYAN_NH24_SLUG,
-  KARYAN_RESIDENCES_NH24_AERIAL_VIEW_IMAGE,
-  KARYAN_RESIDENCES_NH24_HERO_IMAGE,
-  KARYAN_RESIDENCES_NH24_LANDSCAPED_CAMPUS_IMAGE,
 } from "@/lib/karyan-residences-nh24-assets";
-import { SobhaRivanaGallery, type DemoGallerySlide } from "@/components/demo-property/sobha-rivana-gallery";
-import { FloorPlansSection } from "@/components/property-public/floor-plans-section";
 import { KaryanResidencesNh24Hero } from "./karyan-residences-nh24-hero";
 import { KaryanResidencesNh24FooterCta } from "./karyan-residences-nh24-footer-cta";
 import {
@@ -45,30 +37,6 @@ import {
 } from "./karyan-residences-nh24-sticky-sidebar";
 
 const PROJECT_NAME = KARYAN_NH24_PROJECT_NAME;
-
-const GALLERY_SLIDES: DemoGallerySlide[] = [
-  {
-    src: KARYAN_RESIDENCES_NH24_HERO_IMAGE,
-    alt: "Karyan NH-24 Ghaziabad, residential towers and entrance on NH-24",
-    label: "Residential view",
-    width: 1600,
-    height: 900,
-  },
-  {
-    src: KARYAN_RESIDENCES_NH24_AERIAL_VIEW_IMAGE,
-    alt: "Karyan NH-24 Ghaziabad, aerial view of towers along NH-24 at sunset",
-    label: "Aerial view",
-    width: 1600,
-    height: 900,
-  },
-  {
-    src: KARYAN_RESIDENCES_NH24_LANDSCAPED_CAMPUS_IMAGE,
-    alt: "Karyan NH-24 Ghaziabad, landscaped central campus with clubhouse and greens",
-    label: "Landscaped campus",
-    width: 1600,
-    height: 900,
-  },
-];
 
 const KARYAN_FACTS = [
   "NCR developer active across residential, commercial and warehousing since 2006.",
@@ -248,18 +216,6 @@ export function KaryanResidencesNh24Page() {
                   </ul>
                 </section>
 
-                <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="project-gallery-h2">
-                  <SectionHeading
-                    id="project-gallery-h2"
-                    icon={ImageIcon}
-                    title={formatProjectGalleryHeading(PROJECT_NAME)}
-                    subtitle="Renders and lifestyle imagery will be updated as the builder releases official media."
-                  />
-                  <div className="w-full">
-                    <SobhaRivanaGallery slides={GALLERY_SLIDES} theme="dark" cinema />
-                  </div>
-                </section>
-
                 <div className="mb-10 scroll-mt-[var(--site-header-total,6rem)] lg:hidden">
                   <KaryanResidencesNh24StickySidebar idPrefix="mob-bro" part="brochure" />
                 </div>
@@ -294,31 +250,6 @@ export function KaryanResidencesNh24Page() {
                 <div className="mb-10 scroll-mt-[var(--site-header-total,6rem)] lg:hidden">
                   <KaryanResidencesNh24StickySidebar idPrefix="mob-call" part="callback" />
                 </div>
-
-                <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="floor-plans-h2">
-                  <SectionHeading
-                    id="floor-plans-h2"
-                    icon={Layers}
-                    title="Configurations & Unit Sizes"
-                    subtitle="Smartly planned layouts for young families, upgraders, and investors who want efficient carpet use with modern circulation."
-                  />
-                  <FloorPlansSection
-                    propertyName={PROJECT_NAME}
-                    propertySlug={KARYAN_NH24_SLUG}
-                    floorPlanUrl=""
-                  />
-                  <ul className="mt-6 grid w-full gap-3 sm:grid-cols-3" role="list">
-                    <li className="rounded-xl border border-gray-200 bg-white px-4 py-4 text-sm font-semibold text-gray-900 shadow-sm">
-                      2 BHK: 1000 to 1100 sq ft
-                    </li>
-                    <li className="rounded-xl border border-gray-200 bg-white px-4 py-4 text-sm font-semibold text-gray-900 shadow-sm">
-                      2 BHK + Study: 1200 to 1300 sq ft
-                    </li>
-                    <li className="rounded-xl border border-gray-200 bg-white px-4 py-4 text-sm font-semibold text-gray-900 shadow-sm">
-                      3 BHK: approx 1400 sq ft
-                    </li>
-                  </ul>
-                </section>
 
                 <section className="mb-12 w-full min-w-0 sm:mb-16 md:mb-24" aria-labelledby="roi-projection-h2">
                   <SectionHeading id="roi-projection-h2" icon={TrendingUp} title="Pricing & Investment Outlook" />

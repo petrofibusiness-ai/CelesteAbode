@@ -103,7 +103,7 @@ export function KaryanResidencesNh24StickySidebar({
           lastName,
           phone: sanitizeInput(trimmedPhone),
           message,
-          formSource: "property-page-karyan-residences-nh24",
+          formSource: `property-page-${KARYAN_NH24_SLUG}`,
           propertyTitle: PROPERTY_NAME,
           propertyLocation: "NH-24, Ghaziabad",
           propertySlug: PROPERTY_SLUG,

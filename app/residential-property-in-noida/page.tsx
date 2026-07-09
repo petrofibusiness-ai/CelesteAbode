@@ -8,6 +8,8 @@ import { supabaseV3ToProperty } from "@/lib/supabase-property-mapper";
 import { fetchLocalitiesByLocationId } from "@/lib/fetch-localities";
 import { NoidaPropertiesGrid } from "@/components/noida-properties-grid";
 import { LocationPropertyFilters } from "@/components/location-property-filters";
+import { getFeaturedStaticPropertiesForLocation } from "@/lib/featured-static-properties";
+import { propertyMatchesListingTypeFilter } from "@/lib/fetch-location-listing-data";
 import { Building2, Phone } from "lucide-react";
 import { BreadcrumbSchema, WebPageSchema, FAQPageSchema } from "@/lib/structured-data";
 import { SeoBlocksRevealController } from "@/components/seo-blocks-reveal-controller";
@@ -16,6 +18,7 @@ import { ConsultationSidebar } from "@/components/consultation-sidebar";
 import { OpenConsultationTrigger } from "@/components/open-consultation-trigger";
 import type { FAQ } from "@/types/location";
 import { PROPERTY_SEARCH_ANCHOR_ID } from "@/lib/scroll-listings";
+import { LOCATION_SECTION_HEADING_CLASS, LOCATION_SECTION_HEADING_ON_DARK_CLASS } from "@/lib/location-page-typography";
 
 /**
  * On-page target phrases (user brief; /residential-property-in-noida). Woven into `<p>` / FAQ body:
@@ -96,6 +99,11 @@ export default async function ResidentialPropertyInNoidaPage() {
       const p = supabaseV3ToProperty(prop);
       return { ...p, locationSlug: noidaLocation.slug } as Property & { locationSlug: string };
     });
+    const featuredStatic = getFeaturedStaticPropertiesForLocation("noida").filter((p) =>
+      propertyMatchesListingTypeFilter(p, "residential")
+    );
+    properties = [...featuredStatic, ...properties].slice(0, 6);
+    totalPropertiesCount = (count ?? properties.length) + featuredStatic.length;
   }
 
   const breadcrumbItems = [
@@ -205,7 +213,7 @@ export default async function ResidentialPropertyInNoidaPage() {
           <SeoBlocksRevealController initialVisible={1} step={1} totalCount={8}>
             <article data-seo-block>
               <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                   Explore the <span className="text-[#CBB27A]">Best Residential Property</span> in Noida
                 </h2>
               </header>
@@ -262,7 +270,7 @@ export default async function ResidentialPropertyInNoidaPage() {
 
             <article data-seo-block>
               <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                   <span className="text-[#CBB27A]">Buy Home in Noida</span> with Trusted Real Estate Consultants
                 </h2>
               </header>
@@ -302,7 +310,7 @@ export default async function ResidentialPropertyInNoidaPage() {
 
             <article data-seo-block>
               <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                   <span className="text-[#CBB27A]">Property for Sale</span> in Noida for Every Budget
                 </h2>
               </header>
@@ -346,7 +354,7 @@ export default async function ResidentialPropertyInNoidaPage() {
 
             <article data-seo-block>
               <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                   <span className="text-[#CBB27A]">Luxury Property</span> in Noida for Modern Living
                 </h2>
               </header>
@@ -374,7 +382,7 @@ export default async function ResidentialPropertyInNoidaPage() {
 
             <article data-seo-block>
               <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                   <span className="text-[#CBB27A]">Best Locations</span> to Buy Residential Property in Noida
                 </h2>
               </header>
@@ -408,7 +416,7 @@ export default async function ResidentialPropertyInNoidaPage() {
 
             <article data-seo-block>
               <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                   <span className="text-[#CBB27A]">Why Invest</span> in Residential Property in Noida
                 </h2>
               </header>
@@ -443,7 +451,7 @@ export default async function ResidentialPropertyInNoidaPage() {
 
             <article data-seo-block>
               <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                   How Our <span className="text-[#CBB27A]">Real Estate Experts</span> Help You Buy Property in Noida
                 </h2>
               </header>
@@ -483,7 +491,7 @@ export default async function ResidentialPropertyInNoidaPage() {
 
             <article data-seo-block>
               <header className="text-center mb-8 md:mb-12 lg:mb-16">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-3 md:mb-4 font-poppins leading-tight px-2">
+                <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-foreground mb-3 md:mb-4 leading-tight px-2`}>
                   <span className="text-[#CBB27A]">Why Choose Celeste Abode</span> for Buying Property in Noida
                 </h2>
               </header>
@@ -523,7 +531,7 @@ export default async function ResidentialPropertyInNoidaPage() {
           <section className="py-16 md:py-24 bg-background">
             <div className="max-w-4xl px-6">
               <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                <h2 className={`${LOCATION_SECTION_HEADING_CLASS} text-gray-900 mb-4`}>
                   Frequently Asked Questions About Buying House in Noida
                 </h2>
                 <p className="text-lg text-gray-600 font-poppins">
@@ -543,7 +551,7 @@ export default async function ResidentialPropertyInNoidaPage() {
           {/* CTA */}
           <section className="py-16 md:py-24 bg-gradient-to-br from-[#0f1112] to-gray-900">
             <div className="max-w-3xl mx-auto px-6 text-center">
-              <h2 className="text-2xl md:text-4xl font-bold text-white mb-4 font-poppins">
+              <h2 className={`${LOCATION_SECTION_HEADING_ON_DARK_CLASS} mb-4`}>
                 Ready to Buy Residential Property in Noida?
               </h2>
               <p className="text-white/85 leading-relaxed font-poppins mb-8">

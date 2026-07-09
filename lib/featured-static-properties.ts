@@ -1,6 +1,8 @@
 import { Property } from "@/types/property";
 
 import { FUSION_VASUNDHARA_HERO_IMAGE } from "@/lib/fusion-vasundhara-assets";
+import { ACE_PARKWAY_2_0_HERO_IMAGE, ACE_SECTOR_150_PROJECT_NAME, ACE_SECTOR_150_SLUG } from "@/lib/ace-parkway-2-0-assets";
+import { KARYAN_NH24_PROJECT_NAME, KARYAN_NH24_SLUG, KARYAN_RESIDENCES_NH24_HERO_IMAGE } from "@/lib/karyan-residences-nh24-assets";
 
 const FUSION_VASUNDHARA_FEATURED: Property & { locationSlug: string } = {
   id: "featured-fusion-vasundhara",
@@ -46,9 +48,101 @@ const FUSION_VASUNDHARA_FEATURED: Property & { locationSlug: string } = {
   locationSlug: "ghaziabad",
 };
 
+const KARYAN_RESIDENCES_NH24_FEATURED: Property & { locationSlug: string } = {
+  id: "featured-karyan-residences-nh24",
+  slug: KARYAN_NH24_SLUG,
+  projectName: KARYAN_NH24_PROJECT_NAME,
+  developer: "Karyan Group",
+  location: "NH-24, Ghaziabad",
+  locationCategory: null,
+  locationId: null,
+  localityId: null,
+  propertyType: "Apartment/Flats",
+  reraId: "Pre-launch, details awaited",
+  projectStatus: "New Launch",
+  possessionDate: "",
+  configuration: ["2 BHK", "2 BHK + Study", "3 BHK"],
+  sizes: "1000 - 1400 sq ft",
+  description:
+    "Pre-launch 2, 2+Study and 3 BHK apartments on NH-24, Ghaziabad by Karyan Group. Mivan construction, 8.5 acres, 10 towers.",
+  heroImage: KARYAN_RESIDENCES_NH24_HERO_IMAGE,
+  heroImageAlt: "Karyan NH-24 Ghaziabad pre-launch residential project",
+  brochureUrl: "",
+  images: [KARYAN_RESIDENCES_NH24_HERO_IMAGE],
+  amenities: [
+    "Grand luxury clubhouse",
+    "Swimming pool",
+    "Gymnasium",
+    "Landscaped greens",
+    "Sports and recreation",
+    "24x7 security",
+  ],
+  priceMin: null,
+  priceMax: null,
+  priceUnit: "From Rs 5,900/sq ft*",
+  seo: {
+    title: "Karyan NH-24 Ghaziabad - Pre-Launch 2 & 3 BHK",
+    description:
+      "Karyan Group pre-launch on NH-24, Ghaziabad with 2, 2+Study and 3 BHK Mivan-built homes.",
+    keywords: "karyan nh24 ghaziabad, karyan group ghaziabad, nh-24 pre launch, 2 bhk ghaziabad",
+    canonical: `/properties-in-ghaziabad/${KARYAN_NH24_SLUG}`,
+  },
+  isPublished: true,
+  createdAt: new Date(0).toISOString(),
+  updatedAt: new Date(0).toISOString(),
+  locationSlug: "ghaziabad",
+};
+
+const ACE_PARKWAY_2_0_FEATURED: Property & { locationSlug: string } = {
+  id: "featured-ace-parkway-2-0",
+  slug: ACE_SECTOR_150_SLUG,
+  projectName: ACE_SECTOR_150_PROJECT_NAME,
+  developer: "ACE Group",
+  location: "Sector 150, Noida",
+  locationCategory: null,
+  locationId: null,
+  localityId: null,
+  propertyType: "Apartment/Flats",
+  reraId: "Registration in process",
+  projectStatus: "New Launch",
+  possessionDate: "",
+  configuration: ["3 BHK", "4 BHK", "4.5 BHK"],
+  sizes: "1900 - 4400 sq ft",
+  description:
+    "Pre-launch ultra-luxury 3, 4 and 4.5 BHK apartments in Sector 150, Noida by ACE Group. 15 acres, 11 towers, approx 790 units.",
+  heroImage: ACE_PARKWAY_2_0_HERO_IMAGE,
+  heroImageAlt: "Ace Sector 150 Noida pre-launch ultra-luxury project",
+  brochureUrl: "",
+  images: [ACE_PARKWAY_2_0_HERO_IMAGE],
+  amenities: [
+    "Grand clubhouse",
+    "Expansive central green",
+    "Swimming pool",
+    "Gymnasium",
+    "Sports and recreation",
+    "24x7 security",
+  ],
+  priceMin: null,
+  priceMax: null,
+  priceUnit: "From Rs 16,995/sq ft*",
+  seo: {
+    title: "Ace Sector 150 Noida - Pre-Launch Ultra-Luxury 3/4/4.5 BHK",
+    description:
+      "ACE Group pre-launch in Sector 150, Noida with ultra-luxury 3, 4 and 4.5 BHK homes.",
+    keywords: "ace sector 150 noida, ace group pre launch, sector 150 noida, luxury apartments noida",
+    canonical: `/properties-in-noida/${ACE_SECTOR_150_SLUG}`,
+  },
+  isPublished: true,
+  createdAt: new Date(0).toISOString(),
+  updatedAt: new Date(0).toISOString(),
+  locationSlug: "noida",
+};
+
 /** Static property pages with dedicated routes (not only in properties_v2). */
 export const FEATURED_STATIC_PROPERTY_PAGES: (Property & { locationSlug: string })[] = [
   FUSION_VASUNDHARA_FEATURED,
+  KARYAN_RESIDENCES_NH24_FEATURED,
+  ACE_PARKWAY_2_0_FEATURED,
 ];
 
 export function getFeaturedStaticPropertiesForLocation(locationSlug: string): (Property & { locationSlug: string })[] {
@@ -60,5 +154,35 @@ export function getFeaturedStaticPropertySitemapPaths(): { url: string; lastModi
     url: `/properties-in-${property.locationSlug}/${property.slug}`,
     lastModified: new Date(property.updatedAt ?? property.createdAt ?? Date.now()),
   }));
+}
+
+/** Dedicated hardcoded property pages (not in properties_v3). */
+export function getFeaturedStaticPropertyPageCount(): number {
+  return FEATURED_STATIC_PROPERTY_PAGES.length;
+}
+
+export function getPublishedFeaturedStaticPropertyPageCount(): number {
+  return FEATURED_STATIC_PROPERTY_PAGES.filter((p) => p.isPublished).length;
+}
+
+/** Slugs on the dedicated pre-launch catalog (not general new-launch DB listings). */
+export const PRE_LAUNCH_PROPERTY_SLUGS = [
+  "fusion-vasundhara",
+  KARYAN_NH24_SLUG,
+  ACE_SECTOR_150_SLUG,
+] as const;
+
+export function isPreLaunchPropertySlug(slug: string): boolean {
+  return (PRE_LAUNCH_PROPERTY_SLUGS as readonly string[]).includes(slug);
+}
+
+export function getPublishedPreLaunchStaticProperties(): (Property & { locationSlug: string })[] {
+  return FEATURED_STATIC_PROPERTY_PAGES.filter(
+    (property) => property.isPublished && isPreLaunchPropertySlug(property.slug)
+  );
+}
+
+export function getPreLaunchStaticSlugs(): Set<string> {
+  return new Set(PRE_LAUNCH_PROPERTY_SLUGS);
 }
 

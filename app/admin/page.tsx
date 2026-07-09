@@ -11,6 +11,8 @@ export default function AdminDashboard() {
     totalProperties: 0,
     publishedProperties: 0,
     draftProperties: 0,
+    databaseTotalProperties: 0,
+    hardcodedPropertyPages: 0,
     totalLocations: 0,
     activeLocations: [] as Array<{ id: string; name: string; slug: string }>,
     totalLeads: 0,
@@ -48,6 +50,8 @@ export default function AdminDashboard() {
         totalProperties: data.totalProperties || 0,
         publishedProperties: data.publishedProperties || 0,
         draftProperties: data.draftProperties || 0,
+        databaseTotalProperties: data.databaseTotalProperties || 0,
+        hardcodedPropertyPages: data.hardcodedPropertyPages || 0,
         totalLocations: data.totalLocations || 0,
         activeLocations: data.activeLocations || [],
         totalLeads: data.totalLeads || 0,
@@ -99,7 +103,9 @@ export default function AdminDashboard() {
                 {loading ? <Loader2 className="w-6 h-6 sm:w-8 sm:h-8 animate-spin text-[#CBB27A]" /> : stats.totalProperties}
               </p>
               <p className="text-xs text-gray-400" style={{ fontFamily: "Poppins, sans-serif" }}>
-                All listings
+                {stats.hardcodedPropertyPages > 0
+                  ? `${stats.databaseTotalProperties} database + ${stats.hardcodedPropertyPages} hardcoded`
+                  : "All listings"}
               </p>
             </div>
             <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[#CBB27A]/20 to-[#CBB27A]/10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg flex-shrink-0">

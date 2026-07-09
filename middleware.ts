@@ -4,7 +4,15 @@ import { SUPPORT_ADMIN_EMAIL } from '@/lib/admin-access';
 
 const STATIC_PROPERTY_ROUTE_EXCEPTIONS = new Set([
   '/properties-in-ghaziabad/fusion-vasundhara',
+  '/properties-in-ghaziabad/karyan-nh24-ghaziabad',
+  '/properties-in-noida/ace-sector-150-noida',
 ]);
+
+/** Permanent redirects from retired pre-launch URLs */
+const PROPERTY_SLUG_REDIRECTS: Record<string, string> = {
+  '/properties-in-ghaziabad/karyan-residences-nh24': '/properties-in-ghaziabad/karyan-nh24-ghaziabad',
+  '/properties-in-noida/ace-parkway-2-0': '/properties-in-noida/ace-sector-150-noida',
+};
 
 function getEmailFromJwt(token: string | undefined): string | null {
   if (!token) return null;
@@ -25,6 +33,13 @@ function getEmailFromJwt(token: string | undefined): string | null {
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  const slugRedirect = PROPERTY_SLUG_REDIRECTS[pathname];
+  if (slugRedirect) {
+    const redirectUrl = new URL(slugRedirect, request.url);
+    redirectUrl.search = request.nextUrl.search;
+    return NextResponse.redirect(redirectUrl, 301);
+  }
 
   // Allow dedicated hardcoded SEO pages to resolve directly.
   if (STATIC_PROPERTY_ROUTE_EXCEPTIONS.has(pathname)) {

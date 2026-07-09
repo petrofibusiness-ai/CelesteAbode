@@ -19,6 +19,16 @@ interface LocationPropertyFiltersProps {
   /** When set, property type filter is hidden and this value is used (e.g. "residential"). */
   hidePropertyType?: boolean;
   defaultPropertyType?: string;
+  /** Label for the locality/location filter column (default: Locality). */
+  localityLabel?: string;
+  /** Empty-state label for the locality/location filter (default: All Localities). */
+  localityAllLabel?: string;
+  /** Hide project status filter (e.g. pre-launch listing page). */
+  hideProjectStatus?: boolean;
+  /** Custom event name dispatched on search (default: location-filter-change). */
+  filterEventName?: string;
+  /** Custom loading event name from the properties grid (default: location-properties-loading). */
+  loadingEventName?: string;
 }
 
 export function LocationPropertyFilters({ 
@@ -27,6 +37,11 @@ export function LocationPropertyFilters({
   onFilterChange,
   hidePropertyType,
   defaultPropertyType,
+  localityLabel = "Locality",
+  localityAllLabel = "All Localities",
+  hideProjectStatus = false,
+  filterEventName = "location-filter-change",
+  loadingEventName = "location-properties-loading",
 }: LocationPropertyFiltersProps) {
   const [filters, setFilters] = useState<FilterState>({
     locality: [],
@@ -59,11 +74,11 @@ export function LocationPropertyFilters({
       setIsLoading(event.detail);
     };
 
-    window.addEventListener('location-properties-loading', handleLoadingChange as EventListener);
+    window.addEventListener(loadingEventName, handleLoadingChange as EventListener);
     return () => {
-      window.removeEventListener('location-properties-loading', handleLoadingChange as EventListener);
+      window.removeEventListener(loadingEventName, handleLoadingChange as EventListener);
     };
-  }, []);
+  }, [loadingEventName]);
 
   const filterOptions = {
     locality: localities, // Remove "all" option since empty array means all
@@ -125,13 +140,13 @@ export function LocationPropertyFilters({
   const getFilterLabel = (filterType: keyof FilterState) => {
     if (filterType === "locality") {
       if (filters.locality.length === 0) {
-        return "All Localities";
+        return localityAllLabel;
       }
       if (filters.locality.length === 1) {
         const selected = localities.find((loc) => loc.value === filters.locality[0]);
         return selected?.label || "Select";
       }
-      return `${filters.locality.length} Localities Selected`;
+      return `${filters.locality.length} ${localityLabel === "Location" ? "Locations" : "Localities"} Selected`;
     }
     if (filterType === "configuration") {
       if (filters.configuration.length === 0) {
@@ -154,7 +169,7 @@ export function LocationPropertyFilters({
   const handleSearch = () => {
     onFilterChange?.(filters);
     // Dispatch custom event for properties grid to listen to
-    const event = new CustomEvent('location-filter-change', { detail: filters });
+    const event = new CustomEvent(filterEventName, { detail: filters });
     window.dispatchEvent(event);
   };
 
@@ -175,7 +190,7 @@ export function LocationPropertyFilters({
               {/* Locality Filter */}
               <div className="flex-1 relative">
                 <label className="block text-sm font-semibold text-gray-700 mb-2 font-poppins">
-                  Locality
+                  {localityLabel}
                 </label>
                 <div className="relative">
                   <button
@@ -292,6 +307,7 @@ export function LocationPropertyFilters({
               )}
 
               {/* Project Status Filter */}
+              {!hideProjectStatus && (
               <div className="flex-1 relative">
                 <label className="block text-sm font-semibold text-gray-700 mb-2 font-poppins">
                   Project Status
@@ -343,6 +359,7 @@ export function LocationPropertyFilters({
                   </AnimatePresence>
                 </div>
               </div>
+              )}
 
               {/* Configuration Filter - Disabled for Commercial properties */}
               <div className="flex-1 relative">
@@ -447,7 +464,7 @@ export function LocationPropertyFilters({
               {/* Locality Filter */}
               <div className="relative">
                 <label className="block text-xs font-semibold text-gray-700 mb-2 font-poppins">
-                  Locality
+                  {localityLabel}
                 </label>
                 <div className="relative">
                   <button
@@ -562,6 +579,7 @@ export function LocationPropertyFilters({
               )}
 
               {/* Project Status Filter */}
+              {!hideProjectStatus && (
               <div className="relative">
                 <label className="block text-xs font-semibold text-gray-700 mb-2 font-poppins">
                   Project Status
@@ -612,6 +630,7 @@ export function LocationPropertyFilters({
                   </AnimatePresence>
                 </div>
               </div>
+              )}
 
               {/* Configuration Filter - Disabled for Commercial properties */}
               <div className="relative">

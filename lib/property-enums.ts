@@ -59,6 +59,7 @@ export const CONFIGURATIONS = [
   '3 BHK',
   '3 BHK + Study',
   '4 BHK',
+  '4.5 BHK',
   '5 BHK',
 ] as const;
 

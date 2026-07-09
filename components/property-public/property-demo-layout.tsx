@@ -82,7 +82,7 @@ function buildHeroSlides(property: Property): DemoGallerySlide[] {
       return [{
         type: "video" as const,
         src,
-        poster: video.thumbnail?.trim() || hero || undefined,
+        poster: hero || video.thumbnail?.trim() || undefined,
         alt: video.title?.trim() || `${plain} — video ${i + 1}`,
         label: "",
         width: 1600,

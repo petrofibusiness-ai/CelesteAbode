@@ -5,12 +5,12 @@ import { checkRateLimit, getRateLimitIdentifier, RATE_LIMITS } from "@/lib/rate-
 import { addLocationSlugToProperties } from "@/lib/property-location-helper";
 import { slugToLocationCategory } from "@/lib/location-slug";
 import { PROPERTY_TYPES, PROJECT_STATUSES, CONFIGURATIONS, isValidPropertyType, isValidProjectStatus, isValidConfiguration } from "@/lib/property-enums";
+import { getPropertyIdsWithAnyConfigurationLabels } from "@/lib/property-inventory-configuration-filter";
 import { getFeaturedStaticPropertiesForLocation } from "@/lib/featured-static-properties";
 import {
   propertyMatchesListingTypeFilter,
   type LocationListingPropertyTypeFilter,
 } from "@/lib/fetch-location-listing-data";
-import { getPropertyIdsWithAnyConfigurationLabels } from "@/lib/property-inventory-configuration-filter";
 
 // Query timeout: 10 seconds
 const QUERY_TIMEOUT = 10000;
@@ -296,7 +296,6 @@ export async function GET(request: NextRequest) {
     let totalCountWithFeatured = totalCount;
 
     // Include featured static cards on first page when user has not narrowed locality/status/configuration.
-    // Page-default property type (e.g. apartments on flats-for-sale pages) still merges featured listings.
     const hasUserAppliedFilter =
       localityFilters.length > 0 ||
       (projectStatusFilter !== null && projectStatusFilter !== "all") ||

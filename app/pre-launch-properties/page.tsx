@@ -101,9 +101,9 @@ export default async function PreLaunchPropertiesPage() {
                 Pre-Launch Properties
               </h1>
               <p className="text-sm sm:text-base md:text-lg text-white/90 max-w-3xl mx-auto leading-relaxed font-poppins">
-                Explore EOI-stage developments before public launch — a curated pre-launch catalog across
-                Noida, Greater Noida, Yamuna Expressway, and Ghaziabad. For new launch and
-                ready-to-move inventory, browse our location property pages.
+                Discover a curated selection of EOI-stage developments before public launch across Noida,
+                Greater Noida, Yamuna Expressway, and Ghaziabad. For new launches and ready-to-move
+                properties, explore our location-wise property pages.
               </p>
             </div>
           </section>

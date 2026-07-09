@@ -24,7 +24,8 @@ export function Header({ alwaysBlack = false, hideSocialIcons = false }: HeaderP
   const isHomepage = pathname === "/";
   const isPropertyPage =
     (pathname.startsWith("/properties-in-") && pathname !== "/properties") ||
-    (pathname.startsWith("/properties/") && pathname !== "/properties");
+    (pathname.startsWith("/properties/") && pathname !== "/properties") ||
+    pathname === "/pre-launch-properties";
   const isContactPage = pathname === "/contact";
   const isSEOPage = pathname === "/villa-in-noida" || pathname === "/villas-in-greater-noida" || pathname === "/villa-in-noida-extension" || pathname === "/buy-villa-in-noida" || pathname === "/plots-in-noida" || pathname === "/plots-in-greater-noida";
   // Admin routes (including login) should always show black header
@@ -212,11 +213,11 @@ export function Header({ alwaysBlack = false, hideSocialIcons = false }: HeaderP
                           </Link>
                           <div className="border-t border-white/10 my-1"></div>
                           <Link
-                            href="/properties"
+                            href="/pre-launch-properties"
                             className="block px-4 py-3 text-sm font-semibold text-[#CBB27A] hover:bg-[#CBB27A]/10 transition-all duration-200 font-poppins"
                             onClick={() => setIsPropertiesOpen(false)}
                           >
-                            View all properties
+                            View Pre-Launch Properties
                           </Link>
                           </div>
                         </div>
@@ -420,14 +421,14 @@ export function Header({ alwaysBlack = false, hideSocialIcons = false }: HeaderP
                         </Link>
                         <div className="border-t border-white/10 my-2"></div>
                         <Link
-                          href="/properties"
+                          href="/pre-launch-properties"
                           className="block px-4 py-2 text-sm font-semibold text-[#CBB27A] hover:bg-[#CBB27A]/10 rounded-lg transition-all duration-200 font-poppins"
                           onClick={() => {
                             setIsMobileMenuOpen(false);
                             setIsMobilePropertiesOpen(false);
                           }}
                         >
-                          View all properties
+                          View Pre-Launch Properties
                         </Link>
                       </div>
                     </motion.div>

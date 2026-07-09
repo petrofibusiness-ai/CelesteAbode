@@ -164,3 +164,24 @@ export function getPublishedFeaturedStaticPropertyPageCount(): number {
   return FEATURED_STATIC_PROPERTY_PAGES.filter((p) => p.isPublished).length;
 }
 
+/** Slugs on the dedicated pre-launch catalog (not general new-launch DB listings). */
+export const PRE_LAUNCH_PROPERTY_SLUGS = [
+  "fusion-vasundhara",
+  KARYAN_NH24_SLUG,
+  ACE_SECTOR_150_SLUG,
+] as const;
+
+export function isPreLaunchPropertySlug(slug: string): boolean {
+  return (PRE_LAUNCH_PROPERTY_SLUGS as readonly string[]).includes(slug);
+}
+
+export function getPublishedPreLaunchStaticProperties(): (Property & { locationSlug: string })[] {
+  return FEATURED_STATIC_PROPERTY_PAGES.filter(
+    (property) => property.isPublished && isPreLaunchPropertySlug(property.slug)
+  );
+}
+
+export function getPreLaunchStaticSlugs(): Set<string> {
+  return new Set(PRE_LAUNCH_PROPERTY_SLUGS);
+}
+

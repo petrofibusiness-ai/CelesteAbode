@@ -2,13 +2,14 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ChevronRight, Sparkles } from "lucide-react";
-import { HOT_PROPERTY_PROMO, type HotPropertyPromo } from "@/lib/hot-property-promos";
+import { getHotPropertyPromoForPath, type HotPropertyPromo } from "@/lib/hot-property-promos";
 import { cn } from "@/lib/utils";
 
 function PromoCta({ promo, className }: { promo: HotPropertyPromo; className?: string }) {
   const baseClass = cn(
-    "relative z-10 inline-flex shrink-0 items-center gap-0.5 rounded-full border border-[#23262A]/20 bg-[#23262A] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#FAFAF8] transition-all duration-200 ease-out hover:scale-105 hover:border-[#23262A]/40 hover:bg-[#1a1d21] active:scale-100 sm:gap-1 sm:px-3 sm:text-xs",
+    "hot-property-promo-cta relative z-10 inline-flex h-6 shrink-0 items-center gap-0.5 rounded-full border border-[#23262A]/20 bg-[#23262A] px-2.5 py-0 text-[10px] font-semibold uppercase leading-none tracking-wide text-[#FAFAF8] transition-all duration-200 ease-out hover:scale-105 hover:border-[#23262A]/40 hover:bg-[#1a1d21] active:scale-100 sm:h-7 sm:gap-1 sm:px-3 sm:text-xs",
     className
   );
 
@@ -43,7 +44,8 @@ function PromoCta({ promo, className }: { promo: HotPropertyPromo; className?: s
 }
 
 export function HotPropertyBanner() {
-  const promo = HOT_PROPERTY_PROMO;
+  const pathname = usePathname();
+  const promo = getHotPropertyPromoForPath(pathname);
   const ticker = promo.marqueeText;
 
   useEffect(() => {
@@ -74,7 +76,7 @@ export function HotPropertyBanner() {
 
         <div className="relative min-w-0 flex-1 overflow-hidden pl-1 sm:ml-1 sm:px-2">
           <div className="hot-property-marquee flex h-full items-center" aria-hidden>
-            <div className="hot-property-marquee-track">
+            <div key={ticker} className="hot-property-marquee-track">
               <span className="hot-property-marquee-item">{ticker}</span>
               <span className="hot-property-marquee-item">{ticker}</span>
             </div>

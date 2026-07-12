@@ -20,3 +20,22 @@ export const HOT_PROPERTY_PROMO: HotPropertyPromo = {
   ctaLabel: "Explore now",
   action: { type: "link", href: "/properties-in-ghaziabad/forest-walk-villa" },
 };
+
+/** Pathname of the Mayfair property page (banner override applies here only) */
+export const MAYFAIR_PROPERTY_PATH = "/properties-in-greater-noida/kviraaj-mayfair-residency";
+
+/** Banner shown only while browsing the Mayfair page */
+export const MAYFAIR_PAGE_PROMO: HotPropertyPromo = {
+  badgeLabel: "Offer",
+  marqueeText:
+    "Kviraaj Mayfair Residency · Move in with just 20% down · Pay the remaining 80% only on possession",
+  ctaLabel: "Claim offer",
+  action: { type: "consultation" },
+};
+
+export function getHotPropertyPromoForPath(pathname: string | null): HotPropertyPromo {
+  if (pathname === MAYFAIR_PROPERTY_PATH) {
+    return MAYFAIR_PAGE_PROMO;
+  }
+  return HOT_PROPERTY_PROMO;
+}

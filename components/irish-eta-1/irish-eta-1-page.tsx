@@ -6,18 +6,16 @@ import {
   Dumbbell,
   Droplets,
   Footprints,
-  GraduationCap,
   Home,
   Landmark,
   MapPin,
+  Route,
   Shield,
   Sparkles,
-  Stethoscope,
   Store,
   Train,
   TreePine,
   TrendingUp,
-  Route,
   Waves,
   Zap,
 } from "lucide-react";
@@ -25,68 +23,86 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PropertyScrollFootnote, PropertyScrollSubtext } from "@/components/property-scroll-footnote";
 import { BreadcrumbSchema } from "@/lib/structured-data";
-import {
-  KARYAN_NH24_PROJECT_NAME,
-  KARYAN_NH24_SLUG,
-} from "@/lib/karyan-residences-nh24-assets";
-import { KaryanResidencesNh24Hero } from "./karyan-residences-nh24-hero";
-import { KaryanResidencesNh24FooterCta } from "./karyan-residences-nh24-footer-cta";
-import {
-  KaryanResidencesNh24MapEmbed,
-  KaryanResidencesNh24StickySidebar,
-} from "./karyan-residences-nh24-sticky-sidebar";
+import { IRISH_ETA_1_PROJECT_NAME, IRISH_ETA_1_SLUG } from "@/lib/irish-eta-1-assets";
+import { IrishEta1Hero } from "./irish-eta-1-hero";
+import { IrishEta1FooterCta } from "./irish-eta-1-footer-cta";
+import { IrishEta1MapEmbed, IrishEta1StickySidebar } from "./irish-eta-1-sticky-sidebar";
 
-const PROJECT_NAME = KARYAN_NH24_PROJECT_NAME;
+const PROJECT_NAME = IRISH_ETA_1_PROJECT_NAME;
 
-const KARYAN_FACTS = [
-  "NCR developer active across residential, commercial and warehousing since 2006.",
-  "Delivered retail landmarks at Wave City: Avenue IV, Karyan Square and StreetWalk.",
-  "Now entering mass-premium housing on NH-24 with Mivan-built high-rises.",
-  "Pre-launch positioned as the corridor's next large-format residential opportunity.",
+const IRISH_FACTS = [
+  "Irish Infrastructure Group — residential developer active in Greater Noida and Greater Noida West.",
+  "Known for Irish Pearls / Irish Platinum corridor projects in the Noida Extension belt.",
+  "New pre-launch in Sector ETA-1 with only 4 towers.",
+  "Early inventory priced for first movers before wider public booking.",
 ];
 
 const ROI_PROJECTION = [
-  { label: "Pre-launch BSP", value: "₹6,400/sq ft*" },
-  { label: "Expected launch BSP", value: "₹7,500/sq ft*" },
-  { label: "2 BHK entry (approx.)", value: "From ~₹64 Lakh*" },
-  { label: "EOI amount", value: "₹5 Lakh*" },
-  { label: "Payment structure", value: "25 × 4*" },
-  { label: "Pre-launch upside (indicative)", value: "~17% at launch BSP*" },
+  { label: "Pre-launch BSP", value: "₹8,500/sq ft*" },
+  { label: "GST", value: "5%*" },
+  { label: "1,450 sq ft entry", value: "~₹1.23 Cr*" },
+  { label: "EOI", value: "25% self-fund*" },
+  { label: "Payment plan", value: "25 : 25 : 25 : 25*" },
+  { label: "Club size", value: "60,000 sq ft*" },
 ];
 
 const AMENITIES: { label: string; icon: LucideIcon }[] = [
-  { label: "Grand luxury clubhouse", icon: Building2 },
+  { label: "60,000 sq ft clubhouse", icon: Building2 },
   { label: "Swimming pool & deck", icon: Droplets },
-  { label: "Gymnasium & wellness", icon: Dumbbell },
   { label: "Landscaped greens", icon: TreePine },
-  { label: "Jogging & walking tracks", icon: Footprints },
+  { label: "Gymnasium & wellness", icon: Dumbbell },
+  { label: "Sports & recreation", icon: Waves },
   { label: "Kids play zones", icon: Sparkles },
-  { label: "Indoor & outdoor sports", icon: Waves },
+  { label: "Jogging & walking tracks", icon: Footprints },
   { label: "24×7 security & CCTV", icon: Shield },
 ];
 
 const HIGHLIGHTS = [
-  "Pre-launch on NH-24, Ghaziabad, near Wave City corridor",
-  "Approx 8.5 acres · 10 residential towers · Mivan construction",
-  "2 BHK (1000–1100 sq ft) · 2 BHK + Study (1200–1300 sq ft) · 3 BHK (~1400 sq ft)",
-  "Grand luxury clubhouse with world-class lifestyle amenities",
-  "Pre-launch BSP ₹6,400/sq ft* · launch BSP ₹7,500/sq ft*",
-  "EOI ₹5 Lakh* · 25×4 payment plan · allotment strictly via EOI, FCFS",
+  "Pre-launch in Sector ETA-1, Greater Noida by Irish Group",
+  "4 towers · 1,450 / 1,750 / 2,050 / 2,450 sq ft",
+  "3 & 4 BHK · 12 ft ceilings · 8 ft balconies",
+  "60,000 sq ft clubhouse",
+  "Pre-launch BSP ₹8,500/sq ft* + GST 5%",
+  "EOI 25% self-fund* · payment plan 25:25:25:25*",
 ];
 
 const LOCATION_ADVANTAGE: { label: string; text: string; icon: LucideIcon }[] = [
-  { label: "NH-24", text: "On NH-24 frontage · Delhi ~30 min · Noida Sec-62 ~15 min (as marketed)", icon: Route },
-  { label: "Wave City", text: "Wave Galleria ~2.7 km · daily retail and schools in the Wave City belt", icon: Store },
-  { label: "Expressways", text: "Eastern Peripheral Expressway ~6 min · Delhi–Meerut Expressway access", icon: Landmark },
-  { label: "Metro & rail", text: "Shaheed Sthal Metro ~20 min · Ghaziabad Railway ~20 min · Noida Electronic City Metro ~20 min", icon: Train },
-  { label: "Healthcare", text: "Manipal & Sarvodaya ~6 km · Yashoda and other Ghaziabad hospitals nearby", icon: Stethoscope },
-  { label: "Schools", text: "DPS, Ryan International and Wave City school catchments within a short drive", icon: GraduationCap },
+  {
+    label: "ETA-1",
+    text: "Sector ETA-1, Greater Noida — planned residential belt (as marketed)",
+    icon: MapPin,
+  },
+  {
+    label: "Expressway",
+    text: "Noida–Greater Noida Expressway and Yamuna Expressway access nearby",
+    icon: Route,
+  },
+  {
+    label: "Metro",
+    text: "Aqua Line / knowledge-park metro catchments within driving distance",
+    icon: Train,
+  },
+  {
+    label: "Daily needs",
+    text: "Retail, schools and clinics in the Greater Noida residential belt",
+    icon: Store,
+  },
+  {
+    label: "Noida link",
+    text: "Road access toward Noida office and metro corridors",
+    icon: Landmark,
+  },
+  {
+    label: "Campus",
+    text: "4-tower layout with large club footprint for the plot size",
+    icon: TreePine,
+  },
 ];
 
 const NCR_LINKS = [
-  { href: "/properties-in-ghaziabad", title: "Ghaziabad", sub: "NH-24, Wave City and Indirapuram" },
-  { href: "/properties-in-noida", title: "Noida", sub: "Metro and office corridors" },
-  { href: "/flats-for-sale-in-noida", title: "Flats in Noida", sub: "Compare apartment launches" },
+  { href: "/properties-in-greater-noida", title: "Greater Noida", sub: "ETA and knowledge park belt" },
+  { href: "/flats-for-sale-in-greater-noida", title: "Flats in Greater Noida", sub: "Compare apartment launches" },
+  { href: "/pre-launch-properties", title: "Pre-Launch", sub: "EOI-stage projects only" },
   { href: "/properties", title: "All NCR", sub: "Browse all projects" },
 ];
 
@@ -130,7 +146,7 @@ function SectionHeading({
   );
 }
 
-export function KaryanResidencesNh24Page() {
+export function IrishEta1Page() {
   const site = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
 
   const jsonLd = {
@@ -138,15 +154,15 @@ export function KaryanResidencesNh24Page() {
     "@type": "ApartmentComplex",
     name: PROJECT_NAME,
     description:
-      "Pre-launch 2, 2+Study and 3 BHK apartments on NH-24, Ghaziabad by Karyan Group with Mivan construction and BSP from Rs 6,400 per sq ft.",
+      "Pre-launch 3 and 4 BHK apartments in Sector ETA-1, Greater Noida by Irish Group. Sizes 1450 to 2450 sq ft. BSP from Rs 8,500 per sq ft plus GST.",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "NH-24, Ghaziabad",
+      addressLocality: "Sector ETA-1, Greater Noida",
       addressRegion: "Uttar Pradesh",
       addressCountry: "IN",
     },
-    developer: { "@type": "Organization", name: "Karyan Group" },
-    numberOfBedrooms: ["2", "3"],
+    developer: { "@type": "Organization", name: "Irish Group" },
+    numberOfBedrooms: ["3", "4"],
   };
 
   return (
@@ -155,8 +171,8 @@ export function KaryanResidencesNh24Page() {
       <BreadcrumbSchema
         items={[
           { name: "Home", url: site },
-          { name: "Properties in Ghaziabad", url: `${site}/properties-in-ghaziabad` },
-          { name: PROJECT_NAME, url: `${site}/properties-in-ghaziabad/${KARYAN_NH24_SLUG}` },
+          { name: "Properties in Greater Noida", url: `${site}/properties-in-greater-noida` },
+          { name: PROJECT_NAME, url: `${site}/properties-in-greater-noida/${IRISH_ETA_1_SLUG}` },
         ]}
       />
 
@@ -164,7 +180,7 @@ export function KaryanResidencesNh24Page() {
         <Header />
 
         <main className="pb-8 pt-0">
-          <KaryanResidencesNh24Hero />
+          <IrishEta1Hero />
 
           <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 md:px-12 md:py-16">
             <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_288px] lg:items-start lg:gap-x-6 xl:gap-x-8">
@@ -184,9 +200,8 @@ export function KaryanResidencesNh24Page() {
                     ))}
                   </ul>
                   <PropertyScrollFootnote>
-                    *Pre-launch inputs only. Allotment is strictly through the EOI process on a first-come,
-                    first-served basis. Final sizes, tower count, floor rise, PLC, and approvals follow official
-                    developer communication.
+                    *Pre-launch inputs only. Final sizes, floor rise, PLC, and approvals follow official developer
+                    communication.
                   </PropertyScrollFootnote>
                 </section>
 
@@ -195,40 +210,38 @@ export function KaryanResidencesNh24Page() {
                     id="eoi-h2"
                     icon={Zap}
                     title="Early-Mover Advantage"
-                    subtitle="Block inventory at pre-launch BSP before the public price revision to launch levels."
+                    subtitle="Block inventory at pre-launch BSP before the public price revision."
                   />
                   <ul className="grid w-full gap-4 sm:grid-cols-2" role="list">
                     <li className="rounded-2xl border border-[#CBB27A]/30 bg-[#CBB27A]/5 px-5 py-5 text-sm font-semibold leading-relaxed text-gray-900">
-                      EOI amount: <span className="text-[#8a7340]">₹5 Lakh*</span>. Required to participate in
+                      EOI: <span className="text-[#8a7340]">25% self-fund*</span>. Required to participate in
                       allotment
                     </li>
                     <li className="rounded-2xl border border-gray-200 bg-white px-5 py-5 text-sm font-semibold leading-relaxed text-gray-900 shadow-sm">
-                      Payment plan: <span className="text-[#8a7340]">25 × 4</span>. Structured for manageable
-                      milestone payments
+                      Payment plan: <span className="text-[#8a7340]">25 : 25 : 25 : 25*</span>
                     </li>
                     <li className="rounded-2xl border border-gray-200 bg-white px-5 py-5 text-sm font-semibold leading-relaxed text-gray-900 shadow-sm">
-                      Limited pre-launch inventory. Early EOIs get preference on tower, floor, and configuration
+                      Limited early inventory. First 80–100 flats open at pre-launch BSP
                     </li>
                     <li className="rounded-2xl border border-gray-200 bg-white px-5 py-5 text-sm font-semibold leading-relaxed text-gray-900 shadow-sm">
-                      Indicative price gap: ~₹1,100/sq ft between pre-launch and launch BSP before possession-led
-                      appreciation
+                      Next demand after about 2 years* — structured for staged payments
                     </li>
                   </ul>
                 </section>
 
                 <div className="mb-10 scroll-mt-[var(--site-header-total,6rem)] lg:hidden">
-                  <KaryanResidencesNh24StickySidebar idPrefix="mob-bro" part="brochure" />
+                  <IrishEta1StickySidebar idPrefix="mob-bro" part="brochure" />
                 </div>
 
-                <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="why-karyan-h2">
+                <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="why-irish-h2">
                   <SectionHeading
-                    id="why-karyan-h2"
+                    id="why-irish-h2"
                     icon={Building2}
-                    title="Why Karyan Group?"
-                    subtitle="Known for experience-led commercial destinations in Ghaziabad. Now bringing that design discipline to a large-format residential community on NH-24."
+                    title="Why Irish Group?"
+                    subtitle="Residential developer active across Greater Noida West — now launching in Sector ETA-1."
                   />
                   <ul className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2" role="list">
-                    {KARYAN_FACTS.map((line) => (
+                    {IRISH_FACTS.map((line) => (
                       <li
                         key={line}
                         className="rounded-2xl border border-gray-200 bg-gray-50/80 px-5 py-4 text-left text-sm font-semibold leading-relaxed text-gray-900 sm:text-base"
@@ -239,16 +252,19 @@ export function KaryanResidencesNh24Page() {
                     ))}
                   </ul>
                   <PropertyScrollSubtext className="mt-8 text-sm">
-                    Compare NH-24 launches across{" "}
-                    <Link href="/properties-in-ghaziabad" className="font-semibold text-[#CBB27A] hover:underline">
-                      Ghaziabad
-                    </Link>{" "}
-                    with an advisor who reads the corridor, not just the brochure headline.
+                    Compare Greater Noida launches on{" "}
+                    <Link
+                      href="/properties-in-greater-noida"
+                      className="font-semibold text-[#CBB27A] hover:underline"
+                    >
+                      our Greater Noida page
+                    </Link>
+                    .
                   </PropertyScrollSubtext>
                 </section>
 
                 <div className="mb-10 scroll-mt-[var(--site-header-total,6rem)] lg:hidden">
-                  <KaryanResidencesNh24StickySidebar idPrefix="mob-call" part="callback" />
+                  <IrishEta1StickySidebar idPrefix="mob-call" part="callback" />
                 </div>
 
                 <section className="mb-12 w-full min-w-0 sm:mb-16 md:mb-24" aria-labelledby="roi-projection-h2">
@@ -266,17 +282,15 @@ export function KaryanResidencesNh24Page() {
                     ))}
                   </ul>
                   <PropertyScrollFootnote>
-                    *Indicative only. A 1000 sq ft 2 BHK at ₹6,400/sq ft approximates ₹64 Lakh BSP before PLC,
-                    floor rise, parking, and statutory charges. Launch BSP is marketed at ₹7,500/sq ft. Actual returns
-                    depend on allotment, possession timeline, and market cycle.
+                    *Indicative. 1,450 × ₹8,500 ≈ ₹1.23 Cr BSP before PLC, floor rise, parking, and other charges. GST
+                    at 5% is extra.
                   </PropertyScrollFootnote>
                 </section>
 
                 <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="amenities-h2">
                   <SectionHeading id="amenities-h2" icon={Sparkles} title="Key Amenities" />
                   <PropertyScrollSubtext className="mb-6 text-sm sm:text-base">
-                    A grand luxury clubhouse anchors the lifestyle stack: pool, fitness, recreation, and secure
-                    community living across the 8.5-acre campus.
+                    A 60,000 sq ft clubhouse anchors lifestyle amenities across the 4-tower campus.
                   </PropertyScrollSubtext>
                   <div className="grid w-full grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
                     {AMENITIES.map(({ label, icon: AmIcon }) => (
@@ -303,7 +317,7 @@ export function KaryanResidencesNh24Page() {
                 <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="location-advantage-h2">
                   <SectionHeading id="location-advantage-h2" icon={MapPin} title="Location Advantage" />
                   <PropertyScrollSubtext className="mb-6 text-sm sm:text-base">
-                    Approximate drive times and distances as marketed for the NH-24 / Wave City belt. Verify on site visit.
+                    Approximate access as marketed for Sector ETA-1, Greater Noida. Verify on site visit.
                   </PropertyScrollSubtext>
                   <ul className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list">
                     {LOCATION_ADVANTAGE.map(({ label, text, icon: RowIcon }) => (
@@ -327,7 +341,7 @@ export function KaryanResidencesNh24Page() {
                     ))}
                   </ul>
                   <div className="mt-10 w-full sm:mt-12">
-                    <KaryanResidencesNh24MapEmbed />
+                    <IrishEta1MapEmbed />
                   </div>
                 </section>
 
@@ -355,16 +369,16 @@ export function KaryanResidencesNh24Page() {
               </div>
 
               <aside
-                id="karyan-residences-nh24-sidebar"
+                id="irish-eta-1-sidebar"
                 className="mt-10 hidden min-w-0 scroll-mt-[var(--site-header-total,6rem)] lg:sticky lg:top-[var(--site-header-total,6rem)] lg:mt-0 lg:block xl:top-[calc(var(--site-header-total,6rem)+1rem)]"
               >
-                <KaryanResidencesNh24StickySidebar idPrefix="desk" />
+                <IrishEta1StickySidebar idPrefix="desk" />
               </aside>
             </div>
           </div>
         </main>
 
-        <KaryanResidencesNh24FooterCta />
+        <IrishEta1FooterCta />
         <Footer />
       </div>
     </>

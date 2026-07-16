@@ -4,10 +4,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { Cormorant_Garamond } from "next/font/google";
 import { Award, BadgePercent, Building2, IndianRupee, MapPin } from "lucide-react";
-import {
-  KARYAN_NH24_PROJECT_NAME,
-  KARYAN_RESIDENCES_NH24_HERO_IMAGE,
-} from "@/lib/karyan-residences-nh24-assets";
+import { IRISH_ETA_1_HERO_IMAGE, IRISH_ETA_1_PROJECT_NAME } from "@/lib/irish-eta-1-assets";
 
 const heroPropertyDisplay = Cormorant_Garamond({
   subsets: ["latin"],
@@ -40,25 +37,25 @@ function SpecPill({
   );
 }
 
-export function KaryanResidencesNh24Hero() {
+export function IrishEta1Hero() {
   return (
     <section
-      className="relative min-h-svh w-full overflow-hidden bg-[#0a1628]"
-      aria-labelledby="karyan-residences-nh24-h1"
+      className="relative min-h-svh w-full overflow-hidden bg-[#14201c]"
+      aria-labelledby="irish-eta-1-h1"
       data-site-hero
       data-hero-no-section-pad
     >
       <div className="absolute inset-0">
         <Image
-          src={KARYAN_RESIDENCES_NH24_HERO_IMAGE}
-          alt="Karyan NH-24 Ghaziabad, residential towers and entrance on NH-24"
+          src={IRISH_ETA_1_HERO_IMAGE}
+          alt="Irish ETA-1 Greater Noida pre-launch residential towers"
           fill
           className="object-cover"
           sizes="100vw"
           priority
           unoptimized
         />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0a1628]/65 via-[#0a1628]/15 to-[#0a1628]/20" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#14201c]/65 via-[#14201c]/15 to-[#14201c]/20" />
       </div>
 
       <div className="pointer-events-none relative z-10 flex min-h-svh flex-col">
@@ -68,16 +65,16 @@ export function KaryanResidencesNh24Hero() {
         <div className="relative flex min-h-0 flex-1 flex-col px-4 pb-10 pt-[calc(var(--site-header-total,6rem)+0.75rem)] sm:px-6 sm:pb-12 sm:pt-[calc(7rem+var(--site-banner-h,0px))] md:px-10 lg:px-14">
           <div className="pointer-events-auto max-w-4xl text-left">
             <h1
-              id="karyan-residences-nh24-h1"
+              id="irish-eta-1-h1"
               className={`${heroPropertyDisplay.className} text-[1.65rem] font-semibold uppercase leading-[1.05] tracking-[0.08em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-4xl sm:tracking-[0.12em] md:text-5xl lg:text-6xl`}
             >
-              {KARYAN_NH24_PROJECT_NAME}
+              {IRISH_ETA_1_PROJECT_NAME}
             </h1>
             <p
               className="mt-2 text-xs font-medium uppercase tracking-wider text-white/75 sm:text-sm"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              Pre-launch by Karyan Group
+              Pre-launch by Irish Group
             </p>
             <div className="mt-3 flex items-start gap-2">
               <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-[#CBB27A]" aria-hidden />
@@ -85,7 +82,7 @@ export function KaryanResidencesNh24Hero() {
                 className="text-sm font-semibold text-white/95 drop-shadow sm:text-lg"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
-                NH-24, Ghaziabad · 2, 2+Study &amp; 3 BHK · Mivan-built high-rises
+                Sector ETA-1, Greater Noida · 3 &amp; 4 BHK · 4 towers
               </p>
             </div>
           </div>
@@ -93,16 +90,16 @@ export function KaryanResidencesNh24Hero() {
           <div className="pointer-events-auto mt-auto flex w-full justify-start pt-10 sm:pt-12">
             <div className="grid w-full max-w-[min(100%,20rem)] grid-cols-2 gap-2 sm:max-w-2xl sm:grid-cols-4 sm:gap-3">
               <SpecPill label="Pre-launch BSP" icon={<IndianRupee className="h-4 w-4" aria-hidden />}>
-                ₹6,400/sq ft*
+                ₹8,500/sq ft*
               </SpecPill>
               <SpecPill label="EOI" icon={<BadgePercent className="h-4 w-4" aria-hidden />}>
-                ₹5 Lakh*
+                25% self-fund*
               </SpecPill>
-              <SpecPill label="Configuration" icon={<Building2 className="h-4 w-4" aria-hidden />}>
-                2 / 2+S / 3 BHK
+              <SpecPill label="Sizes" icon={<Building2 className="h-4 w-4" aria-hidden />}>
+                1450–2450 sq ft
               </SpecPill>
               <SpecPill label="Developer" icon={<Award className="h-4 w-4" aria-hidden />}>
-                Karyan Group
+                Irish Group
               </SpecPill>
             </div>
           </div>

@@ -7,12 +7,12 @@ const site = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
 export const metadata: Metadata = {
   title: `${KARYAN_NH24_PROJECT_NAME} - Pre-Launch 2 & 3 BHK | Celeste Abode`,
   description:
-    "Karyan Group pre-launch on NH-24, Ghaziabad. 2, 2+Study and 3 BHK apartments with Mivan construction from Rs 5,900/sq ft. EOI Rs 5 Lakh, 25x4 payment plan. Brochure and allotment guidance from Celeste Abode.",
+    "Karyan Group pre-launch on NH-24, Ghaziabad. 2, 2+Study and 3 BHK apartments with Mivan construction from Rs 6,400/sq ft. EOI Rs 5 Lakh, 25x4 payment plan. Brochure and allotment guidance from Celeste Abode.",
   alternates: { canonical: `${site}/properties-in-ghaziabad/${KARYAN_NH24_SLUG}` },
   openGraph: {
     title: `${KARYAN_NH24_PROJECT_NAME} | Pre-Launch on NH-24, Ghaziabad`,
     description:
-      "Early-mover opportunity: 10 towers across 8.5 acres, Mivan-built homes, luxury clubhouse, and pre-launch BSP from Rs 5,900/sq ft.",
+      "Early-mover opportunity: 10 towers across 8.5 acres, Mivan-built homes, luxury clubhouse, and pre-launch BSP from Rs 6,400/sq ft.",
     url: `${site}/properties-in-ghaziabad/${KARYAN_NH24_SLUG}`,
     siteName: "Celeste Abode",
     locale: "en_IN",

@@ -6,6 +6,7 @@ const STATIC_PROPERTY_ROUTE_EXCEPTIONS = new Set([
   '/properties-in-ghaziabad/fusion-vasundhara',
   '/properties-in-ghaziabad/karyan-nh24-ghaziabad',
   '/properties-in-noida/ace-sector-150-noida',
+  '/properties-in-greater-noida/irish-eta-1-greater-noida',
 ]);
 
 /** Permanent redirects from retired pre-launch URLs */

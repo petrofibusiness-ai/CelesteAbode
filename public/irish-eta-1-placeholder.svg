@@ -1,0 +1,23 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="900" fill="#14201c"/>
+  <rect x="50" y="50" width="1500" height="800" rx="24" fill="url(#g1)" stroke="#CBB27A" stroke-opacity="0.35" stroke-width="2"/>
+  <circle cx="800" cy="450" r="220" fill="#CBB27A" fill-opacity="0.08"/>
+  <text x="800" y="370" text-anchor="middle" fill="#F9FAFB" font-family="Arial, sans-serif" font-size="48" font-weight="700">
+    Irish ETA-1 Greater Noida
+  </text>
+  <text x="800" y="440" text-anchor="middle" fill="#CBB27A" font-family="Arial, sans-serif" font-size="22" font-weight="600">
+    Pre-launch · Official media awaited
+  </text>
+  <text x="800" y="500" text-anchor="middle" fill="#D1D5DB" font-family="Arial, sans-serif" font-size="32" font-weight="500">
+    Media Placeholder
+  </text>
+  <text x="800" y="560" text-anchor="middle" fill="#CBB27A" font-family="Arial, sans-serif" font-size="24" font-weight="600">
+    Hero and gallery images will be updated
+  </text>
+  <defs>
+    <linearGradient id="g1" x1="50" y1="50" x2="1550" y2="850" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1c2e28"/>
+      <stop offset="1" stop-color="#14201c"/>
+    </linearGradient>
+  </defs>
+</svg>

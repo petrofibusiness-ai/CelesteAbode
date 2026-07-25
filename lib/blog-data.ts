@@ -282,6 +282,27 @@ export const blogPosts: BlogPost[] = [
       "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/webp/Infrastructure%20Developments%20Are%20Driving%20Property%20Prices2.webp",
     ogImageAlt: "Greater Noida infrastructure and residential skyline driving property prices",
   },
+  {
+    id: 14,
+    title: "Best Neighborhoods in Ghaziabad for Value & Growth in 2026",
+    slug: "best-neighborhoods-ghaziabad-value-growth-2026",
+    excerpt:
+      "Indirapuram, Vaishali, NH-24, and Siddharth Vihar price differently. Map the best Ghaziabad belts for value, growth, and your commute before you book.",
+    category: "Location Intelligence",
+    readTime: "7 min read",
+    date: "July 26, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/best_neighborhood_in_ghaziabad/Best%20Neighborhoods%20in%20Ghaziabad%20for%20Value%20%26%20Growth%20in%202026_1.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "Best Neighborhoods in Ghaziabad for Value & Growth (2026)",
+    metaDescription:
+      "Best Ghaziabad neighborhoods in 2026: Indirapuram, Vaishali, Vasundhara, NH-24, and Siddharth Vihar. Value, growth, and buyer checks before you book flats in Ghaziabad.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/best_neighborhood_in_ghaziabad/Best%20Neighborhoods%20in%20Ghaziabad%20for%20Value%20%26%20Growth%20in%202026_1.webp",
+    ogImageAlt: "Best neighborhoods in Ghaziabad for value and growth in 2026",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -407,6 +428,22 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
       "noida-vs-greater-noida-investment-2026",
       "3bhk-flats-in-greater-noida",
       "yamuna-expressway-growth-corridor-delhi-ncr",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "best-neighborhoods-ghaziabad-value-growth-2026") {
+    const prioritySlugs = [
+      "forest-walk-villa-ghaziabad-luxury-living-2026",
+      "noida-vs-greater-noida-investment-2026",
+      "why-choose-celeste-abode-property-advisory-delhi-ncr",
+      "is-noida-safe-to-buy-property-2026",
+      "best-locations-buy-flats-greater-noida-2026",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

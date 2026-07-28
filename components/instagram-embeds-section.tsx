@@ -26,16 +26,16 @@ function reinitCarousel(api: CarouselApi | undefined) {
 
 /** Instagram embed permalinks (posts + reels) — order matches site carousel */
 const POSTS = [
-  "https://www.instagram.com/reel/DY9ySWAPzB4/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DZFjimUv6De/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DZcxt_CvPw2/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DZXo-3dP8R6/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DYUdpl7CBvQ/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DYR5ne8lXLA/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DZSgGBGPb6h/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/p/DZaXp_Ij0l9/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/p/DY_kpkPPBqN/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DYzfkZZvwP5/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DbVlskhzG8m/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/Dakt18oPIzV/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DaQYcPeP06I/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/p/DaDPJQWD2P6/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DZ7kRYnvbUU/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DZu3vwAvinX/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DZppavvTJbf/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DZkVtlUP6HW/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/p/DZsKletD4ss/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/p/DZnLNbYPZaA/?utm_source=ig_embed&utm_campaign=loading",
 ] as const
 
 function InstagramEmbedSlide({ url }: { url: string }) {

@@ -4,7 +4,8 @@ const TITLE = "Residential Property in Noida | Buy Home & Luxury Property for Sa
 const DESCRIPTION =
   "Explore residential property in Noida with Celeste Abode property consultants. Get expert advice, verified projects, and complete support for buying the right home.";
 const PAGE_URL = "https://www.celesteabode.com/residential-property-in-noida";
-const HERO_IMAGE = "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/residential-property-in-noida/residential-property-in-noida.webp";
+const HERO_IMAGE =
+  "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/sector-150-noida-best-investment-destination-2026-blog-2%2Csector-150-noida-best-investment-desti%5B...%5D/sector-150-noida-best-investment-destination-2026-blog-3%20(1).webp";
 
 export const metadata: Metadata = {
   title: TITLE,

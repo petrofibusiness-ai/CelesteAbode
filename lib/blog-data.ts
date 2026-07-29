@@ -303,6 +303,27 @@ export const blogPosts: BlogPost[] = [
       "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/best_neighborhood_in_ghaziabad/Best%20Neighborhoods%20in%20Ghaziabad%20for%20Value%20%26%20Growth%20in%202026_1.webp",
     ogImageAlt: "Best neighborhoods in Ghaziabad for value and growth in 2026",
   },
+  {
+    id: 15,
+    title: "Why Property in Sector 150 Noida is the Best Investment Destination in 2026",
+    slug: "sector-150-noida-best-investment-destination-2026",
+    excerpt:
+      "Low-density planning, Expressway access, and premium end-user demand: why Sector 150 Noida stands apart, and what to verify before you book.",
+    category: "Location Intelligence",
+    readTime: "7 min read",
+    date: "July 29, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/sector-150-noida-best-investment-destination-2026-blog-2%2Csector-150-noida-best-investment-desti%5B...%5D/sector-150-noida-best-investment-destination-2026-blog-heroimage.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "Why Property in Sector 150 Noida is the Best Investment Destination (2026)",
+    metaDescription:
+      "Sector 150 Noida in 2026: low-density planning, Noida Expressway access, and premium flats. Compare belts, verify RERA, and see how Celeste Abode helps you buy smart.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/sector-150-noida-best-investment-destination-2026-blog-2%2Csector-150-noida-best-investment-desti%5B...%5D/sector-150-noida-best-investment-destination-2026-blog-heroimage.webp",
+    ogImageAlt: "Sector 150 Noida aerial view: metro, expressway, and premium residential towers at dusk",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -444,6 +465,22 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
       "why-choose-celeste-abode-property-advisory-delhi-ncr",
       "is-noida-safe-to-buy-property-2026",
       "best-locations-buy-flats-greater-noida-2026",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "sector-150-noida-best-investment-destination-2026") {
+    const prioritySlugs = [
+      "top-10-tips-valuing-residential-property-noida",
+      "is-noida-safe-to-buy-property-2026",
+      "noida-vs-greater-noida-investment-2026",
+      "why-choose-celeste-abode-property-advisory-delhi-ncr",
+      "upcoming-luxury-projects-noida-greater-noida-2026",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

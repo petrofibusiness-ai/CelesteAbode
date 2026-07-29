@@ -1087,9 +1087,39 @@ html[data-promo-banner="true"] [data-site-hero] .sm\:pt-28 {
 }
 
 /* Instagram embed: smooth fade-in when iframe loads (opacity-only, no layout) */
+.instagram-embeds-section {
+  --instagram-embed-height: 520px;
+}
+@media (min-width: 768px) {
+  .instagram-embeds-section {
+    --instagram-embed-height: 580px;
+  }
+}
+.instagram-embeds-section .instagram-embed-slide {
+  height: var(--instagram-embed-height);
+}
+.instagram-embeds-section .instagram-media {
+  margin: 0 !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  height: var(--instagram-embed-height) !important;
+  max-height: var(--instagram-embed-height) !important;
+  overflow: hidden !important;
+  background: var(--paper) !important;
+}
 .instagram-embeds-section .instagram-media iframe {
   opacity: 0;
   animation: instagram-embed-fade-in 0.35s ease-out forwards;
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  height: var(--instagram-embed-height) !important;
+  min-height: var(--instagram-embed-height) !important;
+  max-height: var(--instagram-embed-height) !important;
+  margin: 0 auto !important;
+  border: 0 !important;
 }
 @keyframes instagram-embed-fade-in {
   to {

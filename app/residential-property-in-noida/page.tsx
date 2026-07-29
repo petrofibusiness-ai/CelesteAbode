@@ -28,6 +28,8 @@ import { LOCATION_SECTION_HEADING_CLASS, LOCATION_SECTION_HEADING_ON_DARK_CLASS 
 
 const SITE_URL = "https://www.celesteabode.com";
 const PAGE_URL = `${SITE_URL}/residential-property-in-noida`;
+const HERO_IMAGE =
+  "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/sector-150-noida-best-investment-destination-2026-blog-2%2Csector-150-noida-best-investment-desti%5B...%5D/sector-150-noida-best-investment-destination-2026-blog-3%20(1).webp";
 
 const RESIDENTIAL_FAQS: FAQ[] = [
   {
@@ -119,7 +121,7 @@ export default async function ResidentialPropertyInNoidaPage() {
         name="Buy Residential Property in Noida - Buy Home & Luxury Property for Sale"
         description="Noida has become one of NCR's most sought-after cities for homebuyers. Buy residential property in Noida with trusted consultants. Explore apartments, villas & luxury homes for sale."
         url={PAGE_URL}
-        image="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/residential-property-in-noida/residential-property-in-noida.webp"
+        image={HERO_IMAGE}
       />
       <FAQPageSchema faqs={RESIDENTIAL_FAQS} />
 
@@ -133,8 +135,8 @@ export default async function ResidentialPropertyInNoidaPage() {
           >
             <div className="absolute inset-0">
               <Image
-                src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/residential-property-in-noida/residential-property-in-noida.webp"
-                alt="Residential property in Noida - buy home and luxury property"
+                src={HERO_IMAGE}
+                alt="Residential property in Noida: expressway corridor, towers, and green buffers at dusk"
                 fill
                 priority
                 className="object-cover object-center"

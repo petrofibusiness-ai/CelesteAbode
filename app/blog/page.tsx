@@ -10,16 +10,6 @@ import { Calendar, Clock, ArrowRight, Phone, Mail, Loader2 } from "lucide-react"
 import { toast } from "sonner";
 import { blogPosts } from "@/lib/blog-data";
 
-const categories = [
-  "All Articles",
-  "Market Analysis",
-  "Legal & Compliance",
-  "Financial Planning",
-  "Location Intelligence",
-  "NRI Advisory",
-  "Buying Guide",
-];
-
 export default function BlogPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -192,11 +182,6 @@ export default function BlogPage() {
                               className="object-cover group-hover:scale-105 transition-transform duration-500"
                               unoptimized={post.image.startsWith("http")}
                             />
-                            <div className="absolute top-4 left-4">
-                              <span className="inline-block px-3 py-1.5 bg-[#CBB27A] text-white text-xs font-semibold rounded-full">
-                                {post.category}
-                              </span>
-                            </div>
                           </div>
                           
                           <div className="p-6">
@@ -257,11 +242,6 @@ export default function BlogPage() {
                               className="object-cover group-hover:scale-105 transition-transform duration-500"
                               unoptimized={post.image.startsWith("http")}
                             />
-                            <div className="absolute top-3 left-3">
-                              <span className="inline-block px-2.5 py-1 bg-[#CBB27A] text-white text-xs font-semibold rounded-full">
-                                {post.category}
-                              </span>
-                            </div>
                           </div>
                           
                           <div className="p-5 flex-1">

@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { Download, FileText, Loader2 } from "lucide-react";
-import { IRISH_ETA_1_PROJECT_NAME, IRISH_ETA_1_SLUG } from "@/lib/irish-eta-1-assets";
+import { IRISH_ETA_1_PROJECT_NAME, IRISH_ETA_1_SECTOR_LABEL, IRISH_ETA_1_SECTOR_NAME, IRISH_ETA_1_SLUG } from "@/lib/irish-eta-1-assets";
 import { BrochureDownloadDialog } from "@/components/brochure-download-dialog";
 import { Button } from "@/components/ui/button";
 import { isValidName, isValidPhone, sanitizeInput } from "@/lib/security";
@@ -101,7 +101,7 @@ export function IrishEta1StickySidebar({
           message,
           formSource: `property-page-${IRISH_ETA_1_SLUG}`,
           propertyTitle: PROPERTY_NAME,
-          propertyLocation: "Sector ETA-1, Greater Noida",
+          propertyLocation: `${IRISH_ETA_1_SECTOR_LABEL}, Greater Noida`,
           propertySlug: PROPERTY_SLUG,
         }),
       });
@@ -195,7 +195,7 @@ export function IrishEta1StickySidebar({
             <p className="text-xs font-semibold uppercase tracking-wider text-[#CBB27A]/90">{PROPERTY_NAME}</p>
             <h3 className="mt-1.5 text-base font-bold leading-snug text-white">We&apos;d be happy to call you</h3>
             <p className="mt-1.5 text-xs leading-relaxed text-gray-400">
-              Share your name and number. We&apos;ll walk you through EOI, unit preference, and how this ETA-1 launch
+              Share your name and number. We&apos;ll walk you through EOI, unit preference, and how this {IRISH_ETA_1_SECTOR_NAME} launch
               compares, without pressure.
             </p>
 

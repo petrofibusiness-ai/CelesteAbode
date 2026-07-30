@@ -23,7 +23,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PropertyScrollFootnote, PropertyScrollSubtext } from "@/components/property-scroll-footnote";
 import { BreadcrumbSchema } from "@/lib/structured-data";
-import { IRISH_ETA_1_PROJECT_NAME, IRISH_ETA_1_SLUG } from "@/lib/irish-eta-1-assets";
+import { IRISH_ETA_1_PROJECT_NAME, IRISH_ETA_1_SECTOR_LABEL, IRISH_ETA_1_SECTOR_NAME, IRISH_ETA_1_SLUG } from "@/lib/irish-eta-1-assets";
 import { IrishEta1Hero } from "./irish-eta-1-hero";
 import { IrishEta1FooterCta } from "./irish-eta-1-footer-cta";
 import { IrishEta1MapEmbed, IrishEta1StickySidebar } from "./irish-eta-1-sticky-sidebar";
@@ -33,7 +33,7 @@ const PROJECT_NAME = IRISH_ETA_1_PROJECT_NAME;
 const IRISH_FACTS = [
   "Irish Infrastructure Group — residential developer active in Greater Noida and Greater Noida West.",
   "Known for Irish Pearls / Irish Platinum corridor projects in the Noida Extension belt.",
-  "New pre-launch in Sector ETA-1 with only 4 towers.",
+  `New pre-launch in ${IRISH_ETA_1_SECTOR_LABEL} with only 4 towers.`,
   "Early inventory priced for first movers before wider public booking.",
 ];
 
@@ -58,7 +58,7 @@ const AMENITIES: { label: string; icon: LucideIcon }[] = [
 ];
 
 const HIGHLIGHTS = [
-  "Pre-launch in Sector ETA-1, Greater Noida by Irish Group",
+  `Pre-launch in ${IRISH_ETA_1_SECTOR_LABEL}, Greater Noida by Irish Group`,
   "4 towers · 1,450 / 1,750 / 2,050 / 2,450 sq ft",
   "3 & 4 BHK · 12 ft ceilings · 8 ft balconies",
   "60,000 sq ft clubhouse",
@@ -68,8 +68,8 @@ const HIGHLIGHTS = [
 
 const LOCATION_ADVANTAGE: { label: string; text: string; icon: LucideIcon }[] = [
   {
-    label: "ETA-1",
-    text: "Sector ETA-1, Greater Noida — planned residential belt (as marketed)",
+    label: IRISH_ETA_1_SECTOR_NAME,
+    text: `${IRISH_ETA_1_SECTOR_LABEL}, Greater Noida — planned residential belt (as marketed)`,
     icon: MapPin,
   },
   {
@@ -157,7 +157,7 @@ export function IrishEta1Page() {
       "Pre-launch 3 and 4 BHK apartments in Sector ETA-1, Greater Noida by Irish Group. Sizes 1450 to 2450 sq ft. BSP from Rs 8,500 per sq ft plus GST.",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Sector ETA-1, Greater Noida",
+      addressLocality: `${IRISH_ETA_1_SECTOR_LABEL}, Greater Noida`,
       addressRegion: "Uttar Pradesh",
       addressCountry: "IN",
     },
@@ -238,7 +238,7 @@ export function IrishEta1Page() {
                     id="why-irish-h2"
                     icon={Building2}
                     title="Why Irish Group?"
-                    subtitle="Residential developer active across Greater Noida West — now launching in Sector ETA-1."
+                    subtitle={`Residential developer active across Greater Noida West — now launching in ${IRISH_ETA_1_SECTOR_LABEL}.`}
                   />
                   <ul className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2" role="list">
                     {IRISH_FACTS.map((line) => (
@@ -317,7 +317,7 @@ export function IrishEta1Page() {
                 <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="location-advantage-h2">
                   <SectionHeading id="location-advantage-h2" icon={MapPin} title="Location Advantage" />
                   <PropertyScrollSubtext className="mb-6 text-sm sm:text-base">
-                    Approximate access as marketed for Sector ETA-1, Greater Noida. Verify on site visit.
+                    Approximate access as marketed for {IRISH_ETA_1_SECTOR_LABEL}, Greater Noida. Verify on site visit.
                   </PropertyScrollSubtext>
                   <ul className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list">
                     {LOCATION_ADVANTAGE.map(({ label, text, icon: RowIcon }) => (

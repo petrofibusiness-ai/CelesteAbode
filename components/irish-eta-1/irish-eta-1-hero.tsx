@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { Cormorant_Garamond } from "next/font/google";
 import { Award, BadgePercent, Building2, IndianRupee, MapPin } from "lucide-react";
-import { IRISH_ETA_1_HERO_IMAGE, IRISH_ETA_1_PROJECT_NAME } from "@/lib/irish-eta-1-assets";
+import { IRISH_ETA_1_HERO_IMAGE, IRISH_ETA_1_PROJECT_NAME, IRISH_ETA_1_SECTOR_LABEL } from "@/lib/irish-eta-1-assets";
 
 const heroPropertyDisplay = Cormorant_Garamond({
   subsets: ["latin"],
@@ -82,7 +82,7 @@ export function IrishEta1Hero() {
                 className="text-sm font-semibold text-white/95 drop-shadow sm:text-lg"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
-                Sector ETA-1, Greater Noida · 3 &amp; 4 BHK · 4 towers
+                {IRISH_ETA_1_SECTOR_LABEL}, Greater Noida · 3 &amp; 4 BHK · 4 towers
               </p>
             </div>
           </div>

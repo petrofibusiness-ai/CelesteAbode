@@ -12,6 +12,13 @@ const PROPERTIES_GN = "/properties-in-greater-noida";
 const FLATS_GN = "/flats-for-sale-in-greater-noida";
 const PROPERTIES_YE = "/properties-in-yamuna-expressway";
 const ACE_SECTOR_150 = "/properties-in-noida/ace-sector-150-noida";
+const TRUMP_TOWERS_NOIDA = "/properties-in-noida/trump-towers-noida";
+const IVORY_COUNTY = "/properties-in-noida/ivory-county";
+const SMART_WORLD_ELIE_SAAB = "/properties-in-noida/smart-world-elie-saab-residencies";
+const SMART_WORLD_LE_COURTYARD = "/properties-in-noida/smart-world-le-courtyard";
+const JACOB_AND_CO = "/properties-in-noida/jacob-and-co";
+const ACE_VERDE_YE = "/properties-in-yamuna-expressway/ace-verde-sector-22a-yamuna-expressway";
+const GODREJ_MAJESTY = "/properties-in-greater-noida/godrej-majesty";
 
 const NOIDA_EXPRESSWAY_INSTAGRAM_POST =
   "https://www.instagram.com/p/Dbqjbk7T238/?utm_source=ig_embed&utm_campaign=loading";
@@ -269,12 +276,40 @@ export function NoidaExpresswayBuyProperty2026Content() {
           <h3 className="mb-3 text-lg font-semibold text-foreground">3. Premium product depth</h3>
           <p className="text-[15px] leading-[1.75] text-gray-700">
             Large-format flats, branded specs, and low-density planning show up along the expressway more than in older
-            Noida grids. Active names include{" "}
+            Noida grids. Active names on the Noida side include{" "}
             <Link href={ACE_SECTOR_150} className="font-medium text-[#CBB27A] hover:underline">
               Ace Sector 150 Noida
             </Link>
-            . Compare builder delivery and RERA timelines across two or three projects before you fixate on one lobby
-            render.
+            ,{" "}
+            <Link href={TRUMP_TOWERS_NOIDA} className="font-medium text-[#CBB27A] hover:underline">
+              Trump Towers Noida
+            </Link>
+            ,{" "}
+            <Link href={IVORY_COUNTY} className="font-medium text-[#CBB27A] hover:underline">
+              Ivory County
+            </Link>
+            ,{" "}
+            <Link href={SMART_WORLD_ELIE_SAAB} className="font-medium text-[#CBB27A] hover:underline">
+              Smart World Elie Saab Residencies
+            </Link>
+            ,{" "}
+            <Link href={SMART_WORLD_LE_COURTYARD} className="font-medium text-[#CBB27A] hover:underline">
+              Smart World Le Courtyard
+            </Link>
+            , and{" "}
+            <Link href={JACOB_AND_CO} className="font-medium text-[#CBB27A] hover:underline">
+              M3M Jacob & Co
+            </Link>
+            . The same commute spine runs into{" "}
+            <Link href={ACE_VERDE_YE} className="font-medium text-[#CBB27A] hover:underline">
+              Ace Verde
+            </Link>{" "}
+            on the Yamuna Expressway and{" "}
+            <Link href={GODREJ_MAJESTY} className="font-medium text-[#CBB27A] hover:underline">
+              Godrej Majesty
+            </Link>{" "}
+            in Greater Noida. Compare builder delivery and RERA timelines across two or three projects before you fixate
+            on one lobby render.
           </p>
         </article>
       </section>

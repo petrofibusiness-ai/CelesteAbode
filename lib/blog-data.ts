@@ -324,6 +324,28 @@ export const blogPosts: BlogPost[] = [
       "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/sector-150-noida-best-investment-destination-2026-blog-2%2Csector-150-noida-best-investment-desti%5B...%5D/sector-150-noida-best-investment-destination-2026-blog-heroimage.webp",
     ogImageAlt: "Sector 150 Noida aerial view: metro, expressway, and premium residential towers at dusk",
   },
+  {
+    id: 16,
+    title: "Why Noida Expressway is the Best Place to Buy Property in 2026",
+    slug: "noida-expressway-best-place-buy-property-2026",
+    excerpt:
+      "Cross-NCR connectivity, sector choice from Sector 150 to Greater Noida West, and what to verify before you book on the Noida Expressway belt in 2026.",
+    category: "Location Intelligence",
+    readTime: "7 min read",
+    date: "August 7, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/Why%20Noida%20Expressway%20is%20the%20Best%20Place%20to%20Buy%20Property%20in%202026/Why%20Noida%20Expressway%20is%20the%20Best%20Place%20to%20Buy%20Property%20in%202026_1.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "Why Noida Expressway is the Best Place to Buy Property (2026)",
+    metaDescription:
+      "Noida Expressway property in 2026: corridor connectivity, Sector 150 to Greater Noida West, buyer checks, and how Celeste Abode helps you shortlist smart.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/Why%20Noida%20Expressway%20is%20the%20Best%20Place%20to%20Buy%20Property%20in%202026/Why%20Noida%20Expressway%20is%20the%20Best%20Place%20to%20Buy%20Property%20in%202026_1.webp",
+    ogImageAlt:
+      "Noida Expressway at twilight: metro line, expressway traffic, residential towers, and landscaped green spaces",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -476,11 +498,28 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "sector-150-noida-best-investment-destination-2026") {
     const prioritySlugs = [
+      "noida-expressway-best-place-buy-property-2026",
       "top-10-tips-valuing-residential-property-noida",
       "is-noida-safe-to-buy-property-2026",
       "noida-vs-greater-noida-investment-2026",
       "why-choose-celeste-abode-property-advisory-delhi-ncr",
       "upcoming-luxury-projects-noida-greater-noida-2026",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "noida-expressway-best-place-buy-property-2026") {
+    const prioritySlugs = [
+      "sector-150-noida-best-investment-destination-2026",
+      "is-noida-safe-to-buy-property-2026",
+      "noida-vs-greater-noida-investment-2026",
+      "yamuna-expressway-growth-corridor-delhi-ncr",
+      "jewar-airport-ncr-property-buyers-2026",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

@@ -368,6 +368,28 @@ export const blogPosts: BlogPost[] = [
     ogImageAlt:
       "Yamuna Expressway at sunset: luxury villas, lake, residential towers, and expressway light trails toward Jewar",
   },
+  {
+    id: 18,
+    title: "How Noida International Airport Will Impact Property Prices on Noida Expressway",
+    slug: "noida-international-airport-impact-property-prices-noida-expressway",
+    excerpt:
+      "How Jewar Airport moves Noida Expressway tickets in 2026: which pockets are priced in, where buyers still find room, and what to verify before you book.",
+    category: "Market Intelligence",
+    readTime: "7 min read",
+    date: "August 12, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/How%20Noida%20International%20Airport%20Will%20Impact%20Property%20Prices%20on%20Noida%20Expressway/How%20Noida%20International%20Airport%20Will%20Impact%20Property%20Prices%20on%20Noida%20Expressway_1.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "How Noida International Airport Impacts Noida Expressway Property Prices",
+    metaDescription:
+      "Noida International Airport and Noida Expressway property prices in 2026: priced-in pockets, buyer checks, and how Celeste Abode helps you shortlist smart.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/How%20Noida%20International%20Airport%20Will%20Impact%20Property%20Prices%20on%20Noida%20Expressway/How%20Noida%20International%20Airport%20Will%20Impact%20Property%20Prices%20on%20Noida%20Expressway_1.webp",
+    ogImageAlt:
+      "Noida International Airport, Expressway traffic, and residential towers at sunset with rising property price graphics",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -537,6 +559,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "noida-expressway-best-place-buy-property-2026") {
     const prioritySlugs = [
+      "noida-international-airport-impact-property-prices-noida-expressway",
       "best-sectors-yamuna-expressway-property-2026",
       "sector-150-noida-best-investment-destination-2026",
       "is-noida-safe-to-buy-property-2026",
@@ -556,9 +579,26 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
     const prioritySlugs = [
       "yamuna-expressway-growth-corridor-delhi-ncr",
       "jewar-airport-ncr-property-buyers-2026",
+      "noida-international-airport-impact-property-prices-noida-expressway",
       "noida-expressway-best-place-buy-property-2026",
       "best-locations-buy-flats-greater-noida-2026",
       "why-choose-celeste-abode-property-advisory-delhi-ncr",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "noida-international-airport-impact-property-prices-noida-expressway") {
+    const prioritySlugs = [
+      "noida-expressway-best-place-buy-property-2026",
+      "jewar-airport-ncr-property-buyers-2026",
+      "sector-150-noida-best-investment-destination-2026",
+      "yamuna-expressway-growth-corridor-delhi-ncr",
+      "is-noida-safe-to-buy-property-2026",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

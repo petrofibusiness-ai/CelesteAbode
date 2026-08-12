@@ -65,6 +65,11 @@ import {
   YamunaExpresswaySectorsCtaPair,
   bestSectorsYamunaExpresswayFaqSchemaItems,
 } from "./best-sectors-yamuna-expressway-property-2026-content";
+import {
+  NoidaAirportImpactNoidaExpresswayPricesContent,
+  NoidaAirportImpactExpresswayCtaPair,
+  noidaAirportImpactExpresswayFaqSchemaItems,
+} from "./noida-airport-impact-noida-expressway-prices-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -86,6 +91,8 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "sector-150-noida-best-investment-destination-2026": Sector150NoidaInvestment2026Content,
   "noida-expressway-best-place-buy-property-2026": NoidaExpresswayBuyProperty2026Content,
   "best-sectors-yamuna-expressway-property-2026": BestSectorsYamunaExpresswayProperty2026Content,
+  "noida-international-airport-impact-property-prices-noida-expressway":
+    NoidaAirportImpactNoidaExpresswayPricesContent,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -121,7 +128,8 @@ export async function generateMetadata({
     post.slug === "best-neighborhoods-ghaziabad-value-growth-2026" ||
     post.slug === "sector-150-noida-best-investment-destination-2026" ||
     post.slug === "noida-expressway-best-place-buy-property-2026" ||
-    post.slug === "best-sectors-yamuna-expressway-property-2026"
+    post.slug === "best-sectors-yamuna-expressway-property-2026" ||
+    post.slug === "noida-international-airport-impact-property-prices-noida-expressway"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -309,6 +317,22 @@ export async function generateMetadata({
       "real estate consultant Delhi NCR",
       "Celeste Abode",
     ],
+    "noida-international-airport-impact-property-prices-noida-expressway": [
+      "Noida International Airport property",
+      "Jewar Airport property prices",
+      "Noida Expressway property prices",
+      "property in Noida",
+      "flats for sale in Noida",
+      "buy flat in Noida",
+      "Noida Expressway investment 2026",
+      "Sector 150 Noida airport",
+      "ace sector 150 noida",
+      "properties in Greater Noida",
+      "Yamuna Expressway property",
+      "real estate consultant Noida",
+      "real estate consultant Delhi NCR",
+      "Celeste Abode",
+    ],
     "top-10-tips-valuing-residential-property-noida": [
       "property in noida",
       "real estate company in noida",
@@ -443,6 +467,8 @@ export default async function BlogPostPage({
   const isSector150Noida = slug === "sector-150-noida-best-investment-destination-2026";
   const isNoidaExpressway = slug === "noida-expressway-best-place-buy-property-2026";
   const isYamunaExpresswaySectors = slug === "best-sectors-yamuna-expressway-property-2026";
+  const isNoidaAirportImpactExpressway =
+    slug === "noida-international-airport-impact-property-prices-noida-expressway";
   const isNoidaVsGreaterNoida = slug === "noida-vs-greater-noida-investment-2026";
   const isUpcomingLuxury = slug === "upcoming-luxury-projects-noida-greater-noida-2026";
   const isForestWalk = slug === "forest-walk-villa-ghaziabad-luxury-living-2026";
@@ -468,6 +494,8 @@ export default async function BlogPostPage({
       ? "Location Guide | Noida Expressway 2026"
     : isYamunaExpresswaySectors
       ? "Location Guide | Yamuna Expressway 2026"
+    : isNoidaAirportImpactExpressway
+      ? "Market Intelligence | Noida Expressway 2026"
     : isThreeBhkGreaterNoida
       ? "Greater Noida West & Noida Extension | 2026"
       : isNoidaVsGreaterNoida
@@ -537,6 +565,9 @@ export default async function BlogPostPage({
       {slug === "best-sectors-yamuna-expressway-property-2026" ? (
         <FAQPageSchema faqs={bestSectorsYamunaExpresswayFaqSchemaItems} />
       ) : null}
+      {slug === "noida-international-airport-impact-property-prices-noida-expressway" ? (
+        <FAQPageSchema faqs={noidaAirportImpactExpresswayFaqSchemaItems} />
+      ) : null}
 
       <div className="min-h-screen bg-background">
         <Header />
@@ -574,7 +605,8 @@ export default async function BlogPostPage({
                         isBestNeighborhoodsGhaziabad ||
                         isSector150Noida ||
                         isNoidaExpressway ||
-                        isYamunaExpresswaySectors) &&
+                        isYamunaExpresswaySectors ||
+                        isNoidaAirportImpactExpressway) &&
                         "text-left"
                     )}
                   >
@@ -591,7 +623,8 @@ export default async function BlogPostPage({
                               isBestNeighborhoodsGhaziabad ||
                               isSector150Noida ||
                               isNoidaExpressway ||
-                              isYamunaExpresswaySectors
+                              isYamunaExpresswaySectors ||
+                              isNoidaAirportImpactExpressway
                             ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                             : "mb-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                       }
@@ -612,7 +645,8 @@ export default async function BlogPostPage({
                           isBestNeighborhoodsGhaziabad ||
                           isSector150Noida ||
                           isNoidaExpressway ||
-                          isYamunaExpresswaySectors
+                          isYamunaExpresswaySectors ||
+                          isNoidaAirportImpactExpressway
                           ? "mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
                           : usePremiumHero
                             ? "mx-auto mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
@@ -648,6 +682,10 @@ export default async function BlogPostPage({
                     ) : isYamunaExpresswaySectors ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
                         <YamunaExpresswaySectorsCtaPair direction="row" hero />
+                      </div>
+                    ) : isNoidaAirportImpactExpressway ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <NoidaAirportImpactExpresswayCtaPair direction="row" hero />
                       </div>
                     ) : isThreeBhkGreaterNoida || isBestLocationsGreaterNoida ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
@@ -699,7 +737,8 @@ export default async function BlogPostPage({
                           isBestNeighborhoodsGhaziabad ||
                           isSector150Noida ||
                           isNoidaExpressway ||
-                          isYamunaExpresswaySectors
+                          isYamunaExpresswaySectors ||
+                          isNoidaAirportImpactExpressway
                           ? "justify-end px-1 sm:px-2"
                           : "justify-center"
                       )}

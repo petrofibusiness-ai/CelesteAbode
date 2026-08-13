@@ -390,6 +390,28 @@ export const blogPosts: BlogPost[] = [
     ogImageAlt:
       "Noida International Airport, Expressway traffic, and residential towers at sunset with rising property price graphics",
   },
+  {
+    id: 19,
+    title: "Why Property in Yamuna Expressway is the Smartest Real Estate Investment in 2026",
+    slug: "yamuna-expressway-smartest-real-estate-investment-2026",
+    excerpt:
+      "Why Yamuna Expressway still looks smart in 2026: Jewar Airport, entry tickets, project depth in 22A and 22D, and what to verify before you invest.",
+    category: "Market Intelligence",
+    readTime: "8 min read",
+    date: "August 14, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/Why%20Property%20in%20Yamuna%20Expressway%20is%20the%20Smartest%20Real%20Estate%20Investment%20in%202026/Why%20Property%20in%20Yamuna%20Expressway%20is%20the%20Smartest%20Real%20Estate%20Investment%20in%202026.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "Why Yamuna Expressway is the Smartest Real Estate Investment (2026)",
+    metaDescription:
+      "Yamuna Expressway property investment in 2026: Jewar Airport, entry vs NCR belts, Sector 22A and 22D projects, and how Celeste Abode helps you shortlist smart.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/Why%20Property%20in%20Yamuna%20Expressway%20is%20the%20Smartest%20Real%20Estate%20Investment%20in%202026/Why%20Property%20in%20Yamuna%20Expressway%20is%20the%20Smartest%20Real%20Estate%20Investment%20in%202026.webp",
+    ogImageAlt:
+      "Yamuna Expressway investment collage: airport, luxury residences, construction, sector map pin, and rising returns",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -577,6 +599,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "best-sectors-yamuna-expressway-property-2026") {
     const prioritySlugs = [
+      "yamuna-expressway-smartest-real-estate-investment-2026",
       "yamuna-expressway-growth-corridor-delhi-ncr",
       "jewar-airport-ncr-property-buyers-2026",
       "noida-international-airport-impact-property-prices-noida-expressway",
@@ -596,9 +619,26 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
     const prioritySlugs = [
       "noida-expressway-best-place-buy-property-2026",
       "jewar-airport-ncr-property-buyers-2026",
+      "yamuna-expressway-smartest-real-estate-investment-2026",
       "sector-150-noida-best-investment-destination-2026",
       "yamuna-expressway-growth-corridor-delhi-ncr",
       "is-noida-safe-to-buy-property-2026",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "yamuna-expressway-smartest-real-estate-investment-2026") {
+    const prioritySlugs = [
+      "best-sectors-yamuna-expressway-property-2026",
+      "yamuna-expressway-growth-corridor-delhi-ncr",
+      "jewar-airport-ncr-property-buyers-2026",
+      "noida-international-airport-impact-property-prices-noida-expressway",
+      "best-locations-buy-flats-greater-noida-2026",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

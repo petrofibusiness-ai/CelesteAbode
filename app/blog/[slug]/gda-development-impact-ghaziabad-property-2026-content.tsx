@@ -13,6 +13,7 @@ const KARYAN_NH24 = "/properties-in-ghaziabad/karyan-nh24-ghaziabad";
 const KARYAN_TREVANA = "/properties-in-ghaziabad/karyan-trevana-residences-nh24-ghaziabad";
 const AU_COSMOS = "/properties-in-ghaziabad/au-cosmos-corner-siddharth-vihar-ghaziabad";
 const ROYAL_ROSEWOOD = "/properties-in-ghaziabad/royal-rosewood-villas-suncity-hitech-ghaziabad";
+const PRESTIGE_MAYFLOWER = "/properties-in-ghaziabad/prestige-city-mayflower-indirapuram-ghaziabad";
 const GAUR_NYC = "/properties-in-ghaziabad/gaur-nyc-residences-wave-city-ghaziabad";
 const VERIDIA = "/properties-in-ghaziabad/veridia-wave-city-ghaziabad";
 const SKA_DIVINE = "/properties-in-ghaziabad/ska-divine-wave-city-ghaziabad";
@@ -423,6 +424,14 @@ export function GdaDevelopmentImpactGhaziabadProperty2026Content() {
               flats in Ghaziabad
             </Link>{" "}
             by belt if live-now depth matters more than a five-year land bet.
+          </p>
+          <p>
+            On Indirapuram Extension and NH-24, large launches like{" "}
+            <Link href={PRESTIGE_MAYFLOWER} className="font-medium text-[#CBB27A] hover:underline">
+              Prestige City Mayflower
+            </Link>{" "}
+            sit in the mature-plus-growth pocket: expressway access with an Indirapuram address. Read RERA and the builder
+            delivery track before you treat GDA road spend as your price floor.
           </p>
           <p>
             Villa buyers on the wider east Ghaziabad map sometimes cross-check{" "}

@@ -631,6 +631,12 @@ This XML file does not appear to have any style information associated with it. 
 <priority>0.75</priority>
 </url>
 <url>
+<loc>https://www.celesteabode.com/properties-in-ghaziabad/prestige-city-mayflower-indirapuram-ghaziabad</loc>
+<lastmod>2026-08-31T06:05:12.148Z</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.75</priority>
+</url>
+<url>
 <loc>https://www.celesteabode.com/properties-in-noida/ace-sector-150-noida</loc>
 <lastmod>1970-01-01T00:00:00.000Z</lastmod>
 <changefreq>weekly</changefreq>

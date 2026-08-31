@@ -13,6 +13,7 @@ const KARYAN_NH24 = "/properties-in-ghaziabad/karyan-nh24-ghaziabad";
 const KARYAN_TREVANA = "/properties-in-ghaziabad/karyan-trevana-residences-nh24-ghaziabad";
 const AU_COSMOS = "/properties-in-ghaziabad/au-cosmos-corner-siddharth-vihar-ghaziabad";
 const ROYAL_ROSEWOOD = "/properties-in-ghaziabad/royal-rosewood-villas-suncity-hitech-ghaziabad";
+const PRESTIGE_MAYFLOWER = "/properties-in-ghaziabad/prestige-city-mayflower-indirapuram-ghaziabad";
 const GAUR_NYC = "/properties-in-ghaziabad/gaur-nyc-residences-wave-city-ghaziabad";
 const VERIDIA = "/properties-in-ghaziabad/veridia-wave-city-ghaziabad";
 const SKA_DIVINE = "/properties-in-ghaziabad/ska-divine-wave-city-ghaziabad";
@@ -342,12 +343,22 @@ export function GdaDevelopmentPlansGhaziabadLocationsGrowth2026Content() {
             <Link href={FLATS_GHZ} className="font-medium text-[#CBB27A] hover:underline">
               flats in Ghaziabad
             </Link>{" "}
-            in Indirapuram or Vaishali if move-in depth beats a five-year land bet. Buyers who want villa-scale product on
-            the wider east Ghaziabad map sometimes cross-check{" "}
+            in Indirapuram or Vaishali if move-in depth beats a five-year land bet.
+          </p>
+          <p className="mt-4 text-[15px] leading-[1.75] text-gray-700">
+            Indirapuram Extension on NH-24 is where GDA corridor spend meets an established buyer base.{" "}
+            <Link href={PRESTIGE_MAYFLOWER} className="font-medium text-[#CBB27A] hover:underline">
+              Prestige City Mayflower
+            </Link>{" "}
+            is one large township-style launch buyers cross-check when they want expressway access without leaving the
+            Indirapuram story.
+          </p>
+          <p className="mt-4 text-[15px] leading-[1.75] text-gray-700">
+            Villa buyers on the wider east Ghaziabad map sometimes add{" "}
             <Link href={ROYAL_ROSEWOOD} className="font-medium text-[#CBB27A] hover:underline">
               Royal Rosewood Villas
             </Link>{" "}
-            against their shortlist.
+            to the same shortlist.
           </p>
         </article>
       </section>

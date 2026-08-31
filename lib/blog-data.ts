@@ -456,6 +456,50 @@ export const blogPosts: BlogPost[] = [
     ogImageAlt:
       "Noida International Airport and Yamuna Expressway at dusk with residential towers nearby",
   },
+  {
+    id: 22,
+    title: "How GDA's New Development Projects Could Impact Property Prices in Ghaziabad in 2026",
+    slug: "gda-new-development-projects-impact-ghaziabad-property-prices-2026",
+    excerpt:
+      "GDA townships, Aero City, and new corridor roads: how Ghaziabad property prices could shift in 2026.",
+    category: "Market Intelligence",
+    readTime: "8 min read",
+    date: "August 26, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/How%20GDA's%20New%20Development%20Projects%20Could%20Impact%20Property%20Prices%20in%20Ghaziabad%20in%202026%20blog/How%20GDA's%20New%20Development%20Projects%20Could%20Impact%20Property%20Prices%20in%20Ghaziabad%20in%202026_hero.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "GDA Projects Impact on Ghaziabad Property Prices (2026)",
+    metaDescription:
+      "How GDA Harnandipuram, Aero City, GT Road elevated corridor, and Hindon embankment could affect Ghaziabad property prices in 2026, plus buyer checks and belt picks.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/How%20GDA's%20New%20Development%20Projects%20Could%20Impact%20Property%20Prices%20in%20Ghaziabad%20in%202026%20blog/How%20GDA's%20New%20Development%20Projects%20Could%20Impact%20Property%20Prices%20in%20Ghaziabad%20in%202026_hero.webp",
+    ogImageAlt:
+      "Aerial view of Ghaziabad towers, highway, and metro corridor at golden hour in 2026",
+  },
+  {
+    id: 23,
+    title: "GDA Development Plans 2026: Which Ghaziabad Locations Are Poised for Real Estate Growth",
+    slug: "gda-development-plans-ghaziabad-locations-growth-2026",
+    excerpt:
+      "GDA's 2026 plan points at five Ghaziabad belts: which locations are poised for growth, and who each suits.",
+    category: "Market Intelligence",
+    readTime: "8 min read",
+    date: "August 31, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/GDA%20Development%20Plans%202026%3A%20Which%20Ghaziabad%20Locations%20Are%20Poised%20for%20Real%20Estate%20Growth%20blog/GDA%20Development%20Plans%202026%20Which%20Ghaziabad%20Locations%20Are%20Poised%20for%20Real%20Estate%20Growth_1.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "GDA Development Plans 2026: Ghaziabad Growth Locations",
+    metaDescription:
+      "Which Ghaziabad locations are poised for real estate growth in 2026: Raj Nagar Extension, NH-24, Wave City, Siddharth Vihar, and mature belts, mapped to GDA plans.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/GDA%20Development%20Plans%202026%3A%20Which%20Ghaziabad%20Locations%20Are%20Poised%20for%20Real%20Estate%20Growth%20blog/GDA%20Development%20Plans%202026%20Which%20Ghaziabad%20Locations%20Are%20Poised%20for%20Real%20Estate%20Growth_1.webp",
+    ogImageAlt:
+      "GDA development plans 2026: Ghaziabad locations poised for real estate growth",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -719,6 +763,38 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
       "jewar-airport-ncr-property-buyers-2026",
       "noida-international-airport-impact-property-prices-noida-expressway",
       "yamuna-expressway-growth-corridor-delhi-ncr",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "gda-new-development-projects-impact-ghaziabad-property-prices-2026") {
+    const prioritySlugs = [
+      "gda-development-plans-ghaziabad-locations-growth-2026",
+      "best-neighborhoods-ghaziabad-value-growth-2026",
+      "forest-walk-villa-ghaziabad-luxury-living-2026",
+      "infrastructure-driving-property-prices-greater-noida",
+      "why-choose-celeste-abode-property-advisory-delhi-ncr",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "gda-development-plans-ghaziabad-locations-growth-2026") {
+    const prioritySlugs = [
+      "gda-new-development-projects-impact-ghaziabad-property-prices-2026",
+      "best-neighborhoods-ghaziabad-value-growth-2026",
+      "forest-walk-villa-ghaziabad-luxury-living-2026",
+      "infrastructure-driving-property-prices-greater-noida",
+      "is-noida-safe-to-buy-property-2026",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

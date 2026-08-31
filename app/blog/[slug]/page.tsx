@@ -85,6 +85,16 @@ import {
   JewarBoostingYamunaExpresswayCtaPair,
   jewarBoostingYamunaExpresswayFaqSchemaItems,
 } from "./jewar-boosting-yamuna-expressway-property-content";
+import {
+  GdaDevelopmentImpactGhaziabadProperty2026Content,
+  GdaDevelopmentImpactGhaziabadCtaPair,
+  gdaDevelopmentImpactGhaziabadFaqSchemaItems,
+} from "./gda-development-impact-ghaziabad-property-2026-content";
+import {
+  GdaDevelopmentPlansGhaziabadLocationsGrowth2026Content,
+  GdaDevelopmentPlansGhaziabadCtaPair,
+  gdaDevelopmentPlansGhaziabadFaqSchemaItems,
+} from "./gda-development-plans-ghaziabad-locations-growth-2026-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -112,6 +122,10 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "noida-expressway-property-price-trends-2026": NoidaExpresswayPropertyPriceTrends2026Content,
   "noida-international-airport-boosting-yamuna-expressway-property":
     JewarBoostingYamunaExpresswayPropertyContent,
+  "gda-new-development-projects-impact-ghaziabad-property-prices-2026":
+    GdaDevelopmentImpactGhaziabadProperty2026Content,
+  "gda-development-plans-ghaziabad-locations-growth-2026":
+    GdaDevelopmentPlansGhaziabadLocationsGrowth2026Content,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -151,7 +165,9 @@ export async function generateMetadata({
     post.slug === "noida-international-airport-impact-property-prices-noida-expressway" ||
     post.slug === "yamuna-expressway-smartest-real-estate-investment-2026" ||
     post.slug === "noida-expressway-property-price-trends-2026" ||
-    post.slug === "noida-international-airport-boosting-yamuna-expressway-property"
+    post.slug === "noida-international-airport-boosting-yamuna-expressway-property" ||
+    post.slug === "gda-new-development-projects-impact-ghaziabad-property-prices-2026" ||
+    post.slug === "gda-development-plans-ghaziabad-locations-growth-2026"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -400,6 +416,37 @@ export async function generateMetadata({
       "real estate consultant Delhi NCR",
       "Celeste Abode",
     ],
+    "gda-new-development-projects-impact-ghaziabad-property-prices-2026": [
+      "GDA Ghaziabad projects",
+      "GDA Harnandipuram Township",
+      "Ghaziabad property prices 2026",
+      "property in Ghaziabad",
+      "flats in Ghaziabad",
+      "Aero City Ghaziabad",
+      "Raj Nagar Extension property",
+      "NH-24 Ghaziabad property",
+      "Wave City Ghaziabad",
+      "GDA development Ghaziabad",
+      "real estate consultant Ghaziabad",
+      "real estate consultant Delhi NCR",
+      "Celeste Abode",
+    ],
+    "gda-development-plans-ghaziabad-locations-growth-2026": [
+      "GDA development plans 2026",
+      "Ghaziabad real estate growth",
+      "property in Ghaziabad",
+      "flats in Ghaziabad",
+      "Raj Nagar Extension growth",
+      "NH-24 Ghaziabad investment",
+      "Wave City Ghaziabad",
+      "Siddharth Vihar Ghaziabad",
+      "Indirapuram property 2026",
+      "GDA Harnandipuram",
+      "Aero City Ghaziabad",
+      "real estate consultant Ghaziabad",
+      "real estate consultant Delhi NCR",
+      "Celeste Abode",
+    ],
     "top-10-tips-valuing-residential-property-noida": [
       "property in noida",
       "real estate company in noida",
@@ -540,6 +587,10 @@ export default async function BlogPostPage({
   const isNoidaExpresswayPriceTrends = slug === "noida-expressway-property-price-trends-2026";
   const isJewarBoostingYamuna =
     slug === "noida-international-airport-boosting-yamuna-expressway-property";
+  const isGdaGhaziabadDevelopment =
+    slug === "gda-new-development-projects-impact-ghaziabad-property-prices-2026";
+  const isGdaGhaziabadLocationsGrowth =
+    slug === "gda-development-plans-ghaziabad-locations-growth-2026";
   const isNoidaVsGreaterNoida = slug === "noida-vs-greater-noida-investment-2026";
   const isUpcomingLuxury = slug === "upcoming-luxury-projects-noida-greater-noida-2026";
   const isForestWalk = slug === "forest-walk-villa-ghaziabad-luxury-living-2026";
@@ -573,6 +624,10 @@ export default async function BlogPostPage({
       ? "Market Intelligence | Noida Expressway Prices 2026"
     : isJewarBoostingYamuna
       ? "Market Intelligence | Jewar & Yamuna Expressway 2026"
+    : isGdaGhaziabadDevelopment
+      ? "Market Intelligence | Ghaziabad GDA 2026"
+    : isGdaGhaziabadLocationsGrowth
+      ? "Location Guide | Ghaziabad GDA 2026"
     : isThreeBhkGreaterNoida
       ? "Greater Noida West & Noida Extension | 2026"
       : isNoidaVsGreaterNoida
@@ -654,6 +709,12 @@ export default async function BlogPostPage({
       {slug === "noida-international-airport-boosting-yamuna-expressway-property" ? (
         <FAQPageSchema faqs={jewarBoostingYamunaExpresswayFaqSchemaItems} />
       ) : null}
+      {slug === "gda-new-development-projects-impact-ghaziabad-property-prices-2026" ? (
+        <FAQPageSchema faqs={gdaDevelopmentImpactGhaziabadFaqSchemaItems} />
+      ) : null}
+      {slug === "gda-development-plans-ghaziabad-locations-growth-2026" ? (
+        <FAQPageSchema faqs={gdaDevelopmentPlansGhaziabadFaqSchemaItems} />
+      ) : null}
 
       <div className="min-h-screen bg-background">
         <Header />
@@ -695,7 +756,9 @@ export default async function BlogPostPage({
                         isNoidaAirportImpactExpressway ||
                         isYamunaSmartestInvestment ||
                         isNoidaExpresswayPriceTrends ||
-                        isJewarBoostingYamuna) &&
+                        isJewarBoostingYamuna ||
+                        isGdaGhaziabadDevelopment ||
+                        isGdaGhaziabadLocationsGrowth) &&
                         "text-left"
                     )}
                   >
@@ -716,7 +779,9 @@ export default async function BlogPostPage({
                               isNoidaAirportImpactExpressway ||
                               isYamunaSmartestInvestment ||
                               isNoidaExpresswayPriceTrends ||
-                              isJewarBoostingYamuna
+                              isJewarBoostingYamuna ||
+                              isGdaGhaziabadDevelopment ||
+                              isGdaGhaziabadLocationsGrowth
                             ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                             : "mb-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                       }
@@ -741,7 +806,9 @@ export default async function BlogPostPage({
                           isNoidaAirportImpactExpressway ||
                           isYamunaSmartestInvestment ||
                           isNoidaExpresswayPriceTrends ||
-                          isJewarBoostingYamuna
+                          isJewarBoostingYamuna ||
+                          isGdaGhaziabadDevelopment ||
+                          isGdaGhaziabadLocationsGrowth
                           ? "mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
                           : usePremiumHero
                             ? "mx-auto mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
@@ -793,6 +860,14 @@ export default async function BlogPostPage({
                     ) : isJewarBoostingYamuna ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
                         <JewarBoostingYamunaExpresswayCtaPair direction="row" hero />
+                      </div>
+                    ) : isGdaGhaziabadDevelopment ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <GdaDevelopmentImpactGhaziabadCtaPair direction="row" hero />
+                      </div>
+                    ) : isGdaGhaziabadLocationsGrowth ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <GdaDevelopmentPlansGhaziabadCtaPair direction="row" hero />
                       </div>
                     ) : isThreeBhkGreaterNoida || isBestLocationsGreaterNoida ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
@@ -848,7 +923,9 @@ export default async function BlogPostPage({
                           isNoidaAirportImpactExpressway ||
                           isYamunaSmartestInvestment ||
                           isNoidaExpresswayPriceTrends ||
-                          isJewarBoostingYamuna
+                          isJewarBoostingYamuna ||
+                          isGdaGhaziabadDevelopment ||
+                          isGdaGhaziabadLocationsGrowth
                           ? "justify-end px-1 sm:px-2"
                           : "justify-center"
                       )}

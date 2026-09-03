@@ -4,6 +4,7 @@ export const HOT_PROPERTY_ANNOUNCEMENTS = [
   "Kviraaj Mayfair Residency · Move in with just 20% down · Pay the remaining 80% only on possession",
   "Irish ETA-1 Greater Noida · Pre-launch from ₹8,500/sq ft* · EOI 25% · 25:25:25:25 plan",
   "Ace Sector 150 Noida · Pre-launch ultra-luxury 3, 4 & 4.5 BHK · EOI open for early allotment",
+  "Prateek Sector 150 Noida · Pre-launch Art Deco 2.0 · BSP ₹16,500/sq ft* · EOI ₹10 Lakh*",
   "Karyan NH-24 Ghaziabad · Pre-launch from ₹6,400/sq ft* · EOI ₹5 Lakh · 25×4 payment plan",
   "Fusion Vasundhara · Pre-launch premium apartments in Sector 7, Vasundhara · Early pricing available",
 ] as const;
@@ -34,6 +35,11 @@ export const HOT_PROPERTY_PROJECT_LINKS: HotPropertyProjectLink[] = [
   {
     label: "Ace Sector 150 Noida",
     href: "/properties-in-noida/ace-sector-150-noida",
+    location: "Noida",
+  },
+  {
+    label: "Prateek Sector 150 Noida",
+    href: "/properties-in-noida/prateek-sector-150-noida",
     location: "Noida",
   },
   {

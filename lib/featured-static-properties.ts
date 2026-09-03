@@ -8,6 +8,11 @@ import {
   IRISH_ETA_1_PROJECT_NAME,
   IRISH_ETA_1_SLUG,
 } from "@/lib/irish-eta-1-assets";
+import {
+  PRATEEK_SECTOR_150_HERO_IMAGE,
+  PRATEEK_SECTOR_150_PROJECT_NAME,
+  PRATEEK_SECTOR_150_SLUG,
+} from "@/lib/prateek-sector-150-assets";
 
 const FUSION_VASUNDHARA_FEATURED: Property & { locationSlug: string } = {
   id: "featured-fusion-vasundhara",
@@ -190,12 +195,59 @@ const IRISH_ETA_1_FEATURED: Property & { locationSlug: string } = {
   locationSlug: "greater-noida",
 };
 
+const PRATEEK_SECTOR_150_FEATURED: Property & { locationSlug: string } = {
+  id: "featured-prateek-sector-150",
+  slug: PRATEEK_SECTOR_150_SLUG,
+  projectName: PRATEEK_SECTOR_150_PROJECT_NAME,
+  developer: "Prateek Group",
+  location: "Sector 150, Noida",
+  locationCategory: null,
+  locationId: null,
+  localityId: null,
+  propertyType: "Apartment/Flats",
+  reraId: "Pre-launch, details awaited",
+  projectStatus: "New Launch",
+  possessionDate: "",
+  configuration: ["3 BHK", "4 BHK"],
+  sizes: "Approx 2850 - 3850 sq ft",
+  description:
+    "Prateek Group pre-launch in Sector 150, Noida. Art Deco 2.0 high-rise. 3 and 4 BHK + servant. Official name and RERA awaited.",
+  heroImage: PRATEEK_SECTOR_150_HERO_IMAGE,
+  heroImageAlt:
+    "Prateek Group Art Deco ultra-luxury high-rise residences in Sector 150, Noida, with Yamuna River views and Art Deco-inspired architecture",
+  brochureUrl: "",
+  images: [PRATEEK_SECTOR_150_HERO_IMAGE],
+  amenities: [
+    "Art Deco arrival lobby",
+    "Private party decks",
+    "Yamuna-facing planning",
+    "Sports-city belt access",
+  ],
+  priceMin: null,
+  priceMax: null,
+  priceUnit: "From Rs 16,500/sq ft*",
+  seo: {
+    title: "Prateek Sector 150 Noida - Pre-Launch 3 & 4 BHK",
+    description:
+      "Prateek Group pre-launch in Sector 150, Noida. Art Deco 2.0. BSP from Rs 16,500/sq ft. EOI Rs 10 Lakh.",
+    keywords:
+      "prateek sector 150 noida, prateek group pre launch, sector 150 noida, art deco apartments noida",
+    canonical: `/properties-in-noida/${PRATEEK_SECTOR_150_SLUG}`,
+  },
+  featured: true,
+  isPublished: true,
+  createdAt: new Date(0).toISOString(),
+  updatedAt: new Date(0).toISOString(),
+  locationSlug: "noida",
+};
+
 /** Static property pages with dedicated routes (not only in properties_v2). */
 export const FEATURED_STATIC_PROPERTY_PAGES: (Property & { locationSlug: string })[] = [
   FUSION_VASUNDHARA_FEATURED,
   KARYAN_RESIDENCES_NH24_FEATURED,
   ACE_PARKWAY_2_0_FEATURED,
   IRISH_ETA_1_FEATURED,
+  PRATEEK_SECTOR_150_FEATURED,
 ];
 
 export function getFeaturedStaticPropertiesForLocation(locationSlug: string): (Property & { locationSlug: string })[] {
@@ -224,6 +276,7 @@ export const PRE_LAUNCH_PROPERTY_SLUGS = [
   KARYAN_NH24_SLUG,
   ACE_SECTOR_150_SLUG,
   IRISH_ETA_1_SLUG,
+  PRATEEK_SECTOR_150_SLUG,
 ] as const;
 
 export function isPreLaunchPropertySlug(slug: string): boolean {

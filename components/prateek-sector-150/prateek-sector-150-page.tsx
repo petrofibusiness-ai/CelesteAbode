@@ -15,10 +15,10 @@ import {
   Store,
   Train,
   TreePine,
-  TrendingUp,
   Route,
   Waves,
   Zap,
+  Lock,
 } from "lucide-react";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -31,6 +31,7 @@ import {
 import { PrateekSector150Hero } from "./prateek-sector-150-hero";
 import { PrateekSector150FooterCta } from "./prateek-sector-150-footer-cta";
 import { PrateekSector150MapEmbed, PrateekSector150StickySidebar } from "./prateek-sector-150-sticky-sidebar";
+import { FloorPlanPreview } from "@/components/property-public/floor-plan-preview";
 
 const PROJECT_NAME = PRATEEK_SECTOR_150_PROJECT_NAME;
 
@@ -39,15 +40,6 @@ const PRATEEK_FACTS = [
   "Eleven projects delivered, including Prateek Edifice in Sector 107 and Prateek Grand City in Siddharth Vihar, Ghaziabad.",
   "Awards include NDTV Property Award, Luxury Project of the Year, Assocham Award, Star Realty Award, Business Sphere Award, and Best Developer in Noida at UPCON 2014.",
   "Prateek Canary is the group’s flagship golf-course-facing launch in Sector 150.",
-];
-
-const ROI_PROJECTION = [
-  { label: "Pre-launch BSP", value: "₹16,500/sq ft*" },
-  { label: "EOI amount", value: "₹10 Lakh*" },
-  { label: "3 BHK + Servant", value: "~₹4.70 Cr*" },
-  { label: "4 BHK + Servant", value: "~₹6.35 Cr*" },
-  { label: "Payment plan", value: "10 · 20 · 20 · 20 · 30*" },
-  { label: "RERA", value: "Not released" },
 ];
 
 const AMENITIES: { label: string; icon: LucideIcon }[] = [
@@ -61,55 +53,48 @@ const AMENITIES: { label: string; icon: LucideIcon }[] = [
   { label: "24×7 security", icon: Shield },
 ];
 
-const SNAPSHOT = [
-  { label: "Location", value: "Sector 150, Noida Expressway" },
-  { label: "Land & inventory", value: "About 11 acres · 442 residences*" },
-  { label: "Towers", value: "S+32 floors · 2 homes per floor*" },
-  { label: "3 BHK + Servant", value: "About 2,850 sq ft*" },
-  { label: "4 BHK + Servant", value: "About 3,850 sq ft*" },
-  { label: "Design", value: "Art Deco 2.0 · L-shaped layouts · limited penthouses*" },
+const SNAPSHOT: { text?: string; label?: string; concealed?: boolean }[] = [
+  { text: "Pre-launch by Prateek Group in Sector 150, Noida, on the Noida Expressway" },
+  { text: "Art Deco 2.0 high-rise. 1920s New York style, built for this Expressway site" },
+  { text: "3 BHK + Servant and 4 BHK + Servant" },
+  { text: "Yamuna river views and green surroundings, as marketed at the 2026 preview" },
+  { text: "Pre-launch BSP ₹16,500/sq ft* · EOI ₹10 Lakh*" },
+  { text: "Payment plan 10 · 20 · 20 · 20 · 30* · official name and RERA not out yet" },
+  { label: "3 BHK + Servant", concealed: true },
+  { label: "4 BHK + Servant", concealed: true },
 ];
 
 const LOCATION_ADVANTAGE: { label: string; text: string; icon: LucideIcon }[] = [
   {
     label: "Expressway",
-    text: "Noida–Greater Noida Expressway frontage in Sector 150 (as marketed)",
+    text: "On the Noida Greater Noida Expressway in Sector 150, as marketed.",
     icon: Route,
   },
   {
-    label: "River belt",
-    text: "Yamuna-facing planning as presented at the August 2026 preview — confirm on plan",
+    label: "River",
+    text: "Homes are planned to face the Yamuna. Check this on the plan.",
     icon: TreePine,
   },
   {
     label: "Sports city",
-    text: "Sector 150 sports infrastructure: golf, stadiums, and club amenities in the sector",
+    text: "Sector 150 has golf, stadiums, and sports clubs.",
     icon: Landmark,
   },
   {
     label: "Metro",
-    text: "Sector 148 Aqua Line metro within a short drive (as marketed)",
+    text: "Sector 148 Aqua Line metro is a short drive, as marketed.",
     icon: Train,
   },
   {
     label: "Airport",
-    text: "Jewar International Airport ~25–30 min (as marketed)",
+    text: "Jewar airport is about 25 to 30 minutes, as marketed.",
     icon: Plane,
   },
   {
     label: "Daily needs",
-    text: "Expressway retail, schools, and hospitals in the Sector 150 belt",
+    text: "Shops, schools, and hospitals sit along this belt.",
     icon: Store,
   },
-];
-
-const PAYMENT_MILESTONES = [
-  { when: "At EOI", due: "₹10 Lakh*" },
-  { when: "At allotment", due: "10% of BSP (includes EOI)*" },
-  { when: "60 days from allotment", due: "20% of BSP*" },
-  { when: "16th floor casting or 24 months (later of the two)", due: "20% of BSP + parking + EV charging*" },
-  { when: "Top-floor milestone", due: "20% of BSP + club + power backup*" },
-  { when: "FDL for possession", due: "30% of BSP + IFMS + meter + lease rent*" },
 ];
 
 const NCR_LINKS = [
@@ -118,6 +103,37 @@ const NCR_LINKS = [
   { href: "/properties-in-ghaziabad", title: "Ghaziabad", sub: "NCR east" },
   { href: "/properties-in-yamuna-expressway", title: "Yamuna Expressway", sub: "Airport corridor" },
 ];
+
+function ConcealedFloorPlanCard({ label, variant }: { label: string; variant: number }) {
+  return (
+    <li className="relative isolate min-h-[8.5rem] overflow-hidden rounded-2xl border border-gray-200/90 bg-white shadow-sm sm:min-h-[9.5rem]">
+      <div className="absolute inset-0" aria-hidden>
+        <FloorPlanPreview variant={variant} />
+      </div>
+      <div className="pointer-events-none absolute inset-0 z-[1]" aria-hidden>
+        <div className="absolute inset-0 bg-[#1a1814]/15 backdrop-blur-[12px] backdrop-saturate-150 sm:backdrop-blur-[16px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-[#2B3035]/25" />
+      </div>
+      <div className="relative z-10 flex h-full min-h-[8.5rem] flex-col items-center justify-center gap-1.5 px-4 py-4 text-center sm:min-h-[9.5rem]">
+        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/30 bg-white/15 text-[#CBB27A] shadow-lg backdrop-blur-sm sm:h-10 sm:w-10">
+          <Lock className="h-3.5 w-3.5 sm:h-4 sm:w-4" strokeWidth={2.25} aria-hidden />
+        </span>
+        <p
+          className="text-xs font-bold tracking-wider text-gray-500"
+          style={{ fontFamily: "Poppins, sans-serif" }}
+        >
+          {label} size
+        </p>
+        <p
+          className="text-sm font-semibold leading-snug text-black sm:text-base"
+          style={{ fontFamily: "Poppins, sans-serif" }}
+        >
+          To be revealed after launch
+        </p>
+      </div>
+    </li>
+  );
+}
 
 function SectionHeading({
   icon: Icon,
@@ -167,7 +183,7 @@ export function PrateekSector150Page() {
     "@type": "ApartmentComplex",
     name: PROJECT_NAME,
     description:
-      "Prateek Group pre-launch in Sector 150, Noida. Ultra-luxury 3 and 4 BHK + servant residences. Art Deco 2.0. Official name and RERA awaited.",
+      "Prateek Group pre-launch in Sector 150, Noida. 3 and 4 BHK plus servant. Art Deco 2.0. Official name and RERA not out yet.",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Sector 150, Noida",
@@ -199,27 +215,30 @@ export function PrateekSector150Page() {
             <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_288px] lg:items-start lg:gap-x-6 xl:gap-x-8">
               <div className="min-w-0 w-full">
                 <section className="mb-12 w-full min-w-0 sm:mb-16 md:mb-24" aria-labelledby="snapshot-h2">
-                  <SectionHeading
-                    id="snapshot-h2"
-                    icon={Home}
-                    title="Project Snapshot"
-                    subtitle="Ultra-luxury high-rise on the Noida Expressway. Official name and RERA awaited."
-                  />
-                  <ul className="grid w-full min-w-0 gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list">
-                    {SNAPSHOT.map(({ label, value }) => (
-                      <li
-                        key={label}
-                        className="rounded-2xl border border-gray-200 bg-white px-5 py-5 text-left shadow-sm"
-                        style={{ fontFamily: "Poppins, sans-serif" }}
-                      >
-                        <p className="text-xs font-bold uppercase tracking-wider text-gray-500">{label}</p>
-                        <p className="mt-2 text-base font-semibold leading-snug text-gray-900 sm:text-lg">{value}</p>
-                      </li>
-                    ))}
+                  <SectionHeading id="snapshot-h2" icon={Home} title="Project Snapshot" />
+                  <ul className="grid w-full min-w-0 gap-3 sm:grid-cols-2" role="list">
+                    {SNAPSHOT.map((item, index) =>
+                      item.concealed ? (
+                        <ConcealedFloorPlanCard
+                          key={item.label}
+                          label={item.label ?? ""}
+                          variant={index}
+                        />
+                      ) : (
+                        <li
+                          key={item.text}
+                          className="flex gap-3 rounded-xl border border-gray-200 bg-white px-4 py-4 text-left text-sm font-semibold leading-snug text-gray-900 shadow-sm"
+                          style={{ fontFamily: "Poppins, sans-serif" }}
+                        >
+                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#CBB27A]" aria-hidden />
+                          {item.text}
+                        </li>
+                      )
+                    )}
                   </ul>
                   <PropertyScrollFootnote>
-                    *Pre-launch figures. Official name and RERA are not released. Sizes and inventory can change when
-                    booking documents are issued.
+                    *Pre-launch notes. Official name, RERA, and unit sizes are not out yet. Details can change when
+                    booking papers are issued.
                   </PropertyScrollFootnote>
                 </section>
 
@@ -228,7 +247,7 @@ export function PrateekSector150Page() {
                     id="eoi-h2"
                     icon={Zap}
                     title="EOI & Pre-Launch Benefits"
-                    subtitle="Pay a refundable holding amount now to lock unit preference before the public launch."
+                    subtitle="Pay a holding amount now to keep your choice of unit before the public launch."
                   />
                   <ul className="grid w-full gap-4 sm:grid-cols-2" role="list">
                     <li className="rounded-2xl border border-[#CBB27A]/30 bg-[#CBB27A]/5 px-5 py-5 text-sm font-semibold leading-relaxed text-gray-900">
@@ -241,7 +260,7 @@ export function PrateekSector150Page() {
                       Hold at the current pre-launch rate before a public name and RERA filing
                     </li>
                     <li className="rounded-2xl border border-gray-200 bg-white px-5 py-5 text-sm font-semibold leading-relaxed text-gray-900 shadow-sm">
-                      Construction-linked plan: 10% now, then 20% · 20% · 20% · 30%*
+                      Payment plan: 10% now, then 20% · 20% · 20% · 30%*
                     </li>
                   </ul>
                 </section>
@@ -255,7 +274,7 @@ export function PrateekSector150Page() {
                     id="why-prateek-h2"
                     icon={Building2}
                     title="Why Prateek Group?"
-                    subtitle="A Sector 150 developer expanding from Canary into a new Expressway Art Deco high-rise."
+                    subtitle="They already built in Sector 150. This is their next Expressway high-rise."
                   />
                   <ul className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2" role="list">
                     {PRATEEK_FACTS.map((line) => (
@@ -274,49 +293,10 @@ export function PrateekSector150Page() {
                   <PrateekSector150StickySidebar idPrefix="mob-call" part="callback" />
                 </div>
 
-                <section className="mb-12 w-full min-w-0 sm:mb-16 md:mb-24" aria-labelledby="roi-projection-h2">
-                  <SectionHeading id="roi-projection-h2" icon={TrendingUp} title="Pricing & Investment Outlook" />
-                  <ul className="grid w-full min-w-0 grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list">
-                    {ROI_PROJECTION.map(({ label, value }) => (
-                      <li
-                        key={label}
-                        className="rounded-2xl border border-gray-200 bg-white px-5 py-5 text-left shadow-sm"
-                        style={{ fontFamily: "Poppins, sans-serif" }}
-                      >
-                        <p className="text-xs font-bold uppercase tracking-wider text-gray-500">{label}</p>
-                        <p className="mt-2 text-xl font-bold leading-tight text-[#CBB27A] sm:text-2xl">{value}</p>
-                      </li>
-                    ))}
-                  </ul>
-                  <PropertyScrollFootnote>
-                    *Indicative. 2,850 × ₹16,500 ≈ ₹4.70 Cr and 3,850 × ₹16,500 ≈ ₹6.35 Cr BSP before PLC, floor rise,
-                    parking, club, and statutory charges. Remaining 30% is due at FDL for possession.
-                  </PropertyScrollFootnote>
-                  <div className="mt-8 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
-                    <div className="border-b border-gray-100 bg-gray-50 px-5 py-3">
-                      <p className="text-sm font-bold text-gray-900" style={{ fontFamily: "Poppins, sans-serif" }}>
-                        Construction-linked plan
-                      </p>
-                      <p className="mt-0.5 text-xs text-gray-600">
-                        10% · 20% · 20% · 20% · 30% of BSP as shared in pre-launch communication*
-                      </p>
-                    </div>
-                    <ul className="divide-y divide-gray-100" role="list">
-                      {PAYMENT_MILESTONES.map(({ when, due }) => (
-                        <li key={when} className="flex flex-col gap-1 px-5 py-3.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-                          <span className="text-sm font-semibold text-gray-800">{when}</span>
-                          <span className="text-sm font-bold text-[#8a7340]">{due}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </section>
-
                 <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="amenities-h2">
                   <SectionHeading id="amenities-h2" icon={Sparkles} title="Key Amenities" />
                   <PropertyScrollSubtext className="mb-6 text-sm sm:text-base">
-                    Low-density floor plates, private decks, and sports-city access as marketed for this Expressway
-                    plot.
+                    Private decks and sports-city access, as marketed for this Expressway plot.
                   </PropertyScrollSubtext>
                   <div className="grid w-full grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
                     {AMENITIES.map(({ label, icon: AmIcon }) => (
@@ -343,8 +323,8 @@ export function PrateekSector150Page() {
                 <section className="mb-12 sm:mb-16 md:mb-24" aria-labelledby="location-advantage-h2">
                   <SectionHeading id="location-advantage-h2" icon={MapPin} title="Location Advantage" />
                   <PropertyScrollSubtext className="mb-6 text-sm sm:text-base">
-                    Approximate access as marketed for Sector 150. Verify on a site visit. Plot coordinates will follow
-                    RERA.
+                    Times and distances are as marketed for Sector 150. Check them on a site visit. The exact plot will
+                    follow RERA.
                   </PropertyScrollSubtext>
                   <ul className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" role="list">
                     {LOCATION_ADVANTAGE.map(({ label, text, icon: RowIcon }) => (

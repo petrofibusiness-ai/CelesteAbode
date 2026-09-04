@@ -209,7 +209,7 @@ const PRATEEK_SECTOR_150_FEATURED: Property & { locationSlug: string } = {
   projectStatus: "New Launch",
   possessionDate: "",
   configuration: ["3 BHK", "4 BHK"],
-  sizes: "Approx 2850 - 3850 sq ft",
+  sizes: "To be revealed after launch",
   description:
     "Prateek Group pre-launch in Sector 150, Noida. Art Deco 2.0 high-rise. 3 and 4 BHK + servant. Official name and RERA awaited.",
   heroImage: PRATEEK_SECTOR_150_HERO_IMAGE,

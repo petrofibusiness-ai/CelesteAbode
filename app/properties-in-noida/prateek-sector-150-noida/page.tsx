@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${PRATEEK_SECTOR_150_PROJECT_NAME} | Pre-Launch on Noida Expressway`,
     description:
-      "Ultra-luxury 3 and 4 BHK + servant. ~442 residences, 2 per floor. Pre-launch BSP from Rs 16,500/sq ft. EOI open.",
+      "Ultra-luxury 3 and 4 BHK + servant. Art Deco 2.0. Pre-launch BSP from Rs 16,500/sq ft. EOI open.",
     url: `${site}/properties-in-noida/${PRATEEK_SECTOR_150_SLUG}`,
     siteName: "Celeste Abode",
     locale: "en_IN",

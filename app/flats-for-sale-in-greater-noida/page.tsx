@@ -24,6 +24,8 @@ import { LOCATION_SECTION_HEADING_CLASS, LOCATION_SECTION_HEADING_ON_DARK_CLASS 
 
 const SITE_URL = "https://www.celesteabode.com";
 const PAGE_URL = `${SITE_URL}/flats-for-sale-in-greater-noida`;
+const HERO_IMAGE =
+  "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/sector-150-noida-best-investment-destination-2026-blog-2%2Csector-150-noida-best-investment-desti%5B...%5D/sector-150-noida-best-investment-destination-2026-blog-3%20(1).webp";
 
 const FAQ_LINK =
   "color:#CBB27A;font-weight:600;text-decoration:underline;text-underline-offset:2px";
@@ -70,7 +72,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
         name="Flats for Sale in Greater Noida - Buy Apartments in Greater Noida"
         description="Find the best flats for sale in Greater Noida. Gated communities, studio apartments, 1 BHK, 2 & 3 BHK flats. Expert consultants, verified listings."
         url={PAGE_URL}
-        image="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/flat-for-sale-in-greater-noida/flat-for-sale-in-greater-noida.webp"
+        image={HERO_IMAGE}
       />
       <FAQPageSchema faqs={GREATER_NOIDA_FLATS_FAQS} />
 
@@ -83,7 +85,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
           >
             <div className="absolute inset-0">
               <Image
-                src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/flat-for-sale-in-greater-noida/flat-for-sale-in-greater-noida.webp"
+                src={HERO_IMAGE}
                 alt="Flats for sale in Greater Noida - buy apartments in Greater Noida"
                 fill
                 priority

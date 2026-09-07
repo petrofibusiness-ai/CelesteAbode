@@ -4,7 +4,8 @@ const TITLE = "Flats for Sale in Greater Noida | Buy 1/2/3 Bhk Flats & Apartment
 const DESCRIPTION =
   "Buy 1, 2 & 3 BHK flats in Greater Noida with Celeste Abode consultants. Discover verified apartments, compare projects, and get expert advice before you invest.";
 const PAGE_URL = "https://www.celesteabode.com/flats-for-sale-in-greater-noida";
-const HERO_IMAGE = "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/flat-for-sale-in-greater-noida/flat-for-sale-in-greater-noida.webp";
+const HERO_IMAGE =
+  "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/sector-150-noida-best-investment-destination-2026-blog-2%2Csector-150-noida-best-investment-desti%5B...%5D/sector-150-noida-best-investment-destination-2026-blog-3%20(1).webp";
 const IMAGE_ALT = "Flats for Sale in Greater Noida - 1/2/3 BHK Apartments";
 
 export const metadata: Metadata = {

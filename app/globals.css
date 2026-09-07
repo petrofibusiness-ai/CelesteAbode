@@ -677,10 +677,19 @@ html[data-promo-banner="true"] [data-site-hero] .sm\:pt-28 {
 .hot-property-marquee-item {
   flex-shrink: 0;
   white-space: nowrap;
+  font-family: var(--font-poppins), Poppins, sans-serif;
   font-size: 0.6875rem;
-  font-weight: 600;
   line-height: 1.25;
   color: #23262a;
+}
+
+.hot-property-marquee-name {
+  font-weight: 700;
+  font-size: 1.08em;
+}
+
+.hot-property-marquee-copy {
+  font-weight: 500;
 }
 
 .hot-property-marquee-separator {

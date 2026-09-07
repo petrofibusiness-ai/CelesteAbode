@@ -1,5 +1,6 @@
 /** Continuous announcement lines for the sitewide ticker (edit copy here). */
 export const HOT_PROPERTY_ANNOUNCEMENTS = [
+  "Sobha Rivana · Book with just 30% · Pay nothing in 2027 · Only 10% in 2028 and 2029 · 50% only on possession",
   "Forest Walk Villas · Nature-Inspired Township in Ghaziabad · Exclusive Early Access Available · Premium Villa Living Experience",
   "Kviraaj Mayfair Residency · Move in with just 20% down · Pay the remaining 80% only on possession",
   "Irish ETA-1 Greater Noida · Pre-launch from ₹8,500/sq ft* · EOI 25% · 25:25:25:25 plan",
@@ -21,6 +22,11 @@ export const HOT_PROPERTY_PROJECT_LINKS: HotPropertyProjectLink[] = [
     label: "Forest Walk Villas",
     href: "/properties-in-ghaziabad/forest-walk-villa",
     location: "Ghaziabad",
+  },
+  {
+    label: "Sobha Rivana",
+    href: "/properties-in-greater-noida/sobha-rivana",
+    location: "Greater Noida",
   },
   {
     label: "Kviraaj Mayfair Residency",

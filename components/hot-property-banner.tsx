@@ -15,14 +15,23 @@ import { cn } from "@/lib/utils";
 function TickerSequence({ keyPrefix }: { keyPrefix: string }) {
   return (
     <>
-      {HOT_PROPERTY_ANNOUNCEMENTS.map((announcement, index) => (
-        <span key={`${keyPrefix}-${index}`} className="hot-property-marquee-segment">
-          <span className="hot-property-marquee-item">{announcement}</span>
-          <span className="hot-property-marquee-separator" aria-hidden>
-            <span className="hot-property-marquee-separator-bar" />
+      {HOT_PROPERTY_ANNOUNCEMENTS.map((announcement, index) => {
+        const separatorIndex = announcement.indexOf(" · ");
+        const name = separatorIndex === -1 ? announcement : announcement.slice(0, separatorIndex);
+        const rest = separatorIndex === -1 ? "" : announcement.slice(separatorIndex);
+
+        return (
+          <span key={`${keyPrefix}-${index}`} className="hot-property-marquee-segment">
+            <span className="hot-property-marquee-item">
+              <span className="hot-property-marquee-name">{name}</span>
+              {rest ? <span className="hot-property-marquee-copy">{rest}</span> : null}
+            </span>
+            <span className="hot-property-marquee-separator" aria-hidden>
+              <span className="hot-property-marquee-separator-bar" />
+            </span>
           </span>
-        </span>
-      ))}
+        );
+      })}
     </>
   );
 }

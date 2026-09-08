@@ -710,17 +710,16 @@ a.hot-property-marquee-item:hover {
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  padding: 0 2.25rem;
+  padding: 0 2rem;
   margin: 0;
 }
 
 .hot-property-marquee-separator-bar {
   display: block;
-  width: 1px;
-  height: 0.85rem;
+  width: 0.42rem;
+  height: 0.42rem;
   border-radius: 999px;
-  background: rgba(35, 38, 42, 0.35);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.12);
+  background: #14110c;
 }
 
 @media (min-width: 640px) {
@@ -729,7 +728,8 @@ a.hot-property-marquee-item:hover {
   }
 
   .hot-property-marquee-separator-bar {
-    height: 0.95rem;
+    width: 0.48rem;
+    height: 0.48rem;
   }
 }
 

@@ -25,16 +25,17 @@ function TickerSequence({ keyPrefix }: { keyPrefix: string }) {
 
         return (
           <span key={`${keyPrefix}-${index}`} className="hot-property-marquee-segment">
-            <span className="hot-property-marquee-item">
-              {href ? (
-                <Link href={href} className="hot-property-marquee-name" tabIndex={skipTab ? -1 : undefined}>
-                  {name}
-                </Link>
-              ) : (
+            {href ? (
+              <Link href={href} className="hot-property-marquee-item" tabIndex={skipTab ? -1 : undefined}>
                 <span className="hot-property-marquee-name">{name}</span>
-              )}
-              {rest ? <span className="hot-property-marquee-copy">{rest}</span> : null}
-            </span>
+                {rest ? <span className="hot-property-marquee-copy">{rest}</span> : null}
+              </Link>
+            ) : (
+              <span className="hot-property-marquee-item">
+                <span className="hot-property-marquee-name">{name}</span>
+                {rest ? <span className="hot-property-marquee-copy">{rest}</span> : null}
+              </span>
+            )}
             <span className="hot-property-marquee-separator" aria-hidden>
               <span className="hot-property-marquee-separator-bar" />
             </span>

@@ -680,20 +680,25 @@ html[data-promo-banner="true"] [data-site-hero] .sm\:pt-28 {
   font-family: var(--font-poppins), Poppins, sans-serif;
   font-size: 0.6875rem;
   line-height: 1.25;
-  color: #23262a;
+  color: #14110c;
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+a.hot-property-marquee-item {
+  cursor: pointer;
+  display: inline-block;
+  transform-origin: center;
+  transition: transform 0.16s ease;
+}
+
+a.hot-property-marquee-item:hover {
+  transform: scale(1.06);
 }
 
 .hot-property-marquee-name {
   font-weight: 700;
   font-size: 1.08em;
-  color: inherit;
-  text-decoration: none;
-  pointer-events: auto;
-}
-
-a.hot-property-marquee-name:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
 }
 
 .hot-property-marquee-copy {
@@ -705,7 +710,7 @@ a.hot-property-marquee-name:hover {
   flex-shrink: 0;
   align-items: center;
   justify-content: center;
-  padding: 0 1rem;
+  padding: 0 2.25rem;
   margin: 0;
 }
 

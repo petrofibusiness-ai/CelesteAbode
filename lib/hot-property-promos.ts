@@ -1,7 +1,7 @@
 /** Continuous announcement lines for the sitewide ticker (edit copy here). */
 export const HOT_PROPERTY_ANNOUNCEMENTS = [
-  "Sobha Rivana · Book with just 30% · Pay nothing in 2027 · Only 10% in 2028 and 2029 · 50% only on possession",
   "Forest Walk Villas · Nature-Inspired Township in Ghaziabad · Exclusive Early Access Available · Premium Villa Living Experience",
+  "Sobha Rivana · Book with just 30% · Pay nothing in 2027 · Only 10% in 2028 and 2029 · 50% only on possession",
   "Kviraaj Mayfair Residency · Move in with just 20% down · Pay the remaining 80% only on possession",
   "Irish ETA-1 Greater Noida · Pre-launch from ₹8,500/sq ft* · EOI 25% · 25:25:25:25 plan",
   "Ace Sector 150 Noida · Pre-launch ultra-luxury 3, 4 & 4.5 BHK · EOI open for early allotment",

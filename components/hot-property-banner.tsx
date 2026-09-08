@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, Sparkles } from "lucide-react";
 import {
+  getHotPropertyAnnouncementHref,
   HOT_PROPERTY_ANNOUNCEMENTS,
   HOT_PROPERTY_BADGE_LABEL,
   HOT_PROPERTY_CTA_LABEL,
@@ -19,11 +20,19 @@ function TickerSequence({ keyPrefix }: { keyPrefix: string }) {
         const separatorIndex = announcement.indexOf(" · ");
         const name = separatorIndex === -1 ? announcement : announcement.slice(0, separatorIndex);
         const rest = separatorIndex === -1 ? "" : announcement.slice(separatorIndex);
+        const href = getHotPropertyAnnouncementHref(name);
+        const skipTab = keyPrefix === "b";
 
         return (
           <span key={`${keyPrefix}-${index}`} className="hot-property-marquee-segment">
             <span className="hot-property-marquee-item">
-              <span className="hot-property-marquee-name">{name}</span>
+              {href ? (
+                <Link href={href} className="hot-property-marquee-name" tabIndex={skipTab ? -1 : undefined}>
+                  {name}
+                </Link>
+              ) : (
+                <span className="hot-property-marquee-name">{name}</span>
+              )}
               {rest ? <span className="hot-property-marquee-copy">{rest}</span> : null}
             </span>
             <span className="hot-property-marquee-separator" aria-hidden>
@@ -150,7 +159,7 @@ export function HotPropertyBanner() {
         </div>
 
         <div className="relative min-w-0 flex-1 overflow-hidden pl-1 sm:ml-1 sm:px-2">
-          <div className="hot-property-marquee flex h-full items-center" aria-hidden>
+          <div className="hot-property-marquee flex h-full items-center">
             <div className="hot-property-marquee-track">
               <TickerSequence keyPrefix="a" />
               <TickerSequence keyPrefix="b" />

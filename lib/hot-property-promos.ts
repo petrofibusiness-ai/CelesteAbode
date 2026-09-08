@@ -67,3 +67,7 @@ export const HOT_PROPERTY_PROJECT_LINKS: HotPropertyProjectLink[] = [
 
 export const HOT_PROPERTY_BADGE_LABEL = "Spotlight";
 export const HOT_PROPERTY_CTA_LABEL = "Explore projects";
+
+export function getHotPropertyAnnouncementHref(name: string): string | undefined {
+  return HOT_PROPERTY_PROJECT_LINKS.find((project) => project.label === name)?.href;
+}

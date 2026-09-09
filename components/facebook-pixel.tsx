@@ -2,7 +2,9 @@
 
 import Script from "next/script";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+
+const DEFAULT_PIXEL_ID = "1611049553953262";
 
 declare global {
   interface Window {
@@ -11,19 +13,36 @@ declare global {
   }
 }
 
+function isRestrictedPath(pathname: string | null) {
+  if (!pathname) return false;
+  return (
+    pathname.startsWith("/admin") ||
+    pathname === "/ca-internal-inventory-v1" ||
+    pathname.startsWith("/ca-internal-inventory-v1/")
+  );
+}
+
 export function FacebookPixel({ pixelId }: { pixelId?: string }) {
   const pathname = usePathname();
+  const trackedInitialPageView = useRef(false);
+  const id = pixelId || DEFAULT_PIXEL_ID;
+  const skip = isRestrictedPath(pathname);
 
   useEffect(() => {
-    if (!pixelId || typeof window === "undefined" || !window.fbq) {
+    if (skip || typeof window === "undefined" || !window.fbq) {
       return;
     }
 
-    // Track page view on route change
-    window.fbq("track", "PageView");
-  }, [pathname, pixelId]);
+    // Base snippet already fires PageView on first load.
+    if (!trackedInitialPageView.current) {
+      trackedInitialPageView.current = true;
+      return;
+    }
 
-  if (!pixelId) {
+    window.fbq("track", "PageView");
+  }, [pathname, skip]);
+
+  if (skip) {
     return null;
   }
 
@@ -31,7 +50,7 @@ export function FacebookPixel({ pixelId }: { pixelId?: string }) {
     <>
       <Script
         id="facebook-pixel"
-        strategy="lazyOnload"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
             !function(f,b,e,v,n,t,s)
@@ -42,7 +61,7 @@ export function FacebookPixel({ pixelId }: { pixelId?: string }) {
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '${pixelId}');
+            fbq('init', '${id}');
             fbq('track', 'PageView');
           `,
         }}
@@ -51,12 +70,11 @@ export function FacebookPixel({ pixelId }: { pixelId?: string }) {
         <img
           height="1"
           width="1"
-          className="hidden"
-          src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`}
+          style={{ display: "none" }}
+          src={`https://www.facebook.com/tr?id=${id}&ev=PageView&noscript=1`}
           alt=""
         />
       </noscript>
     </>
   );
 }
-

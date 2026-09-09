@@ -226,6 +226,7 @@ export default function RootLayout({
         {/* Favicons: rendered by Next.js metadata.icons (single source of truth). */}
         <meta name="msapplication-TileImage" content="/favicon%20(2)/web-app-manifest-192x192.png" />
         <meta name="msapplication-TileColor" content="#000000" />
+        <FacebookPixel pixelId={process.env.NEXT_PUBLIC_FB_PIXEL_ID || "1611049553953262"} />
       </head>
       <body className={`${inter.variable} ${poppins.variable} antialiased`} suppressHydrationWarning>
         {children}
@@ -252,7 +253,6 @@ export default function RootLayout({
           }}
         />
         <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
-        <FacebookPixel pixelId={process.env.NEXT_PUBLIC_FB_PIXEL_ID} />
         <Analytics />
       </body>
     </html>

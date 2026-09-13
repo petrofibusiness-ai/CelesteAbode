@@ -13,6 +13,11 @@ import {
   PRATEEK_SECTOR_150_PROJECT_NAME,
   PRATEEK_SECTOR_150_SLUG,
 } from "@/lib/prateek-sector-150-assets";
+import {
+  PERIGON_VASUNDHARA_HERO_IMAGE,
+  PERIGON_VASUNDHARA_PROJECT_NAME,
+  PERIGON_VASUNDHARA_SLUG,
+} from "@/lib/perigon-vasundhara-assets";
 
 const FUSION_VASUNDHARA_FEATURED: Property & { locationSlug: string } = {
   id: "featured-fusion-vasundhara",
@@ -241,6 +246,52 @@ const PRATEEK_SECTOR_150_FEATURED: Property & { locationSlug: string } = {
   locationSlug: "noida",
 };
 
+const PERIGON_VASUNDHARA_FEATURED: Property & { locationSlug: string } = {
+  id: "featured-perigon-vasundhara",
+  slug: PERIGON_VASUNDHARA_SLUG,
+  projectName: PERIGON_VASUNDHARA_PROJECT_NAME,
+  developer: "Perigon Group",
+  location: "Sector 4, Vasundhara, Ghaziabad",
+  locationCategory: null,
+  locationId: null,
+  localityId: null,
+  propertyType: "Apartment/Flats",
+  reraId: "Pre-launch, details awaited",
+  projectStatus: "New Launch",
+  possessionDate: "",
+  configuration: ["3 BHK", "4 BHK"],
+  sizes: "To be revealed after launch",
+  description:
+    "Perigon Vasundhara pre-launch in Sector 4, Ghaziabad. 3 and 4 BHK high-rise. Official name and RERA awaited.",
+  heroImage: PERIGON_VASUNDHARA_HERO_IMAGE,
+  heroImageAlt:
+    "Ultra-luxury 3 & 4 BHK high-rise residences at Vasundhara, Ghaziabad, with Sky Infinity Pool and Grand Clubhouse",
+  brochureUrl: "",
+  images: [PERIGON_VASUNDHARA_HERO_IMAGE],
+  amenities: [
+    "Grand clubhouse",
+    "Sky infinity pool",
+    "Heated pool",
+    "Mivan construction",
+  ],
+  priceMin: null,
+  priceMax: null,
+  priceUnit: "From Rs 8,999/sq ft*",
+  seo: {
+    title: "Perigon Vasundhara Ghaziabad - Pre-Launch 3 & 4 BHK",
+    description:
+      "Perigon Vasundhara in Sector 4, Ghaziabad. Pre-launch 3 and 4 BHK from Rs 8,999/sq ft. EOI open.",
+    keywords:
+      "perigon vasundhara, perigon vasundhara ghaziabad, sector 4 vasundhara pre launch, 3 bhk vasundhara",
+    canonical: `/properties-in-ghaziabad/${PERIGON_VASUNDHARA_SLUG}`,
+  },
+  featured: true,
+  isPublished: true,
+  createdAt: new Date(0).toISOString(),
+  updatedAt: new Date(0).toISOString(),
+  locationSlug: "ghaziabad",
+};
+
 /** Static property pages with dedicated routes (not only in properties_v2). */
 export const FEATURED_STATIC_PROPERTY_PAGES: (Property & { locationSlug: string })[] = [
   FUSION_VASUNDHARA_FEATURED,
@@ -248,6 +299,7 @@ export const FEATURED_STATIC_PROPERTY_PAGES: (Property & { locationSlug: string 
   ACE_PARKWAY_2_0_FEATURED,
   IRISH_ETA_1_FEATURED,
   PRATEEK_SECTOR_150_FEATURED,
+  PERIGON_VASUNDHARA_FEATURED,
 ];
 
 export function getFeaturedStaticPropertiesForLocation(locationSlug: string): (Property & { locationSlug: string })[] {
@@ -277,6 +329,7 @@ export const PRE_LAUNCH_PROPERTY_SLUGS = [
   ACE_SECTOR_150_SLUG,
   IRISH_ETA_1_SLUG,
   PRATEEK_SECTOR_150_SLUG,
+  PERIGON_VASUNDHARA_SLUG,
 ] as const;
 
 export function isPreLaunchPropertySlug(slug: string): boolean {

@@ -8,6 +8,7 @@ export const HOT_PROPERTY_ANNOUNCEMENTS = [
   "Prateek Sector 150 Noida · Pre-launch Art Deco 2.0 · BSP ₹16,500/sq ft* · EOI ₹10 Lakh*",
   "Karyan NH-24 Ghaziabad · Pre-launch from ₹6,400/sq ft* · EOI ₹5 Lakh · 25×4 payment plan",
   "Fusion Vasundhara · Pre-launch premium apartments in Sector 7, Vasundhara · Early pricing available",
+  "Perigon Vasundhara · Pre-launch 3 & 4 BHK in Sector 4 · BSP ₹8,999/sq ft* · EOI open",
 ] as const;
 
 export type HotPropertyProjectLink = {
@@ -56,6 +57,11 @@ export const HOT_PROPERTY_PROJECT_LINKS: HotPropertyProjectLink[] = [
   {
     label: "Fusion Vasundhara",
     href: "/properties-in-ghaziabad/fusion-vasundhara",
+    location: "Ghaziabad",
+  },
+  {
+    label: "Perigon Vasundhara",
+    href: "/properties-in-ghaziabad/perigon-vasundhara",
     location: "Ghaziabad",
   },
   {

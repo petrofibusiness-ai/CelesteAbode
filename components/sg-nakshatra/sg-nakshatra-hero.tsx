@@ -3,9 +3,8 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
 import { Cormorant_Garamond } from "next/font/google";
-import { Award, BadgePercent, Building2, IndianRupee, MapPin } from "lucide-react";
+import { BadgePercent, Building2, IndianRupee, MapPin, Shield } from "lucide-react";
 import {
-  SG_NAKSHATRA_DEVELOPER,
   SG_NAKSHATRA_HERO_IMAGE,
   SG_NAKSHATRA_RERA_ID,
 } from "@/lib/sg-nakshatra-assets";
@@ -91,12 +90,6 @@ export function SgNakshatraHero() {
                 Siddharth Vihar, NH-24 · 3 &amp; 4 BHK · Pre Launch
               </p>
             </div>
-            <p
-              className="mt-2 text-xs font-semibold tracking-wide text-white/90 drop-shadow sm:text-sm"
-              style={{ fontFamily: "Poppins, sans-serif" }}
-            >
-              UP RERA {SG_NAKSHATRA_RERA_ID}
-            </p>
           </div>
 
           <div className="pointer-events-auto mt-auto flex w-full justify-start pt-10 sm:pt-12">
@@ -110,8 +103,8 @@ export function SgNakshatraHero() {
               <SpecPill label="Configuration" icon={<Building2 className="h-4 w-4" aria-hidden />}>
                 3 / 4 BHK
               </SpecPill>
-              <SpecPill label="Developer" icon={<Award className="h-4 w-4" aria-hidden />}>
-                {SG_NAKSHATRA_DEVELOPER}
+              <SpecPill label="RERA" icon={<Shield className="h-4 w-4" aria-hidden />}>
+                <span className="break-all text-[10px] leading-tight sm:text-xs">{SG_NAKSHATRA_RERA_ID}</span>
               </SpecPill>
             </div>
           </div>

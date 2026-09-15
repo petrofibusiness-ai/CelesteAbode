@@ -204,9 +204,6 @@ export function SgNakshatraPage() {
                     <li className="rounded-2xl border border-gray-200 bg-white px-5 py-5 text-sm font-semibold leading-relaxed text-gray-900 shadow-sm">
                       One car park and club membership are included in the EOI rate, as marketed
                     </li>
-                    <li className="rounded-2xl border border-gray-200 bg-white px-5 py-5 text-sm font-semibold leading-relaxed text-gray-900 shadow-sm sm:col-span-2">
-                      UP RERA <span className="text-[#8a7340]">{SG_NAKSHATRA_RERA_ID}</span>
-                    </li>
                   </ul>
                 </section>
 

@@ -5,6 +5,7 @@ import { SUPPORT_ADMIN_EMAIL } from '@/lib/admin-access';
 const STATIC_PROPERTY_ROUTE_EXCEPTIONS = new Set([
   '/properties-in-ghaziabad/fusion-vasundhara',
   '/properties-in-ghaziabad/perigon-vasundhara',
+  '/properties-in-ghaziabad/sg-nakshatra-siddharth-vihar-nh24-ghaziabad',
   '/properties-in-ghaziabad/karyan-nh24-ghaziabad',
   '/properties-in-noida/ace-sector-150-noida',
   '/properties-in-noida/prateek-sector-150-noida',

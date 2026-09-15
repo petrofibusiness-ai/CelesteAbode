@@ -9,6 +9,7 @@ export const HOT_PROPERTY_ANNOUNCEMENTS = [
   "Karyan NH-24 Ghaziabad · Pre-launch from ₹6,400/sq ft* · EOI ₹5 Lakh · 25×4 payment plan",
   "Fusion Vasundhara · Pre-launch premium apartments in Sector 7, Vasundhara · Early pricing available",
   "Perigon Vasundhara · Pre-launch 3 & 4 BHK in Sector 4 · BSP ₹8,999/sq ft* · EOI open",
+  "SG Nakshatra · Pre-launch 3 & 4 BHK in Siddharth Vihar · BSP ₹8,899/sq ft* · EOI ₹12 Lakh",
 ] as const;
 
 export type HotPropertyProjectLink = {
@@ -62,6 +63,11 @@ export const HOT_PROPERTY_PROJECT_LINKS: HotPropertyProjectLink[] = [
   {
     label: "Perigon Vasundhara",
     href: "/properties-in-ghaziabad/perigon-vasundhara",
+    location: "Ghaziabad",
+  },
+  {
+    label: "SG Nakshatra",
+    href: "/properties-in-ghaziabad/sg-nakshatra-siddharth-vihar-nh24-ghaziabad",
     location: "Ghaziabad",
   },
   {

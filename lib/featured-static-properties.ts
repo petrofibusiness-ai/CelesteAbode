@@ -18,6 +18,12 @@ import {
   PERIGON_VASUNDHARA_PROJECT_NAME,
   PERIGON_VASUNDHARA_SLUG,
 } from "@/lib/perigon-vasundhara-assets";
+import {
+  SG_NAKSHATRA_HERO_IMAGE,
+  SG_NAKSHATRA_PROJECT_NAME,
+  SG_NAKSHATRA_RERA_ID,
+  SG_NAKSHATRA_SLUG,
+} from "@/lib/sg-nakshatra-assets";
 
 const FUSION_VASUNDHARA_FEATURED: Property & { locationSlug: string } = {
   id: "featured-fusion-vasundhara",
@@ -292,6 +298,52 @@ const PERIGON_VASUNDHARA_FEATURED: Property & { locationSlug: string } = {
   locationSlug: "ghaziabad",
 };
 
+const SG_NAKSHATRA_FEATURED: Property & { locationSlug: string } = {
+  id: "featured-sg-nakshatra",
+  slug: SG_NAKSHATRA_SLUG,
+  projectName: SG_NAKSHATRA_PROJECT_NAME,
+  developer: "SG Group",
+  location: "Siddharth Vihar, NH-24, Ghaziabad",
+  locationCategory: null,
+  locationId: null,
+  localityId: null,
+  propertyType: "Apartment/Flats",
+  reraId: SG_NAKSHATRA_RERA_ID,
+  projectStatus: "New Launch",
+  possessionDate: "",
+  configuration: ["3 BHK", "4 BHK"],
+  sizes: "2225 - 3200 sq ft",
+  description:
+    "SG Nakshatra by SG Group in Siddharth Vihar, NH-24, Ghaziabad. Pre-launch 3 and 4 BHK high-rise. EOI open.",
+  heroImage: SG_NAKSHATRA_HERO_IMAGE,
+  heroImageAlt:
+    "SG Nakshatra high-rise, podium-based residences in Siddharth Vihar, NH-24, Ghaziabad, by SG Group",
+  brochureUrl: "",
+  images: [SG_NAKSHATRA_HERO_IMAGE],
+  amenities: [
+    "Triple-height lobby",
+    "Podium amenities",
+    "Four lifts per floor",
+    "11 ft ceilings",
+  ],
+  priceMin: null,
+  priceMax: null,
+  priceUnit: "From Rs 8,899/sq ft*",
+  seo: {
+    title: "SG Nakshatra Siddharth Vihar - Pre-Launch 3 & 4 BHK",
+    description:
+      "SG Nakshatra by SG Group on NH-24, Ghaziabad. Pre-launch 3 and 4 BHK from Rs 8,899/sq ft. EOI Rs 12 Lakh.",
+    keywords:
+      "sg nakshatra, sg nakshatra siddharth vihar, sg group ghaziabad, nh-24 pre launch, 3 bhk siddharth vihar",
+    canonical: `/properties-in-ghaziabad/${SG_NAKSHATRA_SLUG}`,
+  },
+  featured: true,
+  isPublished: true,
+  createdAt: new Date(0).toISOString(),
+  updatedAt: new Date(0).toISOString(),
+  locationSlug: "ghaziabad",
+};
+
 /** Static property pages with dedicated routes (not only in properties_v2). */
 export const FEATURED_STATIC_PROPERTY_PAGES: (Property & { locationSlug: string })[] = [
   FUSION_VASUNDHARA_FEATURED,
@@ -300,6 +352,7 @@ export const FEATURED_STATIC_PROPERTY_PAGES: (Property & { locationSlug: string 
   IRISH_ETA_1_FEATURED,
   PRATEEK_SECTOR_150_FEATURED,
   PERIGON_VASUNDHARA_FEATURED,
+  SG_NAKSHATRA_FEATURED,
 ];
 
 export function getFeaturedStaticPropertiesForLocation(locationSlug: string): (Property & { locationSlug: string })[] {
@@ -330,6 +383,7 @@ export const PRE_LAUNCH_PROPERTY_SLUGS = [
   IRISH_ETA_1_SLUG,
   PRATEEK_SECTOR_150_SLUG,
   PERIGON_VASUNDHARA_SLUG,
+  SG_NAKSHATRA_SLUG,
 ] as const;
 
 export function isPreLaunchPropertySlug(slug: string): boolean {

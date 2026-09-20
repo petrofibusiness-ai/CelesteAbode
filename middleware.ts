@@ -10,6 +10,7 @@ const STATIC_PROPERTY_ROUTE_EXCEPTIONS = new Set([
   '/properties-in-noida/ace-sector-150-noida',
   '/properties-in-noida/prateek-sector-150-noida',
   '/properties-in-greater-noida/irish-eta-1-greater-noida',
+  '/properties-in-greater-noida/godrej-dmic-greater-noida-gbc',
 ]);
 
 /** Permanent redirects from retired pre-launch URLs */

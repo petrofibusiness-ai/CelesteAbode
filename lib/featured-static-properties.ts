@@ -24,6 +24,11 @@ import {
   SG_NAKSHATRA_RERA_ID,
   SG_NAKSHATRA_SLUG,
 } from "@/lib/sg-nakshatra-assets";
+import {
+  GODREJ_DMIC_HERO_IMAGE,
+  GODREJ_DMIC_PROJECT_NAME,
+  GODREJ_DMIC_SLUG,
+} from "@/lib/godrej-dmic-assets";
 
 const FUSION_VASUNDHARA_FEATURED: Property & { locationSlug: string } = {
   id: "featured-fusion-vasundhara",
@@ -344,6 +349,52 @@ const SG_NAKSHATRA_FEATURED: Property & { locationSlug: string } = {
   locationSlug: "ghaziabad",
 };
 
+const GODREJ_DMIC_FEATURED: Property & { locationSlug: string } = {
+  id: "featured-godrej-dmic-greater-noida-gbc",
+  slug: GODREJ_DMIC_SLUG,
+  projectName: GODREJ_DMIC_PROJECT_NAME,
+  developer: "Godrej Properties",
+  location: "DMIC Integrated Township, Global Business City, Greater Noida",
+  locationCategory: null,
+  locationId: null,
+  localityId: null,
+  propertyType: "Apartment/Flats",
+  reraId: "Pre-RERA, details awaited",
+  projectStatus: "New Launch",
+  possessionDate: "",
+  configuration: ["2 BHK", "3 BHK"],
+  sizes: "985 - 2500 sq ft",
+  description:
+    "Godrej Properties pre-launch in Global Business City, DMIC Integrated Township, Greater Noida. 1, 2 and 3 BHK. EOI open.",
+  heroImage: GODREJ_DMIC_HERO_IMAGE,
+  heroImageAlt:
+    "Godrej DMIC Greater Noida premium residential apartments within Global Business City, DMIC Integrated Township, Greater Noida, by Godrej Properties",
+  brochureUrl: "",
+  images: [GODREJ_DMIC_HERO_IMAGE],
+  amenities: [
+    "750-acre integrated township",
+    "Industrial and R&D ecosystem",
+    "Eastern Peripheral Expressway access",
+    "Delhi-Howrah rail adjacency",
+  ],
+  priceMin: null,
+  priceMax: null,
+  priceUnit: "From Rs 1.35 Cr*",
+  seo: {
+    title: "Godrej DMIC Greater Noida - Pre-Launch 1, 2 & 3 BHK",
+    description:
+      "Godrej Properties in Global Business City, Greater Noida. Pre-launch 1, 2 and 3 BHK from Rs 1.35 Cr. EOI open.",
+    keywords:
+      "godrej dmic greater noida, godrej global business city, godrej properties greater noida pre launch, 1 bhk greater noida",
+    canonical: `/properties-in-greater-noida/${GODREJ_DMIC_SLUG}`,
+  },
+  featured: true,
+  isPublished: true,
+  createdAt: new Date(0).toISOString(),
+  updatedAt: new Date(0).toISOString(),
+  locationSlug: "greater-noida",
+};
+
 /** Static property pages with dedicated routes (not only in properties_v2). */
 export const FEATURED_STATIC_PROPERTY_PAGES: (Property & { locationSlug: string })[] = [
   FUSION_VASUNDHARA_FEATURED,
@@ -353,6 +404,7 @@ export const FEATURED_STATIC_PROPERTY_PAGES: (Property & { locationSlug: string 
   PRATEEK_SECTOR_150_FEATURED,
   PERIGON_VASUNDHARA_FEATURED,
   SG_NAKSHATRA_FEATURED,
+  GODREJ_DMIC_FEATURED,
 ];
 
 export function getFeaturedStaticPropertiesForLocation(locationSlug: string): (Property & { locationSlug: string })[] {
@@ -384,6 +436,7 @@ export const PRE_LAUNCH_PROPERTY_SLUGS = [
   PRATEEK_SECTOR_150_SLUG,
   PERIGON_VASUNDHARA_SLUG,
   SG_NAKSHATRA_SLUG,
+  GODREJ_DMIC_SLUG,
 ] as const;
 
 export function isPreLaunchPropertySlug(slug: string): boolean {

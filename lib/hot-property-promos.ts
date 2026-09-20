@@ -10,6 +10,7 @@ export const HOT_PROPERTY_ANNOUNCEMENTS = [
   "Fusion Vasundhara · Pre-launch premium apartments in Sector 7, Vasundhara · Early pricing available",
   "Perigon Vasundhara · Pre-launch 3 & 4 BHK in Sector 4 · BSP ₹8,999/sq ft* · EOI open",
   "SG Nakshatra · Pre-launch 3 & 4 BHK in Siddharth Vihar · BSP ₹8,899/sq ft* · EOI ₹12 Lakh",
+  "Godrej DMIC Greater Noida · Pre-launch 1, 2 & 3 BHK in Global Business City · EOI from ₹1.35 Cr*",
 ] as const;
 
 export type HotPropertyProjectLink = {
@@ -69,6 +70,11 @@ export const HOT_PROPERTY_PROJECT_LINKS: HotPropertyProjectLink[] = [
     label: "SG Nakshatra",
     href: "/properties-in-ghaziabad/sg-nakshatra-siddharth-vihar-nh24-ghaziabad",
     location: "Ghaziabad",
+  },
+  {
+    label: "Godrej DMIC Greater Noida",
+    href: "/properties-in-greater-noida/godrej-dmic-greater-noida-gbc",
+    location: "Greater Noida",
   },
   {
     label: "All Pre-Launch Properties",

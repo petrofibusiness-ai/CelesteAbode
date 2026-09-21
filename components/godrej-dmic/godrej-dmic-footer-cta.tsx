@@ -38,7 +38,7 @@ export function GodrejDmicFooterCta() {
               className="mt-4 text-sm leading-relaxed text-white/80 sm:text-base md:text-lg"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              EOI is open in Global Business City, Greater Noida. We will send the current sheet and tell you what
+              EOI is open in DMIC Greater Noida. We will send the current sheet and tell you what
               still needs a RERA filing.
             </p>
             <div className="mt-8 mx-auto flex w-max max-w-full flex-col items-stretch gap-3">

@@ -659,7 +659,7 @@ html[data-promo-banner="true"] [data-site-hero] .sm\:pt-28 {
   display: flex;
   width: max-content;
   align-items: center;
-  animation: hot-property-marquee-rtl 55s linear infinite;
+  animation: hot-property-marquee-rtl 72s linear infinite;
   will-change: transform;
 }
 

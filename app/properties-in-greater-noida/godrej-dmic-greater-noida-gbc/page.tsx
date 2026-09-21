@@ -15,20 +15,20 @@ const heroAbs = GODREJ_DMIC_HERO_IMAGE.startsWith("http")
 export const metadata: Metadata = {
   title: `${GODREJ_DMIC_PROJECT_NAME} - Pre-Launch 1, 2 & 3 BHK | Celeste Abode`,
   description:
-    "Godrej Properties pre-launch in Global Business City, DMIC Integrated Township, Greater Noida. 1, 2 and 3 BHK from Rs 1.35 Cr. EOI registration open. Celeste Abode advisory.",
+    "Global Business City by Godrej. Pre-launch in DMIC Greater Noida. 1, 2 and 3 BHK from Rs 1.35 Cr. EOI registration open. Celeste Abode advisory.",
   keywords: [
-    "Godrej DMIC Greater Noida",
+    "Global Business City by Godrej",
     "Godrej Global Business City",
     "Godrej Properties Greater Noida pre launch",
-    "DMIC Integrated Township Greater Noida",
+    "DMIC Greater Noida",
     "1 BHK Greater Noida Godrej",
     "3 BHK Godrej DMIC",
   ],
   alternates: { canonical: `${site}${path}` },
   openGraph: {
-    title: `${GODREJ_DMIC_PROJECT_NAME} | Pre-Launch in Global Business City`,
+    title: `${GODREJ_DMIC_PROJECT_NAME} | Pre-Launch in DMIC Greater Noida`,
     description:
-      "23.2-acre Godrej Properties residential parcel inside the DMIC Integrated Township. 1, 2 and 3 BHK. EOI from Rs 1.35 Cr.",
+      "23.2-acre Godrej Properties residential parcel in DMIC Greater Noida. 1, 2 and 3 BHK. EOI from Rs 1.35 Cr.",
     url: `${site}${path}`,
     siteName: "Celeste Abode",
     locale: "en_IN",
@@ -38,14 +38,14 @@ export const metadata: Metadata = {
         url: heroAbs,
         width: 1600,
         height: 900,
-        alt: "Godrej DMIC Greater Noida premium residential apartments within Global Business City, DMIC Integrated Township, Greater Noida, by Godrej Properties",
+        alt: "Global Business City by Godrej in DMIC Greater Noida: premium residential apartments by Godrej Properties",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${GODREJ_DMIC_PROJECT_NAME} | Pre-Launch`,
-    description: "Global Business City, Greater Noida. 1, 2 and 3 BHK from Rs 1.35 Cr. EOI open.",
+    description: "DMIC Greater Noida. 1, 2 and 3 BHK from Rs 1.35 Cr. EOI open.",
     images: [heroAbs],
   },
 };

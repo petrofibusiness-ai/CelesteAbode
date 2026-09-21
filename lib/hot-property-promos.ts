@@ -3,14 +3,15 @@ export const HOT_PROPERTY_ANNOUNCEMENTS = [
   "Forest Walk Villas · Nature-Inspired Township in Ghaziabad · Exclusive Early Access Available · Premium Villa Living Experience",
   "Sobha Rivana · Book with just 30% · Pay nothing in 2027 · Only 10% in 2028 and 2029 · 50% only on possession",
   "Kviraaj Mayfair Residency · Move in with just 20% down · Pay the remaining 80% only on possession",
+  "Nirala Trio · ₹2 Cr Onwards · Pay Just 20% Now · 80% Later · EOI Open",
+  "Global Business City by Godrej · Pre-launch 1, 2 & 3 BHK in DMIC Greater Noida · EOI from ₹1.35 Cr*",
+  "SG Nakshatra · Pre-launch 3 & 4 BHK in Siddharth Vihar · BSP ₹8,899/sq ft* · EOI ₹12 Lakh",
+  "Perigon Vasundhara · Pre-launch 3 & 4 BHK in Sector 4 · BSP ₹8,999/sq ft* · EOI open",
+  "Prateek Sector 150 Noida · Pre-launch Art Deco 2.0 · BSP ₹16,500/sq ft* · EOI ₹10 Lakh*",
   "Irish ETA-1 Greater Noida · Pre-launch from ₹8,500/sq ft* · EOI 25% · 25:25:25:25 plan",
   "Ace Sector 150 Noida · Pre-launch ultra-luxury 3, 4 & 4.5 BHK · EOI open for early allotment",
-  "Prateek Sector 150 Noida · Pre-launch Art Deco 2.0 · BSP ₹16,500/sq ft* · EOI ₹10 Lakh*",
   "Karyan NH-24 Ghaziabad · Pre-launch from ₹6,400/sq ft* · EOI ₹5 Lakh · 25×4 payment plan",
   "Fusion Vasundhara · Pre-launch premium apartments in Sector 7, Vasundhara · Early pricing available",
-  "Perigon Vasundhara · Pre-launch 3 & 4 BHK in Sector 4 · BSP ₹8,999/sq ft* · EOI open",
-  "SG Nakshatra · Pre-launch 3 & 4 BHK in Siddharth Vihar · BSP ₹8,899/sq ft* · EOI ₹12 Lakh",
-  "Godrej DMIC Greater Noida · Pre-launch 1, 2 & 3 BHK in Global Business City · EOI from ₹1.35 Cr*",
 ] as const;
 
 export type HotPropertyProjectLink = {
@@ -37,6 +38,31 @@ export const HOT_PROPERTY_PROJECT_LINKS: HotPropertyProjectLink[] = [
     location: "Greater Noida",
   },
   {
+    label: "Nirala Trio",
+    href: "/properties-in-greater-noida/nirala-trio-sector-2-greater-noida-west",
+    location: "Greater Noida",
+  },
+  {
+    label: "Global Business City by Godrej",
+    href: "/properties-in-greater-noida/godrej-dmic-greater-noida-gbc",
+    location: "Greater Noida",
+  },
+  {
+    label: "SG Nakshatra",
+    href: "/properties-in-ghaziabad/sg-nakshatra-siddharth-vihar-nh24-ghaziabad",
+    location: "Ghaziabad",
+  },
+  {
+    label: "Perigon Vasundhara",
+    href: "/properties-in-ghaziabad/perigon-vasundhara",
+    location: "Ghaziabad",
+  },
+  {
+    label: "Prateek Sector 150 Noida",
+    href: "/properties-in-noida/prateek-sector-150-noida",
+    location: "Noida",
+  },
+  {
     label: "Irish ETA-1 Greater Noida",
     href: "/properties-in-greater-noida/irish-eta-1-greater-noida",
     location: "Greater Noida",
@@ -44,11 +70,6 @@ export const HOT_PROPERTY_PROJECT_LINKS: HotPropertyProjectLink[] = [
   {
     label: "Ace Sector 150 Noida",
     href: "/properties-in-noida/ace-sector-150-noida",
-    location: "Noida",
-  },
-  {
-    label: "Prateek Sector 150 Noida",
-    href: "/properties-in-noida/prateek-sector-150-noida",
     location: "Noida",
   },
   {
@@ -60,21 +81,6 @@ export const HOT_PROPERTY_PROJECT_LINKS: HotPropertyProjectLink[] = [
     label: "Fusion Vasundhara",
     href: "/properties-in-ghaziabad/fusion-vasundhara",
     location: "Ghaziabad",
-  },
-  {
-    label: "Perigon Vasundhara",
-    href: "/properties-in-ghaziabad/perigon-vasundhara",
-    location: "Ghaziabad",
-  },
-  {
-    label: "SG Nakshatra",
-    href: "/properties-in-ghaziabad/sg-nakshatra-siddharth-vihar-nh24-ghaziabad",
-    location: "Ghaziabad",
-  },
-  {
-    label: "Godrej DMIC Greater Noida",
-    href: "/properties-in-greater-noida/godrej-dmic-greater-noida-gbc",
-    location: "Greater Noida",
   },
   {
     label: "All Pre-Launch Properties",

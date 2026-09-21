@@ -500,6 +500,28 @@ export const blogPosts: BlogPost[] = [
     ogImageAlt:
       "GDA development plans 2026: Ghaziabad locations poised for real estate growth",
   },
+  {
+    id: 24,
+    title: "₹3,300 Crore Noida Land Auction: Why Property in Noida and Greater Noida Is Going Premium in 2026",
+    slug: "noida-3300-crore-land-auction-premium-destination-2026",
+    excerpt:
+      "Five Noida plots sold for about ₹3,300 crore. What that means for buyers looking at property in Noida and Greater Noida.",
+    category: "Market Intelligence",
+    readTime: "8 min read",
+    date: "September 12, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/%E2%82%B93%2C300%20Crore%20Noida%20Land%20Auction%202026%20blog/%E2%82%B93%2C300%20Crore%20Noida%20Land%20Auction%202026_1.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "₹3,300 Crore Noida Land Auction | Property in Noida & Greater Noida 2026",
+    metaDescription:
+      "₹3,300 crore Noida land auction explained: what it means for property in Noida and Greater Noida in 2026. Celeste Abode handles RERA, tickets, and shortlists for you.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/%E2%82%B93%2C300%20Crore%20Noida%20Land%20Auction%202026%20blog/%E2%82%B93%2C300%20Crore%20Noida%20Land%20Auction%202026_1.webp",
+    ogImageAlt:
+      "Noida land auction at golden hour: gavel on site plans overlooking Expressway, metro, and rising towers",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -795,6 +817,22 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
       "forest-walk-villa-ghaziabad-luxury-living-2026",
       "infrastructure-driving-property-prices-greater-noida",
       "is-noida-safe-to-buy-property-2026",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "noida-3300-crore-land-auction-premium-destination-2026") {
+    const prioritySlugs = [
+      "noida-expressway-property-price-trends-2026",
+      "sector-150-noida-best-investment-destination-2026",
+      "noida-vs-greater-noida-investment-2026",
+      "upcoming-luxury-projects-noida-greater-noida-2026",
+      "noida-expressway-best-place-buy-property-2026",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

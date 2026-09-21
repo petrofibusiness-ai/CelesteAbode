@@ -354,7 +354,7 @@ const GODREJ_DMIC_FEATURED: Property & { locationSlug: string } = {
   slug: GODREJ_DMIC_SLUG,
   projectName: GODREJ_DMIC_PROJECT_NAME,
   developer: "Godrej Properties",
-  location: "DMIC Integrated Township, Global Business City, Greater Noida",
+  location: "DMIC Greater Noida",
   locationCategory: null,
   locationId: null,
   localityId: null,
@@ -362,13 +362,13 @@ const GODREJ_DMIC_FEATURED: Property & { locationSlug: string } = {
   reraId: "Pre-RERA, details awaited",
   projectStatus: "New Launch",
   possessionDate: "",
-  configuration: ["2 BHK", "3 BHK"],
+  configuration: ["1 BHK", "2 BHK", "3 BHK"],
   sizes: "985 - 2500 sq ft",
   description:
-    "Godrej Properties pre-launch in Global Business City, DMIC Integrated Township, Greater Noida. 1, 2 and 3 BHK. EOI open.",
+    "Global Business City by Godrej. Pre-launch in DMIC Greater Noida. 1, 2 and 3 BHK. EOI open.",
   heroImage: GODREJ_DMIC_HERO_IMAGE,
   heroImageAlt:
-    "Godrej DMIC Greater Noida premium residential apartments within Global Business City, DMIC Integrated Township, Greater Noida, by Godrej Properties",
+    "Global Business City by Godrej in DMIC Greater Noida: premium residential apartments by Godrej Properties",
   brochureUrl: "",
   images: [GODREJ_DMIC_HERO_IMAGE],
   amenities: [
@@ -381,9 +381,9 @@ const GODREJ_DMIC_FEATURED: Property & { locationSlug: string } = {
   priceMax: null,
   priceUnit: "From Rs 1.35 Cr*",
   seo: {
-    title: "Godrej DMIC Greater Noida - Pre-Launch 1, 2 & 3 BHK",
+    title: "Global Business City by Godrej - Pre-Launch 1, 2 & 3 BHK",
     description:
-      "Godrej Properties in Global Business City, Greater Noida. Pre-launch 1, 2 and 3 BHK from Rs 1.35 Cr. EOI open.",
+      "Global Business City by Godrej in DMIC Greater Noida. Pre-launch 1, 2 and 3 BHK from Rs 1.35 Cr. EOI open.",
     keywords:
       "godrej dmic greater noida, godrej global business city, godrej properties greater noida pre launch, 1 bhk greater noida",
     canonical: `/properties-in-greater-noida/${GODREJ_DMIC_SLUG}`,
@@ -395,16 +395,16 @@ const GODREJ_DMIC_FEATURED: Property & { locationSlug: string } = {
   locationSlug: "greater-noida",
 };
 
-/** Static property pages with dedicated routes (not only in properties_v2). */
+/** Static property pages with dedicated routes (not only in properties_v2). Latest first. */
 export const FEATURED_STATIC_PROPERTY_PAGES: (Property & { locationSlug: string })[] = [
-  FUSION_VASUNDHARA_FEATURED,
-  KARYAN_RESIDENCES_NH24_FEATURED,
-  ACE_PARKWAY_2_0_FEATURED,
-  IRISH_ETA_1_FEATURED,
-  PRATEEK_SECTOR_150_FEATURED,
-  PERIGON_VASUNDHARA_FEATURED,
-  SG_NAKSHATRA_FEATURED,
   GODREJ_DMIC_FEATURED,
+  SG_NAKSHATRA_FEATURED,
+  PERIGON_VASUNDHARA_FEATURED,
+  PRATEEK_SECTOR_150_FEATURED,
+  IRISH_ETA_1_FEATURED,
+  ACE_PARKWAY_2_0_FEATURED,
+  KARYAN_RESIDENCES_NH24_FEATURED,
+  FUSION_VASUNDHARA_FEATURED,
 ];
 
 export function getFeaturedStaticPropertiesForLocation(locationSlug: string): (Property & { locationSlug: string })[] {
@@ -427,16 +427,16 @@ export function getPublishedFeaturedStaticPropertyPageCount(): number {
   return FEATURED_STATIC_PROPERTY_PAGES.filter((p) => p.isPublished).length;
 }
 
-/** Slugs on the dedicated pre-launch catalog (not general new-launch DB listings). */
+/** Slugs on the dedicated pre-launch catalog (latest first, oldest last). */
 export const PRE_LAUNCH_PROPERTY_SLUGS = [
-  "fusion-vasundhara",
-  KARYAN_NH24_SLUG,
-  ACE_SECTOR_150_SLUG,
-  IRISH_ETA_1_SLUG,
-  PRATEEK_SECTOR_150_SLUG,
-  PERIGON_VASUNDHARA_SLUG,
-  SG_NAKSHATRA_SLUG,
   GODREJ_DMIC_SLUG,
+  SG_NAKSHATRA_SLUG,
+  PERIGON_VASUNDHARA_SLUG,
+  PRATEEK_SECTOR_150_SLUG,
+  IRISH_ETA_1_SLUG,
+  ACE_SECTOR_150_SLUG,
+  KARYAN_NH24_SLUG,
+  "fusion-vasundhara",
 ] as const;
 
 export function isPreLaunchPropertySlug(slug: string): boolean {
@@ -444,8 +444,14 @@ export function isPreLaunchPropertySlug(slug: string): boolean {
 }
 
 export function getPublishedPreLaunchStaticProperties(): (Property & { locationSlug: string })[] {
-  return FEATURED_STATIC_PROPERTY_PAGES.filter(
-    (property) => property.isPublished && isPreLaunchPropertySlug(property.slug)
+  const bySlug = new Map(
+    FEATURED_STATIC_PROPERTY_PAGES.filter(
+      (property) => property.isPublished && isPreLaunchPropertySlug(property.slug)
+    ).map((property) => [property.slug, property])
+  );
+
+  return PRE_LAUNCH_PROPERTY_SLUGS.map((slug) => bySlug.get(slug)).filter(
+    (property): property is Property & { locationSlug: string } => Boolean(property)
   );
 }
 

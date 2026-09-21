@@ -101,7 +101,7 @@ export function GodrejDmicStickySidebar({
           message,
           formSource: `property-page-${GODREJ_DMIC_SLUG}`,
           propertyTitle: PROPERTY_NAME,
-          propertyLocation: "Global Business City, DMIC Integrated Township, Greater Noida",
+          propertyLocation: "DMIC Greater Noida",
           propertySlug: PROPERTY_SLUG,
         }),
       });

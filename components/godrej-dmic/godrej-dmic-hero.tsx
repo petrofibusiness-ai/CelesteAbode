@@ -48,7 +48,7 @@ export function GodrejDmicHero() {
       <div className="absolute inset-0">
         <Image
           src={GODREJ_DMIC_HERO_IMAGE}
-          alt="Godrej DMIC Greater Noida premium residential apartments within Global Business City, DMIC Integrated Township, Greater Noida, by Godrej Properties"
+          alt="Global Business City by Godrej in DMIC Greater Noida: premium residential apartments by Godrej Properties"
           fill
           className="object-cover"
           sizes="100vw"
@@ -72,11 +72,12 @@ export function GodrejDmicHero() {
             </p>
             <h1
               id="godrej-dmic-h1"
-              className={`${heroPropertyDisplay.className} mt-2 text-[1.65rem] font-semibold uppercase leading-[1.05] tracking-[0.08em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-4xl sm:tracking-[0.12em] md:text-5xl lg:text-6xl`}
+              className={`${heroPropertyDisplay.className} mt-2 flex flex-nowrap items-baseline gap-2 whitespace-nowrap text-[1.35rem] font-semibold uppercase leading-[1.05] tracking-[0.06em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:gap-3 sm:text-4xl sm:tracking-[0.1em] md:text-5xl lg:text-6xl`}
             >
-              Godrej DMIC
-              <br />
-              Greater Noida
+              Global Business City
+              <span className={`${heroPropertyDisplay.className} text-[0.85rem] font-semibold italic normal-case tracking-tighter text-white sm:text-lg md:text-xl lg:text-2xl`}>
+                by Godrej
+              </span>
             </h1>
             <div className="mt-3 flex items-start gap-2">
               <MapPin className="mt-0.5 h-5 w-5 shrink-0 text-[#CBB27A]" aria-hidden />
@@ -84,7 +85,7 @@ export function GodrejDmicHero() {
                 className="text-sm font-semibold text-white/95 drop-shadow sm:text-lg"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
-                Global Business City · 1, 2 &amp; 3 BHK · Pre Launch
+                DMIC Greater Noida · 1, 2 &amp; 3 BHK · Pre Launch
               </p>
             </div>
           </div>

@@ -95,6 +95,11 @@ import {
   GdaDevelopmentPlansGhaziabadCtaPair,
   gdaDevelopmentPlansGhaziabadFaqSchemaItems,
 } from "./gda-development-plans-ghaziabad-locations-growth-2026-content";
+import {
+  Noida3300CroreLandAuctionPremiumDestination2026Content,
+  Noida3300CroreLandAuctionCtaPair,
+  noida3300CroreLandAuctionFaqSchemaItems,
+} from "./noida-3300-crore-land-auction-premium-destination-2026-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -126,6 +131,8 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
     GdaDevelopmentImpactGhaziabadProperty2026Content,
   "gda-development-plans-ghaziabad-locations-growth-2026":
     GdaDevelopmentPlansGhaziabadLocationsGrowth2026Content,
+  "noida-3300-crore-land-auction-premium-destination-2026":
+    Noida3300CroreLandAuctionPremiumDestination2026Content,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -167,7 +174,8 @@ export async function generateMetadata({
     post.slug === "noida-expressway-property-price-trends-2026" ||
     post.slug === "noida-international-airport-boosting-yamuna-expressway-property" ||
     post.slug === "gda-new-development-projects-impact-ghaziabad-property-prices-2026" ||
-    post.slug === "gda-development-plans-ghaziabad-locations-growth-2026"
+    post.slug === "gda-development-plans-ghaziabad-locations-growth-2026" ||
+    post.slug === "noida-3300-crore-land-auction-premium-destination-2026"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -447,6 +455,23 @@ export async function generateMetadata({
       "real estate consultant Delhi NCR",
       "Celeste Abode",
     ],
+    "noida-3300-crore-land-auction-premium-destination-2026": [
+      "property in Noida",
+      "property in Greater Noida",
+      "buy property in Noida",
+      "buy property in Greater Noida",
+      "Noida property 2026",
+      "Greater Noida property 2026",
+      "Noida land auction 3300 crore",
+      "3300 crore Noida land auction",
+      "Noida Expressway property",
+      "flats for sale in Noida",
+      "flats for sale in Greater Noida",
+      "Sector 150 Noida property",
+      "Noida real estate investment",
+      "real estate consultant Noida",
+      "Celeste Abode",
+    ],
     "top-10-tips-valuing-residential-property-noida": [
       "property in noida",
       "real estate company in noida",
@@ -591,6 +616,8 @@ export default async function BlogPostPage({
     slug === "gda-new-development-projects-impact-ghaziabad-property-prices-2026";
   const isGdaGhaziabadLocationsGrowth =
     slug === "gda-development-plans-ghaziabad-locations-growth-2026";
+  const isNoida3300LandAuction =
+    slug === "noida-3300-crore-land-auction-premium-destination-2026";
   const isNoidaVsGreaterNoida = slug === "noida-vs-greater-noida-investment-2026";
   const isUpcomingLuxury = slug === "upcoming-luxury-projects-noida-greater-noida-2026";
   const isForestWalk = slug === "forest-walk-villa-ghaziabad-luxury-living-2026";
@@ -628,6 +655,8 @@ export default async function BlogPostPage({
       ? "Market Intelligence | Ghaziabad GDA 2026"
     : isGdaGhaziabadLocationsGrowth
       ? "Location Guide | Ghaziabad GDA 2026"
+    : isNoida3300LandAuction
+      ? "Market Intelligence | Noida Land Auction 2026"
     : isThreeBhkGreaterNoida
       ? "Greater Noida West & Noida Extension | 2026"
       : isNoidaVsGreaterNoida
@@ -715,6 +744,9 @@ export default async function BlogPostPage({
       {slug === "gda-development-plans-ghaziabad-locations-growth-2026" ? (
         <FAQPageSchema faqs={gdaDevelopmentPlansGhaziabadFaqSchemaItems} />
       ) : null}
+      {slug === "noida-3300-crore-land-auction-premium-destination-2026" ? (
+        <FAQPageSchema faqs={noida3300CroreLandAuctionFaqSchemaItems} />
+      ) : null}
 
       <div className="min-h-screen bg-background">
         <Header />
@@ -758,7 +790,8 @@ export default async function BlogPostPage({
                         isNoidaExpresswayPriceTrends ||
                         isJewarBoostingYamuna ||
                         isGdaGhaziabadDevelopment ||
-                        isGdaGhaziabadLocationsGrowth) &&
+                        isGdaGhaziabadLocationsGrowth ||
+                        isNoida3300LandAuction) &&
                         "text-left"
                     )}
                   >
@@ -781,7 +814,8 @@ export default async function BlogPostPage({
                               isNoidaExpresswayPriceTrends ||
                               isJewarBoostingYamuna ||
                               isGdaGhaziabadDevelopment ||
-                              isGdaGhaziabadLocationsGrowth
+                              isGdaGhaziabadLocationsGrowth ||
+                              isNoida3300LandAuction
                             ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                             : "mb-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                       }
@@ -808,7 +842,8 @@ export default async function BlogPostPage({
                           isNoidaExpresswayPriceTrends ||
                           isJewarBoostingYamuna ||
                           isGdaGhaziabadDevelopment ||
-                          isGdaGhaziabadLocationsGrowth
+                          isGdaGhaziabadLocationsGrowth ||
+                          isNoida3300LandAuction
                           ? "mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
                           : usePremiumHero
                             ? "mx-auto mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
@@ -869,6 +904,10 @@ export default async function BlogPostPage({
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
                         <GdaDevelopmentPlansGhaziabadCtaPair direction="row" hero />
                       </div>
+                    ) : isNoida3300LandAuction ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <Noida3300CroreLandAuctionCtaPair direction="row" hero />
+                      </div>
                     ) : isThreeBhkGreaterNoida || isBestLocationsGreaterNoida ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
                         <div className="inline-grid w-max max-w-full grid-cols-1 justify-items-stretch gap-3 self-end sm:flex sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-end">
@@ -925,7 +964,8 @@ export default async function BlogPostPage({
                           isNoidaExpresswayPriceTrends ||
                           isJewarBoostingYamuna ||
                           isGdaGhaziabadDevelopment ||
-                          isGdaGhaziabadLocationsGrowth
+                          isGdaGhaziabadLocationsGrowth ||
+                          isNoida3300LandAuction
                           ? "justify-end px-1 sm:px-2"
                           : "justify-center"
                       )}

@@ -54,6 +54,7 @@ export type ProjectStatus = typeof PROJECT_STATUSES[number];
  * Used in: properties.configuration column (array)
  */
 export const CONFIGURATIONS = [
+  '1 BHK',
   '2 BHK',
   '2 BHK + Study',
   '3 BHK',

@@ -44,7 +44,7 @@ export const HOT_PROPERTY_PROJECT_LINKS: HotPropertyProjectLink[] = [
   },
   {
     label: "Global Business City by Godrej",
-    href: "/properties-in-greater-noida/godrej-dmic-greater-noida-gbc",
+    href: "/properties-in-greater-noida/godrej-global-business-city-greater-noida",
     location: "Greater Noida",
   },
   {

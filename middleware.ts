@@ -10,13 +10,15 @@ const STATIC_PROPERTY_ROUTE_EXCEPTIONS = new Set([
   '/properties-in-noida/ace-sector-150-noida',
   '/properties-in-noida/prateek-sector-150-noida',
   '/properties-in-greater-noida/irish-eta-1-greater-noida',
-  '/properties-in-greater-noida/godrej-dmic-greater-noida-gbc',
+  '/properties-in-greater-noida/godrej-global-business-city-greater-noida',
 ]);
 
 /** Permanent redirects from retired pre-launch URLs */
 const PROPERTY_SLUG_REDIRECTS: Record<string, string> = {
   '/properties-in-ghaziabad/karyan-residences-nh24': '/properties-in-ghaziabad/karyan-nh24-ghaziabad',
   '/properties-in-noida/ace-parkway-2-0': '/properties-in-noida/ace-sector-150-noida',
+  '/properties-in-greater-noida/godrej-dmic-greater-noida-gbc':
+    '/properties-in-greater-noida/godrej-global-business-city-greater-noida',
 };
 
 function getEmailFromJwt(token: string | undefined): string | null {

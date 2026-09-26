@@ -105,6 +105,11 @@ import {
   SiddharthViharVsIndirapuramCtaPair,
   siddharthViharVsIndirapuramFaqSchemaItems,
 } from "./siddharth-vihar-vs-indirapuram-content";
+import {
+  SiddharthViharConnectivityGuideContent,
+  SiddharthViharConnectivityCtaPair,
+  siddharthViharConnectivityFaqSchemaItems,
+} from "./siddharth-vihar-connectivity-guide-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -140,6 +145,7 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
     Noida3300CroreLandAuctionPremiumDestination2026Content,
   "siddharth-vihar-vs-indirapuram":
     SiddharthViharVsIndirapuramPropertyRequirementsContent,
+  "siddharth-vihar-connectivity-guide": SiddharthViharConnectivityGuideContent,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -183,7 +189,8 @@ export async function generateMetadata({
     post.slug === "gda-new-development-projects-impact-ghaziabad-property-prices-2026" ||
     post.slug === "gda-development-plans-ghaziabad-locations-growth-2026" ||
     post.slug === "noida-3300-crore-land-auction-premium-destination-2026" ||
-    post.slug === "siddharth-vihar-vs-indirapuram"
+    post.slug === "siddharth-vihar-vs-indirapuram" ||
+    post.slug === "siddharth-vihar-connectivity-guide"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -494,6 +501,20 @@ export async function generateMetadata({
       "real estate consultant Ghaziabad",
       "Celeste Abode",
     ],
+    "siddharth-vihar-connectivity-guide": [
+      "Siddharth Vihar connectivity",
+      "Siddharth Vihar to Delhi",
+      "Siddharth Vihar to Noida",
+      "Siddharth Vihar metro connectivity",
+      "Siddharth Vihar Ghaziabad",
+      "NH-24 Ghaziabad",
+      "Delhi-Meerut Expressway",
+      "Shaheed Sthal metro",
+      "Namo Bharat Ghaziabad",
+      "property in Ghaziabad",
+      "real estate consultant Ghaziabad",
+      "Celeste Abode",
+    ],
     "top-10-tips-valuing-residential-property-noida": [
       "property in noida",
       "real estate company in noida",
@@ -646,6 +667,8 @@ export default async function BlogPostPage({
   const isSiddharthVsIndirapuram =
     slug === "siddharth-vihar-vs-indirapuram";
   const usePremiumHero = true;
+  const isSiddharthConnectivity = slug === "siddharth-vihar-connectivity-guide";
+  const isSiddharthGuideLayout = isSiddharthVsIndirapuram || isSiddharthConnectivity;
   const heroTitle = isSobhaRivana ? "Sobha Rivana, Greater Noida West" : post.title;
   const heroEyebrow = isSobhaRivana
     ? "Project Spotlight | Sector 1, Greater Noida West"
@@ -683,6 +706,8 @@ export default async function BlogPostPage({
       ? "Market Intelligence | Noida Land Auction 2026"
     : isSiddharthVsIndirapuram
       ? "Location Guide | Siddharth Vihar vs Indirapuram"
+    : isSiddharthConnectivity
+      ? "Location Guide | Siddharth Vihar Connectivity"
     : isThreeBhkGreaterNoida
       ? "Greater Noida West & Noida Extension | 2026"
     : isNoidaVsGreaterNoida
@@ -702,6 +727,8 @@ export default async function BlogPostPage({
       ? "Discover Why buyers are shifting to Forest Walk Villa on NH-24 and what makes this project stand out in 2026."
     : isSiddharthVsIndirapuram
       ? "Stuck between these two Ghaziabad addresses? Here is how they compare on commute, price, daily life, and the home you actually get."
+    : isSiddharthConnectivity
+      ? "How Siddharth Vihar connects to Delhi, Noida, Indirapuram, metro, and the rest of NCR, timed from the project gate."
     : post.excerpt;
 
   const breadcrumbItems = [
@@ -782,6 +809,9 @@ export default async function BlogPostPage({
         <FAQPageSchema faqs={siddharthViharVsIndirapuramFaqSchemaItems} />
       ) : null}
 
+      {slug === "siddharth-vihar-connectivity-guide" ? (
+        <FAQPageSchema faqs={siddharthViharConnectivityFaqSchemaItems} />
+      ) : null}
         <main className="pt-0">
           {/* Hero – image starts from top (behind fixed header) */}
           <header className="relative bg-[#0f1112]" data-site-hero data-hero-no-section-pad>
@@ -806,7 +836,7 @@ export default async function BlogPostPage({
                       usePremiumHero
                         ? cn(
                             "mx-auto rounded-2xl border border-white/20 bg-black/30 px-4 py-4 backdrop-blur-[2px] sm:px-6 sm:py-5 md:backdrop-blur-sm",
-                            isSiddharthVsIndirapuram ? "max-w-5xl" : "max-w-3xl"
+                            isSiddharthGuideLayout ? "max-w-5xl" : "max-w-3xl"
                           )
                         : "max-w-3xl mx-auto text-center",
                       (isThreeBhkGreaterNoida ||
@@ -826,7 +856,7 @@ export default async function BlogPostPage({
                         isGdaGhaziabadDevelopment ||
                         isGdaGhaziabadLocationsGrowth ||
                         isNoida3300LandAuction ||
-                        isSiddharthVsIndirapuram) &&
+                        isSiddharthGuideLayout) &&
                         "text-left"
                     )}
                   >
@@ -851,7 +881,7 @@ export default async function BlogPostPage({
                               isGdaGhaziabadDevelopment ||
                               isGdaGhaziabadLocationsGrowth ||
                               isNoida3300LandAuction ||
-                              isSiddharthVsIndirapuram
+                              isSiddharthGuideLayout
                             ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                             : "mb-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                       }
@@ -861,7 +891,7 @@ export default async function BlogPostPage({
                     <h1
                       className={cn(
                         "px-1 text-[1.5rem] font-semibold leading-snug tracking-tight text-white font-poppins sm:px-2 sm:text-4xl sm:leading-[1.15] md:text-5xl mb-3 sm:mb-5",
-                        isSiddharthVsIndirapuram && "md:text-[2.65rem] md:leading-[1.2]"
+                        isSiddharthGuideLayout && "md:text-[2.65rem] md:leading-[1.2]"
                       )}
                     >
                       {heroTitle}
@@ -885,10 +915,10 @@ export default async function BlogPostPage({
                           isGdaGhaziabadDevelopment ||
                           isGdaGhaziabadLocationsGrowth ||
                           isNoida3300LandAuction ||
-                          isSiddharthVsIndirapuram
+                          isSiddharthGuideLayout
                           ? cn(
                               "mb-5 px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl",
-                              isSiddharthVsIndirapuram ? "max-w-4xl" : "max-w-2xl"
+                              isSiddharthGuideLayout ? "max-w-4xl" : "max-w-2xl"
                             )
                           : usePremiumHero
                             ? "mx-auto mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
@@ -957,6 +987,10 @@ export default async function BlogPostPage({
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
                         <SiddharthViharVsIndirapuramCtaPair direction="row" hero />
                       </div>
+                    ) : isSiddharthConnectivity ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <SiddharthViharConnectivityCtaPair direction="row" hero />
+                      </div>
                     ) : isThreeBhkGreaterNoida || isBestLocationsGreaterNoida ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
                         <div className="inline-grid w-max max-w-full grid-cols-1 justify-items-stretch gap-3 self-end sm:flex sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-end">
@@ -1015,7 +1049,7 @@ export default async function BlogPostPage({
                           isGdaGhaziabadDevelopment ||
                           isGdaGhaziabadLocationsGrowth ||
                           isNoida3300LandAuction ||
-                          isSiddharthVsIndirapuram
+                          isSiddharthGuideLayout
                           ? "justify-end px-1 sm:px-2"
                           : "justify-center"
                       )}

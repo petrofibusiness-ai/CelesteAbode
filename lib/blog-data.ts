@@ -527,7 +527,7 @@ export const blogPosts: BlogPost[] = [
     title: "Siddharth Vihar vs Indirapuram: Which Location Fits Your Property Requirements?",
     slug: "siddharth-vihar-vs-indirapuram",
     excerpt:
-      "Siddharth Vihar vs Indirapuram: daily life, prices, flats, and which east Ghaziabad address fits how you live or invest.",
+      "Siddharth Vihar vs Indirapuram compared. Property in Siddharth Vihar vs Indirapuram and flats in Siddharth Vihar vs Indirapuram on price, commute, and daily life.",
     category: "Location Intelligence",
     readTime: "8 min read",
     date: "September 18, 2026",
@@ -536,13 +536,35 @@ export const blogPosts: BlogPost[] = [
     featured: true,
     views: "0",
     heroFullscreen: true,
-    metaTitle: "Siddharth Vihar vs Indirapuram",
+    metaTitle: "Siddharth Vihar vs Indirapuram | Property & Flats in Ghaziabad",
     metaDescription:
-      "Siddharth Vihar vs Indirapuram compared: prices, flats, commute, schools, and which location fits how you live or invest.",
+      "Siddharth Vihar vs Indirapuram compared. Property in Siddharth Vihar vs Indirapuram and flats in Siddharth Vihar vs Indirapuram on price, commute, and daily life.",
     ogImage:
       "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blog%20Siddharth%20Vihar%20vs%20Indirapuram/Siddharth%20Vihar%20vs%20Indirapuram4.webp",
     ogImageAlt:
-      "Siddharth Vihar vs Indirapuram: newer high-rise and metro corridor next to a settled tree-lined neighbourhood",
+      "Siddharth Vihar vs Indirapuram: property and flats in east Ghaziabad, newer high-rise beside a settled neighbourhood",
+  },
+  {
+    id: 26,
+    title: "Siddharth Vihar Connectivity Guide: Delhi, Noida, Indirapuram & Other NCR Routes",
+    slug: "siddharth-vihar-connectivity-guide",
+    excerpt:
+      "Siddharth Vihar connectivity to Delhi, Noida, Indirapuram, metro, and Namo Bharat. Drive times, stations, and what to check from the project gate.",
+    category: "Location Intelligence",
+    readTime: "8 min read",
+    date: "September 20, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blog_siddarthvihar_connectivity/siddarthvihar_1.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "Siddharth Vihar Connectivity Guide: Delhi, Noida, Indirapuram & NCR",
+    metaDescription:
+      "Siddharth Vihar connectivity guide: Siddharth Vihar to Delhi, Siddharth Vihar to Noida, metro, Namo Bharat, and Indirapuram routes from the actual project gate.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blog_siddarthvihar_connectivity/siddarthvihar_1.webp",
+    ogImageAlt:
+      "Siddharth Vihar connectivity: expressway, metro, and east Ghaziabad skyline at sunset",
   },
 ];
 
@@ -853,9 +875,26 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "siddharth-vihar-vs-indirapuram") {
     const prioritySlugs = [
+      "siddharth-vihar-connectivity-guide",
       "best-neighborhoods-ghaziabad-value-growth-2026",
       "gda-development-plans-ghaziabad-locations-growth-2026",
       "gda-new-development-projects-impact-ghaziabad-property-prices-2026",
+      "forest-walk-villa-ghaziabad-luxury-living-2026",
+      "why-choose-celeste-abode-property-advisory-delhi-ncr",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "siddharth-vihar-connectivity-guide") {
+    const prioritySlugs = [
+      "siddharth-vihar-vs-indirapuram",
+      "best-neighborhoods-ghaziabad-value-growth-2026",
+      "gda-development-plans-ghaziabad-locations-growth-2026",
       "forest-walk-villa-ghaziabad-luxury-living-2026",
       "why-choose-celeste-abode-property-advisory-delhi-ncr",
     ];

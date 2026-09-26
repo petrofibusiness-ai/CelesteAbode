@@ -23,16 +23,16 @@ function reinitCarousel(api: CarouselApi | undefined) {
 
 /** Instagram embed permalinks (posts + reels) — order matches site carousel */
 const POSTS = [
+  "https://www.instagram.com/reel/DdZM4ybThpB/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DdT4h9uTRx2/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/p/DdKqE7jzjQB/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/reel/DdGNzIyTr02/?utm_source=ig_embed&utm_campaign=loading",
+  "https://www.instagram.com/p/Dc0XaOxCMg3/?utm_source=ig_embed&utm_campaign=loading",
   "https://www.instagram.com/reel/DbVlskhzG8m/?utm_source=ig_embed&utm_campaign=loading",
   "https://www.instagram.com/reel/Dakt18oPIzV/?utm_source=ig_embed&utm_campaign=loading",
   "https://www.instagram.com/reel/DaQYcPeP06I/?utm_source=ig_embed&utm_campaign=loading",
   "https://www.instagram.com/p/DaDPJQWD2P6/?utm_source=ig_embed&utm_campaign=loading",
   "https://www.instagram.com/reel/DZ7kRYnvbUU/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DZu3vwAvinX/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DZppavvTJbf/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/reel/DZkVtlUP6HW/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/p/DZsKletD4ss/?utm_source=ig_embed&utm_campaign=loading",
-  "https://www.instagram.com/p/DZnLNbYPZaA/?utm_source=ig_embed&utm_campaign=loading",
 ] as const
 
 export function InstagramEmbedsSection() {

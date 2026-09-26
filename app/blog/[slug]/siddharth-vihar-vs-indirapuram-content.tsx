@@ -175,12 +175,12 @@ export function SiddharthViharVsIndirapuramPropertyRequirementsContent() {
           </li>
           <li>
             <a href="#two-pockets" className="block py-0.5 transition-colors hover:text-[#CBB27A]">
-              How each area actually lives
+              Siddharth Vihar vs Indirapuram
             </a>
           </li>
           <li>
             <a href="#prices-product" className="block py-0.5 transition-colors hover:text-[#CBB27A]">
-              Price and the home you get
+              property in Siddharth Vihar vs Indirapuram
             </a>
           </li>
           <li>
@@ -195,7 +195,7 @@ export function SiddharthViharVsIndirapuramPropertyRequirementsContent() {
           </li>
           <li>
             <a href="#who-fits" className="block py-0.5 transition-colors hover:text-[#CBB27A]">
-              So which one should you buy?
+              flats in Siddharth Vihar vs Indirapuram
             </a>
           </li>
           <li>
@@ -227,7 +227,7 @@ export function SiddharthViharVsIndirapuramPropertyRequirementsContent() {
 
       <section id="two-pockets" className="scroll-mt-24 mb-14">
         <h2 className="mb-5 text-xl font-semibold tracking-tight text-foreground md:text-2xl">
-          How each area actually lives
+          Siddharth Vihar vs Indirapuram
         </h2>
         <div className="space-y-5 text-[15px] leading-[1.75] text-gray-700 md:text-base">
           <p>
@@ -276,7 +276,7 @@ export function SiddharthViharVsIndirapuramPropertyRequirementsContent() {
 
       <section id="prices-product" className="scroll-mt-24 mb-14">
         <h2 className="mb-5 text-xl font-semibold tracking-tight text-foreground md:text-2xl">
-          Property in Siddharth Vihar vs Indirapuram: price and the home you get
+          property in Siddharth Vihar vs Indirapuram
         </h2>
         <div className="space-y-5 text-[15px] leading-[1.75] text-gray-700 md:text-base">
           <p>
@@ -370,7 +370,7 @@ export function SiddharthViharVsIndirapuramPropertyRequirementsContent() {
 
       <section id="compare-table" className="scroll-mt-24 mb-14">
         <h2 className="mb-4 text-xl font-semibold tracking-tight text-foreground md:text-2xl">
-          Siddharth Vihar vs Indirapuram at a glance
+          Side by side at a glance
         </h2>
         <p className="mb-6 text-[15px] leading-[1.75] text-gray-700 md:text-base">
           Keep this when someone tries to sell both as one east Ghaziabad story.
@@ -418,7 +418,7 @@ export function SiddharthViharVsIndirapuramPropertyRequirementsContent() {
 
       <section id="who-fits" className="scroll-mt-24 mb-14">
         <h2 className="mb-5 text-xl font-semibold tracking-tight text-foreground md:text-2xl">
-          So which one should you buy?
+          flats in Siddharth Vihar vs Indirapuram
         </h2>
         <div className="space-y-5 text-[15px] leading-[1.75] text-gray-700 md:text-base">
           <p>

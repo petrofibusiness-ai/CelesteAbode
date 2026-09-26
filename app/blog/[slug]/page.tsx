@@ -100,6 +100,11 @@ import {
   Noida3300CroreLandAuctionCtaPair,
   noida3300CroreLandAuctionFaqSchemaItems,
 } from "./noida-3300-crore-land-auction-premium-destination-2026-content";
+import {
+  SiddharthViharVsIndirapuramPropertyRequirementsContent,
+  SiddharthViharVsIndirapuramCtaPair,
+  siddharthViharVsIndirapuramFaqSchemaItems,
+} from "./siddharth-vihar-vs-indirapuram-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -133,6 +138,8 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
     GdaDevelopmentPlansGhaziabadLocationsGrowth2026Content,
   "noida-3300-crore-land-auction-premium-destination-2026":
     Noida3300CroreLandAuctionPremiumDestination2026Content,
+  "siddharth-vihar-vs-indirapuram":
+    SiddharthViharVsIndirapuramPropertyRequirementsContent,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -175,7 +182,8 @@ export async function generateMetadata({
     post.slug === "noida-international-airport-boosting-yamuna-expressway-property" ||
     post.slug === "gda-new-development-projects-impact-ghaziabad-property-prices-2026" ||
     post.slug === "gda-development-plans-ghaziabad-locations-growth-2026" ||
-    post.slug === "noida-3300-crore-land-auction-premium-destination-2026"
+    post.slug === "noida-3300-crore-land-auction-premium-destination-2026" ||
+    post.slug === "siddharth-vihar-vs-indirapuram"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -472,6 +480,20 @@ export async function generateMetadata({
       "real estate consultant Noida",
       "Celeste Abode",
     ],
+    "siddharth-vihar-vs-indirapuram": [
+      "Siddharth Vihar vs Indirapuram",
+      "property in Siddharth Vihar vs Indirapuram",
+      "flats in Siddharth Vihar vs Indirapuram",
+      "Siddharth Vihar Ghaziabad",
+      "Indirapuram property",
+      "property in Ghaziabad",
+      "flats in Ghaziabad",
+      "NH-24 Ghaziabad",
+      "Vasundhara Ghaziabad",
+      "Indirapuram Extension",
+      "real estate consultant Ghaziabad",
+      "Celeste Abode",
+    ],
     "top-10-tips-valuing-residential-property-noida": [
       "property in noida",
       "real estate company in noida",
@@ -621,6 +643,8 @@ export default async function BlogPostPage({
   const isNoidaVsGreaterNoida = slug === "noida-vs-greater-noida-investment-2026";
   const isUpcomingLuxury = slug === "upcoming-luxury-projects-noida-greater-noida-2026";
   const isForestWalk = slug === "forest-walk-villa-ghaziabad-luxury-living-2026";
+  const isSiddharthVsIndirapuram =
+    slug === "siddharth-vihar-vs-indirapuram";
   const usePremiumHero = true;
   const heroTitle = isSobhaRivana ? "Sobha Rivana, Greater Noida West" : post.title;
   const heroEyebrow = isSobhaRivana
@@ -657,15 +681,17 @@ export default async function BlogPostPage({
       ? "Location Guide | Ghaziabad GDA 2026"
     : isNoida3300LandAuction
       ? "Market Intelligence | Noida Land Auction 2026"
+    : isSiddharthVsIndirapuram
+      ? "Location Guide | Siddharth Vihar vs Indirapuram"
     : isThreeBhkGreaterNoida
       ? "Greater Noida West & Noida Extension | 2026"
-      : isNoidaVsGreaterNoida
+    : isNoidaVsGreaterNoida
       ? "Market Comparison | Delhi NCR 2026"
-      : isUpcomingLuxury
-        ? "Luxury Watchlist | Noida and Greater Noida 2026"
-      : isForestWalk
-        ? "Project Spotlight | NH-24 Ghaziabad"
-      : post.category;
+    : isUpcomingLuxury
+      ? "Luxury Watchlist | Noida and Greater Noida 2026"
+    : isForestWalk
+      ? "Project Spotlight | NH-24 Ghaziabad"
+    : post.category;
   const heroSubtext = isSobhaRivana
     ? "RERA details, pricing, floor plans, and location insights. Everything you need to evaluate before you decide."
     : isThreeBhkGreaterNoida
@@ -674,6 +700,8 @@ export default async function BlogPostPage({
       ? "Jewar is operational, corridors are repricing, and sector choice matters more than ever. Map the best micro-markets for your budget and hold period."
     : isForestWalk
       ? "Discover Why buyers are shifting to Forest Walk Villa on NH-24 and what makes this project stand out in 2026."
+    : isSiddharthVsIndirapuram
+      ? "Stuck between these two Ghaziabad addresses? Here is how they compare on commute, price, daily life, and the home you actually get."
     : post.excerpt;
 
   const breadcrumbItems = [
@@ -750,6 +778,9 @@ export default async function BlogPostPage({
 
       <div className="min-h-screen bg-background">
         <Header />
+      {slug === "siddharth-vihar-vs-indirapuram" ? (
+        <FAQPageSchema faqs={siddharthViharVsIndirapuramFaqSchemaItems} />
+      ) : null}
 
         <main className="pt-0">
           {/* Hero – image starts from top (behind fixed header) */}
@@ -773,7 +804,10 @@ export default async function BlogPostPage({
                   <div
                     className={cn(
                       usePremiumHero
-                        ? "max-w-3xl mx-auto rounded-2xl border border-white/20 bg-black/30 px-4 py-4 backdrop-blur-[2px] sm:px-6 sm:py-6 md:backdrop-blur-sm"
+                        ? cn(
+                            "mx-auto rounded-2xl border border-white/20 bg-black/30 px-4 py-4 backdrop-blur-[2px] sm:px-6 sm:py-5 md:backdrop-blur-sm",
+                            isSiddharthVsIndirapuram ? "max-w-5xl" : "max-w-3xl"
+                          )
                         : "max-w-3xl mx-auto text-center",
                       (isThreeBhkGreaterNoida ||
                         isPanchsheelGreens2 ||
@@ -791,7 +825,8 @@ export default async function BlogPostPage({
                         isJewarBoostingYamuna ||
                         isGdaGhaziabadDevelopment ||
                         isGdaGhaziabadLocationsGrowth ||
-                        isNoida3300LandAuction) &&
+                        isNoida3300LandAuction ||
+                        isSiddharthVsIndirapuram) &&
                         "text-left"
                     )}
                   >
@@ -815,14 +850,20 @@ export default async function BlogPostPage({
                               isJewarBoostingYamuna ||
                               isGdaGhaziabadDevelopment ||
                               isGdaGhaziabadLocationsGrowth ||
-                              isNoida3300LandAuction
+                              isNoida3300LandAuction ||
+                              isSiddharthVsIndirapuram
                             ? "mb-3 text-left text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                             : "mb-3 text-center text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[#d7c18b] sm:mb-4 sm:text-xs"
                       }
                     >
                       {heroEyebrow}
                     </p>
-                    <h1 className="px-1 text-[1.5rem] font-semibold leading-snug tracking-tight text-white font-poppins sm:px-2 sm:text-4xl sm:leading-[1.15] md:text-5xl mb-3 sm:mb-5">
+                    <h1
+                      className={cn(
+                        "px-1 text-[1.5rem] font-semibold leading-snug tracking-tight text-white font-poppins sm:px-2 sm:text-4xl sm:leading-[1.15] md:text-5xl mb-3 sm:mb-5",
+                        isSiddharthVsIndirapuram && "md:text-[2.65rem] md:leading-[1.2]"
+                      )}
+                    >
                       {heroTitle}
                     </h1>
                     <p
@@ -843,8 +884,12 @@ export default async function BlogPostPage({
                           isJewarBoostingYamuna ||
                           isGdaGhaziabadDevelopment ||
                           isGdaGhaziabadLocationsGrowth ||
-                          isNoida3300LandAuction
-                          ? "mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
+                          isNoida3300LandAuction ||
+                          isSiddharthVsIndirapuram
+                          ? cn(
+                              "mb-5 px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl",
+                              isSiddharthVsIndirapuram ? "max-w-4xl" : "max-w-2xl"
+                            )
                           : usePremiumHero
                             ? "mx-auto mb-5 max-w-2xl px-1 text-[0.95rem] leading-relaxed text-white/88 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
                             : "mx-auto mb-5 max-w-2xl px-1 text-base leading-relaxed text-white/85 font-poppins sm:px-2 sm:text-lg sm:mb-7 md:text-xl"
@@ -908,6 +953,10 @@ export default async function BlogPostPage({
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
                         <Noida3300CroreLandAuctionCtaPair direction="row" hero />
                       </div>
+                    ) : isSiddharthVsIndirapuram ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <SiddharthViharVsIndirapuramCtaPair direction="row" hero />
+                      </div>
                     ) : isThreeBhkGreaterNoida || isBestLocationsGreaterNoida ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
                         <div className="inline-grid w-max max-w-full grid-cols-1 justify-items-stretch gap-3 self-end sm:flex sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-end">
@@ -965,7 +1014,8 @@ export default async function BlogPostPage({
                           isJewarBoostingYamuna ||
                           isGdaGhaziabadDevelopment ||
                           isGdaGhaziabadLocationsGrowth ||
-                          isNoida3300LandAuction
+                          isNoida3300LandAuction ||
+                          isSiddharthVsIndirapuram
                           ? "justify-end px-1 sm:px-2"
                           : "justify-center"
                       )}

@@ -522,6 +522,28 @@ export const blogPosts: BlogPost[] = [
     ogImageAlt:
       "Noida land auction at golden hour: gavel on site plans overlooking Expressway, metro, and rising towers",
   },
+  {
+    id: 25,
+    title: "Siddharth Vihar vs Indirapuram: Which Location Fits Your Property Requirements?",
+    slug: "siddharth-vihar-vs-indirapuram",
+    excerpt:
+      "Siddharth Vihar vs Indirapuram: daily life, prices, flats, and which east Ghaziabad address fits how you live or invest.",
+    category: "Location Intelligence",
+    readTime: "8 min read",
+    date: "September 18, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blog%20Siddharth%20Vihar%20vs%20Indirapuram/Siddharth%20Vihar%20vs%20Indirapuram4.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "Siddharth Vihar vs Indirapuram",
+    metaDescription:
+      "Siddharth Vihar vs Indirapuram compared: prices, flats, commute, schools, and which location fits how you live or invest.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blog%20Siddharth%20Vihar%20vs%20Indirapuram/Siddharth%20Vihar%20vs%20Indirapuram4.webp",
+    ogImageAlt:
+      "Siddharth Vihar vs Indirapuram: newer high-rise and metro corridor next to a settled tree-lined neighbourhood",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -658,6 +680,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "best-neighborhoods-ghaziabad-value-growth-2026") {
     const prioritySlugs = [
+      "siddharth-vihar-vs-indirapuram",
       "forest-walk-villa-ghaziabad-luxury-living-2026",
       "noida-vs-greater-noida-investment-2026",
       "why-choose-celeste-abode-property-advisory-delhi-ncr",
@@ -796,6 +819,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "gda-new-development-projects-impact-ghaziabad-property-prices-2026") {
     const prioritySlugs = [
+      "siddharth-vihar-vs-indirapuram",
       "gda-development-plans-ghaziabad-locations-growth-2026",
       "best-neighborhoods-ghaziabad-value-growth-2026",
       "forest-walk-villa-ghaziabad-luxury-living-2026",
@@ -812,11 +836,28 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "gda-development-plans-ghaziabad-locations-growth-2026") {
     const prioritySlugs = [
+      "siddharth-vihar-vs-indirapuram",
       "gda-new-development-projects-impact-ghaziabad-property-prices-2026",
       "best-neighborhoods-ghaziabad-value-growth-2026",
       "forest-walk-villa-ghaziabad-luxury-living-2026",
       "infrastructure-driving-property-prices-greater-noida",
       "is-noida-safe-to-buy-property-2026",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "siddharth-vihar-vs-indirapuram") {
+    const prioritySlugs = [
+      "best-neighborhoods-ghaziabad-value-growth-2026",
+      "gda-development-plans-ghaziabad-locations-growth-2026",
+      "gda-new-development-projects-impact-ghaziabad-property-prices-2026",
+      "forest-walk-villa-ghaziabad-luxury-living-2026",
+      "why-choose-celeste-abode-property-advisory-delhi-ncr",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

@@ -110,6 +110,16 @@ import {
   SiddharthViharConnectivityCtaPair,
   siddharthViharConnectivityFaqSchemaItems,
 } from "./siddharth-vihar-connectivity-guide-content";
+import {
+  TopReasonsInvestSector150NoidaExpresswayJewarAirportContent,
+  TopReasonsSector150CtaPair,
+  topReasonsSector150FaqSchemaItems,
+} from "./top-reasons-invest-sector-150-noida-expressway-jewar-airport-content";
+import {
+  WhyPropertyNearJewarAirportBestInvestment2026Content,
+  WhyPropertyNearJewarAirportCtaPair,
+  whyPropertyNearJewarAirportFaqSchemaItems,
+} from "./why-property-near-jewar-airport-best-investment-2026-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -146,6 +156,10 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "siddharth-vihar-vs-indirapuram":
     SiddharthViharVsIndirapuramPropertyRequirementsContent,
   "siddharth-vihar-connectivity-guide": SiddharthViharConnectivityGuideContent,
+  "top-reasons-invest-sector-150-noida-expressway-jewar-airport":
+    TopReasonsInvestSector150NoidaExpresswayJewarAirportContent,
+  "why-property-near-jewar-airport-best-investment-2026":
+    WhyPropertyNearJewarAirportBestInvestment2026Content,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -190,7 +204,9 @@ export async function generateMetadata({
     post.slug === "gda-development-plans-ghaziabad-locations-growth-2026" ||
     post.slug === "noida-3300-crore-land-auction-premium-destination-2026" ||
     post.slug === "siddharth-vihar-vs-indirapuram" ||
-    post.slug === "siddharth-vihar-connectivity-guide"
+    post.slug === "siddharth-vihar-connectivity-guide" ||
+    post.slug === "top-reasons-invest-sector-150-noida-expressway-jewar-airport" ||
+    post.slug === "why-property-near-jewar-airport-best-investment-2026"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -515,6 +531,33 @@ export async function generateMetadata({
       "real estate consultant Ghaziabad",
       "Celeste Abode",
     ],
+    "top-reasons-invest-sector-150-noida-expressway-jewar-airport": [
+      "top reasons to invest in Sector 150 Noida",
+      "Sector 150 Noida real estate",
+      "Sector 150 Noida near Noida Expressway",
+      "Sector 150 Noida near Jewar Airport",
+      "invest in Sector 150 Noida",
+      "Noida Expressway property",
+      "Jewar Airport property",
+      "property in Noida",
+      "flats for sale in Noida",
+      "real estate consultant Noida",
+      "Celeste Abode",
+    ],
+    "why-property-near-jewar-airport-best-investment-2026": [
+      "property near Jewar Airport",
+      "Property Near Jewar Airport is the Best Investment Opportunity in 2026",
+      "Jewar Airport investment",
+      "Jewar Airport ROI",
+      "best investment opportunity in 2026",
+      "why property near Jewar Airport",
+      "Noida International Airport property",
+      "Yamuna Expressway property",
+      "property in Greater Noida",
+      "YEIDA property",
+      "real estate consultant Noida",
+      "Celeste Abode",
+    ],
     "top-10-tips-valuing-residential-property-noida": [
       "property in noida",
       "real estate company in noida",
@@ -668,7 +711,14 @@ export default async function BlogPostPage({
     slug === "siddharth-vihar-vs-indirapuram";
   const usePremiumHero = true;
   const isSiddharthConnectivity = slug === "siddharth-vihar-connectivity-guide";
-  const isSiddharthGuideLayout = isSiddharthVsIndirapuram || isSiddharthConnectivity;
+  const isTopReasonsSector150 =
+    slug === "top-reasons-invest-sector-150-noida-expressway-jewar-airport";
+  const isJewarAirportInvest = slug === "why-property-near-jewar-airport-best-investment-2026";
+  const isSiddharthGuideLayout =
+    isSiddharthVsIndirapuram ||
+    isSiddharthConnectivity ||
+    isTopReasonsSector150 ||
+    isJewarAirportInvest;
   const heroTitle = isSobhaRivana ? "Sobha Rivana, Greater Noida West" : post.title;
   const heroEyebrow = isSobhaRivana
     ? "Project Spotlight | Sector 1, Greater Noida West"
@@ -686,6 +736,10 @@ export default async function BlogPostPage({
       ? "Location Guide | Ghaziabad 2026"
     : isSector150Noida
       ? "Location Guide | Sector 150 Noida 2026"
+    : isTopReasonsSector150
+      ? "Investment Guide | Sector 150, Expressway & Jewar"
+    : isJewarAirportInvest
+      ? "Investment Guide | Jewar Airport ROI 2026"
     : isNoidaExpressway
       ? "Location Guide | Noida Expressway 2026"
     : isYamunaExpresswaySectors
@@ -729,6 +783,10 @@ export default async function BlogPostPage({
       ? "Stuck between these two Ghaziabad addresses? Here is how they compare on commute, price, daily life, and the home you actually get."
     : isSiddharthConnectivity
       ? "How Siddharth Vihar connects to Delhi, Noida, Indirapuram, metro, and the rest of NCR, timed from the project gate."
+    : isTopReasonsSector150
+      ? "If you are looking at Sector 150, this walkthrough covers the Noida Expressway commute, Jewar Airport access, and what the homes here actually feel like to own."
+    : isJewarAirportInvest
+      ? "For people who want return on money near Noida International Airport, not only a house to move into."
     : post.excerpt;
 
   const breadcrumbItems = [
@@ -811,6 +869,12 @@ export default async function BlogPostPage({
 
       {slug === "siddharth-vihar-connectivity-guide" ? (
         <FAQPageSchema faqs={siddharthViharConnectivityFaqSchemaItems} />
+      ) : null}
+      {slug === "top-reasons-invest-sector-150-noida-expressway-jewar-airport" ? (
+        <FAQPageSchema faqs={topReasonsSector150FaqSchemaItems} />
+      ) : null}
+      {slug === "why-property-near-jewar-airport-best-investment-2026" ? (
+        <FAQPageSchema faqs={whyPropertyNearJewarAirportFaqSchemaItems} />
       ) : null}
         <main className="pt-0">
           {/* Hero – image starts from top (behind fixed header) */}
@@ -946,6 +1010,14 @@ export default async function BlogPostPage({
                     ) : isSector150Noida ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
                         <Sector150NoidaCtaPair direction="row" hero />
+                      </div>
+                    ) : isTopReasonsSector150 ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <TopReasonsSector150CtaPair direction="row" hero />
+                      </div>
+                    ) : isJewarAirportInvest ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <WhyPropertyNearJewarAirportCtaPair direction="row" hero />
                       </div>
                     ) : isNoidaExpressway ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">

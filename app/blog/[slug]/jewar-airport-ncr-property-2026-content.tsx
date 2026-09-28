@@ -188,7 +188,7 @@ export function JewarAirportNcrProperty2026Content() {
           <p>
             At Celeste Abode, we help buyers compare growth potential with legal clarity and location quality. Browse{" "}
             <Link href="/properties-in-yamuna-expressway" className="text-[#CBB27A] font-semibold hover:underline">
-              properties on Yamuna Expressway
+              Properties in Yamuna Expressway
             </Link>{" "}
             or{" "}
             <Link href="/request-a-free-consultation" className="text-[#CBB27A] font-semibold hover:underline">

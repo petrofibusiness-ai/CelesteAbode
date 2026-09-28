@@ -83,7 +83,7 @@ export const jewarBoostingYamunaExpresswayFaqSchemaItems: { question: string; an
   },
 ];
 
-const CTA_SIZER_LABELS = ["Yamuna Expressway properties", "Book a free consultation"] as const;
+const CTA_SIZER_LABELS = ["Properties in Yamuna Expressway", "Book a free consultation"] as const;
 
 const CTA_SIZER =
   "invisible col-start-1 row-start-1 block h-0 max-h-0 overflow-hidden whitespace-nowrap px-5 py-2.5 text-sm font-medium font-poppins";
@@ -126,7 +126,7 @@ export function JewarBoostingYamunaExpresswayCtaPair({
           : "grid w-max max-w-full grid-cols-1 gap-3"
       }
     >
-      {renderCell(PROPERTIES_YE, "Yamuna Expressway properties", "primary")}
+      {renderCell(PROPERTIES_YE, "Properties in Yamuna Expressway", "primary")}
       {renderCell(CONSULT, "Book a free consultation", "secondary")}
     </div>
   );
@@ -189,7 +189,7 @@ export function JewarBoostingYamunaExpresswayPropertyContent() {
           Noida International Airport at Jewar is no longer a brochure line. Commercial flights are live. That shift is
           why{" "}
           <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-            property on Yamuna Expressway
+            Properties in Yamuna Expressway
           </Link>{" "}
           moved from wait-and-watch to active shortlists. The boost is real. It is not even. Much of the anticipation
           premium already hit corridor averages between 2020 and 2025. Your job in 2026 is to find the stacks that still
@@ -393,7 +393,7 @@ export function JewarBoostingYamunaExpresswayPropertyContent() {
             </Link>{" "}
             when the Yamuna hold feels too long. That comparison is healthy. Browse live{" "}
             <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-              Yamuna Expressway properties
+              Properties in Yamuna Expressway
             </Link>{" "}
             and{" "}
             <Link href={PROPERTIES_GN} className="font-medium text-[#CBB27A] hover:underline">
@@ -417,7 +417,7 @@ export function JewarBoostingYamunaExpresswayPropertyContent() {
           <p>
             Start with{" "}
             <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-              Yamuna Expressway properties
+              Properties in Yamuna Expressway
             </Link>
             , then compare{" "}
             <Link href={FLATS_NOIDA} className="font-medium text-[#CBB27A] hover:underline">
@@ -471,7 +471,7 @@ export function JewarBoostingYamunaExpresswayPropertyContent() {
             </Link>{" "}
             if Noida International Airport is part of your thesis and you want it tested against live{" "}
             <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-              Yamuna Expressway property
+              Properties in Yamuna Expressway
             </Link>{" "}
             before you pay a booking amount.
           </p>

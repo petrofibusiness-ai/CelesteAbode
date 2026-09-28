@@ -209,7 +209,7 @@ export function NoidaAirportImpactNoidaExpresswayPricesContent() {
             offices. The Noida Expressway sits in that lane. It links older Noida grids to Greater Noida and feeds into
             the{" "}
             <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-              Yamuna Expressway
+              Properties in Yamuna Expressway
             </Link>{" "}
             side where Jewar is the headline. Buyers who stretch that map often put{" "}
             <Link href={ACE_VERDE} className="font-medium text-[#CBB27A] hover:underline">

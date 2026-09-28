@@ -237,7 +237,7 @@ export function CelesteAbodePropertyAdvisoryDelhiNcrContent() {
             </Link>
             , and{" "}
             <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-              Yamuna Expressway
+              Properties in Yamuna Expressway
             </Link>{" "}
             corridors. You get sector context, not a generic &quot;NCR is hot&quot; pitch.
           </p>

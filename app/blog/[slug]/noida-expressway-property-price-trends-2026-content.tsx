@@ -260,7 +260,7 @@ export function NoidaExpresswayPropertyPriceTrends2026Content() {
             such as Sector 150 absorbed part of that narrative early. Further price lift now depends more on delivery
             and end-user depth than on another airport announcement. Compare{" "}
             <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-              Yamuna Expressway
+              Properties in Yamuna Expressway
             </Link>{" "}
             tickets only if your brief is a longer airport hold, not a same-day Expressway lifestyle buy.
           </p>

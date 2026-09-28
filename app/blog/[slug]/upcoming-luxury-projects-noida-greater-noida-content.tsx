@@ -514,7 +514,7 @@ export function UpcomingLuxuryProjectsNoidaGreaterNoidaContent() {
                 href="/properties-in-yamuna-expressway"
                 className="text-[#CBB27A] font-semibold hover:underline"
               >
-                properties on Yamuna Expressway
+                Properties in Yamuna Expressway
               </Link>
               .
             </p>

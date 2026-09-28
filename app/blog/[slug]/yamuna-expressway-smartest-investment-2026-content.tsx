@@ -86,7 +86,7 @@ export const yamunaExpresswaySmartestInvestmentFaqSchemaItems: {
   },
 ];
 
-const CTA_SIZER_LABELS = ["Yamuna Expressway properties", "Book a free consultation"] as const;
+const CTA_SIZER_LABELS = ["Properties in Yamuna Expressway", "Book a free consultation"] as const;
 
 const CTA_SIZER =
   "invisible col-start-1 row-start-1 block h-0 max-h-0 overflow-hidden whitespace-nowrap px-5 py-2.5 text-sm font-medium font-poppins";
@@ -129,7 +129,7 @@ export function YamunaExpresswaySmartestInvestmentCtaPair({
           : "grid w-max max-w-full grid-cols-1 gap-3"
       }
     >
-      {renderCell(PROPERTIES_YE, "Yamuna Expressway properties", "primary")}
+      {renderCell(PROPERTIES_YE, "Properties in Yamuna Expressway", "primary")}
       {renderCell(CONSULT, "Book a free consultation", "secondary")}
     </div>
   );
@@ -192,7 +192,7 @@ export function YamunaExpresswaySmartestInvestment2026Content() {
           Smartest does not mean risk-free. It means the corridor still offers a usable mix of entry price, airport
           access, and project choice that many mature NCR belts no longer give at the same ticket. If you are weighing{" "}
           <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-            property on Yamuna Expressway
+            Properties in Yamuna Expressway
           </Link>{" "}
           in 2026, the question is not whether Jewar exists. It is whether your stack can ride that demand without
           overpaying for a weak file.
@@ -418,7 +418,7 @@ export function YamunaExpresswaySmartestInvestment2026Content() {
           <p>
             Start with live{" "}
             <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-              Yamuna Expressway properties
+              Properties in Yamuna Expressway
             </Link>
             , then stress-test against{" "}
             <Link href={FLATS_GN} className="font-medium text-[#CBB27A] hover:underline">

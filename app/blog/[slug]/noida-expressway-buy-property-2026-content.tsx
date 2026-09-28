@@ -211,7 +211,7 @@ export function NoidaExpresswayBuyProperty2026Content() {
             Jewar Airport is live. Metro extensions and Aqua Line feeds keep adding nodes. Premium stacks in Sector 150
             sit beside mid-segment grids in Greater Noida West and long-hold plots on the{" "}
             <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-              Yamuna Expressway
+              Properties in Yamuna Expressway
             </Link>
             . Our buyer work across{" "}
             <Link href={PROPERTIES_GN} className="font-medium text-[#CBB27A] hover:underline">

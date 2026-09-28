@@ -422,7 +422,7 @@ export function Noida3300CroreLandAuctionPremiumDestination2026Content() {
             </Link>{" "}
             and{" "}
             <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-              Yamuna Expressway properties
+              Properties in Yamuna Expressway
             </Link>{" "}
             if you can wait for airport-linked demand. Skip them if you need Expressway life this year, not “someday.”
           </p>

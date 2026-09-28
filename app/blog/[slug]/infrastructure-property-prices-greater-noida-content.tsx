@@ -235,7 +235,7 @@ export function InfrastructurePropertyPricesGreaterNoidaContent() {
             attention back to the expressway belt and sharpened pricing on projects with clean titles and credible
             builders. It does not make every plotted pocket a winner. It does mean{" "}
             <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-              property on the Yamuna Expressway
+              Properties in Yamuna Expressway
             </Link>{" "}
             is judged on hold period and corridor access, not just distance on a map.
           </p>

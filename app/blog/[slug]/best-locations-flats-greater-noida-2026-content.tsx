@@ -403,7 +403,7 @@ export function BestLocationsFlatsGreaterNoida2026Content() {
               <p>
                 Filter the full belt on{" "}
                 <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-                  properties in Yamuna Expressway
+                  Properties in Yamuna Expressway
                 </Link>
                 .
               </p>
@@ -658,7 +658,7 @@ export function BestLocationsFlatsGreaterNoida2026Content() {
             href={PROPERTIES_YE}
             className="inline-flex items-center justify-center rounded-xl border border-white/30 bg-white/10 px-6 py-3 text-sm font-medium text-white backdrop-blur-sm transition hover:bg-white/15"
           >
-            Yamuna Expressway properties
+            Properties in Yamuna Expressway
           </Link>
           <Link
             href={CONSULT}

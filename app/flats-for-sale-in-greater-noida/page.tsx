@@ -240,7 +240,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                           <p>
                             Small formats can print higher yield than a mid 2 BHK if the location feeds steady tenants. Run the math on maintenance, society charges, and downtime before you celebrate a headline number. A studio apartment in Greater Noida only works if those costs stay predictable across semesters and job cycles. Ask who pays for power backup, water, and lift maintenance when the unit sits tenanted twelve months a year. If you want a wider expressway-linked pipeline, also glance at{" "}
                             <Link href="/properties-in-yamuna-expressway" className="text-[#CBB27A] font-semibold hover:underline">
-                              Yamuna Expressway properties
+                              Properties in Yamuna Expressway
                             </Link>{" "}
                             where ticket sizes and tenant stories differ.
                           </p>
@@ -300,7 +300,7 @@ export default async function FlatsForSaleInGreaterNoidaPage() {
                           <p>
                             Treat this belt as a thesis, not a weekend impulse. Flats for sale in Greater Noida along the expressway still need the same RERA and builder checks as anywhere else. Jewar Phase 1 is moving toward commercial flights in 2026, YEIDA keeps adding institutional weight, and rapid rail links are part of the long arc. Film City and logistics clusters add employment stories that take years to mature, so your underwriting should match that clock. You still need a holding period that respects construction timelines and tenant build-up. Buyers who want expressway-linked options without guessing society health should start with{" "}
                             <Link href="/properties-in-yamuna-expressway" className="text-[#CBB27A] font-semibold hover:underline">
-                              curated Yamuna Expressway listings
+                              Properties in Yamuna Expressway
                             </Link>{" "}
                             and a clear exit plan.
                           </p>

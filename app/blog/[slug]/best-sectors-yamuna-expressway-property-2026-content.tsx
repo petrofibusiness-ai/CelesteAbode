@@ -87,7 +87,7 @@ export const bestSectorsYamunaExpresswayFaqSchemaItems: { question: string; answ
   },
 ];
 
-const CTA_SIZER_LABELS = ["Yamuna Expressway properties", "Book a free consultation"] as const;
+const CTA_SIZER_LABELS = ["Properties in Yamuna Expressway", "Book a free consultation"] as const;
 
 const CTA_SIZER =
   "invisible col-start-1 row-start-1 block h-0 max-h-0 overflow-hidden whitespace-nowrap px-5 py-2.5 text-sm font-medium font-poppins";
@@ -130,7 +130,7 @@ export function YamunaExpresswaySectorsCtaPair({
           : "grid w-max max-w-full grid-cols-1 gap-3"
       }
     >
-      {renderCell(PROPERTIES_YE, "Yamuna Expressway properties", "primary")}
+      {renderCell(PROPERTIES_YE, "Properties in Yamuna Expressway", "primary")}
       {renderCell(CONSULT, "Book a free consultation", "secondary")}
     </div>
   );
@@ -193,7 +193,7 @@ export function BestSectorsYamunaExpresswayProperty2026Content() {
           Yamuna Expressway buyers often arrive with one word: Jewar. The airport is real. That does not make every
           sector on the route a high-return buy or a luxury home. If you are comparing{" "}
           <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-            property on Yamuna Expressway
+            Properties in Yamuna Expressway
           </Link>{" "}
           in 2026, start with sector numbers, then project files. Sector 22D has the launch density. Sector 22A has the
           premium belt. Mid-corridor pins suit a different hold. Pick the sector that matches your ticket and timeline,
@@ -398,7 +398,7 @@ export function BestSectorsYamunaExpresswayProperty2026Content() {
           <p>
             See all live inventory on{" "}
             <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-              Yamuna Expressway properties
+              Properties in Yamuna Expressway
             </Link>{" "}
             or tell us your budget on a{" "}
             <Link href={CONSULT} className="font-medium text-[#CBB27A] hover:underline">
@@ -440,7 +440,7 @@ export function BestSectorsYamunaExpresswayProperty2026Content() {
             High returns on Yamuna Expressway are not a separate product from luxury living. Both need a project that
             delivers and a sector where families actually move in. Start with{" "}
             <Link href={PROPERTIES_YE} className="font-medium text-[#CBB27A] hover:underline">
-              property on Yamuna Expressway
+              Properties in Yamuna Expressway
             </Link>{" "}
             that passes those checks, then compare{" "}
             <Link href={FLATS_GN} className="font-medium text-[#CBB27A] hover:underline">

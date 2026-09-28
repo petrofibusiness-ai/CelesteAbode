@@ -69,7 +69,7 @@ export function YamunaExpresswayContent() {
             </Link>{" "}
             and compare live{" "}
             <Link href="/properties-in-yamuna-expressway" className="text-[#CBB27A] font-semibold hover:underline">
-              Yamuna Expressway properties
+              Properties in Yamuna Expressway
             </Link>{" "}
             side by side.
           </p>
@@ -154,7 +154,7 @@ export function YamunaExpresswayContent() {
             Keep 3 to 5 projects in comparison and score each on five points: connectivity, developer trust, legal
             clarity, cash-flow comfort, and exit potential. You can browse curated{" "}
             <Link href="/properties-in-yamuna-expressway" className="text-[#CBB27A] font-semibold hover:underline">
-              property in Yamuna Expressway
+              Properties in Yamuna Expressway
             </Link>{" "}
             and cross-check with our{" "}
             <Link href="/blog/noida-vs-greater-noida-investment-2026" className="text-[#CBB27A] font-semibold hover:underline">
@@ -218,7 +218,7 @@ export function YamunaExpresswayContent() {
       <p className="text-lg text-gray-700 leading-relaxed mb-6">
         If you want to evaluate this corridor properly, start with live{" "}
         <Link href="/properties-in-yamuna-expressway" className="text-[#CBB27A] font-semibold hover:underline">
-          Yamuna Expressway properties
+          Properties in Yamuna Expressway
         </Link>{" "}
         and then{" "}
         <Link href="/request-a-free-consultation" className="text-[#CBB27A] font-semibold hover:underline">

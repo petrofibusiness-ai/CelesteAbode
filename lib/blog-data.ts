@@ -566,6 +566,51 @@ export const blogPosts: BlogPost[] = [
     ogImageAlt:
       "Siddharth Vihar connectivity: expressway, metro, and east Ghaziabad skyline at sunset",
   },
+  {
+    id: 27,
+    title:
+      "Top Reasons to Invest in Sector 150 Noida Real Estate Near Noida Expressway & Jewar Airport",
+    slug: "top-reasons-invest-sector-150-noida-expressway-jewar-airport",
+    excerpt:
+      "Top reasons to invest in Sector 150 Noida: Noida Expressway access, Jewar Airport, premium real estate, and what to check from the project gate.",
+    category: "Location Intelligence",
+    readTime: "8 min read",
+    date: "September 22, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/sector-150-noida-best-investment-destination-2026-blog-2%2Csector-150-noida-best-investment-desti%5B...%5D/sector-150-noida-best-investment-destination-2026-blog-heroimage.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "Top Reasons to Invest in Sector 150 Noida | Expressway & Jewar",
+    metaDescription:
+      "Top reasons to invest in Sector 150 Noida real estate near Noida Expressway and Jewar Airport. Commute, pricing, metro, and what to verify before you book.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/sector-150-noida-best-investment-destination-2026-blog-2%2Csector-150-noida-best-investment-desti%5B...%5D/sector-150-noida-best-investment-destination-2026-blog-heroimage.webp",
+    ogImageAlt:
+      "Sector 150 Noida real estate near Noida Expressway and Jewar Airport: metro, highway, and premium towers",
+  },
+  {
+    id: 28,
+    title: "Property Near Jewar Airport is the Best Investment Opportunity in 2026",
+    slug: "why-property-near-jewar-airport-best-investment-2026",
+    excerpt:
+      "Property near Jewar Airport for ROI in 2026: lower entry than premium Noida, an open airport, and what can help or hurt your return.",
+    category: "Location Intelligence",
+    readTime: "8 min read",
+    date: "September 24, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/How%20Noida%20International%20Airport%20is%20Boosting%20Property%20in%20Yamuna%20Expressway/How%20Noida%20International%20Airport%20is%20Boosting%20Property%20in%20Yamuna%20Expressway_1.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "Property Near Jewar Airport is the Best Investment Opportunity in 2026",
+    metaDescription:
+      "Property near Jewar Airport as a 2026 investment: ROI from Yamuna Expressway entry prices, an open Noida International Airport, and what to check before you put money down.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/How%20Noida%20International%20Airport%20is%20Boosting%20Property%20in%20Yamuna%20Expressway/How%20Noida%20International%20Airport%20is%20Boosting%20Property%20in%20Yamuna%20Expressway_1.webp",
+    ogImageAlt:
+      "Property near Jewar Airport: Noida International Airport, Yamuna Expressway, and new homes",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -719,6 +764,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "sector-150-noida-best-investment-destination-2026") {
     const prioritySlugs = [
+      "top-reasons-invest-sector-150-noida-expressway-jewar-airport",
       "noida-expressway-best-place-buy-property-2026",
       "top-10-tips-valuing-residential-property-noida",
       "is-noida-safe-to-buy-property-2026",
@@ -791,6 +837,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "yamuna-expressway-smartest-real-estate-investment-2026") {
     const prioritySlugs = [
+      "why-property-near-jewar-airport-best-investment-2026",
       "noida-international-airport-boosting-yamuna-expressway-property",
       "best-sectors-yamuna-expressway-property-2026",
       "yamuna-expressway-growth-corridor-delhi-ncr",
@@ -825,6 +872,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "noida-international-airport-boosting-yamuna-expressway-property") {
     const prioritySlugs = [
+      "why-property-near-jewar-airport-best-investment-2026",
       "yamuna-expressway-smartest-real-estate-investment-2026",
       "best-sectors-yamuna-expressway-property-2026",
       "jewar-airport-ncr-property-buyers-2026",
@@ -897,6 +945,38 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
       "gda-development-plans-ghaziabad-locations-growth-2026",
       "forest-walk-villa-ghaziabad-luxury-living-2026",
       "why-choose-celeste-abode-property-advisory-delhi-ncr",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "top-reasons-invest-sector-150-noida-expressway-jewar-airport") {
+    const prioritySlugs = [
+      "sector-150-noida-best-investment-destination-2026",
+      "noida-expressway-best-place-buy-property-2026",
+      "noida-international-airport-boosting-yamuna-expressway-property",
+      "noida-expressway-property-price-trends-2026",
+      "why-choose-celeste-abode-property-advisory-delhi-ncr",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "why-property-near-jewar-airport-best-investment-2026") {
+    const prioritySlugs = [
+      "noida-international-airport-boosting-yamuna-expressway-property",
+      "yamuna-expressway-smartest-real-estate-investment-2026",
+      "jewar-airport-ncr-property-buyers-2026",
+      "best-sectors-yamuna-expressway-property-2026",
+      "top-reasons-invest-sector-150-noida-expressway-jewar-airport",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

@@ -156,7 +156,7 @@ export function WhyPropertyNearJewarAirportBestInvestment2026Content() {
           </li>
           <li>
             <a href="#investment-2026" className="block py-0.5 transition-colors hover:text-[#CBB27A]">
-              Property near Jewar Airport is the best investment opportunity in 2026
+              Why Property Near Jewar Airport is the Best Investment Opportunity in 2026
             </a>
           </li>
           <li>
@@ -301,11 +301,11 @@ export function WhyPropertyNearJewarAirportBestInvestment2026Content() {
 
       <section id="investment-2026" className="scroll-mt-24 mb-14">
         <h2 className="mb-5 text-xl font-semibold tracking-tight text-foreground md:text-2xl">
-          Property near Jewar Airport is the best investment opportunity in 2026
+          Why Property Near Jewar Airport is the Best Investment Opportunity in 2026
         </h2>
         <div className="space-y-5 text-[15px] leading-[1.75] text-gray-700 md:text-base">
           <p>
-            Property near Jewar Airport is the best investment opportunity in 2026 for one kind of buyer: someone who
+            Why Property Near Jewar Airport is the Best Investment Opportunity in 2026 for one kind of buyer: someone who
             wants ROI and can wait. You enter below many Noida prices. The airport is already taking passengers. More
             flights and cargo should bring more users and more resale interest over time. That is the return path.
             It is not a fixed percentage. A late project or a fat all-in price can wipe the edge.

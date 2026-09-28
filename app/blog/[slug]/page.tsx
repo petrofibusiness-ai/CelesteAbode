@@ -546,7 +546,7 @@ export async function generateMetadata({
     ],
     "why-property-near-jewar-airport-best-investment-2026": [
       "property near Jewar Airport",
-      "Property Near Jewar Airport is the Best Investment Opportunity in 2026",
+      "Why Property Near Jewar Airport is the Best Investment Opportunity in 2026",
       "Jewar Airport investment",
       "Jewar Airport ROI",
       "best investment opportunity in 2026",

@@ -591,7 +591,7 @@ export const blogPosts: BlogPost[] = [
   },
   {
     id: 28,
-    title: "Property Near Jewar Airport is the Best Investment Opportunity in 2026",
+    title: "Why Property Near Jewar Airport is the Best Investment Opportunity in 2026",
     slug: "why-property-near-jewar-airport-best-investment-2026",
     excerpt:
       "Property near Jewar Airport for ROI in 2026: lower entry than premium Noida, an open airport, and what can help or hurt your return.",
@@ -603,7 +603,7 @@ export const blogPosts: BlogPost[] = [
     featured: true,
     views: "0",
     heroFullscreen: true,
-    metaTitle: "Property Near Jewar Airport is the Best Investment Opportunity in 2026",
+    metaTitle: "Why Property Near Jewar Airport is the Best Investment Opportunity in 2026",
     metaDescription:
       "Property near Jewar Airport as a 2026 investment: ROI from Yamuna Expressway entry prices, an open Noida International Airport, and what to check before you put money down.",
     ogImage:

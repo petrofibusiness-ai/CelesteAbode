@@ -2,18 +2,11 @@
 
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { Cormorant_Garamond } from "next/font/google";
 import { Award, BadgePercent, Building2, IndianRupee, MapPin } from "lucide-react";
 import {
   ACE_PARKWAY_2_0_HERO_IMAGE,
   ACE_SECTOR_150_PROJECT_NAME,
 } from "@/lib/ace-parkway-2-0-assets";
-
-const heroPropertyDisplay = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-  display: "swap",
-});
 
 function SpecPill({
   icon,
@@ -68,13 +61,13 @@ export function AceParkway20Hero() {
         <div className="relative flex min-h-0 flex-1 flex-col px-4 pb-10 pt-[calc(var(--site-header-total,6rem)+0.75rem)] sm:px-6 sm:pb-12 sm:pt-[calc(7rem+var(--site-banner-h,0px))] md:px-10 lg:px-14">
           <div className="pointer-events-auto max-w-4xl text-left">
             <p
-              className={`${heroPropertyDisplay.className} text-sm font-semibold uppercase tracking-[0.28em] text-[#CBB27A] sm:text-base`}
+              className={`font-hero-display text-sm font-semibold uppercase tracking-[0.28em] text-[#CBB27A] sm:text-base`}
             >
               Pre-launch · Sector 150
             </p>
             <h1
               id="ace-parkway-2-0-h1"
-              className={`${heroPropertyDisplay.className} mt-2 text-[1.65rem] font-semibold uppercase leading-[1.05] tracking-[0.08em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-4xl sm:tracking-[0.12em] md:text-5xl lg:text-6xl`}
+              className={`font-hero-display mt-2 text-[1.65rem] font-semibold uppercase leading-[1.05] tracking-[0.08em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-4xl sm:tracking-[0.12em] md:text-5xl lg:text-6xl`}
             >
               {ACE_SECTOR_150_PROJECT_NAME}
             </h1>

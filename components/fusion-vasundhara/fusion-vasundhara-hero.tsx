@@ -2,15 +2,8 @@
 
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { Cormorant_Garamond } from "next/font/google";
 import { Award, BadgePercent, Building2, IndianRupee, MapPin } from "lucide-react";
 import { FUSION_VASUNDHARA_HERO_IMAGE } from "@/lib/fusion-vasundhara-assets";
-
-const heroPropertyDisplay = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-  display: "swap",
-});
 
 export { FUSION_VASUNDHARA_HERO_IMAGE } from "@/lib/fusion-vasundhara-assets";
 
@@ -68,7 +61,7 @@ export function FusionVasundharaHero() {
           <div className="pointer-events-auto max-w-4xl text-left">
             <h1
               id="fusion-vasundhara-h1"
-              className={`${heroPropertyDisplay.className} text-[2rem] font-semibold uppercase leading-[1.05] tracking-[0.12em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-5xl sm:tracking-[0.16em] md:text-6xl md:tracking-[0.18em]`}
+              className={`font-hero-display text-[2rem] font-semibold uppercase leading-[1.05] tracking-[0.12em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-5xl sm:tracking-[0.16em] md:text-6xl md:tracking-[0.18em]`}
             >
               Fusion Vasundhara
             </h1>

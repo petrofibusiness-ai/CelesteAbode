@@ -2,15 +2,8 @@
 
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { Cormorant_Garamond } from "next/font/google";
 import { Award, BadgePercent, Building2, IndianRupee, MapPin } from "lucide-react";
 import { IRISH_ETA_1_HERO_IMAGE, IRISH_ETA_1_PROJECT_NAME, IRISH_ETA_1_SECTOR_LABEL } from "@/lib/irish-eta-1-assets";
-
-const heroPropertyDisplay = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-  display: "swap",
-});
 
 function SpecPill({
   icon,
@@ -66,7 +59,7 @@ export function IrishEta1Hero() {
           <div className="pointer-events-auto max-w-4xl text-left">
             <h1
               id="irish-eta-1-h1"
-              className={`${heroPropertyDisplay.className} text-[1.65rem] font-semibold uppercase leading-[1.05] tracking-[0.08em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-4xl sm:tracking-[0.12em] md:text-5xl lg:text-6xl`}
+              className={`font-hero-display text-[1.65rem] font-semibold uppercase leading-[1.05] tracking-[0.08em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-4xl sm:tracking-[0.12em] md:text-5xl lg:text-6xl`}
             >
               {IRISH_ETA_1_PROJECT_NAME}
             </h1>

@@ -2,16 +2,9 @@
 
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { Cormorant_Garamond } from "next/font/google";
 import { Award, Building2, IndianRupee, MapPin, ShieldCheck } from "lucide-react";
 import { SOBHA_RIVANA_HERO_IMAGE, SOBHA_RIVANA_RERA_FULL } from "@/lib/blog-data";
 import type { DemoGallerySlide } from "./sobha-rivana-gallery";
-
-const heroPropertyDisplay = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-  display: "swap",
-});
 
 /** Carousel slides for the gallery section (hero uses only the first image). */
 export const PROJECT_GALLERY_SLIDES: DemoGallerySlide[] = [
@@ -85,7 +78,7 @@ export function SobhaRivanaHero() {
           <div className="max-w-4xl text-left pointer-events-auto">
             <h1
               id="demo-hero-h1"
-              className={`${heroPropertyDisplay.className} text-[2rem] font-semibold uppercase leading-[1.05] tracking-[0.12em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-5xl sm:tracking-[0.16em] md:text-6xl md:tracking-[0.18em]`}
+              className="font-hero-display text-[2rem] font-semibold uppercase leading-[1.05] tracking-[0.12em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-5xl sm:tracking-[0.16em] md:text-6xl md:tracking-[0.18em]"
             >
               Sobha Rivana
             </h1>

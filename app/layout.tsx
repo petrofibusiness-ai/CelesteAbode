@@ -1,6 +1,6 @@
 import type React from "react";
 import type { Metadata, Viewport } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Inter, Poppins, Cormorant_Garamond } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { FacebookPixel } from "@/components/facebook-pixel";
@@ -32,6 +32,15 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
   display: "swap",
   variable: "--font-poppins",
+  preload: true,
+  adjustFontFallback: true,
+});
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  display: "swap",
+  variable: "--font-cormorant",
   preload: true,
   adjustFontFallback: true,
 });
@@ -228,7 +237,7 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#000000" />
         <FacebookPixel pixelId={process.env.NEXT_PUBLIC_FB_PIXEL_ID || "1611049553953262"} />
       </head>
-      <body className={`${inter.variable} ${poppins.variable} antialiased`} suppressHydrationWarning>
+      <body className={`${inter.variable} ${poppins.variable} ${cormorant.variable} antialiased`} suppressHydrationWarning>
         {children}
         <Chatbot />
         <ConsultationModalGlobal />

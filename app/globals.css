@@ -516,6 +516,10 @@
   font-family: Poppins, sans-serif;
 }
 
+.font-hero-display {
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+}
+
 /* Position utilities to replace inline styles */
 .absolute-full {
   position: absolute;

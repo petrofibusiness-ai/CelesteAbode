@@ -2,15 +2,8 @@
 
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { Cormorant_Garamond } from "next/font/google";
 import { Award, BadgePercent, Building2, IndianRupee, MapPin } from "lucide-react";
 import { GODREJ_DMIC_DEVELOPER, GODREJ_DMIC_HERO_IMAGE } from "@/lib/godrej-dmic-assets";
-
-const heroPropertyDisplay = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-  display: "swap",
-});
 
 function SpecPill({
   icon,
@@ -66,13 +59,13 @@ export function GodrejDmicHero() {
         <div className="relative flex min-h-0 flex-1 flex-col px-4 pb-10 pt-[calc(var(--site-header-total,6rem)+0.75rem)] sm:px-6 sm:pb-12 sm:pt-[calc(7rem+var(--site-banner-h,0px))] md:px-10 lg:px-14">
           <div className="pointer-events-auto max-w-5xl text-left">
             <p
-              className={`${heroPropertyDisplay.className} text-sm font-semibold uppercase tracking-[0.28em] text-[#CBB27A] sm:text-base`}
+              className={`font-hero-display text-sm font-semibold uppercase tracking-[0.28em] text-[#CBB27A] sm:text-base`}
             >
               Pre-launch · EOI registration ongoing
             </p>
             <h1
               id="godrej-dmic-h1"
-              className={`${heroPropertyDisplay.className} mt-2 font-semibold uppercase leading-[1.02] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)]`}
+              className={`font-hero-display mt-2 font-semibold uppercase leading-[1.02] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)]`}
             >
               <span className="block text-[2.15rem] tracking-[0.08em] sm:text-5xl md:text-6xl lg:text-7xl">Godrej</span>
               <span className="mt-1 block whitespace-nowrap text-[1.2rem] tracking-[0.05em] sm:text-3xl sm:tracking-[0.06em] md:text-4xl lg:text-5xl">

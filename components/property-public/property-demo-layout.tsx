@@ -3,7 +3,6 @@
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState, type FormEvent, type ReactNode } from "react";
-import { Cormorant_Garamond } from "next/font/google";
 import Image from "next/image";
 import {
   ArrowUpRight,
@@ -39,12 +38,6 @@ import { AmenityIcon } from "@/lib/amenity-icons";
 import type { Property } from "@/types/property";
 import { isValidPhone, isValidName, sanitizeInput } from "@/lib/security";
 import { formatProjectGalleryHeading } from "@/lib/project-gallery-heading";
-
-const heroTitleFont = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-  display: "swap",
-});
 
 const NCR_LINKS = [
   { href: "/properties-in-greater-noida", title: "Greater Noida", sub: "Expressway belt & new launches" },
@@ -221,7 +214,7 @@ function PropertyDemoHero({
           <div className="pointer-events-auto max-w-4xl text-left">
             <h1
               id="property-hero-h1"
-              className={`${heroTitleFont.className} text-[2rem] font-semibold uppercase leading-[1.05] tracking-[0.12em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-5xl sm:tracking-[0.16em] md:text-6xl md:tracking-[0.18em]`}
+              className={`font-hero-display text-[2rem] font-semibold uppercase leading-[1.05] tracking-[0.12em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:text-5xl sm:tracking-[0.16em] md:text-6xl md:tracking-[0.18em]`}
               dangerouslySetInnerHTML={{ __html: property.projectName }}
             />
             <div className="mt-3 flex items-start gap-2">

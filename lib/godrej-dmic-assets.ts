@@ -1,6 +1,6 @@
 export const GODREJ_DMIC_PLACEHOLDER = "/godrej-dmic-placeholder.svg";
 
-export const GODREJ_DMIC_PROJECT_NAME = "Global Business City by Godrej";
+export const GODREJ_DMIC_PROJECT_NAME = "Godrej Global Business City";
 export const GODREJ_DMIC_DEVELOPER = "Godrej Properties";
 export const GODREJ_DMIC_SLUG = "godrej-global-business-city-greater-noida";
 

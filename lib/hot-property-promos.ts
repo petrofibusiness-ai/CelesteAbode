@@ -4,7 +4,7 @@ export const HOT_PROPERTY_ANNOUNCEMENTS = [
   "Sobha Rivana · Book with just 30% · Pay nothing in 2027 · Only 10% in 2028 and 2029 · 50% only on possession",
   "Kviraaj Mayfair Residency · Move in with just 20% down · Pay the remaining 80% only on possession",
   "Nirala Trio · ₹2 Cr Onwards · Pay Just 20% Now · 80% Later · EOI Open",
-  "Global Business City by Godrej · Pre-launch 1, 2 & 3 BHK in DMIC Greater Noida · EOI from ₹1.35 Cr*",
+  "Godrej Global Business City · Pre-launch 1, 2 & 3 BHK in DMIC Greater Noida · EOI from ₹1.35 Cr*",
   "SG Nakshatra · Pre-launch 3 & 4 BHK in Siddharth Vihar · BSP ₹8,899/sq ft* · EOI ₹12 Lakh",
   "Perigon Vasundhara · Pre-launch 3 & 4 BHK in Sector 4 · BSP ₹8,999/sq ft* · EOI open",
   "Prateek Sector 150 Noida · Pre-launch Art Deco 2.0 · BSP ₹16,500/sq ft* · EOI ₹10 Lakh*",
@@ -43,7 +43,7 @@ export const HOT_PROPERTY_PROJECT_LINKS: HotPropertyProjectLink[] = [
     location: "Greater Noida",
   },
   {
-    label: "Global Business City by Godrej",
+    label: "Godrej Global Business City",
     href: "/properties-in-greater-noida/godrej-global-business-city-greater-noida",
     location: "Greater Noida",
   },

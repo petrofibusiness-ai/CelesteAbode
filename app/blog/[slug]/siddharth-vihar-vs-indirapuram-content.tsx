@@ -4,7 +4,6 @@ import { Building2 } from "lucide-react";
 import { SobhaRivanaFaqAccordion } from "./sobha-rivana-faq-accordion";
 
 const CONSULT = "/request-a-free-consultation";
-const ADVISORY = "/real-estate-consulting-services";
 const PROPERTIES_GHZ = "/properties-in-ghaziabad";
 const FLATS_GHZ = "/flats-in-ghaziabad";
 const AU_COSMOS = "/properties-in-ghaziabad/au-cosmos-corner-siddharth-vihar-ghaziabad";
@@ -451,11 +450,6 @@ export function SiddharthViharVsIndirapuramPropertyRequirementsContent() {
           <p>
             We work for the buyer in Ghaziabad, not for the loudest launch. You tell us the commute and the budget. We
             check papers and possession on the projects you like, and we only take you to sites that still make sense.
-            See{" "}
-            <Link href={ADVISORY} className="font-medium text-[#CBB27A] hover:underline">
-              real estate consulting services
-            </Link>{" "}
-            if you want what the call covers.
           </p>
         </div>
 

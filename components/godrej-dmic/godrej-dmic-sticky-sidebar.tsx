@@ -196,7 +196,7 @@ export function GodrejDmicStickySidebar({
             <h3 className="mt-1.5 text-base font-bold leading-snug text-white">We&apos;d be happy to call you</h3>
             <p className="mt-1.5 text-xs leading-relaxed text-gray-400">
               Share your name and number. We will walk you through EOI, sizes, and what still needs a RERA filing for
-              Global Business City.
+              Godrej Global Business City.
             </p>
 
             {isDone ? (

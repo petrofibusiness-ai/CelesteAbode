@@ -13,7 +13,6 @@ import {
   Train,
   TreePine,
   Truck,
-  Waves,
   Zap,
 } from "lucide-react";
 import { Header } from "@/components/header";
@@ -62,11 +61,6 @@ const LOCATION_ADVANTAGE: { label: string; text: string; icon: LucideIcon }[] = 
     label: "Pari Chowk proximity",
     text: "Approx. 11 km from Pari Chowk, Greater Noida",
     icon: Route,
-  },
-  {
-    label: "Eastern Peripheral Expressway",
-    text: "The township abuts the Eastern Peripheral Expressway along its southern boundary",
-    icon: Waves,
   },
   {
     label: "Rail connectivity",

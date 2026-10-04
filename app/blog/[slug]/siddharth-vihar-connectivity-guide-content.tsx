@@ -4,7 +4,6 @@ import { Building2 } from "lucide-react";
 import { SobhaRivanaFaqAccordion } from "./sobha-rivana-faq-accordion";
 
 const CONSULT = "/request-a-free-consultation";
-const ADVISORY = "/real-estate-consulting-services";
 const PROPERTIES_GHZ = "/properties-in-ghaziabad";
 const FLATS_GHZ = "/flats-in-ghaziabad";
 const AU_COSMOS = "/properties-in-ghaziabad/au-cosmos-corner-siddharth-vihar-ghaziabad";
@@ -454,11 +453,7 @@ export function SiddharthViharConnectivityGuideContent() {
         <div className="space-y-5 text-[15px] leading-[1.75] text-gray-700 md:text-base">
           <p>
             Tell us where you work, where the kids go, or whether you are buying to hold. We time the commute from the
-            actual gate, check project papers, and only take you to sites that still fit. See{" "}
-            <Link href={ADVISORY} className="font-medium text-[#CBB27A] hover:underline">
-              real estate consulting services
-            </Link>{" "}
-            for what the call covers, or{" "}
+            actual gate, check project papers, and only take you to sites that still fit. Then{" "}
             <Link href={CONSULT} className="font-medium text-[#CBB27A] hover:underline">
               book a free consultation
             </Link>

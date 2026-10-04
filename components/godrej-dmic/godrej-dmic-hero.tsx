@@ -48,7 +48,7 @@ export function GodrejDmicHero() {
       <div className="absolute inset-0">
         <Image
           src={GODREJ_DMIC_HERO_IMAGE}
-          alt="Global Business City by Godrej in DMIC Greater Noida: premium residential apartments by Godrej Properties"
+          alt="Godrej Global Business City in DMIC Greater Noida: premium residential apartments by Godrej Properties"
           fill
           className="object-cover"
           sizes="100vw"
@@ -72,11 +72,11 @@ export function GodrejDmicHero() {
             </p>
             <h1
               id="godrej-dmic-h1"
-              className={`${heroPropertyDisplay.className} mt-2 flex flex-nowrap items-baseline gap-2 whitespace-nowrap text-[1.35rem] font-semibold uppercase leading-[1.05] tracking-[0.06em] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)] sm:gap-3 sm:text-4xl sm:tracking-[0.1em] md:text-5xl lg:text-6xl`}
+              className={`${heroPropertyDisplay.className} mt-2 font-semibold uppercase leading-[1.02] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)]`}
             >
-              Global Business City
-              <span className={`${heroPropertyDisplay.className} text-[0.85rem] font-semibold italic normal-case tracking-tighter text-white sm:text-lg md:text-xl lg:text-2xl`}>
-                by Godrej
+              <span className="block text-[2.15rem] tracking-[0.08em] sm:text-5xl md:text-6xl lg:text-7xl">Godrej</span>
+              <span className="mt-1 block whitespace-nowrap text-[1.2rem] tracking-[0.05em] sm:text-3xl sm:tracking-[0.06em] md:text-4xl lg:text-5xl">
+                Global Business City
               </span>
             </h1>
             <div className="mt-3 flex items-start gap-2">

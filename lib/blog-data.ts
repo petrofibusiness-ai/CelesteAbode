@@ -611,6 +611,51 @@ export const blogPosts: BlogPost[] = [
     ogImageAlt:
       "Property near Jewar Airport: Noida International Airport, Yamuna Expressway, and new homes",
   },
+  {
+    id: 29,
+    title: "2 BHK vs 3 BHK Flats in Siddharth Vihar: Which Is Better for Your Needs?",
+    slug: "2-bhk-vs-3-bhk-flats-siddharth-vihar",
+    excerpt:
+      "2 BHK vs 3 BHK flats in Siddharth Vihar compared. Tickets, rooms, rent, and what is actually launching in Siddharth Vihar, Ghaziabad.",
+    category: "Location Intelligence",
+    readTime: "8 min read",
+    date: "October 2, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blog_siddarthvihar_connectivity/siddarthvihar_1.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "2 BHK vs 3 BHK Flats in Siddharth Vihar | Ghaziabad",
+    metaDescription:
+      "2 BHK vs 3 BHK flats in Siddharth Vihar: which size fits your EMI, family, and hold. Flats in Siddharth Vihar Ghaziabad compared on ticket, rooms, and inventory.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blog_siddarthvihar_connectivity/siddarthvihar_1.webp",
+    ogImageAlt:
+      "2 BHK vs 3 BHK flats in Siddharth Vihar Ghaziabad: new towers beside the expressway",
+  },
+  {
+    id: 30,
+    title:
+      "Ready-to-Move vs Under-Construction Property in Siddharth Vihar: What Should Buyers Choose?",
+    slug: "ready-to-move-vs-under-construction-siddharth-vihar",
+    excerpt:
+      "Ready to move vs under construction in Siddharth Vihar: keys, GST, possession, and what buyers should actually choose in Ghaziabad.",
+    category: "Location Intelligence",
+    readTime: "8 min read",
+    date: "October 4, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/BLOG%3A%20Ready-to-Move%20vs%20Under-Construction%20Property%20in%20Siddharth%20Vihar%3A/Ready-to-Move%20vs%20Under-Construction%20Property%20in%20Siddharth%20Vihar_1.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "Ready-to-Move vs Under-Construction Property in Siddharth Vihar",
+    metaDescription:
+      "Ready to move flats in Siddharth Vihar vs under construction flats in Siddharth Vihar. Property in Siddharth Vihar Ghaziabad compared on keys, GST, and possession.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/BLOG%3A%20Ready-to-Move%20vs%20Under-Construction%20Property%20in%20Siddharth%20Vihar%3A/Ready-to-Move%20vs%20Under-Construction%20Property%20in%20Siddharth%20Vihar_1.webp",
+    ogImageAlt:
+      "Ready-to-move vs under-construction property in Siddharth Vihar Ghaziabad: new towers beside the expressway",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -923,6 +968,8 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "siddharth-vihar-vs-indirapuram") {
     const prioritySlugs = [
+      "ready-to-move-vs-under-construction-siddharth-vihar",
+      "2-bhk-vs-3-bhk-flats-siddharth-vihar",
       "siddharth-vihar-connectivity-guide",
       "best-neighborhoods-ghaziabad-value-growth-2026",
       "gda-development-plans-ghaziabad-locations-growth-2026",
@@ -940,6 +987,8 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "siddharth-vihar-connectivity-guide") {
     const prioritySlugs = [
+      "ready-to-move-vs-under-construction-siddharth-vihar",
+      "2-bhk-vs-3-bhk-flats-siddharth-vihar",
       "siddharth-vihar-vs-indirapuram",
       "best-neighborhoods-ghaziabad-value-growth-2026",
       "gda-development-plans-ghaziabad-locations-growth-2026",
@@ -961,6 +1010,39 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
       "noida-international-airport-boosting-yamuna-expressway-property",
       "noida-expressway-property-price-trends-2026",
       "why-choose-celeste-abode-property-advisory-delhi-ncr",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "2-bhk-vs-3-bhk-flats-siddharth-vihar") {
+    const prioritySlugs = [
+      "ready-to-move-vs-under-construction-siddharth-vihar",
+      "siddharth-vihar-vs-indirapuram",
+      "siddharth-vihar-connectivity-guide",
+      "best-neighborhoods-ghaziabad-value-growth-2026",
+      "gda-development-plans-ghaziabad-locations-growth-2026",
+      "forest-walk-villa-ghaziabad-luxury-living-2026",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "ready-to-move-vs-under-construction-siddharth-vihar") {
+    const prioritySlugs = [
+      "2-bhk-vs-3-bhk-flats-siddharth-vihar",
+      "siddharth-vihar-vs-indirapuram",
+      "siddharth-vihar-connectivity-guide",
+      "best-neighborhoods-ghaziabad-value-growth-2026",
+      "forest-walk-villa-ghaziabad-luxury-living-2026",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

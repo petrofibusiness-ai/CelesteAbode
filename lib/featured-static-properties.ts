@@ -365,10 +365,10 @@ const GODREJ_DMIC_FEATURED: Property & { locationSlug: string } = {
   configuration: ["1 BHK", "2 BHK", "3 BHK"],
   sizes: "985 - 2500 sq ft",
   description:
-    "Global Business City by Godrej. Pre-launch in DMIC Greater Noida. 1, 2 and 3 BHK. EOI open.",
+    "Godrej Global Business City. Pre-launch in DMIC Greater Noida. 1, 2 and 3 BHK. EOI open.",
   heroImage: GODREJ_DMIC_HERO_IMAGE,
   heroImageAlt:
-    "Global Business City by Godrej in DMIC Greater Noida: premium residential apartments by Godrej Properties",
+    "Godrej Global Business City in DMIC Greater Noida: premium residential apartments by Godrej Properties",
   brochureUrl: "",
   images: [GODREJ_DMIC_HERO_IMAGE],
   amenities: [
@@ -381,9 +381,9 @@ const GODREJ_DMIC_FEATURED: Property & { locationSlug: string } = {
   priceMax: null,
   priceUnit: "From Rs 1.35 Cr*",
   seo: {
-    title: "Global Business City by Godrej - Pre-Launch 1, 2 & 3 BHK",
+    title: "Godrej Global Business City - Pre-Launch 1, 2 & 3 BHK",
     description:
-      "Global Business City by Godrej in DMIC Greater Noida. Pre-launch 1, 2 and 3 BHK from Rs 1.35 Cr. EOI open.",
+      "Godrej Global Business City in DMIC Greater Noida. Pre-launch 1, 2 and 3 BHK from Rs 1.35 Cr. EOI open.",
     keywords:
       "godrej dmic greater noida, godrej global business city, godrej properties greater noida pre launch, 1 bhk greater noida",
     canonical: `/properties-in-greater-noida/${GODREJ_DMIC_SLUG}`,

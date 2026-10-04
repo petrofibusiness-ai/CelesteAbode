@@ -120,6 +120,16 @@ import {
   WhyPropertyNearJewarAirportCtaPair,
   whyPropertyNearJewarAirportFaqSchemaItems,
 } from "./why-property-near-jewar-airport-best-investment-2026-content";
+import {
+  TwoVsThreeBhkFlatsSiddharthViharContent,
+  TwoVsThreeBhkSiddharthViharCtaPair,
+  twoVsThreeBhkSiddharthViharFaqSchemaItems,
+} from "./2-bhk-vs-3-bhk-flats-siddharth-vihar-content";
+import {
+  ReadyVsUnderConstructionSiddharthViharContent,
+  ReadyVsUnderConstructionSiddharthViharCtaPair,
+  readyVsUnderConstructionSiddharthViharFaqSchemaItems,
+} from "./ready-to-move-vs-under-construction-siddharth-vihar-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -160,6 +170,9 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
     TopReasonsInvestSector150NoidaExpresswayJewarAirportContent,
   "why-property-near-jewar-airport-best-investment-2026":
     WhyPropertyNearJewarAirportBestInvestment2026Content,
+  "2-bhk-vs-3-bhk-flats-siddharth-vihar": TwoVsThreeBhkFlatsSiddharthViharContent,
+  "ready-to-move-vs-under-construction-siddharth-vihar":
+    ReadyVsUnderConstructionSiddharthViharContent,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -206,7 +219,9 @@ export async function generateMetadata({
     post.slug === "siddharth-vihar-vs-indirapuram" ||
     post.slug === "siddharth-vihar-connectivity-guide" ||
     post.slug === "top-reasons-invest-sector-150-noida-expressway-jewar-airport" ||
-    post.slug === "why-property-near-jewar-airport-best-investment-2026"
+    post.slug === "why-property-near-jewar-airport-best-investment-2026" ||
+    post.slug === "2-bhk-vs-3-bhk-flats-siddharth-vihar" ||
+    post.slug === "ready-to-move-vs-under-construction-siddharth-vihar"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -544,6 +559,46 @@ export async function generateMetadata({
       "real estate consultant Noida",
       "Celeste Abode",
     ],
+    "ready-to-move-vs-under-construction-siddharth-vihar": [
+      "ready to move vs under construction Siddharth Vihar",
+      "ready to move flats in Siddharth Vihar",
+      "under construction flats in Siddharth Vihar",
+      "property in Siddharth Vihar Ghaziabad",
+      "ready to move flats in Ghaziabad",
+      "under construction property Ghaziabad",
+      "new launch Siddharth Vihar",
+      "possession Siddharth Vihar",
+      "flats in Ghaziabad",
+      "property in Ghaziabad",
+      "properties in Ghaziabad",
+      "NH-24 Ghaziabad",
+      "SG Nakshatra Siddharth Vihar",
+      "SG Nakshatra NH-24",
+      "The Prestige City",
+      "Prestige City Indirapuram Extension",
+      "real estate consultant Ghaziabad",
+      "Celeste Abode",
+    ],
+    "2-bhk-vs-3-bhk-flats-siddharth-vihar": [
+      "2 BHK vs 3 BHK flats in Siddharth Vihar",
+      "2 BHK flats in Siddharth Vihar",
+      "3 BHK flats in Siddharth Vihar",
+      "flats in Siddharth Vihar Ghaziabad",
+      "2 BHK vs 3 BHK",
+      "2 bhk flat in Ghaziabad",
+      "3 bhk flats in Ghaziabad",
+      "3 BHK Siddharth Vihar",
+      "flats in Ghaziabad",
+      "property in Ghaziabad",
+      "properties in Ghaziabad",
+      "NH-24 Ghaziabad",
+      "SG Nakshatra Siddharth Vihar",
+      "SG Nakshatra NH-24",
+      "The Prestige City",
+      "Prestige City Indirapuram Extension",
+      "real estate consultant Ghaziabad",
+      "Celeste Abode",
+    ],
     "why-property-near-jewar-airport-best-investment-2026": [
       "property near Jewar Airport",
       "Why Property Near Jewar Airport is the Best Investment Opportunity in 2026",
@@ -714,11 +769,15 @@ export default async function BlogPostPage({
   const isTopReasonsSector150 =
     slug === "top-reasons-invest-sector-150-noida-expressway-jewar-airport";
   const isJewarAirportInvest = slug === "why-property-near-jewar-airport-best-investment-2026";
+  const isTwoVsThreeBhkSiddharth = slug === "2-bhk-vs-3-bhk-flats-siddharth-vihar";
+  const isReadyVsUcSiddharth = slug === "ready-to-move-vs-under-construction-siddharth-vihar";
   const isSiddharthGuideLayout =
     isSiddharthVsIndirapuram ||
     isSiddharthConnectivity ||
     isTopReasonsSector150 ||
-    isJewarAirportInvest;
+    isJewarAirportInvest ||
+    isTwoVsThreeBhkSiddharth ||
+    isReadyVsUcSiddharth;
   const heroTitle = isSobhaRivana ? "Sobha Rivana, Greater Noida West" : post.title;
   const heroEyebrow = isSobhaRivana
     ? "Project Spotlight | Sector 1, Greater Noida West"
@@ -762,6 +821,10 @@ export default async function BlogPostPage({
       ? "Location Guide | Siddharth Vihar vs Indirapuram"
     : isSiddharthConnectivity
       ? "Location Guide | Siddharth Vihar Connectivity"
+    : isTwoVsThreeBhkSiddharth
+      ? "Buyer Guide | 2 BHK vs 3 BHK Siddharth Vihar"
+    : isReadyVsUcSiddharth
+      ? "Buyer Guide | Ready vs Under Construction Siddharth Vihar"
     : isThreeBhkGreaterNoida
       ? "Greater Noida West & Noida Extension | 2026"
     : isNoidaVsGreaterNoida
@@ -787,6 +850,10 @@ export default async function BlogPostPage({
       ? "If you are looking at Sector 150, this walkthrough covers the Noida Expressway commute, Jewar Airport access, and what the homes here actually feel like to own."
     : isJewarAirportInvest
       ? "For people who want return on money near Noida International Airport, not only a house to move into."
+    : isTwoVsThreeBhkSiddharth
+      ? "Match the rooms to your EMI and how you will live in east Ghaziabad. New towers here lean 3 BHK, but a 2 BHK can still be the right ticket."
+    : isReadyVsUcSiddharth
+      ? "Keys this year, or a new tower you can wait for. Match the stage to your cash and move-in date, not the brochure."
     : post.excerpt;
 
   const breadcrumbItems = [
@@ -875,6 +942,12 @@ export default async function BlogPostPage({
       ) : null}
       {slug === "why-property-near-jewar-airport-best-investment-2026" ? (
         <FAQPageSchema faqs={whyPropertyNearJewarAirportFaqSchemaItems} />
+      ) : null}
+      {slug === "2-bhk-vs-3-bhk-flats-siddharth-vihar" ? (
+        <FAQPageSchema faqs={twoVsThreeBhkSiddharthViharFaqSchemaItems} />
+      ) : null}
+      {slug === "ready-to-move-vs-under-construction-siddharth-vihar" ? (
+        <FAQPageSchema faqs={readyVsUnderConstructionSiddharthViharFaqSchemaItems} />
       ) : null}
         <main className="pt-0">
           {/* Hero – image starts from top (behind fixed header) */}
@@ -1062,6 +1135,14 @@ export default async function BlogPostPage({
                     ) : isSiddharthConnectivity ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
                         <SiddharthViharConnectivityCtaPair direction="row" hero />
+                      </div>
+                    ) : isTwoVsThreeBhkSiddharth ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <TwoVsThreeBhkSiddharthViharCtaPair direction="row" hero />
+                      </div>
+                    ) : isReadyVsUcSiddharth ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <ReadyVsUnderConstructionSiddharthViharCtaPair direction="row" hero />
                       </div>
                     ) : isThreeBhkGreaterNoida || isBestLocationsGreaterNoida ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">

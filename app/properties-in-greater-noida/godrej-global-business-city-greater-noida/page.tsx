@@ -15,9 +15,8 @@ const heroAbs = GODREJ_DMIC_HERO_IMAGE.startsWith("http")
 export const metadata: Metadata = {
   title: `${GODREJ_DMIC_PROJECT_NAME} - Pre-Launch 1, 2 & 3 BHK | Celeste Abode`,
   description:
-    "Global Business City by Godrej. Pre-launch in DMIC Greater Noida. 1, 2 and 3 BHK from Rs 1.35 Cr. EOI registration open. Celeste Abode advisory.",
+    "Godrej Global Business City. Pre-launch in DMIC Greater Noida. 1, 2 and 3 BHK from Rs 1.35 Cr. EOI registration open. Celeste Abode advisory.",
   keywords: [
-    "Global Business City by Godrej",
     "Godrej Global Business City",
     "Godrej Properties Greater Noida pre launch",
     "DMIC Greater Noida",
@@ -38,7 +37,7 @@ export const metadata: Metadata = {
         url: heroAbs,
         width: 1600,
         height: 900,
-        alt: "Global Business City by Godrej in DMIC Greater Noida: premium residential apartments by Godrej Properties",
+        alt: "Godrej Global Business City in DMIC Greater Noida: premium residential apartments by Godrej Properties",
       },
     ],
   },

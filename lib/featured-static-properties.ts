@@ -29,6 +29,13 @@ import {
   GODREJ_DMIC_PROJECT_NAME,
   GODREJ_DMIC_SLUG,
 } from "@/lib/godrej-dmic-assets";
+import {
+  MODEL_TOWN_EXTENSION_GDA_PERMIT,
+  MODEL_TOWN_EXTENSION_HERO_ALT,
+  MODEL_TOWN_EXTENSION_HERO_IMAGE,
+  MODEL_TOWN_EXTENSION_PROJECT_NAME,
+  MODEL_TOWN_EXTENSION_SLUG,
+} from "@/lib/model-town-extension-assets";
 
 const FUSION_VASUNDHARA_FEATURED: Property & { locationSlug: string } = {
   id: "featured-fusion-vasundhara",
@@ -395,8 +402,54 @@ const GODREJ_DMIC_FEATURED: Property & { locationSlug: string } = {
   locationSlug: "greater-noida",
 };
 
+const MODEL_TOWN_EXTENSION_FEATURED: Property & { locationSlug: string } = {
+  id: "featured-model-town-extension-ghaziabad",
+  slug: MODEL_TOWN_EXTENSION_SLUG,
+  projectName: MODEL_TOWN_EXTENSION_PROJECT_NAME,
+  developer: "Radhabrij Realty",
+  location: "Near Choudhary More, GT Road, Ghaziabad",
+  locationCategory: null,
+  locationId: null,
+  localityId: null,
+  propertyType: "Plots/Lands",
+  reraId: MODEL_TOWN_EXTENSION_GDA_PERMIT,
+  projectStatus: "New Launch",
+  possessionDate: "Within 90 days of booking",
+  configuration: null,
+  sizes: "109 - 360 sq yd",
+  description:
+    "Model Town Extension by Radhabrij Realty near Choudhary More, GT Road, Ghaziabad. GDA-approved gated residential plots from 109 to 360 sq yd.",
+  heroImage: MODEL_TOWN_EXTENSION_HERO_IMAGE,
+  heroImageAlt: MODEL_TOWN_EXTENSION_HERO_ALT,
+  brochureUrl: "",
+  images: [MODEL_TOWN_EXTENSION_HERO_IMAGE],
+  amenities: [
+    "Gated compound",
+    "30 ft black-top roads",
+    "4 landscaped parks",
+    "24x7 security",
+  ],
+  priceMin: null,
+  priceMax: null,
+  priceUnit: "From Rs 1.36 Cr*",
+  seo: {
+    title: "Model Town Extension Ghaziabad - GDA Plots on GT Road",
+    description:
+      "GDA-approved gated plots near Choudhary More, GT Road, Ghaziabad. 109 to 360 sq yd. From Rs 1.36 Cr. Registry within 90 days.",
+    keywords:
+      "model town extension ghaziabad, radhabrij realty plots, gda plots gt road, choudhary more plots",
+    canonical: `/properties-in-ghaziabad/${MODEL_TOWN_EXTENSION_SLUG}`,
+  },
+  featured: true,
+  isPublished: true,
+  createdAt: new Date(0).toISOString(),
+  updatedAt: new Date(0).toISOString(),
+  locationSlug: "ghaziabad",
+};
+
 /** Static property pages with dedicated routes (not only in properties_v2). Latest first. */
 export const FEATURED_STATIC_PROPERTY_PAGES: (Property & { locationSlug: string })[] = [
+  MODEL_TOWN_EXTENSION_FEATURED,
   GODREJ_DMIC_FEATURED,
   SG_NAKSHATRA_FEATURED,
   PERIGON_VASUNDHARA_FEATURED,

@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Play } from "lucide-react";
 
 export type DemoGallerySlide = {
   src: string;
@@ -37,6 +37,8 @@ export function SobhaRivanaGallery({
   className?: string;
 }) {
   const [index, setIndex] = useState(0);
+  const [videoPlaying, setVideoPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const safe = slides.length ? slides : [];
   const current = safe[index] ?? safe[0];
 
@@ -47,6 +49,11 @@ export function SobhaRivanaGallery({
     },
     [safe.length]
   );
+
+  useEffect(() => {
+    setVideoPlaying(false);
+    videoRef.current?.pause();
+  }, [index]);
 
   useEffect(() => {
     if (safe.length <= 1) return;
@@ -86,14 +93,34 @@ export function SobhaRivanaGallery({
     >
       <div className={frame}>
         {current.type === "video" ? (
-          <video
-            key={current.src}
-            src={current.src}
-            poster={current.poster}
-            controls
-            preload="metadata"
-            className="h-full w-full bg-black object-contain"
-          />
+          <>
+            <video
+              ref={videoRef}
+              key={current.src}
+              src={current.src}
+              poster={current.poster}
+              controls={videoPlaying}
+              preload={current.poster ? "none" : "metadata"}
+              className="h-full w-full bg-black object-contain"
+              onPlay={() => setVideoPlaying(true)}
+              onPause={() => setVideoPlaying(false)}
+              onEnded={() => setVideoPlaying(false)}
+            />
+            {!videoPlaying ? (
+              <button
+                type="button"
+                onClick={() => {
+                  void videoRef.current?.play();
+                }}
+                className="absolute inset-0 z-20 flex items-center justify-center"
+                aria-label={`Play ${current.label || "video"}`}
+              >
+                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-[#CBB27A]/90 shadow-2xl transition hover:scale-110 hover:bg-[#CBB27A] sm:h-20 sm:w-20 md:h-24 md:w-24">
+                  <Play className="ml-1 h-8 w-8 text-white sm:h-10 sm:w-10 md:h-12 md:w-12" fill="white" aria-hidden />
+                </span>
+              </button>
+            ) : null}
+          </>
         ) : (
           <Image
             key={current.src}
@@ -123,9 +150,9 @@ export function SobhaRivanaGallery({
                 : "pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-900/70 via-gray-900/10 to-transparent"
           }
         />
-        {!fullscreenHero && current.label ? (
+        {!fullscreenHero && current.label && !(current.type === "video" && videoPlaying) ? (
           <p
-            className="pointer-events-none absolute bottom-3 left-4 right-4 text-sm font-medium text-white drop-shadow-md sm:bottom-4 sm:left-5"
+            className="pointer-events-none absolute bottom-3 left-4 right-4 z-20 text-sm font-medium text-white drop-shadow-md sm:bottom-4 sm:left-5"
           >
             {current.label}
           </p>

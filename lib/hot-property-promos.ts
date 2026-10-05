@@ -1,6 +1,7 @@
 /** Continuous announcement lines for the sitewide ticker (edit copy here). */
 export const HOT_PROPERTY_ANNOUNCEMENTS = [
   "Forest Walk Villas · Nature-Inspired Township in Ghaziabad · Exclusive Early Access Available · Premium Villa Living Experience",
+  "Model Town Extension · GDA plots on GT Road, Ghaziabad · From ₹1.36 Cr* · Registry in 90 days",
   "Sobha Rivana · Book with just 30% · Pay nothing in 2027 · Only 10% in 2028 and 2029 · 50% only on possession",
   "Kviraaj Mayfair Residency · Move in with just 20% down · Pay the remaining 80% only on possession",
   "Nirala Trio · ₹2 Cr Onwards · Pay Just 20% Now · 80% Later · EOI Open",
@@ -25,6 +26,11 @@ export const HOT_PROPERTY_PROJECT_LINKS: HotPropertyProjectLink[] = [
   {
     label: "Forest Walk Villas",
     href: "/properties-in-ghaziabad/forest-walk-villa",
+    location: "Ghaziabad",
+  },
+  {
+    label: "Model Town Extension",
+    href: "/properties-in-ghaziabad/model-town-extension-ghaziabad",
     location: "Ghaziabad",
   },
   {

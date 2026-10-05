@@ -37,8 +37,10 @@ export const metadata: Metadata = {
     images: [
       {
         url: heroAbs,
-        width: 1600,
-        height: 900,
+        secureUrl: heroAbs,
+        type: "image/png",
+        width: 1200,
+        height: 630,
         alt: MODEL_TOWN_EXTENSION_HERO_ALT,
       },
     ],
@@ -47,7 +49,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${MODEL_TOWN_EXTENSION_PROJECT_NAME} | GDA Plots, Ghaziabad`,
     description: "Near Choudhary More, GT Road. Gated plots from Rs 1.36 Cr. Registry within 90 days.",
-    images: [heroAbs],
+    images: [
+      {
+        url: heroAbs,
+        alt: MODEL_TOWN_EXTENSION_HERO_ALT,
+      },
+    ],
   },
 };
 

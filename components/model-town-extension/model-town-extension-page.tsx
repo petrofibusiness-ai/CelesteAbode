@@ -174,6 +174,7 @@ export function ModelTownExtensionPage() {
     },
     developer: { "@type": "Organization", name: "Radhabrij Realty" },
     identifier: MODEL_TOWN_EXTENSION_GDA_PERMIT,
+    image: MODEL_TOWN_EXTENSION_HERO_IMAGE,
   };
 
   return (

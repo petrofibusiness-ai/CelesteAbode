@@ -251,7 +251,7 @@ export function Noida3300CroreLandAuctionPremiumDestination2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Five plots. One war. The Expressway is where Celeste Abode starts your shortlist after this auction.
+          Five plots went to auction. After that, we start your shortlist on the Expressway.
         </figcaption>
       </figure>
 
@@ -365,7 +365,7 @@ export function Noida3300CroreLandAuctionPremiumDestination2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Premium is a zip code, not a city-wide stamp. Match the auction heat to the tower in front of you.
+          Premium is one sector, not the whole city. Match the auction talk to the tower in front of you.
         </figcaption>
       </figure>
 
@@ -478,7 +478,7 @@ export function Noida3300CroreLandAuctionPremiumDestination2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Auction heat is loud. Celeste Abode makes RERA, possession, and full cost quiet and clear before you book.
+          Auction news is loud. We check RERA, handover, and full cost with you before you book.
         </figcaption>
       </figure>
 

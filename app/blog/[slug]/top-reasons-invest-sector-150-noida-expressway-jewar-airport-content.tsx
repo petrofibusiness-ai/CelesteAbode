@@ -244,7 +244,7 @@ export function TopReasonsInvestSector150NoidaExpresswayJewarAirportContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Expressway access and low-density planning are why this pin stays on premium shortlists.
+          The expressway and open planning are why this location stays on premium lists.
         </figcaption>
       </figure>
 
@@ -318,7 +318,7 @@ export function TopReasonsInvestSector150NoidaExpresswayJewarAirportContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Check the morning drive from the ramp. Brochure times are often better than a working day.
+          Check the morning drive from the expressway ramp. Brochure times are often better than a working day.
         </figcaption>
       </figure>
 

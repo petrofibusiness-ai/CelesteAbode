@@ -221,7 +221,7 @@ export function Sector150NoidaInvestment2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Sector 150 trades on space and planning, not just tower height.
+          Sector 150 sells on space and planning, not only on how tall the towers are.
         </figcaption>
       </figure>
 
@@ -316,7 +316,7 @@ export function Sector150NoidaInvestment2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Expressway access keeps Sector 150 in play for cross-NCR buyers. Commute proof still wins.
+          The expressway keeps Sector 150 useful for buyers across NCR. Still drive the commute yourself.
         </figcaption>
       </figure>
 

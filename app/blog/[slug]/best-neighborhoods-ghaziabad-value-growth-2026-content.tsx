@@ -219,7 +219,7 @@ export function BestNeighborhoodsGhaziabadValueGrowth2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Ghaziabad rewards belt choice: mature grids for end users, corridor townships for longer holds.
+          In Ghaziabad, pick a settled neighbourhood if you will live there now. Pick a new corridor if you can wait longer.
         </figcaption>
       </figure>
 
@@ -331,7 +331,7 @@ export function BestNeighborhoodsGhaziabadValueGrowth2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          NH-24 and RRTS changed the map. Your commute test still decides whether a belt fits.
+          NH-24 and the new train changed the map. Drive your office route before you decide.
         </figcaption>
       </figure>
 

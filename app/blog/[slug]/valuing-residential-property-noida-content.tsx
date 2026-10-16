@@ -208,7 +208,7 @@ export function ValuingResidentialPropertyNoidaContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Same city, different exit stories: compare sectors before you compare brochures.
+          Same city, different resale stories. Compare sectors before you compare brochures.
         </figcaption>
       </figure>
 
@@ -328,7 +328,7 @@ export function ValuingResidentialPropertyNoidaContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Side-by-side stack comparison: BSP, all-in cost, and possession at a glance.
+          Compare the quoted rate, the full cost, and the handover date side by side.
         </figcaption>
       </figure>
 

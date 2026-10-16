@@ -130,6 +130,16 @@ import {
   ReadyVsUnderConstructionSiddharthViharCtaPair,
   readyVsUnderConstructionSiddharthViharFaqSchemaItems,
 } from "./ready-to-move-vs-under-construction-siddharth-vihar-content";
+import {
+  GodrejGlobalBusinessCityInvestment2026Content,
+  GodrejGlobalBusinessCityInvestment2026CtaPair,
+  godrejGlobalBusinessCityInvestment2026FaqSchemaItems,
+} from "./is-godrej-global-business-city-good-investment-2026-content";
+import {
+  PrestigeCitySiddharthViharHomebuyers2026Content,
+  PrestigeCitySiddharthViharHomebuyers2026CtaPair,
+  prestigeCitySiddharthViharHomebuyers2026FaqSchemaItems,
+} from "./the-prestige-city-siddharth-vihar-homebuyers-2026-content";
 import { Calendar, Clock, ArrowLeft, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -173,6 +183,10 @@ const ARTICLE_CONTENT: Record<string, ComponentType> = {
   "2-bhk-vs-3-bhk-flats-siddharth-vihar": TwoVsThreeBhkFlatsSiddharthViharContent,
   "ready-to-move-vs-under-construction-siddharth-vihar":
     ReadyVsUnderConstructionSiddharthViharContent,
+  "is-godrej-global-business-city-good-investment-2026":
+    GodrejGlobalBusinessCityInvestment2026Content,
+  "the-prestige-city-siddharth-vihar-homebuyers-2026":
+    PrestigeCitySiddharthViharHomebuyers2026Content,
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.celesteabode.com";
@@ -221,7 +235,9 @@ export async function generateMetadata({
     post.slug === "top-reasons-invest-sector-150-noida-expressway-jewar-airport" ||
     post.slug === "why-property-near-jewar-airport-best-investment-2026" ||
     post.slug === "2-bhk-vs-3-bhk-flats-siddharth-vihar" ||
-    post.slug === "ready-to-move-vs-under-construction-siddharth-vihar"
+    post.slug === "ready-to-move-vs-under-construction-siddharth-vihar" ||
+    post.slug === "is-godrej-global-business-city-good-investment-2026" ||
+    post.slug === "the-prestige-city-siddharth-vihar-homebuyers-2026"
       ? post.title
       : `${post.title} - Blog`;
   const description = post.excerpt;
@@ -559,6 +575,40 @@ export async function generateMetadata({
       "real estate consultant Noida",
       "Celeste Abode",
     ],
+    "is-godrej-global-business-city-good-investment-2026": [
+      "Is Godrej Global Business City a Good Investment for Buyers in 2026",
+      "Godrej Global Business City",
+      "Godrej Global Business City Greater Noida",
+      "Godrej Global Business City investment 2026",
+      "Godrej Properties Greater Noida",
+      "DMIC Greater Noida",
+      "pre launch Greater Noida",
+      "1 BHK Greater Noida",
+      "2 BHK Greater Noida",
+      "3 BHK Greater Noida",
+      "property in Greater Noida",
+      "flats for sale in Greater Noida",
+      "properties in Greater Noida",
+      "Godrej Majesty",
+      "Godrej Arden",
+      "real estate consultant Greater Noida",
+      "Celeste Abode",
+    ],
+    "the-prestige-city-siddharth-vihar-homebuyers-2026": [
+      "The Prestige City Siddharth Vihar",
+      "The Prestige City Ghaziabad",
+      "Is The Prestige City the Right Choice for Homebuyers in 2026",
+      "Prestige City Indirapuram Extension",
+      "Prestige City NH-24",
+      "flats in Siddharth Vihar Ghaziabad",
+      "property in Ghaziabad",
+      "properties in Ghaziabad",
+      "flats in Ghaziabad",
+      "SG Nakshatra Siddharth Vihar",
+      "NH-24 Ghaziabad",
+      "real estate consultant Ghaziabad",
+      "Celeste Abode",
+    ],
     "ready-to-move-vs-under-construction-siddharth-vihar": [
       "ready to move vs under construction Siddharth Vihar",
       "ready to move flats in Siddharth Vihar",
@@ -771,13 +821,17 @@ export default async function BlogPostPage({
   const isJewarAirportInvest = slug === "why-property-near-jewar-airport-best-investment-2026";
   const isTwoVsThreeBhkSiddharth = slug === "2-bhk-vs-3-bhk-flats-siddharth-vihar";
   const isReadyVsUcSiddharth = slug === "ready-to-move-vs-under-construction-siddharth-vihar";
+  const isGodrejGbcInvest = slug === "is-godrej-global-business-city-good-investment-2026";
+  const isPrestigeCitySiddharth = slug === "the-prestige-city-siddharth-vihar-homebuyers-2026";
   const isSiddharthGuideLayout =
     isSiddharthVsIndirapuram ||
     isSiddharthConnectivity ||
     isTopReasonsSector150 ||
     isJewarAirportInvest ||
     isTwoVsThreeBhkSiddharth ||
-    isReadyVsUcSiddharth;
+    isReadyVsUcSiddharth ||
+    isGodrejGbcInvest ||
+    isPrestigeCitySiddharth;
   const heroTitle = isSobhaRivana ? "Sobha Rivana, Greater Noida West" : post.title;
   const heroEyebrow = isSobhaRivana
     ? "Project Spotlight | Sector 1, Greater Noida West"
@@ -825,6 +879,10 @@ export default async function BlogPostPage({
       ? "Buyer Guide | 2 BHK vs 3 BHK Siddharth Vihar"
     : isReadyVsUcSiddharth
       ? "Buyer Guide | Ready vs Under Construction Siddharth Vihar"
+    : isGodrejGbcInvest
+      ? "Investment Guide | Godrej Global Business City 2026"
+    : isPrestigeCitySiddharth
+      ? "Buyer Guide | The Prestige City Siddharth Vihar 2026"
     : isThreeBhkGreaterNoida
       ? "Greater Noida West & Noida Extension | 2026"
     : isNoidaVsGreaterNoida
@@ -854,6 +912,10 @@ export default async function BlogPostPage({
       ? "Match the rooms to your EMI and how you will live in east Ghaziabad. New towers here lean 3 BHK, but a 2 BHK can still be the right ticket."
     : isReadyVsUcSiddharth
       ? "Keys this year, or a new tower you can wait for. Match the stage to your cash and move-in date, not the brochure."
+    : isGodrejGbcInvest
+      ? "Pre-launch in DMIC Greater Noida. EOI from Rs 1.35 Cr. A Godrej ticket you can wait for, not keys this year."
+    : isPrestigeCitySiddharth
+      ? "A Prestige township on the Siddharth Vihar NH-24 corridor. Built for homebuyers who want return over a longer run."
     : post.excerpt;
 
   const breadcrumbItems = [
@@ -948,6 +1010,12 @@ export default async function BlogPostPage({
       ) : null}
       {slug === "ready-to-move-vs-under-construction-siddharth-vihar" ? (
         <FAQPageSchema faqs={readyVsUnderConstructionSiddharthViharFaqSchemaItems} />
+      ) : null}
+      {slug === "is-godrej-global-business-city-good-investment-2026" ? (
+        <FAQPageSchema faqs={godrejGlobalBusinessCityInvestment2026FaqSchemaItems} />
+      ) : null}
+      {slug === "the-prestige-city-siddharth-vihar-homebuyers-2026" ? (
+        <FAQPageSchema faqs={prestigeCitySiddharthViharHomebuyers2026FaqSchemaItems} />
       ) : null}
         <main className="pt-0">
           {/* Hero – image starts from top (behind fixed header) */}
@@ -1143,6 +1211,14 @@ export default async function BlogPostPage({
                     ) : isReadyVsUcSiddharth ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
                         <ReadyVsUnderConstructionSiddharthViharCtaPair direction="row" hero />
+                      </div>
+                    ) : isGodrejGbcInvest ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <GodrejGlobalBusinessCityInvestment2026CtaPair direction="row" hero />
+                      </div>
+                    ) : isPrestigeCitySiddharth ? (
+                      <div className="mb-6 flex w-full justify-end px-1 sm:px-2">
+                        <PrestigeCitySiddharthViharHomebuyers2026CtaPair direction="row" hero />
                       </div>
                     ) : isThreeBhkGreaterNoida || isBestLocationsGreaterNoida ? (
                       <div className="mb-6 flex w-full justify-end px-1 sm:px-2">

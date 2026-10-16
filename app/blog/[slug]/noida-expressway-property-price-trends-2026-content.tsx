@@ -230,7 +230,7 @@ export function NoidaExpresswayPropertyPriceTrends2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          One Expressway. Several price curves. Sector and project quality still set the ticket you keep.
+          One expressway. Several price paths. The sector and the project still set what you pay.
         </figcaption>
       </figure>
 
@@ -344,7 +344,7 @@ export function NoidaExpresswayPropertyPriceTrends2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Premium Expressway stacks and mid belts do not share one appreciation path.
+          Costlier Expressway towers and mid-price stretches do not rise at the same speed.
         </figcaption>
       </figure>
 
@@ -414,7 +414,7 @@ export function NoidaExpresswayPropertyPriceTrends2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Run the all-in ticket and the commute before you treat a portal average as your floor.
+          Add up the full cost and drive the commute before you treat a portal average as your floor.
         </figcaption>
       </figure>
 

@@ -246,7 +246,7 @@ export function NoidaAirportImpactNoidaExpresswayPricesContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Jewar puts the Expressway on more buyer maps. Sector choice and delivery still set the price you keep.
+          Jewar puts the Expressway on more buyer lists. The sector and whether the builder delivers still set the price you keep.
         </figcaption>
       </figure>
 
@@ -359,7 +359,7 @@ export function NoidaAirportImpactNoidaExpresswayPricesContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Premium Expressway stacks price the airport story first. Mid belts move when end-user demand follows.
+          Costlier Expressway towers already price in the airport. Other stretches move later, when more people actually live there.
         </figcaption>
       </figure>
 
@@ -440,7 +440,7 @@ export function NoidaAirportImpactNoidaExpresswayPricesContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Run the commute and the paperwork before you treat Jewar as a guaranteed price lift.
+          Drive the commute and check the papers before you treat Jewar as a guaranteed price jump.
         </figcaption>
       </figure>
 

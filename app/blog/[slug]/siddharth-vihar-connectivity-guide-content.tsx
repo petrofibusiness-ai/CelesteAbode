@@ -265,7 +265,7 @@ export function SiddharthViharConnectivityGuideContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          The expressway is why this pin works for Delhi, Noida, and east Ghaziabad in one place.
+          The expressway is why you can reach Delhi, Noida, and east Ghaziabad from here.
         </figcaption>
       </figure>
 
@@ -442,7 +442,7 @@ export function SiddharthViharConnectivityGuideContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Delhi, Noida, Indirapuram, metro, and Namo Bharat all sit on this same east Ghaziabad pin.
+          Delhi, Noida, Indirapuram, metro, and Namo Bharat all sit near this east Ghaziabad location.
         </figcaption>
       </figure>
 

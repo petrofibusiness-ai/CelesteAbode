@@ -230,7 +230,7 @@ export function GdaDevelopmentImpactGhaziabadProperty2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          GDA townships, roads, and new supply: the mix that can move Ghaziabad tickets belt by belt.
+          New GDA townships, roads, and fresh supply can move prices in different parts of Ghaziabad.
         </figcaption>
       </figure>
 
@@ -334,7 +334,7 @@ export function GdaDevelopmentImpactGhaziabadProperty2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          New GDA townships and NH-24 projects rise together. Compare files, not just the GDA press note.
+          New GDA townships and NH-24 projects are rising together. Compare the project papers, not just the GDA news.
         </figcaption>
       </figure>
 
@@ -477,7 +477,7 @@ export function GdaDevelopmentImpactGhaziabadProperty2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          GDA projects change the map. Your checklist still decides whether the ticket you pay today holds value.
+          GDA projects change the map. Your checks still decide if today's price holds.
         </figcaption>
       </figure>
 

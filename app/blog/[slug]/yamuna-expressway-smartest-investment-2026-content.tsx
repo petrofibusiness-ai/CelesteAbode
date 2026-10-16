@@ -241,7 +241,7 @@ export function YamunaExpresswaySmartestInvestment2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Jewar made the corridor visible. Entry ticket and project delivery decide whether the investment stays smart.
+          Jewar put this road on the map. The price you pay and whether the builder delivers still decide if it is a smart buy.
         </figcaption>
       </figure>
 
@@ -401,7 +401,7 @@ export function YamunaExpresswaySmartestInvestment2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Product depth in 22A and 22D lets buyers compare. It does not make every launch a buy.
+          Sectors 22A and 22D have more homes to compare. That does not mean every new launch is a buy.
         </figcaption>
       </figure>
 
@@ -445,7 +445,7 @@ export function YamunaExpresswaySmartestInvestment2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Airport access sells the corridor. Your sector and project file still decide whether the ticket holds.
+          The airport sells the area. Your sector and the actual project still decide if the price holds.
         </figcaption>
       </figure>
 

@@ -245,7 +245,7 @@ export function BestSectorsYamunaExpresswayProperty2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Jewar Airport put Yamuna Expressway sectors on buyer maps. Sector choice still decides ticket and hold period.
+          Jewar Airport put Yamuna Expressway sectors on buyer lists. Which sector you pick still sets the price and how long you wait.
         </figcaption>
       </figure>
 
@@ -421,7 +421,7 @@ export function BestSectorsYamunaExpresswayProperty2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Sector 22D clusters luxury supply. Sector 22A keeps the premium lane thinner and more selective.
+          Sector 22D has more luxury homes. Sector 22A has fewer, more selective ones.
         </figcaption>
       </figure>
 
@@ -463,7 +463,7 @@ export function BestSectorsYamunaExpresswayProperty2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Airport access sells the corridor. Your sector and project file still decide whether the ticket holds.
+          The airport sells the area. Your sector and the actual project still decide if the price holds.
         </figcaption>
       </figure>
 

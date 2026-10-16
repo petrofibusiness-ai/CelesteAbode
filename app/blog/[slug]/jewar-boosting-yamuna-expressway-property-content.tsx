@@ -236,7 +236,7 @@ export function JewarBoostingYamunaExpresswayPropertyContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Flights, expressway, and towers rising together: the corridor story buyers now price into every ticket.
+          Flights, the expressway, and new towers are rising together. Buyers now include that in the price they pay.
         </figcaption>
       </figure>
 
@@ -349,7 +349,7 @@ export function JewarBoostingYamunaExpresswayPropertyContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Sector 22D and 22A feel the airport first. Mid-corridor pins need a longer hold and tighter due diligence.
+          Sectors 22D and 22A feel the airport first. Farther stretches need a longer wait and a closer look at papers.
         </figcaption>
       </figure>
 
@@ -444,7 +444,7 @@ export function JewarBoostingYamunaExpresswayPropertyContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Airport, expressway, and nearby towers: the stack that is lifting Yamuna Expressway demand in 2026.
+          Airport, expressway, and nearby towers are why demand on Yamuna Expressway is up in 2026.
         </figcaption>
       </figure>
 

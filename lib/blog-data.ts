@@ -656,6 +656,48 @@ export const blogPosts: BlogPost[] = [
     ogImageAlt:
       "Ready-to-move vs under-construction property in Siddharth Vihar Ghaziabad: new towers beside the expressway",
   },
+  {
+    id: 31,
+    title: "Is Godrej Global Business City a Good Investment for Buyers in 2026?",
+    slug: "is-godrej-global-business-city-good-investment-2026",
+    excerpt:
+      "Godrej Global Business City in Greater Noida: pre-launch EOI from Rs 1.35 Cr, DMIC township, and what 2026 buyers should check before they book.",
+    category: "Location Intelligence",
+    readTime: "8 min read",
+    date: "October 16, 2026",
+    image: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/gbc.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "Is Godrej Global Business City a Good Investment for Buyers in 2026?",
+    metaDescription:
+      "Is Godrej Global Business City a good investment in 2026? Pre-launch in DMIC Greater Noida, 1, 2 and 3 BHK from Rs 1.35 Cr, and what buyers should still wait for.",
+    ogImage: "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/gbc.webp",
+    ogImageAlt:
+      "Godrej Global Business City in DMIC Greater Noida: Godrej Properties pre-launch apartments",
+  },
+  {
+    id: 32,
+    title: "The Prestige City Siddharth Vihar: Is It the Right Choice for Homebuyers in 2026?",
+    slug: "the-prestige-city-siddharth-vihar-homebuyers-2026",
+    excerpt:
+      "The Prestige City Siddharth Vihar on NH-24: a Prestige township for 2026 homebuyers who want return over a longer run.",
+    category: "Location Intelligence",
+    readTime: "8 min read",
+    date: "October 17, 2026",
+    image:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blog_siddarthvihar_connectivity/siddarthvihar_1.webp",
+    featured: true,
+    views: "0",
+    heroFullscreen: true,
+    metaTitle: "The Prestige City Siddharth Vihar: Is It the Right Choice for Homebuyers in 2026?",
+    metaDescription:
+      "The Prestige City Siddharth Vihar for 2026 homebuyers: Prestige township on NH-24, 2, 3 and 4 BHK, and why a longer-run hold is the point.",
+    ogImage:
+      "https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blog_siddarthvihar_connectivity/siddarthvihar_1.webp",
+    ogImageAlt:
+      "The Prestige City Siddharth Vihar: NH-24 Ghaziabad township beside the expressway",
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
@@ -666,6 +708,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   const others = blogPosts.filter((p) => p.slug !== currentSlug);
   if (currentSlug === "noida-vs-greater-noida-investment-2026") {
     const prioritySlugs = [
+      "is-godrej-global-business-city-good-investment-2026",
       "best-locations-buy-flats-greater-noida-2026",
       "jewar-airport-ncr-property-buyers-2026",
       "3bhk-flats-in-greater-noida",
@@ -681,6 +724,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "3bhk-flats-in-greater-noida") {
     const prioritySlugs = [
+      "is-godrej-global-business-city-good-investment-2026",
       "best-locations-buy-flats-greater-noida-2026",
       "panchsheel-greens-2-greater-noida-west",
       "noida-vs-greater-noida-investment-2026",
@@ -729,6 +773,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "best-locations-buy-flats-greater-noida-2026") {
     const prioritySlugs = [
+      "is-godrej-global-business-city-good-investment-2026",
       "noida-vs-greater-noida-investment-2026",
       "jewar-airport-ncr-property-buyers-2026",
       "yamuna-expressway-growth-corridor-delhi-ncr",
@@ -776,6 +821,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "infrastructure-driving-property-prices-greater-noida") {
     const prioritySlugs = [
+      "is-godrej-global-business-city-good-investment-2026",
       "best-locations-buy-flats-greater-noida-2026",
       "jewar-airport-ncr-property-buyers-2026",
       "noida-vs-greater-noida-investment-2026",
@@ -968,6 +1014,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "siddharth-vihar-vs-indirapuram") {
     const prioritySlugs = [
+      "the-prestige-city-siddharth-vihar-homebuyers-2026",
       "ready-to-move-vs-under-construction-siddharth-vihar",
       "2-bhk-vs-3-bhk-flats-siddharth-vihar",
       "siddharth-vihar-connectivity-guide",
@@ -987,6 +1034,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "siddharth-vihar-connectivity-guide") {
     const prioritySlugs = [
+      "the-prestige-city-siddharth-vihar-homebuyers-2026",
       "ready-to-move-vs-under-construction-siddharth-vihar",
       "2-bhk-vs-3-bhk-flats-siddharth-vihar",
       "siddharth-vihar-vs-indirapuram",
@@ -1021,6 +1069,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "2-bhk-vs-3-bhk-flats-siddharth-vihar") {
     const prioritySlugs = [
+      "the-prestige-city-siddharth-vihar-homebuyers-2026",
       "ready-to-move-vs-under-construction-siddharth-vihar",
       "siddharth-vihar-vs-indirapuram",
       "siddharth-vihar-connectivity-guide",
@@ -1038,6 +1087,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "ready-to-move-vs-under-construction-siddharth-vihar") {
     const prioritySlugs = [
+      "the-prestige-city-siddharth-vihar-homebuyers-2026",
       "2-bhk-vs-3-bhk-flats-siddharth-vihar",
       "siddharth-vihar-vs-indirapuram",
       "siddharth-vihar-connectivity-guide",
@@ -1054,6 +1104,7 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
   }
   if (currentSlug === "why-property-near-jewar-airport-best-investment-2026") {
     const prioritySlugs = [
+      "is-godrej-global-business-city-good-investment-2026",
       "noida-international-airport-boosting-yamuna-expressway-property",
       "yamuna-expressway-smartest-real-estate-investment-2026",
       "jewar-airport-ncr-property-buyers-2026",
@@ -1075,6 +1126,40 @@ export function getRelatedPosts(currentSlug: string, limit = 3): BlogPost[] {
       "noida-vs-greater-noida-investment-2026",
       "upcoming-luxury-projects-noida-greater-noida-2026",
       "noida-expressway-best-place-buy-property-2026",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "is-godrej-global-business-city-good-investment-2026") {
+    const prioritySlugs = [
+      "best-locations-buy-flats-greater-noida-2026",
+      "noida-vs-greater-noida-investment-2026",
+      "3bhk-flats-in-greater-noida",
+      "why-property-near-jewar-airport-best-investment-2026",
+      "upcoming-luxury-projects-noida-greater-noida-2026",
+      "infrastructure-driving-property-prices-greater-noida",
+    ];
+    const picked: BlogPost[] = [];
+    for (const s of prioritySlugs) {
+      const post = others.find((p) => p.slug === s);
+      if (post) picked.push(post);
+    }
+    const rest = others.filter((p) => !prioritySlugs.includes(p.slug));
+    return [...picked, ...rest].slice(0, limit);
+  }
+  if (currentSlug === "the-prestige-city-siddharth-vihar-homebuyers-2026") {
+    const prioritySlugs = [
+      "2-bhk-vs-3-bhk-flats-siddharth-vihar",
+      "ready-to-move-vs-under-construction-siddharth-vihar",
+      "siddharth-vihar-vs-indirapuram",
+      "siddharth-vihar-connectivity-guide",
+      "best-neighborhoods-ghaziabad-value-growth-2026",
+      "forest-walk-villa-ghaziabad-luxury-living-2026",
     ];
     const picked: BlogPost[] = [];
     for (const s of prioritySlugs) {

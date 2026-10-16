@@ -234,7 +234,7 @@ export function NoidaExpresswayBuyProperty2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          The expressway links premium Noida stacks to Greater Noida and Yamuna-side growth belts.
+          The expressway links Noida towers to Greater Noida and the Yamuna side.
         </figcaption>
       </figure>
 
@@ -359,7 +359,7 @@ export function NoidaExpresswayBuyProperty2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Expressway sectors trade on planning and connectivity, not tower count alone.
+          Expressway sectors sell on planning and commute, not on how many towers they have.
         </figcaption>
       </figure>
 
@@ -403,7 +403,7 @@ export function NoidaExpresswayBuyProperty2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Greater Noida and Yamuna-side belts plug into the same expressway commute story.
+          Greater Noida and the Yamuna side share the same expressway commute.
         </figcaption>
       </figure>
 

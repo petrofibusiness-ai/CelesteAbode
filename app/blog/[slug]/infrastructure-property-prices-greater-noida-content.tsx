@@ -215,7 +215,7 @@ export function InfrastructurePropertyPricesGreaterNoidaContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Corridors reprice in phases: attention first, then commute reality, then resale depth.
+          Prices jump in steps: first the news, then the real commute, then resale.
         </figcaption>
       </figure>
 
@@ -313,7 +313,7 @@ export function InfrastructurePropertyPricesGreaterNoidaContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Greater Noida West, central GNIDA sectors, and the Yamuna Expressway belt: same city, different infrastructure stages, different price behaviour.
+          Greater Noida West, the older GNIDA sectors, and Yamuna Expressway: same city, different roads, different prices.
         </figcaption>
       </figure>
 

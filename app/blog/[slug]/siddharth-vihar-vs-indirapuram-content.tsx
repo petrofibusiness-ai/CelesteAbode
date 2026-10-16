@@ -411,7 +411,7 @@ export function SiddharthViharVsIndirapuramPropertyRequirementsContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          A new project on NH-24 is not the same as a ready khand in Indirapuram. Price the gate you will actually use.
+          A new project on NH-24 is not the same as a ready society in Indirapuram. Price the gate you will actually use.
         </figcaption>
       </figure>
 

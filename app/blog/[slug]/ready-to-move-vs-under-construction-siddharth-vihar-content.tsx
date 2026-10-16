@@ -251,7 +251,7 @@ export function ReadyVsUnderConstructionSiddharthViharContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Walk a live home if you need keys now. Book a new tower if you can wait and the all-in still fits.
+          Walk a ready home if you need keys now. Book a new tower only if you can wait and the full price still fits.
         </figcaption>
       </figure>
 
@@ -336,7 +336,7 @@ export function ReadyVsUnderConstructionSiddharthViharContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          New towers are the live inventory here. Confirm possession and GST before the EMI speech.
+          Most new flats here are still being built. Check handover date and GST before you talk EMI.
         </figcaption>
       </figure>
 
@@ -387,7 +387,7 @@ export function ReadyVsUnderConstructionSiddharthViharContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Same expressway pin. Ready and under construction are different clocks and different all-in numbers.
+          Same area on the expressway. Ready and under construction have different wait times and different full prices.
         </figcaption>
       </figure>
 

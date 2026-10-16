@@ -222,7 +222,7 @@ export function WhyPropertyNearJewarAirportBestInvestment2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          The airport is open. ROI still depends on the project you buy and the price you pay.
+          The airport is open. What you earn back still depends on the project and the price you pay.
         </figcaption>
       </figure>
 
@@ -295,7 +295,7 @@ export function WhyPropertyNearJewarAirportBestInvestment2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          YEIDA is the main ROI pin. Greater Noida and Sector 150 are different tickets.
+          Homes closest to the airport sit on Yamuna Expressway. Greater Noida and Sector 150 are different buys.
         </figcaption>
       </figure>
 
@@ -362,7 +362,7 @@ export function WhyPropertyNearJewarAirportBestInvestment2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Lower entry and an open airport help ROI. A weak project still loses money.
+          A lower price and an open airport help. A weak project can still lose money.
         </figcaption>
       </figure>
 

@@ -234,7 +234,7 @@ export function GdaDevelopmentPlansGhaziabadLocationsGrowth2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          GDA spend in 2026 clusters on the Hindon belt and core road relief. Pick the location that fits your timeline.
+          In 2026 GDA money is going to the Hindon area and to main road relief. Pick the location that matches when you need the home.
         </figcaption>
       </figure>
 
@@ -413,7 +413,7 @@ export function GdaDevelopmentPlansGhaziabadLocationsGrowth2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          NH-24 and the belt along the Hindon are the two loudest GDA growth stories. Your commute test still picks the location.
+          NH-24 and the Hindon area are the two loudest GDA growth stories. Drive your commute before you pick.
         </figcaption>
       </figure>
 
@@ -454,7 +454,7 @@ export function GdaDevelopmentPlansGhaziabadLocationsGrowth2026Content() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Flyover, open land, and towers on the horizon: pick the Ghaziabad belt that matches your hold period, not just the headline.
+          Flyover, open land, and towers ahead: pick the Ghaziabad area that matches how long you can wait, not just the headline.
         </figcaption>
       </figure>
 

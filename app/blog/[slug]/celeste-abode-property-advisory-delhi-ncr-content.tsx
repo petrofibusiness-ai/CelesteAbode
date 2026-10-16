@@ -202,7 +202,7 @@ export function CelesteAbodePropertyAdvisoryDelhiNcrContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          NCR is several markets: advisory starts by matching belt to your life, not by tower brand alone.
+          Delhi NCR is several markets. We start with how you live, not the tower brand.
         </figcaption>
       </figure>
 
@@ -310,7 +310,7 @@ export function CelesteAbodePropertyAdvisoryDelhiNcrContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Advisory is conversation first: budget, belt, and hold period before the first site visit.
+          We talk budget, location, and how long you can wait before the first site visit.
         </figcaption>
       </figure>
 

@@ -253,7 +253,7 @@ export function TwoVsThreeBhkFlatsSiddharthViharContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Compact 2 BHK if the EMI is the limit. 3 BHK if you need a third room on this expressway.
+          Pick a 2 BHK if the monthly EMI is tight. Pick a 3 BHK if you need a third room.
         </figcaption>
       </figure>
 
@@ -340,7 +340,7 @@ export function TwoVsThreeBhkFlatsSiddharthViharContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          New 3 BHK is the common tour here. Confirm the stack and possession before you stretch the EMI.
+          Most new flats here are 3 BHK. Check the floor plan and when you get keys before you raise your EMI.
         </figcaption>
       </figure>
 
@@ -399,7 +399,7 @@ export function TwoVsThreeBhkFlatsSiddharthViharContent() {
           />
         </div>
         <figcaption className="border-t border-gray-100 bg-white/90 px-4 py-3 text-center text-xs font-medium text-gray-600 md:text-sm">
-          Same pin. Different rooms. Price the unit you will own, not the BHK on the hoarding.
+          Same area. Different number of rooms. Pay for the flat you will live in, not the size on the hoarding.
         </figcaption>
       </figure>
 

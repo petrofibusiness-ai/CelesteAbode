@@ -274,7 +274,7 @@ export function BestLocationsFlatsGreaterNoida2026Content() {
         <SectionFigure
           src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/yamuna_expressway.png"
           alt="Yamuna Expressway corridor and open landscape toward airport-linked growth"
-          caption="Yamuna Expressway belt: airport-adjacent growth narrative for long-horizon buyers."
+          caption="Yamuna Expressway: closer to the airport, better if you can wait a few years."
         />
       </section>
 
@@ -371,7 +371,7 @@ export function BestLocationsFlatsGreaterNoida2026Content() {
           <SectionFigure
             src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/blogs_hero_image/greater_noida_west_photography.webp"
             alt="Greater Noida West: residential towers and road grid from above"
-            caption="Greater Noida West: lived-in grids and high-rise clusters."
+            caption="Greater Noida West: lived-in streets and high-rise clusters."
           />
 
           <article className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
@@ -484,7 +484,7 @@ export function BestLocationsFlatsGreaterNoida2026Content() {
         <SectionFigure
           src="https://pub-8b549a102c1947ddb8ca422febdbc1dd.r2.dev/metro_or_night_view.webp"
           alt="Metro and city lights suggesting NCR connectivity"
-          caption="Connectivity context: always clock your actual office route at rush hour, not just map distance."
+          caption="Always time your office route at rush hour, not just the map."
         />
       </section>
 

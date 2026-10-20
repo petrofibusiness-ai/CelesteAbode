@@ -10,15 +10,15 @@ Create or update your `.env.local` file in the project root with the following:
 
 ```env
 # Cloudflare R2 Configuration
-R2_ACCOUNT_ID=f916d699a0073dec95bb94682fb1ee4d
-R2_ACCESS_KEY_ID=516a3e59084b63d35e97e7a76278a2d1
-R2_SECRET_ACCESS_KEY=5dd9c0e43fbba9a7744a9618261afcc6bb1fd7dcd6fb0ce53f75475c3343200b
-R2_BUCKET_NAME=celesta-abode
-R2_PUBLIC_URL=https://f916d699a0073dec95bb94682fb1ee4d.r2.cloudflarestorage.com/celesta-abode
+R2_ACCOUNT_ID=your-cloudflare-account-id
+R2_ACCESS_KEY_ID=your-r2-access-key-id
+R2_SECRET_ACCESS_KEY=your-r2-secret-access-key
+R2_BUCKET_NAME=your-bucket-name
+R2_PUBLIC_URL=https://your-account-id.r2.cloudflarestorage.com/your-bucket-name
 
 # Admin Authentication (if not already set)
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=admin123
+ADMIN_USERNAME=your-admin-username
+ADMIN_PASSWORD=your-admin-password
 ```
 
 ## 📁 Folder Structure
@@ -111,7 +111,7 @@ https://{account-id}.r2.cloudflarestorage.com/{bucket-name}/{property-slug}/{fil
 
 **Example:**
 ```
-https://f916d699a0073dec95bb94682fb1ee4d.r2.cloudflarestorage.com/celesta-abode/arihant-abode/hero.jpg
+https://your-account-id.r2.cloudflarestorage.com/your-bucket-name/property-slug/hero.jpg
 ```
 
 ## 🔄 Switching to Custom Domain (Future)

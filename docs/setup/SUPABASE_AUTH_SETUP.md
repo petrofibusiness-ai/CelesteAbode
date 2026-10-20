@@ -50,7 +50,7 @@ You have two options to create the admin user:
 2. Click **Add user** → **Create new user**
 3. Enter:
    - **Email**: `admin@admin.celesteabode.com`
-   - **Password**: `admin123`
+   - **Password**: a strong unique password (do not reuse a default)
    - **Auto Confirm User**: ✅ (check this)
 4. Click **Create user**
 5. In **User Metadata**, add:
@@ -66,7 +66,7 @@ You have two options to create the admin user:
 After creating the user, you can login with:
 
 - **Login ID**: `admin` (or `admin@admin.celesteabode.com`)
-- **Password**: `admin123`
+- **Password**: the password you set in Supabase
 
 The system will automatically convert `admin` to `admin@admin.celesteabode.com` if no `@` is present.
 
@@ -80,7 +80,7 @@ The system will automatically convert `admin` to `admin@admin.celesteabode.com` 
 2. Navigate to `/admin/login`
 3. Try logging in with:
    - Login ID: `admin`
-   - Password: `admin123`
+   - Password: the password you set in Supabase
 
 4. You should be redirected to `/admin` dashboard
 

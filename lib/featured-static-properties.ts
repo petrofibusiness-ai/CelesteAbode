@@ -36,6 +36,12 @@ import {
   MODEL_TOWN_EXTENSION_PROJECT_NAME,
   MODEL_TOWN_EXTENSION_SLUG,
 } from "@/lib/model-town-extension-assets";
+import {
+  AVS_NH24_HERO_ALT,
+  AVS_NH24_HERO_IMAGE,
+  AVS_NH24_PROJECT_NAME,
+  AVS_NH24_SLUG,
+} from "@/lib/avs-nh24-assets";
 
 const FUSION_VASUNDHARA_FEATURED: Property & { locationSlug: string } = {
   id: "featured-fusion-vasundhara",
@@ -402,6 +408,51 @@ const GODREJ_DMIC_FEATURED: Property & { locationSlug: string } = {
   locationSlug: "greater-noida",
 };
 
+const AVS_NH24_FEATURED: Property & { locationSlug: string } = {
+  id: "featured-avs-nh24-ghaziabad",
+  slug: AVS_NH24_SLUG,
+  projectName: AVS_NH24_PROJECT_NAME,
+  developer: "AVS Group",
+  location: "Crossing Republik, NH-24, Ghaziabad",
+  locationCategory: null,
+  locationId: null,
+  localityId: null,
+  propertyType: "Apartment/Flats",
+  reraId: "Pre-launch, details awaited",
+  projectStatus: "New Launch",
+  possessionDate: "",
+  configuration: ["3 BHK", "4 BHK"],
+  sizes: "1200 - 2500 sq ft",
+  description:
+    "AVS Crossing Republik by AVS Group. First residential pre-launch on NH-24, Ghaziabad. 3 and 4 BHK.",
+  heroImage: AVS_NH24_HERO_IMAGE,
+  heroImageAlt: AVS_NH24_HERO_ALT,
+  brochureUrl: "",
+  images: [AVS_NH24_HERO_IMAGE],
+  amenities: [
+    "Mivan construction",
+    "Podium towers",
+    "Clubhouse and pool",
+    "Open green",
+  ],
+  priceMin: null,
+  priceMax: null,
+  priceUnit: "From Rs 5,999/sq ft*",
+  seo: {
+    title: "AVS Crossing Republik Ghaziabad - Pre-Launch 3 & 4 BHK",
+    description:
+      "AVS Crossing Republik on NH-24, Ghaziabad. 3 and 4 BHK from Rs 5,999/sq ft. EOI from Rs 5 Lakh.",
+    keywords:
+      "avs crossing republik, avs crossing republik ghaziabad, avs india infra pre launch, 3 bhk nh-24 ghaziabad",
+    canonical: `/properties-in-ghaziabad/${AVS_NH24_SLUG}`,
+  },
+  featured: true,
+  isPublished: true,
+  createdAt: new Date(0).toISOString(),
+  updatedAt: new Date(0).toISOString(),
+  locationSlug: "ghaziabad",
+};
+
 const MODEL_TOWN_EXTENSION_FEATURED: Property & { locationSlug: string } = {
   id: "featured-model-town-extension-ghaziabad",
   slug: MODEL_TOWN_EXTENSION_SLUG,
@@ -449,6 +500,7 @@ const MODEL_TOWN_EXTENSION_FEATURED: Property & { locationSlug: string } = {
 
 /** Static property pages with dedicated routes (not only in properties_v2). Latest first. */
 export const FEATURED_STATIC_PROPERTY_PAGES: (Property & { locationSlug: string })[] = [
+  AVS_NH24_FEATURED,
   MODEL_TOWN_EXTENSION_FEATURED,
   GODREJ_DMIC_FEATURED,
   SG_NAKSHATRA_FEATURED,
@@ -482,6 +534,7 @@ export function getPublishedFeaturedStaticPropertyPageCount(): number {
 
 /** Slugs on the dedicated pre-launch catalog (latest first, oldest last). */
 export const PRE_LAUNCH_PROPERTY_SLUGS = [
+  AVS_NH24_SLUG,
   GODREJ_DMIC_SLUG,
   SG_NAKSHATRA_SLUG,
   PERIGON_VASUNDHARA_SLUG,

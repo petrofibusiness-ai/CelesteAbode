@@ -33,7 +33,7 @@ NEXT_PUBLIC_SITE_NAME=Celeste Abode
 # Cloudinary (for brochure downloads)
 # Get your Cloudinary URL from: https://cloudinary.com/console
 # Format: cloudinary://[API_KEY]:[API_SECRET]@[CLOUD_NAME]
-# CLOUDINARY_URL=cloudinary://965995714388361:MwVZ9SDXNJfh43RTzbbPVYCKWJc@da57wy2df
+# CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@CLOUD_NAME
 ```
 
 ## Setup Instructions

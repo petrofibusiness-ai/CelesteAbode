@@ -10,7 +10,7 @@
 ## Default Credentials
 
 - **Username**: `admin` (or set `ADMIN_USERNAME` in `.env.local`)
-- **Password**: `admin123` (or set `ADMIN_PASSWORD` in `.env.local`)
+- **Password**: set `ADMIN_PASSWORD` in `.env.local` to a strong unique value
 
 ## Environment Variables
 
@@ -21,9 +21,7 @@ ADMIN_USERNAME=admin
 ADMIN_PASSWORD=your-secure-password
 ```
 
-If not set, defaults to:
-- Username: `admin`
-- Password: `admin123`
+If not set, the old notes described a weak default. Do not rely on a default password. Set both values in `.env.local`.
 
 ## How It Works
 

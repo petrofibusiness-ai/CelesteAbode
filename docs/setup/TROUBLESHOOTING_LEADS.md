@@ -74,48 +74,21 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key  # Required for admin operations
 ```
 
-### 5. **Test Lead Storage Directly**
-
-Create a test API route to verify:
-
-```typescript
-// app/api/test-lead/route.ts
-import { storeLead } from '@/lib/lead-service';
-import { NextResponse } from 'next/server';
-
-export async function GET() {
-  const result = await storeLead({
-    firstName: 'Test',
-    lastName: 'User',
-    email: 'test@example.com',
-    phone: '+919876543210',
-    formType: 'contact',
-    formSource: 'test',
-  });
-
-  return NextResponse.json(result);
-}
-```
-
-Visit `/api/test-lead` and check:
-- If `success: true` → Lead storage works
-- If `success: false` → Check the error message
-
-### 6. **Check Database Connection**
+### 5. **Check Database Connection**
 
 Verify Supabase connection:
 1. Go to Supabase Dashboard → Settings → API
 2. Verify your `NEXT_PUBLIC_SUPABASE_URL` matches
 3. Verify your `SUPABASE_SERVICE_ROLE_KEY` is correct (not the anon key!)
 
-### 7. **Verify Form Submissions Are Calling storeLead**
+### 6. **Verify Form Submissions Are Calling storeLead**
 
 Check that form API endpoints are actually calling `storeLead()`:
 1. Add a `console.log` before `storeLead()` call
 2. Submit a form
 3. Check server logs to see if the log appears
 
-### 8. **Check Browser Console**
+### 7. **Check Browser Console**
 
 Even though lead storage happens server-side, check browser console for:
 - Network errors (500, 400 responses)
@@ -128,7 +101,6 @@ Even though lead storage happens server-side, check browser console for:
 - [ ] Environment variables are set correctly
 - [ ] Service role key is correct (not anon key)
 - [ ] Server logs show no errors when submitting forms
-- [ ] Test API route (`/api/test-lead`) returns success
 - [ ] Form submissions are reaching the API endpoints
 - [ ] `storeLead()` function is being called (check logs)
 

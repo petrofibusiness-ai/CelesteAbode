@@ -61,14 +61,14 @@ export function AvsNh24Hero() {
               className="text-sm font-semibold uppercase tracking-[0.28em] text-[#CBB27A] sm:text-base"
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
-              Pre-launch · EOI open
+              Pre Launch
             </p>
             <h1
               id="avs-nh24-h1"
               className="font-hero-display mt-2 font-semibold not-italic uppercase leading-[1.05] text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.55)]"
             >
               <span className="block whitespace-nowrap text-[clamp(1.15rem,3.6vw,3.25rem)] tracking-[0.06em] sm:tracking-[0.1em]">
-                AVS Crossing Republik
+                AVS Group Pre Launch
               </span>
               <span className="mt-1 block text-[clamp(1.15rem,3.6vw,3.25rem)] tracking-[0.06em] sm:tracking-[0.1em]">
                 Ghaziabad
@@ -80,7 +80,7 @@ export function AvsNh24Hero() {
                 className="text-sm font-semibold text-white/95 drop-shadow sm:text-lg"
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
-                NH-24, Ghaziabad · 3 &amp; 4 BHK · Pre Launch
+                NH-24, Ghaziabad · 3 &amp; 4 BHK · EOI open
               </p>
             </div>
           </div>

@@ -424,7 +424,7 @@ const AVS_NH24_FEATURED: Property & { locationSlug: string } = {
   configuration: ["3 BHK", "4 BHK"],
   sizes: "1200 - 2500 sq ft",
   description:
-    "AVS Crossing Republik by AVS Group. First residential pre-launch on NH-24, Ghaziabad. 3 and 4 BHK.",
+    "First residential project on NH-24, Ghaziabad. 3 and 4 BHK.",
   heroImage: AVS_NH24_HERO_IMAGE,
   heroImageAlt: AVS_NH24_HERO_ALT,
   brochureUrl: "",
@@ -439,9 +439,9 @@ const AVS_NH24_FEATURED: Property & { locationSlug: string } = {
   priceMax: null,
   priceUnit: "From Rs 5,999/sq ft*",
   seo: {
-    title: "AVS Crossing Republik Ghaziabad - Pre-Launch 3 & 4 BHK",
+    title: "AVS Group Pre Launch | 3 & 4 BHK, Ghaziabad",
     description:
-      "AVS Crossing Republik on NH-24, Ghaziabad. 3 and 4 BHK from Rs 5,999/sq ft. EOI from Rs 5 Lakh.",
+      "3 and 4 BHK on NH-24, Ghaziabad. From Rs 5,999/sq ft. EOI from Rs 5 Lakh.",
     keywords:
       "avs crossing republik, avs crossing republik ghaziabad, avs india infra pre launch, 3 bhk nh-24 ghaziabad",
     canonical: `/properties-in-ghaziabad/${AVS_NH24_SLUG}`,

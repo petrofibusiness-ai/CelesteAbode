@@ -1,6 +1,6 @@
 /** Continuous announcement lines for the sitewide ticker (edit copy here). */
 export const HOT_PROPERTY_ANNOUNCEMENTS = [
-  "AVS Crossing Republik · Pre-launch 3 & 4 BHK on NH-24, Ghaziabad · BSP ₹5,999/sq ft* · EOI from ₹5 Lakh*",
+  "AVS Group Pre Launch · 3 & 4 BHK on NH-24, Ghaziabad · BSP ₹5,999/sq ft* · EOI from ₹5 Lakh*",
   "Forest Walk Villas · Nature-Inspired Township in Ghaziabad · Exclusive Early Access Available · Premium Villa Living Experience",
   "Model Town Extension · GDA plots on GT Road, Ghaziabad · From ₹1.36 Cr* · Registry in 90 days",
   "Sobha Rivana · Book with just 30% · Pay nothing in 2027 · Only 10% in 2028 and 2029 · 50% only on possession",
@@ -25,7 +25,7 @@ export type HotPropertyProjectLink = {
 /** Dropdown destinations from the banner CTA */
 export const HOT_PROPERTY_PROJECT_LINKS: HotPropertyProjectLink[] = [
   {
-    label: "AVS Crossing Republik",
+    label: "AVS Group Pre Launch",
     href: "/properties-in-ghaziabad/avs-nh24-ghaziabad",
     location: "Ghaziabad",
   },

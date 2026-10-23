@@ -10,6 +10,7 @@ import {
   GraduationCap,
   HeartPulse,
   Home,
+  Lock,
   MapPin,
   PartyPopper,
   Plane,
@@ -24,6 +25,7 @@ import {
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { PropertyScrollFootnote, PropertyScrollSubtext } from "@/components/property-scroll-footnote";
+import { FloorPlanPreview } from "@/components/property-public/floor-plan-preview";
 import { BreadcrumbSchema } from "@/lib/structured-data";
 import {
   AVS_NH24_DEVELOPER,
@@ -37,14 +39,14 @@ import { AvsNh24MapEmbed, AvsNh24StickySidebar } from "./avs-nh24-sticky-sidebar
 const PROJECT_NAME = AVS_NH24_PROJECT_NAME;
 
 const SNAPSHOT = [
-  "AVS Group's first homes on NH-24, Crossing Republik, next to ABES Engineering College",
-  "3 and 4 BHK, 1,200 to 2,500 sq ft. About 7 acres. 33-floor podium towers",
+  "AVS Group's first residential project on NH-24, Crossing Republik, next to ABES Engineering College",
+  "3 and 4 BHK. About 7 acres. 33-floor podium towers",
   "100% Mivan. About 70% open green. Clubhouse and swimming pool",
   "Better indoor AQI. Healthier living, every day",
 ];
 
 const AVS_FACTS = [
-  "AVS Group has built commercial projects in Ghaziabad and Noida. Crossing Republik is the first residential project.",
+  "AVS Group has built commercial projects in Ghaziabad and Noida.",
   "AVS City Palace, Raj Nagar Extension, is RERA-registered as UPRERAPRJ14846.",
   "AVS City Square, Raj Nagar Extension, is RERA-registered as UPRERAPRJ716737.",
   "AVS City Centre is RERA-registered as UPRERAPRJ608491. AVS High Street is under development.",
@@ -151,6 +153,37 @@ const NCR_LINKS = [
   { href: "/pre-launch-properties", title: "Pre-Launch", sub: "EOI-stage projects only" },
 ];
 
+function ConfigCard({ label, variant }: { label: string; variant: number }) {
+  return (
+    <li className="relative isolate min-h-[8.5rem] overflow-hidden rounded-2xl border border-gray-200/90 bg-white shadow-sm sm:min-h-[9.5rem]">
+      <div className="absolute inset-0" aria-hidden>
+        <FloorPlanPreview variant={variant} />
+      </div>
+      <div className="pointer-events-none absolute inset-0 z-[1]" aria-hidden>
+        <div className="absolute inset-0 bg-[#1a1814]/15 backdrop-blur-[12px] backdrop-saturate-150 sm:backdrop-blur-[16px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/10 via-transparent to-[#2B3035]/25" />
+      </div>
+      <div className="relative z-10 flex h-full min-h-[8.5rem] flex-col items-center justify-center gap-1.5 px-4 py-4 text-center sm:min-h-[9.5rem]">
+        <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/30 bg-white/15 text-[#CBB27A] shadow-lg backdrop-blur-sm sm:h-10 sm:w-10">
+          <Lock className="h-3.5 w-3.5 sm:h-4 sm:w-4" strokeWidth={2.25} aria-hidden />
+        </span>
+        <p
+          className="text-xs font-bold tracking-wider text-gray-500"
+          style={{ fontFamily: "Poppins, sans-serif" }}
+        >
+          {label} size
+        </p>
+        <p
+          className="text-sm font-semibold leading-snug text-black sm:text-base"
+          style={{ fontFamily: "Poppins, sans-serif" }}
+        >
+          To be revealed after launch
+        </p>
+      </div>
+    </li>
+  );
+}
+
 function SectionHeading({
   icon: Icon,
   title,
@@ -199,7 +232,7 @@ export function AvsNh24Page() {
     "@type": "ApartmentComplex",
     name: PROJECT_NAME,
     description:
-      "AVS Crossing Republik on NH-24, Ghaziabad. 3 and 4 BHK from Rs 5,999 per sq ft, with better indoor air, a clubhouse, and schools, hospitals, and malls within 10 minutes.",
+      "3 and 4 BHK on NH-24, Ghaziabad, from Rs 5,999 per sq ft, with better indoor air, a clubhouse, and schools, hospitals, and malls within 10 minutes.",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Crossing Republik, NH-24, Ghaziabad",
@@ -261,12 +294,8 @@ export function AvsNh24Page() {
                     <li className="rounded-2xl border border-gray-200 bg-white px-5 py-5 text-sm font-semibold leading-relaxed text-gray-900 shadow-sm">
                       EOI from <span className="text-[#8a7340]">₹5 Lakh*</span> by configuration
                     </li>
-                    <li className="rounded-2xl border border-gray-200 bg-white px-5 py-5 text-sm font-semibold leading-relaxed text-gray-900 shadow-sm">
-                      3 BHK 1,200–1,800 sq ft. 4 BHK 2,200–2,500 sq ft
-                    </li>
-                    <li className="rounded-2xl border border-gray-200 bg-white px-5 py-5 text-sm font-semibold leading-relaxed text-gray-900 shadow-sm">
-                      RERA registration is underway
-                    </li>
+                    <ConfigCard label="3 BHK" variant={0} />
+                    <ConfigCard label="4 BHK" variant={1} />
                   </ul>
                 </section>
 

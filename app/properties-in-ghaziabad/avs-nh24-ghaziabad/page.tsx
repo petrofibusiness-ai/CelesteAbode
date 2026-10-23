@@ -14,21 +14,20 @@ const heroAbs = AVS_NH24_HERO_IMAGE.startsWith("http")
   : `${site}${AVS_NH24_HERO_IMAGE}`;
 
 export const metadata: Metadata = {
-  title: `${AVS_NH24_PROJECT_NAME} Ghaziabad - Pre-Launch 3 & 4 BHK | Celeste Abode`,
+  title: `${AVS_NH24_PROJECT_NAME} | 3 & 4 BHK in Ghaziabad | Celeste Abode`,
   description:
-    "AVS Crossing Republik by AVS Group on NH-24, Ghaziabad. 3 and 4 BHK from Rs 5,999/sq ft. EOI from Rs 5 Lakh.",
+    "3 and 4 BHK on NH-24, Ghaziabad. From Rs 5,999/sq ft. EOI from Rs 5 Lakh.",
   keywords: [
-    "AVS Crossing Republik",
-    "AVS Crossing Republik Ghaziabad",
-    "AVS India Infra pre launch",
+    "AVS Group Pre Launch",
     "3 BHK NH-24 Ghaziabad",
-    "Crossing Republik apartments",
+    "4 BHK Crossing Republik",
+    "AVS Group Ghaziabad",
   ],
   alternates: { canonical: `${site}${path}` },
   openGraph: {
-    title: `${AVS_NH24_PROJECT_NAME} | Pre-Launch on NH-24, Ghaziabad`,
+    title: `${AVS_NH24_PROJECT_NAME} | 3 & 4 BHK on NH-24, Ghaziabad`,
     description:
-      "3 and 4 BHK at Crossing Republik, NH-24. Pre-launch from Rs 5,999/sq ft. EOI from Rs 5 Lakh. RERA awaited.",
+      "3 and 4 BHK on NH-24, Ghaziabad. From Rs 5,999/sq ft. EOI from Rs 5 Lakh.",
     url: `${site}${path}`,
     siteName: "Celeste Abode",
     locale: "en_IN",
@@ -44,7 +43,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${AVS_NH24_PROJECT_NAME} | Pre-Launch`,
+    title: `${AVS_NH24_PROJECT_NAME} | NH-24, Ghaziabad`,
     description: "Crossing Republik, NH-24, Ghaziabad. 3 and 4 BHK from Rs 5,999/sq ft. EOI from Rs 5 Lakh.",
     images: [heroAbs],
   },
